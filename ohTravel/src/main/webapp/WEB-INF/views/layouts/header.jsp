@@ -69,6 +69,7 @@
                                                     <li><a href="cssTest">국내</a></li>
                                                     <li><a href="blog">블로그 구조 참고</a></li>
                                                     <li><a href='element'>Element</a></li>
+                                                    <li><a href='hotelHome'>호텔메인확인용</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="#">항공</a>
