@@ -1,0 +1,64 @@
+@charset "UTF-8";
+
+
+
+.hotel_container .main_banner {
+	
+	min-height: 430px;
+	background-color: #070B19;
+	
+}
+
+.hotel_container .main_banner h2 {
+
+	color: white;
+	text-align: center;
+	
+}
+
+.hotel_container .main_banner .title {
+
+	padding-top: 50px;
+	
+}
+
+
+
+.hotel_container .recommend .items_rec {
+	
+	margin-top: 50px;
+}
+
+.item_title {
+	
+	margin-top: 50px;
+	margin-bottom: 50px;
+	text-align: center;
+}
+
+.circle_theme {
+	
+	border-radius: 50%;
+	
+	background-color:#86efef;
+	width:210px;
+	height:210px;
+	text-align:center;
+	margin:0 auto;
+	font-size:12px;
+	vertical-align:middle;
+	line-height:150px;
+}
+
+.coupon_banner {
+	
+	background-color: grey;
+	min-height: 200px;
+	margin-bottom: 150px;
+	color: white;
+	text-align: center;
+}
+
+.will_delete {
+	padding-top: 100px;
+}

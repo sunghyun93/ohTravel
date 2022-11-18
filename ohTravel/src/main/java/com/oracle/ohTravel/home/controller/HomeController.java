@@ -19,11 +19,6 @@ public class HomeController {
 		return "ref/element";
 	}
 	
-	@GetMapping(value = "hotelmain")
-	public String goHotel() {
-		return "hotel/hotelMain";
-	}
-	
 	@GetMapping(value = "blog")
 	public String goBlog() {
 		return "ref/blog";
