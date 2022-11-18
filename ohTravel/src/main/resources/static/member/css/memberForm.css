@@ -1,0 +1,170 @@
+
+body {
+	font-family: 'Inter', 'AppleSDGothicNeo', 'AppleSDGothicNeo-Regular', 'Apple Gothic', 'Noto Sans KR', 'Malgun Gothic', Arial, Helvetica, serif , sans-serif;
+	font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    word-break: break-all;
+    line-height: 1;
+    letter-spacing: -.4px;
+}
+input {
+	font-size: 14px;
+    vertical-align: middle;
+}
+input[type=text], input[type=number], input[type=date], input[type=password] {
+    height: 42px;
+    padding: 0 15px;
+    border: 1px solid #cdcdcd;
+    background-color: #fff;
+    border-radius: 2px;
+}
+element.style {
+    width: 360px;
+}
+/* container */
+.container {
+    width: 85%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* certify_wrap */
+.certify_wrap {
+	width: 920px;
+	margin: 0 auto;
+}
+.certify_wrap>.text_wrap.pTit {
+    text-align: center;
+    margin: 0 0 50px;
+}
+.certify_wrap>.text_wrap.pTit .tit {
+    font-size: 22px;
+    line-height: 32px;
+    margin-top: 50px;
+}
+.certify_wrap .step_wrap + .text_wrap.pTit {
+    margin-top: 50px;
+}
+.certify_wrap .tbl table {
+    border-bottom: 1px solid #ddd;
+}
+.certify_wrap .form_holder input[type=text], .certify_wrap .form_holder input[type=password], .certify_wrap .form_holder .btn, .certify_wrap .form_holder.bt label, .certify_wrap .form_holder .divider {
+    height: 52px;
+    line-height: 50px;
+}
+
+/* text_wrap */
+.text_wrap {
+	position: relative;
+    margin: 40px 0 0;
+    padding: 0;
+}
+.text_wrap strong.tit {
+    display: inline-block;
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 400;
+    color: #111;
+}
+.text_wrap.mid {
+    margin-top: 40px;
+    margin-bottom: 24px;
+}
+.text_wrap.mid strong.tit {
+    font-size: 17px;
+    color: #111;
+    font-weight: 200;
+}
+
+/* tbl */
+.tbl {
+    table-layout: fixed;
+    display: table;
+    width: 100%;
+    position: relative;
+}
+.tbl>.text_wrap {
+    margin-top: 0;
+}
+.tbl table {
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    border-collapse: separate;
+    table-layout: fixed;
+    font-size: 15px;
+}
+.tbl tbody {
+    position: relative;
+}
+.tbl th {
+    background-color: #f7f7f7;
+    font-size: 15px;
+    font-weight: 600;
+    color: #111;
+}
+.tbl table.type2 th {
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+.tbl table.type2 tr:first-child th, .tbl .type2 tr:first-child td {
+    border-top: 1px solid #999;
+}
+.tbl th, .tbl td {
+    text-align: left;
+    min-height: 54px;
+	padding: 15px 20px;
+    /* font-weight: 400; */
+    line-height: 23px;
+}
+.tbl td {
+    color: #333;
+    font-size: 15px;
+}
+.tbl table.type2 td {
+    border-top: 1px solid #ddd;
+}
+.tbl table.type2 tr:first-child th, .tbl .type2 tr:first-child td {
+    border-top: 1px solid #999;
+}
+.tbl p.txt {
+    line-height: 14px;
+    color: #666;
+}
+.tbl td.passwd p{
+	display:inline-block;
+}
+.tbl td.passwd input[type='password'] {
+	margin-bottom: 10px;
+	margin-right: 15px;
+}
+/* form_holder */
+.form_holder {
+    position: relative;
+    vertical-align: top;
+}
+.form_holder .inpt_text {
+    padding-right: 30px;
+}
+.form_holder input[type='text'], .form_holder input[type='password'], .form_holder .select_item, .form_holder button.calandar {
+    float: left;
+}
+.form_holder + p.txt {
+    margin-top: 10px;
+}
+
+/* txt */
+.txt.billiard {
+    line-height: 20px;
+    color: #888;
+    padding-left: 10px;
+    font-size: 13px;
+}
+
+/* cont_unit */
+.cont_unit {
+    position: relative;
+    margin-top: 40px;
+}

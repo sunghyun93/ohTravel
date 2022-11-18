@@ -5,9 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/member/css/memberForm.css">
 </head>
 <body>
-	<div class="contents" id="contents">
+	<div class="container" id="container">
 		<div class="inner">
 			<form action="">
 				<div class="certify_wrap">
@@ -60,13 +61,13 @@
 									<th>생년월일</th>
 									<td>
 										<span class="form_holder">
-											<input type="text" title="생년월일" placeholder="생년월일을 입력해 주세요." class="inpt_text">
+											<input type="text" title="생년월일" placeholder="생년월일을 입력해 주세요." class="inpt_text" style="width: 270px;">
 										</span>
 									</td>
 								</tr>
 								<tr>
 									<th>비밀번호</th>
-									<td>
+									<td class="passwd">
 										<div class="form_holder">
 											<input type="password" title="비밀번호" placeholder="비밀번호" maxlength="16" class="inpt_text v-placeholdder" style="width: 360px">
 										</div>
@@ -82,9 +83,13 @@
 							</tbody>
 						</table>	<!-- type2 -->
 					</div>	<!-- tbl -->
+					<div class="cont_unit"></div>	<!-- cont_unit -->
+					<div class="terms_wrap">
+					
+					</div>	<!-- terms_wrap -->
 				</div>	<!-- certify_wrap -->
 			</form>			
 		</div>	<!-- inner -->
-	</div>	<!-- contents -->
+	</div>	<!-- container -->
 </body>
 </html>
