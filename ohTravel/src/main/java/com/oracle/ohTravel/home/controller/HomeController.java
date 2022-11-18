@@ -41,7 +41,7 @@ public class HomeController {
 	
 	@GetMapping(value = "loginForm")
 	public String goLogin() {
-		return "member/login";
+		return "member/loginForm";
 	}
 	
 	/* =============== 입장권 =============== */
