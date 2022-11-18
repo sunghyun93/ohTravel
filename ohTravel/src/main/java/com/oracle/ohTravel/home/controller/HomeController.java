@@ -40,7 +40,7 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "loginForm")
-	public String goLogin() {
+	public String goLoginForm() {
 		return "member/loginForm";
 	}
 	
