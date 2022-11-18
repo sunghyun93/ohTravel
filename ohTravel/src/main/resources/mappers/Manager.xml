@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.ohTravel.Manager">
+	<!-- 모든 맴버보기 -->
+	<select id="MemberList" resultType="Member">
+		SELECT * FROM member
+	</select>
+	<!-- 모든 등급 보기 -->
+	<select id="MembershipList" resultType="Membership">
+		SELECT * FROM membership
+	</select>
+	<!-- 맴버상세보기 조인된 컬럼까지 모두 -->
+	<select id="GetUserDetail" parameterType="Membership" resultType="Membership">
+		select m.*,mm.mem_mile,mm.membership_id,ms.membership_name from member m inner join mem_membership mm on m.mem_id=mm.mem_id inner join membership ms on mm.membership_id=ms.membership_id WHERE m.mem_id=#{mem_id}
+	</select>
+	<!-- 맴버한명의 권한 수정 -->
+	<update id="UpdateUserRole" parameterType="Membership">
+		UPDATE member SET mem_role = #{mem_role} WHERE mem_id=#{mem_id}
+	</update>
+	<!-- 맴버 한명의 등급변경 -->
+	<update id="UpdateUserMemName" parameterType="Membership">
+		UPDATE mem_membership SET membership_id = #{membership_id} WHERE mem_id=#{mem_id}
+	</update>
+	<!-- 유저 삭제 -->
+	<delete id="DeleteUser" parameterType="Member">
+		DELETE FROM member where mem_id = #{mem_id}
+	</delete>
+	<!-- 등급상세보기 -->
+	<select id="GetMembershipDetail" parameterType="Membership" resultType="Membership">
+		SELECT * FROM membership WHERE membership_id=#{membership_id}
+	</select>
+	<update id="UpdateMembership" parameterType="Membership">
+		UPDATE membership SET membership_name=#{membership_name}, membership_mile=#{membership_mile}, membership_discount=#{membership_discount} WHERE membership_id=#{membership_id}
+	</update>
+	<delete id="DeleteMembership" parameterType="Membership">
+		DELETE FROM membership WHERE membership_id=#{membership_id}
+	</delete>
+	
+</mapper>
