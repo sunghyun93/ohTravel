@@ -198,7 +198,7 @@
 							<a href="hotelmain" style="text-decoration: none; color: inherit"></a>
 						</li>
 						
-						<li data-title="입장권/교통패스/시즌권">
+						<li data-title="입장권">
 							
 							<ul role="menu" class="el-menu el-menu--inline"">
 								
@@ -235,6 +235,7 @@
 		
 		
 		<!-- 오른쪽 -->
+		
 		<!-- 오1) 상품 목록 위 전체 갯수, 필터 -->
 		<div class="rightSpace" style="width:850px; float:right; translate: 270px -420px; position:absolute;">
 			<!-- 전체 상품 개수 -->
@@ -253,14 +254,13 @@
 					<option value="lowPrice">가격 낮은 순</option>
 				</select>
 			</div>
-			
 			<hr>
 		</div>
 		
 				
 		<!-- 오2) 상품 목록 -->
 		<div class="list">
-		
+			
 		
 		</div>	
 			
