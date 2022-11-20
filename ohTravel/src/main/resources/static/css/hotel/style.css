@@ -88,6 +88,11 @@
 	
 }
 
+.star_img {
+	
+	display: inline-block;
+}
+
 .star_img img{
 	
 	display: inline-block;
@@ -117,6 +122,7 @@
 	background-color: #E6E6E6; 
 	min-height: 58px;
 	border : 1px solid #BDBDBD;
+	margin-top: 60px;
 	
 }
 
@@ -128,7 +134,9 @@
 .room_type_detail{
 	
 	display: inline-block;	
-	padding-top: 50px;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	vertical-align: middle;
 	
 }
 
@@ -160,6 +168,45 @@
 
 .rev_option {
 	
+	text-align: right;
+}
+
+.p_info {
+	
 	display: inline-block;
-	float: right;
+}
+
+.h_price {
+	
+	display: inline-block;
+	margin-left: 300px;
+}
+
+.r_type_name {
+	
+	color: black;
+}
+
+.fluid-wrap {
+	
+	margin-top: 15px;
+}
+
+.panel-heading{
+	
+	background-color: #F2F2F2;
+	min-height: 50px;
+	border: 1px solid #D8D8D8;
+	
+}
+
+.panel-heading a:hover {
+	
+	color: lightblue;
+}
+
+.panel-body {
+	
+	background-color: #F2F2F2;
+	border: 1px solid #D8D8D8;
 }
