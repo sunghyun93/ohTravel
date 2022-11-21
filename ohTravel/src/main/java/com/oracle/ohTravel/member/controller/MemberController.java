@@ -13,4 +13,9 @@ public class MemberController {
 	public String goMemberForm() {
 		return "member/memberForm";
 	}
+	
+	@GetMapping(value = "findID")
+	public String goFindID() {
+		return "member/findID";
+	}
 }

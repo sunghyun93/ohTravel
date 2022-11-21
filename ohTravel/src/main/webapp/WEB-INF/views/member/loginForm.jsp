@@ -63,7 +63,7 @@
 						<span class="txt1">
 							Forgot
 						</span>
-						<a class="txt2" href="#">
+						<a class="txt2" href="findID">
 							Username / Password?
 						</a>
 					</div>
