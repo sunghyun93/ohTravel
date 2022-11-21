@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Oh!Travel - 숙박업체</title>
-	<link rel="stylesheet" href="css/hotel/style.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/css/hotel/style.css">
 </head>
 <body>
 	<div class="hotel_container">
@@ -29,7 +29,7 @@
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="assets/img/service/services1.jpg" alt="">
+                                <img src="${pageContext.request.contextPath }/assets/img/service/services1.jpg" alt="">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
@@ -51,7 +51,7 @@
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="assets/img/service/services2.jpg" alt="">
+                                <img src="${pageContext.request.contextPath }/assets/img/service/services2.jpg" alt="">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
@@ -71,7 +71,7 @@
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="assets/img/service/services3.jpg" alt="">
+                                <img src="${pageContext.request.contextPath }/assets/img/service/services3.jpg" alt="">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
@@ -91,7 +91,7 @@
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="assets/img/service/services4.jpg" alt="">
+                                <img src="${pageContext.request.contextPath }/assets/img/service/services4.jpg" alt="">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">

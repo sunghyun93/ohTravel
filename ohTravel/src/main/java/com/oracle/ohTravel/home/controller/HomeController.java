@@ -14,22 +14,22 @@ public class HomeController {
 		return "main/home";
 	}
 	
-	@GetMapping(value = "element")
+	@GetMapping(value = "/element")
 	public String goElement() {
 		return "ref/element";
 	}
 	
-	@GetMapping(value = "blog")
+	@GetMapping(value = "/blog")
 	public String goBlog() {
 		return "ref/blog";
 	}
 	
-	@GetMapping(value = "justTest")
+	@GetMapping(value = "/justTest")
 	public String goTest() {
 		return "hotel/justTest";
 	}
 	
-	@GetMapping(value = "cssTest")
+	@GetMapping(value = "/cssTest")
 	public String goCssTest() {
 		return "hotel/cssTest";
 	}

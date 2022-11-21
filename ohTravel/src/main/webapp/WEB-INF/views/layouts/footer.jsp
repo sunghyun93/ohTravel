@@ -8,7 +8,7 @@
 <body>
     <footer>
         <!-- Footer Start-->
-        <div class="footer-area footer-padding footer-bg" data-background="assets/img/service/footer_bg.jpg">
+        <div class="footer-area footer-padding footer-bg" data-background="${pageContext.request.contextPath }/assets/img/service/footer_bg.jpg">
             <div class="container">
                 <div class="row d-flex justify-content-between">
                     <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
@@ -16,7 +16,7 @@
                          <div class="single-footer-caption mb-30">
                               <!-- logo -->
                              <div class="footer-logo">
-                                 <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
+                                 <a href="index.html"><img src="${pageContext.request.contextPath }/assets/img/logo/logo2_footer.png" alt=""></a>
                              </div>
                              <div class="footer-tittle">
                                  <div class="footer-pera">

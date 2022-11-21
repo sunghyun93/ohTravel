@@ -13,7 +13,7 @@
 			
 		
 				<div class="ht_image">
-					<img alt="호텔대표사진" src="img/hotel/h_img_test.jpg">
+					<img alt="호텔대표사진" src="${pageContext.request.contextPath }/img/hotel/h_img_test.jpg">
 				</div>
 				<div class="hotel_info">
 					5성급<br>
@@ -26,7 +26,7 @@
 					hotel name<br>
 					location.href<br>
 					<div class="star_img">
-						<img alt="별점뙇~" src="img/hotel/star.png">
+						<img alt="별점뙇~" src="${pageContext.request.contextPath }/img/hotel/star.png">
 					</div>
 					<div class="star_scr">
 						평균 별점
@@ -87,16 +87,16 @@
 						    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 						      <!-- 하나의 item입니다. data-parent 설청과 href 설정만 제대로 하면 문제없이 작동합니다. -->
 						      <div class="panel panel-default">
-						        <div class="panel-heading" role="tab">
 						          <a class="r_type_name" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false">
-						           	방 종류 이름
+							        <div class="panel-heading" role="tab">
+							           	<p>방 종류 이름</p>
+							        </div>
 						          </a>
-						        </div>
 						        <div id="collapse1" class="panel-collapse collapse" role="tabpanel">
 						          <div class="panel-body">
 						            	<div class="room_type_detail">
 											<div class="room_img">
-												<img alt="room" src="img/hotel/room1.jpg">
+												<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">
 											</div>
 											<div class="r_name">
 												<h3>room 이름</h3>
