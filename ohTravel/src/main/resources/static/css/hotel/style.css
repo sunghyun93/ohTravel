@@ -210,3 +210,70 @@
 	background-color: #F2F2F2;
 	border: 1px solid #D8D8D8;
 }
+
+.ht_simple_option {
+	
+	margin-top : 52px;
+	border-top : 2px solid black;
+	border-bottom : 2px solid black;
+}
+
+.ht_option {
+	
+	margin-top : 30px;
+	border-top : 2px solid black;
+	border-bottom : 2px solid black;
+}
+
+.add_opt {
+	
+	padding-top: 15px;
+	padding-bottom: 15px;
+	
+}
+
+.conv_opt {
+	
+	border-top : 1px solid grey;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.ht_rec{
+	
+	margin-top : 30px;
+	border-top : 2px solid black;
+	border-bottom : 2px solid black;
+}
+
+/* 리뷰 관련 css */
+.all_review {
+	
+	margin-top : 30px;
+	border-top : 2px solid black;
+	border-bottom : 2px solid black;
+}
+
+
+.rv_stats {
+	
+	min-height: 150px;
+	background-color: #F2F2F2;
+	margin-bottom: 30px;
+}
+
+.rv_btn {
+	
+	text-align: right;
+	
+}
+
+.show_review {
+	
+	margin-top : 30px;
+	margin-bottom : 30px;
+	border-top : 1px solid black;
+	border-bottom : 1px solid black;
+	
+}
+
