@@ -220,13 +220,6 @@
 								<li role="menuitem" data-title="전체" class="el-menu-item el-menu-item--theme-grey" style="padding-left:40px;">
 									<a href="#" class="router-link-active" style="color:black; font-weight: 500; font-size: 14px;">액티비티</a>
 								</li>
-								<li role="menuitem" data-title="전체" class="el-menu-item el-menu-item--theme-grey" style="padding-left:40px;">
-									<a href="#" class="router-link-active" style="color:black; font-weight: 500; font-size: 14px;">랜드마크</a>
-								</li>
-								<li role="menuitem" data-title="전체" class="el-menu-item el-menu-item--theme-grey" style="padding-left:40px;">
-									<a href="#" class="router-link-active" style="color:black; font-weight: 500; font-size: 14px;">공연 & 축제</a>
-								</li>
-								
 						</ul>
 					</ul>
 				</div>
@@ -237,7 +230,7 @@
 		<!-- 오른쪽 -->
 		
 		<!-- 오1) 상품 목록 위 전체 갯수, 필터 -->
-		<div class="rightSpace" style="width:850px; float:right; translate: 270px -420px; position:absolute;">
+		<div class="rightSpace" style="width:850px; float:right; translate: 270px -450px; position:absolute;">
 			<!-- 전체 상품 개수 -->
 			<div class="app-list-header" style="float:left; margin-right: 250px;">
 				<div class="title" style="font-size: 12px; flex:1; color:#666; translate: 0 10px; margin-left: 76px;">
@@ -248,24 +241,38 @@
 			
 			<!-- 필터 (인기순, 가격 낮은 순, 가격 높은 순) -->
 			<div class="filter" style="float:right; translate:-180px;">
-				<select>
+				<select style="translate: 150px;">
 					<option value="popular">인기순</option>
 					<option value="highPrice">가격 높은 순</option>
 					<option value="lowPrice">가격 낮은 순</option>
 				</select>
 			</div>
-			<hr>
+			<hr style="margin-top: 50px;">
 		</div>
 		
 				
 		<!-- 오2) 상품 목록 -->
-		<div class="list">
-			
+		<div class="rightProduct" style="width:850px; float:right; translate: 270px -360px; position:absolute;">
+			<!-- 상품 하나 -->
+			<div style="float:left; width:850px; height: 210px; background-color: #f5d682; border: 1px solid red;">
+				<div class="repImg" style="float:left; width:265px; height:206px;  border: 1px solid green; text-align: center; padding: 83px 0; margin-right: 15px;">
+					<h3>대표 이미지 넣을 예정</h3>
+					<%-- ${ticket_rep_img_path } --%>
+				</div>
+				
+				<div style="float:left; width: 43%; height: 206px; border: 1px solid purple; text-align: center; padding: 83px 0; margin-right: 15px;">
+					<h3>제목 넣을 예정~~</h3>
+					<%-- ${ticket_name } --%>
+				</div>
+				
+				<div style="float:left; width: 22%; height: 206px; border: 1px solid yellow; top:50%; left:50%; text-align: center; padding: 83px 0;">
+					<h4>가격 넣을 예정</h4>
+					<%-- ${ticket_adult_price} --%>
+				</div>
+			</div>
 		
-		</div>	
-			
-	
-	
+		</div>
+		
 		<!-- 상품 목록. 나중에 수정하기 -->
 <!-- 		<div class="container">
 			<div class="row">
