@@ -2,8 +2,10 @@ package com.oracle.ohTravel.manager.dao;
 
 import java.util.List;
 
+import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
+import com.oracle.ohTravel.manager.dto.NoticeDTO;
 
 public interface ManagerDAO {
 
@@ -24,5 +26,25 @@ public interface ManagerDAO {
 	int updateMembership(MembershipDTO membership);
 
 	int deleteMembership(MembershipDTO membership);
+
+	int insertMembership(MembershipDTO membership);
+
+	List<NoticeDTO> getNoticeList();
+
+	List<NoticeDTO> getNoticeDetail(int notice_id);
+
+	int updateNotice(NoticeDTO notice);
+
+	int deleteNotice(NoticeDTO notice);
+
+	int insertNotice(NoticeDTO notice);
+
+	List<CouponDTO> getCouponList();
+
+	List<CouponDTO> getCouponDetail(CouponDTO coupon);
+
+	List<CouponDTO> getCouponMemberDetail(CouponDTO coupon);
+
+	int updateCoupon(CouponDTO coupon);
 
 }

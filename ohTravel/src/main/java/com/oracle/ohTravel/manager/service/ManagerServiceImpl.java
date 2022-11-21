@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.oracle.ohTravel.manager.dao.ManagerDAO;
+import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
+import com.oracle.ohTravel.manager.dto.NoticeDTO;
 
 import lombok.RequiredArgsConstructor;
 @Service
@@ -60,6 +62,56 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public int deleteMembership(MembershipDTO membership) {
 		int result = dao.deleteMembership(membership);
+		return result;
+	}
+	@Override
+	public int insertMembership(MembershipDTO membership) {
+		int result = dao.insertMembership(membership);
+		return result;
+	}
+	@Override
+	public List<NoticeDTO> getNoticeList() {
+		List<NoticeDTO> notice = dao.getNoticeList();
+		return notice;
+	}
+	@Override
+	public List<NoticeDTO> getNoticeDetail(int notice_id) {
+		List<NoticeDTO> noticeDetail = dao.getNoticeDetail(notice_id);
+		return noticeDetail;
+	}
+	@Override
+	public int updateNotice(NoticeDTO notice) {
+		int result = dao.updateNotice(notice);
+		return result;
+	}
+	@Override
+	public int deleteNotice(NoticeDTO notice) {
+		int result = dao.deleteNotice(notice);
+		return result;
+	}
+	@Override
+	public int insertNotice(NoticeDTO notice) {
+		int result = dao.insertNotice(notice);
+		return result;
+	}
+	@Override
+	public List<CouponDTO> getCouponList() {
+		List<CouponDTO>coupon = dao.getCouponList();
+		return coupon;
+	}
+	@Override
+	public List<CouponDTO> getCouponDetail(CouponDTO coupon) {
+		List<CouponDTO>couponDetail = dao.getCouponDetail(coupon);
+		return couponDetail;
+	}
+	@Override
+	public List<CouponDTO> getCouponMemberDetail(CouponDTO coupon) {
+		List<CouponDTO> couponMemberDetail = dao.getCouponMemberDetail(coupon);
+		return couponMemberDetail;
+	}
+	@Override
+	public int updateCoupon(CouponDTO coupon) {
+		int result = dao.updateCoupon(coupon);
 		return result;
 	}
 	

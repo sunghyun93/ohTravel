@@ -6,5 +6,7 @@
 	<typeAliases>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.MemberDTO" alias="Member"/>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.MembershipDTO" alias="Membership"/>
+		<typeAlias type="com.oracle.ohTravel.manager.dto.NoticeDTO" alias="Notice"/>
+		<typeAlias type="com.oracle.ohTravel.manager.dto.CouponDTO" alias="Coupon"/>
 	</typeAliases>
 </configuration>

@@ -3,6 +3,9 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oracle.ohTravel.Manager">
+	<!-- ===================================================================================================================== -->
+	<!-- 회원관리 - 회원/등급관련 -->
+
 	<!-- 모든 맴버보기 -->
 	<select id="MemberList" resultType="Member">
 		SELECT * FROM member
@@ -37,5 +40,44 @@
 	<delete id="DeleteMembership" parameterType="Membership">
 		DELETE FROM membership WHERE membership_id=#{membership_id}
 	</delete>
+	<insert id="InsertMembership" parameterType="Membership">
+		INSERT INTO membership(membership_name,membership_mile,membership_discount) values(#{membership_name},#{membership_mile},#{membership_discount})
+	</insert>
+	
+	<!-- ===================================================================================================================== -->
+	<!-- 공지사항관련 -->
+	<select id="GetNoticeList" resultType="Notice">
+		SELECT * FROM notice order by notice_id desc
+	</select>
+	<select id="GetNoticeDetail" parameterType="java.lang.Integer" resultType="Notice">
+		SELECT * FROM notice WHERE notice_id = #{notice_id}
+	</select>
+	<update id="UpdateNotice" parameterType="Notice">
+		UPDATE notice SET notice_title=#{notice_title}, notice_content=#{notice_content} WHERE notice_id=#{notice_id}
+	</update>
+	<delete id="DeleteNotice" parameterType="Notice">
+		DELETE FROM notice WHERE notice_id=#{notice_id}
+	</delete>
+	<insert id="InsertNotice" parameterType="Notice">
+		INSERT INTO notice(notice_title, notice_content, notice_writer, notice_write_date) values(#{notice_title},#{notice_content},#{notice_writer},current_timestamp())
+	</insert>
+	
+	<!-- ===================================================================================================================== -->
+	<!-- 쿠폰관련 -->
+	<select id="GetCouponList" resultType="Coupon">
+		SELECT * FROM coupon
+	</select>
+	
+	<select id="GetCouponDetail" parameterType="Coupon" resultType="Coupon">
+		SELECT * FROM coupon WHERE coupon_id=1;
+	</select>
+	
+	<select id="GetCouponMemberDetail" parameterType="Coupon" resultType="Coupon">
+		SELECT m.* FROM coupon c, mem_coupon m WHERE c.coupon_id = m.coupon_id AND c.coupon_id=#{coupon_id}
+	</select>
+	<update id="UpdateCoupon" parameterType="Coupon">
+		UPDATE coupon SET coupon_name=#{coupon_name}, coupon_discount=#{coupon_discount}, coupon_quantity=#{coupon_quantity} WHERE coupon_id=#{coupon_id}
+	</update>
+	
 	
 </mapper>
