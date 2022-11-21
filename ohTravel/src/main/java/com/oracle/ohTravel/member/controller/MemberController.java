@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
+	// 회원가입 페이지 이동
 	@GetMapping(value = "memberForm") 
 	public String goMemberForm() {
 		return "member/memberForm";
