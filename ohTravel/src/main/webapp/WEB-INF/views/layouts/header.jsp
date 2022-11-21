@@ -12,7 +12,7 @@
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/ohLogo2.png" alt="">
+                    <img src="${pageContext.request.contextPath }/assets/img/logo/ohLogo2.png" alt="">
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
                             <!-- Logo -->
                             <div class="col-xl-2 col-lg-2 col-md-1">
                                 <div class="logo">
-                                  <a href="/"><img src="assets/img/logo/ohLogo.png" alt=""></a>
+                                  <a href="/"><img src="${pageContext.request.contextPath }/assets/img/logo/ohLogo.png" alt=""></a>
                                  <!--  <a href="/"><img src="assets/img/logo/Logo.png" alt=""></a> -->
                                 </div>
                             </div>
