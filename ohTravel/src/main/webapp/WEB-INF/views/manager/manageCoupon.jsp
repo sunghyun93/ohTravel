@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,39 +23,34 @@
 </style>
 </head>
 <body>
-	
 	<div class="container" style="min-height: 700px;">
 		<div class="wrapper big">
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">쿠폰관리</h1>
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-				<button class="btn btn-primary mb-2" style="float: right;">쿠폰추가</button>
+				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertCouponForm'">쿠폰추가</button>
 			</div>
 				<table border="1" class="table table-hover">
+					<thead>
 					<tr>
-						<th>아이디</th>
-						<th>이름</th>
-						<th>비밀번호</th>
-						<th>이메일</th>
-						<th>전화번호</th>
-						<th>생년월일</th>
-						<th>가입날짜</th>
-						<th>회원권한</th>
-						<th>마일리지</th>
-						<th>회원등급</th>
+						<th>쿠폰번호</th>
+						<th>쿠폰이름</th>
+						<th>쿠폰할인금액</th>
+						<th>쿠폰생성일</th>
+						<th>사용가능수량</th>
 					</tr>
-					<tr>
-						<td>asefasefasef</td>
-						<td>홍길동</td>
-						<td>saejfklajsfkeljs</td>
-						<td>asefasefasef@naver.com</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
+					</thead>
+					<tbody>
+					<c:forEach var="coupon" items="${couponList }">
+					<tr onclick="location.href='manageCouponDetail?coupon_id=${coupon.coupon_id}'">
+						<td>${coupon.coupon_id }</td>
+						<td>${coupon.coupon_name }</td>
+						<td>${coupon.coupon_discount }</td>
+						<td>${coupon.coupon_date }</td>
+						<td>${coupon.coupon_quantity }</td>
 					</tr>
+					</c:forEach>
+					</tbody>
 				</table>
 			</div>
 		</div>

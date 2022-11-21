@@ -45,6 +45,7 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">회원관리</h1>
 			<div class="row">
 				<table border="1" class="table table-hover">
+					<thead>
 					<tr>
 						<th>아이디</th>
 						<th>이름</th>
@@ -55,7 +56,9 @@
 						<th>가입날짜</th>
 						<th>회원권한</th>
 					</tr>
+					</thead>
 					<c:forEach var="member" items="${memberList }">
+						<tbody>
 						<tr onclick="location.href='manageUserDetail?mem_id=${member.mem_id}'">
 							<td>${member.mem_id }</td>
 							<td>${member.mem_name }</td>
@@ -66,6 +69,7 @@
 							<td>${member.mem_create }</td>
 							<td>${member.mem_role }</td>
 						</tr>
+						</tbody>
 					</c:forEach>
 				</table>
 			</div>
