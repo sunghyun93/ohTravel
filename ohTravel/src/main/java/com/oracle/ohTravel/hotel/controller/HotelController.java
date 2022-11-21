@@ -19,4 +19,8 @@ public class HotelController {
 		return "hotel/hotelHome";
 	}
 	
+	@GetMapping(value = "hotelDetail")
+	public String goHotelDetail() {
+		return "hotel/hotelDetail";
+	}
 }

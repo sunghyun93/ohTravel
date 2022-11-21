@@ -62,3 +62,151 @@
 .will_delete {
 	padding-top: 100px;
 }
+
+/* hotelDetail */
+
+.hd_container {
+	padding-top: 100px;
+	padding-bottom: 100px;
+}
+
+.ht_image img {
+	
+	width: 600px;
+	height: 470px;
+}
+
+.ht_image{
+	
+	display: inline-block;
+}
+
+.hotel_info {
+	
+	padding-left: 50px;
+	display: inline-block;
+	
+}
+
+.star_img {
+	
+	display: inline-block;
+}
+
+.star_img img{
+	
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+}
+
+.star_scr {
+
+	display: inline-block;
+}
+
+.h_hr {
+	
+	border-bottom: 1px solid #eceff8;
+	size: 80px;
+	
+}
+
+.room_info {
+	
+	padding-top: 50px;
+}
+
+.room_type_box {
+	
+	background-color: #E6E6E6; 
+	min-height: 58px;
+	border : 1px solid #BDBDBD;
+	margin-top: 60px;
+	
+}
+
+.room_type_box::after {
+	
+	content : "V";
+}
+
+.room_type_detail{
+	
+	display: inline-block;	
+	padding-top: 25px;
+	padding-bottom: 25px;
+	vertical-align: middle;
+	
+}
+
+.room_img{
+	
+	display: inline-block;
+	
+}
+
+.room_img img {
+	
+	display: inline-block;	
+	width: 270px;
+	height: 230px;
+	padding-left: 20px;
+}
+
+.r_name{
+	
+	display: inline-block;
+	padding-left: 40px;
+}
+
+.r_option, .r_price, .reservation {
+	
+	display: inline-block;
+	padding-left: 100px;
+}
+
+.rev_option {
+	
+	text-align: right;
+}
+
+.p_info {
+	
+	display: inline-block;
+}
+
+.h_price {
+	
+	display: inline-block;
+	margin-left: 300px;
+}
+
+.r_type_name {
+	
+	color: black;
+}
+
+.fluid-wrap {
+	
+	margin-top: 15px;
+}
+
+.panel-heading{
+	
+	background-color: #F2F2F2;
+	min-height: 50px;
+	border: 1px solid #D8D8D8;
+	
+}
+
+.panel-heading a:hover {
+	
+	color: lightblue;
+}
+
+.panel-body {
+	
+	background-color: #F2F2F2;
+	border: 1px solid #D8D8D8;
+}
