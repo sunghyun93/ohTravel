@@ -141,7 +141,7 @@
 						</div>	<!-- form_holder check mt20 -->
 						<!-- 개인정보 수집 및 이용에 대한 동의 -->		
 						<div class="form_holder check mt20">
-							<input type="checkbox" id="FT05" class="inpt_checkbox">
+							<input type="checkbox" id="MJ05" class="inpt_checkbox">
 							<label for="MJ05" class="label_checkbox">
 								개인정보 수집 및 이용에 대한 동의<span class="opt"><em>(필수)</em></span>
 							</label>
