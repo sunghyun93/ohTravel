@@ -1,5 +1,9 @@
 package com.oracle.ohTravel.ticket.service;
 
-public class TicketService {
+import org.springframework.stereotype.Service;
 
+@Service
+public interface TicketService {
+	
+	
 }
