@@ -6,5 +6,8 @@
 	<typeAliases>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.MemberDTO" alias="Member"/>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.MembershipDTO" alias="Membership"/>
+		
+		<!-- pkage -->
+		<typeAlias type="com.oracle.ohTravel.pkage.model.PkageDTO" alias="PkageDTO"/>
 	</typeAliases>
 </configuration>
