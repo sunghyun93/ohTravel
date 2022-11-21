@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+#bottom_wrap{
+    clear:both;
+    width:100%;
+    min-width:1920px;
+    border-top:1px solid #eaeaea;
+    padding-top:40px;
+}
+#bottom{
+    width:1190px;
+    margin:0 auto;
+}
+#bottom ul li{
+    display:inline;
+    margin-right:10px;
+}
+#bottom p {
+    font-weight: bold;
+    margin-top:20px;
+}
+#bottom ul li a{
+    color:#333333;
+}
+

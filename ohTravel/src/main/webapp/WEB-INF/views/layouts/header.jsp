@@ -74,11 +74,8 @@
                                                     <li><a href='hotelDetail'>호텔상세확인용</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">항공</a>
-                                            	  <ul class="submenu">
-                                                    <li><a href="#">해외</a></li>
-                                                    <li><a href="# ">국내</a></li>
-                                                </ul>
+                                            <li><a href="${pageContext.request.contextPath}/airport/searchTicket">항공</a>
+                                            	 
                                             </li>
                                             <li><a href="#">패키지</a>
                                                 <ul class="submenu">
