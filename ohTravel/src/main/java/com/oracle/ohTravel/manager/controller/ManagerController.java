@@ -74,10 +74,7 @@ public class ManagerController {
 		
 		return "forward:manageUser";
 	}
-	@RequestMapping(value = "insertMembership")
-	public String dd(){
-		return "manager/insertMembership";
-	}
+	
 	
 	//회원관리 ->등급관리
 	@RequestMapping(value = "manageMemberShip")
@@ -93,6 +90,12 @@ public class ManagerController {
 		List<MembershipDTO> membershipDetail = service.getMembershipDetail(membership_id);
 		model.addAttribute("membershipDetail", membershipDetail);
 		return "manager/manageMembershipDetail";
+	}
+	//등급관리 -> 추가
+	@RequestMapping(value = "insertMembershipForm")
+	public String insertMembershipForm(Model model){
+		
+		return "manager/insertMembership";
 	}
 	
 	//등급관리 -> 수정

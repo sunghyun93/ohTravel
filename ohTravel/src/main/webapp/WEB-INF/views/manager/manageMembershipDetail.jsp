@@ -49,6 +49,9 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">등급상세</h1>
 			<form method="post" id="form">
 			<div class="row">
+			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
+				<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="window.history.go(-1)" value="돌아가기">
+			</div>
 				<table border="1" class="table table-striped">
 					<tr>
 						<th>회원등급코드</th>
