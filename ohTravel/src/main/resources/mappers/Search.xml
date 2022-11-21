@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.ohTravel.SearchMapper">
+
+	<!-- <select id="yqTicketList" parameterType="java.lang.String" resultType="Ticket">
+		Select * From ticket_detail Where ticket_name Like '%#{search_word}%'
+	</select> -->
+
+<!-- 	<select id="yqHotelList" parameterType="java.lang.String" resultType="Hotel">
+		Select * From hotel Where hotel_kor Like '%#{search_word}%' OR hotel_eng Like '%#{search_word}%'
+	</select>
+
+	<select id="yqPackageList" parameterType="java.lang.String" resultType="Package">
+		Select * From package Where pkage_name Like '%#{search_word}%'
+	</select> -->
+
+
+</mapper>

@@ -12,7 +12,7 @@
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/ohLogo2.png" alt="">
+                    <img src="${pageContext.request.contextPath }/assets/img/logo/ohLogo2.png" alt="">
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
                             <!-- Logo -->
                             <div class="col-xl-2 col-lg-2 col-md-1">
                                 <div class="logo">
-                                  <a href="/"><img src="assets/img/logo/ohLogo.png" alt=""></a>
+                                  <a href="/"><img src="${pageContext.request.contextPath }/assets/img/logo/ohLogo.png" alt=""></a>
                                  <!--  <a href="/"><img src="assets/img/logo/Logo.png" alt=""></a> -->
                                 </div>
                             </div>
@@ -74,11 +74,8 @@
                                                     <li><a href='hotelDetail'>호텔상세확인용</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">항공</a>
-                                            	  <ul class="submenu">
-                                                    <li><a href="#">해외</a></li>
-                                                    <li><a href="# ">국내</a></li>
-                                                </ul>
+                                            <li><a href="${pageContext.request.contextPath}/airport/searchTicket">항공</a>
+                                            	 
                                             </li>
                                             <li><a href="#">패키지</a>
                                                 <ul class="submenu">
@@ -93,7 +90,8 @@
                                                 </ul>
                                             </li>
                                             <li><a href="#">예약내역 확인</a></li>
-                                            <li><a href='loginForm'>LOGIN</a></li>
+                                            <li><a href="loginForm">LOGIN</a></li>
+                                            <li><a href="memberForm">회원가입</a></li>
                                         </ul>
                                     </nav>
                                 </div>

@@ -26,11 +26,11 @@
                         <div class="row">
                             <div class="col-xl-12">
                                 <!-- form -->
-                                <form action="#" class="search-box">
+                                <form action="/search/searchResult" class="search-box">
                                     <div class="input-form mb-30">
-                                        <input type="text" placeholder="When Would you like to go ?">
+                                        <input type="text" name="search_word" placeholder="어디로 갈래?">
                                     </div>
-                                    <div class="select-form mb-30">
+                                    <!-- <div class="select-form mb-30">
                                         <div class="select-itms">
                                             <select name="select" id="select1">
                                                 <option value="">When</option>
@@ -39,9 +39,9 @@
                                                 <option value="">Services-3</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="search-form mb-30">
-                                        <a href="#">Search</a>
+                                        <input type="submit" value="Search" class="inputSearch">
                                     </div>	
                                 </form>	
                             </div>
