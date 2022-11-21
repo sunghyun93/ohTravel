@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 //@RequestMapping("/pkage")
 public class PkageController {
-	@GetMapping("pkageDetail")
+	@GetMapping("/pkage/pkageDetail")
 	public String pkDetail() {
 		return "pkage/package_detail";
 	}

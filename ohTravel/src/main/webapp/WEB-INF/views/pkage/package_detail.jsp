@@ -697,7 +697,8 @@
 
                 // 총 금액 기본 설정 (서버에서 받아와야 함 - 우선 하드코딩)
             totalPay.html(adultPrice+'<em>원</em>');
-
+			
+       
             up.on('click', function() {
                 // 누른 버튼 구분 (up / down)
                 let isUp = $(this).hasClass('up');
