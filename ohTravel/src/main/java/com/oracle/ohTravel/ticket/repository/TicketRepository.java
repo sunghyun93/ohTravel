@@ -1,5 +1,8 @@
 package com.oracle.ohTravel.ticket.repository;
 
-public class TicketRepository {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TicketRepository {
 
 }
