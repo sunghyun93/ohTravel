@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>항공 예약 내역</title>
+<title>예약 내역</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/myPage.css">
 </head>
 <body>
@@ -27,11 +27,6 @@
 							    </li>
 							    <li id="EM00000224">
 							        <a href="${pageContext.request.contextPath}/member/myPageCoupon">쿠폰함</a>
-							        <ul style="display: none;">
-							            <li id="EM00000226" class=""><a href="#">사용 가능한 쿠폰</a></li>
-							            <li id="EM00000228" class=""><a href="#">할인쿠폰 다운로드</a></li>
-							            <li id="EM00000229" class=""><a href="#">지난 쿠폰</a></li>
-							        </ul>
 							    </li>
 							    <li id="EM00002140" class="">
 							        <a href="${pageContext.request.contextPath}/member/myPageFAQ" id="/com/cuc/CHPC0CUC0001M200">자주찾는 질문</a>
