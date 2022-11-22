@@ -37,7 +37,11 @@
                         <div class="col-lg-4">
                             <div class="header-info-right f-right">
                                 <ul class="header-social">    
+<<<<<<< HEAD
                                 	<li><a href=${pageContext.request.contextPath }/manager/managerMain>관리자페이지</a>
+=======
+                                	<li><a href="/managerMain">관리자페이지</a>
+>>>>>>> branch 'main' of https://github.com/zest20/ohTravel.git
                                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                                     <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
                                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -75,7 +79,9 @@
                                                 </ul>
                                             </li>
                                             <li><a href="${pageContext.request.contextPath}/airport/searchTicket">항공</a>
-                                            	 
+                                            	  <ul class="submenu">
+                                                    <li><a href="/airport/air_reservation">항공예약 페이지</a></li>
+                                                </ul>
                                             </li>
                                             <li><a href="#">패키지</a>
                                                 <ul class="submenu">
@@ -83,15 +89,16 @@
                                                     <li><a href="#">국내</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="ticketmain">입장권</a>
+                                            <li><a href="${pageContext.request.contextPath}/ticket/ticketmain">입장권</a>
                                                 <ul class="submenu">
-                                                    <li><a href="ticketOverseas">해외</a></li>
-                                                    <li><a href="ticketDomestic">국내</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/ticket/ticketOverseas">해외</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/ticket/ticketDomestic">국내</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="#">예약내역 확인</a></li>
-                                            <li><a href="loginForm">LOGIN</a></li>
-                                            <li><a href="memberForm">회원가입</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
+                                        	<li><a href="${pageContext.request.contextPath}/member/myPageMain">마이페이지</a></li>
                                         </ul>
                                     </nav>
                                 </div>

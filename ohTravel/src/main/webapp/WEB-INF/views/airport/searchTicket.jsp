@@ -5,7 +5,6 @@
 <html>
 <head>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
-
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
@@ -482,7 +481,10 @@ button {
 	cursor: pointer;
 	color:red;
 }
-   
+
+.ppl_check_text{
+	color:black;
+}   
    
 </style>
 </head>

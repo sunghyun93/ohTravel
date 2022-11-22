@@ -49,7 +49,7 @@
 		<!-- One Page, Animated-HeadLin -->
         <script src="${pageContext.request.contextPath }/assets/js/wow.min.js"></script>
 		<script src="${pageContext.request.contextPath }/assets/js/animated.headline.js"></script>
-        <script src="${pageContext.request.contextPath }assets/js/jquery.magnific-po/pup.js"></script>
+        <script src="${pageContext.request.contextPath }/assets/js/jquery.magnific-po/pup.js"></script>
 
 		<!-- Scrollup, nice-select, sticky -->
         <script src="${pageContext.request.contextPath }/assets/js/jquery.scrollUp.min.js"></script>
