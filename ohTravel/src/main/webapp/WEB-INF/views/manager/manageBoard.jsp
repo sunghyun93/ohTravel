@@ -32,30 +32,28 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">게시판관리</h1>
 			<div class="row">
 				<table border="1" class="table table-hover">
+				<thead>
 					<tr>
-						<th>아이디</th>
-						<th>이름</th>
-						<th>비밀번호</th>
-						<th>이메일</th>
-						<th>전화번호</th>
-						<th>생년월일</th>
-						<th>가입날짜</th>
-						<th>회원권한</th>
-						<th>마일리지</th>
-						<th>회원등급</th>
+						<th>글번호</th>
+						<th>작성자</th>
+						<th>구분자</th>
+						<th>별점</th>
+						<th>내용</th>
+						<th>작성일자</th>
+						<th>참조아이디</th>
 					</tr>
-					<tr>
-						<td>asefasefasef</td>
-						<td>홍길동</td>
-						<td>saejfklajsfkeljs</td>
-						<td>asefasefasef@naver.com</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
+				</thead>
+				<tbody>
+					<tr>						
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
+				</tbody>
 				</table>
 			</div>
 		</div>

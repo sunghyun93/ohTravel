@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <style type="text/css">
 .ManageUserWrapper{
 	min-height: 700px;
@@ -21,6 +22,17 @@
 	width: 100%;
 }
 </style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var updateMsg1 = '${updateCouponMsg1}';
+		var deleteMsg1 = '${deleteCouponMsg1}';
+		if(updateMsg1 == 1){
+			alert("수정이 완료되었습니다");
+		}else if(deleteMsg1 ==1){
+			alert("삭제가 완료되었습니다");
+		}
+	});
+</script>
 </head>
 <body>
 	<div class="container" style="min-height: 700px;">

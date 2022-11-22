@@ -12,3 +12,5 @@ public class NoticeDTO {
 	private Timestamp notice_write_date;
 	private int notice_count;
 }
+
+

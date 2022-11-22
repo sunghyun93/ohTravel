@@ -50,10 +50,10 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">쿠폰상세</h1>
 			<form method="post" id="form">
 				<div class="row">
-				<c:forEach var="couponDetail" items="${couponDetail }">
 				<div class="col-lg-12 col-sm-12 text-lg-end text-center">
 					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="window.history.go(-1)" value="돌아가기">
 				</div>
+				<c:forEach var="couponDetail" items="${couponDetail }">
 					<table border="1" class="table table-striped">
 						<thead>
 						<tr>
