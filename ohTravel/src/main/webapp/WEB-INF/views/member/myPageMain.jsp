@@ -27,11 +27,6 @@
 							    </li>
 							    <li id="EM00000224">
 							        <a href="${pageContext.request.contextPath}/member/myPageCoupon">쿠폰함</a>
-							        <ul style="display: none;">
-							            <li id="EM00000226" class=""><a href="#">사용 가능한 쿠폰</a></li>
-							            <li id="EM00000228" class=""><a href="#">할인쿠폰 다운로드</a></li>
-							            <li id="EM00000229" class=""><a href="#">지난 쿠폰</a></li>
-							        </ul>
 							    </li>
 							    <li id="EM00002140" class="">
 							        <a href="${pageContext.request.contextPath}/member/myPageFAQ" id="/com/cuc/CHPC0CUC0001M200">자주찾는 질문</a>
@@ -54,7 +49,7 @@
 				<div class="text_wrap big type mb30 mt0">
 					<strong class="tit">예약내역</strong>
 					<span class="right_cont">
-						<a href="${pageContext.request.contextPath}/member/myPageReservation" class="txt arrow_r">더보기</a>
+						<a href="${pageContext.request.contextPath}/member/myPageReservPackage" class="txt arrow_r">더보기</a>
 					</span>
 				</div>	<!-- text_wrap big type mb30 mt0 -->
 				<!-- 예약 내역 확인 -->
@@ -120,7 +115,7 @@
 					        </li>
 					        <li>
 					            <span class="icn mpg3"></span>
-					            <div class="text_wrap sml"><strong class="tit">마일리지</strong></div>
+					            <div class="text_wrap sml"><strong class="tit">개인정보</strong></div>
 					        </li>
 					    </ul>
 					</div>
