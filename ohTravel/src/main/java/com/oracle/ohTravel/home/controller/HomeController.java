@@ -34,11 +34,7 @@ public class HomeController {
 		return "hotel/cssTest";
 	}
 	
-	// 로그인
-	@GetMapping(value = "loginForm")
-	public String goLoginForm() {
-		return "member/loginForm";
-	}
+	
 	
 	/* =============== 입장권 =============== */
 	@GetMapping(value = "ticketmain")

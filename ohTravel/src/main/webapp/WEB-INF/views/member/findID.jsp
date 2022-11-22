@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/css/member/find.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/find.css">
 
 </head>
 <body>
@@ -55,7 +55,7 @@
 											                    <th>생년월일</th>
 											                    <td>
 											                        <div class="form_holder">
-											                            <input type="text" title="생년월일" maxlength="8" placeholder="생년월일을 입력해 주세요. (예: 19900101)" class="inpt_text v-placeholder" /> <button type="submit" class="btn">실명확인</button>
+											                            <input type="text" title="생년월일" maxlength="8" placeholder="생년월일을 입력해 주세요. (ex: 19900101)" class="inpt_text v-placeholder" /> <button type="submit" class="btn">실명확인</button>
 											                        </div>	<!-- form_holder -->
 											                        <p class="error_message" style="display: none;">
 											                        	생년월일 형식에 맞게 입력해 주세요.(ex. 19991231)
@@ -66,7 +66,7 @@
 											                    <th>이메일</th>
 											                    <td>
 											                        <div class="form_holder">
-											                            <input type="text" title="이메일" placeholder="이메일 주소를 입력해 주세요. (예: hana@hanatour.com)" readonly="readonly" class="inpt_text v-placeholder" />
+											                            <input type="text" title="이메일" placeholder="이메일 주소를 입력해 주세요. (ex: sample@sample.com)" readonly="readonly" class="inpt_text v-placeholder" />
 											                            <button type="submit" disabled="disabled" class="btn">인증번호 요청</button>
 											                        </div>	<!-- form_holder -->
 											                        <p class="error_message" style="display: none;">

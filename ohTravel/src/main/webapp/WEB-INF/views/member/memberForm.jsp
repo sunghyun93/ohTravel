@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/css/member/memberForm.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/memberForm.css">
 </head>
 <body>
 	<div class="container" id="container">
