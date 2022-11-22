@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="/css/member/memberForm.css">
+<title>회원가입</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/memberForm.css">
 </head>
 <body>
 	<div class="container" id="container">
@@ -141,7 +141,7 @@
 						</div>	<!-- form_holder check mt20 -->
 						<!-- 개인정보 수집 및 이용에 대한 동의 -->		
 						<div class="form_holder check mt20">
-							<input type="checkbox" id="FT05" class="inpt_checkbox">
+							<input type="checkbox" id="MJ05" class="inpt_checkbox">
 							<label for="MJ05" class="label_checkbox">
 								개인정보 수집 및 이용에 대한 동의<span class="opt"><em>(필수)</em></span>
 							</label>

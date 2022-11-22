@@ -5,8 +5,11 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.mysql.cj.protocol.x.Notice;
+import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
+import com.oracle.ohTravel.manager.dto.NoticeDTO;
 
 import lombok.RequiredArgsConstructor;
 @Repository
@@ -67,6 +70,67 @@ public class ManagerDAOImpl implements ManagerDAO {
 	@Override
 	public int deleteMembership(MembershipDTO membership) {
 		int result = session.delete("DeleteMembership", membership);
+		return result;
+	}
+
+	@Override
+	public int insertMembership(MembershipDTO membership) {
+		int result = session.insert("InsertMembership", membership);
+		return result;
+	}
+
+	@Override
+	public List<NoticeDTO> getNoticeList() {
+		List<NoticeDTO> notice = session.selectList("GetNoticeList");
+		return notice;
+	}
+
+	@Override
+	public List<NoticeDTO> getNoticeDetail(int notice_id) {
+		System.out.println("dao notice_id->"+notice_id);
+		List<NoticeDTO> noticeDetail = session.selectList("GetNoticeDetail", notice_id);
+		return noticeDetail;
+	}
+
+	@Override
+	public int updateNotice(NoticeDTO notice) {
+		int result = session.update("UpdateNotice", notice);
+		return result;
+	}
+
+	@Override
+	public int deleteNotice(NoticeDTO notice) {
+		int result = session.delete("DeleteNotice", notice);
+		return result;
+	}
+
+	@Override
+	public int insertNotice(NoticeDTO notice) {
+		int result = session.insert("InsertNotice", notice);
+		return result;
+	}
+
+	@Override
+	public List<CouponDTO> getCouponList() {
+		List<CouponDTO>coupon = session.selectList("GetCouponList");
+		return coupon;
+	}
+
+	@Override
+	public List<CouponDTO> getCouponDetail(CouponDTO coupon) {
+		List<CouponDTO>couponDetail = session.selectList("GetCouponDetail", coupon);
+		return couponDetail;
+	}
+
+	@Override
+	public List<CouponDTO> getCouponMemberDetail(CouponDTO coupon) {
+		List<CouponDTO> couponMemberDetail = session.selectList("GetCouponMemberDetail", coupon);
+		return couponMemberDetail;
+	}
+
+	@Override
+	public int updateCoupon(CouponDTO coupon) {
+		int result = session.update("UpdateCoupon", coupon);
 		return result;
 	}
 

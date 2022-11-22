@@ -6,8 +6,13 @@
 	<typeAliases>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.MemberDTO" alias="Member"/>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.MembershipDTO" alias="Membership"/>
+		<typeAlias type="com.oracle.ohTravel.manager.dto.NoticeDTO" alias="Notice"/>
+		<typeAlias type="com.oracle.ohTravel.manager.dto.CouponDTO" alias="Coupon"/>
 		
 		<!-- pkage -->
 		<typeAlias type="com.oracle.ohTravel.pkage.model.PkageDTO" alias="PkageDTO"/>
+		
+		<!-- search -->
+		<typeAlias type="com.oracle.ohTravel.search.model.SearchDTO" alias="Search"/>
 	</typeAliases>
 </configuration>

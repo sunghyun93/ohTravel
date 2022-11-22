@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mysql.cj.protocol.x.Notice;
+import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
+import com.oracle.ohTravel.manager.dto.NoticeDTO;
 import com.oracle.ohTravel.manager.service.ManagerService;
 
 import lombok.RequiredArgsConstructor;
@@ -74,10 +77,7 @@ public class ManagerController {
 		
 		return "forward:manageUser";
 	}
-	@RequestMapping(value = "insertMembership")
-	public String dd(){
-		return "manager/insertMembership";
-	}
+	
 	
 	//회원관리 ->등급관리
 	@RequestMapping(value = "manageMemberShip")
@@ -93,6 +93,21 @@ public class ManagerController {
 		List<MembershipDTO> membershipDetail = service.getMembershipDetail(membership_id);
 		model.addAttribute("membershipDetail", membershipDetail);
 		return "manager/manageMembershipDetail";
+	}
+	//등급관리 -> 추가페이지이동
+	@RequestMapping(value = "insertMembershipForm")
+	public String insertMembershipForm(Model model){
+		
+		return "manager/insertMembershipForm";
+	}
+	//등급관리 -> 추가 기능실행
+	@PostMapping(value = "insertMembership")
+	public String insertMembership(MembershipDTO membership, Model model){
+		System.out.println("mile ->"+membership.getMembership_mile());
+		System.out.println("dis ->"+membership.getMembership_discount());
+		int result = service.insertMembership(membership);
+		model.addAttribute("insertMembershipMsg1", result);
+		return "forward:manageMemberShip";
 	}
 	
 	//등급관리 -> 수정
@@ -147,10 +162,60 @@ public class ManagerController {
 	}
 	//게시판관리 -> 공지사항관리
 	@RequestMapping(value = "manageNotice")
-	public String manageNotice() {
+	public String manageNotice(Model model) {
+		List<NoticeDTO> notice = service.getNoticeList();
+		model.addAttribute("notice", notice);
 		
 		return "manager/manageNotice";
 	}
+	//게시판관리 - >공지사항 상세보기
+	@RequestMapping(value = "manageNoticeDetail")
+	public String noticeDetail(int notice_id ,Model model) {
+		System.out.println("Controller noticeDetail id ->" + notice_id);
+		List<NoticeDTO> noticeDetail = service.getNoticeDetail(notice_id);
+		model.addAttribute("noticeDetail", noticeDetail);
+		return "manager/manageNoticeDetail";
+	}
+	//게시판관리 -> 공지사항 추가 폼으로 이동
+	@RequestMapping(value = "insertNoticeForm")
+	public String insertNoticeForm() {
+		
+		return "manager/insertNoticeForm";
+	}
+	//게시판관리 -> 공지사항 추가 버튼눌렀을때 동작
+	@PostMapping(value = "insertNotice")
+	public String insertNotice(NoticeDTO notice,Model model) {
+		System.out.println("Controller insertNotice id ->"+notice.getNotice_id());
+		System.out.println("Controller insertNotice title ->"+notice.getNotice_title());
+		System.out.println("Controller insertNotice content ->"+notice.getNotice_content());
+		System.out.println("Controller insertNotice writer ->"+notice.getNotice_writer());
+		int result = service.insertNotice(notice);
+		model.addAttribute("intertNoticeMsg1", result);
+		return "forward:manageNotice";
+	}
+	//게시판관리 -> 공지사항 수정
+	@PostMapping(value = "updateNotice")
+	public String updateNotice(NoticeDTO notice, Model model) {
+		System.out.println("Controller updateNotice id ->"+notice.getNotice_id());
+		System.out.println("Controller updateNotice title ->"+notice.getNotice_title());
+		System.out.println("Controller updateNotice content ->"+notice.getNotice_content());
+		int result = service.updateNotice(notice);
+		System.out.println("결과값 ->"+result);
+		model.addAttribute("updateNoticeMsg1", result);
+		return "forward:manageNotice";
+	}
+	//게시판관리 -> 공지사항 수정
+	@PostMapping(value = "deleteNotice")
+	public String deleteNotice(NoticeDTO notice, Model model) {
+		System.out.println("Controller updateNotice id ->"+notice.getNotice_id());
+		System.out.println("Controller updateNotice title ->"+notice.getNotice_title());
+		System.out.println("Controller updateNotice content ->"+notice.getNotice_content());
+		int result = service.deleteNotice(notice);
+		System.out.println("결과값 ->"+result);
+		model.addAttribute("deleteNoticeMsg1", result);
+		return "forward:manageNotice";
+	}
+	
 	//매출관리
 	@RequestMapping(value = "manageSales")
 	public String manageSales() {
@@ -159,9 +224,32 @@ public class ManagerController {
 	}
 	//쿠폰관리
 	@RequestMapping(value = "manageCoupon")
-	public String manageCoupon() {
-		
+	public String manageCoupon(Model model) {
+		List<CouponDTO> coupon = service.getCouponList();
+		model.addAttribute("couponList", coupon);
 		return "manager/manageCoupon";
+	}
+	//쿠폰관리 ->쿠폰상세보기
+	@RequestMapping(value = "manageCouponDetail")
+	public String manageCouponDetail(CouponDTO coupon, Model model) {
+		List<CouponDTO> couponDetail = service.getCouponDetail(coupon);
+		List<CouponDTO> couponMemberDetail = service.getCouponMemberDetail(coupon);
+		model.addAttribute("couponDetail", couponDetail);
+		model.addAttribute("couponMemberDetail", couponMemberDetail);
+		
+		return "manager/manageCouponDetail";
+	}
+	//쿠폰관리 ->쿠폰수정
+	@RequestMapping(value = "updateCoupon")
+	public String updateCoupon(CouponDTO coupon, Model model) {
+		System.out.println("Controller updateCoupon id ->"+coupon.getCoupon_id());
+		System.out.println("Controller updateCoupon name ->"+coupon.getCoupon_name());
+		System.out.println("Controller updateCoupon discount ->"+coupon.getCoupon_discount());
+		System.out.println("Controller updateCoupon date ->"+coupon.getCoupon_date());
+		System.out.println("Controller updateCoupon quantity ->"+coupon.getCoupon_quantity());
+		int result = service.updateCoupon(coupon);
+		
+		return "forward:manageCoupon";
 	}
 	//예약관리
 	@RequestMapping(value = "manageReservation")

@@ -41,22 +41,26 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">등급관리</h1>
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertMembership'">등급추가</button>
+				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertMembershipForm'">등급추가</button>
 			</div>
 				<table border="1" class="table table-hover">
+					<thead>
 					<tr>
 						<th>회원등급코드</th>
 						<th>회원등급명</th>
 						<th>등급기준마일리지</th>
 						<th>회원등급할인율</th>
 					</tr>
+					</thead>
 					<c:forEach var="membershipList" items="${membershipList }">
+					<tbody>
 					<tr onclick="location.href='manageMembershipDetail?membership_id=${membershipList.membership_id}'">
 						<td>${membershipList.membership_id }</td>
 						<td>${membershipList.membership_name }</td>
 						<td>${membershipList.membership_mile }</td>
 						<td>${membershipList.membership_discount }</td>
 					</tr>
+					</tbody>
 					</c:forEach>
 				</table>
 			</div>

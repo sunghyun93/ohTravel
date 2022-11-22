@@ -12,7 +12,7 @@
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/ohLogo2.png" alt="">
+                    <img src="${pageContext.request.contextPath }/assets/img/logo/ohLogo2.png" alt="">
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
                             <!-- Logo -->
                             <div class="col-xl-2 col-lg-2 col-md-1">
                                 <div class="logo">
-                                  <a href="/"><img src="assets/img/logo/ohLogo.png" alt=""></a>
+                                  <a href="/"><img src="${pageContext.request.contextPath }/assets/img/logo/ohLogo.png" alt=""></a>
                                  <!--  <a href="/"><img src="assets/img/logo/Logo.png" alt=""></a> -->
                                 </div>
                             </div>
@@ -64,14 +64,14 @@
                                     <nav>               
                                         <ul id="navigation">                                                                                                                                     
                                             <li><a href="#">공지사항</a></li>
-                                            <li><a href="hotelmain">숙박</a>
+                                            <li><a href="${pageContext.request.contextPath }/hotel/hotelmain">숙박</a>
                                             	  <ul class="submenu">
-                                                    <li><a href="justTest">해외</a></li>
-                                                    <li><a href="cssTest">국내</a></li>
-                                                    <li><a href="blog">블로그 구조 참고</a></li>
-                                                    <li><a href='element'>Element</a></li>
-                                                    <li><a href='hotelHome'>호텔메인확인용</a></li>
-                                                    <li><a href='hotelDetail'>호텔상세확인용</a></li>
+                                                    <li><a href="${pageContext.request.contextPath }/justTest">해외</a></li>
+                                                    <li><a href="${pageContext.request.contextPath }/cssTest">국내</a></li>
+                                                    <li><a href="${pageContext.request.contextPath }/blog">블로그 구조 참고</a></li>
+                                                    <li><a href="${pageContext.request.contextPath }/element">Element</a></li>
+                                                    <li><a href="${pageContext.request.contextPath }/hotel/hotelHome">호텔메인확인용</a></li>
+                                                    <li><a href="${pageContext.request.contextPath }/hotel/hotelDetail">호텔상세확인용</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="${pageContext.request.contextPath}/airport/searchTicket">항공</a>
@@ -85,14 +85,16 @@
                                                     <li><a href="#">국내</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="ticketmain">입장권</a>
+                                            <li><a href="${pageContext.request.contextPath}/ticket/ticketmain">입장권</a>
                                                 <ul class="submenu">
-                                                    <li><a href="ticketOverseas">해외</a></li>
-                                                    <li><a href="ticketDomestic">국내</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/ticket/ticketOverseas">해외</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/ticket/ticketDomestic">국내</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="#">예약내역 확인</a></li>
-                                            <li><a href='loginForm'>LOGIN</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
+                                        	<li><a href="${pageContext.request.contextPath}/member/myPageMain">마이페이지</a></li>
                                         </ul>
                                     </nav>
                                 </div>
