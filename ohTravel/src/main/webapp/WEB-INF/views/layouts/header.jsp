@@ -92,6 +92,7 @@
                                             <li><a href="#">예약내역 확인</a></li>
                                             <li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
                                             <li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
+                                        	<li><a href="${pageContext.request.contextPath}/member/myPageMain">마이페이지</a></li>
                                         </ul>
                                     </nav>
                                 </div>
