@@ -13,4 +13,9 @@ public class AirportController {
 	public String searchTicket() {
 		return "airport/searchTicket";
 	}
+	
+	@RequestMapping(value = "/airport/air_reservation")
+	public String air_reservation() {
+		return "airport/air_reservation";
+	}
 }
