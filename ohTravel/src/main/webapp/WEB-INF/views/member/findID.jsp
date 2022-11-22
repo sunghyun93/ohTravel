@@ -16,13 +16,12 @@
 					<div class="certify_wrap">
 						<div class="text_wrap pTit">
 						    <strong class="tit">아이디/비밀번호를 잊어버리셨나요?</strong>
-						    <p class="txt">아이디를 찾을 방법을 아래에서 선택해 주시기 바랍니다.</p>
 						</div>	<!-- text_wrap -->
 						<div class="js_tabs link type1 v-tabs">
 							<!-- 아이디/비밀번호 찾기 선택 -->
 							<ul class="tabs">
-							    <li class="selected" style="width: 50%;"><a href="#" aria-current="page" class="nuxt-link-exact-active nuxt-link-active">아이디찾기</a></li>
-							    <li style="width: 50%;"><a href="#" class="">비밀번호찾기</a></li>
+							    <li class="selected" style="width: 50%;"><a href="${pageContext.request.contextPath}/member/findID" aria-current="page" class="nuxt-link-exact-active nuxt-link-active">아이디찾기</a></li>
+							    <li style="width: 50%;"><a href="${pageContext.request.contextPath}/member/findPassword" class="">비밀번호찾기</a></li>
 							</ul>
 							<div class="panels">
 								<div class="panel selected">

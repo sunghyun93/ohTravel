@@ -28,5 +28,9 @@ public class MemberController {
 		return "member/findID";
 	}
 	
-	//
+	// 비밀번호 찾기
+	@GetMapping(value = "/findPassword")
+	public String goFindPassword() {
+		return "member/findPassword";
+	}
 }
