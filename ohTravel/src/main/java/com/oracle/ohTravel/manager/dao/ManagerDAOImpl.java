@@ -10,6 +10,7 @@ import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
 import com.oracle.ohTravel.manager.dto.NoticeDTO;
+import com.oracle.ohTravel.manager.dto.TicketDTO;
 
 import lombok.RequiredArgsConstructor;
 @Repository
@@ -132,6 +133,42 @@ public class ManagerDAOImpl implements ManagerDAO {
 	public int updateCoupon(CouponDTO coupon) {
 		int result = session.update("UpdateCoupon", coupon);
 		return result;
+	}
+
+	@Override
+	public int deleteCoupon(CouponDTO coupon) {
+		int result = session.delete("DeleteCoupon", coupon);
+		return result;
+	}
+
+	@Override
+	public int insertCoupon(CouponDTO coupon) {
+		int result = session.insert("InsertCoupon", coupon);
+		return result;
+	}
+
+	@Override
+	public List<TicketDTO> getTicketList() {
+		List<TicketDTO> ticketList = session.selectList("GetTicketList");
+		return ticketList;
+	}
+
+	@Override
+	public List<TicketDTO> getTicketDetail(TicketDTO ticket) {
+		List<TicketDTO> ticketDetail = session.selectList("GetTicketDetail",ticket);
+		return ticketDetail;
+	}
+
+	@Override
+	public List<TicketDTO> getCountryList() {
+		List<TicketDTO> countryList = session.selectList("GetCountryList");
+		return countryList;
+	}
+
+	@Override
+	public List<TicketDTO> getCityList(TicketDTO ticket) {
+		List<TicketDTO> cityList = session.selectList("GetCityList",ticket);
+		return cityList;
 	}
 
 }

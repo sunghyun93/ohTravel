@@ -13,11 +13,13 @@ import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
 import com.oracle.ohTravel.manager.dto.NoticeDTO;
+import com.oracle.ohTravel.manager.dto.TicketDTO;
 import com.oracle.ohTravel.manager.service.ManagerService;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequestMapping(value = "manager")
 @RequiredArgsConstructor
 public class ManagerController {
 	
@@ -149,10 +151,28 @@ public class ManagerController {
 	}
 	//상품관리 ->입장권 상품 관리
 	@RequestMapping(value = "manageTicket")
-	public String manageTicket() {
-		
+	public String manageTicket(Model model) {
+		List<TicketDTO> ticketList = service.getTicketList();
+		model.addAttribute("ticketList", ticketList);
 		return "manager/manageTicket";
 	}
+	//상품관리 ->입장권 상품상세 조회
+	@RequestMapping(value = "ticketDetail")
+	public String ticketDetail(TicketDTO ticket, Model model) {
+		List<TicketDTO>ticketDetail = service.getTicketDetail(ticket);
+		ticket.setCity_id(ticketDetail.get(0).getCity_id());
+		List<TicketDTO>countryList = service.getCountryList();
+		List<TicketDTO>cityList = service.getCityList(ticket);
+		System.out.println(ticketDetail.get(0).getCity_id());
+		System.out.println("size->"+ticketDetail.size());
+		model.addAttribute("ticketDetail", ticketDetail);
+		model.addAttribute("countryList", countryList);
+		model.addAttribute("cityList", cityList);
+		
+		return "manager/ticketDetail";
+	}
+	//상품관리 ->입장권 상세조회중 국가별 도시 셀렉문 Ajax
+	
 	
 	//게시판관리 -> 리뷰관리
 	@RequestMapping(value = "manageBoard")
@@ -222,7 +242,7 @@ public class ManagerController {
 		
 		return "manager/manageSales";
 	}
-	//쿠폰관리
+	//쿠폰관리 ->모든 쿠폰 조회
 	@RequestMapping(value = "manageCoupon")
 	public String manageCoupon(Model model) {
 		List<CouponDTO> coupon = service.getCouponList();
@@ -232,12 +252,30 @@ public class ManagerController {
 	//쿠폰관리 ->쿠폰상세보기
 	@RequestMapping(value = "manageCouponDetail")
 	public String manageCouponDetail(CouponDTO coupon, Model model) {
+		System.out.println("Controller manageCouponDetail id ->"+coupon.getCoupon_id());
 		List<CouponDTO> couponDetail = service.getCouponDetail(coupon);
 		List<CouponDTO> couponMemberDetail = service.getCouponMemberDetail(coupon);
+		System.out.println("size->"+couponDetail.size());
 		model.addAttribute("couponDetail", couponDetail);
 		model.addAttribute("couponMemberDetail", couponMemberDetail);
 		
 		return "manager/manageCouponDetail";
+	}
+	//쿠폰관리 ->쿠폰추가페이지로 이동
+	@RequestMapping(value = "insertCouponForm")
+	public String insertCouponForm() {
+		
+		return "manager/insertCouponForm";
+	}
+	//쿠폰관리 ->쿠폰추가 버튼누를시 동작 진짜 추가
+	@RequestMapping(value = "insertCoupon")
+	public String insertCoupon(CouponDTO coupon, Model model) {
+		System.out.println("Controller insertCoupon name ->"+coupon.getCoupon_name());
+		System.out.println("Controller insertCoupon discount ->"+coupon.getCoupon_discount());
+		System.out.println("Controller updateCoupon quantity ->"+coupon.getCoupon_quantity());
+		int result = service.insertCoupon(coupon);
+		model.addAttribute("insertCouponMsg1", result);
+		return "forward:manageCoupon";
 	}
 	//쿠폰관리 ->쿠폰수정
 	@RequestMapping(value = "updateCoupon")
@@ -248,7 +286,14 @@ public class ManagerController {
 		System.out.println("Controller updateCoupon date ->"+coupon.getCoupon_date());
 		System.out.println("Controller updateCoupon quantity ->"+coupon.getCoupon_quantity());
 		int result = service.updateCoupon(coupon);
-		
+		model.addAttribute("updateCouponMsg1", result);
+		return "forward:manageCoupon";
+	}
+	//쿠폰관리 -> 쿠폰 삭제
+	@PostMapping(value = "deleteCoupon")
+	public String deleteCoupon(CouponDTO coupon, Model model) {
+		int result = service.deleteCoupon(coupon);
+		model.addAttribute("deleteCouponMsg1", result);
 		return "forward:manageCoupon";
 	}
 	//예약관리

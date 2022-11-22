@@ -6,6 +6,7 @@ import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
 import com.oracle.ohTravel.manager.dto.NoticeDTO;
+import com.oracle.ohTravel.manager.dto.TicketDTO;
 
 public interface ManagerDAO {
 
@@ -46,5 +47,17 @@ public interface ManagerDAO {
 	List<CouponDTO> getCouponMemberDetail(CouponDTO coupon);
 
 	int updateCoupon(CouponDTO coupon);
+
+	int deleteCoupon(CouponDTO coupon);
+
+	int insertCoupon(CouponDTO coupon);
+
+	List<TicketDTO> getTicketList();
+
+	List<TicketDTO> getTicketDetail(TicketDTO ticket);
+
+	List<TicketDTO> getCountryList();
+
+	List<TicketDTO> getCityList(TicketDTO ticket);
 
 }
