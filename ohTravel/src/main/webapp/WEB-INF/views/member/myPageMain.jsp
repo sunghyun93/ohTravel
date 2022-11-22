@@ -14,54 +14,38 @@
 			<div class="lnb" id="lnb">
 				<div class="inr">
 					<dl>
-						<dt class="type"><a href="#">마이페이지</a></dt>
+						<dt class="type"><a href="${pageContext.request.contextPath}/member/myPageMain">마이페이지</a></dt>
 						<dd>
 							<ul class="list_lnb">
 							    <li id="EM00000196" class="">
-							        <a href="#" id="/com/mpg/CHPC0MPG0200M200">예약내역</a>
+							        <a href="${pageContext.request.contextPath}/member/myPageReservPackage" id="/com/mpg/CHPC0MPG0200M200">예약내역</a>
 							        <!---->
 							    </li>
 							    <li id="EM00000203" class="">
-							        <a href="#" id="/com/sbk/CHPC0COM0300M200">찜</a>
+							        <a href="${pageContext.request.contextPath}/member/myPageLike" id="/com/sbk/CHPC0COM0300M200">찜</a>
 							        <!---->
 							    </li>
-							    <li id="EM00000208" class="">
-							        <a href="#">마일리지</a>
-							        <ul style="display: none;">
-							            <li id="EM00000209" class=""><a href="#">내역조회</a></li>
-							            <li id="EM00000213" class=""><a href="#">마일리지 양도</a></li>
-							            <li id="EM00000214" class=""><a href="#">가족등록 현황</a></li>
-							            <li id="EM00000216" class=""><a href="#">누락마일리지 적립</a></li>
-							            <li id="EM00000218" class=""><a href="#">소멸예정 마일리지</a></li>
-							            <li id="EM00002178" class=""><a href="#">마일리지샵</a></li>
-							        </ul>
-							    </li>
 							    <li id="EM00000224">
-							        <a href="#">쿠폰함</a>
+							        <a href="${pageContext.request.contextPath}/member/myPageCoupon">쿠폰함</a>
 							        <ul style="display: none;">
 							            <li id="EM00000226" class=""><a href="#">사용 가능한 쿠폰</a></li>
 							            <li id="EM00000228" class=""><a href="#">할인쿠폰 다운로드</a></li>
 							            <li id="EM00000229" class=""><a href="#">지난 쿠폰</a></li>
 							        </ul>
 							    </li>
-							    <li id="EM00002139" class="">
-							        <a href="#" id="/com/mpg/CHPC0MPG0400M200">1:1 게시판 문의내역</a>
-							        <!---->
-							    </li>
 							    <li id="EM00002140" class="">
-							        <a href="#" id="/com/cuc/CHPC0CUC0001M200">자주찾는 질문</a>
+							        <a href="${pageContext.request.contextPath}/member/myPageFAQ" id="/com/cuc/CHPC0CUC0001M200">자주찾는 질문</a>
 							        <!---->
 							    </li>
 							    <li id="EM00002141" class="">
-							        <a href="#" id="/com/mpg/CHPC0MPG0403M200">My 상품평</a>
+							        <a href="${pageContext.request.contextPath}/member/myPageReview" id="/com/mpg/CHPC0MPG0403M200">My 상품평</a>
 							        <!---->
 							    </li>
 							    <li id="EM00000234" class="">
-							        <a href="#" id="/com/mpg/CHPC0MPG0105M200">개인정보</a>
+							        <a href="${pageContext.request.contextPath}/member/myPagePrivacy" id="/com/mpg/CHPC0MPG0105M200">개인정보</a>
 							        <!---->
 							    </li>
 							</ul>
-														
 						</dd>
 					</dl>	
 				</div>	<!-- inr -->
@@ -70,7 +54,7 @@
 				<div class="text_wrap big type mb30 mt0">
 					<strong class="tit">예약내역</strong>
 					<span class="right_cont">
-						<a href="#" class="txt arrow_r">더보기</a>
+						<a href="${pageContext.request.contextPath}/member/myPageReservation" class="txt arrow_r">더보기</a>
 					</span>
 				</div>	<!-- text_wrap big type mb30 mt0 -->
 				<!-- 예약 내역 확인 -->
