@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>아이디 찾기</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/find.css">
 
 </head>

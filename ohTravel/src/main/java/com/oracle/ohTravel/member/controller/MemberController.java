@@ -16,7 +16,7 @@ public class MemberController {
 		return "member/loginForm";
 	}
 	
-	// 회원가입 페이지 이동
+	// 회원가입
 	@GetMapping(value = "/memberForm") 
 	public String goMemberForm() {
 		return "member/memberForm";
@@ -32,5 +32,10 @@ public class MemberController {
 	@GetMapping(value = "/findPassword")
 	public String goFindPassword() {
 		return "member/findPassword";
+	}
+	
+	@GetMapping(value = "/myPageMain")
+	public String goMyPageMain() {
+		return "member/myPageMain";
 	}
 }
