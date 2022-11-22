@@ -37,7 +37,7 @@
                         <div class="col-lg-4">
                             <div class="header-info-right f-right">
                                 <ul class="header-social">    
-                                	<li><a href=managerMain>관리자페이지</a>
+                                	<li><a href="/managerMain">관리자페이지</a>
                                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                                     <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
                                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -75,7 +75,9 @@
                                                 </ul>
                                             </li>
                                             <li><a href="${pageContext.request.contextPath}/airport/searchTicket">항공</a>
-                                            	 
+                                            	  <ul class="submenu">
+                                                    <li><a href="/airport/air_reservation">항공예약 페이지</a></li>
+                                                </ul>
                                             </li>
                                             <li><a href="#">패키지</a>
                                                 <ul class="submenu">
