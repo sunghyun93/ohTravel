@@ -89,10 +89,10 @@
                                                     <li><a href="#">국내</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="${pageContext.request.contextPath}/ticket/ticketmain">입장권</a>
+                                            <li><a href="${pageContext.request.contextPath}/ticket/exhibitionMain">입장권</a>
                                                 <ul class="submenu">
-                                                    <li><a href="${pageContext.request.contextPath}/ticket/ticketOverseas">해외</a></li>
-                                                    <li><a href="${pageContext.request.contextPath}/ticket/ticketDomestic">국내</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/ticket/exhibitionSearch">입장권 검색 결과</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/ticket/exhibitionDetail">입장권 상세 페이지</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="#">예약내역 확인</a></li>
