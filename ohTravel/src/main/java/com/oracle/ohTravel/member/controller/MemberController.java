@@ -63,16 +63,46 @@ public class MemberController {
 		return "member/myPageReservTicket";
 	}
 	
-	// 찜
-	@GetMapping(value = "/myPageLike")
-	public String goMyPageLike() {
-		return "member/myPageLike";
+	// 패키지 찜
+	@GetMapping(value = "/myPageLikePackage")
+	public String goMyPageLikePackage() {
+		return "member/myPageLikePackage";
 	}
 	
-	// 쿠폰함
-	@GetMapping(value = "/myPageCoupon")
-	public String goMyPageCoupon() {
-		return "member/myPageCoupon";
+	// 호텔 찜
+	@GetMapping(value = "/myPageLikeHotel")
+	public String goMyPageLikeHotel() {
+		return "member/myPageLikeHotel";
+	}
+	
+	// 티켓 찜
+	@GetMapping(value = "/myPageLikeTicket")
+	public String goMyPageLikeTicket() {
+		return "member/myPageLikeTicket";
+	}
+	
+	// 쿠폰함(패키지)
+	@GetMapping(value = "/myPageCouponPackage")
+	public String goMyPageCouponPackage() {
+		return "member/myPageCouponPackage";
+	}
+	
+	// 쿠폰함(호텔)
+	@GetMapping(value = "/myPageCouponHotel")
+	public String goMyPageCouponHotel() {
+		return "member/myPageCouponHotel";
+	}
+	
+	// 쿠폰함(항공)
+	@GetMapping(value = "/myPageCouponAir")
+	public String goMyPageCouponAir() {
+		return "member/myPageCouponAir";
+	}
+	
+	// 쿠폰함(티켓)
+	@GetMapping(value = "/myPageCouponTicket")
+	public String goMyPageCouponTicket() {
+		return "member/myPageCouponTicket";
 	}
 	
 	// 자주 찾는 질문
@@ -81,13 +111,25 @@ public class MemberController {
 		return "member/myPageFAQ";
 	}
 	
-	// My 상품평
-	@GetMapping(value = "/myPageReview")
-	public String goMyPageReview() {
-		return "member/myPageReview";
+	// My 상품평 (패키지)
+	@GetMapping(value = "/myPageReviewPackage")
+	public String goMyPageReviewPackage() {
+		return "member/myPageReviewPackage";
 	}
 	
-	// 개인정보
+	// My 상품평 (호텔)
+	@GetMapping(value = "/myPageReviewHotel")
+	public String goMyPageReviewHotel() {
+		return "member/myPageReviewHotel";
+	}
+	
+	// My 상품평 (티켓)
+	@GetMapping(value = "/myPageReviewTicket")
+	public String goMyPageReviewTicket() {
+		return "member/myPageReviewTicket";
+	}
+	
+	// 개인정보 메인
 	@GetMapping(value = "/myPagePrivacy")
 	public String goMyPagePrivacy() {
 		return "member/myPagePrivacy";
