@@ -41,7 +41,7 @@
                                         </div>
                                     </div> -->
                                     <div class="search-form mb-30">
-                                        <input type="submit" value="Search" class="inputSearch">
+                                        <button type="submit" class="inputSearch">Search</button>
                                     </div>	
                                 </form>	
                             </div>
