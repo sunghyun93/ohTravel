@@ -2,19 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.oracle.ohTravel.SearchMapper">
+<mapper namespace="com.oracle.ohTravel.Search">
 
-	<!-- <select id="yqTicketList" parameterType="java.lang.String" resultType="Ticket">
-		Select * From ticket_detail Where ticket_name Like '%#{search_word}%'
+	<!-- <select id="yqTicketList" parameterType="java.lang.String" resultType="TicketModel">
+		Select * From TicketModel Where ticket_name Like '%#{search_word}%'
 	</select> -->
 
-<!-- 	<select id="yqHotelList" parameterType="java.lang.String" resultType="Hotel">
+	<!-- <select id="yqHotelList" parameterType="java.lang.String" resultType="Hotel">
 		Select * From hotel Where hotel_kor Like '%#{search_word}%' OR hotel_eng Like '%#{search_word}%'
-	</select>
-
-	<select id="yqPackageList" parameterType="java.lang.String" resultType="Package">
-		Select * From package Where pkage_name Like '%#{search_word}%'
 	</select> -->
 
+	<!-- 패키지 + 패키지 이미지 + 패키지 디테일 가져오기 -->
+	<select id="yqPkageList" parameterType="java.lang.String" resultType="PkageDTO">
+		Select distinct p.pkage_id, city_id, pkage_name, pkage_info, pkage_soldCnt, pkage_score, pkage_Img_path pkage_dt_Aprice 
+		FROM (package p left join package_image pi on p.pkage_id = pi.pkage_id) left join package_detail pd on p.pkage_id = pd.pkage_id
+		Where pkage_name LIKe concat('%', #{search_word}, '%')
+	</select>
 
 </mapper>

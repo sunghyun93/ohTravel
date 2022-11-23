@@ -1,0 +1,396 @@
+#pkRv_container {
+    min-height: 350px;
+}
+.pkRv_contents {
+    width:1200px;
+    margin:50px auto 0;
+    height:inherit;
+}
+/* 내용부분 공통 */
+label {
+    margin-bottom: 0px;
+}
+.ly_wrap.pay_info > .inr {
+    width: 870px;
+}
+.fontCtrl .text_wrap.mid strong.tit {
+    font-size: 22px;
+}
+.pay_info > .inr .text_wrap.mid .tit {
+    line-height: 30px;
+}
+/* 내용 - 왼쪽 부분 */
+.ly_wrap.pay_info {
+    border-top: 2px solid #111;
+}
+/* 항공편 부분 */
+.item_course > p {
+    margin: 0;
+    vertical-align: middle;
+}
+.move_arrow {
+    margin: 0 5px;
+}
+.move_arrow {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    text-indent: -99999px;
+    background-repeat: no-repeat;
+    background-image: url(https://image.hanatour.com/usr/static/img2/pc/com/spr_air.png);
+}
+.item_course>p>span {
+    display: inline-block;
+    vertical-align: middle;
+}
+.item_course .move_arrow {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 14px;
+    height: 14px;
+    background-image: url(https://image.hanatour.com/usr/static/img2/pc/com/spr_air.png);
+    background-repeat: no-repeat;
+    font-size: 0;
+    position: relative;
+    top: -2px;
+}
+.item_course .move_arrow.round {
+    background-position: -24px -43px;
+    width: 14px;
+    height: 14px;
+}
+.item_course .air_info {
+    color: #666;
+    font-size: 13px;
+    margin-top: 3px;
+}
+.pay_info .inr .air_info {
+    margin-top: 0;
+}
+.pay_info .tbl td span.air_info {
+    display: inline-block;
+    margin-left: 15px;
+}
+.pay_info .tbl td .air_name .air_img {
+    margin-top: -1px;
+}
+/* 예약자 정보 부분 */
+input[type=text], input[type=number], input[type=date], input[type=password] {
+    height: 42px;
+    padding: 0 15px;
+    border: 1px solid #cdcdcd;
+    background-color: #fff;
+    border-radius: 2px;
+}
+input[type=text]:focus {
+    border : 1px solid #0e1c35;
+}
+input[disabled], .inpt_text:disabled, select:disabled, input[readonly] {
+    color: #aaa;
+    border-color: #cdcdcd;
+    background: #f2f3f7;
+    cursor: not-allowed;
+    pointer-events: all !important;
+}
+/* 인원 정보 부분 */
+.pay_info .member_count.type ul {
+    width: 100%;
+    border: 1px solid #ddd;
+}
+.pay_info .member_count.type li {
+    float: left;
+    width: 50%;
+    margin: 0;
+    padding: 30px 0;
+    border-left: 1px solid #ddd;
+    text-align: center;
+    vertical-align: top;
+}
+.pay_info .member_count.type li:first-child {
+    width: 50%;
+    border-left: none;
+}
+
+.pay_info .member_count.type li .tit {
+    display: block;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 600;
+    color: #111;
+}
+.pay_info .member_count.type li .tit {
+    text-align: center;
+}
+.pay_info .member_count.type li .txt {
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #666;
+}
+.pay_info .member_count.type li .tit .txt {
+    top: 0;
+    margin: 0 0 0 5px;
+}
+/* 명수 부분 */
+.num_count_group {
+    display: inline-block;
+    width: 46px;
+    height: 38px;
+    border: 1px solid #c3c3c3;
+    border-radius: 2px;
+}
+.pay_info .member_count.type li .num_count_group {
+    margin-top: 25px;
+}
+.num_count_group .inpt_counter {
+    float: left;
+    display: block;
+    font-size: 15px;
+    color: #111;
+    width: 34px;
+    height: 36px;
+    line-height: 34px;
+    text-align: center;
+    margin: 0 4px;
+}
+/* 가격 부분 */
+.pay_info .member_count.type li .price_group {
+    margin-top: 25px;
+}
+.pay_info .member_count.type li .price {
+    color: #111;
+}
+/* 여행자 정보 부분 */
+.text_wrap.sml {
+    margin-top: 24px;
+    margin-bottom: 18px;
+}
+.pay_info .js_tabs .panel .text_wrap:first-child {
+    margin-top: 0;
+}
+.text_wrap.sml strong.tit {
+    font-size: 15px;
+    font-weight: 400;
+    color: #111;
+}
+.fontCtrl .text_wrap.sml strong.tit {
+    font-size: 17px;
+}
+.right_cont {
+    float: right;
+}
+.panels.personChk {
+    border-top:1px solid #ddd;
+}
+/* 예약자와 동일 버튼.. */
+.form_holder {
+    position: relative;
+    vertical-align: top;
+}
+span.form_holder {
+    display: inline-block;
+    margin-right: 20px;
+}
+span.form_holder:last-child {
+    margin-right: 0;
+}
+.form_holder input[type='checkbox'], .form_holder input[type='radio'] {
+    position: absolute;
+    top: 4px;
+    left: 12px;
+    /* opacity: 0 !important; */
+}
+.label_checkbox, .label_radio {
+    position: relative;
+    display: block;
+    line-height: 20px;
+    color: #333;
+    padding-left: 34px;
+    min-height: 24px;
+    margin-bottom: 0px;
+}
+.pay_info .text_wrap .right_cont .form_holder .label_checkbox {
+    font-size: 15px;
+}
+/* 성별 선택 부분 */
+.genderDiv_radio {
+    display: inline-block;
+    margin-right: 20px;
+    position: relative;
+    vertical-align: top;
+}
+
+/* float 해제 부분 */
+.pay_info .member_count.type ul:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+/* 예약시 유의사항 */
+.notice_wrap {
+    position: relative;
+    margin: 60px 0 0;
+}
+.notice_wrap.bg {
+    background: #f7f7f7;
+    padding: 30px;
+}
+.list_bul_wrap strong.tit, .notice_wrap strong.tit {
+    position: relative;
+    font-size: 14px;
+    color: #111;
+    line-height: 20px;
+    display: inline-block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.notice_wrap strong.tit {
+    padding-left: 23px;
+    margin-bottom: 5px;
+}
+.notice_wrap.bg strong.tit {
+    display: block;
+    font-size: 15px;
+    color: #333;
+}
+.notice_wrap.bg strong.tit.line {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.notice_wrap strong.tit:before {
+    content: '※';
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 0px;
+    left: 0;
+}
+.list_bul>li {
+    position: relative;
+    padding-left: 10px;
+    line-height: 23px;
+    font-size: 13px;
+    color: #888;
+}
+.list_bul>li:first-child, .list_dash>li:first-child, .notice_wrap .list_bul>li {
+    margin-top: 0;
+}
+
+/* 다음단계 버튼 */
+.btn_wrap {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom:200px;
+}
+
+
+
+/* 내용 - 오른쪽 부분 */
+.ly_wrap.pay_info > .inr.right {
+    width: 306px;
+    -webkit-transition: bottom .3s ease-out;
+    -moz-transition: bottom .3s ease-out;
+    transition: bottom .3s ease-out;
+}
+.pay_info > .inr.right > .text_wrap.mid {
+    margin-bottom: -5px;
+}
+.js_acc.filter_wrap {
+    margin-top: 0;
+}
+.pay_info .js_acc.filter_wrap {
+    overflow: hidden;
+    overflow-y: auto;
+    margin-top: 25px;
+    border-top: none;
+}
+.pay_info > .inr.right .pay_area {
+    border-top: 1px solid #ddd;
+    padding: 15px 20px 20px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #ddd;
+}
+/* info 부분 */
+.pay_info .info_area .info {
+    position: relative;
+    margin-top: 5px;
+    text-align: right;
+    color: #111;
+}
+.pay_info .info_area .info:first-child {
+    margin-top: 0;
+}
+.pay_info .info_area.total .info {
+    min-height: 14px;
+    margin-top: 0;
+    padding-bottom: 10px;
+}
+.pay_info .info_area .info .tit {
+    position: absolute;
+    left: 0;
+    font-weight: 400;
+    text-align: left;
+}
+.divider_dot {
+    position: relative;
+    padding-left: 9px;
+    display: inline-block;
+    margin-left: 5px;
+    min-height: 13px;
+}
+.pay_info .info_area .info span {
+    font-size: 14px;
+}
+.divider_dot:before {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background-color: #ccc;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -2px;
+}
+/* price 부분 */
+.pay_info .info_area.total .price {
+    display: block;
+    margin-top: 15px;
+    font-size: 26px;
+    color: #0e1c35;
+    text-align: right;
+}
+.pay_info .info_area.total .price span {
+    font-size: 15px;
+    font-weight: 400;
+}
+/* 밑줄 부분 */
+.pay_info .info_area:not(:first-child) {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed #ddd;
+}
+
+/* float 해제부분 */
+.pkRv_contents:after {
+    clear: both;
+    content: '';
+    display: table;
+}
+
+/* 에러 메세지 */
+.help_message, .success_message, .error_message, .check_message {
+    position: relative;
+    font-size: 13px;
+    padding: 10px 0 10px 0;
+}
+.error_message {
+    color: #e52c23;
+}
+.tbl .error_message {
+    margin-top: 10px;
+    padding: 0;
+}
+

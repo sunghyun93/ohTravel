@@ -9,6 +9,7 @@ import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
 import com.oracle.ohTravel.manager.dto.NoticeDTO;
+import com.oracle.ohTravel.manager.dto.TicketDTO;
 
 import lombok.RequiredArgsConstructor;
 @Service
@@ -113,6 +114,36 @@ public class ManagerServiceImpl implements ManagerService {
 	public int updateCoupon(CouponDTO coupon) {
 		int result = dao.updateCoupon(coupon);
 		return result;
+	}
+	@Override
+	public int deleteCoupon(CouponDTO coupon) {
+		int result = dao.deleteCoupon(coupon);
+		return result;
+	}
+	@Override
+	public int insertCoupon(CouponDTO coupon) {
+		int result = dao.insertCoupon(coupon);
+		return result;
+	}
+	@Override
+	public List<TicketDTO> getTicketList() {
+		List<TicketDTO>ticketList = dao.getTicketList();
+		return ticketList;
+	}
+	@Override
+	public List<TicketDTO> getTicketDetail(TicketDTO ticket) {
+		List<TicketDTO> ticketDetail = dao.getTicketDetail(ticket);
+		return ticketDetail;
+	}
+	@Override
+	public List<TicketDTO> getCountryList() {
+		List<TicketDTO> countryList = dao.getCountryList();
+		return countryList;
+	}
+	@Override
+	public List<TicketDTO> getCityList(TicketDTO ticket) {
+		List<TicketDTO> cityList = dao.getCityList(ticket);
+		return cityList;
 	}
 	
 	

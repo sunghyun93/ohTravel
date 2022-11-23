@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,12 @@
 }
 .big{
 	width: 100%;
+}
+.content{
+	max-width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 </style>
 </head>
@@ -32,28 +39,32 @@
 				<button class="btn btn-primary mb-2" style="float: right;">상품추가</button>
 			</div>
 				<table border="1" class="table table-hover">
+					<thead>
 					<tr>
 						<th>티켓코드</th>
 						<th>입장권명</th>
 						<th>누적판매갯수</th>
 						<th>위치</th>
 						<th>평점</th>
-						<th>옵션</th>
 						<th>사용기한일</th>
 						<th>성인가격</th>
 						<th>아동가격</th>
 					</tr>
-					<tr>
-						<td>asefasefasef</td>
-						<td>홍길동</td>
-						<td>saejfklajsfkeljs</td>
-						<td>asefasefasef@naver.com</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
-						<td>asefasefasef</td>
+					</thead>
+					<c:forEach var="ticketList" items="${ticketList }">
+					<tbody>
+					<tr onclick="location.href='ticketDetail?ticket_id=${ticketList.ticket_id}'">
+						<td>${ticketList.ticket_id }</td>
+						<td>${ticketList.ticket_name}</td>
+						<td>${ticketList.ticket_sales_cnt}</td>
+						<td class="content">${ticketList.ticket_location}</td>
+						<td>${ticketList.ticket_score}</td>
+						<td>${ticketList.ticket_due_date}</td>
+						<td>${ticketList.ticket_adult_price}</td>
+						<td>${ticketList.ticket_child_price}</td>
 					</tr>
+					</tbody>
+					</c:forEach>
 				</table>
 			</div>
 		</div>

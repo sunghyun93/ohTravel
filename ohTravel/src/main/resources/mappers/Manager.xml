@@ -61,6 +61,27 @@
 	<insert id="InsertNotice" parameterType="Notice">
 		INSERT INTO notice(notice_title, notice_content, notice_writer, notice_write_date) values(#{notice_title},#{notice_content},#{notice_writer},current_timestamp())
 	</insert>
+	<!-- ===================================================================================================================== -->
+	<select id="GetTicketList" resultType="Ticket">
+		SELECT * FROM ticket_detail
+	</select>
+	<select id="GetTicketDetail" parameterType="Ticket" resultType="Ticket">
+		select td.*,ti.ticket_rep_img_path,ti.ticket_detail_img_path,c.city_id,c.city_name,co.country_name from ticket_detail td inner Join ticket_img ti on td.ticket_id = ti.ticket_id inner join city c on td.city_id = c.city_id inner join country co on c.country_id = co.country_id WHERE td.ticket_id=#{ticket_id}
+	</select>
+	<select id="GetCountryList" resultType="Ticket">
+		SELECT * FROM country
+	</select>
+	<select id="GetCityList" resultType="Ticket">
+		select * from city where country_id = (select country_id from country where country_id=(select country_id from country WHERE country_id=(select country_id from city where city_id=#{city_id})));
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<!-- ===================================================================================================================== -->
 	<!-- 쿠폰관련 -->
@@ -69,7 +90,7 @@
 	</select>
 	
 	<select id="GetCouponDetail" parameterType="Coupon" resultType="Coupon">
-		SELECT * FROM coupon WHERE coupon_id=1;
+		SELECT * FROM coupon WHERE coupon_id=#{coupon_id}
 	</select>
 	
 	<select id="GetCouponMemberDetail" parameterType="Coupon" resultType="Coupon">
@@ -78,6 +99,10 @@
 	<update id="UpdateCoupon" parameterType="Coupon">
 		UPDATE coupon SET coupon_name=#{coupon_name}, coupon_discount=#{coupon_discount}, coupon_quantity=#{coupon_quantity} WHERE coupon_id=#{coupon_id}
 	</update>
-	
-	
+	<delete id="DeleteCoupon" parameterType="Coupon">
+		DELETE FROM coupon WHERE coupon_id=#{coupon_id}
+	</delete>
+	<insert id="InsertCoupon" parameterType="Coupon">
+		INSERT INTO coupon(coupon_name,coupon_discount,coupon_date,coupon_quantity) values(#{coupon_name},#{coupon_discount},current_timestamp(),#{coupon_quantity})
+	</insert>
 </mapper>
