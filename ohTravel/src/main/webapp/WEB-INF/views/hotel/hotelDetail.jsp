@@ -110,11 +110,6 @@
 			<div class="date_end">
 				<input type="date" name="dates_start_end" value=""  id="dates_start_end" class="dates_start_end">
 			</div>
-			<div class="date_oneway">
-				<input type="date" name="dates_start_oneway" value=""  id="dates_start_oneway" class="dates_start_oneway">
-			</div>
-		
-			
 		</div>
 		
 					<!-- 호텔이 가지고 있는 방 종류마다 반복될 folding box -->
@@ -161,13 +156,6 @@
 					</div> <!-- room_type_more 끝 -->
 					
 					
-					
-					
-			
-					
-					
-					
-					
 					<div class="ht_option">
 						<div class="add_opt">
 							<div class="add_title">숙소 부대시설</div>
@@ -186,12 +174,6 @@
 							
 						</div>
 						
-											 	
-		
-					
-					
-					
-					
 						<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
 							리뷰가 쌓일거예요
 						<%-- 	<c:forEach var="reviews" items="${reviewList }">
@@ -237,24 +219,26 @@
 				      	 ★★★★★
 				      	 <span>★★★★★</span>
 	 					 <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
-	 					 
-	 					 
-	 					 <script type="text/javascript">
-	 						const drawStar = (target) => {
-	 						  document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
-	 						}
-	 					 
-	 					 </script>
 					</span>
 			      	
 		        	<div class="form-group">
 			            <label for="message-text" class="col-form-label">Message:</label>
 			            <textarea class="form-control" id="message-text"></textarea>
 		         	</div>
+		         	
+		         	<script type="text/javascript">
+		         	
+			         	const drawStar = (target) => {
+			         		  document.querySelector('.star span').style.width = '${target.value * 10}%'';
+			         		}
+			         	
+		         	</script>
+		         	
+		         	
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary">Save changes</button>
+			        <button type="button" class="btn btn-primary">리뷰 등록</button>
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 			      </div>
 			    </div>
 			  </div>
@@ -266,7 +250,6 @@
 
 <script type="text/javascript">
 
-//
 
 /////////////////////////인원수와 좌석선택 모달/////////////////////////////////
 	function pplOnClick() {

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,6 +48,13 @@
                         </div>
                     </div>
                     <!-- 상품에 따라 반복되어야할 부분 끝 -->
+                    
+                    <c:forEach var="hotelList" items="${hotelList }">
+                    	<input type="hidden" value="${hotelList.hotel_kor }">
+                    
+                    </c:forEach>
+                    
+                    
                     
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="single-place mb-30">
