@@ -15,5 +15,9 @@
 		
 		<!-- search -->
 		<typeAlias type="com.oracle.ohTravel.search.model.SearchDTO" alias="Search"/>
+		
+		<!-- review -->
+		<typeAlias type="com.oracle.ohTravel.review.model.ReviewDTO" alias="Review"/>
+		
 	</typeAliases>
 </configuration>
