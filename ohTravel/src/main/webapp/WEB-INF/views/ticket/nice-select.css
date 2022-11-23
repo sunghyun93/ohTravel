@@ -27,7 +27,7 @@
   white-space: nowrap;
   width: 128px;
   
-  translate: 150px;
+  translate: 150px 4px;
   }
   .nice-select:hover {
     border-color: #dbdbdb; }

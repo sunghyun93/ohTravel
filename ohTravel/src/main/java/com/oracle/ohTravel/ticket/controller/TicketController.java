@@ -12,19 +12,26 @@ import lombok.RequiredArgsConstructor;
 public class TicketController {
 	
 	/* =============== 입장권 =============== */
-	@GetMapping(value = "/ticketmain")
-	public String goTicket() {
-		return "ticket/ticketMain";
+	@GetMapping(value = "/exhibitionMain")
+	public String goExhibition() {
+		return "ticket/exhibitionMain";
 	}
 	
-	// 국내 입장권
-	@GetMapping(value = "/ticketDomestic")
-	public String goTicketDomestic() {
-		return "ticket/ticketDomestic";
+	// 입장권 검색 결과
+	@GetMapping(value = "/exhibitionSearch")
+	public String goExhibitionSearch() {
+		return "ticket/exhibitionSearch";
 	}
-	// 해외 입장권
-	@GetMapping(value = "/ticketOverseas")
-	public String goTicketOverseas() {
-		return "ticket/ticketOverseas";
+	
+	// 입장권 상세정보
+	@GetMapping(value = "/exhibitionDetail")
+	public String goExhibitionDetail() {
+		return "ticket/exhibitionDetail";
+	}
+	
+	
+	@GetMapping(value = "/exhSearchResult")
+	public String goExhSearchResult() {
+		return "ticket/exhSearchResult";
 	}
 }
