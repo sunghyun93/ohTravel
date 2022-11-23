@@ -351,6 +351,9 @@ air_timeTaken {
 }
 
 /* 상품 가격 부분 */
+.tbl + .tbl {
+    margin-top: 40px;
+}
 .tbl {
     table-layout: fixed;
     display: table;
@@ -891,6 +894,7 @@ em {
     position: relative;
     padding: 26px 0 25px 117px;
     border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
 }
 .additional_area span.tit {
     position: absolute;
@@ -1477,11 +1481,21 @@ hr.pkg {
   line-height:normal;
   font-size: 19px;
 }
-
-
 /* .cont_unit float 해제부분  */
 .cont_unit:after {
     content: '';
     display: block;
     clear: both;
+}
+/* float 해제 부분 */
+.pay_info .member_count.type ul:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+/* float 해제부분 */
+.pkRv_contents:after {
+    clear: both;
+    content: '';
+    display: table;
 }
