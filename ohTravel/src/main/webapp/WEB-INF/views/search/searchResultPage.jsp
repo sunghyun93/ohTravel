@@ -1,275 +1,185 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-
-.container {
-  min-width: 1200px;
-  min-height: 3000px;
-  border: 5px solid red;
-}
-
-li {
-  list-style: none;
-  display: inline-block;
-}
-
-.search-result {
-  
-}
-
-.result-letter-wrap {
-  border-bottom: 1px solid;
-  height: 60px;
-}
-
-.result-letter {
-  font-size: 24px;
-  font-weight: normal;
-}
-
-ul {
-  display: inline-block;
-}
-
-.search-nav-contents li {
-  display: inline-block;
-  margin-left: 10px;
-}
-
-a {
-  text-decoration: none;
-  color: black;
-  display: table-cell;
-}
-
-.search-nav-contents {
-  width: 120px;
-  border: 1px solid #dcdcdc;
-  border-bottom-color: black;
-  margin-left: 0;
-}
-
-.search-nav li {
-  height: 62px;
-  display: table;
-  float: left;
-  text-align: center;
-}
-
-.search-nav-contents a {
-  vertical-align: middle;
-}
-
-.result-contents-wrap {
-  height:5300px;
-  border: 2px solid blue;
-}
-
-.filter {
-  width: 240px;
-  border: 1px solid orange;
-  float: left;
-}
-
-.filter-category {
-  margin-top: 20px;
-  border-top: 1px solid #eaeaea;
-}
-
-.filter-category-contents {
-  border-bottom: 1px solid #eaeaea;
-  padding-bottom: 9px;
-}
-
-.filter-category-contents a {
-  padding: 25px 25px 16px 0;
-  font-weight: 600;
-}
-
-.filter-contents {
-  border: 1px solid green;
-  float: right;
-  height: 3000px;
-  width: 900px;
-}
-
-.filter-tag-wrap {
-  height: 100px;
-  border: 1px solid black;
-  margin-bottom: 30px;
-}
-
-.title {
-  
-}
-
-.filter-icon {
-  background-image: url(https://image.hanatour.com/usr/static/img2/pc/com/spr_com.png);
-  background-position: -58px -52px;
-  background-repeat: no-repeat;
-}
-
-.filtered-count {
-  
-}
-
-.selected-category {
-  float: left;
-}
-
-.selected-category span {
-  background-color: #eef0f3;
-  border-radius: 3px;
-}
-
-.reset-filter {
-  background-image: url(https://image.hanatour.com/usr/static/img2/pc/com/spr_com.png) no-repeat
-  background-position: -150px -30px;
-}
-
-.result-category {
-  border-bottom: 2px solid purple;
-}
-
-.count {
-  float: left;
-}
-
-.order {
-  float: right;
-}
-
-.result-contents {
-  height: 200px;
-  border: 3px solid pink;
-}
-
-.product-wrap {
-  
-}
-
-.product-img-wrap {
-  
-}
-
-.img-box {
-  height: 200px;
-  width: 200px;
-  object-fit: cover;
-}
-
-.product-context strong {
-  float: left;
-}
-
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/search/searchResult.css">
 </head>
 <body>
-	<div class="container">
-  <div class="search-result">
-    <div class="result-letter-wrap">
-      <span class="result-letter">항목 검색결과</span>
-   </div>
-  <div class="relation-word">
-    <span>연관검색어</span>
-    <ul>
-      <li>
-        <a href="#" class="relative-search">항목1</a>
-      </li>
-      <li>
-        <a href="#">항목2</a>
-      </li>
-     </ul>
-  </div>
-    <div class="search-nav">
-      <ul>
-        <li class="search-nav-contents">
-          <a href="#">전체</a>
-        </li>
-        <li class="search-nav-contents">
-          <a href="#">해외여행</a>
-        </li>
-        <li class="search-nav-contents">
-          <a href="#">숙박</a>
-        </li>
-        <li class="search-nav-contents">
-          <a href="#">패키지</a>
-        </li>
-        <li class="search-nav-contents">
-          <a href="#">입장권</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="result-contents-wrap">
-    <div class="filter">
-      <div class="filter-category">
-        <div class="filter-category-contents">
-          <a href="#">가격</a>
-        </div>
-        <div class="filter-category-contents">
-            <a href="#">숙소 평점</a>
-        </div>
-        <div class="filter-category-contents">
-            <a href="#">숙소 등급</a>
-        </div>
-        <div class="filter-category-contents">
-            <a href="#">지역</a>
-        </div>
+<div class="container">
+  <div class="inr">
+    <div class="contents">
+      <div class="text_wrap big line type top">
+        <strong class="tit">
+          <em>"${search_word}"</em> 검색결과
+        </strong>
       </div>
-    </div>
-    <div class="filter-contents">
-      <div class="filter-tag-wrap">
-        <p class="title">
-          <img class="filter-icon">필터<span class="filtered-count"></span>
-        </p>
-        <div class="selected-category">
-          <span>항공포함</span>
-          <button class="reset-filter">필터 초기화</button>
-        </div>
-      </div>
-      <div class="result-category">
-        <span class="count">패키지</span>
-        <em>8</em>
-        <div class="order">
-          <ul>
-            <li>구매순</li>
-            <li>평점순</li>
-            <li>높은 가격순</li>
-            <li>낮은 가격순</li>
-          </ul>
-        </div>
-      </div>
-      <div class="product-list">
+      <div class="related_search">
+        <strong class="tit">연관검색어</strong>
         <ul>
           <li>
-            <div class="product-wrap">
-              <div class="product-img-wrap">
-                <img class="img-box" src="https://image.hanatour.com/usr/cms/resize/400_0/2020/01/23/10000/9a28c458-ee80-4890-bc49-8ebb3bf96383.jpg">
-              </div>
-              <div class="product-context">
-                <strong>북유럽 3~4국(덴마크/노르웨이/스웨덴/핀란드) 8~9일 #베스트셀러</strong>
-              </div>
-              <div class="product-detail">
-                <span>북유럽 4개국(덴마크,노르웨이, 스웨덴, 핀란드) 또는 북유럽 3개국(노르웨이, 스웨덴, 핀란드)를 알차게 관광하는 북유럽 베스트셀러 상품입니다.</span>
-              </div>
-            </div>
+            <a href="#">도쿄</a>
+          </li>
+          <li>
+            <a href="#">오사카</a>
           </li>
         </ul>
+      </div>
+      <div class="js_tabs type1 no_division">
+        <ul class="tabs sort">
+          <li class="item01">
+            <a href="#none">전체</a>
+          </li>
+          <li class="item02">
+            <a href="#none">해외여행</a>
+          </li>
+          <li class="item03">
+            <a href="#none">호텔/팬션</a>
+          </li>
+          <li class="item04">
+            <a href="#none">투어/입장권</a>
+          </li>
+          <li class="item05">
+            <a href="#none">항공</a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <div class="cont_unit search_result">
+          <div class="text_wrap big result mt40">
+            <strong class="tit">패키지<em>(${pkageListCount})</em></strong>
+            <span class="right_cont">
+            <a href="#" class="txt arrow_r">해외여행 더보기</a>
+            </span>
+          </div>
+          <div class="prod_list_wrap mtm30">
+            <ul class="type">
+            <c:forEach var="pkageList" items="${pkageList }" begin="0" end="3">
+              <li>
+                <div>
+                  <div class="inr img">
+                    <img src="${pkageList.pkage_Img_path }">
+                  </div>
+                  <div class="inr right route_type">
+                    <strong class="item_title eps2">${pkageList.pkage_name}</strong>
+                    <p class="item_text stit"><p>
+                    <div class="info_bottom">
+                      <div class="item_group">
+                        <span class="icn star">
+                          ${pkageList.pkage_score}
+                        </span>
+                        <span class="icn balloon">
+                          25
+                        </span>
+                        <span class="hash_group">
+                          <span>#도쿄</span>
+                          <span>#자유여행</span>
+                          <span>#에어텔</span>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="price_group">
+                      <strong class="price now">${pkageList.pkage_dt_Aprice}<span>원~</span></strong>
+                    </div>
+                    <div class="btn_wrap">
+                      <a href="#none" class="btn arrow">판매상품보기</a>
+                    </div>
+                  </div>
+                  <div class="sub_list_wrap">
+                    
+                  </div>
+                </div>
+              </li>
+              </c:forEach>
+            </ul>
+          </div>
+        </div>
+      </div> <!-- div -->
+      <div>
+        <div class="cont_unit search_result">
+          <div class="text_wrap big result mt40">
+            <strong class="tit">호텔/펜션<em>(17,472)</em></strong>
+            <span class="right_cont">
+            <a href="#" class="txt arrow_r">호텔/펜션 더보기</a>
+            </span>
+          </div>
+          <div class="prod_list_wrap mtm30">
+            <ul class="type">
+              <li>
+                <div>
+                  <div class="inr img">
+                    <img src="https://image.hanatour.com/usr/cms/resize/400_0/2022/03/21/10000/dd97d0a7-aa20-420c-8322-9268a30e88e4.jpg">
+                  </div>
+                  <div class="inr right route_type">
+                    <strong class="item_title eps2">이비스 스타일스 오사카 남바</strong>
+                    <p class="item_text stit"><p>
+                    <div class="info_bottom">
+                      <div class="item_group">
+                        <span class="icn star">
+                          4.0
+                        </span>
+                        <span class="icn balloon">
+                          25
+                        </span>
+                        <span class="hash_group">
+                          <span>#도쿄</span>
+                          <span>#자유여행</span>
+                          <span>#에어텔</span>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="price_group">
+                      <strong class="price now">599,900<span>원~</span></strong>
+                    </div>
+                    <div class="btn_wrap">
+                      <a href="#none" class="btn arrow">판매상품보기</a>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div> <!-- div -->
+      <div>
+        <div class="cont_unit search_result">
+          <div class="text_wrap big result mt40">
+            <strong class="tit">투어/입장권<em>()</em></strong>
+            <span class="right_cont">
+            <a href="#" class="txt arrow_r">투어/입장권 더보기</a>
+            </span>
+          </div>
+          <div class="prod_list_wrap mtm">
+            <ul class="type">
+              <li>
+                <div>
+                  <div class="inr img">
+                    <img src="https://static.hanatour.com/product/2022/09/30/0204juo3q4/medium.jpg">
+                  </div>
+                  <div class="inr right route_type">
+                    <strong class="item_title eps2">[무료배송][간사이] 라피트 특급열차 편도/왕복권</strong>
+                    <p class="item_text stit"><p>
+                    <div class="price_group">
+                      <strong class="price now">10,00<span>원</span></strong>
+                    </div>
+                    <div class="btn_wrap">
+                      <a href="#none" class="btn arrow">상세보기</a>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div> <!-- div -->
+      
+    </div> <!-- contents -->
+  </div> <!-- inr -->
+</div> <!-- container -->
 
-      </div> <!-- product-list -->
-    </div> <!-- filter-contents -->
-    
-    
-    
-  </div> <!-- result-contents-wrap -->
-    
-  
-</div> <!--container -->
 </body>
 </html>
