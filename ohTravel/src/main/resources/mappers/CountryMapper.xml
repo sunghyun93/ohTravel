@@ -3,5 +3,11 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oracle.ohTravel.CountryMapper">
-
+	
+	<!-- country 데이터 모두 가져오기 한국 빼고 -->
+	<select id="selectCountryByCountryId" parameterType="int" resultType="CountryDTO">
+		<![CDATA[
+		select * from country where country_id != #{country_id};
+		]]>
+	</select>
 </mapper>

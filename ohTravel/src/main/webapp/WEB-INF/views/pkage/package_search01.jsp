@@ -7,219 +7,7 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-
-.search_field{
-	border:1px;
-	background: #EAEAEA;
-	width: 1200px;
-	height: 140px;
-	margin: 0 auto;
-	margin-top:30px;
-}
-
-.trip {
-	width : 80px;
-	display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 15px 30px;
-}
-
-.round_trip {
-	display: inline-block;
-	width: 40px;
-	height: 20px;
-	text-align: center;
-	font-size: 18px;
-}
-.round_trip:hover{
-	text-decoration: underline;
-    color:blue;
-    cursor: pointer;
-}
-.start_end {
-	width : 1140px;
-	height: 62px;
-	display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 15px 30px;
-}
-.starting {
-	width:370px;
-	height: 60px;
-	border-radius: 5px;
-    border: solid 1px #e8e8e8;
-}
-.dates_start_check{
-	display:inline-block;
-	width: 161px;
-	height: 62px;
-	text-align: center;
-	border-radius: 5px;
-    border: solid 1px #e8e8e8;
-}
-.pkg_search{
-	display:inline-block;
-	width: 161px;
-	height: 62px;
-	text-align: center;
-	color:white;
-    background-color: #1E9EED;
-    border: 1px solid #1E9EED;
-    padding: 0.5rem;
-    line-height: 1rem;
-    border-radius: 0.5rem;
-    font-size: 18px;
-    font-weight: bold;
-}
-.pkg_search:hover{
-	cursor: pointer;
-}
-/*모달  */
-	.entire {
-		margin-top: 60px;
-	}
-	.modal_wrap {
-        display: none;
-        width: 500px;
-        height: 450px;
-        position: absolute;
-        top: 75%;
-        left: 25%;
-        margin: -250px 0 0 -250px;
-        background:#eee;
-        z-index: 999;
-    }
-    .black_bg{
-        display: none;
-        position: absolute;
-        content: "";
-        width: 100%;
-        height: 30000px;
-        background-color:rgba(0, 0,0, 0.2);
-        top:0;
-        left: 0;
-        z-index: 1;
-    }
-    .select_area{
-    	margin-left: 30px;
-    }
-    .modal_close{
-        width: 26px;
-        height: 26px;
-        position: absolute;
-        top: -30px;
-        right: 0;
-    } 
-    .modal_close> span{
-        display: block;
-        width: 100%;
-        height: 100%;
-        background:url(https://img.icons8.com/metro/26/000000/close-window.png);
-        text-indent: -9999px;
-    }
-    .modal_close_country{
-    	border: 1px solid black;
-    	width : 400px;
-		display: flex;
-	    flex-direction: row;
-	    flex-wrap: nowrap;
-	    align-content: center;
-	    justify-content: space-between;
-	    align-items: center;
-	    margin-left: 30px;
-	    margin-top: 10px;
-    }
-    .modal_close_country_1{
-    	border-right: 1px solid black;
-    	background-color: #f7f7f7;
-    }
-    .modal_close_country_1 > ul > li  {
-    	/* border: 1px solid gray; */
-    	border-collapse:collapse;
-     	width:200px;
-     	height: 60px;
-     	list-style: none;
-     	display:inline-block;
-     	margin-left: 10px;
-    }
-    ul {
-    	padding-left: 0px;
-    	list-style: none;
-    }
-    
-    .modal_close_country_2{
-    	width:200px;
-    }
-    .modal_close_country_2 > ul > li {
-    	border-collapse:collapse;
-    	display:inline-block;
-     	width:200px;
-     	height: 53px;
-     	list-style: none;
-     	text-align: center;
-     	margin-right: 10px;
-     	
-    }
-     #a {
-    	cursor: pointer;
-    }
-     #a:hover {
-    	color:red;
-    }
-/* 부트스트랩 select 부분 */
-/*     border-radius: 5px;
-    border: solid 1px #e8e8e8; */
-.nice-select {
-	width: 300px;
-	height: 60px;
-	vertical-align: middle;
-}
-.nice-select .current {
-	line-height: 4;
-}
-.nice-select .list {
-	width: inherit;
-}
-
-/* 버튼 */
-button {
-    background-color: #fff;
-}
-
-.select_complete{
-	border: 1px solid #5E2BB8;
-	background: #5E2BB8;
-	width: 130px;
-	height: 36px;
-	color: white;
-	text-align: center;
-	line-height: center;
-	margin-left: 300px;
-	font-size: 20px;
-}
-.select_complete_text:hover {
-	cursor: pointer;
-	color:red;
-}
-/* 패키지 상품 부분 */
-.place-wrap {
-	margin-bottom: 150px;
-}
-.place-padding {
-    padding-top: 130px;
-    padding-bottom: 30px;
-}
-   
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_search.css">
 </head>
 <body>
 <!--티켓 검색부분  -->
@@ -231,31 +19,31 @@ button {
 	<div class="start_end">
 			<!--왕복 모달시작  -->
 		<div>
-			 <input type="text" id="modal_btn" class="starting" data-toggle="modal" data-target="#exampleModalCenter" placeholder="인천" readonly>
+			 <input type="text" id="modal_btn" class="starting" data-toggle="modal" data-target="#exampleModalCenter" placeholder="가고싶은 나라를 선택해주세요" readonly>
 			 <input type="hidden" value="" class="starting_hidden">	
-				<div class="black_bg"></div>
-					<div class="modal_wrap">
-					    <div class="modal_close"><span>close</span></div>
-					    <div class="entire">
-						    <span class="select_area">지역을 선택해주세요.</span>
-						    <div class="modal_close_country">
-						    	<div class="modal_close_country_1">
-							        <ul>
-							        	<li id="thailand"><span id="a">태국</span></li>
-							        	<li id="japan"><span id="a">일본</span></li>
-							        	<li id="china"><span id="a">중국</span></li>
-							        </ul>
-							    </div>
-							    <div class="modal_close_country_2">
-							        <ul>
-							        	<li id="jeju" value="제주"><span id="a">방콕</span></li>
-							        	<li id="busan" value="부산"><span id="a">파타야</span></li>
-							        </ul>
-							    </div>     
-						        
-						    </div> <!-- modal_close_country_1 -->
-						</div>
-		    		</div>    <!--모달끝  --> 
+			 <div class="black_bg"></div>
+			<div class="modal_wrap">
+			    <div class="modal_close"><span>close</span></div>
+			    <div class="entire">
+				    <span class="select_area">지역을 선택해주세요.</span>
+				    <div class="modal_close_country">
+				    	<div class="modal_close_country_1">
+					        <ul>
+					        	<c:forEach var="country" items="${countryList }">
+					        		<li><span id="${country.country_id }" class="country_li">${country.country_name }</span></li>
+					        	</c:forEach>
+					        </ul>
+					    </div>
+					    <div class="modal_close_country_2">
+					        <ul>
+					        	<li><span></span></li>
+					        	<li><span></span></li>
+					        </ul>
+					    </div>     
+				        
+				    </div> <!-- modal_close_country_1 -->
+				</div>
+			</div>    <!--모달끝  --> 
 		</div>
 
 		<div>
@@ -270,7 +58,7 @@ button {
 			<input type="date" name="dates_start_check" value="2022-12-20" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27">
 		</div>
 		<div class="search">
-			<button type="button" class="pkg_search" >패키지 검색</button>
+			<button type="button" id="pkgSearchBtn" class="pkg_search" >패키지 검색</button>
 		</div>
 	</div><!-- start_end -->
 
@@ -350,76 +138,75 @@ button {
 <script type="text/javascript">
 	
 ////////////////////////출발지역 또는 도착지역 모달창 클릭시 모달실행///////////////////////
-	function onClick() {
-	    document.querySelector('.modal_wrap').style.display ='block';
-	    document.querySelector('.black_bg').style.display ='block';
-	    
-	}
+function onClick() {
+    document.querySelector('.modal_wrap').style.display ='block';
+    document.querySelector('.black_bg').style.display ='block';
+    
+}
 
+
+function offClick() {
+    document.querySelector('.modal_wrap').style.display ='none';
+    document.querySelector('.black_bg').style.display ='none';
+    
+}
+
+document.getElementById('modal_btn').addEventListener('click', onClick);
+document.querySelector('.modal_close').addEventListener('click', offClick);
+//////////////////////////////////////////////////////////////////////////
+
+$(function() {
+	// 국가를 눌렀을 때 해당 국가에 대한 도시들 가져오는 ajax
+	$('.country_li').on('click', function() {
+		// 클릭했을 때의 국가 ID
+		let country_id = $(this).attr('id');
+		
+		$.ajax({
+			url : '/pkageRest/selectCity',
+			type : 'post',
+			data : {'country_id' : country_id},
+			dataType : 'json',
+			success : function(data) {
+				let cityUl = $('.modal_close_country_2 ul'); // city 넣을 ul태그
+				
+				cityUl.children('li').remove(); // 이미 있는 li 지우기
+				
+				// li 태그 만들어 주기
+				$.each(data, function(index, item) {
+					cityUl.append("<li><span id="+item.city_id+" class='city_id'>"+item.city_name+"</span></li>")
+				});
+				
+			},
+			error : function(err) {
+				console.log(err);
+			}
+		});
+	});
 	
-	function offClick() {
-	    document.querySelector('.modal_wrap').style.display ='none';
-	    document.querySelector('.black_bg').style.display ='none';
-	    
-	}
-	
-	document.getElementById('modal_btn').addEventListener('click', onClick);
-	document.querySelector('.modal_close').addEventListener('click', offClick);
-	//////////////////////////////////////////////////////////////////////////
-	
-//////////////////////////출발지 선택시 값들어가게하는 함수////////////////////
-	$(function(){
-		  $("#jeju").click(function(){
-		    	$(".starting").val("제주");
-		    });
-		  $("#busan").click(function(){
-		    	$(".starting").val("부산");
-		    });
-		  $("#yeosu").click(function(){
-		    	$(".starting").val("여수");
-		    });
-		  $("#incheon").click(function(){
-		    	$(".starting").val("인천");
-		    });
-		  
+	// 국가 선택 후 도시 클릭했을 때 처리
+	$(document).on("click",".city_id",function(){
+		// input 과 hidden 에 값 넣어주기
+		// starting, starting_hidden
+		$('.starting').val($(this).text());
+		$('.starting_hidden').val($(this).attr('id'));
 	});
 
-///////////////////////////////날짜 /////////////////////////////
-$('.pkg_search').click(function(){
-  var dateFrom = document.getElementById('dates_start_check');	//시작일
-  var today = new Date();				//오늘 날짜
+	
+	// 패키지 검색 눌렀을 때 유효성 검사 및 검색으로 넘어가기
+	$('#pkgSearchBtn').on('click', function() {
+		let destiPoint = $('.starting_hidden').val(); // 가고싶은 지역의 id
+		let startPoint = $('select[name="city_name"] option:selected').val(); // 출발지의 id
+		let startDate = $('#dates_start_check').val(); // 출발 날짜
+		
+		alert(destiPoint+","+startPoint+","+startDate);
+		
+		if(destiPoint == '') {
+			alert("가고싶은 지역을 선택해주세요.");
+		}
 
-  dateFrom = new Date(dateFrom.value);
-  var fromYear = dateFrom.getFullYear();
-  var fromMonth = dateFrom.getMonth() + 1;
-  var fromDay = dateFrom.getDate();
-
-  //날짜 지정을 하지 않았을 때 NaN이 발생하여 0으로 처리
-  if (isNaN(fromYear) || isNaN(fromMonth) || isNaN(fromDay)){
-    fromYear  = 0;
-    fromMonth = 0;
-    fromDay   = 0;
-  }
-
-	dateFrom = fromYear +'/'+ fromMonth +'/'+fromDay; 
-
-
-  //오늘날짜 날짜 형식으로 지정
-  var todayYear  = today.getFullYear(); 	//2020
-  var todayMonth = today.getMonth() + 1;    	//06
-  var todayDay   = today.getDate();  		//11
-  today = todayYear +'/'+ todayMonth +'/'+todayDay;  // 2020/06/11 (형식 지정은 본인 자유)
-
-  //날짜 조회 시, 시작일이 오늘 날짜보다는 크고, 종료일이 시작일보다는 커야하기 때문에 조건을 걸어줌
-  if(dateFrom >= today && dateTo >= dateFrom){
-  	return true;
-  } else {
- 	 alert("올바른 날짜를 선택하세요.");
-  }
-});//click() end
-
-
-
+	});
+})
+	
 
 
 </script>
