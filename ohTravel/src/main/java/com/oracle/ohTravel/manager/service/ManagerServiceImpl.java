@@ -1,8 +1,12 @@
 package com.oracle.ohTravel.manager.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.ohTravel.manager.dao.ManagerDAO;
 import com.oracle.ohTravel.manager.dto.CouponDTO;
@@ -144,6 +148,26 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<TicketDTO> getCityList(TicketDTO ticket) {
 		List<TicketDTO> cityList = dao.getCityList(ticket);
 		return cityList;
+	}
+	@Override
+	public List<TicketDTO> getCityListChangeCountry(TicketDTO ticket) {
+		List<TicketDTO> ticketChangeCountry = dao.getCityListChangeCountry(ticket);
+		return ticketChangeCountry;
+	}
+	@Override
+	public int updateTicket(TicketDTO ticket) {
+		int result = dao.updateTicket(ticket);
+		return result;
+	}
+	@Override
+	public int insertTicket(TicketDTO ticket) {
+		int result = dao.insertTicket(ticket);
+		return result;
+	}
+	@Override
+	public void write(TicketDTO ticket, MultipartFile ticket_rep_img_path) {
+		
+		
 	}
 	
 	

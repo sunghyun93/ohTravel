@@ -37,11 +37,7 @@
                         <div class="col-lg-4">
                             <div class="header-info-right f-right">
                                 <ul class="header-social">    
-<<<<<<< HEAD
-                                	<li><a href=${pageContext.request.contextPath }/manager/managerMain>관리자페이지</a>
-=======
-                                	<li><a href="/managerMain">관리자페이지</a>
->>>>>>> branch 'main' of https://github.com/zest20/ohTravel.git
+                                	<li><a href="${pageContext.request.contextPath }/manager/managerMain">관리자페이지</a>
                                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                                     <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
                                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>

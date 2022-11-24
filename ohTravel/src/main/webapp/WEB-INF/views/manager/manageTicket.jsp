@@ -36,7 +36,7 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">입장권 상품 관리</h1>
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-				<button class="btn btn-primary mb-2" style="float: right;">상품추가</button>
+				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertTicketForm'">입장권 상품 추가</button>
 			</div>
 				<table border="1" class="table table-hover">
 					<thead>
@@ -53,7 +53,7 @@
 					</thead>
 					<c:forEach var="ticketList" items="${ticketList }">
 					<tbody>
-					<tr onclick="location.href='ticketDetail?ticket_id=${ticketList.ticket_id}'">
+					<tr onclick="location.href='manageTicketDetail?ticket_id=${ticketList.ticket_id}'">
 						<td>${ticketList.ticket_id }</td>
 						<td>${ticketList.ticket_name}</td>
 						<td>${ticketList.ticket_sales_cnt}</td>

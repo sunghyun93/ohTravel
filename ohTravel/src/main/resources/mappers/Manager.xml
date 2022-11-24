@@ -74,8 +74,15 @@
 	<select id="GetCityList" resultType="Ticket">
 		select * from city where country_id = (select country_id from country where country_id=(select country_id from country WHERE country_id=(select country_id from city where city_id=#{city_id})));
 	</select>
-	
-	
+	<select id="GetCityListChangeCountry" parameterType="Ticket" resultType="Ticket">
+		SELECT * FROM city WHERE country_id=#{country_id}
+	</select>
+	<update id="UpdateTicket">
+		UPDATE ticket_detail td, ticket_img ti SET td.city_id=#{city_id},td.ticket_name=#{ticket_name},td.ticket_sales_cnt=#{ticket_sales_cnt},td.ticket_location=#{ticket_location},td.ticket_score=#{ticket_score},td.ticket_due_date=#{ticket_due_date},td.ticket_adult_price=#{ticket_adult_price},td.ticket_child_price=#{ticket_child_price},ti.ticket_rep_img_path=#{ticket_rep_img_path},ti.ticket_detail_img_path=#{ticket_detail_img_path} WHERE td.ticket_id=#{ticket_id} AND ti.ticket_id=#{ticket_id}
+	</update>
+	<insert id="InsertTicket" parameterType="Ticket">
+		INSERT INTO ticket_detail(ticket_id,city_id,ticket_name,ticket_sales_cnt,ticket_location,ticket_score,ticket_due_date,ticket_adult_price,ticket_child_price) values(#{ticket_id},#{city_id},#{ticket_name},0,#{ticket_location},0.00,CURRENT_TIMESTAMP(),#{ticket_adult_price},#{ticket_child_price})
+	</insert>
 	
 	
 	
