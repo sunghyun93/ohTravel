@@ -21,7 +21,7 @@ public class CityDaoImpl implements CityDao {
 	@Override
 	public List<CityDTO> selectCityByCountryId(Integer country_id) {
 		log.info("CityDaoImpl selectCity() start...");
-		List<CityDTO> list = session.selectList(namespace+"selectCity", country_id);
+		List<CityDTO> list = session.selectList(namespace+"selectCityByCountryId", country_id);
 		log.info("CityDaoImpl selectCity() end...");
 		return list;
 	}

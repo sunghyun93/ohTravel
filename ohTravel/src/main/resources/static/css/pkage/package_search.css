@@ -1,0 +1,215 @@
+.search_field{
+	border:1px;
+	background: #EAEAEA;
+	width: 1200px;
+	height: 140px;
+	margin: 0 auto;
+	margin-top:30px;
+}
+
+.trip {
+	width : 80px;
+	display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 15px 30px;
+}
+
+.round_trip {
+	display: inline-block;
+	width: 40px;
+	height: 20px;
+	text-align: center;
+	font-size: 18px;
+}
+.round_trip:hover{
+	text-decoration: underline;
+    color:blue;
+    cursor: pointer;
+}
+.start_end {
+	width : 1140px;
+	height: 62px;
+	display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 15px 30px;
+}
+.starting {
+	width:370px;
+	height: 60px;
+	border-radius: 5px;
+    border: solid 1px #e8e8e8;
+}
+.dates_start_check{
+	display:inline-block;
+	width: 161px;
+	height: 62px;
+	text-align: center;
+	border-radius: 5px;
+    border: solid 1px #e8e8e8;
+}
+.pkg_search{
+	display:inline-block;
+	width: 161px;
+	height: 62px;
+	text-align: center;
+	color:white;
+    background-color: #1E9EED;
+    border: 1px solid #1E9EED;
+    padding: 0.5rem;
+    line-height: 1rem;
+    border-radius: 0.5rem;
+    font-size: 18px;
+    font-weight: bold;
+}
+.pkg_search:hover{
+	cursor: pointer;
+}
+/*모달  */
+	.entire {
+		margin-top: 60px;
+	}
+	.modal_wrap {
+        display: none;
+        width: 500px;
+        height: 450px;
+        position: absolute;
+        top: 75%;
+        left: 25%;
+        margin: -250px 0 0 -250px;
+        background:#eee;
+        z-index: 999;
+    }
+    .black_bg{
+        display: none;
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 30000px;
+        background-color:rgba(0, 0,0, 0.2);
+        top:0;
+        left: 0;
+        z-index: 1;
+    }
+    .select_area{
+    	margin-left: 30px;
+    }
+    .modal_close{
+        width: 26px;
+        height: 26px;
+        position: absolute;
+        top: -30px;
+        right: 0;
+    } 
+    .modal_close> span{
+        display: block;
+        width: 100%;
+        height: 100%;
+        background:url(https://img.icons8.com/metro/26/000000/close-window.png);
+        text-indent: -9999px;
+    }
+    .modal_close_country{
+    	border: 1px solid black;
+    	width : 400px;
+		display: flex;
+	    flex-direction: row;
+	    flex-wrap: nowrap;
+	    align-content: center;
+	    justify-content: space-between;
+	    align-items: center;
+	    margin-left: 30px;
+	    margin-top: 10px;
+    }
+    .modal_close_country_1{
+    	border-right: 1px solid black;
+    	background-color: #f7f7f7;
+    }
+    .modal_close_country_1 > ul > li  {
+    	/* border: 1px solid gray; */
+    	border-collapse:collapse;
+     	width:200px;
+     	height: 60px;
+     	list-style: none;
+     	display:inline-block;
+     	margin-left: 10px;
+    }
+    ul {
+    	padding-left: 0px;
+    	list-style: none;
+    }
+    
+    .modal_close_country_2{
+    	width:200px;
+    }
+    .modal_close_country_2 > ul > li {
+    	border-collapse:collapse;
+    	display:inline-block;
+     	width:200px;
+     	height: 53px;
+     	list-style: none;
+     	text-align: center;
+     	margin-right: 10px;
+     	
+    }
+    .modal_close_country_1 > ul > li {
+    	cursor: pointer;
+    }
+    .modal_close_country_1 > ul > li:hover {
+    	color:red;
+    }
+     .modal_close_country_2 > ul > li {
+    	cursor: pointer;
+    }
+     .modal_close_country_2 > ul > li:hover {
+    	color:red;
+    }
+/* 부트스트랩 select 부분 */
+/*     border-radius: 5px;
+    border: solid 1px #e8e8e8; */
+.nice-select {
+	width: 300px;
+	height: 60px;
+	vertical-align: middle;
+}
+.nice-select .current {
+	line-height: 4;
+}
+.nice-select .list {
+	width: inherit;
+}
+
+/* 버튼 */
+button {
+    background-color: #fff;
+}
+
+.select_complete{
+	border: 1px solid #5E2BB8;
+	background: #5E2BB8;
+	width: 130px;
+	height: 36px;
+	color: white;
+	text-align: center;
+	line-height: center;
+	margin-left: 300px;
+	font-size: 20px;
+}
+.select_complete_text:hover {
+	cursor: pointer;
+	color:red;
+}
+/* 패키지 상품 부분 */
+.place-wrap {
+	margin-bottom: 150px;
+}
+.place-padding {
+    padding-top: 130px;
+    padding-bottom: 30px;
+}
