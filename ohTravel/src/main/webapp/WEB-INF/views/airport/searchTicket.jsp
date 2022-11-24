@@ -523,12 +523,12 @@ button {
 								    </div>
 								    <div class="modal_close_country_2">
 								        <ul>
-								        	<%-- <c:forEach var="city" items="${city}"> DB에 있는 도시를 가져와서 돌리세요--%>
-								        	<li id="jeju" value="제주"><span id="a">제주</span></li>
-								        	<li id="busan" value="부산"><span id="a">부산</span></li>
-								        	<li id="yeosu" value="여수"><span id="a">여수</span></li>
-								        	<li id="incheon" value="인천"><span id="a">인천</span></li>
-								        	<%-- </c:forEach> --%>
+								       		<c:forEach var="city" items="${cityList }"> 
+									        	<li id="jeju" value="제주"><span id="a">제주</span></li>
+									        	<li id="busan" value="부산"><span id="a">부산</span></li>
+									        	<li id="yeosu" value="여수"><span id="a">여수</span></li>
+									        	<li id="incheon" value="인천"><span id="a">인천</span></li>
+								        	 </c:forEach> 
 								        </ul>
 								    </div>     
 							        
