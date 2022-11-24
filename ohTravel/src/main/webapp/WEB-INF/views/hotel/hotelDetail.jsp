@@ -164,37 +164,66 @@
 							<div class="conv_title">숙소 편의시설</div>
 						</div>
 					</div> <!-- ht_option -->
+				
+				
+					
+					<!-- 리뷰 시작 -->
 					<div class="all_review">
 						리뷰
 						<div class="rv_stats">
 							별점 통계가 들어가요
-							<div class="rv_btn">
-								<button class="genric-btn primary ela"  data-toggle="modal" data-target="#exampleModalCenter1"  >리뷰 등록</button>
-							</div>
 							
 						</div>
 						
+						<div class="rv_btn">
+							<button class="genric-btn primary ela"  data-toggle="modal" data-target="#exampleModalCenter1"  >리뷰 등록</button>
+						</div>
+							
 						<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
 							리뷰가 쌓일거예요
-						<%-- 	<c:forEach var="reviews" items="${reviewList }">
-								<input type="hidden" value="${rv_sort }">
-								<input type="hidden" value="${rv_id }">
-								<input type="hidden" value="${rv_contents }">
-								<input type="hidden" value="${rv_date}">
-								
-								<div>
-									${rv_rating }
-								</div>			
-								<div>
-									${rv_date }
-								</div						
-								<div>
-									${rv_contents }								
-								</div>
-							</c:forEach> --%>
 							
+							<c:choose>
+								<c:when test="${empty reviewList } ">
+									<table class="empty_review">
+										<tr>
+											<td>
+												등록된 리뷰가 없습니다.
+											</td>
+										</tr>
+									</table>
+								
+								</c:when>
+								
+							
+								<c:when test="${not empty reviewList }">
+									<table>
+										<tr>
+											<c:forEach var="reviews" items="${reviewList }">
+												<input type="hidden" value="${reviews.rv_sort }">
+												<input type="hidden" value="${reviews.rv_id }">
+												<input type="hidden" value="${reviews.rv_contents }">
+												<input type="hidden" value="${reviews.rv_date}">
+												<input type="hidden" value="${reviews.rv_rating }">
+												<td>
+													<span class="rv_date">${reviews.rv_date }</span>
+													<span class="rv_rating">${reviews.rv_rating }</span>
+													<span class="rv_contents">${reviews.rv_contents }</span>
+												</td>
+											</c:forEach> 
+										</tr>
+									</table>
+								 
+										
+										
+								
+								</c:when>
+							</c:choose>
 						</div> <!-- show_review -->
 					</div> <!-- all_review -->
+					
+					
+					<!-- 리뷰끝  -->
+					
 					<div class="ht_rec">
 						같은 지역의 다른 호텔 추천해주기
 					
@@ -220,7 +249,7 @@
 				      	 <span>★★★★★</span>
 	 					 <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
 					</span>
-			      	
+			      	0
 		        	<div class="form-group">
 			            <label for="message-text" class="col-form-label">Message:</label>
 			            <textarea class="form-control" id="message-text"></textarea>
@@ -448,6 +477,28 @@ $(function(){
 		$('.date_oneway').hide();
 	});
 });
+
+
+/* // 리뷰 관련 ajax
+
+	function getReviewList(){
+	
+		$.ajax({
+			
+			url:"${pageContext.request.contextPath }/reviewList",
+			type:"get",
+			dataType:"json",
+			success:
+				
+		}
+		
+	);
+	
+	
+	
+	}
+ */
+
 
 
 
