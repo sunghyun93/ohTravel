@@ -4,6 +4,12 @@
 
 <configuration>
 	<typeAliases>
+		<!-- country -->
+		<typeAlias type="com.oracle.ohTravel.country.model.CountryDTO" alias="CountryDTO"/>
+		
+		<!-- city -->
+		<typeAlias type="com.oracle.ohTravel.city.model.CityDTO" alias="CityDTO"/>
+	
 		<typeAlias type="com.oracle.ohTravel.manager.dto.MemberDTO" alias="Member"/>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.MembershipDTO" alias="Membership"/>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.NoticeDTO" alias="Notice"/>
