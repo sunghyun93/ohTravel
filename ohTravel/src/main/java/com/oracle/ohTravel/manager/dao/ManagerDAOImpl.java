@@ -189,4 +189,10 @@ public class ManagerDAOImpl implements ManagerDAO {
 		return result;
 	}
 
+	@Override
+	public int deleteTicket(TicketDTO ticket) {
+		int result = session.delete("DeleteTicket",ticket);
+		return result;
+	}
+
 }

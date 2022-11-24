@@ -53,26 +53,55 @@ public class SearchController {
 		System.out.println("Controller searchPkageAjax");
 		System.out.println(search_word+", "+gubun);
 		
-		if (gubun == "pkage") {
+		if (gubun.equals("pkage")) {
 			List<PkageDTO> pkageList = ss.getPkageList(search_word);
 			System.out.println("Controller pkageList -> " + pkageList);
 			model.addAttribute("pkageList", pkageList);
 			return "/search/searchResultPkage";
 		} 
 		
-		if (gubun == "hotel") {
+		if (gubun.equals("hotel")) {
 			List<HotelDTO> hotelList = ss.getHotelList(search_word);
 			System.out.println("Controller hoteList -> " + hotelList);
 			model.addAttribute("hotelList", hotelList);
 			return "/search/searchResultHotel";
 		} 
 		
-		else {
+		if (gubun.equals("ticket")) {
+			List<TicketModel> ticketList = ss.getTicketList(search_word);
+			System.out.println("Controller ticketList -> " + ticketList);
+			model.addAttribute("ticketList", ticketList);
+			return "/search/searchResultTicket";
+		} 
+		
+		if (gubun.equals("all")) {
+			System.out.println("Controller all");
+			model.addAttribute("search_word", search_word);
+			// 입장권 목록
+			List<TicketModel> ticketList = ss.getTicketList(search_word);
+			System.out.println("Controller ticketList -> " + ticketList);
+			model.addAttribute("ticketList", ticketList);
+			System.out.println("Controller ticketList.size() -> " + ticketList.size());
+			model.addAttribute("ticketListCount", ticketList.size());
+
+			// 호텔 목록
+			List<HotelDTO> hotelList = ss.getHotelList(search_word);
+			System.out.println("Controller hotelList -> " + hotelList);
+			model.addAttribute("hotelList", hotelList);
+			System.out.println("Controller hotelList.size() -> " + hotelList.size());
+			model.addAttribute("hotelListCount", hotelList.size());
+			
+			// 패키지 목록
 			List<PkageDTO> pkageList = ss.getPkageList(search_word);
 			System.out.println("Controller pkageList -> " + pkageList);
 			model.addAttribute("pkageList", pkageList);
-			return "/search/searchResultPkage";
-		} 
+			// 패키지 목록 개수
+			System.out.println("Controller pkageList.size() -> " + pkageList.size());
+			model.addAttribute("pkageListCount", pkageList.size());
+
+			return "/search/searchResultPageAjax";
+		}
 		
+		else return "/search/searchResultAirplane";
 	}
 }

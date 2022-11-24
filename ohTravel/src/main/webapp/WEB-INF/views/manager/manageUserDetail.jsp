@@ -48,9 +48,7 @@
 				<div class="row">
 				<c:forEach var="detail" items="${userDetail }">
 					<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-						<input type="button" class="btn btn-primary mb-2"
-							style="float: right;" onclick="window.history.go(-1)"
-							value="돌아가기">
+						<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageUser'" value="돌아가기">
 					</div>
 					<table border="1" class="table table-striped">
 						<tr>

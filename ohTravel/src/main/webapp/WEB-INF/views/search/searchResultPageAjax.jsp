@@ -34,26 +34,6 @@
 <div class="container">
   <div class="inr">
     <div class="contents">
-      <div class="text_wrap big line type top">
-        <strong class="tit">
-        	<input type="hidden" id="search_word" value="${search_word }">
-          <em>"${search_word}"</em> 검색결과
-        </strong>
-      </div>
-      <div class="related_search">
-        <strong class="tit">연관검색어</strong>
-        <ul>
-          <li>
-            <a href="#">도쿄</a>
-          </li>
-          <li>
-            <a href="#">오사카</a>
-          </li>
-        </ul>
-      </div>
-      
-      <div class="sick_finger">
-      
       <div class="js_tabs type1 no_division"> <!-- 여기 Empty 각 -->
         <ul class="tabs sort">
 			<li class="item01 selected"><button id="all" class="item02">전체</button></li>

@@ -1,9 +1,9 @@
-package com.oracle.ohTravel.country.dao;
+package com.oracle.ohTravel.country.service;
 
 import java.util.List;
 
 import com.oracle.ohTravel.country.model.CountryDTO;
 
-public interface CountryDao {
+public interface CountryService {
 	List<CountryDTO> selectCountryByCountryId(Integer country_id);
 }

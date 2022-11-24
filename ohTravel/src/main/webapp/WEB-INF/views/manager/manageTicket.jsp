@@ -23,6 +23,23 @@
 	white-space: nowrap;
 }
 </style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var updateMsg1 = '${updateTicketMsg1}';
+		var deleteMsg1 = '${deleteTicketMsg1}';
+		var insertMsg1 = '${insertTicketMsg1}';
+		console.log(updateMsg1);
+		console.log(deleteMsg1);
+		console.log(updateMsg1);
+		if(updateMsg1 == 1){
+			alert("수정이 완료되었습니다");
+		}else if(deleteMsg1 ==1){
+			alert("삭제가 완료되었습니다");
+		}else if(insertMsg1 ==1){
+			alert("상품이 추가되었습니다");
+		}
+	});
+</script>
 </head>
 <body>
 	<div class="container" style="min-height: 700px;">

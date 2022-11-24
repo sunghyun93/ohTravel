@@ -5,7 +5,7 @@
 <mapper namespace="com.oracle.ohTravel.CityMapper">
 	
 	<!-- 국가 ID를 통한 city 가져오기 sql -->
-	<select id="selectCity" parameterType="int" resultType="CityDTO">
+	<select id="selectCityByCountryId" parameterType="int" resultType="CityDTO">
 		select * from city where country_id = #{country_id}
 	</select>
 </mapper>

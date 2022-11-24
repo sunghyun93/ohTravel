@@ -68,6 +68,6 @@ public interface ManagerService {
 
 	int insertTicket(TicketDTO ticket);
 
-	void write(TicketDTO ticket, MultipartFile ticket_rep_img_path);
+	int deleteTicket(TicketDTO ticket);
 
 }

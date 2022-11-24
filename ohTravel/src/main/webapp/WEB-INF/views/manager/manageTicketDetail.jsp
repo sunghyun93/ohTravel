@@ -74,10 +74,10 @@
 	<div class="container" style="min-height: 700px;">
 		<div class="wrapper big">
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">입장권상세</h1>
-			<form method="post" id="form">
+			<form method="post" id="form" enctype="multipart/form-data">
 				<div class="row">
 				<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="window.history.go(-1)" value="돌아가기">
+					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageTicket'" value="돌아가기">
 				</div>
 				<c:forEach var="ticketDetail" items="${ticketDetail }">
 					<table border="1" class="table table-striped">
@@ -161,12 +161,13 @@
 						<tr>
 							<td>
 								<span>현재 경로 : ${ticketDetail.ticket_rep_img_path }</span><br>
-								<input type="file" name="ticket_rep_img_path">
+								<input type="file" id="ticket_rep_img_path" class="form-control" name="file1" accept="image/*">
+								<input type="hidden" name="ticket_rep_img_path" value="${ticketDetail.ticket_rep_img_path }">
 							</td>
 							<td>
 								<span>현재 경로 : ${ticketDetail.ticket_detail_img_path }</span><br>
-								<input type="file" name="ticket_detail_img_path">
-								<%-- <input type="text" name="ticket_detail_img_path" value="${ticketDetail.ticket_detail_img_path }" required="required"> --%>
+								<input type="file" id="ticket_detail_img_path" class="form-control" name="file2" accept="image/*">
+								<input type="hidden" name="ticket_detail_img_path" value="${ticketDetail.ticket_detail_img_path }">
 							</td>
 						</tr>
 						</c:forEach>
