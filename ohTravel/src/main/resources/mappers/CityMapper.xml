@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.ohTravel.CityMapper">
+	
+	<!-- 국가 ID를 통한 city 가져오기 sql -->
+	<select id="selectCityByCountryId" parameterType="int" resultType="CityDTO">
+		select * from city where country_id = #{country_id}
+	</select>
+</mapper>
