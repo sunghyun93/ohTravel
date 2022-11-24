@@ -19,5 +19,8 @@
 		<!-- review -->
 		<typeAlias type="com.oracle.ohTravel.review.model.ReviewDTO" alias="Review"/>
 		
+		<!-- hotel -->
+		<typeAlias type="com.oracle.ohTravel.hotel.model.HotelDTO" alias="Hotel"/>
+		
 	</typeAliases>
 </configuration>

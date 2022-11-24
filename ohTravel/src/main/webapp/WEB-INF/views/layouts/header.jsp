@@ -64,13 +64,10 @@
                                     <nav>               
                                         <ul id="navigation">                                                                                                                                     
                                             <li><a href="#">공지사항</a></li>
-                                            <li><a href="${pageContext.request.contextPath }/hotel/hotelmain">숙박</a>
+                                            <li><a href="${pageContext.request.contextPath }/hotel/hotelHome">숙박</a>
                                             	  <ul class="submenu">
-                                                    <li><a href="${pageContext.request.contextPath }/justTest">해외</a></li>
-                                                    <li><a href="${pageContext.request.contextPath }/cssTest">국내</a></li>
                                                     <li><a href="${pageContext.request.contextPath }/blog">블로그 구조 참고</a></li>
                                                     <li><a href="${pageContext.request.contextPath }/element">Element</a></li>
-                                                    <li><a href="${pageContext.request.contextPath }/hotel/hotelHome">호텔메인확인용</a></li>
                                                     <li><a href="${pageContext.request.contextPath }/hotel/hotelDetail">호텔상세확인용</a></li>
                                                 </ul>
                                             </li>
@@ -85,10 +82,10 @@
                                                     <li><a href="#">국내</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="${pageContext.request.contextPath}/ticket/ticketmain">입장권</a>
+                                            <li><a href="${pageContext.request.contextPath}/ticket/exhibitionMain">입장권</a>
                                                 <ul class="submenu">
-                                                    <li><a href="${pageContext.request.contextPath}/ticket/ticketOverseas">해외</a></li>
-                                                    <li><a href="${pageContext.request.contextPath}/ticket/ticketDomestic">국내</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/ticket/exhibitionSearch">입장권 검색 결과</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/ticket/exhibitionDetail">입장권 상세 페이지</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="#">예약내역 확인</a></li>
