@@ -797,8 +797,8 @@ prod_list_wrap .htl .btn.line {
 			<li class="item01"><button id="all" class="item02">전체</button></li>
 	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
 	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
-	        <li class="item04 selected"><button id="ticket" class="item02">투어/입장권</button></li>
-			<li class="item05"><button id="airplane" class="item02">항공</button></li>
+	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
+			<li class="item05 selected"><button id="airplane" class="item02">항공</button></li>
 		</ul>
 	</div>
 </body>
