@@ -37,11 +37,7 @@
                         <div class="col-lg-4">
                             <div class="header-info-right f-right">
                                 <ul class="header-social">    
-<<<<<<< HEAD
-                                	<li><a href=${pageContext.request.contextPath }/manager/managerMain>관리자페이지</a>
-=======
-                                	<li><a href="/managerMain">관리자페이지</a>
->>>>>>> branch 'main' of https://github.com/zest20/ohTravel.git
+                                	<li><a href="${pageContext.request.contextPath }/manager/managerMain">관리자페이지</a>
                                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                                     <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
                                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -68,13 +64,10 @@
                                     <nav>               
                                         <ul id="navigation">                                                                                                                                     
                                             <li><a href="#">공지사항</a></li>
-                                            <li><a href="${pageContext.request.contextPath }/hotel/hotelmain">숙박</a>
+                                            <li><a href="${pageContext.request.contextPath }/hotel/hotelHome">숙박</a>
                                             	  <ul class="submenu">
-                                                    <li><a href="${pageContext.request.contextPath }/justTest">해외</a></li>
-                                                    <li><a href="${pageContext.request.contextPath }/cssTest">국내</a></li>
                                                     <li><a href="${pageContext.request.contextPath }/blog">블로그 구조 참고</a></li>
                                                     <li><a href="${pageContext.request.contextPath }/element">Element</a></li>
-                                                    <li><a href="${pageContext.request.contextPath }/hotel/hotelHome">호텔메인확인용</a></li>
                                                     <li><a href="${pageContext.request.contextPath }/hotel/hotelDetail">호텔상세확인용</a></li>
                                                 </ul>
                                             </li>
