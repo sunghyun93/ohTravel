@@ -2,6 +2,8 @@ package com.oracle.ohTravel.manager.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
@@ -59,5 +61,13 @@ public interface ManagerService {
 	List<TicketDTO> getCountryList();
 
 	List<TicketDTO> getCityList(TicketDTO ticket);
+
+	List<TicketDTO> getCityListChangeCountry(TicketDTO ticket);
+
+	int updateTicket(TicketDTO ticket);
+
+	int insertTicket(TicketDTO ticket);
+
+	void write(TicketDTO ticket, MultipartFile ticket_rep_img_path);
 
 }

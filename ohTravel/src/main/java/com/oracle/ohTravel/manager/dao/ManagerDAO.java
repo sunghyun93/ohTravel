@@ -60,4 +60,10 @@ public interface ManagerDAO {
 
 	List<TicketDTO> getCityList(TicketDTO ticket);
 
+	List<TicketDTO> getCityListChangeCountry(TicketDTO ticket);
+
+	int updateTicket(TicketDTO ticket);
+
+	int insertTicket(TicketDTO ticket);
+
 }

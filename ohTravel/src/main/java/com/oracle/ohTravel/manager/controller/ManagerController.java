@@ -1,14 +1,18 @@
 package com.oracle.ohTravel.manager.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.mysql.cj.protocol.x.Notice;
 import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
@@ -157,7 +161,7 @@ public class ManagerController {
 		return "manager/manageTicket";
 	}
 	//상품관리 ->입장권 상품상세 조회
-	@RequestMapping(value = "ticketDetail")
+	@RequestMapping(value = "manageTicketDetail")
 	public String ticketDetail(TicketDTO ticket, Model model) {
 		List<TicketDTO>ticketDetail = service.getTicketDetail(ticket);
 		ticket.setCity_id(ticketDetail.get(0).getCity_id());
@@ -169,9 +173,97 @@ public class ManagerController {
 		model.addAttribute("countryList", countryList);
 		model.addAttribute("cityList", cityList);
 		
-		return "manager/ticketDetail";
+		return "manager/manageTicketDetail";
 	}
 	//상품관리 ->입장권 상세조회중 국가별 도시 셀렉문 Ajax
+	@ResponseBody
+	@RequestMapping(value = "changeCountry")
+	public List<TicketDTO> changeCountry(TicketDTO ticket) {
+		System.out.println("country_id-->"+ticket.getCountry_id());
+		
+		List<TicketDTO> ticketChangeCountry = service.getCityListChangeCountry(ticket);
+		return ticketChangeCountry;
+	}
+	//상품관리 ->입장권 추가하는 페이지로 이동
+	@RequestMapping(value = "insertTicketForm")
+	public String insertTicketForm(TicketDTO ticket, Model model) {
+		List<TicketDTO> countryList = service.getCountryList();
+		model.addAttribute("countryList", countryList);
+		return "manager/insertTicketForm";
+	}
+	@PostMapping(value = "insertTicket")
+	public String insertTicket(TicketDTO ticket, List<MultipartFile> file1,Model model){
+		String path = "/img/ticket";
+		for(MultipartFile file : file1) {
+			UUID uuid = UUID.randomUUID();
+			String fileName = file.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file.transferTo(saveFile);
+				System.out.println("와?");
+				ticket.setTicket_rep_img_path(fileName);
+				System.out.println("path->"+path);
+				System.out.println("uuid->"+uuid);
+				System.out.println("fileName->"+fileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		}
+		
+		
+		
+		
+//		service.write(ticket, ticket_rep_img_path);
+//		ticket.setTicket_rep_img_path(ticket_rep_img_path.getOriginalFilename());;
+		System.out.println("child->"+ticket.getTicket_child_price());
+//		System.out.println("path1 ->"+ticket.getTicket_rep_img_path());
+//		System.out.println("path2 ->"+ticket.getTicket_detail_img_path());
+//		int result = service.insertTicket(ticket);
+//		model.addAttribute("insertTicketMsg1", result);
+		return "manageTicket";
+	}
+	
+	//상품관리 -> 입장권 수정하기
+	@RequestMapping(value = "updateTicket")
+	public String updateTicket(TicketDTO ticket ,Model model) {
+		System.out.println(ticket.getCity_id());
+		System.out.println(ticket.getCity_name());
+		System.out.println(ticket.getCountry_id());
+		System.out.println(ticket.getCountry_name());
+		System.out.println(ticket.getTicket_adult_price());
+		System.out.println(ticket.getTicket_child_price());
+		System.out.println(ticket.getTicket_detail_img_path());
+		System.out.println(ticket.getTicket_id());
+		System.out.println(ticket.getTicket_img_id());
+		System.out.println(ticket.getTicket_location());
+		System.out.println(ticket.getTicket_name());
+		System.out.println(ticket.getTicket_rep_img_path());
+		System.out.println(ticket.getTicket_sales_cnt());
+		System.out.println(ticket.getTicket_due_date());
+		System.out.println(ticket.getTicket_score());
+		if(ticket.getTicket_rep_img_path()==null||ticket.getTicket_rep_img_path()=="") {
+			List<TicketDTO> getPath = service.getTicketDetail(ticket);
+			String path = getPath.get(0).getTicket_rep_img_path();
+			ticket.setTicket_rep_img_path(path);
+		}else if(ticket.getTicket_detail_img_path()==null||ticket.getTicket_detail_img_path()=="") {
+			List<TicketDTO> getPath = service.getTicketDetail(ticket);
+			String path = getPath.get(0).getTicket_detail_img_path();
+			ticket.setTicket_rep_img_path(path);
+		}
+		int result = service.updateTicket(ticket);
+		model.addAttribute("updateTicketMsg1", result);
+		return "forward:manageTicket";
+	}
 	
 	
 	//게시판관리 -> 리뷰관리
