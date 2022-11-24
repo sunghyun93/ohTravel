@@ -4,7 +4,7 @@ server:
 # Oracle Connect
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/traveldb?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/traveldb?serverTimezone=Asia/Seoul&&allowMultiQueries=true
     username: travel
     password: tiger
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -44,8 +44,9 @@ spring:
     multipart: 
       max-file-size: 10MB
       max-request-size: 10MB
-   
-  
+
+
+
 # Mybatis
 mybatis: 
   config-location: classpath:configuration.xml

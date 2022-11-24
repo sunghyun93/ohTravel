@@ -51,7 +51,7 @@
 			<form method="post" id="form">
 				<div class="row">
 				<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="window.history.go(-1)" value="돌아가기">
+					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageCoupon'" value="돌아가기">
 				</div>
 				<c:forEach var="couponDetail" items="${couponDetail }">
 					<table border="1" class="table table-striped">

@@ -66,4 +66,6 @@ public interface ManagerDAO {
 
 	int insertTicket(TicketDTO ticket);
 
+	int deleteTicket(TicketDTO ticket);
+
 }
