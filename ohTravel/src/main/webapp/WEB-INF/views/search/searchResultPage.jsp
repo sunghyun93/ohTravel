@@ -8,6 +8,27 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search/searchResult.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+	
+	$(function() {
+		$('.item02').click(function() {
+			let gubun = $(this).attr('id');
+			alert('어서오고');
+			$.ajax({
+				url: '/searchCategoryAjax',
+				data: {'search_word' : $('#search_word').val(),
+						'gubun' : gubun},
+				dataType: 'html',
+				success: function(data) {
+					alert('PkageAjax data -> ' + data);
+					$('.ajax_here').html(data)
+				}
+			})
+		});
+	})
+
+</script>
 </head>
 <body>
 <div class="container">
@@ -15,6 +36,7 @@
     <div class="contents">
       <div class="text_wrap big line type top">
         <strong class="tit">
+        	<input type="hidden" id="search_word" value="${search_word }">
           <em>"${search_word}"</em> 검색결과
         </strong>
       </div>
@@ -34,21 +56,21 @@
           <li class="item01">
             <a href="#none">전체</a>
           </li>
-          <li class="item02">
-            <a href="#none">해외여행</a>
+          <li class="item">
+            <button id="pkage" class="item02">패키지</button>
           </li>
           <li class="item03">
-            <a href="#none">호텔/팬션</a>
+            <button id="hotel" class="item02">호텔/펜션</button>
           </li>
           <li class="item04">
-            <a href="#none">투어/입장권</a>
+            <button id="ticket" class="item02">투어/입장권</button>
           </li>
           <li class="item05">
-            <a href="#none">항공</a>
+            <button id="airplane" class="item02">항공</button>
           </li>
         </ul>
       </div>
-      <div>
+      <div class="ajax_here">
         <div class="cont_unit search_result">
           <div class="text_wrap big result mt40">
             <strong class="tit">패키지<em>(${pkageListCount})</em></strong>
@@ -98,42 +120,39 @@
             </ul>
           </div>
         </div>
-      </div> <!-- div -->
+      </div> <!-- ajax_here -->
+      
       <div>
         <div class="cont_unit search_result">
           <div class="text_wrap big result mt40">
-            <strong class="tit">호텔/펜션<em>(17,472)</em></strong>
+            <strong class="tit">호텔/펜션<em>(${hotelListCount})</em></strong>
             <span class="right_cont">
             <a href="#" class="txt arrow_r">호텔/펜션 더보기</a>
             </span>
           </div>
           <div class="prod_list_wrap mtm30">
             <ul class="type">
+            <c:forEach var="hotelList" items="${hotelList}" begin="0" end="3">
               <li>
                 <div>
                   <div class="inr img">
-                    <img src="https://image.hanatour.com/usr/cms/resize/400_0/2022/03/21/10000/dd97d0a7-aa20-420c-8322-9268a30e88e4.jpg">
+                    <img src="${hotelList.h_l_img_path}">
                   </div>
                   <div class="inr right route_type">
-                    <strong class="item_title eps2">이비스 스타일스 오사카 남바</strong>
+                    <strong class="item_title eps2">${hotelList.hotel_kor}</strong>
                     <p class="item_text stit"><p>
                     <div class="info_bottom">
                       <div class="item_group">
                         <span class="icn star">
-                          4.0
+                          ${hotelList.hotel_score}
                         </span>
                         <span class="icn balloon">
                           25
                         </span>
-                        <span class="hash_group">
-                          <span>#도쿄</span>
-                          <span>#자유여행</span>
-                          <span>#에어텔</span>
-                        </span>
                       </div>
                     </div>
                     <div class="price_group">
-                      <strong class="price now">599,900<span>원~</span></strong>
+                      <strong class="price now">조장님 가격 어떻게 할까요<span>원~</span></strong>
                     </div>
                     <div class="btn_wrap">
                       <a href="#none" class="btn arrow">판매상품보기</a>
@@ -141,37 +160,41 @@
                   </div>
                 </div>
               </li>
+              </c:forEach>
             </ul>
           </div>
         </div>
       </div> <!-- div -->
+      
       <div>
         <div class="cont_unit search_result">
           <div class="text_wrap big result mt40">
-            <strong class="tit">투어/입장권<em>()</em></strong>
+            <strong class="tit">투어/입장권<em>(${ticketListCount})</em></strong>
             <span class="right_cont">
             <a href="#" class="txt arrow_r">투어/입장권 더보기</a>
             </span>
           </div>
           <div class="prod_list_wrap mtm">
             <ul class="type">
+            <c:forEach var="ticketList" items="${ticketList}" begin="0" end="4">
               <li>
                 <div>
                   <div class="inr img">
-                    <img src="https://static.hanatour.com/product/2022/09/30/0204juo3q4/medium.jpg">
+                    <img src="${ticketList.ticket_detail_img_path }">
                   </div>
                   <div class="inr right route_type">
-                    <strong class="item_title eps2">[무료배송][간사이] 라피트 특급열차 편도/왕복권</strong>
+                    <strong class="item_title eps2">${ticketList.ticket_name }</strong>
                     <p class="item_text stit"><p>
                     <div class="price_group">
-                      <strong class="price now">10,00<span>원</span></strong>
+                      <strong class="price now">${ticketList.ticket_adult_price}<span>원</span></strong>
                     </div>
                     <div class="btn_wrap">
-                      <a href="#none" class="btn arrow">상세보기</a>
+                      <a href="/ticket/exhibitionDetail" class="btn arrow">상세보기</a>
                     </div>
                   </div>
                 </div>
               </li>
+             </c:forEach>
             </ul>
           </div>
         </div>

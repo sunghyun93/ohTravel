@@ -16,4 +16,7 @@ public class HotelDTO {
 	private String hotel_tel;
 	private int hotel_rv_num;
 	
+	private String h_l_img_path;
+	private String h_s_img_path;
+	
 }

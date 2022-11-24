@@ -88,10 +88,19 @@ a {
   padding-left: 0;
 }
 
+.js_tabs.no_division > .tabs.sort > li.item01 {
+	width: 120px;
+}
+
+.type1 .tabs>li.selected {
+	border-color: #111;
+	border-right: 1px solid #111;
+}
+
 .tabs > li {
-  width: 120px;
-  height: 62px;
-  line-height: 62px;
+	width: 120px;
+  	height: 62px;
+  	line-height: 62px;
 }
 
 .tabs>li {
@@ -349,3 +358,8 @@ a.txt {
 	top: 24px;
 	left: 0;
 }
+
+.mtm {
+	margin-bottom: 30px;
+}
+
