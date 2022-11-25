@@ -1,103 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<title>로그인</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/Login_v1/images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Login_v1/vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Login_v1/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Login_v1/vendor/animate/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Login_v1/vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Login_v1/vendor/select2/select2.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Login_v1/css/util.css">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Login_v1/css/main.css">
-<!--===============================================================================================-->
+<meta charset="UTF-8">
+<title>로그인</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/login.css">
+
 </head>
 <body>
-	
-	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100">
-				<div class="login100-pic js-tilt" data-tilt>
-					<img src="${pageContext.request.contextPath}/Login_v1/images/img-01.png" alt="IMG">
-				</div>
-
-				<form class="login100-form validate-form">
-					<span class="login100-form-title">
-						Member Login
-					</span>
-
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email" placeholder="ID">
-						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-envelope" aria-hidden="true"></i>
-						</span>
-					</div>
-
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password">
-						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-lock" aria-hidden="true"></i>
-						</span>
-					</div>
-					
-					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
-							Login
-						</button>
-					</div>
-
-					<div class="text-center p-t-12">
-						<span class="txt1">
-							Forgot
-						</span>
-						<a class="txt2" href="${pageContext.request.contextPath}/member/findID">
-							Username / Password?
-						</a>
-					</div>
-
-					<div class="text-center p-t-136">
-						<a class="txt2" href="${pageContext.request.contextPath}/member/memberForm">
-							Create your Account
-							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-						</a>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	
-	
-
-	
-<!--===============================================================================================-->	
-	<script src="${pageContext.request.contextPath}/vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-	<script src="${pageContext.request.contextPath}/vendor/bootstrap/js/popper.js"></script>
-	<script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="${pageContext.request.contextPath}/vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script src="${pageContext.request.contextPath}/vendor/tilt/tilt.jquery.min.js"></script>
-	<script >
-		$('.js-tilt').tilt({
-			scale: 1.1
-		})
-	</script>
-<!--===============================================================================================-->
-	<script src="${pageContext.request.contextPath}/js/main.js"></script>
-
+	<div id="container">
+		<div class="inr">
+			<div class="contents" id="contents">
+				<div class="login_wrap">
+					<div class="text_wrap top" style="margin-bottom: 50px;">
+						<strong class="tit">로그인</strong>
+					</div>	<!-- text_wrap -->
+					<form action="">
+						<ul class="form_wrap">
+						    <li>
+						        <input type="text" title="아이디" placeholder="아이디" class="input_text v-placeholder" />
+						        <p class="error_message" style="display: none;"></p>
+						    </li>
+						    <li>
+						        <input type="password" title="비밀번호" placeholder="비밀번호" maxlength="16" class="input_text v-placeholder" />
+						        <p class="error_message" style="display: none;"></p>
+						    </li>
+						    <!---->
+						    <li class="form_holder check"><input type="checkbox" id="chkLogin01" class="inpt_checkbox" /> <label for="chkLogin01" class="label_checkbox">아이디 저장</label></li>
+						</ul>	<!-- form_wrap -->
+						<div class="btn_wrap login_btn">
+						    <a class="btn gray big mb20 pink">로그인</a> 
+						    <a href="${pageContext.request.contextPath}/member/findID" class="txt">아이디 찾기</a> 
+						    <span class="divider_dot"><a href="${pageContext.request.contextPath}/member/findPassword" class="txt">비밀번호 찾기</a></span>
+						    <span class="divider_dot"><a href="${pageContext.request.contextPath}/member/memberForm" class="txt">회원가입</a></span>
+						</div>	<!-- btn_wrap -->
+					</form>
+				</div>	<!-- login_wrap -->
+			</div>	<!-- contents -->
+		</div>	<!-- inr -->
+	</div>	<!-- container -->
 </body>
 </html>

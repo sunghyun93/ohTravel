@@ -57,6 +57,12 @@ em {
     background-position: -30px 0;
     top: 1px;
 }
+.icn:before, .form_holder button.calandar:after, .air_time em:before, .visual_wrap.fnd .search_field .box_search .input_keyword:before, .mileage_profit li:before, .submain .zeus_news .banner_wrap .cont .btn:after, .prod_list_wrap .type .route_type .item_route:before, .prod_list_wrap .htl .login_guide:before, .submain .service_center li a:before, .submain .service_center li a:after, .submain .brochure_list + .btn_wrap .btn:after, .step_wrap .step li .num:before, .form_holder.calendar button {
+    display: inline-block;
+    content: '';
+    background-repeat: no-repeat;
+    background-image: url(https://image.hanatour.com/usr/static/img2/pc/com/spr_icn.png);
+}
 
 /* input */
 input[type=text], input[type=number], input[type=date], input[type=password] {
@@ -852,9 +858,11 @@ ul.btn_wrap li .btn.icn span:before {
     background: url(https://image.hanatour.com/usr/static/img2/pc/mpg/spr_mpg.png) no-repeat;
     vertical-align: middle;
 }
+
 ul.btn_wrap li .btn.icn .member:before {
     background-position: 0 -262px;
 }
+
 
 /* step_wrap */
 .step_wrap {

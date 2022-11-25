@@ -56,7 +56,7 @@
 				        <li class="fx-cobrand-wt" style="width: 25%;"><a href="${pageContext.request.contextPath}/member/myPageReservAir">항공</a></li>
 				        <li class="fx-cobrand-fnd" style="width: 25%;"><a href="${pageContext.request.contextPath}/member/myPageReservTicket">투어/입장권</a></li>
 				    </ul>
-				</div>
+				</div>	<!-- js_tabs type1 v-tabs nojq -->
 				<div class="js_tabs type2 no_division">
 					<div class="panels">
 					    <div class="panel selected">
