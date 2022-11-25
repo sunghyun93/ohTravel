@@ -134,4 +134,10 @@ public class MemberController {
 	public String goMyPagePrivacy() {
 		return "member/myPagePrivacy";
 	}
+	
+	// 결제 step1
+	@GetMapping(value = "/payment01")
+	public String goPayment01() {
+		return "member/payment01";
+	}
 }

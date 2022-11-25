@@ -46,8 +46,32 @@
 				</div>	<!-- inr -->
 			</div>	<!-- lnb -->
 			<div class="contents" id="contents">
-			
-			</div>
+				<div class="text_wrap big fix">
+					<strong class="tit">개인정보</strong>
+				</div>
+				<div class="sns_linkage ly_wrap" style="width: 100%;">
+				    <div class="inr" style="width: 325px;">
+				        <span class="name">선예림</span>
+				        <p class="email">sbnlover1008@naver.com</p>
+				    </div>	<!-- inr -->
+				    <div class="inr right" style="width: 685px; padding-left: 100px;">
+				        <ul class="btn_wrap">
+				            <li>
+				                <a href="/com/mpg/CHPC0MPG0101M200" class="btn big icn"><span class="member">회원정보 수정</span></a>
+				            </li>
+				            <li>
+				                <a href="/com/mpg/CHPC0MPG0108M200" class="btn big icn"><span class="pw">비밀번호 변경</span></a>
+				            </li>
+				            <li>
+				                <a href="/com/mpg/CHPC0MPG0106M200" class="btn big icn"><span class="sns">SNS연동</span></a>
+				            </li>
+				            <li>
+				                <a href="/com/mpg/CHPC0MPG0103M200" class="btn big icn"><span class="out">회원탈퇴</span></a>
+				            </li>
+				        </ul>
+				    </div>	<!-- inr right -->
+				</div>	<!-- sns_linkage ly_wrap -->
+			</div>	<!-- contents -->
 		</div>
 	</div>
 </body>
