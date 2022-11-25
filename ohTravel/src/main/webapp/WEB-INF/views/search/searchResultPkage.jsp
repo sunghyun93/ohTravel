@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,7 @@
 }
 
 .contents {
-	min-height: 1000px;
+	min-height: 5400px;
 }
 
 .text_wrap.line.top {
@@ -412,6 +413,16 @@ p {
 	font-size: 15px;
 }
 
+.item02 {
+	color: #333;
+	border: none;
+	background: white;
+}
+
+#pkage {
+	color: #5e2bb8;
+}
+
 .right_cont {
 	float: right;
 }
@@ -767,6 +778,9 @@ prod_list_wrap .htl .btn.line {
     background-position: -123px 0;
 }
 
+#all {
+	color: black;
+}
 
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
@@ -902,7 +916,7 @@ prod_list_wrap .htl .btn.line {
 								</div>
 							</div>
 							<div class="option_wrap result">
-								<span class="count">패키지<em>(17,477)</em></span>
+								<span class="count">패키지<em>(${pkageListCount})</em></span>
 								<div class="right_cont">
 									<ul class="list_sort">
 										<li><a href="#">가격높은순</a></li>
@@ -915,6 +929,7 @@ prod_list_wrap .htl .btn.line {
 							</div>
 							<div class="prod_list_wrap">
 								<ul class="type">
+									<c:forEach var="pkageList" items="${pkageList }" begin="0" end="19">
 									<li>
 										<div>
 											<div class="inr img">
@@ -922,33 +937,31 @@ prod_list_wrap .htl .btn.line {
 												<div class="group_area">
 													<div></div>
 												</div>
-												<img
-													src="https://image.hanatour.com/usr/cms/resize/400_0/2020/04/14/10000/fc8a38c7-cb05-46a2-9cf1-4c9ea4949811.jpg"
-													title="신주쿠 워싱턴 호텔 메인" data-src="" alt="신주쿠 워싱턴 호텔 메인">
+												<img src="${pkageList.pkage_Img_path }">
 											</div>
 											<div class="inr htl">
 												<div class="tag_group">
 													<!---->
-													<span class="attr">에어텔</span> <span
-														class="attr star_value item_text">인천/김포출발</span>
+													<span class="attr">에어텔?</span> <span
+														class="attr star_value item_text">인천/김포출발??</span>
 												</div>
 												<div class="item_title eps2">
-													<strong>도쿄 자유여행 3~5일 #에어텔#항공+호텔</strong>
+													<strong>${pkageList.pkage_name}</strong>
 												</div>
 												<div class="info_bottom">
 													<div class="item_group">
 														<div class="score_htl_wrap">
-															<span class="icn star">4.0</span>
-															<p class="txt">우수</p>
+															<span class="icn star">${pkageList.pkage_score}</span>
+															<p class="txt">우수?</p>
 															<p class="txt">
-																<em>931개의 후기</em>
+																<em>931개의 후기?</em>
 															</p>
 														</div>
 													</div>
 												</div>
 												<div class="price_group">
 													<p class="state"></p>
-													<strong class="price"> 129,142 <span>원~</span></strong>
+													<strong class="price"> ${pkageList.pkage_dt_Aprice}최저가로 다시 <span>원~</span></strong>
 												</div>
 												<div class="btn_wrap">
 													<a href="#" class="btn line">판매상품보기</a>
@@ -956,47 +969,7 @@ prod_list_wrap .htl .btn.line {
 											</div>
 										</div>
 									</li>
-									<li>
-										<div>
-											<div class="inr img">
-												<!---->
-												<div class="group_area">
-													<div></div>
-												</div>
-												<img
-													src="https://image.hanatour.com/usr/cms/resize/400_0/2020/04/14/10000/fc8a38c7-cb05-46a2-9cf1-4c9ea4949811.jpg"
-													title="신주쿠 워싱턴 호텔 메인" data-src="" alt="신주쿠 워싱턴 호텔 메인">
-											</div>
-											<div class="inr htl">
-												<div class="tag_group">
-													<!---->
-													<span class="attr">에어텔</span> <span
-														class="attr star_value item_text">인천/김포출발</span>
-												</div>
-												<div class="item_title eps2">
-													<strong>도쿄 자유여행 3~5일 #에어텔#항공+호텔</strong>
-												</div>
-												<div class="info_bottom">
-													<div class="item_group">
-														<div class="score_htl_wrap">
-															<span class="icn star">4.0</span>
-															<p class="txt">우수</p>
-															<p class="txt">
-																<em>931개의 후기</em>
-															</p>
-														</div>
-													</div>
-												</div>
-												<div class="price_group">
-													<p class="state"></p>
-													<strong class="price"> 129,142 <span>원~</span></strong>
-												</div>
-												<div class="btn_wrap">
-													<a href="#" class="btn line">판매상품보기</a>
-												</div>
-											</div>
-										</div>
-									</li>
+									</c:forEach>
 								</ul>
 							</div>
 							<div class="paginate_wrap" style="">

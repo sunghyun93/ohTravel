@@ -1,11 +1,13 @@
 package com.oracle.ohTravel.hotel.model;
 
+import java.sql.Timestamp;
+
 import lombok.Data;
 
 @Data
 public class HotelDTO {
 
-	private String hotel_id;
+	private int hotel_id;
 	private int city_id;
 	private String hotel_kor;
 	private String hotel_eng;
@@ -15,8 +17,11 @@ public class HotelDTO {
 	private double hotel_score;
 	private String hotel_tel;
 	private int hotel_rv_num;
+	private Timestamp checkin;
+	private Timestamp checkout;
 	
-	private String h_l_img_path;
-	private String h_s_img_path;
+	private String h_img_path;
+	
+	private String city_name;
 	
 }

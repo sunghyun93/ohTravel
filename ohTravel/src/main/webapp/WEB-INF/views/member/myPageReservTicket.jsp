@@ -22,18 +22,18 @@
 							        <!---->
 							    </li>
 							    <li id="EM00000203" class="">
-							        <a href="${pageContext.request.contextPath}/member/myPageLike" id="/com/sbk/CHPC0COM0300M200">찜</a>
+							        <a href="${pageContext.request.contextPath}/member/myPageLikePackage" id="/com/sbk/CHPC0COM0300M200">찜</a>
 							        <!---->
 							    </li>
 							    <li id="EM00000224">
-							        <a href="${pageContext.request.contextPath}/member/myPageCoupon">쿠폰함</a>
+							        <a href="${pageContext.request.contextPath}/member/myPageCouponPackage">쿠폰함</a>
 							    </li>
 							    <li id="EM00002140" class="">
 							        <a href="${pageContext.request.contextPath}/member/myPageFAQ" id="/com/cuc/CHPC0CUC0001M200">자주찾는 질문</a>
 							        <!---->
 							    </li>
 							    <li id="EM00002141" class="">
-							        <a href="${pageContext.request.contextPath}/member/myPageReview" id="/com/mpg/CHPC0MPG0403M200">My 상품평</a>
+							        <a href="${pageContext.request.contextPath}/member/myPageReviewPackage" id="/com/mpg/CHPC0MPG0403M200">My 상품평</a>
 							        <!---->
 							    </li>
 							    <li id="EM00000234" class="">

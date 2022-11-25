@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자주 찾는 질문</title>
+<title>My 상품평</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/myPage.css">
 </head>
 <body>
@@ -46,8 +46,17 @@
 				</div>	<!-- inr -->
 			</div>	<!-- lnb -->
 			<div class="contents" id="contents">
-			
-			</div>
+				<div class="text_wrap big fix">
+					<strong class="tit">My 상품평</strong>
+				</div>	<!-- text_wrap big fix -->
+				<div class="js_tabs type1 v-tabs nojq">
+				    <ul class="tabs">
+				        <li class="fx-cobrand-pkg" style="width: 34%;"><a href="${pageContext.request.contextPath}/member/myPageReviewPackage">패키지</a></li>
+				        <li class="selected fx-cobrand-htl" style="width: 33%;"><a href="${pageContext.request.contextPath}/member/myPageReviewHotel">호텔</a></li>
+				        <li class="fx-cobrand-wt" style="width: 33%;"><a href="${pageContext.request.contextPath}/member/myPageReviewTicket">티켓</a></li>
+				    </ul>
+				</div>	<!-- js_tabs type1 v-tabs nojq -->
+			</div>	<!-- contents -->
 		</div>
 	</div>
 </body>

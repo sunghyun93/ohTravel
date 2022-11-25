@@ -9,6 +9,7 @@ public class ReviewDTO {
 	
 	private int rv_id;
 	private String mem_id;
+	private Double rv_rating;
 	private String rv_sort;
 	private String rv_contents;
 	private Date rv_Date;

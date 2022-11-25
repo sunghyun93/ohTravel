@@ -133,7 +133,7 @@
               <li>
                 <div>
                   <div class="inr img">
-                    <img src="${hotelList.h_l_img_path}">
+                    <img src="${hotelList.h_img_path}">
                   </div>
                   <div class="inr right route_type">
                     <strong class="item_title eps2">${hotelList.hotel_kor}</strong>
@@ -174,11 +174,11 @@
           </div>
           <div class="prod_list_wrap mtm">
             <ul class="type">
-            <c:forEach var="ticketList" items="${ticketList}" begin="0" end="4">
+            <c:forEach var="ticketList" items="${ticketList}" begin="0" end="3">
               <li>
                 <div>
                   <div class="inr img">
-                    <img src="${ticketList.ticket_detail_img_path }">
+                    <img src="${ticketList.ticket_rep_img_path }">
                   </div>
                   <div class="inr right route_type">
                     <strong class="item_title eps2">${ticketList.ticket_name }</strong>

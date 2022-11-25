@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자주 찾는 질문</title>
+<title>쿠폰함</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/myPage.css">
 </head>
 <body>
@@ -46,8 +46,18 @@
 				</div>	<!-- inr -->
 			</div>	<!-- lnb -->
 			<div class="contents" id="contents">
-			
-			</div>
+				<div class="text_wrap big fix">
+					<strong class="tit">쿠폰함</strong>
+				</div>	<!-- text_wrap big fix -->
+				<div class="js_tabs type1 v-tabs nojq">
+				    <ul class="tabs">
+				        <li class="fx-cobrand-pkg" style="width: 25%;"><a href="${pageContext.request.contextPath}/member/myPageCouponPackage">패키지</a></li>
+				        <li class="selected fx-cobrand-htl" style="width: 25%;"><a href="${pageContext.request.contextPath}/member/myPageCouponHotel">호텔</a></li>
+				        <li class="fx-cobrand-wt" style="width: 25%;"><a href="${pageContext.request.contextPath}/member/myPageCouponAir">항공</a></li>
+				        <li class="fx-cobrand-fnd" style="width: 25%;"><a href="${pageContext.request.contextPath}/member/myPageCouponTicket">투어/입장권</a></li>
+				    </ul>
+				</div>	<!-- js_tabs type1 v-tabs nojq -->
+			</div>	<!-- contents -->
 		</div>
 	</div>
 </body>

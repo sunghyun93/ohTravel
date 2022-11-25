@@ -4,7 +4,7 @@
 }
 
 .contents {
-  min-height: 350px;
+  min-height: 3424px;
 }
 
 .text_wrap.line.top {
@@ -123,6 +123,29 @@ a {
   text-align: center;
   border: 1px solid #dcdcdc;
   z-index: 1;
+}
+
+.item02 {
+	color: #333;
+	border: none;
+	background: white;
+}
+
+
+.type1 .tabs>li.selected {
+	border-color: #111;
+	border-right: 1px solid #11;
+	border-bottom: none;1
+	color: #5e2bb8;
+}
+
+.type1 .tabs>li {
+	height: 56px;
+	border-bottom-color: black;
+}
+
+#all {
+	color: #5e2bb8;
 }
 
 .cont_unit {
