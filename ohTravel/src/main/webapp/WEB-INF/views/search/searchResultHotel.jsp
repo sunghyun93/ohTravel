@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -1061,7 +1062,7 @@ prod_list_wrap .htl .btn.line {
 					</div>
 				</div>
 				<div class="option_wrap result">
-					<span class="count"> 호텔 <em>(17,477)</em></span>
+					<span class="count"> 호텔 <em>(${hotelListCount})</em></span>
 					<div class="right_cont">
 						<ul class="list_sort">
 							<li><a href="#">가격높은순</a></li>
@@ -1074,6 +1075,7 @@ prod_list_wrap .htl .btn.line {
 				</div>
 				<div class="prod_list_wrap">
 					<ul class="type">
+						<c:forEach var="hotelList" items="${hotelList}" begin="0" end="19">
 						<li>
 							<div>
 								<div class="inr img">
@@ -1081,29 +1083,27 @@ prod_list_wrap .htl .btn.line {
 									<div class="group_area">
 										<div></div>
 									</div>
-									<img
-										src="https://image.hanatour.com/usr/cms/resize/400_0/2020/04/14/10000/fc8a38c7-cb05-46a2-9cf1-4c9ea4949811.jpg"
-										title="신주쿠 워싱턴 호텔 메인" data-src="" alt="신주쿠 워싱턴 호텔 메인">
+									<img src="${hotelList.h_l_img_path}">
 								</div>
 								<div class="inr htl">
 									<div class="tag_group">
 										<!---->
 										<span class="attr">호텔</span> <span
-											class="attr star_value item_text"> 3.5성급</span>
+											class="attr star_value item_text"> ${hotelList.hotel_grade}성급</span>
 									</div>
 									<div class="item_title eps2">
-										<strong>신주쿠 워싱턴 호텔 메인</strong>
+										<strong>${hotelList.hotel_kor}</strong>
 									</div>
-									<p class="item_title sub">Shinjuku Washington Hotel Main</p>
+									<p class="item_title sub">${hotelList.hotel_eng}</p>
 									<div class="info_group">
 										<p class="item_text">
-											<span class="icn pos">도쿄, Tokyo</span>
+											<span class="icn pos">${hotelList.city_name}</span>
 										</p>
 									</div>
 									<div class="info_bottom">
 										<div class="item_group">
 											<div class="score_htl_wrap">
-												<span class="icn star">4.0</span>
+												<span class="icn star">${hotelList.hotel_score}</span>
 												<p class="txt">우수</p>
 												<p class="txt">
 													<em>931개의 후기</em>
@@ -1113,7 +1113,7 @@ prod_list_wrap .htl .btn.line {
 									</div>
 									<div class="price_group">
 										<p class="state"></p>
-										<strong class="price"> 129,142 <span>원~</span></strong>
+										<strong class="price"> (가격 넣어야됨) <span>원~</span></strong>
 									</div>
 									<div class="btn_wrap">
 										<a href="#" class="btn line">상세보기</a>
@@ -1121,6 +1121,7 @@ prod_list_wrap .htl .btn.line {
 								</div>
 							</div>
 						</li>
+						</c:forEach>
 					</ul>
 				</div>
 				<div class="paginate_wrap">
