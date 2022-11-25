@@ -104,7 +104,6 @@ public class SearchController {
 
 			return "/search/searchResultPageAjax";
 		}
-		
 		else return "/search/searchResultAirplane";
 	}
 }

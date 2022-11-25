@@ -113,7 +113,7 @@
               <li>
                 <div>
                   <div class="inr img">
-                    <img src="${hotelList.h_l_img_path}">
+                    <img src="${hotelList.h_img_path}">
                   </div>
                   <div class="inr right route_type">
                     <strong class="item_title eps2">${hotelList.hotel_kor}</strong>
