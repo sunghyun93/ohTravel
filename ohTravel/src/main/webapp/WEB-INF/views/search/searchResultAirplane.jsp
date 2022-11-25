@@ -177,7 +177,7 @@ a {
 }
 
 .type1 .tabs>li:last-child {
-	border-right: 1px solid #ddd;
+	border-right: 1px solid black;
 }
 
 .ly_wrap {
@@ -410,6 +410,16 @@ p {
 
 .its .option_wrap .count em {
 	font-size: 15px;
+}
+
+.item02 {
+	color: #333;
+	border: none;
+	background: white;
+}
+
+#airplane {
+	color: #5e2bb8;
 }
 
 .right_cont {
@@ -765,6 +775,10 @@ prod_list_wrap .htl .btn.line {
 }
 .paginate a.nextend {
     background-position: -123px 0;
+}
+
+#all {
+	color: black;
 }
 
 
