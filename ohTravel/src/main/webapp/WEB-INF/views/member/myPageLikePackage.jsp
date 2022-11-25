@@ -46,8 +46,17 @@
 				</div>	<!-- inr -->
 			</div>	<!-- lnb -->
 			<div class="contents" id="contents">
-			
-			</div>
+				<div class="text_wrap big fix">
+					<strong class="tit">찜</strong>
+				</div>	<!-- text_wrap big fix -->
+				<div class="js_tabs type1 v-tabs nojq">
+				    <ul class="tabs">
+				        <li class="selected fx-cobrand-pkg" style="width: 34%;"><a href="${pageContext.request.contextPath}/member/myPageLikePackage">패키지</a></li>
+				        <li class="fx-cobrand-htl" style="width: 33%;"><a href="${pageContext.request.contextPath}/member/myPageLikeHotel">호텔</a></li>
+				        <li class="fx-cobrand-wt" style="width: 33%;"><a href="${pageContext.request.contextPath}/member/myPageLikeTicket">티켓</a></li>
+				    </ul>
+				</div>	<!-- js_tabs type1 v-tabs nojq -->
+			</div>	<!-- contents -->
 		</div>
 	</div>
 </body>
