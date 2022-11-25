@@ -19,4 +19,6 @@ public class HotelDTO {
 	private String h_l_img_path;
 	private String h_s_img_path;
 	
+	private String city_name;
+	
 }

@@ -57,6 +57,7 @@ public class SearchController {
 			List<PkageDTO> pkageList = ss.getPkageList(search_word);
 			System.out.println("Controller pkageList -> " + pkageList);
 			model.addAttribute("pkageList", pkageList);
+			model.addAttribute("pkageListCount", pkageList.size());
 			return "/search/searchResultPkage";
 		} 
 		
@@ -64,6 +65,7 @@ public class SearchController {
 			List<HotelDTO> hotelList = ss.getHotelList(search_word);
 			System.out.println("Controller hoteList -> " + hotelList);
 			model.addAttribute("hotelList", hotelList);
+			model.addAttribute("hotelListCount", hotelList.size());
 			return "/search/searchResultHotel";
 		} 
 		
@@ -71,6 +73,7 @@ public class SearchController {
 			List<TicketModel> ticketList = ss.getTicketList(search_word);
 			System.out.println("Controller ticketList -> " + ticketList);
 			model.addAttribute("ticketList", ticketList);
+			model.addAttribute("ticketListCount", ticketList.size());
 			return "/search/searchResultTicket";
 		} 
 		
