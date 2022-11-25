@@ -171,4 +171,28 @@ public class ManagerDAOImpl implements ManagerDAO {
 		return cityList;
 	}
 
+	@Override
+	public List<TicketDTO> getCityListChangeCountry(TicketDTO ticket) {
+		List<TicketDTO> ticketChangeCountry = session.selectList("GetCityListChangeCountry", ticket);
+		return ticketChangeCountry;
+	}
+
+	@Override
+	public int updateTicket(TicketDTO ticket) {
+		int result = session.update("UpdateTicket", ticket);
+		return result;
+	}
+
+	@Override
+	public int insertTicket(TicketDTO ticket) {
+		int result = session.insert("InsertTicket",ticket);
+		return result;
+	}
+
+	@Override
+	public int deleteTicket(TicketDTO ticket) {
+		int result = session.delete("DeleteTicket",ticket);
+		return result;
+	}
+
 }

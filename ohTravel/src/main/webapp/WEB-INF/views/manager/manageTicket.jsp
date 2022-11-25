@@ -23,6 +23,23 @@
 	white-space: nowrap;
 }
 </style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var updateMsg1 = '${updateTicketMsg1}';
+		var deleteMsg1 = '${deleteTicketMsg1}';
+		var insertMsg1 = '${insertTicketMsg1}';
+		console.log(updateMsg1);
+		console.log(deleteMsg1);
+		console.log(updateMsg1);
+		if(updateMsg1 == 1){
+			alert("수정이 완료되었습니다");
+		}else if(deleteMsg1 ==1){
+			alert("삭제가 완료되었습니다");
+		}else if(insertMsg1 ==1){
+			alert("상품이 추가되었습니다");
+		}
+	});
+</script>
 </head>
 <body>
 	<div class="container" style="min-height: 700px;">
@@ -36,7 +53,7 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">입장권 상품 관리</h1>
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-				<button class="btn btn-primary mb-2" style="float: right;">상품추가</button>
+				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertTicketForm'">입장권 상품 추가</button>
 			</div>
 				<table border="1" class="table table-hover">
 					<thead>
@@ -53,7 +70,7 @@
 					</thead>
 					<c:forEach var="ticketList" items="${ticketList }">
 					<tbody>
-					<tr onclick="location.href='ticketDetail?ticket_id=${ticketList.ticket_id}'">
+					<tr onclick="location.href='manageTicketDetail?ticket_id=${ticketList.ticket_id}'">
 						<td>${ticketList.ticket_id }</td>
 						<td>${ticketList.ticket_name}</td>
 						<td>${ticketList.ticket_sales_cnt}</td>

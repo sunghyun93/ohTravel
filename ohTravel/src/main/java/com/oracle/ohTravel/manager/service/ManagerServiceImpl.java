@@ -145,6 +145,26 @@ public class ManagerServiceImpl implements ManagerService {
 		List<TicketDTO> cityList = dao.getCityList(ticket);
 		return cityList;
 	}
+	@Override
+	public List<TicketDTO> getCityListChangeCountry(TicketDTO ticket) {
+		List<TicketDTO> ticketChangeCountry = dao.getCityListChangeCountry(ticket);
+		return ticketChangeCountry;
+	}
+	@Override
+	public int updateTicket(TicketDTO ticket) {
+		int result = dao.updateTicket(ticket);
+		return result;
+	}
+	@Override
+	public int insertTicket(TicketDTO ticket) {
+		int result = dao.insertTicket(ticket);
+		return result;
+	}
+	@Override
+	public int deleteTicket(TicketDTO ticket) {
+		int result = dao.deleteTicket(ticket);
+		return result;
+	}
 	
 	
 }

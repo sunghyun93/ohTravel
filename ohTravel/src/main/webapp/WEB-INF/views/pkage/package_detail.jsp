@@ -224,9 +224,9 @@
                                                                             <div class="_info_section cont_box">
                                                                                 <div class="_thumb thumb">
                                                                                     <div class="img_list">
-                                                                                        <img src="https://image.hanatour.com/usr/cms/resize/400_0/2019/01/22/10000/135cbf56-99fc-4ec3-b6dd-25d4fb717a33.jpg" alt="">
-                                                                                        <img src="https://image.hanatour.com/usr/cms/resize/400_0/2019/01/22/10000/135cbf56-99fc-4ec3-b6dd-25d4fb717a33.jpg" alt="">
-                                                                                        <img src="https://image.hanatour.com/usr/cms/resize/400_0/2019/01/22/10000/135cbf56-99fc-4ec3-b6dd-25d4fb717a33.jpg" alt="">
+                                                                                        <img src="/img/pkage/attraction/incheon/Wolmi Sea Train1.jpg" alt="">
+                                                                                        <img src="/img/pkage/attraction/incheon/Wolmi Sea Train1.jpg" alt="">
+                                                                                        <img src="/img/pkage/attraction/incheon/Wolmi Sea Train1.jpg" alt="">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="_txt_cont txt_conts">
@@ -671,7 +671,7 @@
         
     <script>
         $(function() {
-
+        	
             /* 인원 수 버튼 증감 및 총 금액 부분의 합계 script 부분 */
 
                 // 어른 / 아동 인원수

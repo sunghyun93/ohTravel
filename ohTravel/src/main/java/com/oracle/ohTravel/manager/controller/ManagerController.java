@@ -1,14 +1,22 @@
 package com.oracle.ohTravel.manager.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.mysql.cj.protocol.x.Notice;
 import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
@@ -157,7 +165,7 @@ public class ManagerController {
 		return "manager/manageTicket";
 	}
 	//상품관리 ->입장권 상품상세 조회
-	@RequestMapping(value = "ticketDetail")
+	@RequestMapping(value = "manageTicketDetail")
 	public String ticketDetail(TicketDTO ticket, Model model) {
 		List<TicketDTO>ticketDetail = service.getTicketDetail(ticket);
 		ticket.setCity_id(ticketDetail.get(0).getCity_id());
@@ -169,10 +177,143 @@ public class ManagerController {
 		model.addAttribute("countryList", countryList);
 		model.addAttribute("cityList", cityList);
 		
-		return "manager/ticketDetail";
+		return "manager/manageTicketDetail";
 	}
 	//상품관리 ->입장권 상세조회중 국가별 도시 셀렉문 Ajax
+	@ResponseBody
+	@RequestMapping(value = "changeCountry")
+	public List<TicketDTO> changeCountry(TicketDTO ticket) {
+		System.out.println("country_id-->"+ticket.getCountry_id());
+		
+		List<TicketDTO> ticketChangeCountry = service.getCityListChangeCountry(ticket);
+		return ticketChangeCountry;
+	}
+	//상품관리 ->입장권 추가하는 페이지로 이동
+	@RequestMapping(value = "insertTicketForm")
+	public String insertTicketForm(TicketDTO ticket, Model model) {
+		List<TicketDTO> countryList = service.getCountryList();
+		model.addAttribute("countryList", countryList);
+		return "manager/insertTicketForm";
+	}
+	//상품관리 -> 입장권 추가요
+	@PostMapping(value = "insertTicket")
+	public String insertTicket(TicketDTO ticket, List<MultipartFile> file1,Model model, HttpServletRequest request){
+//		String realPath = request.getServletContext().getRealPath("resource");
+//		System.out.println(realPath);
+		String path = "C:\\Users\\zest_\\Desktop\\ohTravel\\ohTravel\\src\\main\\resources\\static\\img\\ticket";
+		String fileName = "";
+		List<String> nameList = new ArrayList<String>();
+		for(MultipartFile file : file1) {
+			UUID uuid = UUID.randomUUID();
+			fileName= file.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file.transferTo(saveFile);
+				System.out.println("와?");
+				System.out.println("path->"+path);
+				System.out.println("uuid->"+uuid);
+				System.out.println("fileName->"+fileName);
+				nameList.add(uuFileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		ticket.setTicket_rep_img_path("/img/ticket/"+nameList.get(0));
+		ticket.setTicket_detail_img_path("/img/ticket/"+nameList.get(1));
+		System.out.println("child->"+ticket.getTicket_child_price());
+		System.out.println("path1 ->"+ticket.getTicket_rep_img_path());
+		System.out.println("path2 ->"+ticket.getTicket_detail_img_path());
+		int result = service.insertTicket(ticket);
+		model.addAttribute("insertTicketMsg1", result);
+		return "forward:manageTicket";
+	}
 	
+	//상품관리 -> 입장권 수정하기
+	@PostMapping(value = "updateTicket")
+	public String updateTicket(TicketDTO ticket,@RequestParam(value = "file1") MultipartFile file1,@RequestParam(value = "file2")MultipartFile file2, Model model) {
+		System.out.println("file1.getOriginalFilename() ->"+file1.getOriginalFilename());
+		System.out.println("file2.getOriginalFilename() ->"+file2.getOriginalFilename());
+		String path = "C:\\Users\\zest_\\Desktop\\ohTravel\\ohTravel\\src\\main\\resources\\static\\img\\ticket";
+		if(!file1.isEmpty()) {
+			System.out.println("file1 없어용~");
+			UUID uuid = UUID.randomUUID();
+			String fileName= file1.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file1.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file1.transferTo(saveFile);
+				System.out.println("와?");
+				System.out.println("path->"+path);
+				System.out.println("uuid->"+uuid);
+				System.out.println("fileName->"+fileName);
+				ticket.setTicket_rep_img_path("/img/ticket/"+fileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(file1.isEmpty()) {
+			ticket.setTicket_rep_img_path(service.getTicketDetail(ticket).get(0).getTicket_rep_img_path());
+			System.out.println("empty rep path"+ticket.getTicket_rep_img_path());
+		}
+		if(!file2.isEmpty()) {
+			System.out.println("file2 있다어요");
+			UUID uuid = UUID.randomUUID();
+			String fileName= file2.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file2.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file1.transferTo(saveFile);
+				System.out.println("와?");
+				System.out.println("path2->"+path);
+				System.out.println("uuid2->"+uuid);
+				System.out.println("fileName2->"+fileName);
+				ticket.setTicket_detail_img_path("/img/ticket/"+fileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(file2.isEmpty()) {
+			ticket.setTicket_rep_img_path(service.getTicketDetail(ticket).get(0).getTicket_detail_img_path());
+			System.out.println("empty detail path"+ticket.getTicket_detail_img_path());
+		}
+		int result = service.updateTicket(ticket);
+		model.addAttribute("updateTicketMsg1", result);
+		return "forward:manageTicket";
+	}
+	
+	//상품관리 -> 입장권 삭제하기
+	@PostMapping(value = "deleteTicket")
+	public String deleteTicket(TicketDTO ticket, Model model) {
+		int result = service.deleteTicket(ticket);
+		model.addAttribute("deleteTicketMsg1", result);
+		return "forward:manageTicket";
+	}
 	
 	//게시판관리 -> 리뷰관리
 	@RequestMapping(value = "manageBoard")

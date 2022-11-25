@@ -1,0 +1,66 @@
+/* 상세 간단 정보 float 해제 */
+.option_wrap:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+.ly_wrap:after {
+    content: '';
+    clear: both;
+    display: block;
+}
+/* float 해제 부분 */
+.prod_meetinginfo dd:after, .meeting_detail dd:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.card_mngr .thumb .img_list:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+/* float 해제 부분 */
+.js_tabs:after {
+    display: block;
+    clear: both;
+    content: '';
+}
+.panels:after {
+    display: block;
+    clear: both;
+    content: '';
+}
+.hotel_detail_wrap .hotel_info:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.review_wrap .list_review li:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+/* member_count float 해제부분 */
+.member_count:after {
+    display: block;
+    clear: both;
+    content: '';
+}
+/* .cont_unit float 해제부분  */
+.cont_unit:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.local_menu_wrap .searchform_com .btn_search:before, .gnb_menu_wrap .btn_menu_all:before, .local_menu_wrap .rolling_wrap a:before, .local_menu_wrap .rolling_wrap_all .tit:before, .gnb_menu_wrap .list_special li a.more:before, .local_menu_wrap .private_menu li a:before, .gnb_menu_wrap .list_gnb_menu li a:before, .gnb_menu_sub_wrap .list_depth2 li a:before, .gnb_menu_sub_wrap .btn_cls:before, .js_acc.filter_wrap .view a.more:before, .my_menu_wrap:before, .company_info_wrap .company_provision li:before, .company_info_wrap span:before, .service_info_wrap .fl dd .btn_more:before, .service_info_wrap .sns_list li a, .award_list_wrap .btn_next:before, .award_list_wrap .btn_prev:before, .gnb_menu_wrap .list_special_more .cls:after, .divider_dot:before, .divider_line:before, .gnb_menu_wrap .list_total_menu:after, .gnb_menu_wrap .list_total_menu .btn_cls:after, .company_info_wrap strong.customer_center>span:before, .btn:after, .txt:after {
+    display: inline-block;
+    content: '';
+    background-position: left top;
+    background-repeat: no-repeat;
+}
+.text_wrap:after {
+    content: '';
+    display: block;
+    clear: both;
+}
