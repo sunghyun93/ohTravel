@@ -413,6 +413,16 @@ p {
 	font-size: 15px;
 }
 
+.item02 {
+	color: #333;
+	border: none;
+	background: white;
+}
+
+#hotel {
+	color: #5e2bb8;
+}
+
 .right_cont {
 	float: right;
 }
@@ -766,6 +776,10 @@ prod_list_wrap .htl .btn.line {
 }
 .paginate a.nextend {
     background-position: -123px 0;
+}
+
+#all {
+	color: black;
 }
 
 

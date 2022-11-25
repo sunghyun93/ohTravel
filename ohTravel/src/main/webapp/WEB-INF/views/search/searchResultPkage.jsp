@@ -13,7 +13,7 @@
 }
 
 .contents {
-	min-height: 1000px;
+	min-height: 5400px;
 }
 
 .text_wrap.line.top {
@@ -413,6 +413,16 @@ p {
 	font-size: 15px;
 }
 
+.item02 {
+	color: #333;
+	border: none;
+	background: white;
+}
+
+#pkage {
+	color: #5e2bb8;
+}
+
 .right_cont {
 	float: right;
 }
@@ -768,6 +778,9 @@ prod_list_wrap .htl .btn.line {
     background-position: -123px 0;
 }
 
+#all {
+	color: black;
+}
 
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>

@@ -125,6 +125,29 @@ a {
   z-index: 1;
 }
 
+.item02 {
+	color: #333;
+	border: none;
+	background: white;
+}
+
+
+.type1 .tabs>li.selected {
+	border-color: #111;
+	border-right: 1px solid #11;
+	border-bottom: none;1
+	color: #5e2bb8;
+}
+
+.type1 .tabs>li {
+	height: 56px;
+	border-bottom-color: black;
+}
+
+#all {
+	color: #5e2bb8;
+}
+
 .cont_unit {
   position: relative;
   margin-top: 40px;
