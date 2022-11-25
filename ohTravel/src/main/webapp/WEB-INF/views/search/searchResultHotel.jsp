@@ -1083,7 +1083,7 @@ prod_list_wrap .htl .btn.line {
 									<div class="group_area">
 										<div></div>
 									</div>
-									<img src="${hotelList.h_l_img_path}">
+									<img src="${hotelList.h_img_path}">
 								</div>
 								<div class="inr htl">
 									<div class="tag_group">
