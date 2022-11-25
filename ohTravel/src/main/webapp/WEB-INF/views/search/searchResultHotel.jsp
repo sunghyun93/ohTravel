@@ -13,7 +13,7 @@
 }
 
 .contents {
-	min-height: 1000px;
+	min-height: 5400px;
 }
 
 .text_wrap.line.top {
