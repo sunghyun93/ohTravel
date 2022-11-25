@@ -277,6 +277,12 @@
 	    margin-left: 30px;
 	    margin-top: 10px;
     }
+    .modal_close_country > span{
+    	cursor:pointer;
+    }
+    .modal_close_country > span:hover {
+    	color:red;
+    }
     .modal_close_country_1{
     	border-right: 1px solid black;
     }
@@ -308,15 +314,27 @@
      	list-style: none;
      	text-align: center;
      	margin-right: 10px;
+     	cursor: pointer;
      	
     }
+    .modal_close_country_2 > ul > li:hover{
+    	color:red;
+    }
     
-     #a {
+     .country_li1 {
     	cursor: pointer;
 		
     }
     
-     #a:hover {
+     .country_li1:hover {
+    	color:red;
+    }
+      .country_li2 {
+    	cursor: pointer;
+		
+    }
+    
+     .country_li2:hover {
     	color:red;
     }
     
@@ -502,7 +520,8 @@ button {
 		<div class="oneway">
 		     편도
 		</div>
-	</div>	
+	</div>
+		<form action="/airport/searchAirplane" method="post">	
 		<div class="start_end">
 				<!--왕복 모달시작  -->
 				 <input type="text" id="modal_btn" class="starting" data-toggle="modal" data-target="#exampleModalCenter" placeholder="인천">
@@ -511,24 +530,19 @@ button {
 						<div class="modal_wrap">
 						    <div class="modal_close"><span>close</span></div>
 						    <div class="entire">
-							    <span class="select_area">지역을 선택해주세요.</span>
+							    <span class="select_area">먼저 지역을 선택해주세요.</span>
 							    <div class="modal_close_country">
 							    	<div class="modal_close_country_1">
 								        <ul>
-								        	<li id="korea"><span id="a">국내</span></li>
-								        	<li id="thailand"><span id="a">태국</span></li>
-								        	<li id="japan"><span id="a">일본</span></li>
-								        	<li id="china"><span id="a">중국</span></li>
+								        	<c:forEach var="country" items="${countryList }">
+								        		<li id="${country.country_id }" ><span id="${country.country_id }" class="country_li1">${country.country_name }</span></li>
+								        	</c:forEach>
 								        </ul>
 								    </div>
 								    <div class="modal_close_country_2">
 								        <ul>
-								       		<c:forEach var="city" items="${cityList }"> 
-									        	<li id="jeju" value="제주"><span id="a">제주</span></li>
-									        	<li id="busan" value="부산"><span id="a">부산</span></li>
-									        	<li id="yeosu" value="여수"><span id="a">여수</span></li>
-									        	<li id="incheon" value="인천"><span id="a">인천</span></li>
-								        	 </c:forEach> 
+								        	<li><span></span></li>
+					        				<li><span></span></li>
 								        </ul>
 								    </div>     
 							        
@@ -540,31 +554,25 @@ button {
 					<img class="change" src="${pageContext.request.contextPath}/airport/img/change.png" width="15px" height="15px">
 				</div>
 			<div>
-				<!-- <input type="text" class="ending" placeholder="도착지"> -->
 				<input type="text" id="modal_btn2" class="ending" data-toggle="modal" data-target="#exampleModalCenter" placeholder="도착지">
 				 <input type="hidden" value="" class="ending_hidden">	
 					<div class="black_bg2"></div>
 						<div class="modal_wrap2">
 						    <div class="modal_close2"><span>close</span></div>
 						    <div class="entire">
-							    <span class="select_area">지역을 선택해주세요.</span>
+							    <span class="select_area">먼저 지역을 선택해주세요.</span>
 							    <div class="modal_close_country">
 							    	<div class="modal_close_country_1">
 								        <ul>
-								        	<li id="korea"><span id="a">국내</span></li>
-								        	<li id="thailand"><span id="a">태국</span></li>
-								        	<li id="japan"><span id="a">일본</span></li>
-								        	<li id="china"><span id="a">중국</span></li>
+								        	<c:forEach var="country" items="${countryList }">
+								        		<li id="${country.country_id }" ><span id="${country.country_id }" class="country_li2">${country.country_name }</span></li>
+								        	</c:forEach>
 								        </ul>
 								    </div>
 								    <div class="modal_close_country_2">
 								        <ul>
-								        	<%-- <c:forEach var="city" items="${city}"> DB에 있는 도시를 가져와서 돌리세요--%>
-								        	<li id="jeju2" value="제주"><span id="a">제주</span></li>
-								        	<li id="busan2" value="부산"><span id="a">부산</span></li>
-								        	<li id="yeosu2" value="여수"><span id="a">여수</span></li>
-								        	<li id="incheon2" value="인천"><span id="a">인천</span></li>
-								        	<%-- </c:forEach> --%>
+								        	<li><span></span></li>
+					        				<li><span></span></li>
 								        </ul>
 								    </div>     
 							        
@@ -575,16 +583,20 @@ button {
 		</div>
 		<div class="date">
 			<div class="date_start">
-				<input type="date" name="dates_start_check" value="" id="dates_start_check" class="dates_start_check">
+				<input type="date" name="dates_start_check" value="" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27"> 
 			</div>
 			<div class="date_end">
-				<input type="date" name="dates_start_end" value=""  id="dates_start_end" class="dates_start_end">
+				<input type="date" name="dates_start_end" value=""  id="dates_start_end" class="dates_start_end" min="2022-12-20" max="2022-12-27">
 			</div>
 			<div class="date_oneway">
-				<input type="date" name="dates_start_oneway" value=""  id="dates_start_oneway" class="dates_start_oneway">
-			</div>
+				<input type="date" name="dates_start_oneway" value=""  id="dates_start_oneway" class="dates_start_oneway" min="2022-12-20" max="2022-12-27">
+			</div>	
 			<div class="ppl">
-				<button type="button" id="modal_btn3" class="ppl_check" data-toggle="modal" data-target="#exampleModalCenter"><span class="ppl_check_text">성인 1명 / 일반석</span></button>
+				<button type="button" id="modal_btn3" class="ppl_check" data-toggle="modal" data-target="#exampleModalCenter">
+					<span class="ppl_check_text">
+					인원수와 좌석을 선택하세요
+					</span>
+				</button>
 				<div class="black_bg3"></div>
 				<div class="member_count modal_wrap3">
 					<div class="modal_close3"><span>close</span></div>
@@ -596,9 +608,10 @@ button {
                                             <span class="txt">성인</span><br>
                                         </p>
                                         <span class="num_count_group">
-                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+                                            <button type="button" class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
                                             <span class="inpt_counter adultCnt"></span>
-                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+                                            <input type="hidden" value="">
+                                            <button type="button" class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
                                         </span>
 							</li>
 							<!--  아동
@@ -615,21 +628,25 @@ button {
 						</ul>
 						<br><br>
 						<p class="seat_select">좌석등급</p><hr width="460px">
-						<label><input type="radio" value="일반석" name="radio_seat" class="radio_seat">  일반석</label><p>
+						<label><input type="radio" value="일반석" name="radio_seat" class="radio_seat" checked="checked">  일반석</label><p>
 						<label><input type="radio" value="비즈니스석" name="radio_seat" class="radio_seat">  비즈니스석</label><p>
 						<label><input type="radio" value="일등석" name="radio_seat" class="radio_seat">  일등석</label>
-						<input type="hidden" value="">
+						<input type="hidden" value="" class="radio_seat_count">
+						<input type="hidden" value="" class="radio_seat_position">
 						<p><img src="${pageContext.request.contextPath}/airport/img/caution.png" width="20px" height="15px">  예약 가능 최대 인원은 9명입니다.</p>
 						<div class="select_complete"><span class="select_complete_text">선택완료</span></div>
 					</div>	
 				</div>
-				
 			</div>
-			<div class="search">
-				<input type="text" class="air_search" value="항공권 검색">
+		
+				<div class="search">
+					<input type="submit" class="air_search" value="항공권 검색">
+				</div>
 			</div>
-		</div>
-</div>
+		</form>	
+	</div>
+	
+
 
 
 
@@ -956,43 +973,6 @@ button {
 	document.querySelector('.modal_close2').addEventListener('click', offClick2);
 	//////////////////////////////////////////////////////////////////////////
 	
-//////////////////////////출발지 선택시 값들어가게하는 함수////////////////////
-	$(function(){
-
-		  $("#jeju").click(function(){
-		    	$(".starting").val("제주");
-		    });
-		  $("#busan").click(function(){
-		    	$(".starting").val("부산");
-		    });
-		  $("#yeosu").click(function(){
-		    	$(".starting").val("여수");
-		    });
-		  $("#incheon").click(function(){
-		    	$(".starting").val("인천");
-		    });
-		  
-	});
-//////////////////////////////////////////////////////////////////////////
-
-//////////////////////////도착지 선택시 값들어가게하는 함수////////////////////	
-	$(function(){
-
-		  $("#jeju2").click(function(){
-		    	$(".ending").val("제주");
-		    });
-		  $("#busan2").click(function(){
-		    	$(".ending").val("부산");
-		    });
-		  $("#yeosu2").click(function(){
-		    	$(".ending").val("여수");
-		    });
-		  $("#incheon2").click(function(){
-		    	$(".ending").val("인천");
-		    });
-		  
-	});
-//////////////////////////////////////////////////////////////////////////	
 
 ///////////바꾸는 사진클릭시 출발지와 도착지 서로 바뀌는 함수(hidden값으로 잡혀있는도시코드도 바꿔주는)////////////
 	$(function(){
@@ -1141,7 +1121,9 @@ $(function(){
 	    	
 	    	$(".ppl_check_text").text("");
 	    	$(".ppl_check_text").text("성인"+ count+"명 / "+seat);
-	    	
+	    	$(".radio_seat_count").val(count);
+	    	$(".radio_seat_position").val(seat);
+	    	pplOffClick();
 	    });
 });
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1209,9 +1191,94 @@ $(function(){
 		$('.date_oneway').hide();
 	});
 });
-
-
-
+///////////////////////////////////////////////////////////
+$(function() {
+	// 국가를 눌렀을 때 해당 국가에 대한 도시들 가져오는 ajax
+	$('.country_li1').on('click', function() {
+		// 클릭했을 때의 국가 ID
+		let country_id = $(this).attr('id');
+		
+		$.ajax({
+			url : '/airport/selectCity',
+			type : 'post',
+			data : {'country_id' : country_id},
+			dataType : 'json',
+			success : function(data) {
+				let cityUl = $('.modal_close_country_2 ul'); // city 넣을 ul태그
+				
+				cityUl.children('li').remove(); // 이미 있는 li 지우기
+				
+				// li 태그 만들어 주기
+				$.each(data, function(index, item) {
+					cityUl.append("<li><span id="+item.city_id+" class='city_id1'>"+item.city_name+"</span></li>")
+				});
+				
+			},
+			error : function(err) {
+				console.log(err);
+			}
+		});
+	});
+	
+	// 출발지 국가 선택 후 도시 클릭했을 때 처리
+	$(document).on("click",".city_id1",function(){
+		// input 과 hidden 에 값 넣어주기
+		// starting, starting_hidden
+		$('.starting').val($(this).text());
+		$('.starting_hidden').val($(this).attr('id'));
+		offClick();
+	});
+	
+	var start = $('.start').val();
+	
+	
+	// 국가를 눌렀을 때 해당 국가에 대한 도시들 가져오는 ajax
+	$('.country_li2').on('click', function() {
+		// 클릭했을 때의 국가 ID
+		let country_id = $(this).attr('id');
+		
+		$.ajax({
+			url : '/airport/selectCity',
+			type : 'post',
+			data : {'country_id' : country_id},
+			dataType : 'json',
+			success : function(data) {
+				let cityUl = $('.modal_close_country_2 ul'); // city 넣을 ul태그
+				
+				cityUl.children('li').remove(); // 이미 있는 li 지우기
+				
+				// li 태그 만들어 주기
+				$.each(data, function(index, item) {
+					cityUl.append("<li><span id="+item.city_id+" class='city_id2'>"+item.city_name+"</span></li>")
+				});
+				
+			},
+			error : function(err) {
+				console.log(err);
+			}
+		});
+	});
+	
+	// 도착지 국가 선택 후 도시 클릭했을 때 처리
+	$(document).on("click",".city_id2",function(){
+		// input 과 hidden 에 값 넣어주기
+		// starting, starting_hidden
+		$('.ending').val($(this).text());
+		$('.ending_hidden').val($(this).attr('id'));
+		offClick2();
+	}); 
+	
+	var end = $('.ending').val();
+	
+	
+	
+	
+});
 </script>
+
+
+
+
+
 </body>
 </html>
