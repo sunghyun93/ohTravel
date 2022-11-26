@@ -25,9 +25,10 @@ public class CountryDaoTest {
 	CountryDao countryDao;
 	
 	@Test
-	public void selectCountryByCountryIdTest() {
+	public void selectCountryByCountryIdTest() throws Exception {
 		List<CountryDTO> list = countryDao.selectCountryByCountryId(100);
 		log.info("list="+list);
 		assertTrue(list.size()==3);
 	}
+
 }

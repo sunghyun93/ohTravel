@@ -5,5 +5,5 @@ import java.util.List;
 import com.oracle.ohTravel.city.model.CityDTO;
 
 public interface CityDao {
-	List<CityDTO> selectCityByCountryId(Integer country_id);
+	List<CityDTO> selectCityByCountryId(Integer country_id) throws Exception;
 }

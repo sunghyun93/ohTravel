@@ -19,7 +19,7 @@ public class CityServiceImpl implements CityService {
 	private CityDao cityDao;
 	
 	@Override
-	public List<CityDTO> selectCityByCountryId(Integer country_id) {
+	public List<CityDTO> selectCityByCountryId(Integer country_id) throws Exception {
 		log.info("CityServiceImpl selectCity() start...");
 		List<CityDTO> list = cityDao.selectCityByCountryId(country_id);
 		log.info("CityServiceImpl selectCity() end...");
