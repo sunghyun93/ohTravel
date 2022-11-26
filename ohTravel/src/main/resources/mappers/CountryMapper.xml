@@ -4,10 +4,17 @@
 
 <mapper namespace="com.oracle.ohTravel.CountryMapper">
 	
-	<!-- country 데이터 모두 가져오기 한국 빼고 -->
+	<!-- country 입력받은 국가만 빼고 나머지 국가 가져오기 -->
 	<select id="selectCountryByCountryId" parameterType="int" resultType="CountryDTO">
 		<![CDATA[
 		select * from country where country_id != #{country_id};
+		]]>
+	</select>
+	
+	<!-- country 입력받은 한개의 국가만 가져오기 -->
+	<select id="selectCountryByCountryId2" parameterType="int" resultType="CountryDTO">
+		<![CDATA[
+		select * from country where country_id = #{country_id};
 		]]>
 	</select>
 </mapper>

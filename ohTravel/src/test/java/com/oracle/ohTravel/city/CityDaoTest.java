@@ -25,7 +25,7 @@ public class CityDaoTest {
 	CityDao cityDao;
 
 	@Test
-	public void selectCityByCountryIdTest() {
+	public void selectCityByCountryIdTest() throws Exception {
 		List<CityDTO> list = cityDao.selectCityByCountryId(100);
 		log.info("list="+list);
 		assertTrue(list.size() == 4);

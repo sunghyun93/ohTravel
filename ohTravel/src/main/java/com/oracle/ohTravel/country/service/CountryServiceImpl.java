@@ -16,10 +16,18 @@ public class CountryServiceImpl implements CountryService {
 	@Autowired
 	private CountryDao countryDao;
 	
-	public List<CountryDTO> selectCountryByCountryId(Integer country_id) {
-		log.info("CountryServiceImpl selectCountryAll() start...");
+	public List<CountryDTO> selectCountryByCountryId(Integer country_id) throws Exception {
+		log.info("CountryServiceImpl selectCountryByCountryId() start...");
 		List<CountryDTO> list = countryDao.selectCountryByCountryId(country_id);
-		log.info("CountryServiceImpl selectCountryAll() end...");
+		log.info("CountryServiceImpl selectCountryByCountryId() end...");
+		return list;
+	}
+
+	@Override
+	public List<CountryDTO> selectCountryByCountryId2(Integer country_id) throws Exception {
+		log.info("CountryServiceImpl selectCountryByCountryId2() start...");
+		List<CountryDTO> list = countryDao.selectCountryByCountryId2(country_id);
+		log.info("CountryServiceImpl selectCountryByCountryId2() end...");
 		return list;
 	}
 }
