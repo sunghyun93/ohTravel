@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -814,6 +816,11 @@ prod_list_wrap .htl .btn.line {
 	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
 			<li class="item05 selected"><button id="airplane" class="item02">항공</button></li>
 		</ul>
+	</div>
+	<div>
+	 <c:forEach var="" item="">
+	 	
+	 </c:forEach>
 	</div>
 </body>
 </html>

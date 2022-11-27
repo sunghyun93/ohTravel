@@ -525,7 +525,7 @@ button {
 		<div class="start_end">
 				<!--왕복 모달시작  -->
 				 <input type="text" id="modal_btn" class="starting" data-toggle="modal" data-target="#exampleModalCenter" placeholder="인천">
-				 <input type="hidden" value="" class="starting_hidden">	
+				 <input type="hidden" name="start_country_id" value="" class="starting_hidden">	
 					<div class="black_bg"></div>
 						<div class="modal_wrap">
 						    <div class="modal_close"><span>close</span></div>
@@ -555,7 +555,7 @@ button {
 				</div>
 			<div>
 				<input type="text" id="modal_btn2" class="ending" data-toggle="modal" data-target="#exampleModalCenter" placeholder="도착지">
-				 <input type="hidden" value="" class="ending_hidden">	
+				 <input type="hidden" value="" name="end_country_id" class="ending_hidden">	
 					<div class="black_bg2"></div>
 						<div class="modal_wrap2">
 						    <div class="modal_close2"><span>close</span></div>
@@ -610,7 +610,7 @@ button {
                                         <span class="num_count_group">
                                             <button type="button" class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
                                             <span class="inpt_counter adultCnt"></span>
-                                            <input type="hidden" value="">
+                                            <input type="hidden" name="count" value="" class="radio_seat_count">
                                             <button type="button" class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
                                         </span>
 							</li>
@@ -631,8 +631,7 @@ button {
 						<label><input type="radio" value="일반석" name="radio_seat" class="radio_seat" checked="checked">  일반석</label><p>
 						<label><input type="radio" value="비즈니스석" name="radio_seat" class="radio_seat">  비즈니스석</label><p>
 						<label><input type="radio" value="일등석" name="radio_seat" class="radio_seat">  일등석</label>
-						<input type="hidden" value="" class="radio_seat_count">
-						<input type="hidden" value="" class="radio_seat_position">
+						<input type="hidden" name="seat_position" value="" class="radio_seat_position">
 						<p><img src="${pageContext.request.contextPath}/airport/img/caution.png" width="20px" height="15px">  예약 가능 최대 인원은 9명입니다.</p>
 						<div class="select_complete"><span class="select_complete_text">선택완료</span></div>
 					</div>	

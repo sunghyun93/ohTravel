@@ -3,5 +3,9 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oracle.ohTravel.AirportMapper">
-
+	
+	<!--비행기 List-->
+	<select id="airplaneList" resultType="Air_ScheduleDTO">
+		SELECT * FROM air_schdeule 
+	</select>
 </mapper>

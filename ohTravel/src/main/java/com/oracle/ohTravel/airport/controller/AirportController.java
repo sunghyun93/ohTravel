@@ -1,5 +1,6 @@
 package com.oracle.ohTravel.airport.controller;
 
+
 import java.util.List;
 
 
@@ -8,10 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.oracle.ohTravel.airport.model.AirlineDTO;
-import com.oracle.ohTravel.airport.service.AirlineService;
+import com.oracle.ohTravel.airport.model.AirSearch;
+import com.oracle.ohTravel.airport.model.Air_ScheduleDTO;
+import com.oracle.ohTravel.airport.service.ScheduleService;
 import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
 import com.oracle.ohTravel.country.model.CountryDTO;
@@ -28,7 +28,7 @@ public class AirportController {
 	
 	private final CityService cityService;
 	private final CountryService countryService;
-	//private final AirlineService airlineService;
+	private final ScheduleService scheduleService;
 	
 	//항공권 검색
 	@RequestMapping(value = "/searchTicket")
@@ -60,11 +60,12 @@ public class AirportController {
 	}
 	
 	@PostMapping("/searchAirplane")
-	public String searchAirplane() {
-		log.info("AirportController searchAirline");
-
+	public List<Air_ScheduleDTO> searchAirplane(AirSearch airSearch) {
 		
-		return "search/searchResultAirplane";
+		
+		List<Air_ScheduleDTO> schedule_list = scheduleService.searchAirplane(airSearch);
+		
+		return schedule_list;
 	}
 	
 	
