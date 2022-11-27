@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>   
 <!DOCTYPE html>
 <html>
 <head>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>해외 패키지 여행</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_search.css">
 </head>
 <body>
@@ -81,21 +82,23 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
-                                    <h6><a href="#">서유럽 3국 (프랑스/스위스/이탈리아) 8~12일 #베스트셀러</a></h6>
-                                    <h6>프랑스, 스위스, 이탈리아 핵심관광</h6>
-                                    <p class="dolor">18700원</p>
-                                </div>     
-                            </div>
-                        </div>
-                    </div>
+	                <c:forEach var="pkage" items="${pkageList }">
+	                    <div class="col-xl-4 col-lg-4 col-md-6">
+	                        <div class="single-place mb-30">
+	                            <div class="place-img">
+	                                <img src="${pkage.pkage_Img_path }" alt="" height="246.52px">
+	                            </div>
+	                            <div class="place-cap">
+	                                <div class="place-cap-top">
+	                                    <span><i class="fas fa-star"></i><span>${pkage.pkage_score }</span></span>
+	                                    <h6><a href="#">${pkage.pkage_name }</a></h6>
+	                                    <h6>${pkage.pkage_info }</h6>
+	                                    <p class="dolor"><fmt:formatNumber value="${pkage.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
+	                                </div>     
+	                            </div>
+	                        </div>
+	                    </div>
+                    </c:forEach>
                 </div> <!-- row -->
             </div><!-- container -->
         </div><!-- favourite-place place-padding -->
@@ -114,21 +117,23 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                            	<img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
-                                    <h6><a href="#">서유럽 3국 (프랑스/스위스/이탈리아) 8~12일 #베스트셀러</a></h6>
-                                    <h6>프랑스, 스위스, 이탈리아 핵심관광</h6>
-                                    <p class="dolor">18700원</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                	<c:forEach var="pkageThema" items="${pkageListThema }">
+	                    <div class="col-xl-4 col-lg-4 col-md-6">
+	                        <div class="single-place mb-30">
+	                            <div class="place-img">
+	                                <img src="${pkageThema.pkage_Img_path }" alt="" height="246.52px">
+	                            </div>
+	                            <div class="place-cap">
+	                                <div class="place-cap-top">
+	                                    <span><i class="fas fa-star"></i><span>${pkageThema.pkage_score }</span></span>
+	                                    <h6><a href="#">${pkageThema.pkage_name }</a></h6>
+	                                    <h6>${pkageThema.pkage_info }</h6>
+	                                    <p class="dolor"><fmt:formatNumber value="${pkageThema.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
+	                                </div>     
+	                            </div>
+	                        </div>
+	                    </div>
+                    </c:forEach>
                 </div> <!-- row -->
             </div> <!-- container -->
         </div> <!-- favourite-place place-padding -->
@@ -189,6 +194,9 @@ $(function() {
 		// starting, starting_hidden
 		$('.starting').val($(this).text());
 		$('.starting_hidden').val($(this).attr('id'));
+		
+		// 모달창 끄기
+		offClick();
 	});
 
 	
@@ -198,10 +206,12 @@ $(function() {
 		let startPoint = $('select[name="city_name"] option:selected').val(); // 출발지의 id
 		let startDate = $('#dates_start_check').val(); // 출발 날짜
 		
-		alert(destiPoint+","+startPoint+","+startDate);
+		console.log(destiPoint+","+startPoint+","+startDate);
 		
 		if(destiPoint == '') {
 			alert("가고싶은 지역을 선택해주세요.");
+			// 모달창 켜기
+			onClick();
 		}
 
 	});

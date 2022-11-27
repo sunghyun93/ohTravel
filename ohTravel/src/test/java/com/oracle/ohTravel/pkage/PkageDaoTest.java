@@ -1,0 +1,57 @@
+package com.oracle.ohTravel.pkage;
+
+import static org.junit.Assert.assertTrue;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.oracle.ohTravel.pkage.dao.PkageDao;
+import com.oracle.ohTravel.pkage.model.PkageDTO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest // 스프링 부트 띄우고 테스트(이게 없으면 @Autowired 다 실패)
+@Transactional // 반복 가능한 테스트 지원, 각각의 테스트를 실행할 때마다 트랜잭션을 시작하고 테스트가 끝나면 트랜잭션을 강제로 롤백 (이 어노테이션이 테스트 케이스에서 사용될 때만 롤백)**
+@Slf4j
+public class PkageDaoTest {
+	@Autowired
+	PkageDao pkageDao;
+	
+	@Test
+	@Ignore
+	public void selectPkgBySoldScoreOrderTest() throws Exception {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("pkage_gubun", 0);
+		map.put("row_count", 6);
+		
+		List<PkageDTO> list = pkageDao.selectPkgBySoldScoreOrder(map);
+		
+		log.info("list="+list);
+		log.info("개수="+list.size());
+		assertTrue(list.size()==6);
+	}
+	
+	@Test
+	public void selectPkgByThemaSoldScoreOrderTest() throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("thema", "힐링");
+		map.put("pkage_gubun", 0);
+		map.put("row_count", 6);
+		
+		List<PkageDTO> list = pkageDao.selectPkgByThemaSoldScoreOrder(map);
+		
+		log.info("list="+list);
+		log.info("개수="+list.size());
+		assertTrue(list.size()==6);
+	}
+}

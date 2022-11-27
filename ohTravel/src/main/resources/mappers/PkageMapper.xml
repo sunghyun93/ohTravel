@@ -3,5 +3,26 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oracle.ohTravel.PkageMapper">
-
+	
+	<!-- 판매순, 평점순으로 패키지 select (원하는 갯수만) -->
+	<select id="selectPkgBySoldScoreOrder" parameterType="map" resultType="PkageDTO">
+		select p.*, min(pd.pkage_dt_Aprice) as pkage_dt_Aprice, pi.pkage_Img_path from package p 
+		join package_image pi on p.pkage_id = pi.pkage_id
+		join package_detail pd on p.pkage_id = pd.pkage_id
+		where p.pkage_gubun = #{pkage_gubun}
+		group by p.pkage_id 
+		order by p.pkage_soldCnt desc, p.pkage_score desc
+		limit 0, #{row_count}
+	</select>
+	
+	<!-- 테마를 지정하여 판매순, 평점순으로 패키지 select (원하는 갯수만) -->
+	<select id="selectPkgByThemaSoldScoreOrder" parameterType="map" resultType="PkageDTO">
+		select p.*, min(pd.pkage_dt_Aprice) as pkage_dt_Aprice, pi.pkage_Img_path from package p 
+		join package_image pi on p.pkage_id = pi.pkage_id
+		join package_detail pd on p.pkage_id = pd.pkage_id
+		where p.pkage_gubun = #{pkage_gubun} and pd.pkage_dt_thema = #{thema}
+		group by p.pkage_id 
+		order by p.pkage_soldCnt desc, p.pkage_score desc
+		limit 0, #{row_count}
+	</select>
 </mapper>

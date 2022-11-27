@@ -78,8 +78,8 @@
                                             </li>
                                             <li><a href="#">패키지</a>
                                                 <ul class="submenu">
-                                                    <li><a href="${pageContext.request.contextPath}/pkage/search01">해외</a></li>
-                                                    <li><a href="${pageContext.request.contextPath}/pkage/search02">국내</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/pkage/search/1">해외</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/pkage/search/0">국내</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="${pageContext.request.contextPath}/ticket/exhibitionMain">입장권</a>

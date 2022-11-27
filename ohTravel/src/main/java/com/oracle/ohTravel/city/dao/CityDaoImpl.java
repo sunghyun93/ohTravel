@@ -19,7 +19,7 @@ public class CityDaoImpl implements CityDao {
 	private String namespace = "com.oracle.ohTravel.CityMapper.";
 	
 	@Override
-	public List<CityDTO> selectCityByCountryId(Integer country_id) {
+	public List<CityDTO> selectCityByCountryId(Integer country_id) throws Exception {
 		log.info("CityDaoImpl selectCity() start...");
 		List<CityDTO> list = session.selectList(namespace+"selectCityByCountryId", country_id);
 		log.info("CityDaoImpl selectCity() end...");
