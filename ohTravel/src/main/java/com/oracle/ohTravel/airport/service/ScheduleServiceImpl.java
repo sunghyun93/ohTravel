@@ -20,10 +20,19 @@ public class ScheduleServiceImpl implements ScheduleService{
 	
 	@Override
 	public List<Air_ScheduleDTO> searchAirplane(AirSearch airSeach) {
-		List<Air_ScheduleDTO> listAiplane = scheduleDAO.airplaneList(airSeach);
 		
-		System.out.println("listAiplane="+listAiplane);
-		return listAiplane;
+		List<Air_ScheduleDTO> listAirplane = scheduleDAO.airplaneList(airSeach);
+		for(Air_ScheduleDTO arr:listAirplane) {
+			arr.setLead_time(arr.calcLead_time());
+		}
+		Air_ScheduleDTO as = new Air_ScheduleDTO();
+		System.out.println("as="+as);
+		
+	
+		
+		System.out.println("listAirplane="+listAirplane);
+		
+		return listAirplane;
 	}
 
 }

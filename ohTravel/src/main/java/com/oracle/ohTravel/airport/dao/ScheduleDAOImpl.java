@@ -19,9 +19,15 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 
 	@Override
 	public List<Air_ScheduleDTO> airplaneList(AirSearch airSeach) {
+		System.out.println("ScheduleDAOImpl airSeach="+airSeach);
+		List<Air_ScheduleDTO> list = null;
+		try {
+			list = session.selectList(namespace + "airplaneList", airSeach);
+			System.out.println("ScheduleDAOImpl airplaneList list=" + list);
 		
-		List<Air_ScheduleDTO> list = session.selectList(namespace+"airplaneList");
-		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return list;
 	}
 

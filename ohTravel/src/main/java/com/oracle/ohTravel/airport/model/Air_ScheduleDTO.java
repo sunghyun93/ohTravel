@@ -1,19 +1,23 @@
 package com.oracle.ohTravel.airport.model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import lombok.Data;
 
 @Data
 public class Air_ScheduleDTO {
+	
+	/*
+	 * public Air_ScheduleDTO() { lead_time=calcLead_time(); }
+	 */
 	//일정(auto_increment)
 	private int schedule_id;
 	//항공사 정보
 	private int air_num;
 	private int air_code;
 	private String air_name;
-	private String air_pricture;
+	private String air_picture;
 	//항공편명
 	private String airplane_name;
 	private int general_seat;
@@ -31,9 +35,11 @@ public class Air_ScheduleDTO {
 	private String end_airport_name;
 	
 	//출발시간
-	private Date start_time;
+	private Timestamp start_time;
 	//도착시간
-	private Date end_time;
+	private Timestamp end_time;
+	//소요시간
+	private String lead_time;
 	//가격
 	private int schedule_price;
 	
@@ -47,6 +53,11 @@ public class Air_ScheduleDTO {
 	private int reservation_id;
 	private int seated_status;
 	
+	public String calcLead_time() {
+		lead_time = (end_time.getTime()-start_time.getTime())/(1000*60)+"";
+		
+		return lead_time;
+	}
 	
 	
 }

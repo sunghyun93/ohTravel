@@ -525,7 +525,8 @@ button {
 		<div class="start_end">
 				<!--왕복 모달시작  -->
 				 <input type="text" id="modal_btn" class="starting" data-toggle="modal" data-target="#exampleModalCenter" placeholder="인천">
-				 <input type="hidden" name="start_country_id" value="" class="starting_hidden">	
+				 <input type="hidden" name="start_country_id" value="" class="starting_hidden">
+				 <input type="hidden" name="start_city_id" value="" class="starting_hidden">	
 					<div class="black_bg"></div>
 						<div class="modal_wrap">
 						    <div class="modal_close"><span>close</span></div>
@@ -555,7 +556,8 @@ button {
 				</div>
 			<div>
 				<input type="text" id="modal_btn2" class="ending" data-toggle="modal" data-target="#exampleModalCenter" placeholder="도착지">
-				 <input type="hidden" value="" name="end_country_id" class="ending_hidden">	
+				 <input type="hidden" name="end_country_id" value="" class="ending_hidden">
+				 <input type="hidden" value="" name="end_city_id" class="ending_hidden">	
 					<div class="black_bg2"></div>
 						<div class="modal_wrap2">
 						    <div class="modal_close2"><span>close</span></div>
@@ -583,13 +585,13 @@ button {
 		</div>
 		<div class="date">
 			<div class="date_start">
-				<input type="date" name="dates_start_check" value="" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27"> 
+				<input type="date" name="start_date1" value="" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27"> 
 			</div>
 			<div class="date_end">
-				<input type="date" name="dates_start_end" value=""  id="dates_start_end" class="dates_start_end" min="2022-12-20" max="2022-12-27">
+				<input type="date" name="end_date" value=""  id="dates_start_end" class="dates_start_end" min="2022-12-20" max="2022-12-27">
 			</div>
 			<div class="date_oneway">
-				<input type="date" name="dates_start_oneway" value=""  id="dates_start_oneway" class="dates_start_oneway" min="2022-12-20" max="2022-12-27">
+				<input type="date" name="start_date2" value=""  id="dates_start_oneway" class="dates_start_oneway" min="2022-12-20" max="2022-12-27">
 			</div>	
 			<div class="ppl">
 				<button type="button" id="modal_btn3" class="ppl_check" data-toggle="modal" data-target="#exampleModalCenter">
@@ -597,6 +599,8 @@ button {
 					인원수와 좌석을 선택하세요
 					</span>
 				</button>
+				<input type="hidden" name="seat_name" value="" class="radio_seat_name">
+				<input type="hidden" name="seat_position" value="" class="radio_seat_position">
 				<div class="black_bg3"></div>
 				<div class="member_count modal_wrap3">
 					<div class="modal_close3"><span>close</span></div>
@@ -631,7 +635,6 @@ button {
 						<label><input type="radio" value="일반석" name="radio_seat" class="radio_seat" checked="checked">  일반석</label><p>
 						<label><input type="radio" value="비즈니스석" name="radio_seat" class="radio_seat">  비즈니스석</label><p>
 						<label><input type="radio" value="일등석" name="radio_seat" class="radio_seat">  일등석</label>
-						<input type="hidden" name="seat_position" value="" class="radio_seat_position">
 						<p><img src="${pageContext.request.contextPath}/airport/img/caution.png" width="20px" height="15px">  예약 가능 최대 인원은 9명입니다.</p>
 						<div class="select_complete"><span class="select_complete_text">선택완료</span></div>
 					</div>	
@@ -1117,11 +1120,21 @@ $(function(){
 	 $(".select_complete").click(function(){
 	    	var count = $(".inpt_counter").text();
 	    	var seat = $(".radio_seat:checked").val();
+	    	var position = $(".radio_seat_positon").val();
 	    	
+	    	
+	    		
 	    	$(".ppl_check_text").text("");
 	    	$(".ppl_check_text").text("성인"+ count+"명 / "+seat);
 	    	$(".radio_seat_count").val(count);
-	    	$(".radio_seat_position").val(seat);
+	    	$(".radio_seat_name").val(seat);
+	    	
+	    	if(seat =='일반석'){
+	    		$(".radio_seat_position").val("C")
+	    	}else if(seat =='비즈니스석'){
+	    		$(".radio_seat_position").val("B")
+	    	}else $(".radio_seat_position").val("A")
+	    	
 	    	pplOffClick();
 	    });
 });

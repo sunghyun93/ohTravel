@@ -30,6 +30,7 @@
 		
 		<!-- Airport -->
 		<typeAlias type="com.oracle.ohTravel.airport.model.Air_ScheduleDTO" alias="Air_ScheduleDTO"/>
+		<typeAlias type="com.oracle.ohTravel.airport.model.AirSearch" alias="AirSearch"/>
 		
 	</typeAliases>
 </configuration>
