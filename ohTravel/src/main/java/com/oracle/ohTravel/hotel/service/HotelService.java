@@ -8,4 +8,6 @@ public interface HotelService {
 
 	List<HotelDTO> hotelList(HotelDTO hoteldto);
 
+	HotelDTO getHotelDetail(HotelDTO hotelDTO);
+
 }
