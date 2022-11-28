@@ -4,6 +4,98 @@
 
 <mapper namespace="com.oracle.ohTravel.PkageMapper">
 	
+	<!-- 패키지부터 상세와 관련된 것들 다 끌어오는 resultMap -->
+	<resultMap type="pkageDTORM" id="pkageDTO_ResultMap">
+		<id property="pkage_id" column="pkage_id"/>
+		<result property="city_id" column="city_id"/>
+		<result property="pkage_name" column="pkage_name"/>
+		<result property="pkage_info" column="pkage_info"/>
+		<result property="pkage_gubun" column="pkage_gubun"/>
+		<result property="pkage_soldCnt" column="pkage_soldCnt"/>
+		<result property="pkage_score" column="pkage_score"/>
+		
+		<association property="cityDTO" column="city_id" javaType="cityDTO">
+			<id property="city_id" column="city_id"/>
+			<id property="country_id" column="country_id"/>
+			<result property="city_name" column="city_name"/>
+			
+			<association property="countryDTO" column="country_id" javaType="countryDTO"
+							select="selectCountry">
+			</association>
+		</association>
+		
+		<collection property="pkage_detailDTOList" column="pkage_id" ofType="pkage_detailDTO"
+					resultMap="selectPkgDetailResult">
+		</collection>
+		
+		<collection property="pkage_imageDTOList" column="pkage_id" ofType="pkage_imageDTO"
+					select="selectPkgImg">
+		</collection>
+	</resultMap>
+	
+	<!-- 비행 일정 resultMap -->
+	<resultMap id="selectPkgFlightScheResult" type="pkage_flightScheDTO">
+		<result property="pkage_dt_id" column="pkage_dt_id"/>
+		<result property="schedule_id" column="schedule_id"/>
+		<result property="pkage_flight_gubun" column="pkage_flight_gubun"/>
+	</resultMap>
+	
+	<!-- 상품 상세 resultMap -->
+	<resultMap id="selectPkgDetailResult" type="pkage_detailDTO">
+		<id property="pkage_dt_id" column="pkage_dt_id"/>
+		<result property="pkage_id" column="pkage_id"/>
+		<result property="pkage_dt_name" column="pkage_dt_name"/>
+		<result property="pkage_dt_thema" column="pkage_dt_thema"/>
+		<result property="pkage_dt_Aprice" column="pkage_dt_Aprice"/>
+		<result property="pkage_dt_Cprice" column="pkage_dt_Cprice"/>
+		<result property="pkage_dt_cnt" column="pkage_dt_cnt"/>
+		<result property="pkage_dt_Mcnt" column="pkage_dt_Mcnt"/>
+		<result property="pkage_dt_Rcnt" column="pkage_dt_Rcnt"/>
+		<result property="pkage_dt_Gname" column="pkage_dt_Gname"/>
+		<result property="pkage_dt_meet" column="pkage_dt_meet"/>
+		<result property="pkage_dt_meetDate" column="pkage_dt_meetDate"/>
+		<result property="pkage_dt_startDay" column="pkage_dt_startDay"/>
+		<result property="pkage_dt_endDay" column="pkage_dt_endDay"/>
+		
+		<collection property="pkage_flightScheDTOList" resultMap="selectPkgFlightScheResult"></collection>
+	</resultMap>
+	
+	
+	<!-- resultMap을 위한 select 문들 -->
+	<select id="selectPkgDetail" resultType="pkage_detailDTO">
+		select * from package_detail where pkage_id = #{pkage_id}
+	</select>
+	
+	<select id="selectPkgImg" resultType="pkage_imageDTO">
+		select * from package_image where pkage_id = #{pkage_id}
+	</select>
+	
+	<select id="selectCountry" resultType="countryDTO">
+		select * from country where country_id = #{country_id}
+	</select>
+	
+	
+
+	<!-- 패키지 검색시 관련 pkg 테이블들의 값 select  -->
+	<select id="selectPkgWithDetail" resultMap="pkageDTO_ResultMap">
+		select p.*, 
+		c.*,
+		pd.*,
+		pfs.*,
+       <!--  ashe.Start_time, ashe.End_time,
+        aline.Air_name, -->
+        pi.pkage_Img_path 
+        from package p 
+		join city c on p.city_id = c.city_id
+		join package_image pi on p.pkage_id = pi.pkage_id
+		join package_detail pd on p.pkage_id = pd.pkage_id
+		join package_flightSche pfs on pd.pkage_dt_id = pfs.pkage_dt_id
+		<!-- join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
+		join airline aline on ashe.Air_num = aline.Air_num -->
+		where p.pkage_gubun = 1
+		order by pd.pkage_dt_id desc, pd.pkage_dt_Aprice asc
+	</select>
+	
 	<!-- 판매순, 평점순으로 패키지 select (원하는 갯수만) -->
 	<select id="selectPkgBySoldScoreOrder" parameterType="map" resultType="PkageDTO">
 		select p.*, min(pd.pkage_dt_Aprice) as pkage_dt_Aprice, pi.pkage_Img_path from package p 
@@ -25,4 +117,24 @@
 		order by p.pkage_soldCnt desc, p.pkage_score desc
 		limit 0, #{row_count}
 	</select>
+	
+	
+	<!-- select p.*, 
+		c.*,
+		pd.*,
+        pfs.*,
+        ashe.*,
+		aline.Air_name,
+        aline.Air_picture,
+        sa.city_id as start_city_id,
+        pi.pkage_Img_path from package p 
+join city c on p.city_id = c.city_id
+join package_image pi on p.pkage_id = pi.pkage_id
+join package_detail pd on p.pkage_id = pd.pkage_id
+left outer join package_flightSche pfs on pd.pkage_dt_id = pfs.pkage_dt_id
+left outer join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
+left outer join start_airport sa on ashe.start_Airport_name = sa.start_Airport_name
+left outer join airline aline on ashe.Air_num = aline.Air_num
+where p.city_id = 420 and pkage_dt_startDay >= '2022-12-20'
+order by pd.pkage_dt_id asc, pd.pkage_dt_Aprice asc -->
 </mapper>

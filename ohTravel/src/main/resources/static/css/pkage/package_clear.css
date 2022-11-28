@@ -64,3 +64,34 @@
     display: block;
     clear: both;
 }
+/* form_holder float 해제 */
+.form_holder:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+.option_wrap:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+.prod_list_wrap:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+.prod_list_wrap>ul>li:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.prod_list_wrap>ul:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.tag_group:after, .badge_group:after, .hash_group:after {
+    clear: both;
+    content: '';
+    display: block;
+}
