@@ -176,13 +176,18 @@
 						</div>
 						
 						<div class="rv_btn">
-							<button class="genric-btn primary ela"  data-toggle="modal" data-target="#exampleModalCenter1"  >리뷰 등록</button>
+							<button class="genric-btn primary ela"  data-toggle="modal" data-target="#reviewModal">리뷰 등록</button>
 						</div>
 							
 						<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
 							리뷰가 쌓일거예요
 							
-							<c:choose>
+							<table id="reviewTable">
+								
+							</table>
+							
+							
+						<%-- 	<c:choose>
 								<c:when test="${empty reviewList } ">
 									<table class="empty_review">
 										<tr>
@@ -216,64 +221,9 @@
 											</tr>
 										</c:forEach>
 									</table>
-								 	<script>
-								 		$(function () {
-								 			getData();
-								 		})
-								 	
-								 		function getData () {
-								 			$.ajax({
-								 				url: '/asdads/asdasda.do',
-								 				data : '',
-								 				type: 'post',
-								 				dataType:'',
-								 				success : function (result) {
-								 					$('#table').html('');
-								 					for( let datum of result) {
-								 						makeRow(datum)
-								 					}
-								 					
-								 					for( let i = 0 ; i < result.length ; i ++) {
-								 						datum == result[i]
-								 					}
-								 					
-								 				}
-								 		
-								 			})
-								 		}
-								 		
-								 		
-								 		
-								 		function makeRow(datum) {
-								 			let html = '';
-							 			html += '<tr>';
-							 			html +=	'<input type="hidden" value="' + datum.rv_sort + '">'
-							 			html +=	<input type="hidden" value="${reviews.rv_id }">
-							 			html +=	<input type="hidden" value="${reviews.rv_contents }">
-							 			html +=	<input type="hidden" value="${reviews.rv_date}">
-							 			html +=	<input type="hidden" value="${reviews.rv_rating }">
-							 			html +=	<td>
-							 			html +=		<span class="rv_date">${reviews.rv_date }</span>
-											</td>
-											<td>
-												<span class="rv_rating">${reviews.rv_rating }</span>
-											</td>
-											<td>
-												<span class="rv_contents">${reviews.rv_contents }</span>
-											</td>
-										</tr>
-										
-											$('#table').append(html);
-								 		}
-								 
-								 	
-								 	
-								 	</script>
-										
-										
-								
 								</c:when>
-							</c:choose>
+							</c:choose> --%>
+							
 						</div> <!-- show_review -->
 					</div> <!-- all_review -->
 					
@@ -290,11 +240,11 @@
 		
 	</div> <!-- hd_container 끝 -->
 	
-		<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
 			  <div class="modal-dialog modal-dialog-centered" role="document">
 			    <div class="modal-content">
 			      <div class="modal-header">
-			        <h5 class="modal-title" id="exampleModalLongTitle">리뷰 작성</h5>
+			        <h5 class="modal-title" id="modalLongTitle">리뷰 작성</h5>
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			          <span aria-hidden="true">&times;</span>
 			        </button>
@@ -303,26 +253,19 @@
 			      	<span class="star">
 				      	 ★★★★★
 				      	 <span>★★★★★</span>
-	 					 <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
+	 					 <input type="range" oninput="drawStar()" id="starRate" value="1" step="1" min="0" max="10">
 					</span>
-			      	0
+			      	
 		        	<div class="form-group">
-			            <label for="message-text" class="col-form-label">Message:</label>
+			            <label for="message-text" class="col-form-label">내용:</label>
 			            <textarea class="form-control" id="message-text"></textarea>
 		         	</div>
 		         	
-		         	<script type="text/javascript">
-		         	
-			         	const drawStar = (target) => {
-			         		  document.querySelector('.star span').style.width = '${target.value * 10}%'';
-			         		}
-			         	
-		         	</script>
-		         	
+		       
 		         	
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-primary">리뷰 등록</button>
+			        <button type="button" class="btn btn-primary" onclick="registerReview()">리뷰 등록</button>
 			        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 			      </div>
 			    </div>
@@ -532,31 +475,90 @@ $(function(){
 		$('.date_start, .date_end').show();
 		$('.date_oneway').hide();
 	});
+	
+	// 리뷰 리스트
+	getReviewList();
+	
 });
 
 
-/* // 리뷰 관련 ajax
+//별 그리기 함수
 
-	function getReviewList(){
+function drawStar() {
+	let width = $('#starRate').val();
+	document.querySelector('.star span').style.width = (width * 10) + '%'
+}
+ 	
+
+// 리뷰 관련 ajax
+// 처음 hotelDetail 페이지에 들어왔을 때 DB review테이블의 데이터를 가져와서 뿌림
+// 가져올 데이터는 해당 hotelDetail 페이지의 hotel_id값에 해당하는 값들
+function getReviewList(){
 	
-		$.ajax({
-			
-			url:"${pageContext.request.contextPath }/reviewList",
-			type:"get",
-			dataType:"json",
-			success:
-				
-		}
+	let hotelId = '${hotelDetail.hotel_id}'
+	
+	$.ajax({
 		
-	);
+				url:"${pageContext.request.contextPath }/review/reviewList",
+				data:{
+					// 리뷰 테이블의 해당 상품id값을 읽어오는 부분
+					rv_real_id : hotelId
+				},
+				type:"get",
+				dataType:"json",
+				success: function(result) {
+					
+					// 가지고온 리뷰 데이터들을 포함해 화면 랜더링 함수 호출
+					makeReviewTable(result);
+					
+				}
+		
+	});
 	
+}
+
+function makeReviewTable(data) {
 	
+	let targetTable = $('#reviewTable');
 	
+	targetTable.html('')
+	
+	let innerHtml = '';
+	
+	for(let datum of data) {
+		innerHtml += makeRow(datum)
 	}
- */
+	
+	targetTable.append(innerHtml);
+}
 
 
-
+function makeRow(datum) {
+	
+	let innerHtml = ''
+	innerHtml += '<tr>'
+		innerHtml += '<input type="hidden" class="rv_sort" value="'+datum.rv_sort+'">'
+		innerHtml += '<input type="hidden" class="rv_id" value="'+datum.rv_id +'">'
+		innerHtml += '<td>'
+			innerHtml += '<span class="rv_date">'+datum.rv_date +'</span>'
+		innerHtml += '</td>'
+		innerHtml += '<td>'
+			innerHtml += '<span class="rv_rating">'+datum.rv_rating +'</span>'
+		innerHtml += '</td>'
+		innerHtml += '<td>'
+			innerHtml += '<span class="rv_contents">'+datum.rv_contents +'</span>'
+		innerHtml += '</td>'
+		innerHtml += '<td>'
+			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
+			//if(aaaa) {	
+				innerHtml += '<button type="button" class="rv_modify genric-btn primary ela" onclick="openUpdateModal(this)">수정</button>'
+			//	innerHtml += '<button type="button" class="rv_modify genric-btn primary ela" onclick="openUpdateModal(this)">삭제</button>'
+			//}
+		innerHtml += '</td>'
+	innerHtml += '</tr>'
+	
+	return innerHtml;
+}
 
 </script>	
 	

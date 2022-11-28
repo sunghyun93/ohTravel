@@ -20,12 +20,10 @@ public class ReviewServiceImpl implements ReviewService {
 	private final ReviewDAO rd;
 	private final ReviewRepository rr;
 
+	
 	@Override
-	public List<ReviewDTO> reviewSelect(String rv_real_id) {
-		
-		List<ReviewDTO> reviewList = rd.selectReview(rv_real_id);
-		
-		return reviewList;
+	public List<ReviewDTO> reviewSelect(ReviewDTO reviewDTO) {
+		return rd.selectReview(reviewDTO);
 	} 
 	
 	
