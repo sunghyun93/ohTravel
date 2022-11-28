@@ -17,10 +17,12 @@ public class HotelDAOImpl implements HotelDAO {
 
 	@Override
 	public List<HotelDTO> hotelList(HotelDTO hoteldto) {
+		return session.selectList("hotelList");
+	}
 
-		 List<HotelDTO> list = session.selectList("hotelList");
-		 
-		return list;
+	@Override
+	public HotelDTO getHotelDetail(HotelDTO hotelDTO) {
+		return session.selectOne("hotelDetail",hotelDTO);
 	}
 	
 	

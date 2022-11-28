@@ -7,6 +7,10 @@
 	<select id="hotelList" resultType="Hotel">
 		SELECT * FROM hotel 
 	</select>
-
+	
+	<select id="hotelDetail" resultType="Hotel">
+		SELECT * FROM hotel
+		WHERE hotel_id = #{hotel_id}
+	</select>
 
 </mapper>

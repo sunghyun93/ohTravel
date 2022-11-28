@@ -18,20 +18,20 @@
 					<img alt="호텔대표사진" src="${pageContext.request.contextPath }/img/hotel/h_img_test.jpg">
 				</div>
 				<div class="hotel_info">
-					5성급<br>
+					${hotelDetail.hotel_grade }성급<br>
 					<div class="ht_name">
-						<h2>호텔이름</h2>
+						<h2>${hotelDetail.hotel_kor }</h2>
 					</div>
 					<div class="likebtn">
 						
 					</div>
-					hotel name<br>
-					location.href<br>
+					${hotelDetail.hotel_eng }<br>
+					${hotelDetail.hotel_loc }<br>
 					<div class="star_img">
 						<img alt="별점뙇~" src="${pageContext.request.contextPath }/img/hotel/star.png">
 					</div>
 					<div class="star_scr">
-						평균 별점
+						${hotelDetail.hotel_score }
 					</div>
 					<hr>
 					<div class="p_info">
@@ -43,10 +43,10 @@
 				</div> <!-- hotel_info 끝 -->
 				<div class="ht_simple_option">
 					<div class="info_title">숙소정보</div>
-					<div class="ht_loc">주소</div>
-					<div class="chkTime">체크인 체크아웃 시간</div>
-					<div class="room_cnt">객실 수</div>
-					<div class="ht_tel">전화번호</div>
+					<div class="ht_loc">주소 : ${hotelDetail.hotel_loc }</div>
+					<div class="chkTime">체크인 : ${hotelDetail.checkin } 체크아웃 시간 : ${hotelDetail.checkout }</div>
+					<div class="room_cnt">객실 수 : ${hotelDetail.hotel_rv_num }</div>
+					<div class="ht_tel">전화번호 : ${hotelDetail.hotel_tel }</div>
 				</div> <!-- ht_simple_option 끝 -->
 				<div class="room_info">
 					
@@ -197,8 +197,8 @@
 							
 								<c:when test="${not empty reviewList }">
 									<table>
-										<tr>
-											<c:forEach var="reviews" items="${reviewList }">
+										<c:forEach var="reviews" items="${reviewList }">	
+											<tr>
 												<input type="hidden" value="${reviews.rv_sort }">
 												<input type="hidden" value="${reviews.rv_id }">
 												<input type="hidden" value="${reviews.rv_contents }">
@@ -206,13 +206,69 @@
 												<input type="hidden" value="${reviews.rv_rating }">
 												<td>
 													<span class="rv_date">${reviews.rv_date }</span>
+												</td>
+												<td>
 													<span class="rv_rating">${reviews.rv_rating }</span>
+												</td>
+												<td>
 													<span class="rv_contents">${reviews.rv_contents }</span>
 												</td>
-											</c:forEach> 
-										</tr>
+											</tr>
+										</c:forEach>
 									</table>
+								 	<script>
+								 		$(function () {
+								 			getData();
+								 		})
+								 	
+								 		function getData () {
+								 			$.ajax({
+								 				url: '/asdads/asdasda.do',
+								 				data : '',
+								 				type: 'post',
+								 				dataType:'',
+								 				success : function (result) {
+								 					$('#table').html('');
+								 					for( let datum of result) {
+								 						makeRow(datum)
+								 					}
+								 					
+								 					for( let i = 0 ; i < result.length ; i ++) {
+								 						datum == result[i]
+								 					}
+								 					
+								 				}
+								 		
+								 			})
+								 		}
+								 		
+								 		
+								 		
+								 		function makeRow(datum) {
+								 			let html = '';
+							 			html += '<tr>';
+							 			html +=	'<input type="hidden" value="' + datum.rv_sort + '">'
+							 			html +=	<input type="hidden" value="${reviews.rv_id }">
+							 			html +=	<input type="hidden" value="${reviews.rv_contents }">
+							 			html +=	<input type="hidden" value="${reviews.rv_date}">
+							 			html +=	<input type="hidden" value="${reviews.rv_rating }">
+							 			html +=	<td>
+							 			html +=		<span class="rv_date">${reviews.rv_date }</span>
+											</td>
+											<td>
+												<span class="rv_rating">${reviews.rv_rating }</span>
+											</td>
+											<td>
+												<span class="rv_contents">${reviews.rv_contents }</span>
+											</td>
+										</tr>
+										
+											$('#table').append(html);
+								 		}
 								 
+								 	
+								 	
+								 	</script>
 										
 										
 								
