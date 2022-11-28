@@ -305,7 +305,10 @@
 	 font-size:24px;
 	 font-weight: bold;
 }
-
+.emoji{
+	width:15px;
+    height:15px;
+}
 
 </style>
 <meta charset="UTF-8">
@@ -326,7 +329,7 @@
 		</div>
 		<div class="go_airplane">
 			<%-- <c:forEach var="" items=""> --%>
-				<div class="airline"><img class="emoji" src="${pageContext.request.contextPath}/airport/img/korean_air.png" width="15px" height="15px"> 대한항공<br>
+				<div class="airline"><img class="emoji" src="${pageContext.request.contextPath}/airport/img/airline/korean_air.png" > 대한항공<br>
 				<span class="airline_num">A380</span>
 				</div>
 				

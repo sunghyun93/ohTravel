@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -780,9 +782,104 @@ prod_list_wrap .htl .btn.line {
 #all {
 	color: black;
 }
+/* 비행기 검색시 나오는 div  */
+.airline{
+	margin-left:10px;
+}
+.airline_num{
+	margin-left:30px;
+}
+.time{
+ font-weight: bold;
+ font-size: 22px;
+ margin-left: 15px;	
+}
+.step{
+	color:#3399FF;
+	margin-left: 15px;
+}
+.hour{
+	margin-left: 15px;
+	font_size:20px;
+	color:gray;
+}
 
+.go_airplane{
+	border: 1px solid gray;
+	width : 920px;
+	height: 125px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 15px 0 10px;
+}
 
+.emoji{
+	width: 70px;
+	height: 30px;
+}
+
+.price{
+	margin-right: 15px;
+}
+
+.reservation_check{
+	margin-right:5px;
+}
 </style>
+</head>
+<body>
+	<div class="js_tabs type1 no_division">
+		<ul class="tabs sort">
+			<li class="item01"><button id="all" class="item02">전체</button></li>
+	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
+	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
+	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
+			<li class="item05 selected"><button id="airplane" class="item02">항공</button></li>
+		</ul>
+	</div>
+	
+	<c:forEach var="schedule" items="${schedule_list}">
+	<div class="go_airplane">
+				<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${schedule.air_picture}" width="20px" height="20px">${schedule.air_name}<br>
+				<span class="airline_num">${schedule.airplane_name}</span>
+				</div>
+				
+				<div class="go_airplane_day">
+				<fmt:formatDate pattern="yyyy-MM-dd" value="${schedule.start_time}"/><br>
+					<span class="time"><fmt:formatDate pattern="HH:mm" value="${schedule.start_time}"/></span><br>
+					<span class="airport">${schedule.start_airport_name}</span>
+				</div>
+				<div>
+						<span class="step">직항</span><br>
+						<img class="emoji" src="${pageContext.request.contextPath}/airport/img/arro.png"><br>
+						<span class="hour">${schedule.lead_time}분</span>
+				</div>		
+				<div class="depart_airplane_day">
+					<fmt:formatDate pattern="yyyy-MM-dd" value="${schedule.end_time}"/><br>
+					<span class="time"><fmt:formatDate pattern="HH:mm" value="${schedule.end_time}"/></span><br>
+					<span class="airport">${schedule.end_airport_name}</span>
+				</div>
+				<div class="reservation_check">
+					 예약가능<br>
+					<span>잔여5석</span>
+				</div>
+				<div class="price">
+					<c:if test="${seat_position == 'C'}">
+					 	${1*schedule.schedule_price }<br>
+					 </c:if>
+					 <c:if test="${seat_position == 'B'}">
+					 	${2*schedule.schedule_price }<br>
+					 </c:if>
+					 <c:if test="${seat_position == 'A'}">
+					 	${3*schedule.schedule_price }<br>
+					 </c:if>
+				</div>
+			</div>
+		</c:forEach>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script type="text/javascript">
 	
@@ -802,18 +899,11 @@ prod_list_wrap .htl .btn.line {
 			})
 		});
 	})
-
-</script>
-</head>
-<body>
-	<div class="js_tabs type1 no_division">
-		<ul class="tabs sort">
-			<li class="item01"><button id="all" class="item02">전체</button></li>
-	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
-	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
-	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
-			<li class="item05 selected"><button id="airplane" class="item02">항공</button></li>
-		</ul>
-	</div>
+	
+	$(function(){
+		
+	});
+	
+</script>			
 </body>
 </html>
