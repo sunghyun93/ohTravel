@@ -59,7 +59,7 @@
 			<input type="date" name="dates_start_check" value="2022-12-20" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27">
 		</div>
 		<div class="search">
-			<button type="button" id="pkgSearchBtn" class="pkg_search" >패키지 검색</button>
+			<input type="button" id="pkgSearchBtn" class="pkg_search" value="패키지 검색">
 		</div>
 	</div><!-- start_end -->
 
