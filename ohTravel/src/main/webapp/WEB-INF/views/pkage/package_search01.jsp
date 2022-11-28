@@ -7,7 +7,7 @@
 <head>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
 <meta charset="UTF-8">
-<title>해외 패키지 여행</title>
+<title>${gubun == 0 ? '국내' : '해외' } 패키지 여행</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_search.css">
 </head>
 <body>
@@ -17,52 +17,57 @@
 		<div class="round_trip"></div>
 		<div class="oneway"></div>
 	</div>	
-	<div class="start_end">
-			<!--왕복 모달시작  -->
-		<div>
-			 <input type="text" id="modal_btn" class="starting" data-toggle="modal" data-target="#exampleModalCenter" placeholder="가고싶은 나라를 선택해주세요" readonly>
-			 <input type="hidden" value="" class="starting_hidden">	
-			 <div class="black_bg"></div>
-			<div class="modal_wrap">
-			    <div class="modal_close"><span>close</span></div>
-			    <div class="entire">
-				    <span class="select_area">지역을 선택해주세요.</span>
-				    <div class="modal_close_country">
-				    	<div class="modal_close_country_1">
-					        <ul>
-					        	<c:forEach var="country" items="${countryList }">
-					        		<li><span id="${country.country_id }" class="country_li">${country.country_name }</span></li>
-					        	</c:forEach>
-					        </ul>
-					    </div>
-					    <div class="modal_close_country_2">
-					        <ul>
-					        	<li><span></span></li>
-					        	<li><span></span></li>
-					        </ul>
-					    </div>     
-				        
-				    </div> <!-- modal_close_country_1 -->
-				</div>
-			</div>    <!--모달끝  --> 
-		</div>
-
-		<div>
-			<select name="city_name">
-				<c:forEach var="city" items="${cityList }">
-					<option value="${city.city_id }">${city.city_name } 출발</option>
-				</c:forEach>
-			</select>
-		</div>
-		
-		<div class="date_start">
-			<input type="date" name="dates_start_check" value="2022-12-20" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27">
-		</div>
-		<div class="search">
-			<input type="button" id="pkgSearchBtn" class="pkg_search" value="패키지 검색">
-		</div>
-	</div><!-- start_end -->
-
+	<form id="pkgSearchForm" action="/pkage/searchResult" method="GET">
+		<input type="hidden" name="pkage_gubun" value="${gubun }">
+		<div class="start_end">
+				<!--왕복 모달시작  -->
+			<div>
+				 <input style="text-align: center;" type="text" id="modal_btn" class="starting" data-toggle="modal" data-target="#exampleModalCenter" 
+				 placeholder="${gubun == 0 ? '가고싶은 국내 여행지를 선택하세요' : '가고싶은 해외 여행지를 선택하세요' }" readonly>
+				 <input type="hidden" name="toDesti" value="" class="starting_hidden">	
+				 <div class="black_bg"></div>
+				<div class="modal_wrap">
+				    <div class="modal_close"><span>close</span></div>
+				    <div class="entire">
+					    <span class="select_area">지역을 선택해주세요.</span>
+					    <div class="modal_close_country">
+					    	<div class="modal_close_country_1">
+						        <ul>
+						        	<c:forEach var="country" items="${countryList }">
+						        		<li><span id="${country.country_id }" class="country_li">${country.country_name }</span></li>
+						        	</c:forEach>
+						        </ul>
+						    </div>
+						    <div class="modal_close_country_2">
+						        <ul>
+						        	<li><span></span></li>
+						        	<li><span></span></li>
+						        </ul>
+						    </div>     
+					        
+					    </div> <!-- modal_close_country_1 -->
+					</div>
+				</div>    <!--모달끝  --> 
+			</div>
+	
+			<div>
+				<!-- <div>인천 출발</div> -->
+				<%-- <select name="start_city_id">
+					<c:forEach var="city" items="${cityList }">
+						<option value="${city.city_id }">${city.city_name } 출발</option>
+					</c:forEach>
+				</select> --%>
+			</div>
+			
+			<div class="date_start">
+				<input type="date" name="dates_start_check" value="2022-12-20" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27">
+			</div>
+			<div class="search">
+				<button type="button" id="pkgSearchBtn" class="pkg_search" >패키지 검색</button>
+			</div>
+		</div><!-- start_end -->
+	</form>
+	<div class="infoDiv">※ 출발은 모든 패키지 공통 '인천'입니다.</div>
 </div><!-- search_field -->
 
 
@@ -212,6 +217,8 @@ $(function() {
 			alert("가고싶은 지역을 선택해주세요.");
 			// 모달창 켜기
 			onClick();
+		} else {
+			$('#pkgSearchForm').submit();
 		}
 
 	});

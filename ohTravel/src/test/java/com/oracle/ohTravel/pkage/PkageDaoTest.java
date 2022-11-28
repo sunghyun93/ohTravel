@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oracle.ohTravel.pkage.dao.PkageDao;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
+import com.oracle.ohTravel.pkage.model.PkageDTORM;
+import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,4 +56,14 @@ public class PkageDaoTest {
 		log.info("개수="+list.size());
 		assertTrue(list.size()==6);
 	}
+	
+	@Test
+	public void selectPkgWithDetailTest() throws Exception {
+		List<PkageDTORM> list = pkageDao.selectPkgWithDetail();
+		
+		for(PkageDTORM p : list) {
+			System.out.println(p);
+		}
+	}
+	
 }

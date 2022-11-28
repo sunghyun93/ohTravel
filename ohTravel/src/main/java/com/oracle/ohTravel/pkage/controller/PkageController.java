@@ -16,6 +16,7 @@ import com.oracle.ohTravel.city.service.CityService;
 import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.country.service.CountryService;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
+import com.oracle.ohTravel.pkage.model.PkgSearch;
 import com.oracle.ohTravel.pkage.service.PkageService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,25 +32,23 @@ public class PkageController {
 	@Autowired
 	private PkageService pkageService;
 	
-	@GetMapping("/detail")
-	public String detail() {
-		return "pkage/package_detail";
-	}
-	
-	@GetMapping("/reservation")
-	public String reservation() {
-		return "pkage/package_reservation";
-	}
-	
-	// 귝내/해외 search 페이지(0:국내 1:해외)
+	// 국내 / 해외 패키지 상품 가져오는 메서드
+	// 국내/해외 search 페이지(0:국내 1:해외)
 	@GetMapping("/search/{gubun}")
 	public String search01(@PathVariable("gubun")Integer gubun, Model model) {
 		log.info("PkageController search01() start..."); 
 		
 		log.info("gubun = " + gubun);
+		List<CountryDTO> countryList = null;
 		try {
 			// 가고싶은 나라 country 모두 가져오기 (한국-100 빼고)
-			List<CountryDTO> countryList = countryService.selectCountryByCountryId(100);
+			if(gubun == 1) {
+				countryList = countryService.selectCountryByCountryId(100);
+			}
+			// 한국만 가져오기
+			else if(gubun == 0) {
+				countryList = countryService.selectCountryByCountryId2(100);
+			}
 			
 			// 출발지 선택 city 가져오기 (한국 출발지만 필요하기에 100으로 가져옴)
 			List<CityDTO> cityList = cityService.selectCityByCountryId(100);
@@ -67,6 +66,7 @@ public class PkageController {
 			map2.put("row_count", 6);
 			List<PkageDTO> pkageListThema = pkageService.selectPkgByThemaSoldScoreOrder(map2);
 			
+			model.addAttribute("gubun", gubun);
 			model.addAttribute("countryList", countryList);
 			model.addAttribute("cityList", cityList);
 			model.addAttribute("pkageList", pkageList);
@@ -80,5 +80,23 @@ public class PkageController {
 		return "pkage/package_search01";
 	}
 	
-
+	// 검색 결과 메서드
+	@GetMapping("/searchResult")
+	public String searchResult(PkgSearch pkgSearch) {
+		log.info("PkageController searchResult() start...");
+		log.info("pkgSearch="+pkgSearch);
+		
+		log.info("PkageController searchResult() end...");
+		return "pkage/package_searchResult";
+	}
+	
+	@GetMapping("/detail")
+	public String detail() {
+		return "pkage/package_detail";
+	}
+	
+	@GetMapping("/reservation")
+	public String reservation() {
+		return "pkage/package_reservation";
+	}
 }
