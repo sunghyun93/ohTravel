@@ -20,5 +20,11 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 		em.persist(review);
 	}
 
+	@Override
+	public void deleteReview(Review review) {
+		Review findReview = em.find(Review.class, 1L);
+		em.remove(findReview);
+	}
+
 
 }

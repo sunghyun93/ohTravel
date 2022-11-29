@@ -35,4 +35,9 @@ public class ReviewRestController {
 	public String updateReview(ReviewDTO reviewDTO) {
 		return rs.updateReview(reviewDTO);
 	}
+	
+	@PostMapping(value = "/deleteReview")
+	public String deleteReview(Review review) {
+		return rs.deleteReview(review);
+	}
 }

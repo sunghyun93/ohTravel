@@ -600,7 +600,7 @@ function makeRow(datum) {
 			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
 			//if(aaaa) {	
 				innerHtml += '<button type="button" class="rv_modify genric-btn primary ela" onclick="openUpdateModal(this)">수정</button>'
-			//	innerHtml += '<button type="button" class="rv_modify genric-btn primary ela" onclick="openUpdateModal(this)">삭제</button>'
+				innerHtml += '<button type="button" class="rv_delete genric-btn primary ela" onclick="deleteReview(this)">삭제</button>'
 			//}
 		innerHtml += '</td>'
 	innerHtml += '</tr>'
@@ -649,7 +649,7 @@ function writeReview(){
 	});
 }
 
-
+// 리뷰 수정 ajax
 function updateReview(){
 	
 	
@@ -691,7 +691,6 @@ function updateReview(){
 }
 
 
-//리뷰 수정 ajax
 //[수정] 버튼을 클릭한 해당 행의 review 정보를 모두 가져와야함
 function openUpdateModal(target){
 	
@@ -713,7 +712,30 @@ function openUpdateModal(target){
 
 }
 
-
+// [삭제] 버튼을 클릭한 해당 행의 review 정보를 가져와서 삭제
+function deleteReview(target){
+	
+	let targetTr =  $(target).closest('tr')
+	// 삭제할 리뷰 행의 hidden값 rv_id값을 가져옴
+	selectedRvId = targetTr.find('.rv_id').val();
+	
+	if(!confirm("해당 리뷰를 삭제하시겠습니까?")){
+		alert("삭제가 취소되었습니다.")
+	} else {
+		$.ajax({
+			
+			url:"${pageContext.request.contextPath }/review/deleteReview",
+			data: selectedRvId,
+			type: 'post',
+			success: 
+				alert("리뷰가 삭제되었습니다.")
+	});
+	
+	
+	}
+	
+	
+}
 
 
 

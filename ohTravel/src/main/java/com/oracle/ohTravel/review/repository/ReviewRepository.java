@@ -7,5 +7,7 @@ public interface ReviewRepository {
 
 	void writeReview(Review review);
 
+	void deleteReview(Review review);
+
 
 }

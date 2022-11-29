@@ -63,5 +63,14 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		return "SUCCESS";
 	}
+
+
+	@Override
+	public String deleteReview(Review review) {
+		
+		rr.deleteReview(review);
+		
+		return "SUCCESS";
+	}
 	
 }
