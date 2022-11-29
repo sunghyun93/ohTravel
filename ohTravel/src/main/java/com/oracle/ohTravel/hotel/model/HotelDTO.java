@@ -26,7 +26,13 @@ public class HotelDTO {
 	private LocalDateTime checkout;
 	
 	private String h_img_path;
+	private String room_name;
+	private int room_min_price;
+	private String room_type;
 	
+	private String pageNum;
+	private int start;
+	private int end;
 	private String city_name;
 	
 }

@@ -21,4 +21,11 @@ public class PkageDTO {
 	
 //	pakcage_image
 	private String pkage_Img_path;
+	
+	private String pageNum;
+	private int start;
+	private int end;
+	private String search_word;
+	private int min_price;
+	private String check;
 }

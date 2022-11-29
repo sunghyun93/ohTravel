@@ -10,10 +10,12 @@ public interface SearchService {
 
 //	List<TicketModel> getTicketList(String search_word);
 
-	List<PkageDTO> getPkageList(String search_word);
+	List<PkageDTO> getPkageList(PkageDTO pkageDTO);
 
-	List<HotelDTO> getHotelList(String search_word);
+	List<HotelDTO> getHotelList(PkageDTO pkageDTO);
 
-	List<TicketDTO> getTicketList(String search_word);
+	List<TicketDTO> getTicketList(PkageDTO pkageDTO);
+
+	List<PkageDTO> filteredPkageList(PkageDTO pkageDTO);
 
 }

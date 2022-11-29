@@ -14,6 +14,7 @@
 	$(function() {
 		$('.item02').click(function() {
 			let gubun = $(this).attr('id');
+			console.log(gubun);
 			$.ajax({
 				url: '/searchCategoryAjax',
 				data: {'search_word' : $('#search_word').val(),
@@ -177,9 +178,6 @@
           </div>
         </div>
       </div> <!-- 티켓 리스트 -->
-      
-      </div> <!-- sick_finger -->
-      
     </div> <!-- contents -->
   </div> <!-- inr -->
 </div> <!-- container -->

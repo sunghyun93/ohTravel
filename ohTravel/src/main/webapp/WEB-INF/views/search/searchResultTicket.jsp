@@ -788,6 +788,7 @@ prod_list_wrap .htl .btn.line {
 	$(function() {
 		$('.item02').click(function() {
 			let gubun = $(this).attr('id');
+			console.log(gubun);
 			$.ajax({
 				url: '/searchCategoryAjax',
 				data: {'search_word' : $('#search_word').val(),
@@ -805,75 +806,70 @@ prod_list_wrap .htl .btn.line {
 </script>
 </head>
 <body>
-	<div class="container">
-		<div class="inr">
-			<div id="contents" class="contents">
-				<div class="js_tabs type1 no_division">
-					<ul class="tabs sort">
-						<li class="item01"><button id="all" class="item02">전체</button></li>
-				        <li class="item"><button id="pkage" class="item02">패키지</button></li>
-				        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
-				        <li class="item04 selected"><button id="ticket" class="item02">투어/입장권</button></li>
-						<li class="item05"><button id="airplane" class="item02">항공</button></li>
-					</ul>
-				</div>
-				<div>
-					<div class="ly_wrap result_wrap">
-						<div class="inr right">
-							<div class="option_wrap result">
-								<span class="count">투어/입장권<em>(${ticketListCount})</em></span>
-								<div class="right_cont">
-									<ul class="list_sort">
-										<li><a href="#">가격높은순</a></li>
-										<li><a href="#">가격낮은순</a></li>
-										<li><a href="#">성급 높은순</a></li>
-										<li><a href="#">성급 낮은순</a></li>
-										<li><a href="#">상품평 높은순</a></li>
-									</ul>
-								</div>
-							</div>
-							<div class="prod_list_wrap">
-								<ul class="type">
-									<c:forEach var="ticketList" items="${ticketList}" begin="0" end="3">
-						              <li>
-						                <div>
-						                  <div class="inr img">
-						                    <img src="${ticketList.ticket_rep_img_path }">
-						                  </div>
-						                  <div class="inr right route_type">
-						                    <strong class="item_title eps2">${ticketList.ticket_name }</strong>
-						                    <p class="item_text stit"><p>
-						                    <div class="price_group">
-						                      <strong class="price now">${ticketList.ticket_adult_price}<span>원</span></strong>
-						                    </div>
-						                    <div class="btn_wrap">
-						                      <a href="/ticket/exhibitionDetail" class="btn arrow">상세보기</a>
-						                    </div>
-						                  </div>
-						                </div>
-						              </li>
-						             </c:forEach>
-								</ul>
-							</div>
-							<div class="paginate_wrap" style="">
-								<div class="paginate type2">
-									<div>
-										<a href="#none" class="direction prevend"
-											style="display: none;">처음</a> <a href="#none"
-											class="direction prev" style="display: none;">이전</a> <span><strong>1</strong><a
-											href="#none">2</a><a href="#none">3</a><a href="#none">4</a><a
-											href="#none">5</a><a href="#none">6</a><a href="#none">7</a><a
-											href="#none">8</a><a href="#none">9</a><a href="#none">10</a></span>
-										<a href="#none" class="direction next" style="">다음</a> <a
-											href="#none" class="direction nextend" style="">끝</a>
-									</div>
-								</div>
-								<!---->
-							</div>
-							<!---->
-						</div>
+	<div class="js_tabs type1 no_division">
+		<ul class="tabs sort">
+			<li class="item01"><button id="all" class="item02">전체</button></li>
+	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
+	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
+	        <li class="item04 selected"><button id="ticket" class="item02">투어/입장권</button></li>
+			<li class="item05"><button id="airplane" class="item02">항공</button></li>
+		</ul>
+	</div>
+	<div>
+		<div class="ly_wrap result_wrap">
+			<div class="inr right">
+				<div class="option_wrap result">
+					<span class="count">투어/입장권<em>(${ticketListCount})</em></span>
+					<div class="right_cont">
+						<ul class="list_sort">
+							<li><a href="#">가격높은순</a></li>
+							<li><a href="#">가격낮은순</a></li>
+							<li><a href="#">성급 높은순</a></li>
+							<li><a href="#">성급 낮은순</a></li>
+							<li><a href="#">상품평 높은순</a></li>
+						</ul>
 					</div>
 				</div>
+				<div class="prod_list_wrap">
+					<ul class="type">
+						<c:forEach var="ticketList" items="${ticketList}" begin="0" end="3">
+			              <li>
+			                <div>
+			                  <div class="inr img">
+			                    <img src="${ticketList.ticket_rep_img_path }">
+			                  </div>
+			                  <div class="inr right route_type">
+			                    <strong class="item_title eps2">${ticketList.ticket_name }</strong>
+			                    <p class="item_text stit"><p>
+			                    <div class="price_group">
+			                      <strong class="price now">${ticketList.ticket_adult_price}<span>원</span></strong>
+			                    </div>
+			                    <div class="btn_wrap">
+			                      <a href="/ticket/exhibitionDetail" class="btn arrow">상세보기</a>
+			                    </div>
+			                  </div>
+			                </div>
+			              </li>
+			             </c:forEach>
+					</ul>
+				</div>
+				<div class="paginate_wrap" style="">
+					<div class="paginate type2">
+						<div>
+							<c:if test="${page.startPage > page.pageBlock }">
+								<a href="search/searchResultTicket?search_word=${search_word}&currentPage=${page.startPage - page.pageBlock }" class="direction prev">[이전]</a>
+							</c:if>
+							<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
+								<a href="search/searchResultTicket?search_word=${search_word}&currentPage=${i}" class="current_page">[${i}]</a>
+							</c:forEach>
+							<c:if test="${page.startPage < page.pageBlock }">
+								<a href="search/searchResultTicket?search_word=${search_word}&currentPage=${page.startPage + page.pageBlock }" class="direction next">[다음]</a>
+							</c:if>
+						</div>
+					</div>
+					<!---->
+				</div>
+				<!---->
 			</div>
 		</div>
 	</div>
