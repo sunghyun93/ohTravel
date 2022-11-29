@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.search.dao.SearchDao;
-import com.oracle.ohTravel.ticket.model.TicketModel;
+import com.oracle.ohTravel.ticket.model.TicketDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,9 +32,9 @@ public class SearchServiceImplementation implements SearchService {
 	}
 
 	@Override
-	public List<TicketModel> getTicketList(String search_word) {
+	public List<TicketDTO> getTicketList(String search_word) {
 		System.out.println("Service getTicketList Start...");
-		List<TicketModel> ticketList = sd.getTicketList(search_word);
+		List<TicketDTO> ticketList = sd.getTicketList(search_word);
 		return ticketList;
 	}
 

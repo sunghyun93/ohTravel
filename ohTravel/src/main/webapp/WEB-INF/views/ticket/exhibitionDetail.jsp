@@ -8,8 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_detail.css">
+<link rel="stylesheet" href=" ${pageContext.request.contextPath}/css/hotel/style.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
 </head>
@@ -412,14 +412,14 @@
 	.num_count_group .btn_decrement:after {
 	    display: inline-block;
 	    content: '';
-	    background-image: url(icon_minus.png);
+	    /* background-image: url(icon_minus.png); */
 	    background-repeat: no-repeat;
 	    background-position: 0px 0px;
 	}
 	.num_count_group .btn_increment:after {
 	    display: inline-block;
 	    content: '';
-	    background-image: url(icon_plus.png);
+	    /* background-image: url(icon_plus.png); */
 	    background-repeat: no-repeat;
 	    background-position: 0px 0px;
 	}
@@ -835,19 +835,23 @@
 	    line-height: normal;
 	    font-size: 19px;
 	}	
-	
+	.count-wrap {position: relative;padding: 0 38px;border: 1px solid #ddd;overflow: hidden;width: 60px;}
+	.count-wrap > button {border: 0;background: #ddd;color: #000;width: 38px;height: 38px;position: absolute;top: 0;font-size: 12px;}
+	.count-wrap > button.minus {left: 0;}
+	.count-wrap > button.plus {right: 0;}
+	.count-wrap .inp {border: 0;height: 38px;text-align: center;display: block;width: 100%;}
 	
 </style>
 <body>
 	<div class="container" style="height:auto;">
 		<div class="info" style="width: 1250px; height: 770px;">
 			<!-- 왼쪽 티켓 이미지 -->
-			<div class="ticketImg" style="width: 750px; height: 770px; border: 1px solid black; float:left; translate: 0px;">
+			<div class="ticketImg" style="width: 750px; height: 770px; border: 1px solid #808080; float:left; translate: 0px;">
 				<h2><img src="https://static.hanatour.com/product/2022/03/15/23436zw98i/default.png" style="width: 735px; height: 500px; margin: 0 auto; position: relative; transform: translate(4px, 139px);"> ${ticket_rep_img_path}</h2>
 			</div>
 			
 			<!-- 오른쪽 제목 -->
-			<div class="infoFlex" style="width: 450px; height: 770px; border: 1px solid black; float:right; translate: -55px;">
+			<div class="infoFlex" style="width: 450px; height: 770px; border: 1px solid #808080; float:right; translate: -55px;">
 				<div id="productInfoWrap">
 					<div class="product-info" style="padding: 40px 40px 60px; height: 770px;">
 						<div class="product-title" style="width: 350px; float: right; translate: -30px 90px;">
@@ -913,9 +917,12 @@
                         <div class="cont_unit summary">
                             <div class="text_wrap big top">
                                 <strong class="tit">상품일정</strong>
-                                <div class="ticket_admission_date" style="translate: 0 20px;">
-									<input type="date" name="dates_start_oneway" value=""  id="dates_start_oneway" class="dates_start_oneway">
-								</div>
+                                	<!-- ticket_admission_date -->
+                               		<div class="date">
+										<div class="date_start" style="translate: 0 20px;">
+											<input type="date" name="dates_start_check" value="" id="dates_start_check" class="dates_start_check">
+										</div>
+									</div>
                             </div>
                         </div>
 
@@ -932,8 +939,66 @@
 
                         <hr class="pkg">
                         
+                        <!-- 리뷰 -->
                         <div class="cont_unit">
-                        
+							<div class="all_review">
+								리뷰
+								<div class="rv_stats">
+									별점 통계가 들어가요
+									
+								</div>
+								
+								<div class="rv_btn">
+									<button class="genric-btn primary ela"  data-toggle="modal" data-target="#reviewModal">리뷰 등록</button>
+								</div>
+									
+								<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
+									리뷰가 쌓일거예요
+									
+									<table id="reviewTable">
+										
+									</table>
+									
+									
+								<%-- 	<c:choose>
+										<c:when test="${empty reviewList } ">
+											<table class="empty_review">
+												<tr>
+													<td>
+														등록된 리뷰가 없습니다.
+													</td>
+												</tr>
+											</table>
+										
+										</c:when>
+										
+									
+										<c:when test="${not empty reviewList }">
+											<table>
+												<c:forEach var="reviews" items="${reviewList }">	
+													<tr>
+														<input type="hidden" value="${reviews.rv_sort }">
+														<input type="hidden" value="${reviews.rv_id }">
+														<input type="hidden" value="${reviews.rv_contents }">
+														<input type="hidden" value="${reviews.rv_date}">
+														<input type="hidden" value="${reviews.rv_rating }">
+														<td>
+															<span class="rv_date">${reviews.rv_date }</span>
+														</td>
+														<td>
+															<span class="rv_rating">${reviews.rv_rating }</span>
+														</td>
+														<td>
+															<span class="rv_contents">${reviews.rv_contents }</span>
+														</td>
+													</tr>
+												</c:forEach>
+											</table>
+										</c:when>
+									</c:choose> --%>
+									
+								</div> <!-- show_review -->
+							</div> <!-- all_review -->
                         </div>
                     </div><!-- inr -->
 
@@ -949,23 +1014,23 @@
                                     <li>
                                         <p class="tit">
                                             <span class="txt">성인</span>
-                                            <span class="price">17,000 ${ticket_adult_price}원</span>
+                                            <span class="price">20,000원</span>
                                         </p>
                                         <span class="num_count_group">
-                                        	<input type="button" onclick='count("minus")'  value="-"/>
-                                        	<span id="result1" class="adultCnt">1</span>
-                                        	<input type="button" onclick='count("plus")' value="+"/>
+                                            <button class="btn_decrement down"></button>
+                                            <span class="inpt_counter adultCnt">0</span>
+                                            <button class="btn_increment up"></button>
                                         </span>
                                     </li>
                                     <li>
                                         <p class="tit">
                                             <span class="txt">아동</span>
-                                            <span class="price">10,000 ${ticket_adult_price}원</span>
+                                            <span class="price">10,000원</span>
                                         </p>
                                         <span class="num_count_group">
-                                        	<input type="button" onclick='count("minus")'  value="-"/>
-                                        	<span id="result2" class="childCnt">0</span>
-                                        	<input type="button" onclick='count("plus")' value="+"/>
+                                            <button class="btn_decrement down"></button>
+                                            <span class="inpt_counter childCnt"></span>
+                                            <button class="btn_increment up"></button>
                                         </span>
                                     </li>
                                 </ul>
@@ -976,16 +1041,13 @@
                                 <div class="total_pay_price">
                                     <div class="row final">
                                         <p class="tit">총 금액</p>
-                                        <p class="con"></p>
+                                        <p class="con"></em></p>
                                     </div>
                                 </div>
                                 <hr class="pkg">
                                 <div class="cont_unit foot">
                                     <div class="btn_wrap">
-                                        <button class="btn-rv" style="width: 250px;">예약</button>
-<!--                                         <button class="btn-like">
-                                            <span class="btn-like-span material-symbols-outlined-empty">favorite</span>
-                                        </button> -->
+                                        <button class="btn-rv" style="width: 250px;" onclick="location.href='exhPayment'">예약</button>
                                     </div>
                                 </div>
                             </div>
@@ -995,9 +1057,129 @@
 	</div>
 
 	<script>
-		////////////////찜 버튼 하트 아이콘 클릭 (근데 왜 안 먹히는지 모르겠음,,,,ㅎ) ///////////////////
-		var i = 0;
 		$(function() {
+		    /* 인원 수 버튼 증감 및 총 금액 부분의 합계 script 부분 */
+
+		    // 어른 / 아동 인원수
+		    let adultCnt = $(".adultCnt");
+		    let childCnt = $(".childCnt");
+
+		    // 업 버튼 / 다운 버튼
+		    let up = $(".up");
+		    let down = $(".down");
+
+		    // 성인 가격 / 아동 가격 (서버에서 받아와야 함 - 우선 하드코딩)
+		    let adultPrice = 20000;
+		    let childPrice = 10000;
+
+		    // 총 금액 (기본적으로 성인이 1명 선택되어있기 때문에 시작하자마자 성인 가격을 대입함)
+		    let totalPrice = adultPrice;
+		    // 총 금액 객체
+		    let totalPay = $(".con");
+
+		    // 인원 수 기본 설정
+		    adultCnt.text("1");
+		    childCnt.text("0");
+
+		    // 총 금액 기본 설정 (서버에서 받아와야 함 - 우선 하드코딩)
+		    totalPay.html(adultPrice + "<em>원</em>");
+
+		    up.on("click", function () {
+		        // 누른 버튼 구분 (up / down)
+		        let isUp = $(this).hasClass("up");
+
+		        // 클릭 했을 때의 클릭한 부분의 인원 수 (siblings() 를 사용해봄)
+		        let cnt = Number($(this).siblings("span").text());
+		        console.log(cnt);
+
+		        // 클릭 했을 때의 전체 인원 수 (패키지 상세 인원 제한을 위한 변수)
+		        let totalCnt = Number(adultCnt.text()) + Number(childCnt.text());
+
+		        // 클릭 했을 때 성인 / 아동 구분
+		        let isAdult = $(this).siblings("span").hasClass("adultCnt");
+		        console.log(isAdult);
+
+		        // 성인 / 아동 , up / down 구분
+		        if (isAdult && !isUp) {
+		            console.log("성인 down");
+		        } else if (isAdult && isUp) {
+		            console.log("성인 up");
+		            // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
+		            if (totalCnt >= 10) {
+		                return;
+		            } else {
+		                cnt += 1;
+		                adultCnt.text(cnt);
+
+		                // 총 금액 설정
+		                totalPrice += adultPrice;
+		            }
+		        } else if (!isAdult && !isUp) {
+		            console.log("아동 down");
+		        } else if (!isAdult && isUp) {
+		            console.log("아동 up");
+		            // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
+		            if (totalCnt >= 10) {
+		                return;
+		            } else {
+		                cnt += 1;
+		                childCnt.text(cnt);
+
+		                // 총 금액 설정
+		                totalPrice += childPrice;
+		            }
+		        }
+
+		        // 총 금액 부분에 내용 삽입
+		        totalPay.html(totalPrice + "<em>원</em>");
+		    });
+
+		    down.on("click", function () {
+		        // 누른 버튼 구분 (up / down)
+		        let isUp = $(this).hasClass("up");
+
+		        // 클릭 했을 때의 인원 수
+		        let cnt = $(this).siblings("span").text();
+		        console.log(cnt);
+
+		        // 클릭 했을 때 성인 / 아동 구분
+		        let isAdult = $(this).siblings("span").hasClass("adultCnt");
+		        console.log(isAdult);
+
+		        // 성인 / 아동 , up / down 구분
+		        if (isAdult && !isUp) {
+		            console.log("성인 down");
+		            if (cnt <= 1) {
+		                return;
+		            } else {
+		                cnt -= 1;
+		                adultCnt.text(cnt);
+
+		                // 총 금액 설정
+		                totalPrice -= adultPrice;
+		            }
+		        } else if (isAdult && isUp) {
+		            console.log("성인 up");
+		        } else if (!isAdult && !isUp) {
+		            console.log("아동 down");
+		            if (cnt <= 0) {
+		                return;
+		            } else {
+		                cnt -= 1;
+		                childCnt.text(cnt);
+
+		                // 총 금액 설정
+		                totalPrice -= childPrice;
+		            }
+		        } else if (!isAdult && isUp) {
+		            console.log("아동 up");
+		        }
+
+		        totalPay.html(totalPrice + "<em>원</em>");
+		    });
+			
+			/* 찜 버튼 하트 아이콘 클릭  */
+			var i = 0;
 			$('.bi-heart').click(function() {
 
 				if (i == 0) {
@@ -1011,142 +1193,6 @@
 			});
 		});
 
-		////////////////////////출발지역 또는 도착지역 모달창 클릭시 모달실행///////////////////////
-		function onClick() {
-			document.querySelector('.modal_wrap').style.display = 'block';
-			document.querySelector('.black_bg').style.display = 'block';
-
-		}
-		function onClick2() {
-			document.querySelector('.modal_wrap2').style.display = 'block';
-			document.querySelector('.black_bg2').style.display = 'block';
-
-		}
-
-		function offClick() {
-			document.querySelector('.modal_wrap').style.display = 'none';
-			document.querySelector('.black_bg').style.display = 'none';
-
-		}
-
-		function offClick2() {
-			document.querySelector('.modal_wrap2').style.display = 'none';
-			document.querySelector('.black_bg2').style.display = 'none';
-
-		}
-
-		document.getElementById('modal_btn').addEventListener('click', onClick);
-		document.getElementById('modal_btn2').addEventListener('click',
-				onClick2);
-		document.querySelector('.modal_close').addEventListener('click',
-				offClick);
-		document.querySelector('.modal_close2').addEventListener('click',
-				offClick2);
-		//////////////////////////////////////////////////////////////////////////
-
-
-		////////////////////////인원수 선택 모달///////////////////////////////////////
-		$(function() {
-			// 인원 수 버튼 증감 및 총 금액 부분의 합계 script 부분
-			let adultCnt = $('.adultCnt');
-			let childCnt = $('.childCnt');
-
-			// 업 버튼 / 다운 버튼
-			let up = $('.up');
-			let down = $('.down');
-
-			// 성인 가격 / 아동 가격 (서버에서 받아와야 함 - 우선 하드코딩)
-			let adultPrice;
-			let childPrice;
-			// 총 금액 
-			let totalPay = $('.con');
-
-			// 인원 수 기본 설정
-			adultCnt.text("1");
-			childCnt.text("0");
-
-			// 총 금액 기본 설정 (서버에서 받아와야 함 - 우선 하드코딩)
-			//totalPay.html('789,000<em>원</em>');
-
-			up.on('click', function() {
-				// 누른 버튼 구분 (up / down)
-				let isUp = $(this).hasClass('up');
-
-				// 클릭 했을 때의 인원 수
-				let cnt = Number($(this).siblings('span').text());
-				console.log(cnt);
-
-				// 클릭 했을 때의 전체 인원 수 (패키지 상세 인원 제한을 위한 변수)
-				let totalCnt = Number(adultCnt.text())
-						+ Number(childCnt.text());
-
-				// 클릭 했을 때 성인 / 아동 구분
-				let isAdult = $(this).siblings('span').hasClass('adultCnt');
-				console.log(isAdult);
-
-				// 성인 / 아동 , up / down 구분
-				if (isAdult && !isUp) {
-					console.log('성인 down');
-				} else if (isAdult && isUp) {
-					console.log('성인 up');
-					// 개수 제한 거는 부분.. (패키지 상세의 인원제한)
-					if (totalCnt >= 9) {
-						return;
-					} else {
-						cnt += 1;
-						adultCnt.text(cnt);
-					}
-				} else if (!isAdult && !isUp) {
-					console.log("아동 down");
-				} else if (!isAdult && isUp) {
-					console.log('아동 up');
-					// 개수 제한 거는 부분.. (패키지 상세의 인원제한)
-					if (totalCnt >= 9) {
-						return;
-					} else {
-						cnt += 1;
-						childCnt.text(cnt);
-					}
-				}
-			});
-
-			down.on('click', function() {
-				// 누른 버튼 구분 (up / down)
-				let isUp = $(this).hasClass('up');
-
-				// 클릭 했을 때의 인원 수
-				let cnt = $(this).siblings('span').text();
-				console.log(cnt);
-
-				// 클릭 했을 때 성인 / 아동 구분
-				let isAdult = $(this).siblings('span').hasClass('adultCnt');
-				console.log(isAdult);
-
-				// 성인 / 아동 , up / down 구분
-				if (isAdult && !isUp) {
-					console.log('성인 down');
-					if (cnt <= 1) {
-						return;
-					} else {
-						cnt -= 1;
-						adultCnt.text(cnt);
-					}
-				} else if (isAdult && isUp) {
-					console.log('성인 up');
-				} else if (!isAdult && !isUp) {
-					console.log("아동 down");
-					if (cnt <= 0) {
-						return;
-					} else {
-						cnt -= 1;
-						childCnt.text(cnt);
-					}
-				} else if (!isAdult && isUp) {
-					console.log('아동 up');
-				}
-			});
-		});
-		///////////////////////////////////////////////////////////////////////////////////
 
 		////////////// 상품 사용일자 선택 ////////////////////////////
 		$(function() {
@@ -1163,168 +1209,85 @@
 			});
 		});
 
-		$(function() {
-			/* 인원 수 버튼 증감 및 총 금액 부분의 합계 script 부분 */
+		/* 리뷰 부분 */
+		//별 그리기 함수
+		function drawStar() {
+			let width = $('#starRate').val();
+			document.querySelector('.star span').style.width = (width * 10) + '%'
+		}
+		 	
 
-			// 어른 / 아동 인원수
-			let adultCnt = $('.adultCnt');
-			let childCnt = $('.childCnt');
-
-			// 업 버튼 / 다운 버튼
-			let up = $('.up');
-			let down = $('.down');
-
-			// 성인 가격 / 아동 가격 (서버에서 받아와야 함 - 우선 하드코딩)
-			let adultPrice = 200000;
-			let childPrice = 100000;
-
-			// 총 금액 (기본적으로 성인이 1명 선택되어있기 때문에 시작하자마자 성인 가격을 대입함)
-			let totalPrice = adultPrice;
-			// 총 금액 객체
-			let totalPay = $('.con');
-
-			// 인원 수 기본 설정
-			adultCnt.text("1");
-			childCnt.text("0");
-
-			// 총 금액 기본 설정 (서버에서 받아와야 함 - 우선 하드코딩)
-			totalPay.html(adultPrice + '<em>원</em>');
-
-			up.on('click', function() {
-				// 누른 버튼 구분 (up / down)
-				let isUp = $(this).hasClass('up');
-
-				// 클릭 했을 때의 클릭한 부분의 인원 수 (siblings() 를 사용해봄)
-				let cnt = Number($(this).siblings('span').text());
-				console.log(cnt);
-
-				// 클릭 했을 때의 전체 인원 수 (패키지 상세 인원 제한을 위한 변수)
-				let totalCnt = Number(adultCnt.text())
-						+ Number(childCnt.text());
-
-				// 클릭 했을 때 성인 / 아동 구분
-				let isAdult = $(this).siblings('span').hasClass('adultCnt');
-				console.log(isAdult);
-
-				// 성인 / 아동 , up / down 구분
-				if (isAdult && !isUp) {
-					console.log('성인 down');
-				} else if (isAdult && isUp) {
-					console.log('성인 up');
-					// 개수 제한 거는 부분.. (패키지 상세의 인원제한)
-					if (totalCnt >= 10) {
-						return;
-					} else {
-						cnt += 1;
-						adultCnt.text(cnt);
-
-						// 총 금액 설정
-						totalPrice += adultPrice;
-					}
-				} else if (!isAdult && !isUp) {
-					console.log("아동 down");
-				} else if (!isAdult && isUp) {
-					console.log('아동 up');
-					// 개수 제한 거는 부분.. (패키지 상세의 인원제한)
-					if (totalCnt >= 10) {
-						return;
-					} else {
-						cnt += 1;
-						childCnt.text(cnt);
-
-						// 총 금액 설정
-						totalPrice += childPrice;
-					}
-				}
-
-				// 총 금액 부분에 내용 삽입
-				totalPay.html(totalPrice + '<em>원</em>');
-			});
-
-			down.on('click', function() {
-				// 누른 버튼 구분 (up / down)
-				let isUp = $(this).hasClass('up');
-
-				// 클릭 했을 때의 인원 수
-				let cnt = $(this).siblings('span').text();
-				console.log(cnt);
-
-				// 클릭 했을 때 성인 / 아동 구분
-				let isAdult = $(this).siblings('span').hasClass('adultCnt');
-				console.log(isAdult);
-
-				// 성인 / 아동 , up / down 구분
-				if (isAdult && !isUp) {
-					console.log('성인 down');
-					if (cnt <= 1) {
-						return;
-					} else {
-						cnt -= 1;
-						adultCnt.text(cnt);
-
-						// 총 금액 설정
-						totalPrice -= adultPrice;
-					}
-				} else if (isAdult && isUp) {
-					console.log('성인 up');
-				} else if (!isAdult && !isUp) {
-					console.log("아동 down");
-					if (cnt <= 0) {
-						return;
-					} else {
-						cnt -= 1;
-						childCnt.text(cnt);
-
-						// 총 금액 설정
-						totalPrice -= childPrice;
-					}
-				} else if (!isAdult && isUp) {
-					console.log('아동 up');
-				}
-
-				totalPay.html(totalPrice + '<em>원</em>');
-			});
-
-			/* 여행일정 부분 화살표 및 active class 부여 */
-			let daylist = $('.daylist'); // 각 일정의 a태그
-			$(daylist).on('click', function(e) {
-				e.preventDefault(); // 이벤트를 취소할 때 사용하는 메서드, 클릭 이벤트를 취소하여 페이지 이동을 막을 수 있습니다.
-				let viewDiv = $(this).siblings('div.view'); // 안에 있는 내용 div
-
-				if (!$(this).hasClass('active')) {
-					$(this).addClass('active');
-					viewDiv.css('display', 'block');
-				} else {
-					$(this).removeClass('active');
-					viewDiv.css('display', 'none');
-				}
+		// 리뷰 관련 ajax
+		// 처음 hotelDetail 페이지에 들어왔을 때 DB review테이블의 데이터를 가져와서 뿌림
+		// 가져올 데이터는 해당 hotelDetail 페이지의 hotel_id값에 해당하는 값들
+		function getReviewList(){
+			
+			let hotelId = '${hotelDetail.hotel_id}'
+			
+			$.ajax({
+				
+						url:"${pageContext.request.contextPath }/review/reviewList",
+						data:{
+							// 리뷰 테이블의 해당 상품id값을 읽어오는 부분
+							rv_real_id : hotelId
+						},
+						type:"get",
+						dataType:"json",
+						success: function(result) {
+							
+							// 가지고온 리뷰 데이터들을 포함해 화면 랜더링 함수 호출
+							makeReviewTable(result);
+							
+						}
+				
 			});
 			
+		}
+
+		function makeReviewTable(data) {
 			
-			/* 인원 증감 함수,,, */
-			function count(type) {
-				const resultElement = document.getElementById('result');
-				
-				// 현재 화면에 표시된 값
-				let number = resultElement.innerText;
-				
-				// 더하기 / 빼기
-				if(type === 'plus') {
-					number = parseInt(number) + 1;
-				} else if(type === 'minus') {
-			    	if( parseInt(number) > 1) {
-			            number = parseInt(number) - 1;
-			          }
-			          else {
-			            number = 1;
-			          }
-				}
-				
-				// 결과 출력
-				resultElement.innerText = number;
+			let targetTable = $('#reviewTable');
+			
+			targetTable.html('')
+			
+			let innerHtml = '';
+			
+			for(let datum of data) {
+				innerHtml += makeRow(datum)
 			}
+			
+			targetTable.append(innerHtml);
+		}
 
-		});
+
+		function makeRow(datum) {
+			
+			let innerHtml = ''
+			innerHtml += '<tr>'
+				innerHtml += '<input type="hidden" class="rv_sort" value="'+datum.rv_sort+'">'
+				innerHtml += '<input type="hidden" class="rv_id" value="'+datum.rv_id +'">'
+				innerHtml += '<td>'
+					innerHtml += '<span class="rv_date">'+datum.rv_date +'</span>'
+				innerHtml += '</td>'
+				innerHtml += '<td>'
+					innerHtml += '<span class="rv_rating">'+datum.rv_rating +'</span>'
+				innerHtml += '</td>'
+				innerHtml += '<td>'
+					innerHtml += '<span class="rv_contents">'+datum.rv_contents +'</span>'
+				innerHtml += '</td>'
+				innerHtml += '<td>'
+					// 작성자 = 로그인 정보여야 수정 버튼 활성화 
+					//if(aaaa) {	
+						innerHtml += '<button type="button" class="rv_modify genric-btn primary ela" onclick="openUpdateModal(this)">수정</button>'
+					//	innerHtml += '<button type="button" class="rv_modify genric-btn primary ela" onclick="openUpdateModal(this)">삭제</button>'
+					//}
+				innerHtml += '</td>'
+			innerHtml += '</tr>'
+			
+			return innerHtml;
+		}
+	
+		
 	</script>
 </body>
 </html>
