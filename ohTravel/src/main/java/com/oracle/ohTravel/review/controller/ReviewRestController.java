@@ -30,4 +30,9 @@ public class ReviewRestController {
 	public String writeReview(Review review) {
 		return rs.writeReview(review);
 	}
+	
+	@PostMapping(value = "/updateReview")
+	public String updateReview(ReviewDTO reviewDTO) {
+		return rs.updateReview(reviewDTO);
+	}
 }

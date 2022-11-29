@@ -8,4 +8,6 @@ public interface ReviewDAO {
 
 	List<ReviewDTO> selectReview(ReviewDTO reviewDTO);
 
+	void updateReview(ReviewDTO reviewDTO);
+
 }

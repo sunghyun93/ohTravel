@@ -5,6 +5,7 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.review.domain.Review;
+import com.oracle.ohTravel.review.model.ReviewDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,5 +19,6 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 	public void writeReview(Review review) {
 		em.persist(review);
 	}
+
 
 }

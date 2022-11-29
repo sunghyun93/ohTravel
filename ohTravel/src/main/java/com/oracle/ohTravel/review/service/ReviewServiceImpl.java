@@ -36,8 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
 	public String writeReview(Review review) {
 		
 		try {
-			
-			review.setRv_Date(new Date());
+			review.setRv_date(new Date());
 			rr.writeReview(review);
 			
 		} catch (Exception e) {
@@ -47,7 +46,22 @@ public class ReviewServiceImpl implements ReviewService {
 		}
 		
 		return "SUCCESS";
-	} 
-	
+	}
+
+	@Override
+	public String updateReview(ReviewDTO reviewDTO) {
+		
+		try {
+			
+			rd.updateReview(reviewDTO);
+			
+		} catch (Exception e) {
+			log.debug(e.getMessage());
+			return "FAIL";
+			
+		}
+		
+		return "SUCCESS";
+	}
 	
 }

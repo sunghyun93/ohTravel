@@ -10,6 +10,14 @@
 		WHERE rv_real_id = #{rv_real_id}
 	
 	</select>
-
-
+	
+	<update id="updateReview" parameterType = "Review">
+		UPDATE review 
+		SET rv_rating = #{rv_rating},
+			rv_contents = #{rv_contents},
+			rv_date = now()
+		WHERE rv_id = #{rv_id}
+		AND mem_id = #{mem_id}
+		AND rv_real_id = #{rv_real_id}	
+	</update>	
 </mapper>

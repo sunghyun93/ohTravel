@@ -11,4 +11,6 @@ public interface ReviewService {
 
 	String writeReview(Review review);
 
+	String updateReview(ReviewDTO reviewDTO);
+
 }
