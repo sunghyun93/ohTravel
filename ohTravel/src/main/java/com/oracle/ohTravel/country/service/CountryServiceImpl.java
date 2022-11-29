@@ -30,4 +30,12 @@ public class CountryServiceImpl implements CountryService {
 		log.info("CountryServiceImpl selectCountryByCountryId2() end...");
 		return list;
 	}
+	
+	@Override
+	public CountryDTO selectCountryByCityId(Integer city_id) throws Exception {
+		log.info("CountryServiceImpl selectCountryByCityId() start...");
+		CountryDTO dto = countryDao.selectCountryByCityId(city_id);
+		log.info("CountryServiceImpl selectCountryByCityId() end...");
+		return dto;
+	}
 }

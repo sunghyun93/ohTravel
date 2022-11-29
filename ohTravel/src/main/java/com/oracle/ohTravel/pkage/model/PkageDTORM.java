@@ -24,4 +24,10 @@ public class PkageDTORM {
 	
 	// package_image
 	private List<Pkage_imageDTO> pkage_imageDTOList;
+	
+	// 더미 변수
+	private int minPrice; 		// 패키지 상세들 중 최소가격
+	private int pkgDetailCnt;	// 관련 패키지 내의 detail 개수
+	private long[] days;	// 종합 일수
+	
 }

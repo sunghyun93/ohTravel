@@ -18,6 +18,7 @@ import com.oracle.ohTravel.pkage.dao.PkageDao;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
+import com.oracle.ohTravel.pkage.model.PkgSearch;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,7 +60,15 @@ public class PkageDaoTest {
 	
 	@Test
 	public void selectPkgWithDetailTest() throws Exception {
-		List<PkageDTORM> list = pkageDao.selectPkgWithDetail();
+		PkgSearch ps = new PkgSearch();
+		ps.setPkage_gubun(1);
+		ps.setToDesti(420);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("toDesti", ps.getToDesti());
+		map.put("dates_start_check", ps.getDates_start_check());
+		map.put("order", 3); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3,4)
+		List<PkageDTORM> list = pkageDao.selectPkgWithDetailAndFlight(map);
 		
 		for(PkageDTORM p : list) {
 			System.out.println(p);
