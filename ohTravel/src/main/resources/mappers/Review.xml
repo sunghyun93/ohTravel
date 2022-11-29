@@ -5,7 +5,7 @@
 <mapper namespace="com.oracle.ohTravel.ReviewMapper">
 
 	<select id="reviewList" resultType="Review">
-		SELECT (rv_id, mem_id, rv_sort, rv_rating, rv_contents, rv_real_id) 
+		SELECT rv_id, mem_id, rv_sort, rv_rating, rv_contents, rv_date, rv_real_id
 		FROM review
 		WHERE rv_real_id = #{rv_real_id}
 	

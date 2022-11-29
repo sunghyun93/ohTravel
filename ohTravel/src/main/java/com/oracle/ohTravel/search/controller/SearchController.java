@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.search.service.SearchService;
-import com.oracle.ohTravel.ticket.model.TicketModel;
+import com.oracle.ohTravel.ticket.model.TicketDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +24,7 @@ public class SearchController {
 		System.out.println("Controller SearchResultPage Start...");
 		model.addAttribute("search_word", search_word);
 		// 입장권 목록
-		List<TicketModel> ticketList = ss.getTicketList(search_word);
+		List<TicketDTO> ticketList = ss.getTicketList(search_word);
 		System.out.println("Controller ticketList -> " + ticketList);
 		model.addAttribute("ticketList", ticketList);
 		System.out.println("Controller ticketList.size() -> " + ticketList.size());
@@ -70,7 +70,7 @@ public class SearchController {
 		} 
 		
 		if (gubun.equals("ticket")) {
-			List<TicketModel> ticketList = ss.getTicketList(search_word);
+			List<TicketDTO> ticketList = ss.getTicketList(search_word);
 			System.out.println("Controller ticketList -> " + ticketList);
 			model.addAttribute("ticketList", ticketList);
 			model.addAttribute("ticketListCount", ticketList.size());
@@ -81,7 +81,7 @@ public class SearchController {
 			System.out.println("Controller all");
 			model.addAttribute("search_word", search_word);
 			// 입장권 목록
-			List<TicketModel> ticketList = ss.getTicketList(search_word);
+			List<TicketDTO> ticketList = ss.getTicketList(search_word);
 			System.out.println("Controller ticketList -> " + ticketList);
 			model.addAttribute("ticketList", ticketList);
 			System.out.println("Controller ticketList.size() -> " + ticketList.size());

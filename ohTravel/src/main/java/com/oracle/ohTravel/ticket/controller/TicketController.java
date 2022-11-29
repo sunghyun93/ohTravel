@@ -23,15 +23,21 @@ public class TicketController {
 		return "ticket/exhibitionSearch";
 	}
 	
+	@GetMapping(value = "/exhSearchResult")
+	public String goExhSearchResult() {
+		return "ticket/exhSearchResult";
+	}
+	
 	// 입장권 상세정보
 	@GetMapping(value = "/exhibitionDetail")
 	public String goExhibitionDetail() {
 		return "ticket/exhibitionDetail";
 	}
+
 	
-	
-	@GetMapping(value = "/exhSearchResult")
-	public String goExhSearchResult() {
-		return "ticket/exhSearchResult";
+	// 입장권 결제 직전 페이지
+	@GetMapping(value = "/exhPayment")
+	public String goExhibitionReservation() {
+		return "ticket/exhPayment";
 	}
 }

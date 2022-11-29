@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.pkage.model.PkageDTO;
+import com.oracle.ohTravel.pkage.model.PkageDTORM;
+import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,5 +40,12 @@ public class PkageDaoImpl implements PkageDao {
 		log.info("PkageDaoImpl selectPkgByThemaSoldScoreOrder() end..."); 
 		return list;
 	}
+	
+//	패키지 검색시 관련 pkg 테이블들의 값 select
+	@Override
+	public List<PkageDTORM> selectPkgWithDetail() throws Exception {
+		return session.selectList(namespace+"selectPkgWithDetail");
+	}
+	
 
 }

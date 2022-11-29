@@ -1,0 +1,41 @@
+.data_no {
+    display: table;
+    width: 100%;
+    min-height: 172px;
+    text-align: center;
+}
+.data_no.type {
+    min-height: 300px;
+}
+.data_no .cont {
+    display: table-cell;
+    vertical-align: middle;
+}
+.data_no .cont strong {
+    position: relative;
+    display: block;
+    padding-top: 70px;
+    color: #333;
+    line-height: 1.6;
+    font-size: 17px;
+    font-weight: 400;
+}
+.data_no .cont span {
+    display: block;
+    margin-top: 10px;
+    color: #666;
+    font-size: 13px;
+    line-height: 20px;
+}
+.data_no .cont strong:before {
+    content: "";
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    margin-left: -22px;
+    background: url(https://image.hanatour.com/usr/static/img2/pc/com/spr_icn.png) no-repeat;
+    background-position: 0 -205px;
+}

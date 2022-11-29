@@ -793,7 +793,7 @@ button {
     width: 0;
     position: absolute; 
     left: 0;
-    color: red;
+    color: #fdbe02;
     overflow: hidden;
     pointer-events: none;
   }

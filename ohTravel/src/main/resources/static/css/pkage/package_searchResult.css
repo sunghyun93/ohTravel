@@ -1,0 +1,427 @@
+.result_wrap>.text_wrap.line {
+    margin: 0 0 40px;
+    border-bottom: 2px solid #111;
+    padding: 0;
+}
+/* 국가 / 날짜 / 출발 부분 */
+.result_wrap>.text_wrap.line.big>.select_area_wrap {
+    display: inline-block;
+}
+.text_wrap.fix strong, .text_wrap.big strong.tit {
+    font-size: 22px;
+    font-weight: 600;
+    color: #111;
+}
+.result_wrap>.text_wrap.line.big .tit span {
+    display: inline-block;
+    position: relative;
+    padding: 1px 25px 0 0;
+    font-size: 32px;
+    font-weight: 600;
+    color: #111;
+    line-height: 32px;
+}
+/* 오른쪽 날짜 출발 부분 */
+.result_wrap>.text_wrap.line>.right_cont {
+    margin-bottom: 15px;
+}
+.result_wrap>.text_wrap.line .infomation {
+    display: inline-block;
+    height: 46px;
+    margin-left: 50px;
+    text-align: left;
+    line-height: 46px;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 4px;
+    border: solid 1px #c2c2c2;
+    padding: 0 40px;
+}
+
+/* 필터부분 */
+.result_wrap > .inr {
+    width: 240px;
+}
+.form_wrap.major + .js_acc.filter_wrap {
+    margin-top: 20px;
+}
+.js_acc.filter_wrap {
+    margin-top: 0;
+}
+.js_acc.filter_wrap .inr {
+    float: none;
+    width: 100%;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #eaeaea;
+}
+/* 화살표 */
+.js_acc .header:after {
+    width: 20px;
+    height: 20px;
+    background-position: 0px 0px;
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    display: inline-block;
+    content: '';
+    background-repeat: no-repeat;
+    background-image: url(http://localhost:8399/img/pkage/icon/arrow_down.svg);
+}
+/* 선택되었을 때 */
+.form_holder.text input:checked + label {
+    border-color: #0e1c35;
+    color: #0e1c35;
+    z-index: 2;
+}
+/* 체크박스 */
+.form_holder input[type='checkbox'], .form_holder input[type='radio'] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0 !important;
+}
+/* 라벨 */
+.form_holder.text label {
+    z-index: 1;
+}
+.form_holder.text label {
+    padding: 5px 10px;
+    border: 1px solid #c2c2c2;
+    border-radius: 3px;
+    background-color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+}
+.label_checkbox, .label_radio {
+    position: relative;
+    display: block;
+    line-height: 20px;
+    color: #333;
+    padding-left: 34px;
+    min-height: 24px;
+    margin-bottom: 0px;
+}
+/* 가격 */
+.js_acc.filter_wrap .header {
+    padding: 25px 25px 16px 0;
+    border-bottom: none;
+    font-size: 15px;
+    font-weight: 600;
+}
+.js_acc.filter_wrap .view {
+    border: none;
+    padding: 0 0 12px;
+}
+.form_holder.text {
+    margin: 4px 4px 4px 0;
+}
+span.form_holder {
+    display: inline-block;
+    margin-right: 20px;
+}
+.form_holder {
+    position: relative;
+    vertical-align: top;
+}
+
+/* 패키지 상세 상품 부분 inr right */
+.result_wrap > .inr.right {
+    width: 900px;
+}
+/* 정렬부분 */
+.option_wrap.result {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    color: #0e1c35;
+}
+.option_wrap .count {
+    display: inline-block;
+    margin-right: 20px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #0e1c35;
+}
+.list_sort li {
+    margin-left: 20px;
+}
+.list_sort>li {
+    float: left;
+}
+.list_sort li.on a {
+    color: #0e1c35;
+}
+.list_sort li.on a {
+    border-color: #0e1c35;
+    color: #0e1c35;
+    text-decoration: underline;
+    font-weight: 600;
+}
+.list_sort a {
+    color: #333;
+}
+/* 상품 상세 부분 */
+.prod_list_wrap {
+    width: 100%;
+}
+.prod_list_wrap>ul>li {
+    position: relative;
+    float: left;
+    width: 320px;
+}
+.prod_list_wrap>ul>li + li {
+    margin-left: 24px;
+}
+.prod_list_wrap .type>li {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    padding: 30px 0 0;
+    border-bottom: 1px solid #ddd;
+}
+.prod_list_wrap>ul>li:first-child {
+    margin-left: 0;
+}
+/* 이미지 부분 */
+.prod_list_wrap .img {
+    width: 100%;
+    height: 210px;
+}
+.prod_list_wrap .type .inr {
+    width: 200px;
+    min-height: 200px;
+    overflow: hidden;
+    position: absolute;
+    top: 30px;
+    left: 0;
+}
+.prod_list_wrap .type .img {
+    height: 200px;
+}
+/* 상세 부분 */
+.prod_list_wrap .type .inr.right {
+    float: none;
+    position: relative;
+    top: auto;
+    width: auto;
+    min-height: 230px;
+    margin-right: 0;
+    padding: 0 170px 30px 224px;
+}
+/* 테마 부분 */
+.tag_group, .badge_group, .hash_group {
+    vertical-align: middle;
+}
+.tag, .tag_group>span, .badge {
+    display: inline-block;
+    padding: 0 6px;
+    height: 19px;
+    line-height: 17px;
+    font-size: 12px;
+}
+.tag_group>span {
+    background: #fff;
+}
+.tag_group>span.attr {
+    border: 1px solid #5b699c;
+    color: #5b699c;
+}
+.hash_group span:first-child, .tag_group span:first-child {
+    margin-left: 0;
+}
+/* 패키지 이름 부분*/
+.item_title {
+    font-size: 17px;
+    line-height: 27px;
+    color: #111;
+}
+.tag_group + .item_title {
+    margin-top: 5px;
+    display: block;
+}
+.prod_list_wrap .item_title {
+    font-size: 20px;
+    color: #111;
+    font-weight: 600;
+    display: block;
+    line-height: 30px;
+}
+.prod_list_wrap .tag_group + .item_title, .prod_list_wrap .tag_group + .item_title2 {
+    margin-top: 8px;
+}
+/* 패키지 정보 부분 */
+.item_title + .item_text {
+    margin-top: 10px;
+}
+.prod_list_wrap .item_text {
+    max-height: 45px;
+    margin-top: 5px;
+    color: #333;
+    margin-bottom: 0px;
+}
+.prod_list_wrap .item_title + .item_text.stit {
+    max-height: none;
+    width: 100%;
+    margin-top: 4px;
+}
+/* 장소 icn 부분 */
+.icn:before {
+    display: inline-block;
+    content: '';
+    background-repeat: no-repeat;
+    background-image: url(https://image.hanatour.com/usr/static/img2/pc/com/spr_icn.png);
+}
+.icn.pos {
+    position: relative;
+    padding-left: 17px;
+}
+.item_text .icn {
+    padding-left: 27px;
+}
+.icn.pos:before {
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 13px;
+    height: 14px;
+    margin-right: 9px;
+    background-position: -135px 0;
+    vertical-align: middle;
+}
+/* 여행기간 icn 부분  */
+.icn.cal:before {
+    width: 14px;
+    height: 14px;
+    margin: 0 4px 0 0;
+    background-position: -135px -18px;
+    vertical-align: middle;
+}
+.item_text .icn:before {
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 14px;
+    height: 14px;
+}
+/* 평점, 리뷰 개수 부분 */
+.item_group {
+    margin-top: 15px;
+}
+/* 가격 부분 */
+.prod_list_wrap .type .price_group {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    text-align: right;
+}
+.prod_list_wrap .price_group .price {
+    display: block;
+    font-size: 22px;
+    color: #111;
+}
+.prod_list_wrap .price_group .price span {
+    font-size: 17px;
+    font-weight: 400;
+}
+/* 판매상품보기 버튼부분 */
+.btn_wrap {
+    text-align: center;
+    margin-top: 30px;
+}
+.prod_list_wrap .type li .inr.right > .btn_wrap {
+    position: absolute;
+    right: 0;
+    bottom: 25px;
+}
+/* 실세 상품 박스 부분 */
+.sub_list_wrap {
+    display: none;
+    width: 100%;
+    padding: 30px;
+    border-top: 1px solid #eaeaea;
+    background: #f2f4f7;
+    clear: both;
+}
+/* 실제 패키지 상세 부분 */
+.sub_list_wrap .cont_unit {
+    margin-top: 0px;
+}
+.sub_list_wrap .option_wrap.result {
+    padding-bottom: 5px;
+    border-bottom: none;
+}
+.sub_list_wrap .option_wrap.result .count {
+    margin-top: 11px;
+}
+.sub_list_wrap .prod_list_wrap {
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 756px;
+    border-bottom: 1px solid #eaeaea/*padding:0 30px;border:1px solid #eaeaea;background:#fff*/;
+}
+/* 상세 ul 부분 */
+.sub_list_wrap .prod_list_wrap .type {
+    border: none;
+}
+/* 상세 li 부분 */
+.sub_list_wrap .prod_list_wrap .type li {
+    margin-bottom: 14px;
+    padding: 24px 26px 34px 26px;
+    border-bottom: none;
+    background: #fff;
+}
+/* 상세 inr 부분 */
+.sub_list_wrap .prod_list_wrap .type .inr {
+    width: 800px;
+    min-height: auto;
+    margin: 0;
+    position: relative;
+    top: 0;
+}
+.result_wrap>.inr.right .sub_list_wrap .prod_list_wrap .type .inr {
+    width: 490px;
+}
+/* 상세 제목 부분 */
+.sub_list_wrap .prod_list_wrap .type .inr.right {
+    overflow: visible;
+    width: 280px;
+    padding: 0;
+    text-align: right;
+    position: absolute;
+    right: 22px;
+    bottom: 0;
+    left: auto;
+    top: 22px;
+}
+.sub_list_wrap .prod_list_wrap .type .item_title {
+    margin-bottom: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 27px;
+}
+/* 비행기 부분 */
+.sub_list_wrap .prod_list_wrap .type .inr .item_text {
+    margin-top: 2px;
+}
+.item_text .info {
+    display: inline-block;
+    margin-left: 6px;
+}
+.item_text .info:first-child {
+    margin-left: 0;
+}
+/* 상세 가격부분 */
+.sub_list_wrap .prod_list_wrap .type .price_group {
+    position: relative;
+}
+/* 상세 상품일정보기 버튼 */
+.btn_wrap .pkgDetail {
+    color: #014b85;
+    background-color: #fff;
+    border: 1px solid #014b85;
+}
+.btn_wrap .pkgDetail:hover {
+    color:#fff;
+}
+.btn_wrap .pkgDetail::before {
+    background: #014b85;
+}

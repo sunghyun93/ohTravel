@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
-import com.oracle.ohTravel.ticket.model.TicketModel;
+import com.oracle.ohTravel.ticket.model.TicketDTO;
 
 public interface SearchDao {
 
@@ -14,6 +14,6 @@ public interface SearchDao {
 
 	List<HotelDTO> getHotelList(String search_word);
 
-	List<TicketModel> getTicketList(String search_word);
+	List<TicketDTO> getTicketList(String search_word);
 	
 }
