@@ -21,4 +21,11 @@ public class ReviewDAOImpl implements ReviewDAO {
 		return session.selectList("reviewList",reviewDTO);
 	}
 
+
+	@Override
+	public void updateReview(ReviewDTO reviewDTO) {
+		
+		session.update("updateReview", reviewDTO);
+	}
+
 }

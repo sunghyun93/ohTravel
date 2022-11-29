@@ -4,6 +4,7 @@ package com.oracle.ohTravel.review.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +26,18 @@ public class ReviewRestController {
 		return rs.reviewSelect(reviewDTO);
 	}
 	
+	@PostMapping(value = "/writeReview")
+	public String writeReview(Review review) {
+		return rs.writeReview(review);
+	}
 	
+	@PostMapping(value = "/updateReview")
+	public String updateReview(ReviewDTO reviewDTO) {
+		return rs.updateReview(reviewDTO);
+	}
+	
+	@PostMapping(value = "/deleteReview")
+	public String deleteReview(Review review) {
+		return rs.deleteReview(review);
+	}
 }
