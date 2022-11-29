@@ -18,24 +18,31 @@ public class SearchServiceImplementation implements SearchService {
 	private final SearchDao sd;
 	
 	@Override
-	public List<HotelDTO> getHotelList(String search_word) {
-		System.out.println("Service getHotelList Start...");
-		List<HotelDTO> hotelList = sd.getHotelList(search_word);
-		return hotelList;
-	}
-
-	@Override
-	public List<PkageDTO> getPkageList(String search_word) {
+	public List<PkageDTO> getPkageList(PkageDTO pkageDTO) {
 		System.out.println("Service getPkageList Start...");
-		List<PkageDTO> pkageList = sd.getPkageList(search_word);
+		List<PkageDTO> pkageList = sd.getPkageList(pkageDTO);
 		return pkageList;
 	}
 
 	@Override
-	public List<TicketDTO> getTicketList(String search_word) {
+	public List<HotelDTO> getHotelList(PkageDTO pkageDTO) {
+		System.out.println("Service getHotelList Start...");
+		List<HotelDTO> hotelList = sd.getHotelList(pkageDTO);
+		return hotelList;
+	}
+
+
+	@Override
+	public List<TicketDTO> getTicketList(PkageDTO pkageDTO) {
 		System.out.println("Service getTicketList Start...");
-		List<TicketDTO> ticketList = sd.getTicketList(search_word);
+		List<TicketDTO> ticketList = sd.getTicketList(pkageDTO);
 		return ticketList;
+	}
+
+	@Override
+	public List<PkageDTO> filteredPkageList(PkageDTO pkageDTO) {
+		List<PkageDTO> filteredPkageList = sd.filteredPkageList(pkageDTO);
+		return filteredPkageList;
 	}
 
 	

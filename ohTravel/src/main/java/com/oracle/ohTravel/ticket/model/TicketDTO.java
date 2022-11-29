@@ -27,4 +27,8 @@ public class TicketDTO {
 	private String 		country_name;
 	//도시
 	private String 		city_name;
+	
+	private String pageNum;
+	private int start;
+	private int end;
 }

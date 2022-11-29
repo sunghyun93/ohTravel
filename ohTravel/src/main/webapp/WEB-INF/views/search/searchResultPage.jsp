@@ -14,6 +14,7 @@
 	$(function() {
 		$('.item02').click(function() {
 			let gubun = $(this).attr('id');
+			console.log(gubun);
 			$.ajax({
 				url: '/searchCategoryAjax',
 				data: {'search_word' : $('#search_word').val(),
@@ -40,7 +41,7 @@
           <em>"${search_word}"</em> 검색결과
         </strong>
       </div>
-      <div class="related_search">
+      <!-- <div class="related_search">
         <strong class="tit">연관검색어</strong>
         <ul>
           <li>
@@ -50,7 +51,7 @@
             <a href="#">오사카</a>
           </li>
         </ul>
-      </div>
+      </div> -->
       
       <div class="sick_finger">
       
@@ -101,7 +102,7 @@
                       </div>
                     </div>
                     <div class="price_group">
-                      <strong class="price now">${pkageList.pkage_dt_Aprice}<span>원~</span></strong>
+                      <strong class="price now">${pkageList.min_price}<span>원~</span></strong>
                     </div>
                     <div class="btn_wrap">
                       <a href="#none" class="btn arrow">판매상품보기</a>
@@ -136,7 +137,7 @@
                     <img src="${hotelList.h_img_path}">
                   </div>
                   <div class="inr right route_type">
-                    <a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}"><strong class="item_title eps2">${hotelList.hotel_kor}</strong></a>
+                    <strong class="item_title eps2">${hotelList.hotel_kor}</strong>
                     <p class="item_text stit"><p>
                     <div class="info_bottom">
                       <div class="item_group">

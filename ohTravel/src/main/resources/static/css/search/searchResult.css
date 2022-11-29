@@ -5,6 +5,7 @@
 
 .contents {
   min-height: 3424px;
+    padding-left: 0;
 }
 
 .text_wrap.line.top {

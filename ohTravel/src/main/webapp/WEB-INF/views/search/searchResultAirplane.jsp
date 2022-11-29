@@ -1,79 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>
-    
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_detail.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_searchResult.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_clear.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/data_no.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-.container>.inr {
-	width: 1200px;
-	margin: 50px auto 0;
-}
-
-.contents {
-	min-height: 1000px;
-}
-
-.text_wrap.line.top {
-	padding-bottom: 18px;
-	margin-bottom: 18px;
-}
-
-.text_wrap.type.top {
-	margin: 0 0 20px;
-}
-
-.text_wrap.big {
-	margin-top: 60px;
-	margin-bottom: 30px;
-}
-
-.text_wrap.line {
-	border-bottom: 1px solid #ddd;
-	padding-bottom: 10px;
-}
-
-.text_wrap.type {
-	display: table;
-	width: 100%;
-}
-
-.text_wrap {
-	position: relative;
-	margin: 40px 0 0;
-	padding: 0;
-}
-
-.text_wrap.line.top strong.tit {
-	font-size: 24px;
-	font-weight: normal;
-	margin-bottom: 20px;
-}
-
-strong.tit {
-	display: table-cell;
-	vertical-align: middle;
-}
-
-.related_search {
-	font-size: 13px;
-	color: #666;
-	margin: 0 0 35px;
-}
-
-.related_search .tit {
-	color: #333;
-	display: inline-block;
-}
 
 ul, li {
 	list-style: none;
@@ -82,15 +14,6 @@ ul, li {
 a {
 	color: #333;
 	text-decoration: none;
-}
-
-.related_search ul {
-	margin-left: 5px;
-}
-
-.related_search ul, .related_search li {
-	display: inline-block;
-	margin-left: 18px;
 }
 
 .js_tabs {
@@ -188,238 +111,6 @@ a {
 	border-right: 1px solid black;
 }
 
-.ly_wrap {
-	width: 100%;
-}
-
-.result_wrap>.inr {
-	width: 240px;
-}
-
-.ly_wrap .inr {
-	width: 240px;
-	float: left;
-}
-
-.js_acc.filter_wrap {
-	margin-top: 0;
-}
-
-.js_acc {
-	border-top: 1px solid #eaeaea;
-}
-
-.js_acc.filter_wrap .inr {
-	float: none;
-	width: 100%;
-	padding-bottom: 9px;
-	border-bottom: 1px solid #eaeaea;
-}
-
-.js_acc.filter_wrap .header {
-	padding: 25px 25px 16px 0;
-	border-bottom: none;
-	font-size: 15px;
-	font-weight: 600;
-}
-
-.js_acc .header {
-	display: block;
-	position: relative;
-	border-bottom: 1px solid #eaeaea;
-	padding: 20px;
-	color: #111;
-}
-
-.js_acc.filter_wrap .header:after {
-	top: 26px;
-	right: 0;
-	width: 14px;
-	height: 10px;
-	background-position: -178px -30px;
-}
-
-.js_acc .header:after {
-	width: 20px;
-	height: 20px;
-	background-position: -143px -52px;
-	position: absolute;
-	top: 20px;
-	right: 20px;
-}
-
-.js_acc.filter_wrap .view {
-	border: none;
-	padding: 0 0 12px;
-}
-
-.js_acc .view {
-	display: none;
-	padding: 20px;
-	border-bottom: 1px solid #eaeaea;
-	line-height: 24px;
-}
-
-.form_holder.text {
-	margin: 4px 4px 4px 0;
-}
-
-span.form_holder {
-	display: inline-block;
-	margin-right: 20px;
-}
-
-.form_holder {
-	position: relative;
-	vertical-align: top;
-}
-
-.form_holder input[type='checkbox'], .form_holder input[type='radio'] {
-	position: absolute;
-	top: 0;
-	left: 0;
-	opacity: 0 !important;
-}
-
-button, input, textarea {
-	-webkit-border-radius: 0;
-	border-radius: 0;
-}
-
-.form_holder.text label {
-	z-index: 1;
-}
-
-.form_holder.text label {
-	padding: 5px 10px;
-	border: 1px solid #c2c2c2;
-	border-radius: 3px;
-	background-color: #fff;
-	font-size: 13px;
-	cursor: pointer;
-}
-
-.label_checkbox, .label_radio {
-	position: relative;
-	display: block;
-	line-height: 20px;
-	color: #333;
-	padding-left: 34px;
-	min-height: 24px;
-}
-
-.js_acc.filter_wrap .view .btn.gray {
-	margin: 4px 0;
-	height: 32px;
-	line-height: 30px;
-	font-size: 13px;
-}
-
-.btn.gray {
-	color: #fff !important;
-	border: solid 1px #5b606e;
-	background-color: #5b606e;
-}
-
-.result_wrap>.inr.right {
-	width: 900px;
-}
-
-.ly_wrap .inr.right {
-	float: right;
-}
-
-.filter_top {
-	margin-bottom: 30px;
-}
-
-.mt0 {
-	display: inline-block;
-	margin-top: 0px !important;
-}
-
-.filter_top .tit {
-	float: left;
-	width: 110px;
-	padding-top: 3px;
-	font-size: 17px;
-}
-
-p {
-	line-height: 1.5;
-}
-
-.spr.filter {
-	width: 17px;
-	height: 17px;
-	background-position: -58px -52px;
-}
-
-.spr, .paginate a.next, .paginate a.prev, .paginate a.prevend .paginate a.nextend {
-	display: inline-block;
-	content: '';
-	background-repeat: no-repeat;
-	background-image:
-		url(https://image.hanatour.com/usr/static/img2/pc/com/spr_com.png);
-}
-
-.filter_top .tit .notice_count {
-	margin-left: 4px;
-	font-size: 13px;
-	line-height: 24px;
-	vertical-align: middle;
-	width: 24px;
-	height: 24px;
-	background: #5e2bb8;
-}
-
-.notice_count {
-	display: inline-block;
-	text-align: center;
-	border-radius: 50%;
-	color: #fff;
-}
-
-.filter_sticky .filter_top .inr, .result_wrap .right .filter_top .inr {
-	width: 790px;
-	min-height: 40px;
-}
-
-.filter_top .inr {
-	width: 1090px;
-	float: left;
-	margin-top: 20px;
-}
-
-.option_wrap.result {
-	padding-bottom: 20px;
-	border-bottom: 1px solid #ddd;
-	color: #111;
-}
-
-.option_wrap {
-	position: relative;
-	padding: 0;
-}
-
-.its .option_wrap .count {
-	font-size: 17px;
-	color: #111;
-	font-weight: normal;
-}
-
-.option_wrap .count {
-	display: inline-block;
-	margin-right: 20px;
-	font-weight: 600;
-	font-size: 15px;
-	color: #111;
-}
-
-.its .option_wrap .count em {
-	font-size: 15px;
-}
-
 .item02 {
 	color: #333;
 	border: none;
@@ -430,720 +121,107 @@ p {
 	color: #5e2bb8;
 }
 
-.right_cont {
-	float: right;
+.flight_srch.type {
+    background-color: #f3f4f8;
+    border: none;
+    border-top: 1px solid #ddd;
+    box-shadow: none;
+    margin-bottom: 30px;
 }
 
-.list_sort li {
-	margin-left: 20px;
-	margin-top: 50px;
+.flight_srch {
+    background: #fff;
+    display: block;
+    border: 1px solid #ddd;
+    box-shadow: 3px 4px 4px 0px rgb(105 105 105 / 15%);
+    padding: 26px 30px 26px;
 }
 
-.list_sort>li {
-	float: left;
+.flight_srch.type .text_wrap.mid {
+    margin: 0 0 18px;
+}
+.text_wrap.mid {
+    margin-top: 40px;
+    margin-bottom: 24px;
+}
+.text_wrap {
+    position: relative;
+    margin: 40px 0 0;
+    padding: 0;
 }
 
-.prod_list_wrap {
-	width: 100%;
+.text_wrap.mid strong.tit {
+    font-size: 17px;
+    color: #111;
+    font-weight: 200;
+}
+.text_wrap strong.tit {
+    display: inline-block;
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 400;
+    color: #111;
 }
 
-.prod_list_wrap ul {
-	padding-left: 0;
+.flight_srch .row {
+    width: 1140px;
+    text-align: left;
+    position: relative;
+}
+.row {
+    display: table;
+    width: 100%;
+}
+.row {
+    display: table-row;
+}
+.row, .column, .flex {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.prod_list_wrap>ul>li:first-child {
-	margin-left: 0;
+.flight_srch .row .bowl {
+    float: left;
 }
 
-.prod_list_wrap .type>li {
-	width: 100%;
-	margin-left: 0;
-	padding: 30px 0 0;
-	border-bottom: 1px solid #ddd;
+.flight_srch .set, .flight_srch .btn {
+    background: #fff;
+    float: none;
+    height: 46px;
+    line-height: 46px;
+    border: 1px solid #c2c2c2;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 20px;
+    border-radius: 3px;
+    font-size: 15px;
+    color: #888;
+    text-align: left;
+    margin: 0;
 }
 
-.prod_list_wrap>ul>li {
-	position: relative;
-	float: left;
-	width: 320px;
-}
-
-.prod_list_wrap .type .inr {
-	width: 200px;
-	min-height: 200px;
-	overflow: hidden;
-	position: absolute;
-	top: 30px;
-	left: 0;
-}
-
-.prod_list_wrap .type .img {
-	height: 200px;
-}
-
-.prod_list_wrap .img {
-	width: 100%;
-	height: 210px;
-}
-
-.img {
-	display: inline-block;
-}
-
-.prod_list_wrap .img .group_area {
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	text-align: right;
-	z-index: 10;
-}
-
-.prod_list_wrap .img img, .prod_thum_list .img img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.img img {
-	display: block;
-}
-
-img {
-	max-width: 100%;
-	height: 100%;
-	vertical-align: top;
-}
-
-.inr.right .prod_list_wrap .type .inr.htl {
-	width: 676px;
-}
-
-.prod_list_wrap .type .inr.htl {
-	position: relative;
-	float: right;
-	width: 976px;
-	height: 230px;
-	margin-right: 0;
-	padding: 0 221px 0 0;
-	top: 0;
-}
-
-.tag_group>span.attr {
-	border: 1px solid #5b699c;
-	color: #5b699c;
-}
-
-.tag_group>span+span {
-	margin-left: 5px;
-}
-
-.tag_group>span {
-	background: #fff;
-}
-
-.tag, .tag_group>span, .badge {
-	display: inline-block;
-	padding: 0 6px;
-	height: 19px;
-	line-height: 17px;
-	font-size: 12px;
-}
-
-.prod_list_wrap .htl .item_text {
-	margin-top: 2px;
-}
-
-.prod_list_wrap .item_text {
-	max-height: 45px;
-}
-
-.prod_list_wrap .tag_group+.item_title, .prod_list_wrap .tag_group+.item_title2
-	{
-	margin-top: 8px;
-}
-
-.prod_list_wrap .item_title {
-	font-size: 20px;
-	color: #111;
-	font-weight: 600;
-	display: block;
-	line-height: 30px;
-}
-
-.tag_group+.item_title {
-	margin-top: 5px;
-	display: block;
-}
-
-.item_title {
-	font-size: 17px;
-	line-height: 27px;
-	color: #111;
-}
-
-
-
-.prod_list_wrap .item_title.sub {
-	font-size: 13px;
-	color: #888;
-	margin-top: 9px;
-	font-weight: normal;
-	line-height: 1;
-}
-
-.prod_list_wrap .info_group {
-    margin-top: 15px;
-}
-
-.prod_list_wrap .htl .item_text {
-    margin-top: 2px;
-}
-.prod_list_wrap .info_group p {
-    color: #333;
-}
-.prod_list_wrap .item_text {
-    max-height: 45px;
-    margin-top: 5px;
-    color: #333;
-}
-.item_text {
-    font-size: 14px;
-    color: #333;
-    line-height: 21px;
-}
-
-.item_text .icn {
-    padding-left: 27px;
-}
 .icn.pos {
     position: relative;
     padding-left: 17px;
 }
-.icn {
-    display: inline-block;
-    position: relative;
-}
 
-.item_text .icn:before {
+.flight_srch .set + .select_area, .flight_srch .bowl + .select_area, .flight_change .set + .select_area, .flight_change .bowl + .select_area {
+    display: none;
     position: absolute;
-    left: 3px;
-    top: 3px;
-    width: 14px;
-    height: 14px;
-}
-.icn.pos:before {
-    position: absolute;
-    left: 0;
-    top: 1px;
-    width: 13px;
-    height: 14px;
-    margin-right: 9px;
-    background-position: -135px 0;
-    vertical-align: middle;
-}
-
-.icn:before {
-    display: inline-block;
-    content: '';
-    background-repeat: no-repeat;
-    background-image: url(https://image.hanatour.com/usr/static/img2/pc/com/spr_icn.png);
-}
-
-.prod_list_wrap .htl .info_bottom {
+    top: 0;
     left: 0;
 }
-.prod_list_wrap .info_bottom {
-    position: absolute;
-    bottom: 30px;
-    left: 224px;
-    right: 0;
-}
-
-.prod_list_wrap .htl .item_group {
-    margin-top: 0px;
-}
-
-.score_htl_wrap {
-    position: relative;
-    padding: 14px 0 0;
-    line-height: 21px;
-}
-
-.score_htl_wrap .icn.star {
-    color: #111;
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 16px;
-    vertical-align: middle;
-}
-
-.score_htl_wrap .icn.star+.txt {
-    margin-left: 5px;
-}
-.score_htl_wrap .txt {
-    display: inline-block;
-    color: #111;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 16px;
-    vertical-align: middle;
-}
-
-.txt {
-	margin-bottom: 0;
-}
-
-.prod_list_wrap .htl .price_group {
-    top: 30px;
-}
-.prod_list_wrap .type .price_group {
-    position: absolute;
-    top: 2px;
-    right: 0;
-    text-align: right;
-}
-
-.prod_list_wrap .htl .login_guide {
-    display: inline-block;
-    width: 140px;
-    text-align: center;
-    word-break: keep-all;
-    padding-left: 15px;
-}
-
-.prod_list_wrap .htl .btn_wrap {
-    width: auto;
-}
-.prod_list_wrap .htl .btn_wrap {
-    position: absolute;
-    right: 0;
-    bottom: 30px;
-    width: 170px;
-    text-align: right;
-}
-
-prod_list_wrap .htl .btn.line {
-    width: auto;
-}
-
-/* 페이징 */
-.paginate_wrap {
-    text-align: center;
-    position: relative;
-    margin-top: 15px;
-}
-.paginate_wrap .paginate {
-    display: inline-block;
-    margin: 0 auto;
-    padding: 15px 0;
-}
-.paginate_wrap .paginate.type2 a, .paginate_wrap .paginate.type2 strong {
-    padding: 0 7px;
-}
-.paginate a.prevend {
-    background-position: -30px 0;
-}
-.paginate a.prev {
-    margin: 0 15px 0 5px;
-    background-position: -61px 0;
-}
-.paginate_wrap .paginate.type2 a, .paginate_wrap .paginate.type2 strong {
-    padding: 0 7px;
-}
-.paginate strong {
-    /* width: 37px; */
-    height: 26px;
-    /* padding: 0; */
-    padding: 0 14px;
-    color: #5e2bb8;
-    text-align: center;
-}
-.paginate a, .paginate strong {
-    display: inline-block;
-    z-index: 2;
-    padding: 0 14px;
-    font-size: 14px;
-    color: #111;
-    vertical-align: middle;
-    line-height: 26px;
-}
-.paginate a.next {
-    margin: 0 5px 0 15px;
-    background-position: -92px 0;
-}
-.paginate .direction {
-    display: inline-block;
-    width: 26px;
-    height: 26px;
-    position: relative;
-    font-size: 0;
-    line-height: 0;
-    vertical-align: top;
-    padding: 0 !important;
-}
-.paginate a.nextend {
-    background-position: -123px 0;
-}
-
-#all {
-	color: black;
-}
-/* 비행기 검색시 나오는 div  */
-.airline{
-	margin-left:10px;
-}
-.airline_num{
-	margin-left:30px;
-}
-.time{
- font-weight: bold;
- font-size: 22px;
- margin-left: 15px;	
-}
-.step{
-	color:#3399FF;
-	margin-left: 15px;
-}
-.hour{
-	margin-left: 15px;
-	font_size:20px;
-	color:gray;
-}
-
-.go_airplane{
-	border: 1px solid gray;
-	width : 800px;
-	height: 125px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: space-between;
-    align-items: center;
-    margin-top : 50px;
-    margin-bottom: 50px;
-    margin: 20px auto;
-}
-
-.go_airplane:hover{
-	cursor:pointer;
-}
-
-.emoji{
-	width: 70px;
-	height: 30px;
-}
-
-.price{
-	margin-right: 15px;
-	font-size: 18px;
-	font-weight: bold;
-}
-
-.reservation_check{
-	margin-right:5px;
-}
-
-.text_wrap.big {
-    width : 870px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px 15px 0 0;
-    margin-top: 50px;
-}
-
-.end{
-	margin-right: 50px;
-}
-
-.state1{
- 	display:inline-block;
-	width: 70px;
-	height: 40px;
-	text-align: center;
-	color:white;
-    background-color: #1E9EED;
-    border: 1px solid #1E9EED;
-    padding: 0.5rem;
-    vertical-align: middle;
-    border-radius: 0.5rem;
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.one_list{
-	margin-top: 20px;
-}
-
-.forEach_list{
-	margin-top: 20px;
-}
-
-.calendar{
-	margin-left: 400px;
-	font-size: 16px;
-	color:#808080;
-}
-
-.list_sort{
-	margin-bottom: 100px;
+.js_show_wrap {
+    z-index: 19;
 }
 </style>
-</head>
-<body>
-	<!-- <div class="js_tabs type1 no_division">
-		<ul class="tabs sort">
-			<li class="item01"><button id="all" class="item02">전체</button></li>
-	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
-	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
-	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
-			<li class="item05 selected"><button id="airplane" class="item02">항공</button></li>
-		</ul>
-	</div> -->
-	                <!-- 필터 부분 -->
-	         <div class="container">       
-	          <div class="ly_wrap result_wrap">      
-                <div class="inr">
-                    <div>
-                        <div class="form_wrap major"></div>
-                        <div class="js_acc multi filter_wrap">
-                            <!-- 가격 -->
-                            <div class="inr">
-                                <a href="#adtAmtCdsDiv" class="header active">가격</a>
-                                <div id="adtAmtCdsDiv" class="view" style="display: block;">
-                                    <div class="form_wrap">
-                                        <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds200000|400000" class="inpt_checkbox" value="200000|400000">
-                                            <label for="chk_adtAmtCds200000|400000" class="label_checkbox">0~40만원</label>
-                                        </span>
-
-                                        <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds400000|600000" class="inpt_checkbox" value="400000|600000">
-                                            <label for="chk_adtAmtCds400000|600000" class="label_checkbox">40~60만원</label>
-                                        </span>
-
-                                        <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds600000|800000" class="inpt_checkbox" value="600000|800000">
-                                            <label for="chk_adtAmtCds600000|800000" class="label_checkbox">60~80만원</label>
-                                        </span>
-
-                                        <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds800000" class="inpt_checkbox" value="800000">
-                                            <label for="chk_adtAmtCds800000" class="label_checkbox">80~만원</label>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 여행기간 -->
-                            <div class="inr">
-                                <a href="#trvlDayCntsDiv" class="header active">항공사</a>
-                                <div id="trvlDayCntsDiv" class="view" style="display: block;">
-                                    <div class="form_wrap">
-                                        <span class="form_holder text">
-                                            <input type="checkbox" id="chk_trvlDayCnts3" class="inpt_checkbox" value="3"> 
-                                            <label for="chk_trvlDayCnts3" class="label_checkbox">3일</label>
-                                        </span>
-
-                                        <span class="form_holder text">
-                                            <input type="checkbox" id="chk_trvlDayCnts4" class="inpt_checkbox" value="4"> 
-                                            <label for="chk_trvlDayCnts4" class="label_checkbox">4일</label>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 출발시간 -->
-                            <div class="inr">
-                                <a href="#depTmsCdsDiv" class="header active">출발시간</a>
-                                <div id="depTmsCdsDiv" class="view" style="display: block;">
-                                    <div class="form_wrap">
-                                        <span class="form_holder text">
-                                            <input type="checkbox" id="chk_depTmsCdsAM2" class="inpt_checkbox" value="AM2"> 
-                                            <label for="chk_depTmsCdsAM2" class="label_checkbox">05시~12시</label>
-                                        </span>
-                                        <span class="form_holder text">
-                                            <input type="checkbox" id="chk_depTmsCdsPM1" class="inpt_checkbox" value="PM1"> 
-                                            <label for="chk_depTmsCdsPM1" class="label_checkbox">12시~18시</label>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- js_acc multi filter_wrap -->
-                    </div>
-                </div><!-- 필터 부분 inr -->
-                
-                 <!-- 패키지 상세 상품 부분 -->
-                <div class="inr right">
-                    <!-- 패키지 상품 정렬 부분 -->
-                    <div class="option_wrap result">
-                    	<div class="right_cont">
-                            <ul class="list_sort">
-                                <li class=""><a href="#none">출발시간 빠른순</a></li>
-                                <li class=""><a href="#none">높은 가격순</a></li>
-                                <li class=""><a href="#none">낮은 가격순</a></li>
-                            </ul>
-                   		</div>
-                        
-                  
-		                        <div class="text_wrap big">
-									<h5><strong>✈️ 가는 항공편</strong></h5>
-										<div class="calendar">${start_date1}
-											<span class="calendar_day1"></span>
-											<span class="startCity1"></span> 🔜  <span class="endCity1"></span>
-										</div>
-		                        
-		                    </div><!-- option_wrap result -->
-		             <div class="one_list">
-		             <c:if test="${gubun_check == 1}">  
-		             <c:forEach var="schedule" items="${schedule_list}">
-							<div class="go_airplane">
-								<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${schedule.air_picture}" width="20px" height="20px">${schedule.air_name}<br>
-								<span class="airline_num">${schedule.airplane_name}</span>
-								</div>
-								
-								<div class="go_airplane_day">
-								<fmt:formatDate pattern="yyyy-MM-dd" value="${schedule.start_time}"/><br>
-									<span class="time"><fmt:formatDate pattern="HH:mm" value="${schedule.start_time}"/></span><br>
-									<span class="airport">${schedule.start_airport_name}</span>
-								</div>
-								<div>
-										<span class="step">직항</span><br>
-										<img class="emoji" src="${pageContext.request.contextPath}/airport/img/arro.png"><br>
-										<span class="hour">${schedule.lead_time}분</span>
-								</div>		
-								<div class="depart_airplane_day">
-									<fmt:formatDate pattern="yyyy-MM-dd" value="${schedule.end_time}"/><br>
-									<span class="time"><fmt:formatDate pattern="HH:mm" value="${schedule.end_time}"/></span><br>
-									<span class="airport">${schedule.end_airport_name}</span>
-								</div>
-								<div class="reservation_check">
-									 예약가능<br>
-									<span>잔여5석</span>
-								</div>
-								<div class="price">
-									<c:if test="${seat_position == 'C'}">
-									<fmt:formatNumber value="${1*schedule.schedule_price}" pattern="#,###"/>원<br>
-									 </c:if>
-									 <c:if test="${seat_position == 'B'}">
-									<fmt:formatNumber value="${2*schedule.schedule_price}" pattern="#,###"/>원<br> 	
-									 </c:if>
-									 <c:if test="${seat_position == 'A'}">
-									<fmt:formatNumber value="${3*schedule.schedule_price}" pattern="#,###"/>원<br>
-									 </c:if>
-							</div>
-						</div>
-				</c:forEach>
-				</c:if>
-				<c:if test="${gubun_check == 0}">  
-		             <c:forEach var="go" items="${goList}">
-							<div class="go_airplane">
-								<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${go.air_picture}" width="20px" height="20px">${go.air_name}<br>
-								<span class="airline_num">${go.airplane_name}</span>
-								</div>
-								
-								<div class="go_airplane_day">
-								<fmt:formatDate pattern="yyyy-MM-dd" value="${go.start_time}"/><br>
-									<span class="time"><fmt:formatDate pattern="HH:mm" value="${go.start_time}"/></span><br>
-									<span class="airport">${go.start_airport_name}</span>
-								</div>
-								<div>
-										<span class="step">직항</span><br>
-										<img class="emoji" src="${pageContext.request.contextPath}/airport/img/arro.png"><br>
-										<span class="hour">${go.lead_time}분</span>
-								</div>		
-								<div class="depart_airplane_day">
-									<fmt:formatDate pattern="yyyy-MM-dd" value="${go.end_time}"/><br>
-									<span class="time"><fmt:formatDate pattern="HH:mm" value="${go.end_time}"/></span><br>
-									<span class="airport">${go.end_airport_name}</span>
-								</div>
-								<div class="reservation_check">
-									 예약가능<br>
-									<span>잔여5석</span>
-								</div>
-								<div class="price">
-									<c:if test="${seat_position == 'C'}">
-									<fmt:formatNumber value="${1*go.schedule_price}" pattern="#,###"/>원<br>
-									 </c:if>
-									 <c:if test="${seat_position == 'B'}">
-									<fmt:formatNumber value="${2*go.schedule_price}" pattern="#,###"/>원<br> 	
-									 </c:if>
-									 <c:if test="${seat_position == 'A'}">
-									<fmt:formatNumber value="${3*go.schedule_price}" pattern="#,###"/>원<br>
-									 </c:if>
-							</div>
-						</div>
-				</c:forEach>
-				</c:if>  
-			</div>     
-		</div>
-		<!--오는 항공편  -->
-		           <div class="text_wrap big">
-		           				<c:if test="${gubun_check == 0 }">
-									<h5><strong>✈️ 오는 항공편</strong></h5>
-										<div class="calendar">${end_date}
-											<span class="calendar_day2"></span>
-											<span class="startCity2">${end_city_id}</span> 🔜  <span class="endCity2">${start_city_id}</span>
-										</div>
-		                        </c:if>
-		                    </div><!-- option_wrap result -->
-		             <div class="one_list">
-		             <c:if test="${gubun_check == 0 }">   
-		             <c:forEach var="come" items="${comeList}">
-							<div class="go_airplane">
-								<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${come.air_picture}" width="20px" height="20px">${come.air_name}<br>
-								<span class="airline_num">${come.airplane_name}</span>
-								</div>
-								
-								<div class="go_airplane_day">
-								<fmt:formatDate pattern="yyyy-MM-dd" value="${come.start_time}"/><br>
-									<span class="time"><fmt:formatDate pattern="HH:mm" value="${come.start_time}"/></span><br>
-									<span class="airport">${come.start_airport_name}</span>
-								</div>
-								<div>
-										<span class="step">직항</span><br>
-										<img class="emoji" src="${pageContext.request.contextPath}/airport/img/arro.png"><br>
-										<span class="hour">${come.lead_time}분</span>
-								</div>		
-								<div class="depart_airplane_day">
-									<fmt:formatDate pattern="yyyy-MM-dd" value="${come.end_time}"/><br>
-									<span class="time"><fmt:formatDate pattern="HH:mm" value="${come.end_time}"/></span><br>
-									<span class="airport">${come.end_airport_name}</span>
-								</div>
-								<div class="reservation_check">
-									 예약가능<br>
-									<span>잔여5석</span>
-								</div>
-								<div class="price">
-									<c:if test="${seat_position == 'C'}">
-									<fmt:formatNumber value="${1*come.schedule_price}" pattern="#,###"/>원<br>
-									 </c:if>
-									 <c:if test="${seat_position == 'B'}">
-									<fmt:formatNumber value="${2*come.schedule_price}" pattern="#,###"/>원<br> 	
-									 </c:if>
-									 <c:if test="${seat_position == 'A'}">
-									<fmt:formatNumber value="${3*come.schedule_price}" pattern="#,###"/>원<br>
-									 </c:if>
-							</div>
-						</div>
-				</c:forEach>
-			</c:if>		
-		</div>     
-	</div>
-</div>			
-	
-	
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script type="text/javascript">
 	
 	$(function() {
 		$('.item02').click(function() {
 			let gubun = $(this).attr('id');
+			console.log(gubun);
 			$.ajax({
 				url: '/searchCategoryAjax',
 				data: {'search_word' : $('#search_word').val(),
@@ -1156,132 +234,39 @@ prod_list_wrap .htl .btn.line {
 				}
 			})
 		});
-		
-		/* 필터 가격 부분 화살표 및 active class 부여 */
-        let daylist = $('.header'); // 각 일정의 a태그
-        $(daylist).on('click', function(e) {
-            e.preventDefault(); // 이벤트를 취소할 때 사용하는 메서드, 클릭 이벤트를 취소하여 페이지 이동을 막을 수 있습니다.
-            let viewDiv = $(this).siblings('div.view'); // 안에 있는 내용 div
-            
-            if(!$(this).hasClass('active')) {
-                $(this).addClass('active');
-                viewDiv.css('display', 'block');
-            } else {
-                $(this).removeClass('active');
-                viewDiv.css('display', 'none');
-            }
-        });    
+	})
 
-        /* 정렬 li 눌렀을 때 on 클래스 부여 및 해제 */
-        let liOn = $('.list_sort li');
-        $(liOn).on('click', function() {
-            if(!$(this).hasClass('on')) {
-                $(liOn).not(this).removeClass('on');
-                $(this).addClass('on');
-            } 
-        })
-
-        /* 상품상세보기 버튼 눌렀을 때 */
-        let detailAtag = $('.btn.arrow');
-        $(detailAtag).on('click', function(e) {
-            e.preventDefault();
-
-            // 버튼을 감싸고 있는 부모 div 의 형제인 상품 상세 박스
-            let detailProdBox = $(this).parents('.inr.right').siblings('.sub_list_wrap')
-            $(detailProdBox).toggle();
-        });
-
-        /* 상세일정보기 버튼 눌렀을 때 (진짜 상품으로 가는 버튼) */
-        let pkgDetailBtn = $('.btn.pkgDetail');
-        $(pkgDetailBtn).on('click',function() {
-
-        })
-        
-        
-        //요일구하는 함수
-        
-        function getTodayLabel1() {
-            
-            let week1 = new Array('(일)', '(월)', '(화)', '(수)', '(목)', '(금)', '(토)');
-            
-            var today1 = new Date(${start_date}).getDay();
-            var todayLabel1 = week1[today1];
-            
-            
-            return todayLabel1;
-        }
-        $('.calendar_day1').text(getTodayLabel1());
-        
-		function getTodayLabel2() {
-            
-            let week2 = new Array('(일)', '(월)', '(화)', '(수)', '(목)', '(금)', '(토)');
-            
-            var today2 = new Date(${end_date}).getDay();
-            var todayLabel2 = week2[today2];
-            
-            return todayLabel2;
-        }
-		$('.calendar_day2').text(getTodayLabel2());
-        
-        
-        
-        
-		
-        //출발도시
-        if(${start_city_id == 110}){
-        	$('.startCity1').text('인천');
-        	$('.endCity2').text('인천');
-        }else if(${start_city_id == 210}){
-        	$('.startCity1').text('후쿠오카');
-        	$('.endCity2').text('후쿠오카');
-        }else if(${start_city_id == 220}){
-        	$('.startCity1').text('오사카');
-        	$('.endCity2').text('오사카');
-        }else if(${start_city_id == 310}){
-        	$('.startCity1').text('베이징');
-        	$('.endCity2').text('베이징');
-        }else if(${start_city_id == 320}){
-        	$('.startCity1').text('상하이');
-        	$('.endCity2').text('상하이');
-        }else if(${start_city_id == 410}){
-        	$('.startCity1').text('방콕');
-        	$('.endCity2').text('방콕');
-        }else if(${start_city_id == 420}){
-        	$('.startCity1').text('파타야');
-        	$('.endCity2').text('파타야');
-        }
-    	
-        //도착도시
-        
-        if(${end_city_id == 110}){
-        	$('.endCity1').text('인천');
-        	$('.startCity2').text('인천');
-        }else if(${end_city_id == 210}){
-        	$('.endCity1').text('후쿠오카');
-        	$('.startCity2').text('후쿠오카');
-        }else if(${end_city_id == 220}){
-        	$('.endCity1').text('오사카');
-        	$('.startCity2').text('오사카');
-        }else if(${end_city_id == 310}){
-        	$('.endCity1').text('베이징');
-        	$('.startCity2').text('베이징');
-        }else if(${end_city_id == 320}){
-        	$('.endCity1').text('상하이');
-        	$('.startCity2').text('상하이');
-        }else if(${end_city_id == 410}){
-        	$('.endCity1').text('방콕');
-        	$('.startCity2').text('방콕');
-        }else if(${end_city_id == 420}){
-        	$('.endCity1').text('파타야');
-        	$('.startCity2').text('파타야');
-        }
-        
-		
-		
-	});
-	
-	
-	
-</script>			
+</script>
+</head>
+<body>
+	<div class="js_tabs type1 no_division">
+		<ul class="tabs sort">
+			<li class="item01"><button id="all" class="item02">전체</button></li>
+	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
+	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
+	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
+			<li class="item05 selected"><button id="airplane" class="item02">항공</button></li>
+		</ul>
+	</div>
+	<div tab="air"><div class="flight_srch type"><div class="text_wrap mid"><strong class="tit">항공권 검색은 빠르게 </strong></div> <div class="row"><div class="bowl"><a href="#select_area" title="인천/김포" class="set js_show" style="overflow: hidden;"><span class="icn pos">SEL 인천/김포</span></a> <!----></div> <div class="js_show_wrap select_area dep"><input type="text" title="출발지" id="input_RT_dep" autocomplete="off" placeholder="인천/김포" data-target="#select_part" class="input_keyword"></div> <div class="mid_cell"><span class="move_arrow"></span></div> <div class="bowl"><a href="#select_area1" title="하네다 공항" class="set js_show" style="overflow: hidden;"><span class="icn pos">HND 하네다 공항</span></a> <!----></div> <div class="js_show_wrap select_area arr"><input type="text" title="도착지" id="input_RT_arr" autocomplete="off" placeholder="하네다 공항" data-target="#select_part" class="input_keyword"></div> <div><span class="form_holder text"><input type="checkbox" id="chk_01" class="inpt_checkbox"> <label for="chk_01" class="label_checkbox" style="margin-left: 8px;">직항</label></span></div> <div id="select_part" class="lypop_seach_local"><!----> <div class="btn_full_go" style="display: none;"><a href="#" class="txt arrow_r">전체지역 <em>전세계 항공권 쉽게 찾아보기</em> <span>예산에 맞는 항공권을 찾아보세요!</span></a></div> <p class="txt"><span class="exclam">지역이나 공항명으로 검색 가능합니다.</span></p> <div class="area_point"><div class="js_tabs place_list"><ul class="tabs"><li class="selected"><a href="#">국내</a></li><li class=""><a href="#">동남아</a></li><li class=""><a href="#">일본</a></li><li class=""><a href="#">중국</a></li><li class=""><a href="#">유럽</a></li><li class=""><a href="#">미주</a></li><li class=""><a href="#">대양주</a></li><li class=""><a href="#">캐나다</a></li><li class=""><a href="#">서남아</a></li><li class=""><a href="#">중남미</a></li><li class=""><a href="#">중동</a></li><li class=""><a href="#">아프리카</a></li></ul> <div class="panels place_scroll"><div id="place01" class="panel selected"><ul class="place_items"><li><a href="#"><span>제주
+                  <!----></span></a></li><li><a href="#"><span>부산
+                  <!----></span></a></li><li><a href="#"><span>김포
+                  <!----></span></a></li><li><a href="#"><span>인천
+                  <!----></span></a></li><li><a href="#"><span>광주
+                  <!----></span></a></li><li><a href="#"><span>양양
+                  <!----></span></a></li><li><a href="#"><span>여수
+                  <!----></span></a></li><li><a href="#"><span>포항
+                  <!----></span></a></li><li><a href="#"><span>울산
+                  <!----></span></a></li><li><a href="#"><span>군산
+                  <!----></span></a></li><li><a href="#"><span>원주
+                  <!----></span></a></li><li><a href="#"><span>대구
+                  <!----></span></a></li><li><a href="#"><span>청주
+                  <!----></span></a></li><li><a href="#"><span>무안
+                  <!----></span></a></li><li><a href="#"><span>진주
+                  <!----></span></a></li></ul></div></div></div></div> <div class="popup_footer_wrap"><div class="popup_btn_box"><a href="#" class="txt">닫기</a></div></div></div></div> <div class="row"><div class="bowl"><a href="#none" class="set ok"><span class="icn cal">11.29(화)</span></a></div> <span class="dash">~</span> <div class="bowl"><a href="#none" class="set ok"><span class="icn cal">11.29(화)</span></a></div> <div class="mid_cell"></div> <div class="bowl"><a href="#select_person" title="일반석" class="btn person js_show" style="overflow: hidden;"><span class="icn member">성인 1명</span> <span class="divider_dot"></span>일반석
+      </a></div> <a href="#none" class="btn big em">실시간 항공권 검색</a> <!----> <div id="select_tripstartdate" class="js_show_wrap lypop_calendar"><div class="ly_wrap"><div class="calendar_wrap"><a href="#none " class="prev off"><span class="blind">이전달</span></a> <a href="#" class="next"><span class="blind">다음달</span></a> <div class="inr"><div class="header"><span></span></div> <div class="calendar_area"><div class="week"><p class="sun">일</p> <p>월</p> <p>화</p> <p>수</p> <p>목</p> <p>금</p> <p class="sat">토</p></div> <div class="calendar"></div></div></div> <div class="inr right"><div class="header"><span></span></div> <div class="calendar_area"><div class="week"><p class="sun">일</p> <p>월</p> <p>화</p> <p>수</p> <p>목</p> <p>금</p> <p class="sat">토</p></div> <div class="calendar"></div></div></div></div> <!----></div> <div class="option_wrap"><input type="text" title="가는 날" placeholder="가는 날" readonly="readonly" class="inpt_text2 w130"> <!----> <!----> <button class="btn pink date_on">
+      
+      
+      <span class="divider_dot"> 선택완료</span></button></div></div> <div id="select_autocomplete" class="lypop_seach_local airpop" style="width: 410px;"><div class="city_search_list"><div class="notice"><strong>검색조건에 해당하는 결과가 없습니다.</strong> <p>다시 검색해주세요.</p></div></div> <div class="popup_footer_wrap"><div class="popup_btn_box"><a href="#" class="txt">닫기</a></div></div></div></div></div> <div class="related_search">원하는 도시의 실시간 항공권을 검색해보세요 !</div></div>
 </body>
 </html>
