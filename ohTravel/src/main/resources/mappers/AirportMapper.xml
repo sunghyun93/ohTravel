@@ -4,8 +4,32 @@
 
 <mapper namespace="com.oracle.ohTravel.AirportMapper">
 	
-	<!--일자선택에 대한 비행기 일정 조회 List-->
+	<!--편도 일자선택에 대한 비행기 일정 조회 List-->
 	<select id="airplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
+		<include refid="trip"></include>
+		where sa.city_id = #{start_city_id} and ea.city_id = #{end_city_id} and a.start_time like concat('%',#{start_date2},'%')
+	</select>
+	
+	<!--왕복 일자선택에 대한 가는 비행기 일정 조회 List-->
+ 	<select id="round_goairplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
+		<include refid="trip"></include>
+		where sa.city_id = #{start_city_id} and ea.city_id = #{end_city_id} and a.start_time like concat('%',#{start_date1},'%')
+	</select>
+	
+	
+	<!--왕복 일자선택에 대한 오는 비행기 일정 조회 List-->
+ 	<select id="round_airplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
+		<include refid="trip"></include>
+		where sa.city_id = #{end_city_id} and ea.city_id = #{start_city_id} and a.start_time like concat('%',#{end_date},'%');
+	</select>
+	
+	
+	
+	
+	
+	
+	<!--비행기 select sql 재활용  -->
+	<sql id="trip">
 		SELECT al.air_picture,a.air_num,al.air_name, a.airplane_name, a.start_time,sa.city_id ,a.start_airport_name,a.end_time,ea.city_id ,a.end_airport_name,
 			ap.general_seat,ap.business_seat,ap.first_seat,a.schedule_price
 			from air_schedule a
@@ -13,9 +37,7 @@
 			join airplane ap on a.airplane_name = ap.airplane_name
 			join start_airport sa on a.start_airport_name = sa.start_airport_name
 			join end_airport ea on a.end_airport_name = ea.end_airport_name
-		where sa.city_id = #{start_city_id} and ea.city_id = #{end_city_id} and a.start_time like concat('%',#{start_date2},'%')
-		
-	</select>
+	</sql>
 	
 	
 	

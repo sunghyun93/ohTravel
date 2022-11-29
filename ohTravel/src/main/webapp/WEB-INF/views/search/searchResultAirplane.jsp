@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_detail.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_searchResult.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_clear.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/data_no.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
@@ -430,6 +436,7 @@ p {
 
 .list_sort li {
 	margin-left: 20px;
+	margin-top: 50px;
 }
 
 .list_sort>li {
@@ -806,7 +813,7 @@ prod_list_wrap .htl .btn.line {
 
 .go_airplane{
 	border: 1px solid gray;
-	width : 920px;
+	width : 800px;
 	height: 125px;
     display: flex;
     flex-direction: row;
@@ -814,7 +821,13 @@ prod_list_wrap .htl .btn.line {
     align-content: center;
     justify-content: space-between;
     align-items: center;
-    margin: 20px 15px 0 10px;
+    margin-top : 50px;
+    margin-bottom: 50px;
+    margin: 20px auto;
+}
+
+.go_airplane:hover{
+	cursor:pointer;
 }
 
 .emoji{
@@ -824,15 +837,66 @@ prod_list_wrap .htl .btn.line {
 
 .price{
 	margin-right: 15px;
+	font-size: 18px;
+	font-weight: bold;
 }
 
 .reservation_check{
 	margin-right:5px;
 }
+
+.text_wrap.big {
+    width : 870px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 15px 0 0;
+    margin-top: 50px;
+}
+
+.end{
+	margin-right: 50px;
+}
+
+.state1{
+ 	display:inline-block;
+	width: 70px;
+	height: 40px;
+	text-align: center;
+	color:white;
+    background-color: #1E9EED;
+    border: 1px solid #1E9EED;
+    padding: 0.5rem;
+    vertical-align: middle;
+    border-radius: 0.5rem;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.one_list{
+	margin-top: 20px;
+}
+
+.forEach_list{
+	margin-top: 20px;
+}
+
+.calendar{
+	margin-left: 400px;
+	font-size: 16px;
+	color:#808080;
+}
+
+.list_sort{
+	margin-bottom: 100px;
+}
 </style>
 </head>
 <body>
-	<div class="js_tabs type1 no_division">
+	<!-- <div class="js_tabs type1 no_division">
 		<ul class="tabs sort">
 			<li class="item01"><button id="all" class="item02">전체</button></li>
 	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
@@ -840,46 +904,240 @@ prod_list_wrap .htl .btn.line {
 	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
 			<li class="item05 selected"><button id="airplane" class="item02">항공</button></li>
 		</ul>
+	</div> -->
+	                <!-- 필터 부분 -->
+	         <div class="container">       
+	          <div class="ly_wrap result_wrap">      
+                <div class="inr">
+                    <div>
+                        <div class="form_wrap major"></div>
+                        <div class="js_acc multi filter_wrap">
+                            <!-- 가격 -->
+                            <div class="inr">
+                                <a href="#adtAmtCdsDiv" class="header active">가격</a>
+                                <div id="adtAmtCdsDiv" class="view" style="display: block;">
+                                    <div class="form_wrap">
+                                        <span class="form_holder text">
+                                            <input type="checkbox" id="chk_adtAmtCds200000|400000" class="inpt_checkbox" value="200000|400000">
+                                            <label for="chk_adtAmtCds200000|400000" class="label_checkbox">0~40만원</label>
+                                        </span>
+
+                                        <span class="form_holder text">
+                                            <input type="checkbox" id="chk_adtAmtCds400000|600000" class="inpt_checkbox" value="400000|600000">
+                                            <label for="chk_adtAmtCds400000|600000" class="label_checkbox">40~60만원</label>
+                                        </span>
+
+                                        <span class="form_holder text">
+                                            <input type="checkbox" id="chk_adtAmtCds600000|800000" class="inpt_checkbox" value="600000|800000">
+                                            <label for="chk_adtAmtCds600000|800000" class="label_checkbox">60~80만원</label>
+                                        </span>
+
+                                        <span class="form_holder text">
+                                            <input type="checkbox" id="chk_adtAmtCds800000" class="inpt_checkbox" value="800000">
+                                            <label for="chk_adtAmtCds800000" class="label_checkbox">80~만원</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 여행기간 -->
+                            <div class="inr">
+                                <a href="#trvlDayCntsDiv" class="header active">항공사</a>
+                                <div id="trvlDayCntsDiv" class="view" style="display: block;">
+                                    <div class="form_wrap">
+                                        <span class="form_holder text">
+                                            <input type="checkbox" id="chk_trvlDayCnts3" class="inpt_checkbox" value="3"> 
+                                            <label for="chk_trvlDayCnts3" class="label_checkbox">3일</label>
+                                        </span>
+
+                                        <span class="form_holder text">
+                                            <input type="checkbox" id="chk_trvlDayCnts4" class="inpt_checkbox" value="4"> 
+                                            <label for="chk_trvlDayCnts4" class="label_checkbox">4일</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 출발시간 -->
+                            <div class="inr">
+                                <a href="#depTmsCdsDiv" class="header active">출발시간</a>
+                                <div id="depTmsCdsDiv" class="view" style="display: block;">
+                                    <div class="form_wrap">
+                                        <span class="form_holder text">
+                                            <input type="checkbox" id="chk_depTmsCdsAM2" class="inpt_checkbox" value="AM2"> 
+                                            <label for="chk_depTmsCdsAM2" class="label_checkbox">05시~12시</label>
+                                        </span>
+                                        <span class="form_holder text">
+                                            <input type="checkbox" id="chk_depTmsCdsPM1" class="inpt_checkbox" value="PM1"> 
+                                            <label for="chk_depTmsCdsPM1" class="label_checkbox">12시~18시</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- js_acc multi filter_wrap -->
+                    </div>
+                </div><!-- 필터 부분 inr -->
+                
+                 <!-- 패키지 상세 상품 부분 -->
+                <div class="inr right">
+                    <!-- 패키지 상품 정렬 부분 -->
+                    <div class="option_wrap result">
+                    	<div class="right_cont">
+                            <ul class="list_sort">
+                                <li class=""><a href="#none">출발시간 빠른순</a></li>
+                                <li class=""><a href="#none">높은 가격순</a></li>
+                                <li class=""><a href="#none">낮은 가격순</a></li>
+                            </ul>
+                   		</div>
+                        
+                  
+		                        <div class="text_wrap big">
+									<h5><strong>✈️ 가는 항공편</strong></h5>
+										<div class="calendar">${start_date1}
+											<span class="calendar_day1"></span>
+											<span class="startCity1"></span> 🔜  <span class="endCity1"></span>
+										</div>
+		                        
+		                    </div><!-- option_wrap result -->
+		             <div class="one_list">
+		             <c:if test="${gubun_check == 1}">  
+		             <c:forEach var="schedule" items="${schedule_list}">
+							<div class="go_airplane">
+								<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${schedule.air_picture}" width="20px" height="20px">${schedule.air_name}<br>
+								<span class="airline_num">${schedule.airplane_name}</span>
+								</div>
+								
+								<div class="go_airplane_day">
+								<fmt:formatDate pattern="yyyy-MM-dd" value="${schedule.start_time}"/><br>
+									<span class="time"><fmt:formatDate pattern="HH:mm" value="${schedule.start_time}"/></span><br>
+									<span class="airport">${schedule.start_airport_name}</span>
+								</div>
+								<div>
+										<span class="step">직항</span><br>
+										<img class="emoji" src="${pageContext.request.contextPath}/airport/img/arro.png"><br>
+										<span class="hour">${schedule.lead_time}분</span>
+								</div>		
+								<div class="depart_airplane_day">
+									<fmt:formatDate pattern="yyyy-MM-dd" value="${schedule.end_time}"/><br>
+									<span class="time"><fmt:formatDate pattern="HH:mm" value="${schedule.end_time}"/></span><br>
+									<span class="airport">${schedule.end_airport_name}</span>
+								</div>
+								<div class="reservation_check">
+									 예약가능<br>
+									<span>잔여5석</span>
+								</div>
+								<div class="price">
+									<c:if test="${seat_position == 'C'}">
+									<fmt:formatNumber value="${1*schedule.schedule_price}" pattern="#,###"/>원<br>
+									 </c:if>
+									 <c:if test="${seat_position == 'B'}">
+									<fmt:formatNumber value="${2*schedule.schedule_price}" pattern="#,###"/>원<br> 	
+									 </c:if>
+									 <c:if test="${seat_position == 'A'}">
+									<fmt:formatNumber value="${3*schedule.schedule_price}" pattern="#,###"/>원<br>
+									 </c:if>
+							</div>
+						</div>
+				</c:forEach>
+				</c:if>
+				<c:if test="${gubun_check == 0}">  
+		             <c:forEach var="go" items="${goList}">
+							<div class="go_airplane">
+								<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${go.air_picture}" width="20px" height="20px">${go.air_name}<br>
+								<span class="airline_num">${go.airplane_name}</span>
+								</div>
+								
+								<div class="go_airplane_day">
+								<fmt:formatDate pattern="yyyy-MM-dd" value="${go.start_time}"/><br>
+									<span class="time"><fmt:formatDate pattern="HH:mm" value="${go.start_time}"/></span><br>
+									<span class="airport">${go.start_airport_name}</span>
+								</div>
+								<div>
+										<span class="step">직항</span><br>
+										<img class="emoji" src="${pageContext.request.contextPath}/airport/img/arro.png"><br>
+										<span class="hour">${go.lead_time}분</span>
+								</div>		
+								<div class="depart_airplane_day">
+									<fmt:formatDate pattern="yyyy-MM-dd" value="${go.end_time}"/><br>
+									<span class="time"><fmt:formatDate pattern="HH:mm" value="${go.end_time}"/></span><br>
+									<span class="airport">${go.end_airport_name}</span>
+								</div>
+								<div class="reservation_check">
+									 예약가능<br>
+									<span>잔여5석</span>
+								</div>
+								<div class="price">
+									<c:if test="${seat_position == 'C'}">
+									<fmt:formatNumber value="${1*go.schedule_price}" pattern="#,###"/>원<br>
+									 </c:if>
+									 <c:if test="${seat_position == 'B'}">
+									<fmt:formatNumber value="${2*go.schedule_price}" pattern="#,###"/>원<br> 	
+									 </c:if>
+									 <c:if test="${seat_position == 'A'}">
+									<fmt:formatNumber value="${3*go.schedule_price}" pattern="#,###"/>원<br>
+									 </c:if>
+							</div>
+						</div>
+				</c:forEach>
+				</c:if>  
+			</div>     
+		</div>
+		<!--오는 항공편  -->
+		           <div class="text_wrap big">
+		           				<c:if test="${gubun_check == 0 }">
+									<h5><strong>✈️ 오는 항공편</strong></h5>
+										<div class="calendar">${end_date}
+											<span class="calendar_day2"></span>
+											<span class="startCity2">${end_city_id}</span> 🔜  <span class="endCity2">${start_city_id}</span>
+										</div>
+		                        </c:if>
+		                    </div><!-- option_wrap result -->
+		             <div class="one_list">
+		             <c:if test="${gubun_check == 0 }">   
+		             <c:forEach var="come" items="${comeList}">
+							<div class="go_airplane">
+								<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${come.air_picture}" width="20px" height="20px">${come.air_name}<br>
+								<span class="airline_num">${come.airplane_name}</span>
+								</div>
+								
+								<div class="go_airplane_day">
+								<fmt:formatDate pattern="yyyy-MM-dd" value="${come.start_time}"/><br>
+									<span class="time"><fmt:formatDate pattern="HH:mm" value="${come.start_time}"/></span><br>
+									<span class="airport">${come.start_airport_name}</span>
+								</div>
+								<div>
+										<span class="step">직항</span><br>
+										<img class="emoji" src="${pageContext.request.contextPath}/airport/img/arro.png"><br>
+										<span class="hour">${come.lead_time}분</span>
+								</div>		
+								<div class="depart_airplane_day">
+									<fmt:formatDate pattern="yyyy-MM-dd" value="${come.end_time}"/><br>
+									<span class="time"><fmt:formatDate pattern="HH:mm" value="${come.end_time}"/></span><br>
+									<span class="airport">${come.end_airport_name}</span>
+								</div>
+								<div class="reservation_check">
+									 예약가능<br>
+									<span>잔여5석</span>
+								</div>
+								<div class="price">
+									<c:if test="${seat_position == 'C'}">
+									<fmt:formatNumber value="${1*come.schedule_price}" pattern="#,###"/>원<br>
+									 </c:if>
+									 <c:if test="${seat_position == 'B'}">
+									<fmt:formatNumber value="${2*come.schedule_price}" pattern="#,###"/>원<br> 	
+									 </c:if>
+									 <c:if test="${seat_position == 'A'}">
+									<fmt:formatNumber value="${3*come.schedule_price}" pattern="#,###"/>원<br>
+									 </c:if>
+							</div>
+						</div>
+				</c:forEach>
+			</c:if>		
+		</div>     
 	</div>
+</div>			
 	
-	<c:forEach var="schedule" items="${schedule_list}">
-	<div class="go_airplane">
-				<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${schedule.air_picture}" width="20px" height="20px">${schedule.air_name}<br>
-				<span class="airline_num">${schedule.airplane_name}</span>
-				</div>
-				
-				<div class="go_airplane_day">
-				<fmt:formatDate pattern="yyyy-MM-dd" value="${schedule.start_time}"/><br>
-					<span class="time"><fmt:formatDate pattern="HH:mm" value="${schedule.start_time}"/></span><br>
-					<span class="airport">${schedule.start_airport_name}</span>
-				</div>
-				<div>
-						<span class="step">직항</span><br>
-						<img class="emoji" src="${pageContext.request.contextPath}/airport/img/arro.png"><br>
-						<span class="hour">${schedule.lead_time}분</span>
-				</div>		
-				<div class="depart_airplane_day">
-					<fmt:formatDate pattern="yyyy-MM-dd" value="${schedule.end_time}"/><br>
-					<span class="time"><fmt:formatDate pattern="HH:mm" value="${schedule.end_time}"/></span><br>
-					<span class="airport">${schedule.end_airport_name}</span>
-				</div>
-				<div class="reservation_check">
-					 예약가능<br>
-					<span>잔여5석</span>
-				</div>
-				<div class="price">
-					<c:if test="${seat_position == 'C'}">
-					 	${1*schedule.schedule_price }<br>
-					 </c:if>
-					 <c:if test="${seat_position == 'B'}">
-					 	${2*schedule.schedule_price }<br>
-					 </c:if>
-					 <c:if test="${seat_position == 'A'}">
-					 	${3*schedule.schedule_price }<br>
-					 </c:if>
-				</div>
-			</div>
-		</c:forEach>
+	
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script type="text/javascript">
 	
@@ -898,11 +1156,131 @@ prod_list_wrap .htl .btn.line {
 				}
 			})
 		});
-	})
-	
-	$(function(){
+		
+		/* 필터 가격 부분 화살표 및 active class 부여 */
+        let daylist = $('.header'); // 각 일정의 a태그
+        $(daylist).on('click', function(e) {
+            e.preventDefault(); // 이벤트를 취소할 때 사용하는 메서드, 클릭 이벤트를 취소하여 페이지 이동을 막을 수 있습니다.
+            let viewDiv = $(this).siblings('div.view'); // 안에 있는 내용 div
+            
+            if(!$(this).hasClass('active')) {
+                $(this).addClass('active');
+                viewDiv.css('display', 'block');
+            } else {
+                $(this).removeClass('active');
+                viewDiv.css('display', 'none');
+            }
+        });    
+
+        /* 정렬 li 눌렀을 때 on 클래스 부여 및 해제 */
+        let liOn = $('.list_sort li');
+        $(liOn).on('click', function() {
+            if(!$(this).hasClass('on')) {
+                $(liOn).not(this).removeClass('on');
+                $(this).addClass('on');
+            } 
+        })
+
+        /* 상품상세보기 버튼 눌렀을 때 */
+        let detailAtag = $('.btn.arrow');
+        $(detailAtag).on('click', function(e) {
+            e.preventDefault();
+
+            // 버튼을 감싸고 있는 부모 div 의 형제인 상품 상세 박스
+            let detailProdBox = $(this).parents('.inr.right').siblings('.sub_list_wrap')
+            $(detailProdBox).toggle();
+        });
+
+        /* 상세일정보기 버튼 눌렀을 때 (진짜 상품으로 가는 버튼) */
+        let pkgDetailBtn = $('.btn.pkgDetail');
+        $(pkgDetailBtn).on('click',function() {
+
+        })
+        
+        
+        //요일구하는 함수
+        
+        function getTodayLabel1() {
+            
+            let week1 = new Array('(일)', '(월)', '(화)', '(수)', '(목)', '(금)', '(토)');
+            
+            var today1 = new Date(${start_date}).getDay();
+            var todayLabel1 = week1[today1];
+            
+            
+            return todayLabel1;
+        }
+        $('.calendar_day1').text(getTodayLabel1());
+        
+		function getTodayLabel2() {
+            
+            let week2 = new Array('(일)', '(월)', '(화)', '(수)', '(목)', '(금)', '(토)');
+            
+            var today2 = new Date(${end_date}).getDay();
+            var todayLabel2 = week2[today2];
+            
+            return todayLabel2;
+        }
+		$('.calendar_day2').text(getTodayLabel2());
+        
+        
+        
+        
+		
+        //출발도시
+        if(${start_city_id == 110}){
+        	$('.startCity1').text('인천');
+        	$('.endCity2').text('인천');
+        }else if(${start_city_id == 210}){
+        	$('.startCity1').text('후쿠오카');
+        	$('.endCity2').text('후쿠오카');
+        }else if(${start_city_id == 220}){
+        	$('.startCity1').text('오사카');
+        	$('.endCity2').text('오사카');
+        }else if(${start_city_id == 310}){
+        	$('.startCity1').text('베이징');
+        	$('.endCity2').text('베이징');
+        }else if(${start_city_id == 320}){
+        	$('.startCity1').text('상하이');
+        	$('.endCity2').text('상하이');
+        }else if(${start_city_id == 410}){
+        	$('.startCity1').text('방콕');
+        	$('.endCity2').text('방콕');
+        }else if(${start_city_id == 420}){
+        	$('.startCity1').text('파타야');
+        	$('.endCity2').text('파타야');
+        }
+    	
+        //도착도시
+        
+        if(${end_city_id == 110}){
+        	$('.endCity1').text('인천');
+        	$('.startCity2').text('인천');
+        }else if(${end_city_id == 210}){
+        	$('.endCity1').text('후쿠오카');
+        	$('.startCity2').text('후쿠오카');
+        }else if(${end_city_id == 220}){
+        	$('.endCity1').text('오사카');
+        	$('.startCity2').text('오사카');
+        }else if(${end_city_id == 310}){
+        	$('.endCity1').text('베이징');
+        	$('.startCity2').text('베이징');
+        }else if(${end_city_id == 320}){
+        	$('.endCity1').text('상하이');
+        	$('.startCity2').text('상하이');
+        }else if(${end_city_id == 410}){
+        	$('.endCity1').text('방콕');
+        	$('.startCity2').text('방콕');
+        }else if(${end_city_id == 420}){
+        	$('.endCity1').text('파타야');
+        	$('.startCity2').text('파타야');
+        }
+        
+		
 		
 	});
+	
+	
 	
 </script>			
 </body>

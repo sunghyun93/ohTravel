@@ -517,11 +517,13 @@ button {
 		<div class="round_trip">
 		     왕복
 		</div>
+		
 		<div class="oneway">
 		     편도
 		</div>
 	</div>
-		<form action="/airport/searchAirplane" method="post">	
+		<form action="/airport/searchAirplane" method="post">
+		<input type="hidden" value="" name="gubun_check" class="gubun_check">
 		<div class="start_end">
 				<!--왕복 모달시작  -->
 				 <input type="text" id="modal_btn" class="starting" data-toggle="modal" data-target="#exampleModalCenter" placeholder="인천">
@@ -1282,10 +1284,22 @@ $(function() {
 	
 	var end = $('.ending').val();
 	
+	//왕복인지 편도인지 체크해서 hidden 값 들어가는 함수
+	$('.gubun_check').val('0'); //처음 화면엔 왕복이여서 hidden에 0이 들어간다.
 	
-	
-	
+	$(document).on("click",".round_trip",function(){
+		$('.gubun_check').val('0');
+	});
+	$(document).on("click",".oneway",function(){
+		$('.gubun_check').val('1');
+	});
+
 });
+
+
+
+	
+
 </script>
 
 

@@ -25,14 +25,37 @@ public class ScheduleServiceImpl implements ScheduleService{
 		for(Air_ScheduleDTO arr:listAirplane) {
 			arr.setLead_time(arr.calcLead_time());
 		}
-		Air_ScheduleDTO as = new Air_ScheduleDTO();
-		System.out.println("as="+as);
 		
 	
 		
 		System.out.println("listAirplane="+listAirplane);
 		
 		return listAirplane;
+	}
+
+	@Override
+	public List<Air_ScheduleDTO> roundSearchAirplane(AirSearch airSearch) {
+		
+		List<Air_ScheduleDTO> round_listAirplane = scheduleDAO.round_airplaneList(airSearch);
+		
+		for(Air_ScheduleDTO arr:round_listAirplane) {
+			arr.setLead_time(arr.calcLead_time());
+		}
+		
+		
+		return round_listAirplane;
+	}
+
+	@Override
+	public List<Air_ScheduleDTO> round_GoSearchAriplane(AirSearch airSearch) {
+		
+		List<Air_ScheduleDTO> round_golistAirplane = scheduleDAO.round_GoairplaneList(airSearch);
+		
+		for(Air_ScheduleDTO arr:round_golistAirplane) {
+			arr.setLead_time(arr.calcLead_time());
+		}
+		
+		return round_golistAirplane;
 	}
 
 }
