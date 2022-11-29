@@ -182,6 +182,7 @@
 						<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
 							리뷰가 쌓일거예요
 							
+							<!-- 리뷰 들어갈 위치에 table생성 -->
 							<table id="reviewTable">
 								
 							</table>
@@ -258,14 +259,14 @@
 			      	
 		        	<div class="form-group">
 			            <label for="message-text" class="col-form-label">내용:</label>
-			            <textarea class="form-control" id="message-text"></textarea>
+			            <textarea class="form-control" id="review-text"></textarea>
 		         	</div>
 		         	
-		       
+		       		<!-- registerReview() -->
 		         	
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-primary" onclick="registerReview()">리뷰 등록</button>
+			        <button type="button" class="btn btn-primary" onclick="writeReview()">리뷰 등록</button>
 			        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 			      </div>
 			    </div>
@@ -476,23 +477,33 @@ $(function(){
 		$('.date_oneway').hide();
 	});
 	
-	// 리뷰 리스트
-	getReviewList();
-	
 });
 
 
-//별 그리기 함수
 
+// 이하 리뷰와 관련된 함수들 //
+
+
+// 페이지 로딩될 때 함수 바로 실행
+$(function(){
+	getReviewList();
+})
+
+
+// 선택한 리뷰 아이디에 대한 전역변수 설정
+let selectedRvId;
+
+
+//별 그리기 함수
 function drawStar() {
 	let width = $('#starRate').val();
 	document.querySelector('.star span').style.width = (width * 10) + '%'
 }
  	
 
-// 리뷰 관련 ajax
-// 처음 hotelDetail 페이지에 들어왔을 때 DB review테이블의 데이터를 가져와서 뿌림
-// 가져올 데이터는 해당 hotelDetail 페이지의 hotel_id값에 해당하는 값들
+// 리뷰 조회 ajax
+// 처음 Detail 페이지에 들어왔을 때 DB review테이블의 데이터를 가져와서 뿌림
+// 가져올 데이터는 해당 Detail 페이지의 []_id에 해당하는 값들
 function getReviewList(){
 	
 	let hotelId = '${hotelDetail.hotel_id}'
@@ -517,6 +528,7 @@ function getReviewList(){
 	
 }
 
+// 리뷰 조회 ajax -- 랜더링 함수1
 function makeReviewTable(data) {
 	
 	let targetTable = $('#reviewTable');
@@ -532,7 +544,7 @@ function makeReviewTable(data) {
 	targetTable.append(innerHtml);
 }
 
-
+// 리뷰 조회 ajax -- 랜더링함수2 (구조 만들어줌)
 function makeRow(datum) {
 	
 	let innerHtml = ''
@@ -559,6 +571,50 @@ function makeRow(datum) {
 	
 	return innerHtml;
 }
+
+
+// 리뷰 등록 ajax
+
+function writeReview(){
+	
+	// 가져가야할 data : 작성자 mem_id, rv_sort (하드코딩), rv_rating(별점), rv_contents(리뷰 내용), rv_date (작성시점 now()), rv_real_id(상품id값)
+	
+	let sendData = {
+						
+						//나중에 세션에 있는 정보로 읽어와야함
+						mem_id: 'test1',
+						rv_sort: '숙박',
+						rv_rating: ($('#starRate').val())/2, // starRate에서 10에 해당하는 값이 별점 5점이기 때문에..
+						rv_contents: $('#review-text').val(),
+						rv_real_id: ${hotelDetail.hotel_id},
+	}
+	
+	
+	$.ajax({
+		
+				url:"${pageContext.request.contextPath }/review/writeReview",
+				data: sendData,
+				type:'post',
+				success: function(result) {
+					// insert 성공시, 성공 알림
+					if(result == "SUCCESS"){
+						alert("리뷰가 등록되었습니다.")
+					} else {
+					// insert 실패하면 실패 alert
+						alert("등록이 실패하였습니다.")
+					}
+					
+					//모달창 닫기
+					$('#reviewModal').modal('hide');
+					//랜더링 함수 호출
+					getReviewList();
+					
+				}
+				
+		
+	});
+}
+
 
 </script>	
 	
