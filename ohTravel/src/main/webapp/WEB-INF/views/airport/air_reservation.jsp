@@ -45,8 +45,7 @@
     margin: 100px 15px 0 0;
 }
 
-.start{
-}
+
 
 .end{
 	margin-right: 50px;

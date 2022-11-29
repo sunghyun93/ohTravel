@@ -8,9 +8,6 @@ import lombok.Data;
 @Data
 public class Air_ScheduleDTO {
 	
-	/*
-	 * public Air_ScheduleDTO() { lead_time=calcLead_time(); }
-	 */
 	//일정(auto_increment)
 	private int schedule_id;
 	//항공사 정보

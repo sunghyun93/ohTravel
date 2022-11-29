@@ -65,14 +65,38 @@ public class AirportController {
 	public ModelAndView searchAirplane(AirSearch airSearch) {
 		
 		ModelAndView mav = new ModelAndView();
+		List<Air_ScheduleDTO> oneway_schedule_list= null;
+		List<Air_ScheduleDTO> round_trip_come_schedule_list=null;
+		List<Air_ScheduleDTO> round_trip_go_schedule_list=null;
 		
-		List<Air_ScheduleDTO> schedule_list = scheduleService.searchAirplane(airSearch);
-		System.out.println("schedule_list="+schedule_list);
+		if(airSearch.getGubun_check()==1) { //편도일때(가는비행기)
+				oneway_schedule_list = scheduleService.searchAirplane(airSearch);
+				mav.addObject("schedule_list",oneway_schedule_list);//편도일때 가는비행기 select
+		}else if(airSearch.getGubun_check()==0) { //왕복일때(오는비행기)
+			
+			 round_trip_come_schedule_list = scheduleService.roundSearchAirplane(airSearch);
+			 round_trip_go_schedule_list = scheduleService.round_GoSearchAriplane(airSearch);
+			 mav.addObject("comeList",round_trip_come_schedule_list); // 왕복일때 오는 비행기 select
+			 mav.addObject("goList",round_trip_go_schedule_list); // 왕복일때 가는 비행기
+		}
+			
+	
+		
+		System.out.println("oneway_schedule_list="+oneway_schedule_list);
+		System.out.println("round_trip_come_schedule_list="+round_trip_come_schedule_list);
 		System.out.println("airSearch="+airSearch);
 		
+		
+		
+		
 		mav.setViewName("search/searchResultAirplane");
-		mav.addObject("schedule_list",schedule_list);
 		mav.addObject("seat_position",airSearch.getSeat_position());
+		mav.addObject("start_date1",airSearch.getStart_date1());
+		mav.addObject("start_date2",airSearch.getStart_date2());
+		mav.addObject("end_date",airSearch.getEnd_date());
+		mav.addObject("start_city_id",airSearch.getStart_city_id());
+		mav.addObject("end_city_id",airSearch.getEnd_city_id());
+		mav.addObject("gubun_check",airSearch.getGubun_check());
 		return mav;
 	}
 	

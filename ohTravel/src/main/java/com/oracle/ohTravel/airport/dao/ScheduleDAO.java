@@ -9,4 +9,8 @@ public interface ScheduleDAO {
 
 	List<Air_ScheduleDTO> airplaneList(AirSearch airSeach);
 
+	List<Air_ScheduleDTO> round_airplaneList(AirSearch airSearch);
+
+	List<Air_ScheduleDTO> round_GoairplaneList(AirSearch airSearch);
+
 }
