@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
-import com.oracle.ohTravel.ticket.model.TicketModel;
+import com.oracle.ohTravel.ticket.model.TicketDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,9 +19,9 @@ public class SearchDaoImplementation implements SearchDao {
 
 	// 티켓 목록 가져와
 	@Override
-	public List<TicketModel> getTicketList(String search_word) {
+	public List<TicketDTO> getTicketList(String search_word) {
 		System.out.println("Dao getTicketList Start...");
-		List<TicketModel> ticketList = null;
+		List<TicketDTO> ticketList = null;
 		try {
 			ticketList = sqs.selectList("yqTicketList", search_word);
 		} catch (Exception e) {
