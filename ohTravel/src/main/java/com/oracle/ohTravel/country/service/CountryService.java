@@ -8,4 +8,6 @@ public interface CountryService {
 	List<CountryDTO> selectCountryByCountryId(Integer country_id) throws Exception;
 
 	List<CountryDTO> selectCountryByCountryId2(Integer country_id) throws Exception;
+	
+	CountryDTO selectCountryByCityId(Integer city_id) throws Exception;
 }

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,13 +23,13 @@
                 <!-- 국가 날짜 출발 부분 -->
                 <div class="text_wrap big line">
                         <div class="select_area_wrap">
-                            <strong class="tit"><span>나라</span></strong>
+                            <strong class="tit"><span>${pkgSearch.country }</span></strong>
                         </div>
 
                         <div class="right_cont">
                             <div class="infomation">인천출발</div>
 
-                            <div class="infomation">2022.12</div>
+                            <div class="infomation">${pkgSearch.dates_start_check }</div>
                         </div>
                 </div><!-- text_wrap big line -->
 
@@ -107,7 +109,7 @@
                     <!-- 패키지 상품 정렬 부분 -->
                     <div class="option_wrap result">
                         <span class="count">
-                            	나라 패키지 8개
+                            	${pkgSearch.country } 패키지 ${pkgCnt }개
                         </span>
                         <div class="right_cont">
                             <ul class="list_sort">
@@ -122,86 +124,121 @@
                     <!-- 상품 패키지 설명부분 및 상세 부분 -->
                     <div class="prod_list_wrap">
                         <ul class="type">
-                            <li>
-                                <div class="inr img">
-                                    <img src="package_beijing31001_1.jpg" alt="">
-                                </div>
-
-                                <div class="inr right">
-                                    <div class="tag_group">
-                                        <span class="attr">패키지</span>
-                                    </div>
-                                    <strong class="item_title eps3">대만 4,5일 #초특가 #가성비 #비교불가</strong>
-                                    <p class="item_text stit">가볍게 여행을 떠나고 싶다면 지금이 기회! 실속있는 가격, 알찬 일정으로 구성된 특가 상품입니다.</p>
-                                    <p class="item_text eps2">
-                                        <span class="icn pos">타이베이, 화련</span>
-                                    </p>
-                                    <p class="item_text">
-                                        <span class="icn cal">여행기간 4/5일</span>
-                                    </p>
-                                    <div class="item_group">
-                                        <span class="icn star">4.1</span>
-                                        <span class="icn balloon">56</span>
-                                    </div>
-                                    <div class="price_group">
-                                        <strong class="price">
-                                            699990
-                                            <span>원~</span>
-                                        </strong>
-                                    </div>
-                                    <div class="btn_wrap">
-                                        <a href="#none" class="btn arrow">판매상품보기</a>
-                                    </div>
-                                </div> <!-- inr right -->
-
-                                <!-- 상품 상세 (실제 상품 부분) -->
-                                <div class="sub_list_wrap" style="display: none;">
-                                    <div class="cont_unit">
-                                        <div class="option_wrap result">
-                                            <span class="count">총 4개</span>
-                                        </div>
-                                        <div class="prod_list_wrap">
-                                            <ul class="type">
-                                                <li>
-                                                    <div class="inr">
-                                                        <div class="tag_group">
-                                                            <span class="attr">관광</span> 
-                                                        </div>
-                                                        <strong class="item_title eps3">대만/야류/지우펀 4일#단수이#스펀천등날리기</strong>
-                                                        <p class="item_text">
-                                                            <span class="air_name">
-                                                                <span class="air_img">
-                                                                    <img src="/img/pkage/icon/icn_star.png">
-                                                                </span>
-                                                                	대한항공,
-                                                            </span>
-                                                            <span>잔여 1석</span>
-                                                        </p>
-                                                        <p class="item_text air_info">
-                                                            <span>2022.12.16(금) &emsp;->&emsp;</span>
-                                                            <span>2022.12.20(토)</span>
-                                                            <span class="info">3박4일</span>
-                                                        </p>
-                                                        <p class="item_text note">
-                                                            <span class="info">호텔 4성급,</span>
-                                                            <span class="info">가이드 있음</span>
-                                                        </p>
-                                                    </div>
-                                                    <!-- 가격 / 상세 상품 보기 버튼 -->
-                                                    <div class="inr right">
-                                                        <div class="price_group">
-                                                            <div><strong class="price">795,900<span>원</span></strong></div>
-                                                        </div>
-                                                        <div class="btn_wrap">
-                                                            <button type="button" class="btn pkgDetail">상세일정보기</button>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div><!-- cont_unit -->
-                                </div><!-- sub_list_wrap -->
-                            </li>
+                        	<c:forEach var="pkageDTORm" items="${pkageDTORmlist }" varStatus="status">
+	                            <li>
+	                                <div class="inr img">
+	                                    <img src="${pkageDTORm.pkage_imageDTOList[0].pkage_img_path }" alt="">
+	                                </div>
+	
+	                                <div class="inr right">
+	                                    <div class="tag_group">
+	                                        <span class="attr">패키지</span>
+	                                    </div>
+	                                    <!-- 패키지이름 -->
+	                                    <strong class="item_title eps3">${pkageDTORm.pkage_name }</strong>
+	                                    <p class="item_text stit">${pkageDTORm.pkage_info }</p>
+	                                    <p class="item_text eps2">
+	                                        <span class="icn pos">${pkageDTORm.cityDTO.countryDTO.country_name }, ${pkageDTORm.cityDTO.city_name }</span>
+	                                    </p>
+	                                    <p class="item_text">
+	                                    <!-- 패키지에 존재하는 상세 일수(최소/최대) -->
+	                                        <span class="icn cal">여행기간 
+	                                        <c:if test="${pkageDTORm.days[0] == pkageDTORm.days[1]}">
+											${pkageDTORm.days[0] }
+											</c:if>
+											<c:if test="${pkageDTORm.days[0] != pkageDTORm.days[1]}">
+											${pkageDTORm.days[0] }~${pkageDTORm.days[1] }
+											</c:if>
+	                                                                                          일</span>
+	                                    </p>
+	                                    <div class="item_group">
+	                                        <span class="icn star">${pkageDTORm.pkage_score }</span>
+	                                        <span class="icn balloon">56</span>
+	                                    </div>
+	                                    <div class="price_group">
+	                                        <strong class="price">
+	                                            ${pkageDTORm.minPrice }
+	                                            <span>원~</span>
+	                                        </strong>
+	                                    </div>
+	                                    <div class="btn_wrap">
+	                                        <a href="#none" class="btn arrow">판매상품보기</a>
+	                                    </div>
+	                                </div> <!-- inr right -->
+	
+	                                <!-- 상품 상세 (실제 상품 부분) -->
+	                                <div class="sub_list_wrap" style="display: none;">
+	                                    <div class="cont_unit">
+	                                        <div class="option_wrap result">
+	                                            <span class="count">총 ${pkageDTORm.pkgDetailCnt }개</span>
+	                                        </div>
+	                                        <div class="prod_list_wrap">
+	                                            <ul class="type">
+	                                            	<c:forEach var="pkgDetail" items="${pkageDTORm.pkage_detailDTOList }">
+		                                                <li>
+		                                                    <div class="inr">
+		                                                        <div class="tag_group">
+		                                                            <span class="attr">${pkgDetail.pkage_dt_thema }</span> 
+		                                                        </div>
+		                                                        <strong class="item_title eps3">${pkgDetail.pkage_dt_name }</strong>
+		                                                        
+		                                                        <p class="item_text">
+		                                                        	<!-- 해외일 때만 항공정보 불러오기 -->
+		                                                       		<c:if test="${not empty pkgDetail.pkage_flightScheDTOList[1]}">
+			                                                            <span class="air_name">
+			                                                                <span class="air_img">
+			                                                                	<!-- (출발)항공 사진 불러오기 -->
+			                                                                    <img src="${pkgDetail.pkage_flightScheDTOList[0].air_ScheduleDTORM.airlineDTO.air_picture }">
+			                                                                </span>
+			                                                                <!-- 출발 항공 불러오기 -->
+			                                                                	<c:forEach var="flightScheDTO" items="${pkgDetail.pkage_flightScheDTOList }"> 
+			                                                                		<c:if test="${flightScheDTO.pkage_flight_gubun == 0 }">
+			                                                                			${flightScheDTO.air_ScheduleDTORM.airlineDTO.air_name }
+			                                                                		</c:if>
+			                                                                	</c:forEach>,
+			                                                            </span>
+		                                                            </c:if>
+		                                                            <!-- 패키지 인원 - 패키지 예약인원 -->
+		                                                            <span>잔여 ${pkgDetail.pkage_dt_cnt-pkgDetail.pkage_dt_Rcnt }석</span>
+		                                                        </p>
+		                                                        <p class="item_text air_info">
+		                                                        	<!-- 출발 / 도착 날짜 적어주기 -->
+			                                                            <span>
+				                                                            <fmt:formatDate value="${pkgDetail.pkage_dt_startDay }" pattern="yyyy.MM.dd"/>
+				                                                            <span>(${pkgDetail.startYoil })</span>
+				                                                            &emsp;->&emsp;
+			                                                            </span>
+			                                                            <span>
+			                                                            	<fmt:formatDate value="${pkgDetail.pkage_dt_endDay }" pattern="yyyy.MM.dd"/>
+			                                                            	<span>(${pkgDetail.endYoil })</span>
+			                                                            </span>
+		                                                            <span class="info">${pkgDetail.day-1 }박${pkgDetail.day }일</span>
+		                                                        </p>
+		                                                        <p class="item_text note">
+		                                                            <span class="info">호텔 숙박,</span>
+		                                                            <span class="info">
+		                                                            	<c:if test="${pkgDetail.pkage_dt_Gname ne null}">가이드 있음</c:if>
+		                                                            	<c:if test="${pkgDetail.pkage_dt_Gname eq null}">가이드 없음</c:if>
+		                                                            </span>
+		                                                        </p>
+		                                                    </div>
+		                                                    <!-- 가격 / 상세 상품 보기 버튼 -->
+		                                                    <div class="inr right">
+		                                                        <div class="price_group">
+		                                                            <div><strong class="price">${pkgDetail.pkage_dt_Aprice }<span>원</span></strong></div>
+		                                                        </div>
+		                                                        <div class="btn_wrap">
+		                                                            <button type="button" class="btn pkgDetail">상세일정보기</button>
+		                                                        </div>
+		                                                    </div>
+		                                                </li>
+	                                                </c:forEach>
+	                                            </ul>
+	                                        </div>
+	                                    </div><!-- cont_unit -->
+	                                </div><!-- sub_list_wrap -->
+	                            </li>
+                            </c:forEach>
                         </ul> <!-- type -->
                     </div> <!-- prod_list_wrap -->
 
