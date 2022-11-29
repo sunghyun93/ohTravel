@@ -506,6 +506,7 @@ function drawStar() {
 // 가져올 데이터는 해당 Detail 페이지의 []_id에 해당하는 값들
 function getReviewList(){
 	
+	// 각자의 상품 Id값 변수 선언
 	let hotelId = '${hotelDetail.hotel_id}'
 	
 	$.ajax({
@@ -546,6 +547,7 @@ function makeReviewTable(data) {
 
 // 리뷰 조회 ajax -- 랜더링함수2 (구조 만들어줌)
 function makeRow(datum) {
+	
 	
 	let innerHtml = ''
 	innerHtml += '<tr>'
@@ -595,6 +597,7 @@ function writeReview(){
 				url:"${pageContext.request.contextPath }/review/writeReview",
 				data: sendData,
 				type:'post',
+				dataType:'json',
 				success: function(result) {
 					// insert 성공시, 성공 알림
 					if(result == "SUCCESS"){

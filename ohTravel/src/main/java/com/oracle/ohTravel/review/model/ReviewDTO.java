@@ -16,6 +16,6 @@ public class ReviewDTO {
 	private String rv_contents;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private Date rv_Date;
+	private Date rv_date;
 	private String rv_real_id;
 }
