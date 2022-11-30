@@ -68,7 +68,14 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public String deleteReview(Review review) {
 		
-		rr.deleteReview(review);
+		try {
+			rr.deleteReview(review);
+			
+		} catch (Exception e) {
+			log.debug(e.getMessage());
+			return "FAIL";
+			
+		}
 		
 		return "SUCCESS";
 	}

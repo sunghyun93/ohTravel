@@ -166,7 +166,6 @@
 					</div> <!-- ht_option -->
 				
 				
-					
 					<!-- 리뷰 시작 -->
 					<div class="all_review">
 						리뷰
@@ -180,51 +179,11 @@
 						</div>
 							
 						<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
-							리뷰가 쌓일거예요
-							
 							<!-- 리뷰 들어갈 위치에 table생성 -->
-							<table id="reviewTable">
+							<table id="reviewTable"> <!-- id값 변경 X -->
 								
 							</table>
-							
-							
-						<%-- 	<c:choose>
-								<c:when test="${empty reviewList } ">
-									<table class="empty_review">
-										<tr>
-											<td>
-												등록된 리뷰가 없습니다.
-											</td>
-										</tr>
-									</table>
-								
-								</c:when>
-								
-							
-								<c:when test="${not empty reviewList }">
-									<table>
-										<c:forEach var="reviews" items="${reviewList }">	
-											<tr>
-												<input type="hidden" value="${reviews.rv_sort }">
-												<input type="hidden" value="${reviews.rv_id }">
-												<input type="hidden" value="${reviews.rv_contents }">
-												<input type="hidden" value="${reviews.rv_date}">
-												<input type="hidden" value="${reviews.rv_rating }">
-												<td>
-													<span class="rv_date">${reviews.rv_date }</span>
-												</td>
-												<td>
-													<span class="rv_rating">${reviews.rv_rating }</span>
-												</td>
-												<td>
-													<span class="rv_contents">${reviews.rv_contents }</span>
-												</td>
-											</tr>
-										</c:forEach>
-									</table>
-								</c:when>
-							</c:choose> --%>
-							
+
 						</div> <!-- show_review -->
 					</div> <!-- all_review -->
 					
@@ -241,6 +200,7 @@
 		
 	</div> <!-- hd_container 끝 -->
 	
+		<!-- 리뷰 모달 (있어야할 위치는 상관없습니다..)-->
 		<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
 			  <div class="modal-dialog modal-dialog-centered" role="document">
 			    <div class="modal-content">
@@ -250,6 +210,7 @@
 			          <span aria-hidden="true">&times;</span>
 			        </button>
 			      </div>
+			      
 			      <div class="modal-body">
 			      	<span class="star">
 				      	 ★★★★★
@@ -261,21 +222,16 @@
 			            <label for="message-text" class="col-form-label">내용:</label>
 			            <textarea class="form-control" id="review-text"></textarea>
 		         	</div>
-		         	
-		       		<!-- registerReview() -->
-		         	
 			      </div>
+			      
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-primary" onclick="registerReview()">리뷰 등록</button>
 			        <button type="button" class="btn btn-secondary" onclick="closeModal()" data-dismiss="modal">취소</button>
 			      </div>
 			    </div>
 			  </div>
-			</div>
+			</div> <!-- 리뷰 모달 끝 -->
 					
-
-
-
 
 <script type="text/javascript">
 
@@ -490,9 +446,36 @@ $(function(){
 })
 
 
+//유효성 검사 함수
+function valid_chk(){
+	
+	
+	let rvContents = $('#review-text').val();
+	let rvScore = $('#starRate').val();
+	let isValid = true;
+	
+	// 리뷰 등록(수정)시 내용이 없으면 등록 불가
+	if(rvContents == ""){
+		
+		alert('내용을 입력해주세요')
+		isValid = false;
+	
+	// 리뷰 등록(수정)시 별점이 없으면 등록 불가
+	} else if (rvScore == "0") {
+		
+		alert('별점을 선택해주세요')
+		isValid = false;
+		
+	}
+	
+	return isValid;
+}
+
+
 
 function openModal() {
 	// 모달창 열기 
+	// 수정 창 열었다가 새로 등록 눌렀을 때 기록이 남아있지 않도록 해줌
 	$('#starRate').val(0)
 	drawStar();
 	$('#review-text').val('')
@@ -502,6 +485,7 @@ function openModal() {
 
 function closeModal() {
 	// 모달창 닫기
+	// 닫으면서 이전 조회 기록 모두 지워줌
 	$('#starRate').val(0)
 	drawStar();
 	$('#message-text').val('')
@@ -521,7 +505,7 @@ function drawStar() {
 }
  	
 
-//기존 리뷰 수정과 등록이 모두 같은 등록하기 버튼을 사용하기 때문에,
+//리뷰 등록과 수정이 같은 [리뷰 등록] 버튼을 사용하기 때문에,
 //rv_id 값의 유무에 따라 작동해야하는 함수가 달라져야함
 //rv_id 값이 이미 있으면 : 수정 / 없다면 : 새로 등록
 function registerReview() {
@@ -540,7 +524,7 @@ function registerReview() {
 // 가져올 데이터는 해당 Detail 페이지의 []_id에 해당하는 값들
 function getReviewList(){
 	
-	// 각자의 상품 Id값 변수 선언
+	// 각자의 상품 Id값 변수 선언을 이쪽에서
 	let hotelId = '${hotelDetail.hotel_id}'
 	
 	$.ajax({
@@ -563,7 +547,7 @@ function getReviewList(){
 	
 }
 
-// 리뷰 조회 ajax -- 랜더링 함수1
+// 리뷰 조회 -- 랜더링 함수1 (append)
 function makeReviewTable(data) {
 	
 	let targetTable = $('#reviewTable');
@@ -579,11 +563,12 @@ function makeReviewTable(data) {
 	targetTable.append(innerHtml);
 }
 
-// 리뷰 조회 ajax -- 랜더링함수2 (구조 만들어줌)
+// 리뷰 조회 -- 랜더링 함수2 (진짜 구조 그려줌)
 function makeRow(datum) {
 	
 	
 	let innerHtml = ''
+
 	innerHtml += '<tr>'
 		innerHtml += '<input type="hidden" class="rv_sort" value="'+datum.rv_sort+'">'
 		innerHtml += '<input type="hidden" class="rv_id" value="'+datum.rv_id +'">'
@@ -591,6 +576,7 @@ function makeRow(datum) {
 			innerHtml += '<span class="rv_date">'+datum.rv_date +'</span>'
 		innerHtml += '</td>'
 		innerHtml += '<td>'
+			innerHtml += '<div class="star_img"> <img alt="별점뙇~" src="${pageContext.request.contextPath }/img/hotel/star.png"></div>'
 			innerHtml += '<span class="rv_rating">'+datum.rv_rating +'</span>'
 		innerHtml += '</td>'
 		innerHtml += '<td>'
@@ -599,8 +585,13 @@ function makeRow(datum) {
 		innerHtml += '<td>'
 			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
 			//if(aaaa) {	
-				innerHtml += '<button type="button" class="rv_modify genric-btn primary ela" onclick="openUpdateModal(this)">수정</button>'
-				innerHtml += '<button type="button" class="rv_delete genric-btn primary ela" onclick="deleteReview(this)">삭제</button>'
+				innerHtml += '<button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>'
+			//}
+		innerHtml += '</td>'
+		innerHtml += '<td>'
+			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
+			//if(aaaa) {	
+				innerHtml += '<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'
 			//}
 		innerHtml += '</td>'
 	innerHtml += '</tr>'
@@ -609,17 +600,43 @@ function makeRow(datum) {
 }
 
 
+//[수정] 버튼을 클릭한 해당 행의 review 정보를 모두 가져와야함
+function openUpdateModal(target){
+	
+	let targetTr =  $(target).closest('tr')
+	// 수정할 리뷰가 있다면, 해당 행의 hidden값 rv_id값을 가져옴
+	selectedRvId = targetTr.find('.rv_id').val();
+	
+	// 별점이 작성자가 등록한 별점대로 보여야함 (DB에는 5가 max값이므로 별 표시가 제대로 되려면 *2)
+	let currentValue = Number(targetTr.find('.rv_rating').text()) * 2
+	$('#starRate').val(currentValue)
+	drawStar();
+	
+	// 내용도 작성자가 등록한 내용으로 불러와야한다.
+	let currentContents = targetTr.find('.rv_contents').text()
+	$('#review-text').val(currentContents)
+	
+	// 모달창을 open
+	$('#reviewModal').modal('show')
+
+}
+
 // 리뷰 등록 ajax
 function writeReview(){
 	
-	// 가져가야할 data : 작성자 mem_id, rv_sort (하드코딩), rv_rating(별점), rv_contents(리뷰 내용), rv_date (작성시점 : service에서 해결), rv_real_id(상품id값)
+	// 유효성 검사
+	valid_chk();
+	
+	// 가져가야할 data : 작성자 mem_id, rv_sort (하드코딩), rv_rating(별점), rv_contents(리뷰 내용), 
+	//				  rv_date (작성시점 : ReviewServiceImpl에서 해결), rv_real_id(상품id값)
 	
 	let sendData = {
-					//나중에 세션?에 있는 정보로 읽어와야함
+					//TODO:나중에 세션?에 있는 정보로 읽어와야함
 					mem_id: 'test1',
 					rv_sort: '숙박',
 					rv_rating: ($('#starRate').val())/2, // starRate에서 10에 해당하는 값이 별점 5점이기 때문에 /2
 					rv_contents: $('#review-text').val(),
+					// 상품마다 rv_real_id값을 바꿔줘야함
 					rv_real_id: ${hotelDetail.hotel_id}
 	}
 	
@@ -628,7 +645,6 @@ function writeReview(){
 				url:"${pageContext.request.contextPath }/review/writeReview",
 				data: sendData,
 				type:'post',
-				//dataType:'json',
 				success: function(result) {
 					// insert 성공시, 성공 알림
 					if(result == "SUCCESS"){
@@ -649,9 +665,12 @@ function writeReview(){
 	});
 }
 
+
 // 리뷰 수정 ajax
 function updateReview(){
 	
+	// 유효성 검사
+	valid_chk();
 	
 	let sendData = {
 			
@@ -660,6 +679,7 @@ function updateReview(){
 			rv_sort : '숙박',
 			rv_rating : ($('#starRate').val())/2,
 			rv_contents : $('#review-text').val(),
+			// 상품마다 rv_real_id값을 바꿔줘야함
 			rv_real_id : ${hotelDetail.hotel_id}
 			
 	}
@@ -691,27 +711,6 @@ function updateReview(){
 }
 
 
-//[수정] 버튼을 클릭한 해당 행의 review 정보를 모두 가져와야함
-function openUpdateModal(target){
-	
-	let targetTr =  $(target).closest('tr')
-	// 수정할 리뷰가 있다면, 해당 행의 hidden값 rv_id값을 가져옴
-	selectedRvId = targetTr.find('.rv_id').val();
-	
-	// 별점이 작성자가 등록한 별점대로 보여야함 (DB에는 5가 max값이므로 별 표시가 제대로 되려면 *2)
-	let currentValue = Number(targetTr.find('.rv_rating').text()) * 2
-	$('#starRate').val(currentValue)
-	drawStar();
-	
-	// 내용도 작성자가 등록한 내용으로 불러와야한다.
-	let currentContents = targetTr.find('.rv_contents').text()
-	$('#review-text').val(currentContents)
-	
-	// 모달창을 open
-	$('#reviewModal').modal('show')
-
-}
-
 // [삭제] 버튼을 클릭한 해당 행의 review 정보를 가져와서 삭제
 function deleteReview(target){
 	
@@ -725,10 +724,15 @@ function deleteReview(target){
 		$.ajax({
 			
 			url:"${pageContext.request.contextPath }/review/deleteReview",
-			data: selectedRvId,
+			data:{rv_id : selectedRvId},
 			type: 'post',
-			success: 
+			success: function(result){
 				alert("리뷰가 삭제되었습니다.")
+				//랜더링 함수 호출
+				getReviewList();
+				
+			}
+				
 	});
 	
 	
