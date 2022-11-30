@@ -47,7 +47,6 @@
 						<th>전화번호</th>
 						<th>생년월일</th>
 						<th>가입날짜</th>
-						<th>회원권한</th>
 						<th>회원소유마일리지</th>
 						<th>등급명</th>
 					</tr>
@@ -60,7 +59,7 @@
 							<td>${detail.mem_tel }</td>
 							<td>${detail.mem_birthday }</td>
 							<td>${detail.mem_create }</td>
-							<td>
+							<%-- <td>
 								<select name="mem_role">
 									<c:choose>
 										<c:when test="${detail.mem_role == 'ADMIN'}">
@@ -80,7 +79,7 @@
 										</c:when>
 									</c:choose>
 								</select>
-							</td>
+							</td> --%>
 							<td><input type="hidden" name="mem_mile" value="${detail.mem_mile }">${detail.mem_mile }</td>
 							<td>
 								<select name="membership_id">

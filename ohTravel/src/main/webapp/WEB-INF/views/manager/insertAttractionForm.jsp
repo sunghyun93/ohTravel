@@ -55,16 +55,26 @@
 		};
 	reader.readAsDataURL(event.target.files[0]);
 	}
+	
+	function chk(){
+		var city_id = $('.city_id').val();
+		console.log('city_id ->'+city_id);
+		if(city_id == null || city_id ==''){
+			alert('도시정보를 입력하세요');
+			$('.city_id').focus();
+			return false;
+		}
+	}
 </script>
 </head>
 <body>
-	<form action="insertTicket" method="post" enctype="multipart/form-data">
+	<form action="insertAttraction" method="post" enctype="multipart/form-data">
 	<div class="container" style="min-height: 700px;">
-	<h1>입장권추가</h1>
+	<h1>관광지 추가</h1>
 	<hr>
 		<div class="mb-3">
-			<label for="ticket_name" class="form-label">입장권 이름</label>
-			<input type="text" class="form-control" name="ticket_name" id="ticket_name" required="required" placeholder="입장권명입력">
+			<label for="attr_id" class="form-label">관광지 ID</label>
+			<input type="number" class="form-control" name="attr_id" id="attr_id" required="required" placeholder="관광지ID입력">
 		</div>
 		<div class="mb-3">
 			<label for="country_name" class="form-label">국가선택</label>
@@ -80,30 +90,25 @@
 			</select>
 		</div>
 		<div class="mb-3">
-			<label for="ticket_location" class="form-label">입장권 위치</label>
-			<input type="text" class="form-control" id="ticket_location" name="ticket_location" required="required" placeholder="입장권 위치를 입력하세요">
+			<label for="attr_name" class="form-label">관광지 이름</label>
+			<input type="text" class="form-control" name="attr_name" id="attr_name" placeholder="관광지 한글명입력">
 		</div>
 		<div class="mb-3">
-			<label for="ticket_adult_price" class="form-label">어른가격</label>
-			<input type="number" class="form-control" id="ticket_adult_price" name="ticket_adult_price" required="required" placeholder="성인 가격을 입력하세요">
+			<label for="attr_ename" class="form-label">관광지 영어 이름</label>
+			<input type="text" class="form-control" id="attr_ename" name="attr_ename" placeholder="관광지 영어 이름을 입력하세요">
 		</div>
 		<div class="mb-3">
-			<label for="ticket_child_price" class="form-label">아이가격</label>
-			<input type="number" class="form-control" id="ticket_child_price" name="ticket_child_price" required="required" placeholder="아이 가격을 입력하세요">
+			<label for="attr_info" class="form-label">관광지정보</label>
+			<textarea rows="20" cols="20" class="form-control" id="attr_info" name="attr_info" placeholder="관광지 정보를 입력하세요"></textarea>
 		</div>
 		<div class="mb-3">
-			<label for="ticket_rep_img_path" class="form-label">작은 이미지</label>
-			<input type="file" class="form-control" id="ticket_rep_img_path" name="file1" required="required" onchange="rep(event)" accept="image/*">
+			<label for="attr_img_path" class="form-label">이미지</label>
+			<input type="file" class="form-control" id="attr_img_path" name="file1" required="required" onchange="rep(event)" accept="image/*">
 			<div id="image_rep_container"></div>
 		</div>
-		 <div class="mb-3 imgg">
-			<label for="ticket_detail_img_path" class="form-label">상세 이미지</label>
-			<input type="file" class="form-control" id="ticket_detail_img_path" name="file1" required="required" onchange="detail(event)" accept="image/*">
-			<div id="image_detail_container"></div>
-		</div>
 		
-		<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="window.history.go(-1)" value="돌아가기">
-		<button type="submit" class="btn btn-primary">추가하기</button>
+		<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageAttraction'" value="돌아가기">
+		<button type="submit" class="btn btn-primary" onclick="chk()">추가하기</button>
 	</div>
 	</form>
 </body>

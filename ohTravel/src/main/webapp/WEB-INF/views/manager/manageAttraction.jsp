@@ -50,34 +50,30 @@
 				<a href="manageHotel" class="genric-btn primary ela">숙박 상품 관리</a>
 				<a href="manageTicket" class="genric-btn primary ela">입장권 상품 관리</a>
 			</div>
-			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">패키지 상품 관리</h1>
+			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">관광지 관리</h1>
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageAttraction'">관광지 관리하기</button>
+				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertAttractionForm'">관광지  추가</button>
+				<input type="button" class="btn btn-primary mb-2 mr-2" style="float: right;" onclick="location.href='managePackage'" value="돌아가기">
 			</div>
 				<table border="1" class="table table-hover">
 					<thead>
 					<tr>
-						<th>패키지코드</th>
-						<th>도시코드</th>
-						<th>패키지명</th>
-						<th>패키지정보</th>
-						<th>패키지구분</th>
-						<th>패키지판매갯수</th>
-						<th>패키지점수</th>
+						<th>관광지ID</th>
+						<th>도시ID</th>
+						<th>관광지이름</th>
+						<th>관광지영어이름</th>
+						<th>관광지 정보</th>
 					</tr>
 					</thead>
-					<c:forEach var="packageList" items="${packageList }">
+					<c:forEach var="attractionList" items="${attractionList }">
 					<tbody>
-					<tr onclick="location.href='managePackageDetail?pkage_id=${packageList.pkage_id}&currentPage=${page.currentPage}'">
-						<td>${packageList.pkage_id}</td>
-						<td>${packageList.city_id}</td>
-						<td>${packageList.pkage_name}</td>
-						<td class="content">${packageList.pkage_info}</td>
-						<td>${packageList.pkage_gubun}</td>
-						<td>${packageList.pkage_soldCnt}</td>
-						<td>${packageList.pkage_score}</td>
-
+					<tr onclick="location.href='manageAttractionDetail?attr_id=${attractionList.attr_id }&currentPage=${page.currentPage}'">
+						<td>${attractionList.attr_id }</td>
+						<td>${attractionList.city_id}</td>
+						<td>${attractionList.attr_name}</td>
+						<td>${attractionList.attr_ename}</td>
+						<td class="content">${attractionList.attr_info}</td>
 					</tr>
 					</tbody>
 					</c:forEach>
@@ -86,14 +82,14 @@
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 					<c:if test="${page.startPage > page.pageBlock }">
-						<li class="page-item"><a class="page-link" href="managePackage?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
+						<li class="page-item"><a class="page-link" href="manageUser?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
 					</c:if>
 					<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-						<li class="page-item"><a class="page-link" href="managePackage?currentPage=${i}">${i}</a></li>
+						<li class="page-item"><a class="page-link" href="manageUser?currentPage=${i}">${i}</a></li>
 					</c:forEach>
 					<c:if test="${page.endPage < page.totalPage }">
 						<a href="manageUser?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
-						<li class="page-item"><a class="page-link" href="managePackage?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
+						<li class="page-item"><a class="page-link" href="manageUser?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
 					</c:if>
 				</ul>
 			</nav>
