@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class PkageDTORM {
-	private Integer pkage_id;
+	private String pkage_id;
 	private Integer city_id;
 	private String pkage_name;
 	private String pkage_info;
