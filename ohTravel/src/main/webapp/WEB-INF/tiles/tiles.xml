@@ -14,17 +14,17 @@
 	<definition name="layout-tiles" template="/WEB-INF/views/layouts/layout-basic.jsp">
 		<put-attribute name="header"	value="/WEB-INF/views/layouts/header.jsp"/>
 		<put-attribute name="footer"	value="/WEB-INF/views/layouts/footer.jsp" />
-		<put-attribute name="body"	value="" />
+		<put-attribute name="body"	value=""/>
 		<!-- <put-attribute name="include"	value="/WEB-INF/views/layouts/include.jsp"/> -->
 		<!-- <put-attribute name="side" 		value="/WEB-INF/views/layouts/side.jsp"/> -->
 	</definition>
 	
-	<!-- <definition name="main/*" extends="layout-tiles">
-		<put-attribute name="body" value="/WEB-INF/views/main/{1}.jsp"/>
-	</definition> -->
+	
 	<definition name="*/*" extends="layout-tiles">
 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp"/>
 	</definition>
+	
+	
 	<!--
 	<definition name="main/*/*/*" extends="layout-tiles">
 		<put-attribute name="body" value="/WEB-INF/views/main/{1}/{2}/{3}.jsp"/>

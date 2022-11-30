@@ -8,19 +8,52 @@
 	<select id="airplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 		where sa.city_id = #{start_city_id} and ea.city_id = #{end_city_id} and a.start_time like concat('%',#{start_date2},'%')
+		<choose>
+			<when test="order == 1">
+				order by a.start_time asc
+			</when>
+			<when test="order == 2">
+				order by a.schedule_price desc
+			</when>
+			<when test="order == 3">
+				order by a.schedule_price asc
+			</when>
+		</choose>
 	</select>
 	
 	<!--왕복 일자선택에 대한 가는 비행기 일정 조회 List-->
  	<select id="round_goairplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 		where sa.city_id = #{start_city_id} and ea.city_id = #{end_city_id} and a.start_time like concat('%',#{start_date1},'%')
+		<choose>
+			<when test="order == 1">
+				order by a.start_time asc
+			</when>
+			<when test="order == 2">
+				order by a.schedule_price desc
+			</when>
+			<when test="order == 3">
+				order by a.schedule_price asc
+			</when>
+		</choose>
 	</select>
 	
 	
 	<!--왕복 일자선택에 대한 오는 비행기 일정 조회 List-->
  	<select id="round_airplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
-		where sa.city_id = #{end_city_id} and ea.city_id = #{start_city_id} and a.start_time like concat('%',#{end_date},'%');
+		where sa.city_id = #{end_city_id} and ea.city_id = #{start_city_id} and a.start_time like concat('%',#{end_date},'%')
+		<choose>
+			<when test="order==1">
+				order by a.start_time asc
+			</when>
+			<when test="order==2">
+				order by a.schedule_price desc
+			</when>
+			<when test="order==3">
+				order by a.schedule_price asc
+			</when>
+		</choose>
 	</select>
 	
 	

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -61,13 +62,14 @@ public class AirportController {
 		return list;
 	}
 	
-	@PostMapping("/searchAirplane")
+	@GetMapping("/searchAirplane")
 	public ModelAndView searchAirplane(AirSearch airSearch) {
 		
 		ModelAndView mav = new ModelAndView();
 		List<Air_ScheduleDTO> oneway_schedule_list= null;
 		List<Air_ScheduleDTO> round_trip_come_schedule_list=null;
 		List<Air_ScheduleDTO> round_trip_go_schedule_list=null;
+	
 		
 		if(airSearch.getGubun_check()==1) { //편도일때(가는비행기)
 				oneway_schedule_list = scheduleService.searchAirplane(airSearch);
@@ -90,6 +92,7 @@ public class AirportController {
 		
 		
 		mav.setViewName("search/searchResultAirplane");
+		
 		mav.addObject("seat_position",airSearch.getSeat_position());
 		mav.addObject("start_date1",airSearch.getStart_date1());
 		mav.addObject("start_date2",airSearch.getStart_date2());
@@ -97,9 +100,56 @@ public class AirportController {
 		mav.addObject("start_city_id",airSearch.getStart_city_id());
 		mav.addObject("end_city_id",airSearch.getEnd_city_id());
 		mav.addObject("gubun_check",airSearch.getGubun_check());
+		mav.addObject("order",airSearch.getOrder());
+		mav.addObject("count",airSearch.getCount());
+		mav.addObject("seat_name",airSearch.getSeat_position());
+		mav.addObject("start_country_id",airSearch.getStart_country_id());
+		mav.addObject("end_country_id",airSearch.getEnd_country_id());
+
+
 		return mav;
 	}
 	
+	@GetMapping("/searchAirplaneAjax")
+	public ModelAndView searchAirplaneAjax(int order,AirSearch airSearch) {
+		
+		System.out.println("searchAirplaneAjax airSearch="+airSearch);
+		System.out.println("searchAirplaneAjax order="+order);
+		airSearch.setOrder(order);
+		
+		ModelAndView mav = new ModelAndView();
+		List<Air_ScheduleDTO> oneway_schedule_list= null;
+		List<Air_ScheduleDTO> round_trip_come_schedule_list=null;
+		List<Air_ScheduleDTO> round_trip_go_schedule_list=null;
+	
+		
+		if(airSearch.getGubun_check()==1) { //편도일때(가는비행기)
+				oneway_schedule_list = scheduleService.searchAirplane(airSearch);
+				mav.addObject("schedule_list",oneway_schedule_list);//편도일때 가는비행기 select
+		}else if(airSearch.getGubun_check()==0) { //왕복일때(오는비행기)
+			
+			 round_trip_come_schedule_list = scheduleService.roundSearchAirplane(airSearch);
+			 round_trip_go_schedule_list = scheduleService.round_GoSearchAriplane(airSearch);
+			 mav.addObject("comeList",round_trip_come_schedule_list); // 왕복일때 오는 비행기 select
+			 mav.addObject("goList",round_trip_go_schedule_list); // 왕복일때 가는 비행기
+		}
+			
+	
+		
+		System.out.println("oneway_schedule_list="+oneway_schedule_list);
+		System.out.println("round_trip_come_schedule_list="+round_trip_come_schedule_list);
+		System.out.println("airSearch="+airSearch);
+		
+		mav.setViewName("ajaxSearch/searchResultAirplaneAjax");
+		mav.addObject("gubun_check",airSearch.getGubun_check());
+		mav.addObject("start_date1",airSearch.getStart_date1());
+		mav.addObject("start_date2",airSearch.getStart_date2());
+		mav.addObject("start_city_id",airSearch.getStart_city_id());
+		mav.addObject("end_city_id",airSearch.getEnd_city_id());
+		return mav;
+	}
+	
+
 	
 	
 }

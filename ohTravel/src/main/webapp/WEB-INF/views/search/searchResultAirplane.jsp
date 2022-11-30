@@ -893,6 +893,11 @@ prod_list_wrap .htl .btn.line {
 .list_sort{
 	margin-bottom: 100px;
 }
+
+.search_type:hover{
+	color:red;
+	cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -906,6 +911,7 @@ prod_list_wrap .htl .btn.line {
 		</ul>
 	</div> -->
 	                <!-- 필터 부분 -->
+	        <form id="searchAirplane" action="/airport/reservationAirplane" method="get">      
 	         <div class="container">       
 	          <div class="ly_wrap result_wrap">      
                 <div class="inr">
@@ -979,24 +985,32 @@ prod_list_wrap .htl .btn.line {
                 </div><!-- 필터 부분 inr -->
                 
                  <!-- 패키지 상세 상품 부분 -->
-                <div class="inr right">
+                <div class="inr right" id="airplaneSearchList">
                     <!-- 패키지 상품 정렬 부분 -->
                     <div class="option_wrap result">
                     	<div class="right_cont">
                             <ul class="list_sort">
-                                <li class=""><a href="#none">출발시간 빠른순</a></li>
-                                <li class=""><a href="#none">높은 가격순</a></li>
-                                <li class=""><a href="#none">낮은 가격순</a></li>
+                                <li class="search_type" data-order="1">출발시간 빠른순</li>
+                                <li class="search_type" data-order="2">높은 가격순</li>
+                                <li class="search_type" data-order="3">낮은 가격순</li>
                             </ul>
                    		</div>
                         
                   
-		                        <div class="text_wrap big">
+	                        <div class="text_wrap big">
 									<h5><strong>✈️ 가는 항공편</strong></h5>
+									<c:if test="${not empty start_date1 }">
 										<div class="calendar">${start_date1}
 											<span class="calendar_day1"></span>
 											<span class="startCity1"></span> 🔜  <span class="endCity1"></span>
 										</div>
+									</c:if>
+									<c:if test="${not empty start_date2}">
+										<div class="calendar">${start_date2}
+											<span class="calendar_day1"></span>
+											<span class="startCity1"></span> 🔜  <span class="endCity1"></span>
+										</div>
+									</c:if>	
 		                        
 		                    </div><!-- option_wrap result -->
 		             <div class="one_list">
@@ -1091,7 +1105,7 @@ prod_list_wrap .htl .btn.line {
 											<span class="startCity2">${end_city_id}</span> 🔜  <span class="endCity2">${start_city_id}</span>
 										</div>
 		                        </c:if>
-		                    </div><!-- option_wrap result -->
+                    </div><!-- option_wrap result -->
 		             <div class="one_list">
 		             <c:if test="${gubun_check == 0 }">   
 		             <c:forEach var="come" items="${comeList}">
@@ -1129,13 +1143,15 @@ prod_list_wrap .htl .btn.line {
 									 <c:if test="${seat_position == 'A'}">
 									<fmt:formatNumber value="${3*come.schedule_price}" pattern="#,###"/>원<br>
 									 </c:if>
+								</div>
 							</div>
-						</div>
-				</c:forEach>
-			</c:if>		
-		</div>     
+					</c:forEach>
+				</c:if>	
+			</div>     
+		</div>
 	</div>
-</div>			
+</div>
+</form>  			
 	
 	
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
@@ -1278,6 +1294,40 @@ prod_list_wrap .htl .btn.line {
         
 		
 		
+        $(document).on('click','.search_type' ,function() {
+        	let order = $(this).attr('data-order');
+        	alert('order='+order);
+        	 $.ajax({
+        		url: '${pageContext.request.contextPath}/airport/searchAirplaneAjax',
+				type: 'get',
+				data: {
+						 'order': order,
+						 'gubun_check' : '${gubun_check}',
+						 'start_country_id' : '${start_country_id}',
+						 'start_city_id' : '${start_city_id}',
+						 'end_country_id' : '${end_country_id}',
+						 'end_city_id' : '${end_city_id}',
+						 'start_date1' : '${start_date1}',
+						 'end_date' : '${end_date}',
+						 'start_date2' : '${start_date2}',
+						 'seat_name' : '${seat_name}',
+						 'seat_position' : '${seat_position}',
+						 'count' : '${count}',
+						 'radio_seat' : '${radio_seat}'
+					},
+				dataType:'html',
+				success : function(data){
+					console.log(data);
+					$('#airplaneSearchList').empty();
+					$('#airplaneSearchList').html(data);
+				},
+				error: function(err){
+					console.log(err);
+				}
+        	});  
+        });
+        
+        
 	});
 	
 	
