@@ -1,5 +1,5 @@
 package com.oracle.ohTravel.member.repository;
 
-public class MemberRepository {
+public interface MemberRepository {
 
 }
