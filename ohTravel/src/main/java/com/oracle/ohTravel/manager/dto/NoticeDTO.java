@@ -11,6 +11,13 @@ public class NoticeDTO {
 	private String notice_writer;
 	private Timestamp notice_write_date;
 	private int notice_count;
+	
+	
+	//조회용
+	private String search;   	private String keyword;
+	private String pageNum;  
+	private int start;
+	private int end;
 }
 
 

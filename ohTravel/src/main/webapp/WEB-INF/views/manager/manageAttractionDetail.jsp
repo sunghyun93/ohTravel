@@ -29,13 +29,13 @@
 		var message ="";
 		if(str =='update'){
 			console.log(str);
-			form.action="updateTicket";
+			form.action="updateAttraction";
 			form.submit();
 		}else if(str=='delete'){
 			console.log(str);
 			message = confirm("정말로 삭제하시겠습니까?");
 			if (message) {
-				form.action="deleteTicket";
+				form.action="deleteAttraction";
 				form.submit();
 			} else {
 				alert("삭제되지 않았습니다");
@@ -73,42 +73,20 @@
 <body>
 	<div class="container" style="min-height: 700px;">
 		<div class="wrapper big">
-			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">입장권상세</h1>
+			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">관광지 상세</h1>
 			<form method="post" id="form" enctype="multipart/form-data">
 				<div class="row">
 				<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageTicket?currentPage=${currentPage}'" value="돌아가기">
+					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageAttraction?currentPage=${currentPage}'" value="돌아가기">
 				</div>
-				<c:forEach var="ticketDetail" items="${ticketDetail }">
+				<c:forEach var="attractionDetail" items="${attractionDetail }">
 					<table border="1" class="table table-striped">
-						<thead>
 						<tr>
-							<th>입장권번호</th>
-							<th>입장권이름</th>
-							<th>입장권위치</th>
-							<th>성인가격</th>
-							<th>아이가격</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td><input type="text" name="ticket_id" value="${ticketDetail.ticket_id }" readonly="readonly"></td>
-							<td><input type="text" name="ticket_name" value="${ticketDetail.ticket_name }" required="required"></td>
-							<td><input type="text" name="ticket_location" value="${ticketDetail.ticket_location }" required="required"></td>
-							<td><input type="number" name="ticket_adult_price" value="${ticketDetail.ticket_adult_price }" required="required"></td>
-							<td><input type="number" name="ticket_child_price" value="${ticketDetail.ticket_child_price }"></td>
+							<th>관광지ID</th>
+							<td><input type="text" name="attr_id" value="${attractionDetail.attr_id }" readonly="readonly"></td>
 						</tr>
 						<tr>
-							<th>평점</th>
-							<th>입장권유효기간</th>
-							<th>입장권판매갯수</th>
-							<th>국가명</th>
-							<th>도시명</th>
-						</tr>
-						<tr>
-							<td><input type="text" name="ticket_score" value="${ticketDetail.ticket_score }"></td>
-							<td><input type="datetime" name="ticket_due_date" value="${ticketDetail.ticket_due_date }"></td>
-							<td><input type="number" min="0" max="100000" name="ticket_sales_cnt" value="${ticketDetail.ticket_sales_cnt }" ></td>
+							<th>도시ID</th>
 							<td>
 								<select name="country_id" onchange="getCountry_id()" class="country_id" required="required">
 									<c:forEach var="countryList" items="${countryList }">
@@ -123,6 +101,9 @@
 									</c:forEach>
 								</select>
 							</td>
+						</tr>
+						<tr>
+							<th>도시코드</th>
 							<td class="city_td">
 								<select class="city_id" id="city_ids" name="city_id" required="required">
 									<c:forEach var="cityList" items="${cityList }">
@@ -138,7 +119,20 @@
 								</select>
 							</td>
 						</tr>
-						</tbody>
+						<tr>
+							<th>관광지명</th>
+							<td><input type="text" name="attr_name" value="${attractionDetail.attr_name }" required="required"></td>
+						</tr>
+						<tr>
+							<th>관광지영어명</th>
+							<td><input type="number" name="attr_ename" value="${attractionDetail.attr_ename }" required="required"></td>
+						</tr>
+						<tr>
+							<th>관광지설명</th>
+							<td>
+								<textarea rows="20" cols="50" name="attr_info">${attractionDetail.attr_info }</textarea>
+							</td>
+						</tr>
 					</table>
 					<div style="flex: 2">
 						<input type="button" onclick="moveForm('update')" class="genric-btn info elb" value="입장권수정">
@@ -152,33 +146,21 @@
 					<table border="1" class="table table-striped">
 						<thead>
 						<tr>
-							<th>작은이미지경로</th>
+							<th>이미지경로</th>
 						</tr>
 						</thead>
 						<tbody>
-						<c:forEach var="ticketDetail" items="${ticketDetail }">
+						<c:forEach var="attractionDetail" items="${attractionDetail }">
 						<tr>
 							<td>
-								<span>현재 경로 : ${ticketDetail.ticket_rep_img_path }</span><br>
-								<input type="file" id="ticket_rep_img_path" class="form-control" name="file1" accept="image/*">
-								<input type="hidden" name="ticket_rep_img_path" value="${ticketDetail.ticket_rep_img_path }">
+								<span>현재 경로 : ${attractionDetail.attr_Img_path }</span><br>
+								<input type="file" id="attr_img_path" class="form-control" name="file1" accept="image/*">
+								<input type="hidden" name="attr_img_path" value="${attractionDetail.attr_Img_path }">
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<img src="${ticketDetail.ticket_rep_img_path }">
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<span>현재 경로 : ${ticketDetail.ticket_detail_img_path }</span><br>
-								<input type="file" id="ticket_detail_img_path" class="form-control" name="file2" accept="image/*">
-								<input type="hidden" name="ticket_detail_img_path" value="${ticketDetail.ticket_detail_img_path }">
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<img src="${ticketDetail.ticket_detail_img_path }">
+								<img src="${attractionDetail.attr_Img_path }">
 							</td>
 						</tr>
 						</c:forEach>

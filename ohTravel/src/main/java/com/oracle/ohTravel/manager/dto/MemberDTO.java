@@ -14,4 +14,13 @@ public class MemberDTO {
 	private Date mem_birthday;
 	private Date mem_create;
 	private String mem_role;
+	
+	
+	
+	//조회용
+	private String search;   	private String keyword;
+	private String pageNum;  
+	private int start;
+	private int end;
+	
 }
