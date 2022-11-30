@@ -15,6 +15,16 @@ public class TicketServiceImpl implements TicketService {
 
 	private final TicketDAO td;
 	
+	@Override
+	public int totalTicket() {
+		System.out.println("TicketServiceImpl Start total..." );
+		
+		int totTicketCnt = td.totalTicket();
+		
+		return 0;
+	}
+	
+	
 	// 입장권 목록
 	@Override
 	public List<TicketDTO> ticketList(TicketDTO ticketdto) {
@@ -28,5 +38,7 @@ public class TicketServiceImpl implements TicketService {
 		System.out.println("~~ TicketServiceImpl getTicketDetail Start ~~");
 		return td.getTicketDetail(ticketDTO);
 	}
+
+
 
 }

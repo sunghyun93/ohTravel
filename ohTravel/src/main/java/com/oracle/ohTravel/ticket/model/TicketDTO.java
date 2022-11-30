@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class TicketDTO {
-	private int 		ticket_id;
+	private String		ticket_id;
 	private int 		city_id;
 	private String 		ticket_name;
 	private int 		ticket_sales_cnt;

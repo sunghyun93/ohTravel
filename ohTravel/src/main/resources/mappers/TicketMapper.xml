@@ -4,11 +4,19 @@
 
 <mapper namespace="com.oracle.ohTravel.Ticket">
 
-	<select id="ticketList" resultType="Ticket">
-		SELECT * FROM ticket
+	<select id="ticketTotal" resultType="int">
+		SELECT COUNT(*) FROM ticket_detail
 	</select>
 
+	<select id="ticketList" resultType="TicketDTO">
+		SELECT distinct td.ticket_id, city_id, ticket_name, ticket_adult_price, ti.ticket_rep_img_path, ti.ticket_detail_img_path
+		FROM (ticket_detail td left join ticket_img ti on td.ticket_id = ti.ticket_id)
+	</select>
 
+	<select id="ticketDetail" resultType="TicketDTO">
+		SELECT * FROM ticket_detail
+		WHERE ticket_id = #{ticket_id}
+	</select>
 
 
 </mapper>
