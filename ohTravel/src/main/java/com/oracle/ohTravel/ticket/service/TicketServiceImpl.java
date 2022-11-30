@@ -18,10 +18,8 @@ public class TicketServiceImpl implements TicketService {
 	@Override
 	public int totalTicket() {
 		System.out.println("TicketServiceImpl Start total..." );
-		
 		int totTicketCnt = td.totalTicket();
-		
-		return 0;
+		return totTicketCnt;
 	}
 	
 	

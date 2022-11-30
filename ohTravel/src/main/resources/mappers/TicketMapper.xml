@@ -8,9 +8,13 @@
 		SELECT COUNT(*) FROM ticket_detail
 	</select>
 
-	<select id="ticketList" resultType="TicketDTO">
-		SELECT distinct td.ticket_id, city_id, ticket_name, ticket_adult_price, ti.ticket_rep_img_path, ti.ticket_detail_img_path
-		FROM (ticket_detail td left join ticket_img ti on td.ticket_id = ti.ticket_id)
+	<select id="ticketList" resultType="Map" parameterType="TicketDTO">
+		SELECT distinct td.ticket_id, td.city_id, td.ticket_name, td.ticket_score, td.ticket_adult_price, date_format(td.ticket_due_date, '%Y.%m.%d') AS ticket_due_date, ti.ticket_rep_img_path, ti.ticket_detail_img_path, ct.city_name
+		FROM ticket_detail td
+		LEFT JOIN ticket_img ti
+		  ON td.ticket_id = ti.ticket_id
+		LEFT JOIN  city ct
+		  ON td.city_id = ct.city_id
 	</select>
 
 	<select id="ticketDetail" resultType="TicketDTO">

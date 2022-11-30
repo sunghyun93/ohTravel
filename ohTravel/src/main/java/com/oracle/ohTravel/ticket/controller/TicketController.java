@@ -24,7 +24,7 @@ public class TicketController {
 	
 	/* 입장권 메인 화면 (= 입장권 목록 전체 조회) */
 	@GetMapping(value = "/exhibitionMain")
-	public String goExhibition(TicketDTO ticketdto, String currentPage, Model model) {
+	public String goExhibition(TicketDTO ticketDTO,  Model model) {
 		System.out.println("~~ TicketController Start exhibitionDetail ~~");
 
 		// Ticket 전체 Count
@@ -38,7 +38,7 @@ public class TicketController {
 		 */
 		
 		// 티켓 목록
-		List<TicketDTO> ticketList = ts.ticketList(ticketdto);
+		List<TicketDTO> ticketList = ts.ticketList(ticketDTO);
 		
 		model.addAttribute("totalTicket", totalTicket);
 		model.addAttribute("ticketList", ticketList);

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -561,6 +563,14 @@
 		cursor: pointer;
 		color:red;
 	}
+	
+	.place-cap {
+		height: 250px;
+	}
+	
+	h6 {
+		height: 40px;
+	}
 </style>
 </head>
 <body>
@@ -578,7 +588,81 @@
                         </div>
                     </div>
                 </div>
+                <!-- 상품 반복문 실행중,,,, -->
                 <div class="row">
+                	<c:forEach var="ticketList" items="${ticketList}" begin="0" end="3">
+						<div class="col-xl-4 col-lg-4 col-md-6" style="height: 500px;">
+							<div class="single-place mb-30">
+								<div class="place-img">
+									<img src="${ticketList.ticket_rep_img_path }">
+								</div>
+								<div class="place-cap">
+									<div class="place-cap-top">
+										<span><span><i class="fas fa-map-marker-alt"></i>${ticketList.city_name}</span></span>
+										<h6>
+											<a href="/ticket/exhibitionDetail" style="height: 40px;"> ${ticketList.ticket_name }</a>
+										</h6>
+										<p class="dolor" style="margin-top: 25px;">${ticketList.ticket_adult_price}<em style="font-size:15px;">원</em></p>
+										<span><i class="fas fa-star"></i><span>${ticketList.ticket_score }</span> </span>
+									</div>
+									<div class="place-cap-bottom">
+										<ul style="translate: 0 -15px;">
+											<li style="width: 200px;"><i class="far fa-clock"></i>~ ${ticketList.ticket_due_date}까지</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+
+
+
+<%--                 	<!-- 상품 하나...  -->
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="single-place mb-30">
+                            <div class="place-img">
+                                <img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
+                            </div>
+                            <div class="place-cap">
+                                <div class="place-cap-top">
+                                    <span><span><i class="fas fa-map-marker-alt"></i>파리</span></span>
+                                    <h6><a href="#">[파리] 루브르박물관 패스트트랙 입장권 ${ticket_name }</a></h6>
+                                    <p class="dolor">52250원</p>
+                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
+                                </div>
+                                <div class="place-cap-bottom">
+                                    <ul>
+                                        <li><i class="far fa-clock"></i>~${ticket_due_date}까지 사용 가능</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- 상품 하나 끝 --> --%>
+                    
+                    
+                    
+                    <!-- 상품 둘,,,  -->
+<%--                     <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="single-place mb-30">
+                            <div class="place-img">
+                                <img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
+                            </div>
+                            <div class="place-cap">
+                                <div class="place-cap-top">
+                                    <span><span><i class="fas fa-map-marker-alt"></i>파리</span></span>
+                                    <h6><a href="#">[파리] 루브르박물관 패스트트랙 입장권 ${ticket_name }</a></h6>
+                                    <p class="dolor">52250원</p>
+                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
+                                </div>
+                                <div class="place-cap-bottom">
+                                    <ul>
+                                        <li><i class="far fa-clock"></i>~${ticket_due_date}까지 사용 가능</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 상품 셋,,,  -->
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
@@ -599,6 +683,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 상품 넷,,,  -->
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
@@ -619,6 +704,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 상품 다섯,,,  -->
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
@@ -639,6 +725,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 상품 여섯,,,  -->
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
@@ -658,48 +745,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><span><i class="fas fa-map-marker-alt"></i>파리</span></span>
-                                    <h6><a href="#">[파리] 루브르박물관 패스트트랙 입장권 ${ticket_name }</a></h6>
-                                    <p class="dolor">52250원</p>
-                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>~${ticket_due_date}까지 사용 가능</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><span><i class="fas fa-map-marker-alt"></i>파리</span></span>
-                                    <h6><a href="#">[파리] 루브르박물관 패스트트랙 입장권 ${ticket_name }</a></h6>
-                                    <p class="dolor">52250원</p>
-                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>~${ticket_due_date}까지 사용 가능</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    </div> --%>
+                </div> <!-- row div 끝 -->
             </div>
         </div> 
         <!-- 테마 추천 End -->
