@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,9 +90,14 @@ public class PkageController {
 	
 	// 검색 결과 메서드
 	@GetMapping("/searchResult")
-	public String searchResult(PkgSearch pkgSearch, Model model) {
+	public String searchResult(PkgSearch pkgSearch,Integer order, Model model, HttpServletRequest request) {
 		log.info("PkageController searchResult() start...");
 		log.info("pkgSearch="+pkgSearch);
+		
+		String toURL = request.getRequestURL().toString();
+		log.info("toURL="+toURL);
+		
+		if(order == null) order = 1; // 초기값 세팅
 		
 		try {
 			// 국가 가져오기
@@ -101,7 +108,7 @@ public class PkageController {
 			Map<String, Object> map = new HashMap<>();
 			map.put("toDesti", pkgSearch.getToDesti());
 			map.put("dates_start_check", pkgSearch.getDates_start_check());
-			map.put("order", 4); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3 desc,4 asc)
+			map.put("order", order); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3 desc,4 asc)
 			
 			List<PkageDTORM> pkageDTORmlist = pkageService.selectPkgWithDetailAndFlight(map);
 			// 관련 pkg 개수
@@ -111,7 +118,9 @@ public class PkageController {
 			// 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일 구하기
 			getMakingDetail(pkageDTORmlist);
 			
+			model.addAttribute("toURL", toURL);
 			model.addAttribute("pkgCnt", pkgCnt);
+			model.addAttribute("orderli", order);
 			model.addAttribute("pkgSearch", pkgSearch);
 			model.addAttribute("pkageDTORmlist", pkageDTORmlist);
 		} catch(Exception e) {
@@ -123,7 +132,11 @@ public class PkageController {
 	}
 	
 	@GetMapping("/detail")
-	public String detail() {
+	public String detail(String pkage_id, Integer pkage_dt_id, Model model) {
+		log.info("PkageController detail() start...");
+		
+		
+		log.info("PkageController detail() end...");
 		return "pkage/package_detail";
 	}
 	

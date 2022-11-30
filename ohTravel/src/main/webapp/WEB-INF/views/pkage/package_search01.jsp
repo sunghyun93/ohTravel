@@ -91,12 +91,14 @@
 	                    <div class="col-xl-4 col-lg-4 col-md-6">
 	                        <div class="single-place mb-30">
 	                            <div class="place-img">
-	                                <img src="${pkage.pkage_Img_path }" alt="" height="246.52px">
+	                                <a href="/pkage/searchResult?pkage_gubun=${pkage.pkage_gubun }&toDesti=${pkage.city_id }&dates_start_check=2022-12-20&order=1">
+	                                	<img src="${pkage.pkage_Img_path }" alt="" height="246.52px">
+	                                </a>
 	                            </div>
 	                            <div class="place-cap">
 	                                <div class="place-cap-top">
 	                                    <span><i class="fas fa-star"></i><span>${pkage.pkage_score }</span></span>
-	                                    <h6><a href="#">${pkage.pkage_name }</a></h6>
+	                                    <h6><a href="/pkage/searchResult?pkage_gubun=${pkage.pkage_gubun }&toDesti=${pkage.city_id }&dates_start_check=2022-12-20&order=1">${pkage.pkage_name }</a></h6>
 	                                    <h6>${pkage.pkage_info }</h6>
 	                                    <p class="dolor"><fmt:formatNumber value="${pkage.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
 	                                </div>     

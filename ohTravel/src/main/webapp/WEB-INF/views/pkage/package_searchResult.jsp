@@ -20,6 +20,7 @@
 <div id="pk_container">
         <div class="container">
             <div class="ly_wrap result_wrap">
+            
                 <!-- 국가 날짜 출발 부분 -->
                 <div class="text_wrap big line">
                         <div class="select_area_wrap">
@@ -44,22 +45,22 @@
                                 <div id="adtAmtCdsDiv" class="view" style="display: block;">
                                     <div class="form_wrap">
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds200000|400000" class="inpt_checkbox" value="200000|400000">
+                                            <input type="radio" id="chk_adtAmtCds200000|400000" name="radio_price" class="inpt_checkbox" value="200000|400000">
                                             <label for="chk_adtAmtCds200000|400000" class="label_checkbox">0~40만원</label>
                                         </span>
 
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds400000|600000" class="inpt_checkbox" value="400000|600000">
+                                            <input type="radio" id="chk_adtAmtCds400000|600000" name="radio_price" class="inpt_checkbox" value="400000|600000">
                                             <label for="chk_adtAmtCds400000|600000" class="label_checkbox">40~60만원</label>
                                         </span>
 
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds600000|800000" class="inpt_checkbox" value="600000|800000">
+                                            <input type="radio" id="chk_adtAmtCds600000|800000" name="radio_price" class="inpt_checkbox" value="600000|800000">
                                             <label for="chk_adtAmtCds600000|800000" class="label_checkbox">60~80만원</label>
                                         </span>
 
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds800000" class="inpt_checkbox" value="800000">
+                                            <input type="radio" id="chk_adtAmtCds800000" name="radio_price" class="inpt_checkbox" value="800000">
                                             <label for="chk_adtAmtCds800000" class="label_checkbox">80~만원</label>
                                         </span>
                                     </div>
@@ -72,12 +73,12 @@
                                 <div id="trvlDayCntsDiv" class="view" style="display: block;">
                                     <div class="form_wrap">
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_trvlDayCnts3" class="inpt_checkbox" value="3"> 
+                                            <input type="radio" id="chk_trvlDayCnts3" name="radio_term" class="inpt_checkbox" value="3"> 
                                             <label for="chk_trvlDayCnts3" class="label_checkbox">3일</label>
                                         </span>
 
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_trvlDayCnts4" class="inpt_checkbox" value="4"> 
+                                            <input type="radio" id="chk_trvlDayCnts4" name="radio_term" class="inpt_checkbox" value="4"> 
                                             <label for="chk_trvlDayCnts4" class="label_checkbox">4일</label>
                                         </span>
                                     </div>
@@ -90,11 +91,11 @@
                                 <div id="depTmsCdsDiv" class="view" style="display: block;">
                                     <div class="form_wrap">
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_depTmsCdsAM2" class="inpt_checkbox" value="AM2"> 
+                                            <input type="radio" id="chk_depTmsCdsAM2" name="radio_time" class="inpt_checkbox" value="AM2"> 
                                             <label for="chk_depTmsCdsAM2" class="label_checkbox">05시~12시</label>
                                         </span>
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_depTmsCdsPM1" class="inpt_checkbox" value="PM1"> 
+                                            <input type="radio" id="chk_depTmsCdsPM1" name="radio_time" class="inpt_checkbox" value="PM1"> 
                                             <label for="chk_depTmsCdsPM1" class="label_checkbox">12시~18시</label>
                                         </span>
                                     </div>
@@ -114,10 +115,10 @@
                         <div class="right_cont">
                         	<c:if test="${pkgCnt > 0 }">
 	                            <ul class="list_sort">
-	                                <li class="on"><a href="#none">구매순</a></li>
-	                                <li class=""><a href="#none">평점순</a></li>
-	                                <li class=""><a href="#none">높은 가격순</a></li>
-	                                <li class=""><a href="#none">낮은 가격순</a></li>
+	                                <li class="orderli1"><a href="#" data-order="1">구매순</a></li>
+	                                <li class="orderli2"><a href="#" data-order="2">평점순</a></li>
+	                                <li class="orderli3"><a href="#" data-order="3">높은 가격순</a></li>
+	                                <li class="orderli4"><a href="#" data-order="4">낮은 가격순</a></li>
 	                            </ul>
                             </c:if>
                         </div>
@@ -178,7 +179,7 @@
 	                                        <div class="prod_list_wrap">
 	                                            <ul class="type">
 	                                            	<c:forEach var="pkgDetail" items="${pkageDTORm.pkage_detailDTOList }">
-		                                                <li data-pkgDetailId="${pkgDetail.pkage_dt_id }">
+		                                                <li data-pkgId="${pkageDTORm.pkage_id }" data-pkgDetailId="${pkgDetail.pkage_dt_id }">
 		                                                    <div class="inr">
 		                                                        <div class="tag_group">
 		                                                            <span class="attr">${pkgDetail.pkage_dt_thema }</span> 
@@ -207,12 +208,12 @@
 		                                                        <p class="item_text air_info">
 		                                                        	<!-- 출발 / 도착 날짜 적어주기 -->
 			                                                            <span>
-				                                                            <fmt:formatDate value="${pkgDetail.pkage_dt_startDay }" pattern="yyyy.MM.dd"/>
+				                                                            <fmt:formatDate value="${pkgDetail.pkage_dt_startDay }" pattern="yyyy.MM.dd HH:mm"/>
 				                                                            <span>(${pkgDetail.startYoil })</span>
 				                                                            &emsp;->&emsp;
 			                                                            </span>
 			                                                            <span>
-			                                                            	<fmt:formatDate value="${pkgDetail.pkage_dt_endDay }" pattern="yyyy.MM.dd"/>
+			                                                            	<fmt:formatDate value="${pkgDetail.pkage_dt_endDay }" pattern="yyyy.MM.dd HH:mm"/>
 			                                                            	<span>(${pkgDetail.endYoil })</span>
 			                                                            </span>
 		                                                            <span class="info">${pkgDetail.day-1 }박${pkgDetail.day }일</span>
@@ -243,7 +244,7 @@
 	                            </li>
                             </c:forEach>
                         </ul> <!-- type -->
-                    </div> <!-- prod_list_wrap -->
+                    </div> <!-- prod_list_wrap -->      
 
                     <!-- 페이지 네비게이션 부분 -->
                     <!-- <div class="paginate_wrap">
@@ -282,48 +283,76 @@
         </div> <!-- pk_contents -->
     </div> <!-- pk_container -->
 
-    <script>
+<script>
+// url 만드는 함수
+function makeURL(order) {
+	let tmp = '${toURL}';
+	tmp += '?pkage_gubun=${pkgSearch.pkage_gubun}';
+	tmp += '&toDesti=${pkgSearch.toDesti}';
+	tmp += '&dates_start_check=${pkgSearch.dates_start_check}';
+	tmp += '&order='+order;
+	
+	return tmp;
+}
 
-        /* 필터 가격 부분 화살표 및 active class 부여 */
-        let daylist = $('.header'); // 각 일정의 a태그
-        $(daylist).on('click', function(e) {
-            e.preventDefault(); // 이벤트를 취소할 때 사용하는 메서드, 클릭 이벤트를 취소하여 페이지 이동을 막을 수 있습니다.
-            let viewDiv = $(this).siblings('div.view'); // 안에 있는 내용 div
-            
-            if(!$(this).hasClass('active')) {
-                $(this).addClass('active');
-                viewDiv.css('display', 'block');
-            } else {
-                $(this).removeClass('active');
-                viewDiv.css('display', 'none');
-            }
-        });    
+/* 정렬 li에 on class 부여 */
+let orderli = '${orderli}';
+if(orderli == '1') $('li.orderli1').addClass('on')
+else if(orderli == '2') $('li.orderli2').addClass('on')
+else if(orderli == '3') $('li.orderli3').addClass('on')
+else if(orderli == '4') $('li.orderli4').addClass('on')
 
-        /* 정렬 li 눌렀을 때 on 클래스 부여 및 해제 */
-        let liOn = $('.list_sort li');
-        $(liOn).on('click', function(e) {
-        	e.preventDefault();
-            if(!$(this).hasClass('on')) {
-                $(liOn).not(this).removeClass('on');
-                $(this).addClass('on');
-            } 
-        })
+	/* 필터 가격 부분 화살표 및 active class 부여 */
+	let daylist = $('.header'); // 각 일정의 a태그
+	$(daylist).on('click', function(e) {
+	    e.preventDefault(); // 이벤트를 취소할 때 사용하는 메서드, 클릭 이벤트를 취소하여 페이지 이동을 막을 수 있습니다.
+	    let viewDiv = $(this).siblings('div.view'); // 안에 있는 내용 div
+	    
+	    if(!$(this).hasClass('active')) {
+	        $(this).addClass('active');
+	        viewDiv.css('display', 'block');
+	    } else {
+	        $(this).removeClass('active');
+	        viewDiv.css('display', 'none');
+	    }
+	});    
 
-        /* 상품상세보기 버튼 눌렀을 때 */
-        let detailAtag = $('.btn.arrow');
-        $(detailAtag).on('click', function(e) {
-            e.preventDefault();
+	/* 정렬 li 눌렀을 때 on 클래스 부여 및 해제 */
+	let liOn = $('.list_sort li');
+	$(liOn).on('click', function(e) {
+		let aTag = $(this).children('a'); // li 내의 a 태그
+		let order = aTag.attr('data-order'); // a 태그 내의 order 값
+	
+	    /* if(!$(this).hasClass('on')) {
+	        $(liOn).not(this).removeClass('on');
+	        $(this).addClass('on');
+	    }  */
+		
+	    let url = makeURL(order);
+	  	aTag.attr('href', url); 
+	})
 
-            // 버튼을 감싸고 있는 부모 div 의 형제인 상품 상세 박스
-            let detailProdBox = $(this).parents('.inr.right').siblings('.sub_list_wrap')
-            $(detailProdBox).toggle();
-        });
+	/* 상품상세보기 버튼 눌렀을 때 */
+	let detailAtag = $('.btn.arrow');
+	$(detailAtag).on('click', function(e) {
+	    e.preventDefault();
+	
+	    // 버튼을 감싸고 있는 부모 div 의 형제인 상품 상세 박스
+	    let detailProdBox = $(this).parents('.inr.right').siblings('.sub_list_wrap')
+	    $(detailProdBox).toggle();
+	});
 
-        /* 상세일정보기 버튼 눌렀을 때 (진짜 상품으로 가는 버튼) */
-        let pkgDetailBtn = $('.btn.pkgDetail');
-        $(pkgDetailBtn).on('click',function() {
-
-        })
-    </script>
+	/* 상세일정보기 버튼 눌렀을 때 (진짜 상품으로 가는 버튼) */
+	let pkgDetailBtn = $('.btn.pkgDetail');
+	$(pkgDetailBtn).on('click',function() {
+		// 자신을 포함한 조상 요소 중에서 전달받은 선택자에 해당하는 요소의 집합에서 가장 첫 번째 요소를 선택
+		let pkage_id = $(this).closest('li').attr('data-pkgId') 		// 패키지ID
+		let pkage_dt_id = $(this).closest('li').attr('data-pkgDetailId')	// 패키지 상세ID
+		
+		console.log(pkage_id, pkage_dt_id);
+		
+		location.href="/pkage/detail?pkage_id="+pkage_id+"&pkage_dt_id="+pkage_dt_id;
+	})
+</script>
 </body>
 </html>
