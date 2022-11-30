@@ -60,12 +60,8 @@
 <body>
 	<form action="insertTicket" method="post" enctype="multipart/form-data">
 	<div class="container" style="min-height: 700px;">
-	<h1>등급추가</h1>
+	<h1>입장권추가</h1>
 	<hr>
-		<div class="mb-3">
-			<label for="ticket_id" class="form-label">입장권 번호</label>
-			<input type="number" class="form-control" name="ticket_id" id="ticket_id" required="required" placeholder="입장권번호입력">
-		</div>
 		<div class="mb-3">
 			<label for="ticket_name" class="form-label">입장권 이름</label>
 			<input type="text" class="form-control" name="ticket_name" id="ticket_name" required="required" placeholder="입장권명입력">

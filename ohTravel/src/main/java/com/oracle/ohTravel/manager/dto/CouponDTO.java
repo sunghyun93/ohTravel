@@ -18,4 +18,12 @@ public class CouponDTO {
 	private Timestamp coupon_down;
 	private int coupon_use;
 	private Timestamp coupon_limit_date;
+	
+	
+	
+	//조회용
+	private String search;   	private String keyword;
+	private String pageNum;  
+	private int start;
+	private int end;
 }

@@ -21,4 +21,15 @@ public class ReviewDAOImpl implements ReviewDAO {
 		return session.selectList("reviewList",reviewDTO);
 	}
 
+
+	@Override
+	public void updateReview(ReviewDTO reviewDTO) {
+		
+		session.update("updateReview", reviewDTO);
+	}
+	
+	@Override
+	public int reviewCnt(String rv_real_id) throws Exception {
+		return session.selectOne("reviewCnt", rv_real_id);
+	}
 }

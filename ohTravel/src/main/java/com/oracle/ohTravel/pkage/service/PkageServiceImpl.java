@@ -5,11 +5,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.oracle.ohTravel.pkage.dao.PkageDao;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
+import com.oracle.ohTravel.review.dao.ReviewDAO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 public class PkageServiceImpl implements PkageService {
 	@Autowired
 	private PkageDao pkageDao;
+	@Autowired
+	private ReviewDAO reviewDao;
 	
 	@Override
 	public List<PkageDTO> selectPkgBySoldScoreOrder(Map<String, Integer> map) throws Exception {
@@ -36,7 +38,18 @@ public class PkageServiceImpl implements PkageService {
 	}
 	
 	@Override
-	public List<PkageDTORM> selectPkgWithDetail() throws Exception {
-		return pkageDao.selectPkgWithDetail();
+	public List<PkageDTORM> selectPkgWithDetailAndFlight(Map<String, Object> map) throws Exception {
+		log.info("PkageServiceImpl selectPkgByThemaSoldScoreOrder() start...");
+		List<PkageDTORM> list = pkageDao.selectPkgWithDetailAndFlight(map);
+		
+		for(PkageDTORM dto : list) {
+			// 리뷰 개수 채우기
+			String rv_real_id = dto.getPkage_id();
+			int reviewCnt = reviewDao.reviewCnt(rv_real_id);
+			dto.setReviewCnt(reviewCnt);
+		}
+		
+		log.info("PkageServiceImpl selectPkgByThemaSoldScoreOrder() end...");
+		return list;
 	}
 }

@@ -3,6 +3,11 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oracle.ohTravel.CountryMapper">
+	<!-- 국가 resultMap -->
+	<resultMap id="selectCountryResult" type="CountryDTO">
+		<id property="country_id" column="country_id"/>
+		<result property="country_name" column="country_name"/>
+	</resultMap>
 	
 	<!-- country 입력받은 국가만 빼고 나머지 국가 가져오기 -->
 	<select id="selectCountryByCountryId" parameterType="int" resultType="CountryDTO">
@@ -16,5 +21,11 @@
 		<![CDATA[
 		select * from country where country_id = #{country_id};
 		]]>
+	</select>
+	
+	<!-- 도시 ID를 통한 국가 가져오기 -->
+	<select id="selectCountryByCityId" parameterType="int" resultType="countryDTO">
+		select * from country 
+		where country_id = (select country_id from city where city_id = ${city_id});
 	</select>
 </mapper>

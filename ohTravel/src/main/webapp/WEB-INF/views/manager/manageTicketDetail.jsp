@@ -77,7 +77,7 @@
 			<form method="post" id="form" enctype="multipart/form-data">
 				<div class="row">
 				<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageTicket'" value="돌아가기">
+					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageTicket?currentPage=${currentPage}'" value="돌아가기">
 				</div>
 				<c:forEach var="ticketDetail" items="${ticketDetail }">
 					<table border="1" class="table table-striped">
@@ -153,7 +153,6 @@
 						<thead>
 						<tr>
 							<th>작은이미지경로</th>
-							<th>큰 이미지 경로</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -164,10 +163,22 @@
 								<input type="file" id="ticket_rep_img_path" class="form-control" name="file1" accept="image/*">
 								<input type="hidden" name="ticket_rep_img_path" value="${ticketDetail.ticket_rep_img_path }">
 							</td>
+						</tr>
+						<tr>
+							<td>
+								<img src="${ticketDetail.ticket_rep_img_path }">
+							</td>
+						</tr>
+						<tr>
 							<td>
 								<span>현재 경로 : ${ticketDetail.ticket_detail_img_path }</span><br>
 								<input type="file" id="ticket_detail_img_path" class="form-control" name="file2" accept="image/*">
 								<input type="hidden" name="ticket_detail_img_path" value="${ticketDetail.ticket_detail_img_path }">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<img src="${ticketDetail.ticket_detail_img_path }">
 							</td>
 						</tr>
 						</c:forEach>

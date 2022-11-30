@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class PkageDTO {
-	private Integer pkage_id;
+	private String pkage_id;
 	private Integer city_id;
 	private String pkage_name;
 	private String pkage_info;
@@ -21,4 +21,11 @@ public class PkageDTO {
 	
 //	pakcage_image
 	private String pkage_Img_path;
+	
+	private String pageNum;
+	private int start;
+	private int end;
+	private String search_word;
+	private int min_price;
+	private String check;
 }

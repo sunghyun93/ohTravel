@@ -10,8 +10,9 @@
 <body>
 	<div class="container" id="container">
 		<div class="inner">
-			<form action="">
-				<div class="certify_wrap">
+			<form name="register" action="register" method="post">
+				<input type="hidden" id="mem_role" name="mem_role" value="ROLE_USER">
+ 				<div class="certify_wrap">
 					<div class="text_wrap pTit">
 						<strong class="tit">Oh! Travel 회원가입을 위한 고객님의 소중한 정보를 입력해 주세요.</strong>
 					</div>	<!-- text_wrap pTit -->
@@ -30,7 +31,7 @@
 									<th>이름</th>
 									<td>
 										<span class="form_holder">
-											<input type="text" title="이름" placeholder="이름을 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
+											<input id="mem_id" name="mem_id" type="text" title="이름" placeholder="이름을 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
 										</span>
 									</td>
 								</tr>
@@ -38,7 +39,7 @@
 									<th>아이디</th>
 									<td>
 										<span class="form_holder">
-											<input type="text" title="아이디" placeholder="아이디를 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
+											<input id="mem_name" name="mem_name" type="text" title="아이디" placeholder="아이디를 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
 										</span>
 									</td>
 								</tr>
@@ -46,7 +47,7 @@
 									<th>이메일</th>
 									<td>
 										<span class="form_holder">
-											<input type="text" title="이메일" placeholder="이메일을 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
+											<input id="mem_email" name="mem_email" type="text" title="이메일" placeholder="이메일을 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
 										</span>
 									</td>
 								</tr>
@@ -54,7 +55,7 @@
 									<th>휴대폰번호</th>
 									<td>
 										<span class="form_holder">
-											<input type="text" title="휴대폰 번호" placeholder="휴대폰 번호를 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
+											<input id="mem_tel" name="mem_tel" type="text" title="휴대폰 번호" placeholder="휴대폰 번호를 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
 										</span>
 									</td>
 								</tr>
@@ -62,7 +63,7 @@
 									<th>생년월일</th>
 									<td>
 										<span class="form_holder">
-											<input type="text" title="생년월일" placeholder="생년월일을 입력해 주세요." class="inpt_text" style="width: 270px;">
+											<input id="mem_birthday" name="mem_birthday" type="text" title="생년월일" placeholder="생년월일을 입력해 주세요." class="inpt_text" style="width: 270px;">
 										</span>
 									</td>
 								</tr>
@@ -70,10 +71,10 @@
 									<th>비밀번호</th>
 									<td class="passwd">
 										<div class="form_holder">
-											<input type="password" title="비밀번호" placeholder="비밀번호" maxlength="16" class="inpt_text v-placeholdder" style="width: 360px">
+											<input id="mem_password" name="mem_password" type="password" title="비밀번호" placeholder="비밀번호" maxlength="16" class="inpt_text v-placeholdder" style="width: 360px">
 										</div>
 										<div class="form_holder">
-											<input type="password" title="비밀번호" placeholder="비밀번호를 확인하기 위해 다시 입력해 주세요." maxlength="16" class="inpt_text v-placeholdder" style="width: 360px">
+											<input id="mem_password2" name="mem_password2" type="password" title="비밀번호" placeholder="비밀번호를 확인하기 위해 다시 입력해 주세요." maxlength="16" class="inpt_text v-placeholdder" style="width: 360px">
 										</div>
 										<p class="txt billiard">
 											8~16자리의 영문 대/소문자, 숫자, 특수문자 중 2개 이상을 조합해서 비밀번호를 설정해 주세요.<br>
@@ -320,7 +321,7 @@
 						</div>	<!-- form_holder check mt20 -->
 					</div>	<!-- terms_wrap -->
 					<div class="btn_wrap">
-						<a href="#" class="btn big pink">회원가입</a>
+						<input type="submit" class="btn big pink" value="회원가입">
 					</div>	<!-- btn_wrap -->
 					<div class="cont_unit"></div>
 				</div>	<!-- certify_wrap -->

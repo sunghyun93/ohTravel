@@ -8,28 +8,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search/searchResult.css">
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
-<script type="text/javascript">
-   
-   $(function() {
-      $('.item02').click(function() {
-         let gubun = $(this).attr('id');
-         console.log(gubun);
-         $.ajax({
-            url: '/searchCategoryAjax',
-            data: {'search_word' : $('#search_word').val(),
-                  'gubun' : gubun},
-            dataType: 'html',
-            success: function(data) {
-               $('.no_division').empty();
-               $('.empty_here').empty();
-               $('.no_division').html(data)
-            }
-         })
-      });
-   })
-
-</script>
 </head>
 <body>
 <div class="container">
@@ -37,7 +15,7 @@
     <div class="contents">
       <div class="text_wrap big line type top">
         <strong class="tit">
-           <input type="hidden" id="search_word" value="${search_word }">
+        	<input type="hidden" id="search_word" value="${search_word }">
           <em>"${search_word}"</em> 검색결과
         </strong>
       </div>
@@ -57,12 +35,12 @@
       
       <div class="js_tabs type1 no_division"> <!-- 여기 Empty 각 -->
         <ul class="tabs sort">
-         <li class="item01 selected"><button id="all" class="item02">전체</button></li>
-           <li class="item"><button id="pkage" class="item02">패키지</button></li>
-           <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
-           <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
-         <li class="item05"><button id="airplane" class="item02">항공</button></li>
-      </ul>
+			<li class="item01 selected"><button id="all" class="item02">전체</button></li>
+	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
+	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
+	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
+			<li class="item05"><button id="airplane" class="item02">항공</button></li>
+		</ul>
       </div>
       
       
@@ -123,9 +101,9 @@
       <div class="empty_here">
         <div class="cont_unit search_result">
           <div class="text_wrap big result mt40">
-            <strong class="tit">호텔/펜션<em>(${hotelListCount})</em></strong>
+            <strong class="tit">호텔<em>(${hotelListCount})</em></strong>
             <span class="right_cont">
-            <a href="#" class="txt arrow_r">호텔/펜션 더보기</a>
+            <a href="#" class="txt arrow_r">호텔 더보기</a>
             </span>
           </div>
           <div class="prod_list_wrap mtm30">
@@ -150,10 +128,10 @@
                       </div>
                     </div>
                     <div class="price_group">
-                      <strong class="price now">조장님 가격 어떻게 할까요<span>원~</span></strong>
+                      <strong class="price now">${hotelList.room_min_price}<span>원~</span></strong>
                     </div>
                     <div class="btn_wrap">
-                      <a href="#none" class="btn arrow">판매상품보기</a>
+                      <a href="#none" class="btn arrow">상세보기</a>
                     </div>
                   </div>
                 </div>
@@ -204,5 +182,28 @@
     </div> <!-- contents -->
   </div> <!-- inr -->
 </div> <!-- container -->
+
 </body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+	
+	$(function() {
+		$('.item02').click(function() {
+			let gubun = $(this).attr('id');
+			console.log(gubun);
+			$.ajax({
+				url: '/searchCategoryAjax',
+				data: {'search_word' : $('#search_word').val(),
+						'gubun' : gubun},
+				dataType: 'html',
+				success: function(data) {
+					$('.no_division').empty();
+					$('.empty_here').empty();
+					$('.no_division').html(data)
+				}
+			})
+		});
+	})
+
+</script>
 </html>

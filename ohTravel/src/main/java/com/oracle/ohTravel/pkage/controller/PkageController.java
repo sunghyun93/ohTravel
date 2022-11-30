@@ -1,8 +1,14 @@
 package com.oracle.ohTravel.pkage.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +22,8 @@ import com.oracle.ohTravel.city.service.CityService;
 import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.country.service.CountryService;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
+import com.oracle.ohTravel.pkage.model.PkageDTORM;
+import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 import com.oracle.ohTravel.pkage.model.PkgSearch;
 import com.oracle.ohTravel.pkage.service.PkageService;
 
@@ -82,21 +90,107 @@ public class PkageController {
 	
 	// 검색 결과 메서드
 	@GetMapping("/searchResult")
-	public String searchResult(PkgSearch pkgSearch) {
+	public String searchResult(PkgSearch pkgSearch,Integer order, Model model, HttpServletRequest request) {
 		log.info("PkageController searchResult() start...");
 		log.info("pkgSearch="+pkgSearch);
+		
+		String toURL = request.getRequestURL().toString();
+		log.info("toURL="+toURL);
+		
+		if(order == null) order = 1; // 초기값 세팅
+		
+		try {
+			// 국가 가져오기
+			CountryDTO countryDTO = countryService.selectCountryByCityId(pkgSearch.getToDesti());
+			pkgSearch.setCountry(countryDTO.getCountry_name());
+			
+			// 관련 pkg 테이블들 모두 가져오기 (상세의 일정 부분 제외)
+			Map<String, Object> map = new HashMap<>();
+			map.put("toDesti", pkgSearch.getToDesti());
+			map.put("dates_start_check", pkgSearch.getDates_start_check());
+			map.put("order", order); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3 desc,4 asc)
+			
+			List<PkageDTORM> pkageDTORmlist = pkageService.selectPkgWithDetailAndFlight(map);
+			// 관련 pkg 개수
+			int pkgCnt = pkageDTORmlist.size();
+			// 리뷰 개수는 service 단에서 가져옴
+			
+			// 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일 구하기
+			getMakingDetail(pkageDTORmlist);
+			
+			model.addAttribute("toURL", toURL);
+			model.addAttribute("pkgCnt", pkgCnt);
+			model.addAttribute("orderli", order);
+			model.addAttribute("pkgSearch", pkgSearch);
+			model.addAttribute("pkageDTORmlist", pkageDTORmlist);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		log.info("PkageController searchResult() end...");
 		return "pkage/package_searchResult";
 	}
 	
 	@GetMapping("/detail")
-	public String detail() {
+	public String detail(String pkage_id, Integer pkage_dt_id, Model model) {
+		log.info("PkageController detail() start...");
+		
+		
+		log.info("PkageController detail() end...");
 		return "pkage/package_detail";
 	}
 	
 	@GetMapping("/reservation")
 	public String reservation() {
 		return "pkage/package_reservation";
+	}
+	
+	// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수 구하기
+	private void getMakingDetail(List<PkageDTORM> list) {
+		for(PkageDTORM pkageDTORM : list) {
+			ArrayList<Integer> priceBox = new ArrayList<>();
+//			ArrayList<Long> daysBox = new ArrayList<>();
+			long[] days = new long[2];
+			pkageDTORM.setDays(days);
+			
+			List<Pkage_detailDTO> detailDTOList = pkageDTORM.getPkage_detailDTOList();
+			int size = detailDTOList.size();
+			int i = 0;
+			for(Pkage_detailDTO pkage_detailDTO: detailDTOList) {
+				// 각 패키지 상세의 성인가격 채우기 
+				priceBox.add(pkage_detailDTO.getPkage_dt_Aprice());
+				
+				// 요일 구하기
+				Date date = pkage_detailDTO.getPkage_dt_startDay();
+				String yoil = pkage_detailDTO.getYoil(date);
+				pkage_detailDTO.setStartYoil(yoil);
+				
+				date = pkage_detailDTO.getPkage_dt_endDay();
+				yoil = pkage_detailDTO.getYoil(date);
+				pkage_detailDTO.setEndYoil(yoil);
+				
+				// 일수 구하기
+				long day = pkage_detailDTO.getDay(pkage_detailDTO.getPkage_dt_startDay(), pkage_detailDTO.getPkage_dt_endDay());
+				
+				pkage_detailDTO.setDay(day);
+				
+				// 패키지 종합 일 수에 넣어주기 (최소/최대 일수 구하기 위함)
+				if(i == 0 || i == size-1) {
+					pkageDTORM.getDays()[i]=day;
+				}
+				i++;
+				
+			}
+			// detail 개수 넣기
+			pkageDTORM.setPkgDetailCnt(detailDTOList.size());
+			
+			// 일수 정렬 
+//			Collections.sort(pkageDTORM.getDays());
+			Arrays.sort(pkageDTORM.getDays());
+
+			// 정렬 후 1번째 가격 넣기
+			Collections.sort(priceBox);
+			pkageDTORM.setMinPrice(priceBox.get(0));
+		}
 	}
 }

@@ -14,30 +14,24 @@
 		<result property="pkage_soldCnt" column="pkage_soldCnt"/>
 		<result property="pkage_score" column="pkage_score"/>
 		
-		<association property="cityDTO" column="city_id" javaType="cityDTO">
+		<!-- 도시 (국가) -->
+		<association property="cityDTO" javaType="cityDTO">
 			<id property="city_id" column="city_id"/>
-			<id property="country_id" column="country_id"/>
+			<result property="country_id" column="country_id"/>
 			<result property="city_name" column="city_name"/>
 			
-			<association property="countryDTO" column="country_id" javaType="countryDTO"
-							select="selectCountry">
-			</association>
+			<association property="countryDTO" column="country_id" select="selectCountry" ></association>
 		</association>
 		
-		<collection property="pkage_detailDTOList" column="pkage_id" ofType="pkage_detailDTO"
+		<!-- 패키지 상세 -->
+		<collection property="pkage_detailDTOList" ofType="pkage_detailDTO"
 					resultMap="selectPkgDetailResult">
 		</collection>
 		
+		<!-- 패키지 이미지 -->
 		<collection property="pkage_imageDTOList" column="pkage_id" ofType="pkage_imageDTO"
 					select="selectPkgImg">
 		</collection>
-	</resultMap>
-	
-	<!-- 비행 일정 resultMap -->
-	<resultMap id="selectPkgFlightScheResult" type="pkage_flightScheDTO">
-		<result property="pkage_dt_id" column="pkage_dt_id"/>
-		<result property="schedule_id" column="schedule_id"/>
-		<result property="pkage_flight_gubun" column="pkage_flight_gubun"/>
 	</resultMap>
 	
 	<!-- 상품 상세 resultMap -->
@@ -60,12 +54,45 @@
 		<collection property="pkage_flightScheDTOList" resultMap="selectPkgFlightScheResult"></collection>
 	</resultMap>
 	
+	<!-- 패키지 이미지 resultMap -->
+	<resultMap id="selectPkgImgResult" type="pkage_imageDTO">
+		<id property="pkage_img_id" column="pkage_img_id"/>
+		<id property="pkage_id" column="pkage_id"/>
+		<result property="pkage_img_path" column="pkage_img_path"/>
+	</resultMap>
 	
+	<!-- 비행 일정 resultMap -->
+	<resultMap id="selectPkgFlightScheResult" type="pkage_flightScheDTO">
+		<id property="pkage_dt_id" column="pkage_dt_id"/>
+		<id property="schedule_id" column="schedule_id"/>
+		<result property="pkage_flight_gubun" column="pkage_flight_gubun"/>
+		
+		<association property="air_ScheduleDTORM" resultMap="selectAirScheResult"></association>
+	</resultMap>
+	
+	<!-- 항공일정 resultMap -->
+	<resultMap id="selectAirScheResult" type="Air_ScheduleDTORM">
+		<id property="schedule_id" column="schedule_id"/>
+		<result property="air_num" column="air_num"/>
+		<result property="start_airport_name" column="start_airport_name"/>
+		<result property="end_airport_name" column="end_airport_name"/>
+		<result property="start_time" column="start_time"/>
+		<result property="end_time" column="end_time"/>
+		<result property="schedule_price" column="schedule_price"/>
+		
+		<association property="airlineDTO" resultMap="selectAirlineResult"></association>
+	</resultMap>
+	
+	<!-- 항공사 resultMap -->
+	<resultMap id="selectAirlineResult" type="AirlineDTO">
+		<id property="air_num" column="air_num"/>
+		<result property="air_code" column="air_code"/>
+		<result property="air_name" column="air_name"/>
+		<result property="air_picture" column="air_picture"/>
+	</resultMap>
+	
+
 	<!-- resultMap을 위한 select 문들 -->
-	<select id="selectPkgDetail" resultType="pkage_detailDTO">
-		select * from package_detail where pkage_id = #{pkage_id}
-	</select>
-	
 	<select id="selectPkgImg" resultType="pkage_imageDTO">
 		select * from package_image where pkage_id = #{pkage_id}
 	</select>
@@ -74,26 +101,38 @@
 		select * from country where country_id = #{country_id}
 	</select>
 	
-	
+<!-- Dao와 이어지는 select 문들 시작  -->
 
 	<!-- 패키지 검색시 관련 pkg 테이블들의 값 select  -->
-	<select id="selectPkgWithDetail" resultMap="pkageDTO_ResultMap">
+	<select id="selectPkgWithDetailAndFlight" parameterType="map" resultMap="pkageDTO_ResultMap">
 		select p.*, 
 		c.*,
 		pd.*,
-		pfs.*,
-       <!--  ashe.Start_time, ashe.End_time,
-        aline.Air_name, -->
-        pi.pkage_Img_path 
-        from package p 
+        pfs.*,
+        ashe.*,
+		aline.*,
+        pi.pkage_Img_path from package p 
 		join city c on p.city_id = c.city_id
 		join package_image pi on p.pkage_id = pi.pkage_id
 		join package_detail pd on p.pkage_id = pd.pkage_id
-		join package_flightSche pfs on pd.pkage_dt_id = pfs.pkage_dt_id
-		<!-- join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
-		join airline aline on ashe.Air_num = aline.Air_num -->
-		where p.pkage_gubun = 1
-		order by pd.pkage_dt_id desc, pd.pkage_dt_Aprice asc
+		left outer join package_flightSche pfs on pd.pkage_dt_id = pfs.pkage_dt_id
+		left outer join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
+		left outer join airline aline on ashe.Air_num = aline.Air_num
+		where p.city_id = #{toDesti} and pkage_dt_startDay >= #{dates_start_check}
+		<choose>
+			<when test="order == 1">
+				order by pkage_soldCnt desc
+			</when>
+			<when test="order == 2">
+				order by pkage_score desc
+			</when>
+			<when test="order == 3">
+				order by pkage_dt_Aprice desc
+			</when>
+			<when test="order == 4">
+				order by pkage_dt_Aprice asc
+			</when>
+		</choose>
 	</select>
 	
 	<!-- 판매순, 평점순으로 패키지 select (원하는 갯수만) -->
@@ -118,23 +157,4 @@
 		limit 0, #{row_count}
 	</select>
 	
-	
-	<!-- select p.*, 
-		c.*,
-		pd.*,
-        pfs.*,
-        ashe.*,
-		aline.Air_name,
-        aline.Air_picture,
-        sa.city_id as start_city_id,
-        pi.pkage_Img_path from package p 
-join city c on p.city_id = c.city_id
-join package_image pi on p.pkage_id = pi.pkage_id
-join package_detail pd on p.pkage_id = pd.pkage_id
-left outer join package_flightSche pfs on pd.pkage_dt_id = pfs.pkage_dt_id
-left outer join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
-left outer join start_airport sa on ashe.start_Airport_name = sa.start_Airport_name
-left outer join airline aline on ashe.Air_num = aline.Air_num
-where p.city_id = 420 and pkage_dt_startDay >= '2022-12-20'
-order by pd.pkage_dt_id asc, pd.pkage_dt_Aprice asc -->
 </mapper>

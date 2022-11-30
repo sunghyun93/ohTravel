@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.ohTravel.Member">
+	<!-- 로그인 -->
+	<select id="login" parameterType="memberDTO" resultType="memberDTO">
+		SELECT *
+		FROM MEMBER
+		WHERE mem_id = #{mem_id}
+		AND mem_password = #{mem_password}
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="register" parameterType="memberDTO">
+		INSERT INTO MEMBER (
+							mem_id,
+							mem_name,
+							mem_password,
+							mem_email,
+							mem_tel,
+							mem_birthday,
+							mem_create,
+							mem_role	)
+					VALUES(
+							#{mem_id},
+							#{mem_name},
+							#{mem_password},
+							#{mem_email},
+							#{mem_tel},
+							#{mem_birthday},
+							now(),
+							#{mem_role}	)
+	</insert>
+</mapper>

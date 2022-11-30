@@ -48,7 +48,7 @@
 				<div class="row">
 				<c:forEach var="detail" items="${userDetail }">
 					<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-						<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageUser'" value="돌아가기">
+						<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageUser?currentPage=${currentPage}'" value="돌아가기">
 					</div>
 					<table border="1" class="table table-striped">
 						<tr>
@@ -59,7 +59,6 @@
 							<th>전화번호</th>
 							<th>생년월일</th>
 							<th>가입날짜</th>
-							<th>회원권한</th>
 							<th>회원소유마일리지</th>
 							<th>등급명</th>
 						</tr>
@@ -71,7 +70,6 @@
 								<td>${detail.mem_tel }</td>
 								<td>${detail.mem_birthday }</td>
 								<td>${detail.mem_create }</td>
-								<td>${detail.mem_role }</td>
 								<td>${detail.mem_mile }</td>
 								<td>${detail.membership_name }</td>
 							</tr>

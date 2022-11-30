@@ -9,19 +9,26 @@ import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
 import com.oracle.ohTravel.manager.dto.NoticeDTO;
-import com.oracle.ohTravel.manager.dto.TicketDTO;
+import com.oracle.ohTravel.manager.dto.ManagePackageDTO;
+import com.oracle.ohTravel.manager.dto.ManageTicketDTO;
 
 import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
 	private final ManagerDAO dao;
-
+	
+	@Override
+	public int totalMember() {
+		int total = dao.totalMember();
+		return total;
+	}
+	
 	//회원관리 들어갔을때 회원목록 보이는거
 	@Override
-	public List<MemberDTO> getMemberList() {
-		List<MemberDTO>member = dao.getMemberList();
-		return member;
+	public List<MemberDTO> getMemberList(MemberDTO member) {
+		List<MemberDTO>memberList = dao.getMemberList(member);
+		return memberList;
 	}
 	//등급관리 들어갔을때 목록보이는거
 	@Override	
@@ -71,9 +78,9 @@ public class ManagerServiceImpl implements ManagerService {
 		return result;
 	}
 	@Override
-	public List<NoticeDTO> getNoticeList() {
-		List<NoticeDTO> notice = dao.getNoticeList();
-		return notice;
+	public List<NoticeDTO> getNoticeList(NoticeDTO notice) {
+		List<NoticeDTO> noticeList = dao.getNoticeList(notice);
+		return noticeList;
 	}
 	@Override
 	public List<NoticeDTO> getNoticeDetail(int notice_id) {
@@ -126,43 +133,115 @@ public class ManagerServiceImpl implements ManagerService {
 		return result;
 	}
 	@Override
-	public List<TicketDTO> getTicketList() {
-		List<TicketDTO>ticketList = dao.getTicketList();
+	public List<ManageTicketDTO> getTicketList(ManageTicketDTO ticket) {
+		List<ManageTicketDTO>ticketList = dao.getTicketList(ticket);
 		return ticketList;
 	}
 	@Override
-	public List<TicketDTO> getTicketDetail(TicketDTO ticket) {
-		List<TicketDTO> ticketDetail = dao.getTicketDetail(ticket);
+	public List<ManageTicketDTO> getTicketDetail(ManageTicketDTO ticket) {
+		List<ManageTicketDTO> ticketDetail = dao.getTicketDetail(ticket);
 		return ticketDetail;
 	}
 	@Override
-	public List<TicketDTO> getCountryList() {
-		List<TicketDTO> countryList = dao.getCountryList();
+	public List<ManageTicketDTO> getCountryList() {
+		List<ManageTicketDTO> countryList = dao.getCountryList();
 		return countryList;
 	}
 	@Override
-	public List<TicketDTO> getCityList(TicketDTO ticket) {
-		List<TicketDTO> cityList = dao.getCityList(ticket);
+	public List<ManageTicketDTO> getCityList(ManageTicketDTO ticket) {
+		List<ManageTicketDTO> cityList = dao.getCityList(ticket);
 		return cityList;
 	}
 	@Override
-	public List<TicketDTO> getCityListChangeCountry(TicketDTO ticket) {
-		List<TicketDTO> ticketChangeCountry = dao.getCityListChangeCountry(ticket);
+	public List<ManageTicketDTO> getCityListChangeCountry(ManageTicketDTO ticket) {
+		List<ManageTicketDTO> ticketChangeCountry = dao.getCityListChangeCountry(ticket);
 		return ticketChangeCountry;
 	}
 	@Override
-	public int updateTicket(TicketDTO ticket) {
+	public int updateTicket(ManageTicketDTO ticket) {
 		int result = dao.updateTicket(ticket);
 		return result;
 	}
 	@Override
-	public int insertTicket(TicketDTO ticket) {
+	public int insertTicket(ManageTicketDTO ticket) {
 		int result = dao.insertTicket(ticket);
 		return result;
 	}
 	@Override
-	public int deleteTicket(TicketDTO ticket) {
+	public int deleteTicket(ManageTicketDTO ticket) {
 		int result = dao.deleteTicket(ticket);
+		return result;
+	}
+
+	@Override
+	public int totalTicket() {
+		int total = dao.totalTicket();
+		return total;
+	}
+
+	@Override
+	public int totalNotice() {
+		int total = dao.totalNotice();
+		return total;
+	}
+
+	@Override
+	public int totalPackage() {
+		int total = dao.totalPackage();
+		return total;
+	}
+
+	@Override
+	public List<ManagePackageDTO> getPackageList(ManagePackageDTO pk) {
+		List<ManagePackageDTO> packageList = dao.getPackageList(pk);
+		return packageList;
+	}
+
+	@Override
+	public List<ManagePackageDTO> getPackageDetail(ManagePackageDTO pk) {
+		List<ManagePackageDTO> packageDetail = dao.getPackageDetail(pk);
+		return packageDetail;
+	}
+
+	@Override
+	public int totalPackageDetail(ManagePackageDTO pk) {
+		int total = dao.totalPackageDetail(pk);
+		return total;
+	}
+
+	@Override
+	public List<ManagePackageDTO> getAttractionList() {
+		List<ManagePackageDTO> attractionList = dao.getAttractionList();
+		return attractionList;
+	}
+
+	@Override
+	public int totalAttraction() {
+		int total = dao.totalAttraction();
+		return total;
+	}
+
+	@Override
+	public int insertAttraction(ManagePackageDTO pk) {
+		int result = dao.insertAttraction(pk);
+		return result;
+	}
+
+	@Override
+	public List<ManagePackageDTO> getAttractionDetail(ManagePackageDTO pk) {
+		List<ManagePackageDTO> getAttractionDetail = dao.getAttractionDetail(pk);
+		return getAttractionDetail;
+	}
+
+	@Override
+	public List<ManagePackageDTO> getCityList(ManagePackageDTO pk) {
+		List<ManagePackageDTO> cityList = dao.getCityList(pk);
+		return cityList;
+	}
+
+	@Override
+	public int updateAttraction(ManagePackageDTO pk) {
+		int result = dao.updateAttraction(pk);
 		return result;
 	}
 	

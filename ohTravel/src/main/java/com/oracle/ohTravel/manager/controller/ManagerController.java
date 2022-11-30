@@ -2,12 +2,16 @@ package com.oracle.ohTravel.manager.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.PageContext;
 
+import org.springframework.boot.autoconfigure.web.ServerProperties.Tomcat.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +25,9 @@ import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
 import com.oracle.ohTravel.manager.dto.NoticeDTO;
-import com.oracle.ohTravel.manager.dto.TicketDTO;
+import com.oracle.ohTravel.manager.dto.ManagePackageDTO;
+import com.oracle.ohTravel.manager.dto.PagingManager;
+import com.oracle.ohTravel.manager.dto.ManageTicketDTO;
 import com.oracle.ohTravel.manager.service.ManagerService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,17 +48,26 @@ public class ManagerController {
 	}
 	//회원관리 ->회원관리
 	@RequestMapping(value = "manageUser")
-	public String manageUser(Model model) {
-		List<MemberDTO> member = service.getMemberList();
-		model.addAttribute("memberList", member);
+	public String manageUser(MemberDTO member, String currentPage ,Model model) {
+		int total = service.totalMember();
+		PagingManager page = new PagingManager(total, currentPage);
+		member.setStart(page.getStart());
+		member.setEnd(page.getEnd());
+		System.out.println("pa-"+page.getStart());
+		System.out.println("pa-"+page.getPageBlock());
+		List<MemberDTO> memberList = service.getMemberList(member);
+		model.addAttribute("memberList", memberList);
+		model.addAttribute("page", page);
+		
 		
 		return "manager/manageUser";
 	}
 	//회원관리 -> 회원상세조회(1명)->수정/삭제가능
 	@RequestMapping(value = "manageUserDetail")
-	public String manageUserDetail(String mem_id,Model model) {
+	public String manageUserDetail(String mem_id,String currentPage, Model model) {
 		List<MembershipDTO> userDetail = service.getUserDetail(mem_id);
 		List<MembershipDTO> membershipList = service.getMembershipList();
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("userDetail", userDetail);
 		model.addAttribute("membershipList", membershipList);
 		
@@ -72,9 +87,7 @@ public class ManagerController {
 	//회원정보 수정완료 버튼누를시 작동
 	@PostMapping(value = "updateUser")
 	public String updateUser(MembershipDTO membership, Model model) {
-		int result = service.updateUserRole(membership);
 		int result1 = service.updateUserMemName(membership);
-		model.addAttribute("updateMsg1", result);
 		model.addAttribute("updateMsg2", result1);
 		
 		return "forward:manageUser";
@@ -141,10 +154,116 @@ public class ManagerController {
 	
 	//상품관리 ->패키지 관리
 	@RequestMapping(value = "managePackage")
-	public String manageProduct() {
+	public String managePackage(ManagePackageDTO pk,String currentPage, Model model) {
+		int total = service.totalPackage();
+		PagingManager page = new PagingManager(total, currentPage);
+		pk.setStart(page.getStart());
+		pk.setEnd(page.getEnd());
+		List<ManagePackageDTO> packageList = service.getPackageList(pk);
+		model.addAttribute("packageList", packageList);
+		model.addAttribute("page", page);
 		
 		return "manager/managePackage";
 	}
+	//상품관리 ->패키지 상세 보기
+	@RequestMapping(value = "managePackageDetail")
+	public String managePackageDetail(ManagePackageDTO pk, String currentPage, Model model) {
+		List<ManagePackageDTO> packageDetail = service.getPackageDetail(pk);
+		model.addAttribute("packageDetail", packageDetail);
+		model.addAttribute("currentPage", currentPage);
+		return "manager/managePackageDetail";
+	}
+	//상품관리 -> 패키지 한개 상세보기
+	@RequestMapping(value = "managePackageDetailOne")
+	public String managePackageDetailOne(ManagePackageDTO pk, Model model) {
+		
+		
+		return "manager/managePackageDetailOne";
+	}
+	
+	//상품관리 -> 패키지 관광지 관리
+	@RequestMapping(value = "manageAttraction")
+	public String manageAttraction(ManagePackageDTO pk,String currentPage, Model model) {
+		int total = service.totalAttraction();
+		PagingManager page = new PagingManager(total, currentPage);
+		pk.setStart(page.getStart());
+		pk.setEnd(page.getEnd());
+		List<ManagePackageDTO> attractionList = service.getAttractionList();
+		model.addAttribute("attractionList",attractionList);
+		model.addAttribute("page", page);
+		return "manager/manageAttraction";
+	}
+	//상품관리 ->패키지 관광지 상세보기
+	@RequestMapping(value = "manageAttractionDetail")
+	public String manageAttractionDetail(ManagePackageDTO pk, String currentPage, Model model) {
+		List<ManagePackageDTO> attractionDetail = service.getAttractionDetail(pk);
+		pk.setCity_id(attractionDetail.get(0).getCity_id());
+		model.addAttribute("attractionDetail", attractionDetail);
+		List<ManageTicketDTO> countryList = service.getCountryList();
+		List<ManagePackageDTO>cityList = service.getCityList(pk);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("countryList", countryList);
+		model.addAttribute("cityList", cityList);
+		return "manager/manageAttractionDetail";
+	}
+	//상품관리 ->패키지 관광지 수정
+	@PostMapping(value = "updateAttraction")
+	public String updateAttraction(ManagePackageDTO pk, Model model) {
+		int result = service.updateAttraction(pk);
+		model.addAttribute("result", result); 
+		return "manager/updateAttraction";
+	}
+	
+	
+	//상품관리 -> 패키지 관광지 추가form으로 이동
+	@RequestMapping(value = "insertAttractionForm")
+	public String insertAttractionForm(Model model) {
+		List<ManageTicketDTO> countryList = service.getCountryList();
+		model.addAttribute("countryList", countryList);
+		return "manager/insertAttractionForm";
+	}
+	//상품관리 -> 패키지 관광지 추가
+	@RequestMapping(value = "insertAttraction")
+	public String insertAttraction(ManagePackageDTO pk,@RequestParam(value = "file1") MultipartFile file1, HttpServletRequest request, Model model) {
+		String path = request.getServletContext().getRealPath("/img/pkage/");
+		
+		System.out.println("realpath->"+path);
+		
+		//String path = "C:\\Users\\zest_\\Desktop\\ohTravel\\ohTravel\\src\\main\\resources\\static\\img\\ticket";
+		String fileName = "";
+		
+		UUID uuid = UUID.randomUUID();
+		fileName= file1.getOriginalFilename();
+		String uuFileName = uuid.toString()+"_"+file1.getOriginalFilename();
+		System.out.println("fileName=->"+fileName);
+		File saveFile = new File(path,uuFileName);
+		if (!saveFile.getParentFile().exists())
+			saveFile.getParentFile().mkdirs();
+		System.out.println(saveFile);
+		System.out.println("오냐??");
+		try {
+			file1.transferTo(saveFile);
+			System.out.println("와?");
+			System.out.println("path->"+path);
+			System.out.println("uuid->"+uuid);
+			System.out.println("fileName->"+fileName);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pk.setAttr_Img_path("/img/pkage/"+uuFileName);
+		System.out.println("child->"+pk.getAttr_Img_path());
+		
+		int result = service.insertAttraction(pk);
+		model.addAttribute("insertTicketMsg1", result);
+		return "forward:manageAttraction";
+	}
+	
+	
+	
 	//상품관리 ->항공권 상품 관리
 	@RequestMapping(value = "manageAirline")
 	public String manageAirline() {
@@ -159,20 +278,30 @@ public class ManagerController {
 	}
 	//상품관리 ->입장권 상품 관리
 	@RequestMapping(value = "manageTicket")
-	public String manageTicket(Model model) {
-		List<TicketDTO> ticketList = service.getTicketList();
+	public String manageTicket(ManageTicketDTO ticket,String currentPage, Model model) {
+		int total = service.totalTicket();
+		PagingManager page = new PagingManager(total, currentPage);
+		ticket.setStart(page.getStart());
+		ticket.setEnd(page.getEnd());
+		System.out.println("pa-"+page.getStart());
+		System.out.println("pa-"+page.getPageBlock());
+		List<ManageTicketDTO> ticketList = service.getTicketList(ticket);
 		model.addAttribute("ticketList", ticketList);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("page", page);
+		
 		return "manager/manageTicket";
 	}
 	//상품관리 ->입장권 상품상세 조회
 	@RequestMapping(value = "manageTicketDetail")
-	public String ticketDetail(TicketDTO ticket, Model model) {
-		List<TicketDTO>ticketDetail = service.getTicketDetail(ticket);
+	public String ticketDetail(ManageTicketDTO ticket,String currentPage, Model model) {
+		List<ManageTicketDTO>ticketDetail = service.getTicketDetail(ticket);
 		ticket.setCity_id(ticketDetail.get(0).getCity_id());
-		List<TicketDTO>countryList = service.getCountryList();
-		List<TicketDTO>cityList = service.getCityList(ticket);
+		List<ManageTicketDTO>countryList = service.getCountryList();
+		List<ManageTicketDTO>cityList = service.getCityList(ticket);
 		System.out.println(ticketDetail.get(0).getCity_id());
 		System.out.println("size->"+ticketDetail.size());
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("ticketDetail", ticketDetail);
 		model.addAttribute("countryList", countryList);
 		model.addAttribute("cityList", cityList);
@@ -182,25 +311,27 @@ public class ManagerController {
 	//상품관리 ->입장권 상세조회중 국가별 도시 셀렉문 Ajax
 	@ResponseBody
 	@RequestMapping(value = "changeCountry")
-	public List<TicketDTO> changeCountry(TicketDTO ticket) {
+	public List<ManageTicketDTO> changeCountry(ManageTicketDTO ticket) {
 		System.out.println("country_id-->"+ticket.getCountry_id());
 		
-		List<TicketDTO> ticketChangeCountry = service.getCityListChangeCountry(ticket);
+		List<ManageTicketDTO> ticketChangeCountry = service.getCityListChangeCountry(ticket);
 		return ticketChangeCountry;
 	}
 	//상품관리 ->입장권 추가하는 페이지로 이동
 	@RequestMapping(value = "insertTicketForm")
-	public String insertTicketForm(TicketDTO ticket, Model model) {
-		List<TicketDTO> countryList = service.getCountryList();
+	public String insertTicketForm(ManageTicketDTO ticket, Model model) {
+		List<ManageTicketDTO> countryList = service.getCountryList();
 		model.addAttribute("countryList", countryList);
 		return "manager/insertTicketForm";
 	}
 	//상품관리 -> 입장권 추가요
 	@PostMapping(value = "insertTicket")
-	public String insertTicket(TicketDTO ticket, List<MultipartFile> file1,Model model, HttpServletRequest request){
-//		String realPath = request.getServletContext().getRealPath("resource");
-//		System.out.println(realPath);
-		String path = "C:\\Users\\zest_\\Desktop\\ohTravel\\ohTravel\\src\\main\\resources\\static\\img\\ticket";
+	public String insertTicket(ManageTicketDTO ticket, List<MultipartFile> file1,Model model, HttpServletRequest request){
+		String path = request.getServletContext().getRealPath("/img/ticket/");
+		
+		System.out.println("realpath->"+path);
+		
+		//String path = "C:\\Users\\zest_\\Desktop\\ohTravel\\ohTravel\\src\\main\\resources\\static\\img\\ticket";
 		String fileName = "";
 		List<String> nameList = new ArrayList<String>();
 		for(MultipartFile file : file1) {
@@ -240,7 +371,7 @@ public class ManagerController {
 	
 	//상품관리 -> 입장권 수정하기
 	@PostMapping(value = "updateTicket")
-	public String updateTicket(TicketDTO ticket,@RequestParam(value = "file1") MultipartFile file1,@RequestParam(value = "file2")MultipartFile file2, Model model) {
+	public String updateTicket(ManageTicketDTO ticket,@RequestParam(value = "file1") MultipartFile file1,@RequestParam(value = "file2")MultipartFile file2, Model model) {
 		System.out.println("file1.getOriginalFilename() ->"+file1.getOriginalFilename());
 		System.out.println("file2.getOriginalFilename() ->"+file2.getOriginalFilename());
 		String path = "C:\\Users\\zest_\\Desktop\\ohTravel\\ohTravel\\src\\main\\resources\\static\\img\\ticket";
@@ -299,7 +430,7 @@ public class ManagerController {
 				e.printStackTrace();
 			}
 		}else if(file2.isEmpty()) {
-			ticket.setTicket_rep_img_path(service.getTicketDetail(ticket).get(0).getTicket_detail_img_path());
+			ticket.setTicket_detail_img_path(service.getTicketDetail(ticket).get(0).getTicket_detail_img_path());
 			System.out.println("empty detail path"+ticket.getTicket_detail_img_path());
 		}
 		int result = service.updateTicket(ticket);
@@ -309,7 +440,7 @@ public class ManagerController {
 	
 	//상품관리 -> 입장권 삭제하기
 	@PostMapping(value = "deleteTicket")
-	public String deleteTicket(TicketDTO ticket, Model model) {
+	public String deleteTicket(ManageTicketDTO ticket, Model model) {
 		int result = service.deleteTicket(ticket);
 		model.addAttribute("deleteTicketMsg1", result);
 		return "forward:manageTicket";
@@ -323,18 +454,25 @@ public class ManagerController {
 	}
 	//게시판관리 -> 공지사항관리
 	@RequestMapping(value = "manageNotice")
-	public String manageNotice(Model model) {
-		List<NoticeDTO> notice = service.getNoticeList();
-		model.addAttribute("notice", notice);
+	public String manageNotice(NoticeDTO notice, String currentPage, Model model) {
+		int total = service.totalNotice();
+		PagingManager page = new PagingManager(total, currentPage);
+		notice.setStart(page.getStart());
+		notice.setEnd(page.getEnd());
+		List<NoticeDTO> noticeList = service.getNoticeList(notice);
+		model.addAttribute("notice", noticeList);
+		model.addAttribute("totalEmp", total);
+		model.addAttribute("page", page);
 		
 		return "manager/manageNotice";
 	}
 	//게시판관리 - >공지사항 상세보기
 	@RequestMapping(value = "manageNoticeDetail")
-	public String noticeDetail(int notice_id ,Model model) {
+	public String noticeDetail(int notice_id ,String currentPage, Model model) {
 		System.out.println("Controller noticeDetail id ->" + notice_id);
 		List<NoticeDTO> noticeDetail = service.getNoticeDetail(notice_id);
 		model.addAttribute("noticeDetail", noticeDetail);
+		model.addAttribute("currentPage", currentPage);
 		return "manager/manageNoticeDetail";
 	}
 	//게시판관리 -> 공지사항 추가 폼으로 이동
