@@ -39,12 +39,16 @@ public class MemberController {
 		
 		if(res != null) {
 			session.setAttribute("res", res);
+			
 			return "redirect:/";
 		} else {
-			return "redirect:/member/login";
+			
+			return "redirect:/member/loginForm";
 		}
-		
 	}
+	
+	// 회원가입
+	@PostMapping("/createMember")
 	
 		
 	// 회원가입 페이지 이동

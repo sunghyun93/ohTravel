@@ -6,4 +6,5 @@ public interface MemberDao {
 
 	// 로그인
 	public MemberDTO login(MemberDTO memberDTO);
+	
 }
