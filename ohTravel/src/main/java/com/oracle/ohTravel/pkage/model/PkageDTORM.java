@@ -8,13 +8,13 @@ import lombok.Data;
 
 @Data
 public class PkageDTORM {
-	private Integer pkage_id;
-	private Integer city_id;
-	private String pkage_name;
-	private String pkage_info;
-	private Integer pkage_gubun;
-	private Integer pkage_soldCnt;
-	private double pkage_score;
+	private String pkage_id;		// 패키지 ID
+	private Integer city_id;		// 도시 ID
+	private String pkage_name;		// 패키지명
+	private String pkage_info;		// 패키지 정보
+	private Integer pkage_gubun;	// 해외 국내 여부
+	private Integer pkage_soldCnt;	// 판매개수
+	private double pkage_score;		// 평점
 	
 	// city
 	private CityDTO cityDTO;
@@ -29,5 +29,6 @@ public class PkageDTORM {
 	private int minPrice; 		// 패키지 상세들 중 최소가격
 	private int pkgDetailCnt;	// 관련 패키지 내의 detail 개수
 	private long[] days;	// 종합 일수
+	private int reviewCnt;	// 리뷰 개수
 	
 }

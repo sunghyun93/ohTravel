@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class Pkage_detailDTO {
 	private Integer pkage_dt_id;		// 패키지 상세 번호
-	private Integer pkage_id;			// 패키지 번호
+	private String pkage_id;			// 패키지 번호
 	private String pkage_dt_name;		// 패키지 상세 이름
 	private String pkage_dt_thema;		// 테마
 	private Integer pkage_dt_Aprice;	// 성인가격
