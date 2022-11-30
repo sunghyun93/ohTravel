@@ -22,7 +22,17 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public MemberDTO login(MemberDTO memberDTO) {
 		log.info("MemberServiceImpl login Start..");
+		
 		return memberDao.login(memberDTO);
+	}
+
+	// 회원가입
+	@Override
+	public int register(MemberDTO memberDTO) {
+		log.info("MemberServiceImpl register Start..");
+		int result = memberDao.register(memberDTO);
+		
+		return result;
 	}
 
 
