@@ -137,7 +137,7 @@
                     <img src="${hotelList.h_img_path}">
                   </div>
                   <div class="inr right route_type">
-                    <strong class="item_title eps2">${hotelList.hotel_kor}</strong>
+                    <a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}"><strong class="item_title eps2">${hotelList.hotel_kor}</strong></a>
                     <p class="item_text stit"><p>
                     <div class="info_bottom">
                       <div class="item_group">

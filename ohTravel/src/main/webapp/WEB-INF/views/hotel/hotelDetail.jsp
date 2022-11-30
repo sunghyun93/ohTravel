@@ -440,7 +440,7 @@ $(function(){
 // 이하 리뷰와 관련된 함수들 //
 
 
-// 페이지 로딩될 때 함수 바로 실행
+// 페이지 로딩될 때 리뷰 조회 함수 바로 실행
 $(function(){
 	getReviewList();
 })
@@ -526,6 +526,7 @@ function getReviewList(){
 	
 	// 각자의 상품 Id값 변수 선언을 이쪽에서
 	let hotelId = '${hotelDetail.hotel_id}'
+	console.log = hotelId
 	
 	$.ajax({
 		
@@ -570,7 +571,6 @@ function makeRow(datum) {
 	let innerHtml = ''
 
 	innerHtml += '<tr>'
-		innerHtml += '<input type="hidden" class="rv_sort" value="'+datum.rv_sort+'">'
 		innerHtml += '<input type="hidden" class="rv_id" value="'+datum.rv_id +'">'
 		innerHtml += '<td>'
 			innerHtml += '<span class="rv_date">'+datum.rv_date +'</span>'
@@ -625,7 +625,9 @@ function openUpdateModal(target){
 function writeReview(){
 	
 	// 유효성 검사
-	valid_chk();
+	if(!valid_chk()){
+		return false;
+	}
 	
 	// 가져가야할 data : 작성자 mem_id, rv_sort (하드코딩), rv_rating(별점), rv_contents(리뷰 내용), 
 	//				  rv_date (작성시점 : ReviewServiceImpl에서 해결), rv_real_id(상품id값)
@@ -633,11 +635,10 @@ function writeReview(){
 	let sendData = {
 					//TODO:나중에 세션?에 있는 정보로 읽어와야함
 					mem_id: 'test1',
-					rv_sort: '숙박',
 					rv_rating: ($('#starRate').val())/2, // starRate에서 10에 해당하는 값이 별점 5점이기 때문에 /2
 					rv_contents: $('#review-text').val(),
 					// 상품마다 rv_real_id값을 바꿔줘야함
-					rv_real_id: ${hotelDetail.hotel_id}
+					rv_real_id: '${hotelDetail.hotel_id}'
 	}
 	
 	
@@ -670,17 +671,19 @@ function writeReview(){
 function updateReview(){
 	
 	// 유효성 검사
-	valid_chk();
+	if(!valid_chk()){
+		return false;
+	}
+	
 	
 	let sendData = {
 			
 			rv_id : selectedRvId,
 			mem_id : 'test1',
-			rv_sort : '숙박',
 			rv_rating : ($('#starRate').val())/2,
 			rv_contents : $('#review-text').val(),
 			// 상품마다 rv_real_id값을 바꿔줘야함
-			rv_real_id : ${hotelDetail.hotel_id}
+			rv_real_id : '${hotelDetail.hotel_id}'
 			
 	}
 	

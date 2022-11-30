@@ -24,6 +24,7 @@ public class ReviewRestController {
 	//리뷰 목록 조회
 	@GetMapping(value = "/reviewList")
 	public List<ReviewDTO> reviewList(ReviewDTO reviewDTO) {
+		System.out.println("getReviewList Start...");
 		return rs.reviewSelect(reviewDTO);
 	}
 	

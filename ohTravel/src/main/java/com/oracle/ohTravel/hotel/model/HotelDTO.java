@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class HotelDTO {
 
-	private int hotel_id;
+	private String hotel_id;
 	private int city_id;
 	private String hotel_kor;
 	private String hotel_eng;
