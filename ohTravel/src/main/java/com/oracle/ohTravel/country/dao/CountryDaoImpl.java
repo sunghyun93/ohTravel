@@ -19,6 +19,7 @@ public class CountryDaoImpl implements CountryDao {
 	
 	private String namespace = "com.oracle.ohTravel.CountryMapper.";
 	
+//	country 입력받은 국가만 빼고 나머지 국가 가져오기
 	@Override
 	public List<CountryDTO> selectCountryByCountryId(Integer country_id) throws Exception {
 		log.info("CountryDaoImpl selectCountryByCountryId() start..."); 
@@ -27,11 +28,21 @@ public class CountryDaoImpl implements CountryDao {
 		return list;
 	}
 
+//	country 입력받은 한개의 국가만 가져오기
 	@Override
 	public List<CountryDTO> selectCountryByCountryId2(Integer country_id) throws Exception {
 		log.info("CountryDaoImpl selectCountryByCountryId2() start..."); 
 		List<CountryDTO> list = session.selectList(namespace+"selectCountryByCountryId2", country_id);
 		log.info("CountryDaoImpl selectCountryByCountryId2() end..."); 
 		return list;
+	}
+	
+//	도시 ID를 통한 국가 가져오기
+	@Override
+	public CountryDTO selectCountryByCityId(Integer city_id) throws Exception {
+		log.info("CountryDaoImpl selectCountryByCityId() start...");
+		CountryDTO dto = session.selectOne(namespace+"selectCountryByCityId", city_id);
+		log.info("CountryDaoImpl selectCountryByCityId() end...");
+		return dto;
 	}
 }

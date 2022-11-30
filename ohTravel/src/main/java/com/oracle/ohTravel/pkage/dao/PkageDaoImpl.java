@@ -1,5 +1,6 @@
 package com.oracle.ohTravel.pkage.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.pkage.model.PkageDTO;
+import com.oracle.ohTravel.pkage.model.PkageDTORM;
+import com.oracle.ohTravel.pkage.model.PkgSearch;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,5 +41,14 @@ public class PkageDaoImpl implements PkageDao {
 		log.info("PkageDaoImpl selectPkgByThemaSoldScoreOrder() end..."); 
 		return list;
 	}
+	
+//	패키지 검색시 관련 pkg 테이블들의 값 select
+	@Override
+	public List<PkageDTORM> selectPkgWithDetailAndFlight(Map<String, Object> map) throws Exception {
+		log.info("PkageDaoImpl selectPkgWithDetailAndFlight() start...");
+		log.info("PkageDaoImpl selectPkgWithDetailAndFlight() end...");
+		return session.selectList(namespace+"selectPkgWithDetailAndFlight", map);
+	}
+	
 
 }

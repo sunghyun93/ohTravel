@@ -17,11 +17,12 @@ public class HotelServiceImpl implements HotelService {
 	
 	@Override
 	public List<HotelDTO> hotelList(HotelDTO hoteldto) {
-		
-		List<HotelDTO> ListHotel = hd.hotelList(hoteldto);
-		
-		
-		return ListHotel;
+		return hd.hotelList(hoteldto);
+	}
+
+	@Override
+	public HotelDTO getHotelDetail(HotelDTO hotelDTO) {
+		return hd.getHotelDetail(hotelDTO);
 	}
 
 }

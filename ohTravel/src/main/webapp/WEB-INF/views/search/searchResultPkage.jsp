@@ -247,7 +247,7 @@ a {
 }
 
 .js_acc .view {
-	display: none;
+	display: block; /* 필터 항목 펼치기 */
 	padding: 20px;
 	border-bottom: 1px solid #eaeaea;
 	line-height: 24px;
@@ -782,13 +782,250 @@ prod_list_wrap .htl .btn.line {
 	color: black;
 }
 
+#toc-content {
+    display: none;
+  }
+  #toc-toggle {
+    cursor: pointer;
+    color: #2962ff;
+  }
+  #toc-toggle:hover {
+    text-decoration: underline;
+  }
+  
 </style>
+</head>
+<body>
+	<div class="js_tabs type1 no_division">
+		<ul class="tabs sort">
+			<li class="item01"><button id="all" class="item02">전체</button></li>
+	        <li class="item selected"><button id="pkage" class="item02">패키지</button></li>
+	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
+	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
+			<li class="item05"><button id="airplane" class="item02">항공</button></li>
+		</ul>
+	</div>
+	<div>
+		<div class="ly_wrap result_wrap">
+			<div class="inr">
+				<div class="js_acc multi filter_wrap">
+					<div class="inr">
+						<a href="#filter_con1" class="header">가격</a><!-- <span id="toc-toggle" onclick="toggle()">ㅇㅇ</span> -->
+						<div id="filter_con1" class="view">
+							<div class="form_wrap">
+								<span class="form_holder text">
+									<input type="checkbox" id="fprice_0" class="inpt_checkbox">
+									<label for="fprice_0" class="label_checkbox fprice_0">0~44만원</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox"id="fprice_1" class="inpt_checkbox">
+									<label for="fprice_1" class="label_checkbox fprice_1">44~90만원</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="fprice_2" class="inpt_checkbox">
+									<label for="fprice_2" class="label_checkbox fprice_2">90~141만원</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="fprice_3" class="inpt_checkbox">
+									<label for="fprice_3" class="label_checkbox fprice_3">141~1175만원</label>
+								</span>
+							</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$(".inpt_checkbox").click(function() {
+			let check = $(this).attr('id');
+			if($("input:checkbox[class=inpt_checkbox]").is(":checked")) {
+				alert("선택");
+				$("."+ check).css("border-color", "purple");
+				alert("check -> " + check);
+				console.log(check);
+				$.ajax({
+					url: "/pkageFilter",
+					data: {'check': check, 'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+					dataType: 'json',
+					success: function(data) {
+						console.log(data);
+						$.each(data, function(i) {
+							
+						});
+					}
+				});
+			} else {
+				alert("해제");
+				$("."+ check).css("border-color", "#c2c2c2");
+			}
+			
+			let chk_Val = [];
+			$("input:checkbox[class=inpt_checkbox]:checked").each(function(i,iVal) {
+				chk_Val.push(iVal);
+			});
+			console.log(chk_Val);
+		})
+	})
+
+</script>
+							<!-- <a href="#none" class="btn gray">직접입력</a> -->
+							<div class="form_wrap price" style="display: none;">
+								<div class="form_holder">
+									<input type="text" id="iptMinPrice" title="검색시작가격" value="0"
+										class="inpt_text txr" style="width: 103px;"> <span
+										class="divider">~</span> <input type="text"
+										id="iptMaxnPrice" title="검색끝가격" value="0"
+										class="inpt_text txr" style="width: 104px;">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="inr">
+						<a href="#filter_con3" class="header">여행기간</a>
+						<div id="filter_con3" class="view">
+							<div class="form_wrap">
+								<span class="form_holder text">
+									<input type="checkbox" id="score_0" class="inpt_checkbox">
+									<label for="score_0" class="label_checkbox score_0">7일</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="score_1" class="inpt_checkbox">
+									<label for="score_1" class="label_checkbox score_1">5일</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="score_2" class="inpt_checkbox">
+									<label for="score_2" class="label_checkbox score_2">4일</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="score_3" class="inpt_checkbox">
+									<label for="score_3" class="label_checkbox score_3">3일</label>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="inr">
+						<a href="#filter_con4" class="header">출발도시</a>
+						<div id="filter_con4" class="view">
+							<div class="form_wrap">
+								<span class="form_holder text"><input type="checkbox" id="kind_0" class="inpt_checkbox">
+								<label for="kind_0" class="label_checkbox">인천</label></span>
+								<span class="form_holder text">
+										<input type="checkbox" id="kind_1" class="inpt_checkbox">
+										<label for="kind_1" class="label_checkbox kind_1">부산</label>
+									</span>
+									<span class="form_holder text"><input type="checkbox"
+									id="kind_2" class="inpt_checkbox"> <label
+									for="kind_2" class="label_checkbox kind_2">대구</label></span><span
+									class="form_holder text"><input type="checkbox"
+									id="kind_3" class="inpt_checkbox"> <label
+									for="kind_3" class="label_checkbox kind_3">김포</label></span><span
+									class="form_holder text"><input type="checkbox"
+									id="kind_4" class="inpt_checkbox"> <label
+									for="kind_4" class="label_checkbox kind_4">양양</label></span><span
+									class="form_holder text"><input type="checkbox"
+									id="kind_5" class="inpt_checkbox"> <label
+									for="kind_5" class="label_checkbox kind_5">광주(무안)</label></span><span
+									class="form_holder text"><input type="checkbox"
+									id="kind_6" class="inpt_checkbox"> <label
+									for="kind_6" class="label_checkbox kind_6">제주</label></span>
+							</div>
+							<a href="#" class="more" style="display: none;">더보기</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="inr right">
+				<div class="filter_top mt0">
+					<p class="tit">
+						<span class="spr filter"></span>필터 <span class="notice_count">0</span>
+					</p>
+					<div class="inr">
+						<a href="#" class="btn"><span class="spr refresh10"></span>필터초기화
+						</a>
+					</div>
+				</div>
+				<div class="option_wrap result">
+					<span class="count">패키지<em>(${pkageListCount})</em></span>
+					<div class="right_cont">
+						<ul class="list_sort">
+							<li><a href="#">가격높은순</a></li>
+							<li><a href="#">가격낮은순</a></li>
+							<li><a href="#">성급 높은순</a></li>
+							<li><a href="#">성급 낮은순</a></li>
+							<li><a href="#">상품평 높은순</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="prod_list_wrap">
+					<ul class="type">
+						<c:forEach var="pkageList" items="${pkageList }" begin="0" end="19">
+						<li>
+							<div>
+								<div class="inr img">
+									<!---->
+									<div class="group_area">
+										<div></div>
+									</div>
+									<img src="${pkageList.pkage_Img_path }">
+								</div>
+								<div class="inr htl">
+									<div class="tag_group">
+										<!---->
+										<span class="attr">에어텔?</span> <span
+											class="attr star_value item_text">인천/김포출발??</span>
+									</div>
+									<div class="item_title eps2">
+										<strong>${pkageList.pkage_name}</strong>
+									</div>
+									<div class="info_bottom">
+										<div class="item_group">
+											<div class="score_htl_wrap">
+												<span class="icn star">${pkageList.pkage_score}</span>
+												<p class="txt">우수?</p>
+												<p class="txt">
+													<em>931개의 후기?</em>
+												</p>
+											</div>
+										</div>
+									</div>
+									<div class="price_group">
+										<p class="state"></p>
+										<strong class="price">${pkageList.min_price}<span>원~</span></strong>
+									</div>
+									<div class="btn_wrap">
+										<a href="#" class="btn line">판매상품보기</a>
+									</div>
+								</div>
+							</div>
+						</li>
+						</c:forEach>
+					</ul>
+				</div>
+				<div class="paginate_wrap">
+					<div class="paginate type2">
+						<div>
+							<c:if test="${page.startPage > page.pageBlock }">
+								<a href="search/searchResultPage?search_word=${search_word}&currentPage=${page.startPage - page.pageBlock }" class="direction prev">[이전]</a>
+							</c:if>
+							<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
+								<a href="search/searchResultPage?search_word=${search_word}&currentPage=${i}" class="current_page">[${i}]</a>
+							</c:forEach>
+							<c:if test="${page.startPage < page.pageBlock }">
+								<a href="search/searchResultPage?search_word=${search_word}&currentPage=${page.startPage + page.pageBlock }" class="direction next">[다음]</a>
+							</c:if>
+						</div>
+					</div>
+					<!---->
+				</div>
+				<!---->
+			</div>
+		</div>
+	</div>
+</body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script type="text/javascript">
 	
 	$(function() {
 		$('.item02').click(function() {
-			let gubun = $(this).attr('id');
+			let gubun = $(this).attr('id'); // 클릭한 애의 Id가 this에 들어옴 
+			console.log(gubun);
 			$.ajax({
 				url: '/searchCategoryAjax',
 				data: {'search_word' : $('#search_word').val(),
@@ -801,198 +1038,8 @@ prod_list_wrap .htl .btn.line {
 				}
 			})
 		});
-	})
+	});
 
+	
 </script>
-</head>
-<body>
-	<div class="container">
-		<div class="inr">
-			<div id="contents" class="contents">
-				<div class="js_tabs type1 no_division">
-					<ul class="tabs sort">
-						<li class="item01"><button id="all" class="item02">전체</button></li>
-				        <li class="item selected"><button id="pkage" class="item02">패키지</button></li>
-				        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
-				        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
-						<li class="item05"><button id="airplane" class="item02">항공</button></li>
-					</ul>
-				</div>
-				<div>
-					<div class="ly_wrap result_wrap" style="">
-						<div class="inr">
-							<div class="js_acc multi filter_wrap">
-								<div class="inr">
-									<a href="#filter_con1" class="header">가격</a>
-									<div id="filter_con1" class="view">
-										<div class="form_wrap">
-											<span class="form_holder text"><input type="checkbox"
-												id="fprice_0" class="inpt_checkbox"> <label
-												for="fprice_0" class="label_checkbox">0~44만원</label></span><span
-												class="form_holder text"><input type="checkbox"
-												id="fprice_1" class="inpt_checkbox"> <label
-												for="fprice_1" class="label_checkbox">44~90만원</label></span><span
-												class="form_holder text"><input type="checkbox"
-												id="fprice_2" class="inpt_checkbox"> <label
-												for="fprice_2" class="label_checkbox">90~141만원</label></span><span
-												class="form_holder text"><input type="checkbox"
-												id="fprice_3" class="inpt_checkbox"> <label
-												for="fprice_3" class="label_checkbox">141~1175만원</label></span>
-										</div>
-										<a href="#none" class="btn gray">직접입력</a>
-										<div class="form_wrap price" style="display: none;">
-											<div class="form_holder">
-												<input type="text" id="iptMinPrice" title="검색시작가격" value="0"
-													class="inpt_text txr" style="width: 103px;"> <span
-													class="divider">~</span> <input type="text"
-													id="iptMaxnPrice" title="검색끝가격" value="0"
-													class="inpt_text txr" style="width: 104px;">
-											</div>
-											<div class="btn_wrap">
-												<a href="#none" class="btn line full">검색</a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="inr">
-									<a href="#filter_con3" class="header">여행기간</a>
-									<div id="filter_con3" class="view">
-										<div class="form_wrap">
-											<span class="form_holder text"><input type="checkbox"
-												id="score_0" class="inpt_checkbox"> <!----> <!---->
-												<!----> <label for="score_0" class="label_checkbox">7일</label></span><span
-												class="form_holder text"><input type="checkbox"
-												id="score_1" class="inpt_checkbox"> <!----> <!---->
-												<label for="score_1" class="label_checkbox">5일</label> <!----></span><span
-												class="form_holder text"><input type="checkbox"
-												id="score_2" class="inpt_checkbox"> <!----> <label
-												for="score_2" class="label_checkbox">4일</label> <!---->
-												<!----></span><span class="form_holder text"><input
-												type="checkbox" id="score_3" class="inpt_checkbox">
-												<label for="score_3" class="label_checkbox">3일</label> <!---->
-												<!----> <!----></span>
-										</div>
-									</div>
-								</div>
-								<div class="inr">
-									<a href="#filter_con4" class="header">출발도시</a>
-									<div id="filter_con4" class="view">
-										<div class="form_wrap">
-											<span class="form_holder text"><input type="checkbox"
-												id="kind_0" class="inpt_checkbox"> <label
-												for="kind_0" class="label_checkbox">인천</label></span><span
-												class="form_holder text"><input type="checkbox"
-												id="kind_1" class="inpt_checkbox"> <label
-												for="kind_1" class="label_checkbox">부산</label></span><span
-												class="form_holder text"><input type="checkbox"
-												id="kind_2" class="inpt_checkbox"> <label
-												for="kind_2" class="label_checkbox">대구</label></span><span
-												class="form_holder text"><input type="checkbox"
-												id="kind_3" class="inpt_checkbox"> <label
-												for="kind_3" class="label_checkbox">김포</label></span><span
-												class="form_holder text"><input type="checkbox"
-												id="kind_4" class="inpt_checkbox"> <label
-												for="kind_4" class="label_checkbox">양양</label></span><span
-												class="form_holder text"><input type="checkbox"
-												id="kind_5" class="inpt_checkbox"> <label
-												for="kind_5" class="label_checkbox">광주(무안)</label></span><span
-												class="form_holder text"><input type="checkbox"
-												id="kind_6" class="inpt_checkbox"> <label
-												for="kind_6" class="label_checkbox">제주</label></span>
-										</div>
-										<a href="#" class="more" style="display: none;">더보기</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inr right">
-							<div class="filter_top mt0">
-								<p class="tit">
-									<span class="spr filter"></span>필터 <span class="notice_count">0</span>
-								</p>
-								<div class="inr">
-									<a href="#" class="btn"><span class="spr refresh10"></span>필터초기화
-									</a>
-								</div>
-							</div>
-							<div class="option_wrap result">
-								<span class="count">패키지<em>(${pkageListCount})</em></span>
-								<div class="right_cont">
-									<ul class="list_sort">
-										<li><a href="#">가격높은순</a></li>
-										<li><a href="#">가격낮은순</a></li>
-										<li><a href="#">성급 높은순</a></li>
-										<li><a href="#">성급 낮은순</a></li>
-										<li><a href="#">상품평 높은순</a></li>
-									</ul>
-								</div>
-							</div>
-							<div class="prod_list_wrap">
-								<ul class="type">
-									<c:forEach var="pkageList" items="${pkageList }" begin="0" end="19">
-									<li>
-										<div>
-											<div class="inr img">
-												<!---->
-												<div class="group_area">
-													<div></div>
-												</div>
-												<img src="${pkageList.pkage_Img_path }">
-											</div>
-											<div class="inr htl">
-												<div class="tag_group">
-													<!---->
-													<span class="attr">에어텔?</span> <span
-														class="attr star_value item_text">인천/김포출발??</span>
-												</div>
-												<div class="item_title eps2">
-													<strong>${pkageList.pkage_name}</strong>
-												</div>
-												<div class="info_bottom">
-													<div class="item_group">
-														<div class="score_htl_wrap">
-															<span class="icn star">${pkageList.pkage_score}</span>
-															<p class="txt">우수?</p>
-															<p class="txt">
-																<em>931개의 후기?</em>
-															</p>
-														</div>
-													</div>
-												</div>
-												<div class="price_group">
-													<p class="state"></p>
-													<strong class="price"> ${pkageList.pkage_dt_Aprice}최저가로 다시 <span>원~</span></strong>
-												</div>
-												<div class="btn_wrap">
-													<a href="#" class="btn line">판매상품보기</a>
-												</div>
-											</div>
-										</div>
-									</li>
-									</c:forEach>
-								</ul>
-							</div>
-							<div class="paginate_wrap" style="">
-								<div class="paginate type2">
-									<div>
-										<a href="#none" class="direction prevend"
-											style="display: none;">처음</a> <a href="#none"
-											class="direction prev" style="display: none;">이전</a> <span><strong>1</strong><a
-											href="#none">2</a><a href="#none">3</a><a href="#none">4</a><a
-											href="#none">5</a><a href="#none">6</a><a href="#none">7</a><a
-											href="#none">8</a><a href="#none">9</a><a href="#none">10</a></span>
-										<a href="#none" class="direction next" style="">다음</a> <a
-											href="#none" class="direction nextend" style="">끝</a>
-									</div>
-								</div>
-								<!---->
-							</div>
-							<!---->
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</body>
 </html>

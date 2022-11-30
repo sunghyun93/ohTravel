@@ -5,11 +5,19 @@
 <mapper namespace="com.oracle.ohTravel.ReviewMapper">
 
 	<select id="reviewList" resultType="Review">
-		SELECT (rv_id, mem_id, rv_sort, rv_rating, rv_contents, rv_real_id) 
+		SELECT rv_id, mem_id, rv_sort, rv_rating, rv_contents, rv_date, rv_real_id
 		FROM review
 		WHERE rv_real_id = #{rv_real_id}
 	
 	</select>
-
-
+	
+	<update id="updateReview" parameterType = "Review">
+		UPDATE review 
+		SET rv_rating = #{rv_rating},
+			rv_contents = #{rv_contents},
+			rv_date = now()
+		WHERE rv_id = #{rv_id}
+		AND mem_id = #{mem_id}
+		AND rv_real_id = #{rv_real_id}	
+	</update>	
 </mapper>

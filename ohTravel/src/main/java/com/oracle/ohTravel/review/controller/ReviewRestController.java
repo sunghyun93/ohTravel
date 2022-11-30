@@ -3,8 +3,9 @@ package com.oracle.ohTravel.review.controller;
 
 import java.util.List;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oracle.ohTravel.review.domain.Review;
@@ -15,17 +16,28 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(value = "/review")
 public class ReviewRestController {
 
 	private final ReviewService rs;
 	
 	@GetMapping(value = "/reviewList")
-	public List<ReviewDTO> reviewList(Model model, String rv_real_id) {
-		List<ReviewDTO> rvList = rs.reviewSelect(rv_real_id);
-		model.addAttribute("reviewList", rvList);
-		
-		return rvList;
+	public List<ReviewDTO> reviewList(ReviewDTO reviewDTO) {
+		return rs.reviewSelect(reviewDTO);
 	}
 	
+	@PostMapping(value = "/writeReview")
+	public String writeReview(Review review) {
+		return rs.writeReview(review);
+	}
 	
+	@PostMapping(value = "/updateReview")
+	public String updateReview(ReviewDTO reviewDTO) {
+		return rs.updateReview(reviewDTO);
+	}
+	
+	@PostMapping(value = "/deleteReview")
+	public String deleteReview(Review review) {
+		return rs.deleteReview(review);
+	}
 }

@@ -17,11 +17,15 @@ public class ReviewDAOImpl implements ReviewDAO {
 	
 	
 	@Override
-	public List<ReviewDTO> selectReview(String rv_real_id) {
+	public List<ReviewDTO> selectReview(ReviewDTO reviewDTO) {
+		return session.selectList("reviewList",reviewDTO);
+	}
 
-		List<ReviewDTO> reviewList = session.selectList("reviewList");
+
+	@Override
+	public void updateReview(ReviewDTO reviewDTO) {
 		
-		return reviewList;
+		session.update("updateReview", reviewDTO);
 	}
 
 }

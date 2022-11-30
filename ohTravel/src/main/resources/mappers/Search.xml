@@ -8,19 +8,118 @@
 		Select distinct td.ticket_id, city_id, ticket_name, ticket_adult_price, ti.ticket_rep_img_path, ti.ticket_detail_img_path
 		FROM (ticket_detail td left join ticket_img ti on td.ticket_id = ti.ticket_id)
 		Where ticket_name LIKe concat('%', #{search_word}, '%')
+		<if test="start != 0">
+			LIMIT #{start} OFFSET #{end}
+		</if>
 	</select> 
 
 	<select id="yqHotelList" parameterType="java.lang.String" resultType="Hotel">
-		Select distinct h.hotel_id, h.city_id, h.hotel_kor, c.city_name, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_score, hi.h_img_path
-		FROM (hotel h left join hotel_image hi on h.hotel_id = hi.hotel_id) left join city c on c.city_id = h.city_id
-		Where hotel_kor LIKe concat('%', #{search_word}, '%')
+		select h.hotel_id, h.hotel_kor, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price
+		FROM room r 
+		left join room_detail rd on r.room_id = rd.room_id left join hotel h on r.hotel_id = h.hotel_id 
+		group by h.hotel_id
+		HAving hotel_kor LIKe concat('%', #{search_word}, '%')
+		<if test="start != 0">
+			LIMIT #{start} OFFSET #{end}
+		</if>
 	</select>
 
 	<!-- 패키지 + 패키지 이미지 + 패키지 디테일 가져오기 -->
-	<select id="yqPkageList" parameterType="java.lang.String" resultType="PkageDTO">
-		Select distinct p.pkage_id, city_id, pkage_name, pkage_info, pkage_soldCnt, pkage_score, pkage_Img_path, pkage_dt_Aprice 
-		FROM (package p left join package_image pi on p.pkage_id = pi.pkage_id) left join package_detail pd on p.pkage_id = pd.pkage_id
+	<select id="yqPkageList" parameterType="PkageDTO" resultType="PkageDTO">
+		SELECT p.pkage_id, city_id, pkage_name, pkage_info, pkage_soldCnt, pkage_score, pi.pkage_Img_path, min_price
+		FROM package p left join package_image pi on p.pkage_id = pi.pkage_id 
+		left join (select distinct pkage_id, min(pkage_dt_Aprice) min_price from package_detail group by pkage_id) as pd on p.pkage_id = pd.pkage_id
+		Where pkage_name LIKe concat('%', #{search_word}, '%') 
+		<if test="start != 0">
+			LIMIT #{start} OFFSET #{end}
+		</if>
+	</select>
+	
+	<select id="yqFilteredPkageList" parameterType="PkageDTO" resultType="PkageDTO">
+		SELECT p.pkage_id, city_id, pkage_name, pkage_info, pkage_soldCnt, pkage_score, pi.pkage_Img_path, min_price
+		FROM package p left join package_image pi on p.pkage_id = pi.pkage_id 
+		left join (select distinct pkage_id, min(pkage_dt_Aprice) min_price from package_detail group by pkage_id) as pd on p.pkage_id = pd.pkage_id
 		Where pkage_name LIKe concat('%', #{search_word}, '%')
+		<choose>
+			<when test="check.equals('fprice_0')">
+				<![CDATA[
+				AND min_price >= 0 AND min_price <= 440000
+				]]>
+			</when>
+			<when test="check.equals('fprice_1')">
+				<![CDATA[
+				AND min_price >= 440000 AND min_price <= 900000
+				]]>
+			</when>
+			<when test="check.equals('fprice_2')">
+				<![CDATA[
+				AND min_price >= 900000 AND min_price <= 1410000
+				]]>
+			</when>
+			<when test="check.equals('fprice_3')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+			<when test="check.equals('score_0')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+			<when test="check.equals('score_1')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+			<when test="check.equals('score_2')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+			<when test="check.equals('score_3')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+			<when test="check.equals('kind_0')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+			<when test="check.equals('kind_1')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+			<when test="check.equals('kind_2')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+			<when test="check.equals('kind_3')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+			<when test="check.equals('kind_4')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+			<when test="check.equals('kind_5')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+			<when test="check.equals('kind_6')">
+				<![CDATA[
+				AND min_price >= 1410000 AND min_price <= 11750000
+				]]>
+			</when>
+		</choose>
+		<if test="start != 0">
+			LIMIT #{end} OFFSET #{start}
+		</if>
 	</select>
 
 </mapper>

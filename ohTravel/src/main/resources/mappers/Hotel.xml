@@ -7,6 +7,20 @@
 	<select id="hotelList" resultType="Hotel">
 		SELECT * FROM hotel 
 	</select>
-
-
+	
+	<select id="hotelDetail" resultType="Hotel">
+		SELECT * FROM hotel
+		WHERE hotel_id = #{hotel_id}
+	</select>
+	
+<!-- <insert id="">
+		
+		<selectKey keyColumn="next_id" keyProperty="hotelID" order="BEFORE" resultType="int">
+			select max(hotel_id)+1 as next_id
+			from hotel
+			where hotel_id like '%'+#{city_id}+'%'
+		</selectKey>
+		
+		insert into hotel(hotel_id) values (#{hotelID})
+	</insert> -->
 </mapper>

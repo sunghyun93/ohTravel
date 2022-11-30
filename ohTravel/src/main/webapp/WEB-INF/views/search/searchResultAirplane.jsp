@@ -6,66 +6,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-.container>.inr {
-	width: 1200px;
-	margin: 50px auto 0;
-}
-
-.contents {
-	min-height: 1000px;
-}
-
-.text_wrap.line.top {
-	padding-bottom: 18px;
-	margin-bottom: 18px;
-}
-
-.text_wrap.type.top {
-	margin: 0 0 20px;
-}
-
-.text_wrap.big {
-	margin-top: 60px;
-	margin-bottom: 30px;
-}
-
-.text_wrap.line {
-	border-bottom: 1px solid #ddd;
-	padding-bottom: 10px;
-}
-
-.text_wrap.type {
-	display: table;
-	width: 100%;
-}
-
-.text_wrap {
-	position: relative;
-	margin: 40px 0 0;
-	padding: 0;
-}
-
-.text_wrap.line.top strong.tit {
-	font-size: 24px;
-	font-weight: normal;
-	margin-bottom: 20px;
-}
-
-strong.tit {
-	display: table-cell;
-	vertical-align: middle;
-}
-
-.related_search {
-	font-size: 13px;
-	color: #666;
-	margin: 0 0 35px;
-}
-
-.related_search .tit {
-	color: #333;
-	display: inline-block;
-}
 
 ul, li {
 	list-style: none;
@@ -74,15 +14,6 @@ ul, li {
 a {
 	color: #333;
 	text-decoration: none;
-}
-
-.related_search ul {
-	margin-left: 5px;
-}
-
-.related_search ul, .related_search li {
-	display: inline-block;
-	margin-left: 18px;
 }
 
 .js_tabs {
@@ -180,238 +111,6 @@ a {
 	border-right: 1px solid black;
 }
 
-.ly_wrap {
-	width: 100%;
-}
-
-.result_wrap>.inr {
-	width: 240px;
-}
-
-.ly_wrap .inr {
-	width: 240px;
-	float: left;
-}
-
-.js_acc.filter_wrap {
-	margin-top: 0;
-}
-
-.js_acc {
-	border-top: 1px solid #eaeaea;
-}
-
-.js_acc.filter_wrap .inr {
-	float: none;
-	width: 100%;
-	padding-bottom: 9px;
-	border-bottom: 1px solid #eaeaea;
-}
-
-.js_acc.filter_wrap .header {
-	padding: 25px 25px 16px 0;
-	border-bottom: none;
-	font-size: 15px;
-	font-weight: 600;
-}
-
-.js_acc .header {
-	display: block;
-	position: relative;
-	border-bottom: 1px solid #eaeaea;
-	padding: 20px;
-	color: #111;
-}
-
-.js_acc.filter_wrap .header:after {
-	top: 26px;
-	right: 0;
-	width: 14px;
-	height: 10px;
-	background-position: -178px -30px;
-}
-
-.js_acc .header:after {
-	width: 20px;
-	height: 20px;
-	background-position: -143px -52px;
-	position: absolute;
-	top: 20px;
-	right: 20px;
-}
-
-.js_acc.filter_wrap .view {
-	border: none;
-	padding: 0 0 12px;
-}
-
-.js_acc .view {
-	display: none;
-	padding: 20px;
-	border-bottom: 1px solid #eaeaea;
-	line-height: 24px;
-}
-
-.form_holder.text {
-	margin: 4px 4px 4px 0;
-}
-
-span.form_holder {
-	display: inline-block;
-	margin-right: 20px;
-}
-
-.form_holder {
-	position: relative;
-	vertical-align: top;
-}
-
-.form_holder input[type='checkbox'], .form_holder input[type='radio'] {
-	position: absolute;
-	top: 0;
-	left: 0;
-	opacity: 0 !important;
-}
-
-button, input, textarea {
-	-webkit-border-radius: 0;
-	border-radius: 0;
-}
-
-.form_holder.text label {
-	z-index: 1;
-}
-
-.form_holder.text label {
-	padding: 5px 10px;
-	border: 1px solid #c2c2c2;
-	border-radius: 3px;
-	background-color: #fff;
-	font-size: 13px;
-	cursor: pointer;
-}
-
-.label_checkbox, .label_radio {
-	position: relative;
-	display: block;
-	line-height: 20px;
-	color: #333;
-	padding-left: 34px;
-	min-height: 24px;
-}
-
-.js_acc.filter_wrap .view .btn.gray {
-	margin: 4px 0;
-	height: 32px;
-	line-height: 30px;
-	font-size: 13px;
-}
-
-.btn.gray {
-	color: #fff !important;
-	border: solid 1px #5b606e;
-	background-color: #5b606e;
-}
-
-.result_wrap>.inr.right {
-	width: 900px;
-}
-
-.ly_wrap .inr.right {
-	float: right;
-}
-
-.filter_top {
-	margin-bottom: 30px;
-}
-
-.mt0 {
-	display: inline-block;
-	margin-top: 0px !important;
-}
-
-.filter_top .tit {
-	float: left;
-	width: 110px;
-	padding-top: 3px;
-	font-size: 17px;
-}
-
-p {
-	line-height: 1.5;
-}
-
-.spr.filter {
-	width: 17px;
-	height: 17px;
-	background-position: -58px -52px;
-}
-
-.spr, .paginate a.next, .paginate a.prev, .paginate a.prevend .paginate a.nextend {
-	display: inline-block;
-	content: '';
-	background-repeat: no-repeat;
-	background-image:
-		url(https://image.hanatour.com/usr/static/img2/pc/com/spr_com.png);
-}
-
-.filter_top .tit .notice_count {
-	margin-left: 4px;
-	font-size: 13px;
-	line-height: 24px;
-	vertical-align: middle;
-	width: 24px;
-	height: 24px;
-	background: #5e2bb8;
-}
-
-.notice_count {
-	display: inline-block;
-	text-align: center;
-	border-radius: 50%;
-	color: #fff;
-}
-
-.filter_sticky .filter_top .inr, .result_wrap .right .filter_top .inr {
-	width: 790px;
-	min-height: 40px;
-}
-
-.filter_top .inr {
-	width: 1090px;
-	float: left;
-	margin-top: 20px;
-}
-
-.option_wrap.result {
-	padding-bottom: 20px;
-	border-bottom: 1px solid #ddd;
-	color: #111;
-}
-
-.option_wrap {
-	position: relative;
-	padding: 0;
-}
-
-.its .option_wrap .count {
-	font-size: 17px;
-	color: #111;
-	font-weight: normal;
-}
-
-.option_wrap .count {
-	display: inline-block;
-	margin-right: 20px;
-	font-weight: 600;
-	font-size: 15px;
-	color: #111;
-}
-
-.its .option_wrap .count em {
-	font-size: 15px;
-}
-
 .item02 {
 	color: #333;
 	border: none;
@@ -422,366 +121,99 @@ p {
 	color: #5e2bb8;
 }
 
-.right_cont {
-	float: right;
+.flight_srch.type {
+    background-color: #f3f4f8;
+    border: none;
+    border-top: 1px solid #ddd;
+    box-shadow: none;
+    margin-bottom: 30px;
 }
 
-.list_sort li {
-	margin-left: 20px;
+.flight_srch {
+    background: #fff;
+    display: block;
+    border: 1px solid #ddd;
+    box-shadow: 3px 4px 4px 0px rgb(105 105 105 / 15%);
+    padding: 26px 30px 26px;
 }
 
-.list_sort>li {
-	float: left;
+.flight_srch.type .text_wrap.mid {
+    margin: 0 0 18px;
+}
+.text_wrap.mid {
+    margin-top: 40px;
+    margin-bottom: 24px;
+}
+.text_wrap {
+    position: relative;
+    margin: 40px 0 0;
+    padding: 0;
 }
 
-.prod_list_wrap {
-	width: 100%;
+.text_wrap.mid strong.tit {
+    font-size: 17px;
+    color: #111;
+    font-weight: 200;
+}
+.text_wrap strong.tit {
+    display: inline-block;
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 400;
+    color: #111;
 }
 
-.prod_list_wrap ul {
-	padding-left: 0;
+.flight_srch .row {
+    width: 1140px;
+    text-align: left;
+    position: relative;
+}
+.row {
+    display: table;
+    width: 100%;
+}
+.row {
+    display: table-row;
+}
+.row, .column, .flex {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.prod_list_wrap>ul>li:first-child {
-	margin-left: 0;
+.flight_srch .row .bowl {
+    float: left;
 }
 
-.prod_list_wrap .type>li {
-	width: 100%;
-	margin-left: 0;
-	padding: 30px 0 0;
-	border-bottom: 1px solid #ddd;
+.flight_srch .set, .flight_srch .btn {
+    background: #fff;
+    float: none;
+    height: 46px;
+    line-height: 46px;
+    border: 1px solid #c2c2c2;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 20px;
+    border-radius: 3px;
+    font-size: 15px;
+    color: #888;
+    text-align: left;
+    margin: 0;
 }
 
-.prod_list_wrap>ul>li {
-	position: relative;
-	float: left;
-	width: 320px;
-}
-
-.prod_list_wrap .type .inr {
-	width: 200px;
-	min-height: 200px;
-	overflow: hidden;
-	position: absolute;
-	top: 30px;
-	left: 0;
-}
-
-.prod_list_wrap .type .img {
-	height: 200px;
-}
-
-.prod_list_wrap .img {
-	width: 100%;
-	height: 210px;
-}
-
-.img {
-	display: inline-block;
-}
-
-.prod_list_wrap .img .group_area {
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	text-align: right;
-	z-index: 10;
-}
-
-.prod_list_wrap .img img, .prod_thum_list .img img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.img img {
-	display: block;
-}
-
-img {
-	max-width: 100%;
-	height: 100%;
-	vertical-align: top;
-}
-
-.inr.right .prod_list_wrap .type .inr.htl {
-	width: 676px;
-}
-
-.prod_list_wrap .type .inr.htl {
-	position: relative;
-	float: right;
-	width: 976px;
-	height: 230px;
-	margin-right: 0;
-	padding: 0 221px 0 0;
-	top: 0;
-}
-
-.tag_group>span.attr {
-	border: 1px solid #5b699c;
-	color: #5b699c;
-}
-
-.tag_group>span+span {
-	margin-left: 5px;
-}
-
-.tag_group>span {
-	background: #fff;
-}
-
-.tag, .tag_group>span, .badge {
-	display: inline-block;
-	padding: 0 6px;
-	height: 19px;
-	line-height: 17px;
-	font-size: 12px;
-}
-
-.prod_list_wrap .htl .item_text {
-	margin-top: 2px;
-}
-
-.prod_list_wrap .item_text {
-	max-height: 45px;
-}
-
-.prod_list_wrap .tag_group+.item_title, .prod_list_wrap .tag_group+.item_title2
-	{
-	margin-top: 8px;
-}
-
-.prod_list_wrap .item_title {
-	font-size: 20px;
-	color: #111;
-	font-weight: 600;
-	display: block;
-	line-height: 30px;
-}
-
-.tag_group+.item_title {
-	margin-top: 5px;
-	display: block;
-}
-
-.item_title {
-	font-size: 17px;
-	line-height: 27px;
-	color: #111;
-}
-
-
-
-.prod_list_wrap .item_title.sub {
-	font-size: 13px;
-	color: #888;
-	margin-top: 9px;
-	font-weight: normal;
-	line-height: 1;
-}
-
-.prod_list_wrap .info_group {
-    margin-top: 15px;
-}
-
-.prod_list_wrap .htl .item_text {
-    margin-top: 2px;
-}
-.prod_list_wrap .info_group p {
-    color: #333;
-}
-.prod_list_wrap .item_text {
-    max-height: 45px;
-    margin-top: 5px;
-    color: #333;
-}
-.item_text {
-    font-size: 14px;
-    color: #333;
-    line-height: 21px;
-}
-
-.item_text .icn {
-    padding-left: 27px;
-}
 .icn.pos {
     position: relative;
     padding-left: 17px;
 }
-.icn {
-    display: inline-block;
-    position: relative;
-}
 
-.item_text .icn:before {
+.flight_srch .set + .select_area, .flight_srch .bowl + .select_area, .flight_change .set + .select_area, .flight_change .bowl + .select_area {
+    display: none;
     position: absolute;
-    left: 3px;
-    top: 3px;
-    width: 14px;
-    height: 14px;
-}
-.icn.pos:before {
-    position: absolute;
-    left: 0;
-    top: 1px;
-    width: 13px;
-    height: 14px;
-    margin-right: 9px;
-    background-position: -135px 0;
-    vertical-align: middle;
-}
-
-.icn:before {
-    display: inline-block;
-    content: '';
-    background-repeat: no-repeat;
-    background-image: url(https://image.hanatour.com/usr/static/img2/pc/com/spr_icn.png);
-}
-
-.prod_list_wrap .htl .info_bottom {
+    top: 0;
     left: 0;
 }
-.prod_list_wrap .info_bottom {
-    position: absolute;
-    bottom: 30px;
-    left: 224px;
-    right: 0;
+.js_show_wrap {
+    z-index: 19;
 }
-
-.prod_list_wrap .htl .item_group {
-    margin-top: 0px;
-}
-
-.score_htl_wrap {
-    position: relative;
-    padding: 14px 0 0;
-    line-height: 21px;
-}
-
-.score_htl_wrap .icn.star {
-    color: #111;
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 16px;
-    vertical-align: middle;
-}
-
-.score_htl_wrap .icn.star+.txt {
-    margin-left: 5px;
-}
-.score_htl_wrap .txt {
-    display: inline-block;
-    color: #111;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 16px;
-    vertical-align: middle;
-}
-
-.txt {
-	margin-bottom: 0;
-}
-
-.prod_list_wrap .htl .price_group {
-    top: 30px;
-}
-.prod_list_wrap .type .price_group {
-    position: absolute;
-    top: 2px;
-    right: 0;
-    text-align: right;
-}
-
-.prod_list_wrap .htl .login_guide {
-    display: inline-block;
-    width: 140px;
-    text-align: center;
-    word-break: keep-all;
-    padding-left: 15px;
-}
-
-.prod_list_wrap .htl .btn_wrap {
-    width: auto;
-}
-.prod_list_wrap .htl .btn_wrap {
-    position: absolute;
-    right: 0;
-    bottom: 30px;
-    width: 170px;
-    text-align: right;
-}
-
-prod_list_wrap .htl .btn.line {
-    width: auto;
-}
-
-/* 페이징 */
-.paginate_wrap {
-    text-align: center;
-    position: relative;
-    margin-top: 15px;
-}
-.paginate_wrap .paginate {
-    display: inline-block;
-    margin: 0 auto;
-    padding: 15px 0;
-}
-.paginate_wrap .paginate.type2 a, .paginate_wrap .paginate.type2 strong {
-    padding: 0 7px;
-}
-.paginate a.prevend {
-    background-position: -30px 0;
-}
-.paginate a.prev {
-    margin: 0 15px 0 5px;
-    background-position: -61px 0;
-}
-.paginate_wrap .paginate.type2 a, .paginate_wrap .paginate.type2 strong {
-    padding: 0 7px;
-}
-.paginate strong {
-    /* width: 37px; */
-    height: 26px;
-    /* padding: 0; */
-    padding: 0 14px;
-    color: #5e2bb8;
-    text-align: center;
-}
-.paginate a, .paginate strong {
-    display: inline-block;
-    z-index: 2;
-    padding: 0 14px;
-    font-size: 14px;
-    color: #111;
-    vertical-align: middle;
-    line-height: 26px;
-}
-.paginate a.next {
-    margin: 0 5px 0 15px;
-    background-position: -92px 0;
-}
-.paginate .direction {
-    display: inline-block;
-    width: 26px;
-    height: 26px;
-    position: relative;
-    font-size: 0;
-    line-height: 0;
-    vertical-align: top;
-    padding: 0 !important;
-}
-.paginate a.nextend {
-    background-position: -123px 0;
-}
-
-#all {
-	color: black;
-}
-
-
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script type="text/javascript">
@@ -789,6 +221,7 @@ prod_list_wrap .htl .btn.line {
 	$(function() {
 		$('.item02').click(function() {
 			let gubun = $(this).attr('id');
+			console.log(gubun);
 			$.ajax({
 				url: '/searchCategoryAjax',
 				data: {'search_word' : $('#search_word').val(),
@@ -815,5 +248,25 @@ prod_list_wrap .htl .btn.line {
 			<li class="item05 selected"><button id="airplane" class="item02">항공</button></li>
 		</ul>
 	</div>
+	<div tab="air"><div class="flight_srch type"><div class="text_wrap mid"><strong class="tit">항공권 검색은 빠르게 </strong></div> <div class="row"><div class="bowl"><a href="#select_area" title="인천/김포" class="set js_show" style="overflow: hidden;"><span class="icn pos">SEL 인천/김포</span></a> <!----></div> <div class="js_show_wrap select_area dep"><input type="text" title="출발지" id="input_RT_dep" autocomplete="off" placeholder="인천/김포" data-target="#select_part" class="input_keyword"></div> <div class="mid_cell"><span class="move_arrow"></span></div> <div class="bowl"><a href="#select_area1" title="하네다 공항" class="set js_show" style="overflow: hidden;"><span class="icn pos">HND 하네다 공항</span></a> <!----></div> <div class="js_show_wrap select_area arr"><input type="text" title="도착지" id="input_RT_arr" autocomplete="off" placeholder="하네다 공항" data-target="#select_part" class="input_keyword"></div> <div><span class="form_holder text"><input type="checkbox" id="chk_01" class="inpt_checkbox"> <label for="chk_01" class="label_checkbox" style="margin-left: 8px;">직항</label></span></div> <div id="select_part" class="lypop_seach_local"><!----> <div class="btn_full_go" style="display: none;"><a href="#" class="txt arrow_r">전체지역 <em>전세계 항공권 쉽게 찾아보기</em> <span>예산에 맞는 항공권을 찾아보세요!</span></a></div> <p class="txt"><span class="exclam">지역이나 공항명으로 검색 가능합니다.</span></p> <div class="area_point"><div class="js_tabs place_list"><ul class="tabs"><li class="selected"><a href="#">국내</a></li><li class=""><a href="#">동남아</a></li><li class=""><a href="#">일본</a></li><li class=""><a href="#">중국</a></li><li class=""><a href="#">유럽</a></li><li class=""><a href="#">미주</a></li><li class=""><a href="#">대양주</a></li><li class=""><a href="#">캐나다</a></li><li class=""><a href="#">서남아</a></li><li class=""><a href="#">중남미</a></li><li class=""><a href="#">중동</a></li><li class=""><a href="#">아프리카</a></li></ul> <div class="panels place_scroll"><div id="place01" class="panel selected"><ul class="place_items"><li><a href="#"><span>제주
+                  <!----></span></a></li><li><a href="#"><span>부산
+                  <!----></span></a></li><li><a href="#"><span>김포
+                  <!----></span></a></li><li><a href="#"><span>인천
+                  <!----></span></a></li><li><a href="#"><span>광주
+                  <!----></span></a></li><li><a href="#"><span>양양
+                  <!----></span></a></li><li><a href="#"><span>여수
+                  <!----></span></a></li><li><a href="#"><span>포항
+                  <!----></span></a></li><li><a href="#"><span>울산
+                  <!----></span></a></li><li><a href="#"><span>군산
+                  <!----></span></a></li><li><a href="#"><span>원주
+                  <!----></span></a></li><li><a href="#"><span>대구
+                  <!----></span></a></li><li><a href="#"><span>청주
+                  <!----></span></a></li><li><a href="#"><span>무안
+                  <!----></span></a></li><li><a href="#"><span>진주
+                  <!----></span></a></li></ul></div></div></div></div> <div class="popup_footer_wrap"><div class="popup_btn_box"><a href="#" class="txt">닫기</a></div></div></div></div> <div class="row"><div class="bowl"><a href="#none" class="set ok"><span class="icn cal">11.29(화)</span></a></div> <span class="dash">~</span> <div class="bowl"><a href="#none" class="set ok"><span class="icn cal">11.29(화)</span></a></div> <div class="mid_cell"></div> <div class="bowl"><a href="#select_person" title="일반석" class="btn person js_show" style="overflow: hidden;"><span class="icn member">성인 1명</span> <span class="divider_dot"></span>일반석
+      </a></div> <a href="#none" class="btn big em">실시간 항공권 검색</a> <!----> <div id="select_tripstartdate" class="js_show_wrap lypop_calendar"><div class="ly_wrap"><div class="calendar_wrap"><a href="#none " class="prev off"><span class="blind">이전달</span></a> <a href="#" class="next"><span class="blind">다음달</span></a> <div class="inr"><div class="header"><span></span></div> <div class="calendar_area"><div class="week"><p class="sun">일</p> <p>월</p> <p>화</p> <p>수</p> <p>목</p> <p>금</p> <p class="sat">토</p></div> <div class="calendar"></div></div></div> <div class="inr right"><div class="header"><span></span></div> <div class="calendar_area"><div class="week"><p class="sun">일</p> <p>월</p> <p>화</p> <p>수</p> <p>목</p> <p>금</p> <p class="sat">토</p></div> <div class="calendar"></div></div></div></div> <!----></div> <div class="option_wrap"><input type="text" title="가는 날" placeholder="가는 날" readonly="readonly" class="inpt_text2 w130"> <!----> <!----> <button class="btn pink date_on">
+      
+      
+      <span class="divider_dot"> 선택완료</span></button></div></div> <div id="select_autocomplete" class="lypop_seach_local airpop" style="width: 410px;"><div class="city_search_list"><div class="notice"><strong>검색조건에 해당하는 결과가 없습니다.</strong> <p>다시 검색해주세요.</p></div></div> <div class="popup_footer_wrap"><div class="popup_btn_box"><a href="#" class="txt">닫기</a></div></div></div></div></div> <div class="related_search">원하는 도시의 실시간 항공권을 검색해보세요 !</div></div>
 </body>
 </html>

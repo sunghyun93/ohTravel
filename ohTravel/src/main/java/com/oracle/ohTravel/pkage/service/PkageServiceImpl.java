@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oracle.ohTravel.pkage.dao.PkageDao;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
+import com.oracle.ohTravel.pkage.model.PkageDTORM;
+import com.oracle.ohTravel.pkage.model.PkgSearch;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,5 +34,12 @@ public class PkageServiceImpl implements PkageService {
 		List<PkageDTO> list = pkageDao.selectPkgByThemaSoldScoreOrder(map);
 		log.info("PkageServiceImpl selectPkgByThemaSoldScoreOrder() end...");
 		return list;
+	}
+	
+	@Override
+	public List<PkageDTORM> selectPkgWithDetailAndFlight(Map<String, Object> map) throws Exception {
+		log.info("PkageServiceImpl selectPkgByThemaSoldScoreOrder() start...");
+		log.info("PkageServiceImpl selectPkgByThemaSoldScoreOrder() end...");
+		return pkageDao.selectPkgWithDetailAndFlight(map);
 	}
 }
