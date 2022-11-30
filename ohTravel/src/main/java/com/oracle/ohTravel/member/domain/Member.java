@@ -14,6 +14,7 @@ import lombok.Data;
 public class Member{
 	@Id
 	private String mem_id;
+	private String mem_name;
 	private String mem_password;
 	private String mem_email;
 	private String mem_tel;

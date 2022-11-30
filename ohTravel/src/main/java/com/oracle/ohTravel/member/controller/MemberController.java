@@ -5,9 +5,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.service.MemberService;
@@ -45,12 +47,21 @@ public class MemberController {
 		}
 		
 	}
-	
 		
 	// 회원가입 페이지 이동
 	@GetMapping(value = "/memberForm") 
 	public String goMemberForm() {
 		return "member/memberForm";
+	}
+	
+	// 회원가입
+	@PostMapping("/register") 
+	public ModelAndView register(MemberDTO memberDTO) {
+		log.info("MemberController register Start... ");
+		ModelAndView mav = new ModelAndView();
+		memberService.register(memberDTO);
+		mav.setViewName("redirect:/member/loginForm");
+		return mav;
 	}
 	
 	// 아이디 찾기 페이지 이동
