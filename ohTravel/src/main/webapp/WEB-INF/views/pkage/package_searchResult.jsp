@@ -112,16 +112,19 @@
                             	${pkgSearch.country } 패키지 ${pkgCnt }개
                         </span>
                         <div class="right_cont">
-                            <ul class="list_sort">
-                                <li class="on"><a href="#none">구매순</a></li>
-                                <li class=""><a href="#none">평점순</a></li>
-                                <li class=""><a href="#none">높은 가격순</a></li>
-                                <li class=""><a href="#none">낮은 가격순</a></li>
-                            </ul>
+                        	<c:if test="${pkgCnt > 0 }">
+	                            <ul class="list_sort">
+	                                <li class="on"><a href="#none">구매순</a></li>
+	                                <li class=""><a href="#none">평점순</a></li>
+	                                <li class=""><a href="#none">높은 가격순</a></li>
+	                                <li class=""><a href="#none">낮은 가격순</a></li>
+	                            </ul>
+                            </c:if>
                         </div>
                     </div><!-- option_wrap result -->
 
                     <!-- 상품 패키지 설명부분 및 상세 부분 -->
+                  <c:if test="${pkgCnt > 0 }">
                     <div class="prod_list_wrap">
                         <ul class="type">
                         	<c:forEach var="pkageDTORm" items="${pkageDTORmlist }" varStatus="status">
@@ -175,7 +178,7 @@
 	                                        <div class="prod_list_wrap">
 	                                            <ul class="type">
 	                                            	<c:forEach var="pkgDetail" items="${pkageDTORm.pkage_detailDTOList }">
-		                                                <li>
+		                                                <li data-pkgDetailId="${pkgDetail.pkage_dt_id }">
 		                                                    <div class="inr">
 		                                                        <div class="tag_group">
 		                                                            <span class="attr">${pkgDetail.pkage_dt_thema }</span> 
@@ -243,7 +246,7 @@
                     </div> <!-- prod_list_wrap -->
 
                     <!-- 페이지 네비게이션 부분 -->
-                    <div class="paginate_wrap">
+                    <!-- <div class="paginate_wrap">
                         <div class="paginate">
                             <div>
                                 <a href="#none" class="direction prev">이전</a>
@@ -262,8 +265,10 @@
                                 <a href="#none" class="direction next">다음</a>
                             </div>
                         </div>
-                    </div> <!-- paginate_wrap -->
-
+                    </div> paginate_wrap -->
+				</c:if>
+				
+				<c:if test="${pkgCnt == 0 }">
                     <!-- 만약 상품이 아예 없을 때 (페이지 네비게이션 display none 으로 만들어라)-->
                     <div class="data_no type">
                         <div class="cont">
@@ -271,6 +276,7 @@
                             <span>필터를 변경해보거나, 다른 날짜를 검색해보세요</span>
                         </div>
                     </div>
+                </c:if>
                 </div><!-- inr right -->
             </div><!-- ly_wrap result_wrap -->
         </div> <!-- pk_contents -->
