@@ -156,7 +156,7 @@
 	                                    </p>
 	                                    <div class="item_group">
 	                                        <span class="icn star">${pkageDTORm.pkage_score }</span>
-	                                        <span class="icn balloon">56</span>
+	                                        <span class="icn balloon">${pkageDTORm.reviewCnt }</span>
 	                                    </div>
 	                                    <div class="price_group">
 	                                        <strong class="price">

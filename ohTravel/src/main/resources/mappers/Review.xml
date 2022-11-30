@@ -20,4 +20,9 @@
 		AND mem_id = #{mem_id}
 		AND rv_real_id = #{rv_real_id}	
 	</update>	
+	
+	<!-- 리뷰 개수 가져오는 select 문 -->
+	<select id="reviewCnt" parameterType="String" resultType="int">
+		select count(*) from review where rv_real_id = #{rv_real_id}
+	</select>
 </mapper>
