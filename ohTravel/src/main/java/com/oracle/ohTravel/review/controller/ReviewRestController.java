@@ -38,6 +38,8 @@ public class ReviewRestController {
 	
 	@PostMapping(value = "/deleteReview")
 	public String deleteReview(Review review) {
+		System.out.println("deleteReview controller Start...");
+		System.out.println("deleteReview controller review.getRv_id()->"+review.getRv_id());
 		return rs.deleteReview(review);
 	}
 }

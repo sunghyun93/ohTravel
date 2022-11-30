@@ -490,6 +490,31 @@ $(function(){
 })
 
 
+function valid_chk(){
+	
+	let rvContents = $('#review-text').val();
+	let rvScore = $('#starRate').val();
+	let isValid = true;
+	
+	if(rvContents == ""){
+		
+		alert('내용을 입력해주세요')
+		rvContents.focus();
+		isValid = false;
+		
+	} else if (rvScore == "0") {
+		
+		alert('별점을 선택해주세요')
+		rvScore.focus();
+		isValid = false;
+		
+	}
+	
+	return isValid;
+}
+
+
+
 
 function openModal() {
 	// 모달창 열기 
@@ -600,6 +625,11 @@ function makeRow(datum) {
 			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
 			//if(aaaa) {	
 				innerHtml += '<button type="button" class="rv_modify genric-btn primary ela" onclick="openUpdateModal(this)">수정</button>'
+			//}
+		innerHtml += '</td>'
+		innerHtml += '<td>'
+			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
+			//if(aaaa) {	
 				innerHtml += '<button type="button" class="rv_delete genric-btn primary ela" onclick="deleteReview(this)">삭제</button>'
 			//}
 		innerHtml += '</td>'
@@ -612,8 +642,10 @@ function makeRow(datum) {
 // 리뷰 등록 ajax
 function writeReview(){
 	
-	// 가져가야할 data : 작성자 mem_id, rv_sort (하드코딩), rv_rating(별점), rv_contents(리뷰 내용), rv_date (작성시점 : service에서 해결), rv_real_id(상품id값)
 	
+	valid_chk();
+	
+	// 가져가야할 data : 작성자 mem_id, rv_sort (하드코딩), rv_rating(별점), rv_contents(리뷰 내용), rv_date (작성시점 : service에서 해결), rv_real_id(상품id값)
 	let sendData = {
 					//나중에 세션?에 있는 정보로 읽어와야함
 					mem_id: 'test1',
@@ -652,6 +684,8 @@ function writeReview(){
 // 리뷰 수정 ajax
 function updateReview(){
 	
+	
+	valid_chk();
 	
 	let sendData = {
 			
@@ -726,9 +760,15 @@ function deleteReview(target){
 			
 			url:"${pageContext.request.contextPath }/review/deleteReview",
 			data: selectedRvId,
+			data:{rv_id : selectedRvId},
 			type: 'post',
-			success: 
+			success: function(result){
 				alert("리뷰가 삭제되었습니다.")
+				//랜더링 함수 호출
+				getReviewList();
+				
+			}
+				
 	});
 	
 	
