@@ -6,11 +6,14 @@ import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
 import com.oracle.ohTravel.manager.dto.NoticeDTO;
-import com.oracle.ohTravel.manager.dto.TicketDTO;
+import com.oracle.ohTravel.manager.dto.ManagePackageDTO;
+import com.oracle.ohTravel.manager.dto.ManageTicketDTO;
 
 public interface ManagerDAO {
 
-	List<MemberDTO> getMemberList();
+	int totalMember();
+	
+	List<MemberDTO> getMemberList(MemberDTO member);
 
 	List<MembershipDTO> getMembershipList();
 
@@ -30,7 +33,7 @@ public interface ManagerDAO {
 
 	int insertMembership(MembershipDTO membership);
 
-	List<NoticeDTO> getNoticeList();
+	List<NoticeDTO> getNoticeList(NoticeDTO notice);
 
 	List<NoticeDTO> getNoticeDetail(int notice_id);
 
@@ -52,20 +55,46 @@ public interface ManagerDAO {
 
 	int insertCoupon(CouponDTO coupon);
 
-	List<TicketDTO> getTicketList();
+	List<ManageTicketDTO> getTicketList(ManageTicketDTO ticket);
 
-	List<TicketDTO> getTicketDetail(TicketDTO ticket);
+	List<ManageTicketDTO> getTicketDetail(ManageTicketDTO ticket);
 
-	List<TicketDTO> getCountryList();
+	List<ManageTicketDTO> getCountryList();
 
-	List<TicketDTO> getCityList(TicketDTO ticket);
+	List<ManageTicketDTO> getCityList(ManageTicketDTO ticket);
 
-	List<TicketDTO> getCityListChangeCountry(TicketDTO ticket);
+	List<ManageTicketDTO> getCityListChangeCountry(ManageTicketDTO ticket);
 
-	int updateTicket(TicketDTO ticket);
+	int updateTicket(ManageTicketDTO ticket);
 
-	int insertTicket(TicketDTO ticket);
+	int insertTicket(ManageTicketDTO ticket);
 
-	int deleteTicket(TicketDTO ticket);
+	int deleteTicket(ManageTicketDTO ticket);
+
+	int totalTicket();
+
+	int totalNotice();
+
+	int totalPackage();
+
+	List<ManagePackageDTO> getPackageList(ManagePackageDTO pk);
+
+	List<ManagePackageDTO> getPackageDetail(ManagePackageDTO pk);
+
+	int totalPackageDetail(ManagePackageDTO pk);
+
+	List<ManagePackageDTO> getAttractionList();
+
+	int totalAttraction();
+
+	int insertAttraction(ManagePackageDTO pk);
+
+	List<ManagePackageDTO> getAttractionDetail(ManagePackageDTO pk);
+
+	List<ManagePackageDTO> getCityList(ManagePackageDTO pk);
+
+	int updateAttraction(ManagePackageDTO pk);
+
+
 
 }

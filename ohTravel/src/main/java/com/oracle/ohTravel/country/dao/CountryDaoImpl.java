@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.country.model.CountryDTO;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository

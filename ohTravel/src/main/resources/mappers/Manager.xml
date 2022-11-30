@@ -6,86 +6,161 @@
 	<!-- ===================================================================================================================== -->
 	<!-- 회원관리 - 회원/등급관련 -->
 
+	<select id="totalMember" resultType="int">
+		SELECT COUNT(*) FROM member
+	</select>
+
 	<!-- 모든 맴버보기 -->
-	<select id="MemberList" resultType="Member">
-		SELECT * FROM member
+	<select id="memberList" parameterType="Member" resultType="Member">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (select m.* from member m) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
 	</select>
 	<!-- 모든 등급 보기 -->
-	<select id="MembershipList" resultType="Membership">
+	<select id="membershipList" resultType="Membership">
 		SELECT * FROM membership
 	</select>
 	<!-- 맴버상세보기 조인된 컬럼까지 모두 -->
-	<select id="GetUserDetail" parameterType="Membership" resultType="Membership">
+	<select id="getUserDetail" parameterType="Membership" resultType="Membership">
 		select m.*,mm.mem_mile,mm.membership_id,ms.membership_name from member m inner join mem_membership mm on m.mem_id=mm.mem_id inner join membership ms on mm.membership_id=ms.membership_id WHERE m.mem_id=#{mem_id}
 	</select>
 	<!-- 맴버한명의 권한 수정 -->
-	<update id="UpdateUserRole" parameterType="Membership">
+	<update id="updateUserRole" parameterType="Membership">
 		UPDATE member SET mem_role = #{mem_role} WHERE mem_id=#{mem_id}
 	</update>
 	<!-- 맴버 한명의 등급변경 -->
-	<update id="UpdateUserMemName" parameterType="Membership">
+	<update id="updateUserMemName" parameterType="Membership">
 		UPDATE mem_membership SET membership_id = #{membership_id} WHERE mem_id=#{mem_id}
 	</update>
 	<!-- 유저 삭제 -->
-	<delete id="DeleteUser" parameterType="Member">
+	<delete id="deleteUser" parameterType="Member">
 		DELETE FROM member where mem_id = #{mem_id}
 	</delete>
 	<!-- 등급상세보기 -->
-	<select id="GetMembershipDetail" parameterType="Membership" resultType="Membership">
+	<select id="getMembershipDetail" parameterType="Membership" resultType="Membership">
 		SELECT * FROM membership WHERE membership_id=#{membership_id}
 	</select>
-	<update id="UpdateMembership" parameterType="Membership">
+	<update id="updateMembership" parameterType="Membership">
 		UPDATE membership SET membership_name=#{membership_name}, membership_mile=#{membership_mile}, membership_discount=#{membership_discount} WHERE membership_id=#{membership_id}
 	</update>
-	<delete id="DeleteMembership" parameterType="Membership">
+	<delete id="deleteMembership" parameterType="Membership">
 		DELETE FROM membership WHERE membership_id=#{membership_id}
 	</delete>
-	<insert id="InsertMembership" parameterType="Membership">
+	<insert id="insertMembership" parameterType="Membership">
 		INSERT INTO membership(membership_name,membership_mile,membership_discount) values(#{membership_name},#{membership_mile},#{membership_discount})
 	</insert>
 	
 	<!-- ===================================================================================================================== -->
 	<!-- 공지사항관련 -->
-	<select id="GetNoticeList" resultType="Notice">
-		SELECT * FROM notice order by notice_id desc
+	<select id="totalNotice" resultType="int">
+		SELECT COUNT(*) FROM notice
 	</select>
-	<select id="GetNoticeDetail" parameterType="java.lang.Integer" resultType="Notice">
+	<select id="getNoticeList" parameterType="Notice" resultType="Notice">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (select n.* FROM notice n order by notice_id desc) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	<select id="getNoticeDetail" parameterType="java.lang.Integer" resultType="Notice">
 		SELECT * FROM notice WHERE notice_id = #{notice_id}
 	</select>
-	<update id="UpdateNotice" parameterType="Notice">
+	<update id="updateNotice" parameterType="Notice">
 		UPDATE notice SET notice_title=#{notice_title}, notice_content=#{notice_content} WHERE notice_id=#{notice_id}
 	</update>
-	<delete id="DeleteNotice" parameterType="Notice">
+	<delete id="deleteNotice" parameterType="Notice">
 		DELETE FROM notice WHERE notice_id=#{notice_id}
 	</delete>
-	<insert id="InsertNotice" parameterType="Notice">
+	<insert id="insertNotice" parameterType="Notice">
 		INSERT INTO notice(notice_title, notice_content, notice_writer, notice_write_date) values(#{notice_title},#{notice_content},#{notice_writer},current_timestamp())
 	</insert>
 	<!-- ===================================================================================================================== -->
-	<select id="GetTicketList" resultType="Ticket">
-		SELECT * FROM ticket_detail
+	<!-- 패키지관련 -->
+	<select id="totalPackage" resultType="int">
+		SELECT COUNT(*) FROM package
 	</select>
-	<select id="GetTicketDetail" parameterType="Ticket" resultType="Ticket">
-		select td.*,ti.ticket_rep_img_path,ti.ticket_detail_img_path,c.city_id,c.city_name,co.country_name from ticket_detail td inner Join ticket_img ti on td.ticket_id = ti.ticket_id inner join city c on td.city_id = c.city_id inner join country co on c.country_id = co.country_id WHERE td.ticket_id=#{ticket_id}
+	<select id="getPackageList" parameterType="Package" resultType="Package">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (select p.* FROM package p order by pkage_id desc) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
 	</select>
-	<select id="GetCountryList" resultType="Ticket">
-		SELECT * FROM country
+	<select id="getPackageDetail" parameterType="Package" resultType="Package">
+		select p.*,pi.pkage_img_id, pi.pkage_img_path, pd.pkage_dt_id,pd.pkage_dt_name,pd.pkage_dt_thema,pd.pkage_dt_aprice,pd.pkage_dt_cprice,pd.pkage_dt_cnt,pd.pkage_dt_mcnt,pd.pkage_dt_rcnt,pd.pkage_dt_gname,pd.pkage_dt_meet,pd.pkage_dt_meetdate from package p, package_image pi, package_detail pd where p.pkage_id=pi.pkage_id AND p.pkage_id=pd.pkage_id AND pd.pkage_id=#{pkage_id}
 	</select>
-	<select id="GetCityList" resultType="Ticket">
+	<select id="totalPackageDetail" parameterType="Package" resultType="int">
+		select count(*) from package p, package_image pi, package_detail pd where p.pkage_id=pi.pkage_id AND p.pkage_id=pd.pkage_id AND pd.pkage_id=#{pkage_id};
+	</select>
+	<select id="totalAttraction" resultType="int">
+		SELECT count(*) FROM attraction att, attraction_image ai where att.attr_id = ai.attr_id;
+	</select>
+	<select id="getAttractionList" resultType="Package">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT att.*,ai.attr_img_code,ai.attr_Img_path FROM attraction att, attraction_image ai where att.attr_id = ai.attr_id) a, (select @rownum := 0) rownum) b WHERE rn >= 1 and rn <= 10
+		]]>
+	</select>
+	<insert id="insertAttraction" parameterType="Package">
+		INSERT INTO attraction(attr_id,city_id,attr_name,attr_ename,attr_info) VALUES(#{attr_id},#{city_id},#{attr_name},#{attr_ename},#{attr_info});
+		INSERT INTO attraction_image(attr_id,attr_img_path) VALUES(#{attr_id},#{attr_Img_path});
+	</insert>
+	<select id="getAttractionDetail" parameterType="Package" resultType="Package">
+		SELECT a.*,ai.attr_img_code,ai.attr_id,ai.attr_Img_path FROM attraction a, attraction_image ai where a.attr_id = ai.attr_id AND a.attr_id=#{attr_id};
+	</select>
+	<select id="getCityListPk" resultType="Package">
 		select * from city where country_id = (select country_id from country where country_id=(select country_id from country WHERE country_id=(select country_id from city where city_id=#{city_id})));
 	</select>
-	<select id="GetCityListChangeCountry" parameterType="Ticket" resultType="Ticket">
+	<update id="updateAttraction">
+		UPDATE attraction a, attraction_image ai SET td.city_id=#{city_id},td.ticket_name=#{ticket_name},td.ticket_sales_cnt=#{ticket_sales_cnt},td.ticket_location=#{ticket_location},td.ticket_score=#{ticket_score},td.ticket_due_date=#{ticket_due_date},td.ticket_adult_price=#{ticket_adult_price},td.ticket_child_price=#{ticket_child_price},ti.ticket_rep_img_path=#{ticket_rep_img_path},ti.ticket_detail_img_path=#{ticket_detail_img_path} WHERE td.ticket_id=#{ticket_id} AND ti.ticket_id=#{ticket_id}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 입장권관련 -->
+	<select id="totalTicket" resultType="int">
+		SELECT COUNT(*) FROM ticket_detail
+	</select>
+	
+	<select id="getTicketList" parameterType="Ticket" resultType="Ticket">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (select t.* from ticket_detail t) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	<select id="getTicketDetail" parameterType="Ticket" resultType="Ticket">
+		select td.*,ti.ticket_rep_img_path,ti.ticket_detail_img_path,c.city_id,c.city_name,co.country_name from ticket_detail td inner Join ticket_img ti on td.ticket_id = ti.ticket_id inner join city c on td.city_id = c.city_id inner join country co on c.country_id = co.country_id WHERE td.ticket_id=#{ticket_id}
+	</select>
+	<select id="getCountryList" resultType="Ticket">
+		SELECT * FROM country
+	</select>
+	<select id="getCityList" resultType="Ticket">
+		select * from city where country_id = (select country_id from country where country_id=(select country_id from country WHERE country_id=(select country_id from city where city_id=#{city_id})));
+	</select>
+	<select id="getCityListChangeCountry" parameterType="Ticket" resultType="Ticket">
 		SELECT * FROM city WHERE country_id=#{country_id}
 	</select>
-	<update id="UpdateTicket">
+	<update id="updateTicket">
 		UPDATE ticket_detail td, ticket_img ti SET td.city_id=#{city_id},td.ticket_name=#{ticket_name},td.ticket_sales_cnt=#{ticket_sales_cnt},td.ticket_location=#{ticket_location},td.ticket_score=#{ticket_score},td.ticket_due_date=#{ticket_due_date},td.ticket_adult_price=#{ticket_adult_price},td.ticket_child_price=#{ticket_child_price},ti.ticket_rep_img_path=#{ticket_rep_img_path},ti.ticket_detail_img_path=#{ticket_detail_img_path} WHERE td.ticket_id=#{ticket_id} AND ti.ticket_id=#{ticket_id}
 	</update>
-	<insert id="InsertTicket" parameterType="Ticket">
+	<insert id="insertTicket" parameterType="Ticket">
+		<selectKey resultType="String" keyProperty="ticket_id" order="BEFORE">
+			select concat('ti',ifnull(max(right(ticket_id,6))+1,#{city_id}001)) from ticket_detail WHERE ticket_id like concat('%',#{city_id},'%');
+		</selectKey>
 		INSERT INTO ticket_detail(ticket_id,city_id,ticket_name,ticket_sales_cnt,ticket_location,ticket_score,ticket_due_date,ticket_adult_price,ticket_child_price) values(#{ticket_id},#{city_id},#{ticket_name},0,#{ticket_location},0.00,CURRENT_TIMESTAMP(),#{ticket_adult_price},#{ticket_child_price});
 		INSERT INTO ticket_img(ticket_id,ticket_rep_img_path,ticket_detail_img_path) values(#{ticket_id},#{ticket_rep_img_path},#{ticket_detail_img_path});
 	</insert>
-	<delete id="DeleteTicket" parameterType="Ticket">
-		DELETE FROM ticket_detail WHERE ticket_id=#{ticket_id}
+	<delete id="deleteTicket" parameterType="Ticket">
+		DELETE FROM ticket_img WHERE ticket_id=#{ticket_id};
+		DELETE FROM ticket_detail WHERE ticket_id=#{ticket_id};
 	</delete>
 	
 	
@@ -96,24 +171,24 @@
 	
 	<!-- ===================================================================================================================== -->
 	<!-- 쿠폰관련 -->
-	<select id="GetCouponList" resultType="Coupon">
+	<select id="getCouponList" resultType="Coupon">
 		SELECT * FROM coupon
 	</select>
 	
-	<select id="GetCouponDetail" parameterType="Coupon" resultType="Coupon">
+	<select id="getCouponDetail" parameterType="Coupon" resultType="Coupon">
 		SELECT * FROM coupon WHERE coupon_id=#{coupon_id}
 	</select>
 	
-	<select id="GetCouponMemberDetail" parameterType="Coupon" resultType="Coupon">
+	<select id="getCouponMemberDetail" parameterType="Coupon" resultType="Coupon">
 		SELECT m.* FROM coupon c, mem_coupon m WHERE c.coupon_id = m.coupon_id AND c.coupon_id=#{coupon_id}
 	</select>
-	<update id="UpdateCoupon" parameterType="Coupon">
+	<update id="updateCoupon" parameterType="Coupon">
 		UPDATE coupon SET coupon_name=#{coupon_name}, coupon_discount=#{coupon_discount}, coupon_quantity=#{coupon_quantity} WHERE coupon_id=#{coupon_id}
 	</update>
-	<delete id="DeleteCoupon" parameterType="Coupon">
+	<delete id="deleteCoupon" parameterType="Coupon">
 		DELETE FROM coupon WHERE coupon_id=#{coupon_id}
 	</delete>
-	<insert id="InsertCoupon" parameterType="Coupon">
+	<insert id="insertCoupon" parameterType="Coupon">
 		INSERT INTO coupon(coupon_name,coupon_discount,coupon_date,coupon_quantity) values(#{coupon_name},#{coupon_discount},current_timestamp(),#{coupon_quantity})
 	</insert>
 </mapper>
