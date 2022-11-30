@@ -11,7 +11,6 @@
 	<div class="container" id="container">
 		<div class="inner">
 			<form action="">
-				<input type="hidden" name="mem_role" id="mem_role" value="ROLE_USER">
 				<div class="certify_wrap">
 					<div class="text_wrap pTit">
 						<strong class="tit">Oh! Travel 회원가입을 위한 고객님의 소중한 정보를 입력해 주세요.</strong>
