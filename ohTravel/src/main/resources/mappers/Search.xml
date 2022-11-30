@@ -9,18 +9,18 @@
 		FROM (ticket_detail td left join ticket_img ti on td.ticket_id = ti.ticket_id)
 		Where ticket_name LIKe concat('%', #{search_word}, '%')
 		<if test="start != 0">
-			LIMIT #{start} OFFSET #{end}
+			LIMIT #{end} OFFSET #{start}
 		</if>
 	</select> 
 
 	<select id="yqHotelList" parameterType="java.lang.String" resultType="Hotel">
-		select h.hotel_id, h.hotel_kor, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price
+		select h.hotel_id, c.city_name, h.hotel_kor, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price
 		FROM room r 
-		left join room_detail rd on r.room_id = rd.room_id left join hotel h on r.hotel_id = h.hotel_id 
+		left join room_detail rd on r.room_id = rd.room_id left join hotel h on r.hotel_id = h.hotel_id left join city c on c.city_id = h.city_id
 		group by h.hotel_id
 		HAving hotel_kor LIKe concat('%', #{search_word}, '%')
 		<if test="start != 0">
-			LIMIT #{start} OFFSET #{end}
+			LIMIT #{end} OFFSET #{start}
 		</if>
 	</select>
 
@@ -41,81 +41,81 @@
 		left join (select distinct pkage_id, min(pkage_dt_Aprice) min_price from package_detail group by pkage_id) as pd on p.pkage_id = pd.pkage_id
 		Where pkage_name LIKe concat('%', #{search_word}, '%')
 		<choose>
-			<when test="check.equals('fprice_0')">
+			<when test="check == 'fprice_0'">
 				<![CDATA[
 				AND min_price >= 0 AND min_price <= 440000
 				]]>
 			</when>
-			<when test="check.equals('fprice_1')">
+			<when test="check == 'fprice_1'">
 				<![CDATA[
-				AND min_price >= 440000 AND min_price <= 900000
+				AND min_price > 440000 AND min_price <= 900000
 				]]>
 			</when>
-			<when test="check.equals('fprice_2')">
+			<when test="check == 'fprice_2'">
 				<![CDATA[
-				AND min_price >= 900000 AND min_price <= 1410000
+				AND min_price > 900000 AND min_price <= 1410000
 				]]>
 			</when>
 			<when test="check.equals('fprice_3')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</when>
-			<when test="check.equals('score_0')">
+			<!-- <when test="check.equals('score_0')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</when>
 			<when test="check.equals('score_1')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</when>
 			<when test="check.equals('score_2')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</when>
 			<when test="check.equals('score_3')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</when>
 			<when test="check.equals('kind_0')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</when>
 			<when test="check.equals('kind_1')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</when>
 			<when test="check.equals('kind_2')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</when>
 			<when test="check.equals('kind_3')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</when>
 			<when test="check.equals('kind_4')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</when>
 			<when test="check.equals('kind_5')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</when>
 			<when test="check.equals('kind_6')">
 				<![CDATA[
-				AND min_price >= 1410000 AND min_price <= 11750000
+				AND min_price > 1410000 AND min_price <= 11750000
 				]]>
-			</when>
+			</when> -->
 		</choose>
 		<if test="start != 0">
 			LIMIT #{end} OFFSET #{start}

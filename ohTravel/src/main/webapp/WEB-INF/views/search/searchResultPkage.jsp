@@ -814,57 +814,22 @@ prod_list_wrap .htl .btn.line {
 						<div id="filter_con1" class="view">
 							<div class="form_wrap">
 								<span class="form_holder text">
-									<input type="checkbox" id="fprice_0" class="inpt_checkbox">
-									<label for="fprice_0" class="label_checkbox fprice_0">0~44만원</label>
+									<input type="checkbox" id="fprice_0" class="inpt_checkbox" name="inpt_checkbox0">
+									<label for="fprice_0" class="label_checkbox fprice_0" id="label_checkbox0">0~44만원</label>
 								</span>
 								<span class="form_holder text">
-									<input type="checkbox"id="fprice_1" class="inpt_checkbox">
-									<label for="fprice_1" class="label_checkbox fprice_1">44~90만원</label>
+									<input type="checkbox"id="fprice_1" class="inpt_checkbox" name="inpt_checkbox1">
+									<label for="fprice_1" class="label_checkbox fprice_1" id="label_checkbox1">44~90만원</label>
 								</span>
 								<span class="form_holder text">
-									<input type="checkbox" id="fprice_2" class="inpt_checkbox">
-									<label for="fprice_2" class="label_checkbox fprice_2">90~141만원</label>
+									<input type="checkbox" id="fprice_2" class="inpt_checkbox" name="inpt_checkbox2">
+									<label for="fprice_2" class="label_checkbox fprice_2" id="label_checkbox2">90~141만원</label>
 								</span>
 								<span class="form_holder text">
-									<input type="checkbox" id="fprice_3" class="inpt_checkbox">
-									<label for="fprice_3" class="label_checkbox fprice_3">141~1175만원</label>
+									<input type="checkbox" id="fprice_3" class="inpt_checkbox" name="inpt_checkbox3">
+									<label for="fprice_3" class="label_checkbox fprice_3" id="label_checkbox3">141~1175만원</label>
 								</span>
 							</div>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
-<script type="text/javascript">
-	$(function() {
-		$(".inpt_checkbox").click(function() {
-			let check = $(this).attr('id');
-			if($("input:checkbox[class=inpt_checkbox]").is(":checked")) {
-				alert("선택");
-				$("."+ check).css("border-color", "purple");
-				alert("check -> " + check);
-				console.log(check);
-				$.ajax({
-					url: "/pkageFilter",
-					data: {'check': check, 'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
-					dataType: 'json',
-					success: function(data) {
-						console.log(data);
-						$.each(data, function(i) {
-							
-						});
-					}
-				});
-			} else {
-				alert("해제");
-				$("."+ check).css("border-color", "#c2c2c2");
-			}
-			
-			let chk_Val = [];
-			$("input:checkbox[class=inpt_checkbox]:checked").each(function(i,iVal) {
-				chk_Val.push(iVal);
-			});
-			console.log(chk_Val);
-		})
-	})
-
-</script>
 							<!-- <a href="#none" class="btn gray">직접입력</a> -->
 							<div class="form_wrap price" style="display: none;">
 								<div class="form_holder">
@@ -905,7 +870,7 @@ prod_list_wrap .htl .btn.line {
 						<div id="filter_con4" class="view">
 							<div class="form_wrap">
 								<span class="form_holder text"><input type="checkbox" id="kind_0" class="inpt_checkbox">
-								<label for="kind_0" class="label_checkbox">인천</label></span>
+								<label for="kind_0" class="label_checkbox kind_0">인천</label></span>
 								<span class="form_holder text">
 										<input type="checkbox" id="kind_1" class="inpt_checkbox">
 										<label for="kind_1" class="label_checkbox kind_1">부산</label>
@@ -998,6 +963,7 @@ prod_list_wrap .htl .btn.line {
 						</c:forEach>
 					</ul>
 				</div>
+				<p id="demo"></p>
 				<div class="paginate_wrap">
 					<div class="paginate type2">
 						<div>
@@ -1022,6 +988,7 @@ prod_list_wrap .htl .btn.line {
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script type="text/javascript">
 	
+	// 카테고리 선택
 	$(function() {
 		$('.item02').click(function() {
 			let gubun = $(this).attr('id'); // 클릭한 애의 Id가 this에 들어옴 
@@ -1040,6 +1007,48 @@ prod_list_wrap .htl .btn.line {
 		});
 	});
 
-	
+	// 필터 선택
+	$(function() {
+		$(document).on("click", ".inpt_checkbox", function() {
+		    let chk_Val = [];
+			if($("input:checkbox[class=inpt_checkbox]").is(":checked")) {
+				$("input:checkbox[class=inpt_checkbox]:checked").each(function(i) {
+					chk_Val.push($(this).attr('id'));
+						$("." + $(this).attr('id')).css("border-color", "purple");
+				});
+				
+				$("input:checkbox[class=inpt_checkbox]").not(":checked").each(function(i) {
+					$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+				});
+					console.log(chk_Val);
+				
+				$.ajax({
+					url: "/pkageFilter",
+					data: {'check':  chk_Val, 'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+					dataType: 'json',
+					traditional: true,
+					success: function(data) {
+						console.log(data);
+						alert(data);
+						/* $.each(data, function(index, item) { // 데이터 =item
+							$("#demo").append(index + " "); // index가 끝날때까지 
+							$("#demo").append(item.name + " ");
+							$("#demo").append(item.age + " ");
+							$("#demo").append(item.address + " ");
+							$("#demo").append(item.phone + "<br>");
+						}) */
+						$.each(data, function(i) {
+							
+						});
+					}
+				});
+			} else {
+					$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+			}
+			
+		})
+		
+	})
+
 </script>
 </html>

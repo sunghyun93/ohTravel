@@ -31,7 +31,6 @@ public class SearchServiceImplementation implements SearchService {
 		return hotelList;
 	}
 
-
 	@Override
 	public List<TicketDTO> getTicketList(PkageDTO pkageDTO) {
 		System.out.println("Service getTicketList Start...");
@@ -43,6 +42,11 @@ public class SearchServiceImplementation implements SearchService {
 	public List<PkageDTO> filteredPkageList(PkageDTO pkageDTO) {
 		List<PkageDTO> filteredPkageList = sd.filteredPkageList(pkageDTO);
 		return filteredPkageList;
+	}
+
+	@Override
+	public List<HotelDTO> filteredHotelList(HotelDTO hotelDTO) {
+		return null;
 	}
 
 	

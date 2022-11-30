@@ -30,6 +30,7 @@ public class HotelDTO {
 	private int room_min_price;
 	private String room_type;
 	
+	private String search_word;
 	private String pageNum;
 	private int start;
 	private int end;
