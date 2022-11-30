@@ -106,6 +106,7 @@ public class PkageController {
 			List<PkageDTORM> pkageDTORmlist = pkageService.selectPkgWithDetailAndFlight(map);
 			// 관련 pkg 개수
 			int pkgCnt = pkageDTORmlist.size();
+			// 리뷰 개수는 service 단에서 가져옴
 			
 			// 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일 구하기
 			getMakingDetail(pkageDTORmlist);

@@ -9,5 +9,7 @@ public interface ReviewDAO {
 	List<ReviewDTO> selectReview(ReviewDTO reviewDTO);
 
 	void updateReview(ReviewDTO reviewDTO);
+	
+	int reviewCnt(String rv_real_id) throws Exception;
 
 }
