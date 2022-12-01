@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class Pkage_schedulDTO {
 	private Integer pkage_sche_day;		// 여행일차
-	private Integer pkaga_dt_id;		// 패키지 상세 ID
+	private Integer pkage_dt_id;		// 패키지 상세 ID
 	private String pkage_sche_trans;	// 이동수단
 	private String pkage_sche_b;		// 조식
 	private String pkage_sche_l;		// 중식

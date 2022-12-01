@@ -24,6 +24,7 @@ import com.oracle.ohTravel.country.service.CountryService;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_flightScheDTO;
 import com.oracle.ohTravel.pkage.model.PkgSearch;
 import com.oracle.ohTravel.pkage.service.PkageService;
 
@@ -115,7 +116,7 @@ public class PkageController {
 			int pkgCnt = pkageDTORmlist.size();
 			// 리뷰 개수는 service 단에서 가져옴
 			
-			// 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일 구하기
+			// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수 구하기
 			getMakingDetail(pkageDTORmlist);
 			
 			model.addAttribute("toURL", toURL);
@@ -134,7 +135,48 @@ public class PkageController {
 	@GetMapping("/detail")
 	public String detail(String pkage_id, Integer pkage_dt_id, Model model) {
 		log.info("PkageController detail() start...");
+//		pkage_id 혹은 pkage_dt_id 중 하나라도 가져오지 않을 경우 처리
+		if(pkage_id == null || pkage_dt_id == null) {
+			return "redirect:/pkage/search/0";
+		}
 		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pkage_id", pkage_id);
+		map.put("pkage_dt_id", pkage_dt_id);
+		try {
+			PkageDTORM pkageDTORM = pkageService.selectPkgDetailWithSchedule(map);
+			log.info("pkageDTORM="+pkageDTORM);
+			
+			// 패키지 상세의 일 수 구하기
+			Pkage_detailDTO tmpDTO = pkageDTORM.getPkage_detailDTO();
+			Date start = tmpDTO.getPkage_dt_startDay();
+			Date end = tmpDTO.getPkage_dt_endDay();
+			tmpDTO.setDay(tmpDTO.getDay(start, end));
+			
+			// 요일 구하기
+			Date date = tmpDTO.getPkage_dt_startDay();
+			String yoil = tmpDTO.getYoil(date);
+			tmpDTO.setStartYoil(yoil);
+			
+			date = tmpDTO.getPkage_dt_endDay();
+			yoil = tmpDTO.getYoil(date);
+			tmpDTO.setEndYoil(yoil);
+			
+			// 해외만 비행일정이 있기 때문에 if문 걸어야함.
+			if(tmpDTO.getPkage_flightScheDTOList().size() > 1) {
+				// 출발 / 도착 비행 시간 계산
+				for(Pkage_flightScheDTO fsh : tmpDTO.getPkage_flightScheDTOList()) {
+					fsh.getTime();
+				}
+				
+				// 비행일정이 있기 때문에 값 1로 변경  (jsp 에서 비행일정이 있는 것과 없는 것 구분해주기 위함)
+				tmpDTO.setFlightExist(1);
+			}
+			
+			model.addAttribute("pkageDTORM", pkageDTORM);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		log.info("PkageController detail() end...");
 		return "pkage/package_detail";
@@ -145,15 +187,16 @@ public class PkageController {
 		return "pkage/package_reservation";
 	}
 	
-	// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수 구하기
+	// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수(전체 상품 디테일들 중 최소 기간과 최대기간) 구하기
 	private void getMakingDetail(List<PkageDTORM> list) {
 		for(PkageDTORM pkageDTORM : list) {
-			ArrayList<Integer> priceBox = new ArrayList<>();
+			ArrayList<Integer> priceBox = new ArrayList<>(); // 가격을 정렬을 위한 변수
 //			ArrayList<Long> daysBox = new ArrayList<>();
-			long[] days = new long[2];
+			long[] days = new long[2];	// 최소/최대(전체 상품 디테일들 중 최소 기간과 최대기간) 일 수를 저장할 변수
 			pkageDTORM.setDays(days);
 			
 			List<Pkage_detailDTO> detailDTOList = pkageDTORM.getPkage_detailDTOList();
+			
 			int size = detailDTOList.size();
 			int i = 0;
 			for(Pkage_detailDTO pkage_detailDTO: detailDTOList) {
@@ -173,14 +216,14 @@ public class PkageController {
 				long day = pkage_detailDTO.getDay(pkage_detailDTO.getPkage_dt_startDay(), pkage_detailDTO.getPkage_dt_endDay());
 				
 				pkage_detailDTO.setDay(day);
-				
-				// 패키지 종합 일 수에 넣어주기 (최소/최대 일수 구하기 위함)
+
+				// 패키지 종합 일 수에 넣어주기 (최소/최대 일 수 구하기 위함)
 				if(i == 0 || i == size-1) {
 					pkageDTORM.getDays()[i]=day;
 				}
 				i++;
-				
 			}
+			
 			// detail 개수 넣기
 			pkageDTORM.setPkgDetailCnt(detailDTOList.size());
 			
@@ -193,4 +236,5 @@ public class PkageController {
 			pkageDTORM.setMinPrice(priceBox.get(0));
 		}
 	}
+	
 }

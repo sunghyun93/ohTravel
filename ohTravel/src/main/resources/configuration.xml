@@ -24,6 +24,11 @@
 		<typeAlias type="com.oracle.ohTravel.pkage.model.Pkage_imageDTO" alias="Pkage_imageDTO"/>
 		<typeAlias type="com.oracle.ohTravel.pkage.model.Pkage_flightScheDTO" alias="Pkage_flightScheDTO"/>
 		<typeAlias type="com.oracle.ohTravel.pkage.model.PkgSearch" alias="PkgSearch"/>
+		<typeAlias type="com.oracle.ohTravel.pkage.model.Pkage_hotelDTO" alias="Pkage_hotelDTO"/>
+		<typeAlias type="com.oracle.ohTravel.pkage.model.Pkage_sche_detailDTO" alias="Pkage_sche_detailDTO"/>
+		<typeAlias type="com.oracle.ohTravel.pkage.model.Pkage_schedulDTO" alias="Pkage_schedulDTO"/>
+		<typeAlias type="com.oracle.ohTravel.pkage.model.AttractionDTO" alias="AttractionDTO"/>
+		<typeAlias type="com.oracle.ohTravel.pkage.model.Attraction_imageDTO" alias="Attraction_imageDTO"/>
 		
 		<!-- search -->
 		<typeAlias type="com.oracle.ohTravel.search.model.SearchDTO" alias="Search"/>
@@ -39,6 +44,7 @@
 		<typeAlias type="com.oracle.ohTravel.airport.model.AirSearch" alias="AirSearch"/>
 		<typeAlias type="com.oracle.ohTravel.airport.model.Air_ScheduleDTORM" alias="Air_ScheduleDTORM"/>
 		<typeAlias type="com.oracle.ohTravel.airport.model.AirlineDTO" alias="AirlineDTO"/>
+		<typeAlias type="com.oracle.ohTravel.airport.model.AirplaneDTO" alias="AirplaneDTO"/>
 		
 		<!-- ticket -->
 		<typeAlias type="com.oracle.ohTravel.ticket.model.TicketDTO" alias="TicketDTO"/>

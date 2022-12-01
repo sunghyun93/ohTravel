@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,37 +22,42 @@
                     <!-- 사진 -->
                     <div class="inr">
                         <div class="inr_img_container">
-                            <img class="inr_img" src="package_beijing31001_1.jpg">
+                        <%-- 패키지 이미지 --%>
+                            <img class="inr_img" src="${pkageDTORM.pkage_imageDTOList[0].pkage_img_path }">
                         </div>
                     </div>
 
                     <!-- 간단 정보 -->
                     <div class="inr right">
                         <div class="tag_group">
-                            <span class="tag_thema t_green">힐링</span>
+                        <%-- 테마 --%>
+                            <span class="tag_thema t_green">${pkageDTORM.pkage_detailDTO.pkage_dt_thema }</span>
                         </div>
                         
                         <div class="text_wrap">
-                            <strong class="item_title">방콕/파타야 5일 #가볍게떠나는여행 #4명이상출발확정 #무앙보란 #산호섬 #농눅빌리지</strong>
+                        <%-- 제목 --%>
+                            <strong class="item_title">${pkageDTORM.pkage_detailDTO.pkage_dt_name }</strong>
                         </div>
 
                         <div class="option_wrap">
                             <div class="dummyDiv"></div>
                             <div class="right_cont">
-                                <span class="icn star" style="cursor: pointer;">4.3</span>
-                                <span class="icn balloon" style="cursor: pointer;">791</span>
+                            <%-- 패키지 평점 --%>
+                                <span class="icn star" style="cursor: pointer;">${pkageDTORM.pkage_score }</span>
+                            <%-- 패키지 리뷰 수 --%>
+                                <span class="icn balloon" style="cursor: pointer;">${pkageDTORM.reviewCnt }</span>
                             </div>
                         </div>
 
                         <div class="price_group">
-                            <p class="tag">성인 1인</p>
-                            <strong class="price">789,000</strong>
+                            <p class="tag">성인 1인</p><%-- 패키지 상세 성인가격 --%>
+                            <strong class="price"><fmt:formatNumber value="${pkageDTORM.pkage_detailDTO.pkage_dt_Aprice }" pattern="#,###"/></strong> 
                             <strong class="price">
                                 <span>원</span>
                             </strong>
 
-                            <p class="tag child">아동 1인</p>
-                            <strong class="price">700,000</strong>
+                            <p class="tag child">아동 1인</p><%-- 패키지 상세 아동가격 --%>
+                            <strong class="price"><fmt:formatNumber value="${pkageDTORM.pkage_detailDTO.pkage_dt_Cprice }" pattern="#,###"/></strong> 
                             <strong class="price">
                                 <span>원</span>
                             </strong>
@@ -70,34 +77,71 @@
                             <dl>
                                 <dt>일정</dt>
                                 <dd>
-                                    <p class="item_text">
-                                        <span class="night_days">3박 5일</span>
-                                        <span class="air_name">
-                                            <span class="air_img big">
-                                                <img src="icn_star.png">
-                                            </span>
-                                           	 대한항공
-                                        </span>
-                                    </p>
-                                    <p class="item_text air_info">
-                                        <span>출발 : 2022.12.16(금) 17:20 &emsp;->&emsp;</span>
-                                        <span>2022.12.16(금) 21:20</span>
-                                        <span class="air_serial">KEO061</span>
-                                        <span class="air_timeTaken">총 6시간 50분 소요</span>
-                                    </p>
-                                    <p class="item_text air_info">
-                                        <span>도착 : 2022.12.16(금) 17:20 &emsp;->&emsp;</span>
-                                        <span>2022.12.16(금) 21:20</span>
-                                        <span class="air_serial">KEO061</span>
-                                        <span class="air_timeTaken">총 6시간 50분 소요</span>
-                                    </p>
+                                	 <%-- 비행 일정(비행기 있는 상세상품) 혹은 일정(비행기 없는 상세상품)--%>
+                                    <c:if test="${pkageDTORM.pkage_detailDTO.flightExist == '1' }">
+	                                    <p class="item_text">
+	                                    	<%-- 상세의 일 수 --%>
+	                                        <span class="night_days">${pkageDTORM.pkage_detailDTO.day-1 }박 ${pkageDTORM.pkage_detailDTO.day }일</span>
+	                                        <span class="air_name">
+	                                            <span class="air_img big">
+	                                            	<%-- 항공사 사진 --%>
+	                                                <img src="${pkageDTORM.pkage_detailDTO.pkage_flightScheDTOList[0].air_ScheduleDTORM.airlineDTO.air_picture }">
+	                                            </span>
+	                                            <%-- 항공사 이름 --%>
+	                                           	 ${pkageDTORM.pkage_detailDTO.pkage_flightScheDTOList[0].air_ScheduleDTORM.airlineDTO.air_name }
+	                                        </span>
+	                                    </p>
+                                    
+	                                    <c:forEach var="pkage_flightScheDTO" items="${pkageDTORM.pkage_detailDTO.pkage_flightScheDTOList}">
+	                                    		<c:set var="SorC" value="${pkage_flightScheDTO.pkage_flight_gubun == '0' ? '출발' : '도착' }"/>
+	                          		             <p class="item_text air_info">
+	                          		             	<%-- 출발 --%>
+			                                        <span>${SorC }: 
+				                                        <fmt:formatDate value="${pkage_flightScheDTO.air_ScheduleDTORM.start_time }" pattern="yyyy-MM-dd"/>
+				                                        (${pkageDTORM.pkage_detailDTO.startYoil }) 
+				                                        <fmt:formatDate value="${pkage_flightScheDTO.air_ScheduleDTORM.start_time }" pattern="HH:mm"/>
+				                                        &emsp;->&emsp;
+			                                        </span>
+			                                        <%-- 도착 --%>
+			                                        <span>${SorC }: 
+			                                        	<fmt:formatDate value="${pkage_flightScheDTO.air_ScheduleDTORM.end_time }" pattern="yyyy-MM-dd"/>
+				                                        (${pkageDTORM.pkage_detailDTO.startYoil })  
+				                                        <fmt:formatDate value="${pkage_flightScheDTO.air_ScheduleDTORM.end_time }" pattern="HH:mm"/>
+			                                        </span>
+			                                        <span class="air_serial">${pkage_flightScheDTO.air_ScheduleDTORM.airplane_name }</span>
+			                                        <span class="air_timeTaken">총 ${pkage_flightScheDTO.flightHour }시간 ${pkage_flightScheDTO.flightMinute }분 소요</span>
+		                                   		 </p>
+	                                    </c:forEach>
+                                    </c:if>
+                                    <%-- 비행 일정 없는 상품들의 일정 --%>
+                                    <c:if test="${pkageDTORM.pkage_detailDTO.flightExist == '0' }">
+                                    	<p class="item_text">
+	                                    	<%-- 상세의 일 수 --%>
+	                                        <span class="night_days">${pkageDTORM.pkage_detailDTO.day-1 }박 ${pkageDTORM.pkage_detailDTO.day }일</span>
+	                                    </p>
+
+                       		             <p class="item_text air_info">
+                       		             	<%-- 출발 --%>
+	                                        <span>일정시작: 
+		                                        <fmt:formatDate value="${pkageDTORM.pkage_detailDTO.pkage_dt_startDay }" pattern="yyyy-MM-dd"/>
+		                                        (${pkageDTORM.pkage_detailDTO.startYoil }) 
+	                                        </span><br>
+	                                        <%-- 도착 --%>
+	                                        <span>일정종료: 
+	                                        	<fmt:formatDate value="${pkageDTORM.pkage_detailDTO.pkage_dt_endDay }" pattern="yyyy-MM-dd"/>
+		                                        (${pkageDTORM.pkage_detailDTO.endYoil })                                  
+	                                        </span>          
+                                  		 </p>
+                                    </c:if>
                                 </dd>
                                 <dt>여행도시</dt>
-                                <dd>방콕</dd>
+                                <dd>${pkageDTORM.cityDTO.city_name }</dd>
                                 <dt>예약현황</dt>
-                                <dd class="state">
-                                    <span class="info">예약 : 9명</span>
-                                    <span class="info">좌석 : 9석 (최소출발 : 4명)</span>
+                                <dd class="state"><%-- 패키지 인원 / 예약 인원 / 최소 인원 --%>
+                                    <span class="info">예약 : ${pkageDTORM.pkage_detailDTO.pkage_dt_cnt }명</span>
+                                    <span class="info" id="possibleCnt" data-possibleCnt="${pkageDTORM.pkage_detailDTO.pkage_dt_cnt - pkageDTORM.pkage_detailDTO.pkage_dt_Rcnt }">
+                                                                                 잔여좌석 : ${pkageDTORM.pkage_detailDTO.pkage_dt_cnt - pkageDTORM.pkage_detailDTO.pkage_dt_Rcnt }석 (최소출발 : ${pkageDTORM.pkage_detailDTO.pkage_dt_Mcnt }명)
+                                    </span>
                                 </dd>
                             </dl>
                         </div>
@@ -126,12 +170,12 @@
                                     <tbody>
                                         <tr>
                                             <td>기본상품</td>
-                                            <td>
-                                                <span class="price">789,000</span>
+                                            <td><%-- 성인 가격 --%>
+                                                <span class="price"><fmt:formatNumber value="${pkageDTORM.pkage_detailDTO.pkage_dt_Aprice }" pattern="#,###"/></span> 
                                                 <span>원</span>
                                             </td>
-                                            <td>
-                                                <span class="price">700,000</span>
+                                            <td><%-- 아동 가격 --%>
+                                                <span class="price"><fmt:formatNumber value="${pkageDTORM.pkage_detailDTO.pkage_dt_Cprice }" pattern="#,###"/></span> 
                                                 <span>원</span>
                                             </td>
                                         </tr>
@@ -151,8 +195,8 @@
                             <div class="prod_meetinginfo">
                                 <dl>
                                     <dt>가이드</dt>
-                                    <dd>
-                                                                                 김성현 가이드님
+                                    <dd><%-- 패키지 상세 가이드 --%>
+                                    ${pkageDTORM.pkage_detailDTO.pkage_dt_Gname } 가이드님
                                     </dd>
                                 </dl>
                                 <div class="meeting_detail">
@@ -160,10 +204,10 @@
                                         <strong class="tit">미팅정보</strong>
                                     </div>
                                     <dl>
-                                        <dt>일시 :</dt>
-                                        <dd>12월 16일 오후 14:50</dd>
-                                        <dt>장소 :</dt>
-                                        <dd>인천공항 제2여객터미널 3층 출국장</dd>
+                                        <dt>일시 :</dt><%-- 미팅 일시 --%>
+                                        <dd><fmt:formatDate value="${pkageDTORM.pkage_detailDTO.pkage_dt_meetDate }" type="both" dateStyle="full"/></dd>
+                                        <dt>장소 :</dt><%-- 미팅 장소 --%>
+                                        <dd>${pkageDTORM.pkage_detailDTO.pkage_dt_meet }</dd>
                                     </dl>
                                     <ul class="list_bul billiard">
                                         <li class="em">미팅장소를 꼭 확인하세요!</li>
@@ -200,121 +244,77 @@
                                         </div>
 
                                         <div class="js_acc">
-                                            <div class="inr">
-                                                <a href="#acc_con0" class="nojq header daylist">
-                                                    <span class="tit_left">
-                                                        <strong>1일차</strong>12/16(금)
-                                                    </span>
-                                                    <strong>인천, 방콕</strong>
-                                                    <p>태국 입국 절차</p>
-                                                </a>
-                                                <div id="acc_con0" class="view" style="display: none;">
-                                                    <div class="schedule_detail">
-                                                        <div class="detail_wrap">
-                                                            <div class="detail type">
-                                                                <div class="detail_area">
-                                                                    <div class="card_mngr">
-                                                                        <div class="card_unit type3">
-                                                                            <div class="_tit title">
-                                                                                <strong class="eps" id="cntntNm">무앙 보란</strong>
-                                                                            </div>
-                                                                            <div class="tit_comt sub">
-                                                                                <p class="eps" id="intcCont">태국의 명소</p>
-                                                                            </div>
-                                                                            <div class="_info_section cont_box">
-                                                                                <div class="_thumb thumb">
-                                                                                    <div class="img_list">
-                                                                                        <img src="/img/pkage/attraction/incheon/Wolmi Sea Train1.jpg" alt="">
-                                                                                        <img src="/img/pkage/attraction/incheon/Wolmi Sea Train1.jpg" alt="">
-                                                                                        <img src="/img/pkage/attraction/incheon/Wolmi Sea Train1.jpg" alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="_txt_cont txt_conts">
-                                                                                    <div>파타야에 위치한 유람에서는 정갈하고 맛있는 음식과 친절한 서비스가 제공됩니다.
-
-												                                                                                        닭볶음 정식 : 오이, 당근, 고추, 마늘 등의 채소와 샐러드, 나물을 비롯한 각종 반찬과 매콤달콤 닭볶음으로 든든하게 즐기는 한식
-												                                                                                        
-												                                                                                        ※ 아이들을 위한 키즈밀(돈까스, 생선까스, 떡갈비 정식 메뉴) 준비 가능합니다. 단, 키즈밀을 원하실 경우 하루 전날까지 담당 가이드에게 말씀해주시기 바랍니다.</div>
-                                                                                </div>
-                                                                                <hr class="line_white">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div><!-- card_mngr -->
-                                                                </div><!-- detail_area -->
-                                                            </div><!-- detail type -->
-                                                        </div><!-- detail_wrap -->
-                                                    </div><!-- schedule_detail -->
-                                                    <div class="detail_area">
-                                                        <div class="js_acc"></div>
-                                                        <div class="additional_area">
-                                                            <span class="tit food">식사</span>
-                                                            <div class="list_txt">
-                                                                <span>[조식]<span> 호텔식</span></span>
-                                                                <span>[중식]<span> 호텔식</span></span>
-                                                                <span>[석식]<span> 호텔식</span></span>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- detail_area" -->
-                                                </div><!-- acc_con -->
-                                            </div><!-- inr -->
-
-                                            <div class="inr">
-                                                <a href="#acc_con1" class="nojq header daylist">
-                                                    <span class="tit_left">
-                                                        <strong>2일차</strong>12/17(금)
-                                                    </span>
-                                                    <strong>인천, 방콕</strong>
-                                                    <p>태국 입국 절차</p>
-                                                </a>
-                                                <div id="acc_con1" class="view" style="display: none;">
-                                                    <div class="schedule_detail">
-                                                        <div class="detail_wrap">
-                                                            <div class="detail type">
-                                                                <div class="detail_area">
-                                                                    <div class="card_mngr">
-                                                                        <div class="card_unit type3">
-                                                                            <div class="_tit title">
-                                                                                <strong class="eps" id="cntntNm">무앙 보란</strong>
-                                                                            </div>
-                                                                            <div class="tit_comt sub">
-                                                                                <p class="eps" id="intcCont">태국의 명소</p>
-                                                                            </div>
-                                                                            <div class="_info_section cont_box">
-                                                                                <div class="_thumb thumb">
-                                                                                    <div class="img_list">
-                                                                                        <img src="https://image.hanatour.com/usr/cms/resize/400_0/2019/01/22/10000/135cbf56-99fc-4ec3-b6dd-25d4fb717a33.jpg" alt="">
-                                                                                        <img src="https://image.hanatour.com/usr/cms/resize/400_0/2019/01/22/10000/135cbf56-99fc-4ec3-b6dd-25d4fb717a33.jpg" alt="">
-                                                                                        <img src="https://image.hanatour.com/usr/cms/resize/400_0/2019/01/22/10000/135cbf56-99fc-4ec3-b6dd-25d4fb717a33.jpg" alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="_txt_cont txt_conts">
-                                                                                    <div>파타야에 위치한 유람에서는 정갈하고 맛있는 음식과 친절한 서비스가 제공됩니다.
-
-												                                                                                        닭볶음 정식 : 오이, 당근, 고추, 마늘 등의 채소와 샐러드, 나물을 비롯한 각종 반찬과 매콤달콤 닭볶음으로 든든하게 즐기는 한식
-												                                                                                        
-												                                                                                        ※ 아이들을 위한 키즈밀(돈까스, 생선까스, 떡갈비 정식 메뉴) 준비 가능합니다. 단, 키즈밀을 원하실 경우 하루 전날까지 담당 가이드에게 말씀해주시기 바랍니다.</div>
-                                                                                </div>
-                                                                                <hr class="line_white">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div><!-- card_mngr -->
-                                                                </div><!-- detail_area -->
-                                                            </div><!-- detail type -->
-                                                        </div><!-- detail_wrap -->
-                                                    </div><!-- schedule_detail -->
-                                                    <div class="detail_area">
-                                                        <div class="js_acc"></div>
-                                                        <div class="additional_area">
-                                                            <span class="tit food">식사</span>
-                                                            <div class="list_txt">
-                                                                <span>[조식]<span> 호텔식</span></span>
-                                                                <span>[중식]<span> 호텔식</span></span>
-                                                                <span>[석식]<span> 호텔식</span></span>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- detail_area" -->
-                                                </div><!-- acc_con -->
-                                            </div><!-- inr -->
+                                        	<%-- 여행일정 부분 --%>
+                                        	<c:forEach var="pkage_schedulDTO" items="${pkageDTORM.pkage_detailDTO.pkage_schedulDTOList }">
+	                                            <div class="inr">
+	                                                <a href="#acc_con0" class="nojq header daylist">
+	                                                <%-- 여행일정 일차 --%>
+	                                                    <span class="tit_left">
+	                                                        <strong>${pkage_schedulDTO.pkage_sche_day }일차</strong>
+	                                                    </span>
+	                                                    <strong>${pkageDTORM.cityDTO.city_name }</strong>
+	                                                    <p><%-- 여행 일정의 관광지 부분 --%>
+	                                                    	<c:forEach var="pkage_s_dDTO" items="${pkage_schedulDTO.pkage_s_dDTOList }" varStatus="status">
+	                                                    		<c:if test="${status.index != 0}">,</c:if>${pkage_s_dDTO.attractionDTO.attr_name }
+	                                                    	</c:forEach>
+	                                                    </p>
+	                                                </a>
+	                                                <div id="acc_con0" class="view" style="display: none;">
+	                                                    <div class="schedule_detail">
+	                                                        <div class="detail_wrap">
+	                                                            <div class="detail type">
+	                                                                <div class="detail_area">
+	                                                                <%-- 여행일정 일차별 내용 부분 --%>
+	                                                                	<c:forEach var="pkage_s_dDTO" items="${pkage_schedulDTO.pkage_s_dDTOList }">
+		                                                                    <div class="card_mngr">
+		                                                                        <div class="card_unit type3">
+		                                                                        	<%-- 관광지 이름 --%>
+		                                                                            <div class="_tit title">
+		                                                                                <strong class="eps" id="cntntNm">${pkage_s_dDTO.attractionDTO.attr_name }</strong>
+		                                                                            </div>
+		                                                                            <%-- 관광지 영어이름 --%>
+		                                                                            <div class="tit_comt sub">
+		                                                                                <p class="eps" id="intcCont">${pkage_s_dDTO.attractionDTO.attr_ename }</p>
+		                                                                            </div>
+		                                                                            <div class="_info_section cont_box">
+		                                                                                <div class="_thumb thumb">
+		                                                                                    <div class="img_list">
+		                                                                                    	<%-- 관광지 사진  --%>
+		                                                                                    	<c:forEach var="attr_img_DTO" items="${pkage_s_dDTO.attractionDTO.attr_img_DTOList }">
+		                                                                                        	<img src="${attr_img_DTO.attr_img_path }" alt="">                                                                             
+		                                                                                        </c:forEach>
+		                                                                                    </div>
+		                                                                                </div>
+		                                                                                <%-- 관광지 정보 --%>
+		                                                                                <div class="_txt_cont txt_conts">
+		                                                                                    <div>${pkage_s_dDTO.attractionDTO.attr_info }</div>
+		                                                                                </div>
+		                                                                                <hr class="line_white">
+		                                                                            </div>
+		                                                                        </div>
+		                                                                    </div><!-- card_mngr -->
+	                                                                    </c:forEach>
+	                                                                    
+	                                                                    
+	                                                                </div><!-- detail_area -->
+	                                                            </div><!-- detail type -->
+	                                                        </div><!-- detail_wrap -->
+	                                                    </div><!-- schedule_detail -->
+	                                                    <div class="detail_area">
+	                                                        <div class="js_acc"></div>
+	                                                        <div class="additional_area">
+	                                                            <span class="tit food">식사</span>
+	                                                            <%-- 일차별 식사 --%>
+	                                                            <div class="list_txt">
+	                                                                <span>[조식]<span> ${pkage_schedulDTO.pkage_sche_b }</span></span>
+	                                                                <span>[중식]<span> ${pkage_schedulDTO.pkage_sche_l }</span></span>
+	                                                                <span>[석식]<span> ${pkage_schedulDTO.pkage_sche_d }</span></span>
+	                                                            </div>
+	                                                        </div>
+	                                                    </div><!-- detail_area" -->
+	                                                </div><!-- acc_con -->
+	                                            </div><!-- inr -->
+											</c:forEach>
                                         </div><!-- js_acc -->
                                     </div><!-- cont_unit schedule -->
                                 </div><!-- sticky01 -->
@@ -326,157 +326,88 @@
                                             <div class="panels">
                                                 <div id="tour01" class="panelh selected">
                                                     <div class="js_tabs hotel v-tabs">
-                                                        <div class="panels">
-                                                            <div id="hotel01" class="panelh selected">
-                                                                <div class="hotel_detail_wrap">
-                                                                    <div class="hotel_info">
-                                                                        <div class="img_box">
-                                                                            <img src="package_beijing31001_1.jpg">
-                                                                        </div>
-                                                                        <div class="info">
-                                                                            <div class="text_wrap">
-                                                                                <strong class="tit">호텔 이름</strong>
-                                                                                <span>호텔 영어이름</span>
-                                                                            </div>
-                                                                            <p class="txt"></p>
-                                                                        </div>
-                                                                    </div><!-- hotel_info -->
-                                                                    <div class="tbl">
-                                                                        <div class="text_wrap mid">
-                                                                            <strong class="tit">기본정보</strong>
-                                                                        </div>
-                                                                        <table class="type2">
-                                                                            <colgroup>
-                                                                                <col style="width: 15%">
-                                                                                <col style="width: 32%">
-                                                                                <col style="width: 15%">
-                                                                                <col>
-                                                                            </colgroup>
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <th>도시</th>
-                                                                                    <td>태국, 파타야</td>
-                                                                                    <th>주소</th>
-                                                                                    <td>우리집</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th>연락처</th>
-                                                                                    <td>010-1111-1111</td>
-                                                                                    <th>등급</th>
-                                                                                    <td>5성급</td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div><!-- tbl -->
-                                                                    <div class="tbl">
-                                                                        <div class="text_wrap mid">
-                                                                            <strong class="tit">부대시설</strong>
-                                                                        </div>
-                                                                        <table class="type2">
-                                                                            <colgroup>
-                                                                                <col style="width: 15%">
-                                                                                <col style="width: 32%">
-                                                                                <col style="width: 15%">
-                                                                                <col>
-                                                                            </colgroup>
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <th>부대시설</th>
-                                                                                    <td class="vtop" colspan="3">
-                                                                                        <ul class="service_list">
-                                                                                            <li style="white-space: pre-line;">- 레스토랑
-                                                                                                - 야외수영장
-                                                                                                - 피트니스시설
-                                                                                                - 세탁서비스
-                                                                                                - 엘리베이터
-                                                                                                - 테라스
-                                                                                                - 와이파이
-                                                                                            </li>
-                                                                                        </ul>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                </div><!-- hotel_detail_wrap -->
-                                                            </div>
-                                                        </div><!-- panels -->
-
-                                                        <div class="panels">
-                                                            <div id="hotel01" class="panelh selected">
-                                                                <div class="hotel_detail_wrap">
-                                                                    <div class="hotel_info">
-                                                                        <div class="img_box">
-                                                                            <img src="package_beijing31001_1.jpg">
-                                                                        </div>
-                                                                        <div class="info">
-                                                                            <div class="text_wrap">
-                                                                                <strong class="tit">호텔 이름</strong>
-                                                                                <span>호텔 영어이름</span>
-                                                                            </div>
-                                                                            <p class="txt"></p>
-                                                                        </div>
-                                                                    </div><!-- hotel_info -->
-                                                                    <div class="tbl">
-                                                                        <div class="text_wrap mid">
-                                                                            <strong class="tit">기본정보</strong>
-                                                                        </div>
-                                                                        <table class="type2">
-                                                                            <colgroup>
-                                                                                <col style="width: 15%">
-                                                                                <col style="width: 32%">
-                                                                                <col style="width: 15%">
-                                                                                <col>
-                                                                            </colgroup>
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <th>도시</th>
-                                                                                    <td>태국, 파타야</td>
-                                                                                    <th>주소</th>
-                                                                                    <td>우리집</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th>연락처</th>
-                                                                                    <td>010-1111-1111</td>
-                                                                                    <th>등급</th>
-                                                                                    <td>5성급</td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div><!-- tbl -->
-                                                                    <div class="tbl">
-                                                                        <div class="text_wrap mid">
-                                                                            <strong class="tit">부대시설</strong>
-                                                                        </div>
-                                                                        <table class="type2">
-                                                                            <colgroup>
-                                                                                <col style="width: 15%">
-                                                                                <col style="width: 32%">
-                                                                                <col style="width: 15%">
-                                                                                <col>
-                                                                            </colgroup>
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <th>부대시설</th>
-                                                                                    <td class="vtop" colspan="3">
-                                                                                        <ul class="service_list">
-                                                                                            <li style="white-space: pre-line;">- 레스토랑
-                                                                                                - 야외수영장
-                                                                                                - 피트니스시설
-                                                                                                - 세탁서비스
-                                                                                                - 엘리베이터
-                                                                                                - 테라스
-                                                                                                - 와이파이
-                                                                                            </li>
-                                                                                        </ul>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                </div><!-- hotel_detail_wrap -->
-                                                            </div>
-                                                        </div><!-- panels -->
+                                                    <%-- 호텔부분 --%>
+                                                    	<c:forEach var="pkage_hotelDTO" items="${pkageDTORM.pkage_detailDTO.pkage_hotelDTOList }">
+	                                                        <div class="panels">
+	                                                            <div id="hotel01" class="panelh selected">
+	                                                                <div class="hotel_detail_wrap">
+	                                                                    <div class="hotel_info">
+	                                                                        <div class="img_box">
+	                                                                        <%-- 호텔 이미지 해야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --%>
+	                                                                            <img src="package_beijing31001_1.jpg">
+	                                                                        </div>
+	                                                                        <div class="info">
+	                                                                            <div class="text_wrap">
+	                                                                            <%-- 호텔 이름 / 영어 이름 --%>
+	                                                                                <strong class="tit">${pkage_hotelDTO.hotelDTO.hotel_kor }</strong>
+	                                                                                <span>${pkage_hotelDTO.hotelDTO.hotel_eng }</span>
+	                                                                            </div>
+	                                                                            <p class="txt"></p>
+	                                                                        </div>
+	                                                                    </div><!-- hotel_info -->
+	                                                                    <div class="tbl">
+	                                                                        <div class="text_wrap mid">
+	                                                                            <strong class="tit">기본정보</strong>
+	                                                                        </div>
+	                                                                        <table class="type2">
+	                                                                            <colgroup>
+	                                                                                <col style="width: 15%">
+	                                                                                <col style="width: 32%">
+	                                                                                <col style="width: 15%">
+	                                                                                <col>
+	                                                                            </colgroup>
+	                                                                            <tbody>
+	                                                                                <tr>
+	                                                                                    <th>주소</th>
+	                                                                                    <td>${pkage_hotelDTO.hotelDTO.hotel_loc }</td>
+	                                                                                    <th>평점</th>
+	                                                                                    <td>${pkage_hotelDTO.hotelDTO.hotel_score } / 5</td>
+	                                                                                </tr>
+	                                                                                <tr>
+	                                                                                    <th>연락처</th>
+	                                                                                    <td>${pkage_hotelDTO.hotelDTO.hotel_tel }</td>
+	                                                                                    <th>등급</th>
+	                                                                                    <td>${pkage_hotelDTO.hotelDTO.hotel_grade }</td>
+	                                                                                </tr>
+	                                                                            </tbody>
+	                                                                        </table>
+	                                                                    </div><!-- tbl -->
+	                                                                    <%-- 호텔 부대시설 해야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --%>
+	                                                                    <div class="tbl">
+	                                                                        <div class="text_wrap mid">
+	                                                                            <strong class="tit">부대시설</strong>
+	                                                                        </div>
+	                                                                        <table class="type2">
+	                                                                            <colgroup>
+	                                                                                <col style="width: 15%">
+	                                                                                <col style="width: 32%">
+	                                                                                <col style="width: 15%">
+	                                                                                <col>
+	                                                                            </colgroup>
+	                                                                            <tbody>
+	                                                                                <tr>
+	                                                                                    <th>부대시설</th>
+	                                                                                    <td class="vtop" colspan="3">
+	                                                                                        <ul class="service_list">
+	                                                                                            <li style="white-space: pre-line;">- 레스토랑
+	                                                                                                - 야외수영장
+	                                                                                                - 피트니스시설
+	                                                                                                - 세탁서비스
+	                                                                                                - 엘리베이터
+	                                                                                                - 테라스
+	                                                                                                - 와이파이
+	                                                                                            </li>
+	                                                                                        </ul>
+	                                                                                    </td>
+	                                                                                </tr>
+	                                                                            </tbody>
+	                                                                        </table>
+	                                                                    </div>
+	                                                                </div><!-- hotel_detail_wrap -->
+	                                                            </div>
+	                                                        </div><!-- panels -->
+														</c:forEach>
+                                                        
                                                     </div><!-- js_tabs hotel v-tabs -->
                                                 </div><!-- panelh selected -->
                                             </div><!-- panels -->
@@ -622,7 +553,7 @@
                                     <li>
                                         <p class="tit">
                                             <span class="txt">성인</span>
-                                            <span class="price">200,000원</span>
+                                            <span class="price Aprice" data-Aprice="${pkageDTORM.pkage_detailDTO.pkage_dt_Aprice }"><fmt:formatNumber value="${pkageDTORM.pkage_detailDTO.pkage_dt_Aprice }" pattern="#,###"/>원</span>
                                         </p>
                                         <span class="num_count_group">
                                             <button class="btn_decrement down"></button>
@@ -633,7 +564,7 @@
                                     <li>
                                         <p class="tit">
                                             <span class="txt">아동</span>
-                                            <span class="price">100,000원</span>
+                                            <span class="price Cprice" data-Cprice="${pkageDTORM.pkage_detailDTO.pkage_dt_Cprice }"><fmt:formatNumber value="${pkageDTORM.pkage_detailDTO.pkage_dt_Cprice }" pattern="#,###"/>원</span>
                                         </p>
                                         <span class="num_count_group">
                                             <button class="btn_decrement down"></button>
@@ -656,9 +587,9 @@
                                 <div class="cont_unit foot">
                                     <div class="btn_wrap">
                                         <button class="btn-rv">예약</button>
-                                        <button class="btn-like">
+                                        <!-- <button class="btn-like">
                                             <span class="btn-like-span">favorite</span>
-                                        </button>
+                                        </button> -->
                                     </div>
                                 </div>
                             </div>
@@ -670,6 +601,8 @@
     </div> <!-- pk_container -->
         
     <script>
+    	let possibleCnt = Number($('#possibleCnt').attr('data-possibleCnt'));
+    
         $(function() {
         	
             /* 인원 수 버튼 증감 및 총 금액 부분의 합계 script 부분 */
@@ -683,8 +616,8 @@
             let down = $('.down');
 
                 // 성인 가격 / 아동 가격 (서버에서 받아와야 함 - 우선 하드코딩)
-            let adultPrice = 200000;
-            let childPrice = 100000;
+            let adultPrice = Number($('.Aprice').attr("data-Aprice"));
+            let childPrice = Number($('.Cprice').attr("data-Cprice"));
 
                 // 총 금액 (기본적으로 성인이 1명 선택되어있기 때문에 시작하자마자 성인 가격을 대입함)
             let totalPrice = adultPrice;
@@ -720,7 +653,7 @@
                 } else if(isAdult && isUp) {
                     console.log('성인 up');
                     // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
-                    if(totalCnt >= 10) {
+                    if(totalCnt >= possibleCnt) {
                         return;
                     } else {
                         cnt += 1;
@@ -734,7 +667,7 @@
                 } else if(!isAdult && isUp){
                     console.log('아동 up');
                     // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
-                    if(totalCnt >= 10) {
+                    if(totalCnt >= possibleCnt) {
                         return;
                     } else {
                         cnt += 1;
