@@ -138,7 +138,7 @@
                                 <dd>${pkageDTORM.cityDTO.city_name }</dd>
                                 <dt>예약현황</dt>
                                 <dd class="state"><%-- 패키지 인원 / 예약 인원 / 최소 인원 --%>
-                                    <span class="info">예약 : ${pkageDTORM.pkage_detailDTO.pkage_dt_cnt }명</span>
+                                    <span class="info">예약 : ${pkageDTORM.pkage_detailDTO.pkage_dt_Rcnt }명</span>
                                     <span class="info" id="possibleCnt" data-possibleCnt="${pkageDTORM.pkage_detailDTO.pkage_dt_cnt - pkageDTORM.pkage_detailDTO.pkage_dt_Rcnt }">
                                                                                  잔여좌석 : ${pkageDTORM.pkage_detailDTO.pkage_dt_cnt - pkageDTORM.pkage_detailDTO.pkage_dt_Rcnt }석 (최소출발 : ${pkageDTORM.pkage_detailDTO.pkage_dt_Mcnt }명)
                                     </span>
