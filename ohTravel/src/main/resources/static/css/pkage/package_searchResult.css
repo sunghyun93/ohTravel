@@ -425,3 +425,10 @@ span.form_holder {
 .btn_wrap .pkgDetail::before {
     background: #014b85;
 }
+
+.prod_list_wrap .type li .inr.right > .btn_wrap .btn-like {
+    position: absolute;
+    right: 200px;
+    bottom: 0px;
+    height: 60px;
+}

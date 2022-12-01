@@ -166,6 +166,11 @@
 	                                        </strong>
 	                                    </div>
 	                                    <div class="btn_wrap">
+		                                    <button class="btn-like">
+	                                            <span class="btn-like-span">favorite</span>
+	                                        </button>
+                                        </div>
+	                                    <div class="btn_wrap">
 	                                        <a href="#none" class="btn arrow">판매상품보기</a>
 	                                    </div>
 	                                </div> <!-- inr right -->
@@ -331,6 +336,27 @@ else if(orderli == '4') $('li.orderli4').addClass('on')
 	    let url = makeURL(order);
 	  	aTag.attr('href', url); 
 	})
+	
+	/* 찜 하트 변경 script 부분 (구글 font-icons 활용) */
+	/* 찜이 되어있으면 꽉찬 하트, 안되어있으면 빈 하트로 초기화 시켜주는 로직 완성시켜야함 !! */
+	$('.btn-like-span').addClass("material-symbols-outlined-empty");
+
+
+    $('.btn-like').on('click', function() {
+    	let likeSpan = $(this).children('.btn-like-span');
+    	/* 빈하트로 변경 */
+        if(likeSpan.hasClass('material-symbols-outlined-filled')) {
+            $(this).children('.btn-like-span').removeClass("material-symbols-outlined-filled");
+            $(this).children('.btn-like-span').addClass("material-symbols-outlined-empty");
+
+        } 
+        /* 꽉 찬 하트로 변경 */
+        else {
+        	$(this).children('.btn-like-span').removeClass("material-symbols-outlined-empty");
+        	$(this).children('.btn-like-span').addClass("material-symbols-outlined-filled");
+
+        }
+    }); 
 
 	/* 상품상세보기 버튼 눌렀을 때 */
 	let detailAtag = $('.btn.arrow');

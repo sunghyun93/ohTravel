@@ -75,4 +75,14 @@ public class PkageDaoTest {
 		}
 	}
 	
+	@Test
+	public void selectPkgByPkgIdTest() throws Exception {
+		String pkage_id = "pk420002";
+		
+		PkageDTORM dto = pkageDao.selectPkgByPkgId(pkage_id);
+		log.info("dto="+dto);
+		
+		assertTrue(dto.getPkage_id().equals(pkage_id));
+	}
+	
 }

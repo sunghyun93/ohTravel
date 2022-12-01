@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
+import com.oracle.ohTravel.pkage.dao.PkageDao;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
+import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_flightScheDTO;
 import com.oracle.ohTravel.pkage.model.PkgSearch;
 import com.oracle.ohTravel.pkage.service.PkageService;
 
@@ -28,6 +31,8 @@ public class PkageRestController {
 	private CityService cityService;
 	@Autowired 
 	private PkageService pkageService;
+	@Autowired
+	private PkageDao pkageDao;
 	
 	@PostMapping("/selectCity")
 	public ResponseEntity<List<CityDTO>> selectCity(Integer country_id) {
@@ -53,7 +58,7 @@ public class PkageRestController {
 			PkgSearch pkgSearch = new PkgSearch();
 			pkgSearch.setPkage_gubun(1);
 			pkgSearch.setToDesti(310);
-			pkgSearch.setDates_start_check("2022-12-19");
+			pkgSearch.setDates_start_check("2022-12-20");
 			
 			Map<String, Object> map = new HashMap<>();
 			map.put("toDesti", pkgSearch.getToDesti());
@@ -67,4 +72,48 @@ public class PkageRestController {
 		}
 		return null;
 	}
+	
+	// 테스트용
+	@GetMapping("/test2")
+	public PkageDTORM test2() {
+		try {
+			Integer pkage_dt_id = 1;
+			
+//			Pkage_detailDTO dto = pkageDao.selectPkgDetailById(pkage_dt_id);
+			PkageDTORM dto = pkageDao.selectPkgByPkgId("pk110001");
+			log.info("dto="+dto);
+			return dto;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	// 테스트용
+	@GetMapping("/test3")
+	public Pkage_detailDTO test3() {
+		try {
+			Integer pkage_dt_id = 33;
+			
+			Pkage_detailDTO dto = pkageDao.selectPkgDetailById(pkage_dt_id);
+			log.info("dto="+dto);
+			
+			// 해외만 비행일정이 있기 때문에 if문 걸어야함.
+			if(dto.getPkage_flightScheDTOList().size() > 1) {
+				// 출발 / 도착 비행 시간 계산
+				for(Pkage_flightScheDTO fsh : dto.getPkage_flightScheDTOList()) {
+					fsh.getTime();
+				}
+				
+				// 비행일정이 있기 때문에 값 1로 변경  (jsp 에서 비행일정이 있는 것과 없는 것 구분해주기 위함)
+				dto.setFlightExist(1);
+			}
+			
+			return dto;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

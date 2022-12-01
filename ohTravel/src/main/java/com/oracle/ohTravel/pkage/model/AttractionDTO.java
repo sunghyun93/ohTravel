@@ -13,5 +13,5 @@ public class AttractionDTO {
 	private String attr_info;	// 관광지정보
 	
 	// attraction_image 관광지 이미지
-	List<Attraction_imageDTO> attr_img_DTOList;
+	private List<Attraction_imageDTO> attr_img_DTOList;
 }
