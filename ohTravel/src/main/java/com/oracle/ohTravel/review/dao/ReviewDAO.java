@@ -2,6 +2,7 @@ package com.oracle.ohTravel.review.dao;
 
 import java.util.List;
 
+import com.oracle.ohTravel.review.domain.Review;
 import com.oracle.ohTravel.review.model.ReviewDTO;
 
 public interface ReviewDAO {
@@ -11,5 +12,7 @@ public interface ReviewDAO {
 	void updateReview(ReviewDTO reviewDTO);
 	
 	int reviewCnt(String rv_real_id) throws Exception;
+
+	void updateRating(ReviewDTO reviewDTO);
 
 }

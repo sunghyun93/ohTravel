@@ -11,10 +11,13 @@ public class ReviewDTO {
 	
 	private int rv_id;
 	private String mem_id;
-	private Double rv_rating;
+	private double rv_rating;
 	private String rv_contents;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date rv_date;
 	private String rv_real_id;
+	
+	//hotel
+	//private double hotel_score;
 }
