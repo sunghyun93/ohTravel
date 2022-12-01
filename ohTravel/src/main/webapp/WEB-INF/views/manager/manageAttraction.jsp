@@ -25,9 +25,9 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function(){
-		var updateMsg1 = '${updateTicketMsg1}';
-		var deleteMsg1 = '${deleteTicketMsg1}';
-		var insertMsg1 = '${insertTicketMsg1}';
+		var updateMsg1 = '${updateAttractionMsg1}';
+		var deleteMsg1 = '${deleteAttractionMsg1}';
+		var insertMsg1 = '${insertAttractionMsg1}';
 		console.log(updateMsg1);
 		console.log(deleteMsg1);
 		console.log(updateMsg1);
@@ -68,7 +68,7 @@
 					</thead>
 					<c:forEach var="attractionList" items="${attractionList }">
 					<tbody>
-					<tr onclick="location.href='manageAttractionDetail?attr_id=${attractionList.attr_id }&currentPage=${page.currentPage}'">
+					<tr onclick="location.href='manageAttractionDetail?attr_id=${attractionList.attr_id }&attr_Img_code=${attractionList.attr_Img_code}&currentPage=${page.currentPage}'">
 						<td>${attractionList.attr_id }</td>
 						<td>${attractionList.city_id}</td>
 						<td>${attractionList.attr_name}</td>
@@ -82,14 +82,13 @@
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 					<c:if test="${page.startPage > page.pageBlock }">
-						<li class="page-item"><a class="page-link" href="manageUser?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
+						<li class="page-item"><a class="page-link" href="manageAttraction?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
 					</c:if>
 					<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-						<li class="page-item"><a class="page-link" href="manageUser?currentPage=${i}">${i}</a></li>
+						<li class="page-item"><a class="page-link" href="manageAttraction?currentPage=${i}">${i}</a></li>
 					</c:forEach>
 					<c:if test="${page.endPage < page.totalPage }">
-						<a href="manageUser?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
-						<li class="page-item"><a class="page-link" href="manageUser?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
+						<li class="page-item"><a class="page-link" href="manageAttraction?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
 					</c:if>
 				</ul>
 			</nav>

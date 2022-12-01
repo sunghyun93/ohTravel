@@ -1,12 +1,13 @@
 package com.oracle.ohTravel.manager.dto;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import lombok.Data;
 
 @Data
 public class ManagePackageDTO {
-	private Integer pkage_id;
+	private String pkage_id;
 	private Integer city_id;
 	private String pkage_name;
 	private String pkage_info;
@@ -26,7 +27,9 @@ public class ManagePackageDTO {
 	private Integer pkage_dt_Rcnt;
 	private String pkage_dt_Gname;
 	private String pkage_dt_meet;
-	private Timestamp pkage_dt_meetDate;
+	private String pkage_dt_meetDate;		// 사전미팅날짜
+	private String pkage_dt_startDay;		// 일정시작날짜
+	private String pkage_dt_endDay;		// 일정정료날짜
 	
 	//pakcage_image
 	private Integer pkage_Img_id;

@@ -85,7 +85,7 @@ public interface ManagerService {
 
 	int totalPackageDetail(ManagePackageDTO pk);
 
-	List<ManagePackageDTO> getAttractionList();
+	List<ManagePackageDTO> getAttractionList(ManagePackageDTO pk);
 
 	int totalAttraction();
 
@@ -96,6 +96,12 @@ public interface ManagerService {
 	List<ManagePackageDTO> getCityList(ManagePackageDTO pk);
 
 	int updateAttraction(ManagePackageDTO pk);
+
+	int deleteAttraction(ManagePackageDTO pk);
+
+	int insertPackage(ManagePackageDTO pk);
+
+	List<ManagePackageDTO> getPackageDetailOne(ManagePackageDTO pk);
 
 	
 
