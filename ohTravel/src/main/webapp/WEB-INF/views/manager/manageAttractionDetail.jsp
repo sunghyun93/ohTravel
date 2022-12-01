@@ -80,10 +80,11 @@
 					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageAttraction?currentPage=${currentPage}'" value="돌아가기">
 				</div>
 				<c:forEach var="attractionDetail" items="${attractionDetail }">
+					<input type="hidden" name="attr_Img_code" value="${attractionDetail.attr_Img_code }">
 					<table border="1" class="table table-striped">
 						<tr>
 							<th>관광지ID</th>
-							<td><input type="text" name="attr_id" value="${attractionDetail.attr_id }" readonly="readonly"></td>
+							<td><input type="text" class="form-control-plaintext" name="attr_id" value="${attractionDetail.attr_id }" readonly="readonly"></td>
 						</tr>
 						<tr>
 							<th>도시ID</th>
@@ -121,11 +122,11 @@
 						</tr>
 						<tr>
 							<th>관광지명</th>
-							<td><input type="text" name="attr_name" value="${attractionDetail.attr_name }" required="required"></td>
+							<td><input type="text" class="form-control" name="attr_name" value="${attractionDetail.attr_name }" required="required"></td>
 						</tr>
 						<tr>
 							<th>관광지영어명</th>
-							<td><input type="number" name="attr_ename" value="${attractionDetail.attr_ename }" required="required"></td>
+							<td><input type="text" class="form-control" name="attr_ename" value="${attractionDetail.attr_ename }" required="required"></td>
 						</tr>
 						<tr>
 							<th>관광지설명</th>
@@ -135,10 +136,10 @@
 						</tr>
 					</table>
 					<div style="flex: 2">
-						<input type="button" onclick="moveForm('update')" class="genric-btn info elb" value="입장권수정">
+						<input type="button" onclick="moveForm('update')" class="genric-btn info elb" value="관광지수정">
 					</div>
 					<div>
-						<input type="button" onclick="moveForm('delete')" class="genric-btn danger radius elb" value="입장권삭제">
+						<input type="button" onclick="moveForm('delete')" class="genric-btn danger radius elb" value="관광지삭제">
 					</div>
 					</c:forEach>
 					<!-- 여기에 회원들어갈꺼 -->
@@ -155,7 +156,7 @@
 							<td>
 								<span>현재 경로 : ${attractionDetail.attr_Img_path }</span><br>
 								<input type="file" id="attr_img_path" class="form-control" name="file1" accept="image/*">
-								<input type="hidden" name="attr_img_path" value="${attractionDetail.attr_Img_path }">
+								<input type="hidden" name="attr_Img_path" value="${attractionDetail.attr_Img_path }">
 							</td>
 						</tr>
 						<tr>
