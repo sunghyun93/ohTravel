@@ -30,7 +30,10 @@
 					<div class="star_img">
 						<img alt="별점뙇~" src="${pageContext.request.contextPath }/img/hotel/star.png">
 					</div>
-					<div class="star_scr">
+					<!-- <div id="star_scr">
+					
+					</div> -->
+					<div class="star_scr" id="star_scr">
 						${hotelDetail.hotel_score }
 					</div>
 					<hr>

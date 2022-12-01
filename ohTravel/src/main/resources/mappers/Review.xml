@@ -8,6 +8,7 @@
 		SELECT rv_id, mem_id, rv_rating, rv_contents, rv_date, rv_real_id
 		FROM review
 		WHERE rv_real_id = #{rv_real_id}
+		ORDER BY rv_id DESC
 	
 	</select>
 	
@@ -20,6 +21,16 @@
 		AND mem_id = #{mem_id}
 		AND rv_real_id = #{rv_real_id}	
 	</update>	
+	
+	<update id="updateRating"  parameterType = "Review">
+		UPDATE hotel SET hotel_score = (
+			SELECT AVG(rv_rating)
+			FROM review
+			WHERE rv_real_id = #{rv_real_id}
+			)
+		WHERE hotel_id = #{rv_real_id};
+	
+	</update>
 	
 	<!-- 리뷰 개수 가져오는 select 문 -->
 	<select id="reviewCnt" parameterType="String" resultType="int">
