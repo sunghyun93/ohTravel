@@ -1,11 +1,14 @@
 package com.oracle.ohTravel.member.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.member.model.MemberDTO;
+import com.oracle.ohTravel.member.model.TicketReservationDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +42,16 @@ public class MemberDaoImpl implements MemberDao {
 		int result = sqlSession.insert("register", memberDTO);
 		
 		return result;
+	}
+
+	// 티켓 예약 내역
+	@Override
+	public List<TicketReservationDTO> myPageReservTicket(TicketReservationDTO ticketReservationDTO) {
+		log.info("MemberDaoImpl myPageReservTicket Start..");
+		List<TicketReservationDTO> ticketReservList = sqlSession.selectList("ticketReservList", ticketReservationDTO);
+		
+		System.out.println("MemberDaoImpl myPageReservTicket ticketReservList.size() -> "+ ticketReservList.size());
+		return ticketReservList;
 	}
 	
 }

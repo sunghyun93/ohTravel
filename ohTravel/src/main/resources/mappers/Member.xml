@@ -32,4 +32,8 @@
 							now(),
 							#{mem_role}	)
 	</insert>
+	
+	<select id="ticketReservList" resultType="TicketReservationDTO" parameterType="TicketReservationDTO">
+		SELECT * FROM ticket_reservation WHERE mem_id = #{mem_id}
+	</select>
 </mapper>
