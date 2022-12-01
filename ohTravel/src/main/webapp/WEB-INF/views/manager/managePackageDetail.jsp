@@ -53,12 +53,13 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">패키지 상품 관리</h1>
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertPackageForm'">패키지 상품 추가</button>
+				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertPackageForm?pkage_id=${pkage_id}'">패키지 상품 추가</button>
 				<input type="button" class="btn btn-primary mb-2 mr-2" style="float: right;" onclick="location.href='managePackage?currentPage=${currentPage}'" value="돌아가기">
 			</div>
 				<table border="1" class="table table-hover">
 					<thead>
 					<tr>
+						<th>패키지상품ID</th>
 						<th>패키지코드</th>
 						<th>도시코드</th>
 						<th>패키지명</th>
@@ -71,6 +72,7 @@
 					<c:forEach var="packageDetail" items="${packageDetail }">
 					<tbody>
 					<tr onclick="location.href='managePackageDetailOne?pkage_id=${packageDetail.pkage_id}&pkage_dt_id=${packageDetail.pkage_dt_id }'">
+						<td>${packageDetail.pkage_dt_id }</td>
 						<td>${packageDetail.pkage_id}</td>
 						<td>${packageDetail.city_id}</td>
 						<td>${packageDetail.pkage_name}</td>

@@ -91,9 +91,9 @@
 	<select id="totalAttraction" resultType="int">
 		SELECT count(*) FROM attraction att, attraction_image ai where att.attr_id = ai.attr_id;
 	</select>
-	<select id="getAttractionList" resultType="Package">
+	<select id="getAttractionList" resultType="Package" parameterType="Package">
 		<![CDATA[
-		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT att.*,ai.attr_img_code,ai.attr_Img_path FROM attraction att, attraction_image ai where att.attr_id = ai.attr_id) a, (select @rownum := 0) rownum) b WHERE rn >= 1 and rn <= 10
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT att.*,ai.attr_img_code,ai.attr_Img_path FROM attraction att, attraction_image ai where att.attr_id = ai.attr_id) a, (select @rownum := 0) rownum) b WHERE rn >= #{start} and rn <= #{end}
 		]]>
 	</select>
 	<insert id="insertAttraction" parameterType="Package">
@@ -101,14 +101,25 @@
 		INSERT INTO attraction_image(attr_id,attr_img_path) VALUES(#{attr_id},#{attr_Img_path});
 	</insert>
 	<select id="getAttractionDetail" parameterType="Package" resultType="Package">
-		SELECT a.*,ai.attr_img_code,ai.attr_id,ai.attr_Img_path FROM attraction a, attraction_image ai where a.attr_id = ai.attr_id AND a.attr_id=#{attr_id};
+		SELECT a.*,ai.attr_img_path,ai.attr_img_code,ai.attr_id,ai.attr_Img_path FROM attraction a, attraction_image ai where a.attr_id = ai.attr_id AND a.attr_id=#{attr_id} AND ai.attr_Img_code=#{attr_Img_code};
 	</select>
 	<select id="getCityListPk" resultType="Package">
 		select * from city where country_id = (select country_id from country where country_id=(select country_id from country WHERE country_id=(select country_id from city where city_id=#{city_id})));
 	</select>
-	<update id="updateAttraction">
-		UPDATE attraction a, attraction_image ai SET td.city_id=#{city_id},td.ticket_name=#{ticket_name},td.ticket_sales_cnt=#{ticket_sales_cnt},td.ticket_location=#{ticket_location},td.ticket_score=#{ticket_score},td.ticket_due_date=#{ticket_due_date},td.ticket_adult_price=#{ticket_adult_price},td.ticket_child_price=#{ticket_child_price},ti.ticket_rep_img_path=#{ticket_rep_img_path},ti.ticket_detail_img_path=#{ticket_detail_img_path} WHERE td.ticket_id=#{ticket_id} AND ti.ticket_id=#{ticket_id}
+	<update id="updateAttraction" parameterType="Package">
+		UPDATE attraction a, attraction_image ai SET a.city_id=#{city_id},a.attr_name=#{attr_name},a.attr_ename=#{attr_ename},a.attr_info=#{attr_info},ai.attr_Img_path=#{attr_Img_path} WHERE a.attr_id=#{attr_id} AND ai.attr_id=#{attr_id} AND ai.attr_Img_code=#{attr_Img_code};
 	</update>
+	<delete id="deleteAttraction" parameterType="Package">
+		DELETE FROM attraction WHERE attr_id=#{attr_id};
+		DELETE FROM attraction_image WHERE attr_id=#{attr_id};
+	</delete>
+	<insert id="insertPackage" parameterType="Package">
+		INSERT INTO package_detail(pkage_id,pkage_dt_name,pkage_dt_thema,pkage_dt_Aprice,pkage_dt_Cprice,pkage_dt_cnt,pkage_dt_Mcnt,pkage_dt_Rcnt,pkage_dt_Gname,pkage_dt_meet,pkage_dt_meetDate, pkage_dt_startDay, pkage_dt_endDay)
+		VALUES (#{pkage_id}, #{pkage_dt_name}, #{pkage_dt_thema}, #{pkage_dt_Aprice}, #{pkage_dt_Cprice}, #{pkage_dt_cnt}, #{pkage_dt_Mcnt}, 0, #{pkage_dt_Gname}, #{pkage_dt_meet,jdbcType=TIMESTAMP}, #{pkage_dt_meetDate}, #{pkage_dt_startDay}, #{pkage_dt_endDay});
+	</insert>
+	<select id="getPackageDetailOne" parameterType="Package" resultType="Package">
+		SELECT * FROM package_detail WHERE pkage_id=#{pkage_id} AND pkage_dt_id=#{pkage_dt_id}
+	</select>
 	
 	
 	

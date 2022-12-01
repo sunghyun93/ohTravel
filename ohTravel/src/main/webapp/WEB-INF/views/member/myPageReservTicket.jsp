@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,25 +85,26 @@
 					                </ul>
 					            </div>	<!-- right_cont -->
 					        </div>	<!-- text_wrap inquiry mt0 -->
+					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
-					                    <col style="width: 14%;" />
-					                    <col />
-					                    <col style="width: 14%;" />
-					                    <col style="width: 8%;" />
-					                    <col style="width: 12%;" />
+					                    <col style="width: 25%;" />
+					                    <col style="width: 35%;" />
+					                    <col style="width: 15%;" />
+					                    <col style="width: 25%;" />
 					                </colgroup>
 					                <thead>
 					                    <tr>
-					                        <th>예약일/예약코드</th>
+					                        <th>주문일</th>
 					                        <th>상품명</th>
 					                        <th>결제 금액</th>
-					                        <th>인원</th>
-					                        <th>출발일</th>
+					                        <th>사용가능일</th>
 					                    </tr>
 					                </thead>
+					                <c:forEach var="ticketReservList" items="${ticketReservList}">
 					                <tbody>
+					                	<!-- 티켓 예약 내역이 하나도 없을 때 -->
 					                    <tr>
 					                        <td colspan="5">
 					                            <div class="data_no">
@@ -110,7 +112,14 @@
 					                            </div>
 					                        </td>
 					                    </tr>
+					                    <tr>
+					   						<td>${ticketReservList.ticket_puchase_date}</td>
+					                    	<td>${ticketReservList.ticket_name}</td>
+					                    	<td>${ticketReservList.ticket_total_price}</td>
+					                    	<td>${ticketReservList.ticket_admission_date}</td>
+					                    </tr>
 					                </tbody>
+					                </c:forEach>
 					            </table>
 					        </div>	<!-- tbl -->
 					    </div>	<!-- panel selected -->

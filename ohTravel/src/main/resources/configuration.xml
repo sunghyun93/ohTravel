@@ -15,7 +15,8 @@
 		<typeAlias type="com.oracle.ohTravel.manager.dto.NoticeDTO" alias="Notice"/>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.CouponDTO" alias="Coupon"/>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.ManageTicketDTO" alias="Ticket"/>
-     	<typeAlias type="com.oracle.ohTravel.manager.dto.ManagePackageDTO" alias="Package"/>
+		<typeAlias type="com.oracle.ohTravel.manager.dto.ManagePackageDTO" alias="Package"/>
+
 		
 		<!-- pkage -->
 		<typeAlias type="com.oracle.ohTravel.pkage.model.PkageDTO" alias="PkageDTO"/>
@@ -43,7 +44,10 @@
 		<!-- ticket -->
 		<typeAlias type="com.oracle.ohTravel.ticket.model.TicketDTO" alias="TicketDTO"/>
 		
+		<!-- Member -->
 		<typeAlias type="com.oracle.ohTravel.member.model.MemberDTO" alias="MemberDTO"/>
+		<typeAlias type="com.oracle.ohTravel.member.model.TicketReservationDTO" alias="TicketReservationDTO"/>
+		
 		
 	</typeAliases>
 </configuration>
