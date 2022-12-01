@@ -115,48 +115,48 @@
 			</div>
 		</div>
 		
-					<!-- 호텔이 가지고 있는 방 종류마다 반복될 folding box -->
-					<div class="room_type_more">
-						
-						<div class="fluid-wrap">
-						 <div class="container-fluid" >
-						 	<!-- style="min-height: calc(100vh - 136px);" -->
-						    <!-- 그룹 태그로 role과 aria-multiselectable를 설정한다. -->
-						    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-						      <!-- 하나의 item입니다. data-parent 설청과 href 설정만 제대로 하면 문제없이 작동합니다. -->
-						      <div class="panel panel-default">
-						          <a class="r_type_name" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false">
-							        <div class="panel-heading" role="tab">
-							           	<p>방 종류 이름</p>
-							        </div>
-						          </a>
-						        <div id="collapse1" class="panel-collapse collapse" role="tabpanel">
-						          <div class="panel-body">
-						            	<div class="room_type_detail">
-											<div class="room_img">
-												<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">
-											</div>
-											<div class="r_name">
-												<h3>room 이름</h3>
-											</div>
-											<div class="r_option">
-												<h4>뭔가의 방 옵션정보</h4>
-											</div>
-											<div class="r_price">
-												<h3>가격</h3>
-											</div>
-											<div class="reservation">
-												<button class="genric-btn primary ela">예약하기</button>
-											</div>
-										</div>
-									</div><!-- panel-body -->
-						          </div> <!-- #collapse1 -->
-						        </div> <!-- panel-default -->
-						      </div> <!-- panel-group -->
-							</div> <!-- container-fluid -->
-						</div>
-					
-					</div> <!-- room_type_more 끝 -->
+		<!-- 호텔이 가지고 있는 방 종류마다 반복될 folding box -->
+		<div class="room_type_more">
+			
+			<div class="fluid-wrap">
+			 <div class="container-fluid" >
+			 	<!-- style="min-height: calc(100vh - 136px);" -->
+			    <!-- 그룹 태그로 role과 aria-multiselectable를 설정한다. -->
+			    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+			      <!-- 하나의 item입니다. data-parent 설청과 href 설정만 제대로 하면 문제없이 작동합니다. -->
+			      <div class="panel panel-default">
+			          <a class="r_type_name" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false">
+				        <div class="panel-heading" role="tab">
+				           	<p>방 종류 이름</p>
+				        </div>
+			          </a>
+			        <div id="collapse1" class="panel-collapse collapse" role="tabpanel">
+			          <div class="panel-body">
+			            	<div class="room_type_detail">
+								<div class="room_img">
+									<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">
+								</div>
+								<div class="r_name">
+									<h3>room 이름</h3>
+								</div>
+								<div class="r_option">
+									<h4>뭔가의 방 옵션정보</h4>
+								</div>
+								<div class="r_price">
+									<h3>가격</h3>
+								</div>
+								<div class="reservation">
+									<button class="genric-btn primary ela">예약하기</button>
+								</div>
+							</div>
+						</div><!-- panel-body -->
+			          </div> <!-- #collapse1 -->
+			        </div> <!-- panel-default -->
+			      </div> <!-- panel-group -->
+				</div> <!-- container-fluid -->
+			</div>
+		
+		</div> <!-- room_type_more 끝 -->
 					
 					
 					<div class="ht_option">
@@ -528,22 +528,20 @@ function registerReview() {
 function getReviewList(){
 	
 	// 각자의 상품 Id값 변수 선언을 이쪽에서
-	let hotelId = '${hotelDetail.hotel_id}'
-	console.log = hotelId
+	let rv_real_id = '${hotelDetail.hotel_id}'
 	
 	$.ajax({
 		
 				url:"${pageContext.request.contextPath }/review/reviewList",
 				data:{
 					// 리뷰 테이블의 해당 상품id값을 읽어오는 부분
-					rv_real_id : hotelId
+					rv_real_id
 				},
 				type:"get",
 				dataType:"json",
 				success: function(result) {
-					
 					// 가지고온 리뷰 데이터들을 포함해 화면 랜더링 함수 호출
-					makeReviewTable(result);
+					makeReviewTable(result.reviewList);
 					
 				}
 		
@@ -636,34 +634,34 @@ function writeReview(){
 	//				  rv_date (작성시점 : ReviewServiceImpl에서 해결), rv_real_id(상품id값)
 	
 	let sendData = {
-					//TODO:나중에 세션?에 있는 정보로 읽어와야함
-					mem_id: 'test1',
-					rv_rating: ($('#starRate').val())/2, // starRate에서 10에 해당하는 값이 별점 5점이기 때문에 /2
-					rv_contents: $('#review-text').val(),
-					// 상품마다 rv_real_id값을 바꿔줘야함
-					rv_real_id: '${hotelDetail.hotel_id}'
+		//TODO:나중에 세션?에 있는 정보로 읽어와야함
+		mem_id: 'test1',
+		rv_rating: ($('#starRate').val())/2, // starRate에서 10에 해당하는 값이 별점 5점이기 때문에 /2
+		rv_contents: $('#review-text').val(),
+		// 상품마다 rv_real_id값을 바꿔줘야함
+		rv_real_id: '${hotelDetail.hotel_id}'
 	}
 	
 	
 	$.ajax({
-				url:"${pageContext.request.contextPath }/review/writeReview",
-				data: sendData,
-				type:'post',
-				success: function(result) {
-					// insert 성공시, 성공 알림
-					if(result == "SUCCESS"){
-						alert("리뷰가 등록되었습니다.")
-					} else {
-					// insert 실패하면 실패 alert
-						alert("등록이 실패하였습니다.")
-					}
-					
-					//모달창 닫기
-					$('#reviewModal').modal('hide');
-					//랜더링 함수 호출
-					getReviewList();
-					
-				}
+		url:"${pageContext.request.contextPath }/review/writeReview",
+		data: sendData,
+		type:'post',
+		success: function(result) {
+			// insert 성공시, 성공 알림
+			if(result == "SUCCESS"){
+				alert("리뷰가 등록되었습니다.")
+			} else {
+			// insert 실패하면 실패 alert
+				alert("등록이 실패하였습니다.")
+			}
+			
+			//모달창 닫기
+			$('#reviewModal').modal('hide');
+			//랜더링 함수 호출
+			getReviewList();
+			
+		}
 				
 		
 	});
@@ -691,25 +689,25 @@ function updateReview(){
 	}
 	
 	$.ajax({
-				url:"${pageContext.request.contextPath }/review/updateReview",
-				data: sendData,
-				type:'post',
-				success: function(result){
-					// update 성공하면 성공 alert
-					if(result == "SUCCESS"){
-						alert("리뷰가 수정되었습니다.")
-					} else {
-					// update 실패하면 실패 alert
-						alert("수정에 실패하였습니다.")
-					}
-					
-					//모달창 닫기
-					$('#reviewModal').modal('hide');
-					//랜더링 함수 호출
-					getReviewList();
-					
-					
-				}
+		url:"${pageContext.request.contextPath }/review/updateReview",
+		data: sendData,
+		type:'post',
+		success: function(result){
+			// update 성공하면 성공 alert
+			if(result == "SUCCESS"){
+				alert("리뷰가 수정되었습니다.")
+			} else {
+			// update 실패하면 실패 alert
+				alert("수정에 실패하였습니다.")
+			}
+			
+			//모달창 닫기
+			$('#reviewModal').modal('hide');
+			//랜더링 함수 호출
+			getReviewList();
+			
+			
+		}
 	
 	});
 	
@@ -730,13 +728,18 @@ function deleteReview(target){
 		$.ajax({
 			
 			url:"${pageContext.request.contextPath }/review/deleteReview",
-			data:{rv_id : selectedRvId},
+			data:{	
+				rv_id : selectedRvId,
+				rv_real_id : '${hotelDetail.hotel_id}'				
+			},
 			type: 'post',
 			success: function(result){
 				alert("리뷰가 삭제되었습니다.")
 				//랜더링 함수 호출
 				getReviewList();
-				
+			},
+			error : function (err) {
+				console.error(err)
 			}
 				
 	});

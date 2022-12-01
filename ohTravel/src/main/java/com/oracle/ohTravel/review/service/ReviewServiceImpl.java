@@ -31,29 +31,16 @@ public class ReviewServiceImpl implements ReviewService {
 		return rd.selectReview(reviewDTO);
 	}
 
-
 	@Override
 	public String writeReview(Review review) {
 		
 		try {
 			review.setRv_date(new Date());
 			rr.writeReview(review);
-			
-			ReviewDTO reviewDTO = new ReviewDTO();
-			reviewDTO.setRv_rating(review.getRv_rating());
-			reviewDTO.setMem_id(review.getMem_id());
-			reviewDTO.setRv_contents(review.getRv_contents());
-			reviewDTO.setRv_real_id(review.getRv_real_id());
-			reviewDTO.setRv_date(review.getRv_date());
-			
-			rd.updateRating(reviewDTO);
-			
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return "FAIL";
-			
 		}
-		
 		return "SUCCESS";
 	}
 
@@ -61,16 +48,11 @@ public class ReviewServiceImpl implements ReviewService {
 	public String updateReview(ReviewDTO reviewDTO) {
 		
 		try {
-			
 			rd.updateReview(reviewDTO);
-			rd.updateRating(reviewDTO);
-			
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return "FAIL";
-			
 		}
-		
 		return "SUCCESS";
 	}
 
@@ -80,23 +62,17 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		try {
 			rr.deleteReview(review);
-			
-			ReviewDTO reviewDTO = new ReviewDTO();
-			reviewDTO.setRv_rating(review.getRv_rating());
-			reviewDTO.setMem_id(review.getMem_id());
-			reviewDTO.setRv_contents(review.getRv_contents());
-			reviewDTO.setRv_real_id(review.getRv_real_id());
-			reviewDTO.setRv_date(review.getRv_date());
-			
-			rd.updateRating(reviewDTO);
-			
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return "FAIL";
-			
 		}
 		
 		return "SUCCESS";
+	}
+
+	@Override
+	public int selectAvgRating(ReviewDTO reviewDTO) {
+		return rd.selectAvgRating(reviewDTO);
 	}
 	
 }

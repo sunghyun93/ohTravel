@@ -18,6 +18,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 	@Override
 	public void writeReview(Review review) {
 		em.persist(review);
+		em.flush();
 	}
 
 	@Override
@@ -26,6 +27,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 		System.out.println("deleteReview Repository Start...");
 		System.out.println("deleteReview Repository findReview->"+findReview);
 		em.remove(findReview);
+		em.flush();
 	}
 
 

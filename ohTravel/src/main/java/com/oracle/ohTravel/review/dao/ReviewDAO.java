@@ -13,6 +13,6 @@ public interface ReviewDAO {
 	
 	int reviewCnt(String rv_real_id) throws Exception;
 
-	void updateRating(ReviewDTO reviewDTO);
+	int selectAvgRating(ReviewDTO reviewDTO);
 
 }
