@@ -18,4 +18,6 @@ public interface SearchService {
 
 	List<PkageDTO> filteredPkageList(PkageDTO pkageDTO);
 
+	List<HotelDTO> filteredHotelList(HotelDTO hotelDTO);
+
 }

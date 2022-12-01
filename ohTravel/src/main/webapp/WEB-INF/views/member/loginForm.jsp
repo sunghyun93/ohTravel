@@ -16,21 +16,21 @@
 					<div class="text_wrap top" style="margin-bottom: 50px;">
 						<strong class="tit">로그인</strong>
 					</div>	<!-- text_wrap -->
-					<form action="">
+					<form name="login" method="post" action="login">
 						<ul class="form_wrap">
 						    <li>
-						        <input type="text" title="아이디" placeholder="아이디" class="input_text v-placeholder" />
+						        <input type="text" id="mem_id" name="mem_id" title="아이디" placeholder="아이디" class="input_text v-placeholder" />
 						        <p class="error_message" style="display: none;"></p>
 						    </li>
 						    <li>
-						        <input type="password" title="비밀번호" placeholder="비밀번호" maxlength="16" class="input_text v-placeholder" />
+						        <input type="password" id="mem_password" name="mem_password" title="비밀번호" placeholder="비밀번호" maxlength="16" class="input_text v-placeholder" />
 						        <p class="error_message" style="display: none;"></p>
 						    </li>
-						    <!---->
+						    <!-- 아이디 저장 버튼 -->
 						    <li class="form_holder check"><input type="checkbox" id="chkLogin01" class="inpt_checkbox" /> <label for="chkLogin01" class="label_checkbox">아이디 저장</label></li>
 						</ul>	<!-- form_wrap -->
 						<div class="btn_wrap login_btn">
-						    <a class="btn gray big mb20 pink">로그인</a> 
+						    <input class="btn gray big mb20 pink" type="submit" value="로그인">
 						    <a href="${pageContext.request.contextPath}/member/findID" class="txt">아이디 찾기</a> 
 						    <span class="divider_dot"><a href="${pageContext.request.contextPath}/member/findPassword" class="txt">비밀번호 찾기</a></span>
 						    <span class="divider_dot"><a href="${pageContext.request.contextPath}/member/memberForm" class="txt">회원가입</a></span>

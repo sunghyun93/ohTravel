@@ -804,20 +804,20 @@ prod_list_wrap .htl .btn.line {
 						<div id="filter_con1" class="view">
 							<div class="form_wrap">
 								<span class="form_holder text">
-									<input type="checkbox" id="fprice_0" class="inpt_checkbox" onclick="getFilter(fromTo)" value="0~44만원">
-									<label for="fprice_0" class="label_checkbox">0~44만원</label>
+									<input type="checkbox" id="fprice_0" class="inpt_checkbox">
+									<label for="fprice_0" class="label_checkbox fprice_0">0~44만원</label>
 								</span>
 								<span class="form_holder text">
-									<input type="checkbox" id="fprice_1" class="inpt_checkbox" onclick="getFilter(fromTo)" value="44~90만원"> 
-									<label for="fprice_1" class="label_checkbox">44~90만원</label>
+									<input type="checkbox" id="fprice_1" class="inpt_checkbox"> 
+									<label for="fprice_1" class="label_checkbox fprice_1">44~90만원</label>
 								</span>
 								<span class="form_holder text">
-									<input type="checkbox"id="fprice_2" class="inpt_checkbox" onclick="getFilter(fromTo)" value="90~141만원"> 
-									<label for="fprice_2" class="label_checkbox">90~141만원</label>
+									<input type="checkbox"id="fprice_2" class="inpt_checkbox"> 
+									<label for="fprice_2" class="label_checkbox fprice_2">90~141만원</label>
 								</span>
 								<span class="form_holder text">
-									<input type="checkbox" id="fprice_3" class="inpt_checkbox" onclick="getFilter(fromTo)" value="141~1175만원"> 
-									<label for="fprice_3" class="label_checkbox">141~1175만원</label>
+									<input type="checkbox" id="fprice_3" class="inpt_checkbox"> 
+									<label for="fprice_3" class="label_checkbox fprice_3">141~1175만원</label>
 								</span>
 							</div>
 							<!-- <a href="#none" class="btn gray">직접입력</a> -->
@@ -839,19 +839,22 @@ prod_list_wrap .htl .btn.line {
 						<a href="#filter_con3" class="header">숙소 평점</a>
 						<div id="filter_con3" class="view">
 							<div class="form_wrap">
-								<span class="form_holder text"><input type="checkbox"
-									id="score_0" class="inpt_checkbox"> <!----> <!---->
-									<!----> <label for="score_0" class="label_checkbox">최고(4.5+)</label></span><span
-									class="form_holder text"><input type="checkbox"
-									id="score_1" class="inpt_checkbox"> <!----> <!---->
-									<label for="score_1" class="label_checkbox">우수(4+)</label> <!----></span><span
-									class="form_holder text"><input type="checkbox"
-									id="score_2" class="inpt_checkbox"> <!----> <label
-									for="score_2" class="label_checkbox">좋음(3.5+)</label> <!---->
-									<!----></span><span class="form_holder text"><input
-									type="checkbox" id="score_3" class="inpt_checkbox">
-									<label for="score_3" class="label_checkbox">양호(3+)</label> <!---->
-									<!----> <!----></span>
+								<span class="form_holder text">
+									<input type="checkbox" id="score_0" class="inpt_checkbox"> <!----> <!---->
+									<label for="score_0" class="label_checkbox score_0">최고(4.5+)</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="score_1" class="inpt_checkbox"> <!----> <!---->
+									<label for="score_1" class="label_checkbox score_1">우수(4+)</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="score_2" class="inpt_checkbox">
+									<label for="score_2" class="label_checkbox score_2">좋음(3.5+)</label> <!---->
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="score_3" class="inpt_checkbox">
+									<label for="score_3" class="label_checkbox score_3">양호(3+)</label> <!---->
+								</span>
 							</div>
 						</div>
 					</div>
@@ -1164,23 +1167,47 @@ prod_list_wrap .htl .btn.line {
 		});
 	})
 
-	/* function getFilter(fromTo)  {
-	  let result = '';
-	  let howMuch = $(this).attr('id');
-	  $.ajax({
-		  url: '/priceFilter',
-		  data: {''},
-		  dataType: 'json',
-		  success: function() {
-			  if(fromTo.target.checked)  {
-			    result = event.target.value;
-			  }else {
-			    result = '';
-			  }
-		  
-		  document.getElementById('result').innerText = result;
-		  }
-	  });
-} */
+	// 필터 선택
+	$(function() {
+		$(document).on("click", ".inpt_checkbox", function() {
+		    let chk_Val = [];
+			if($("input:checkbox[class=inpt_checkbox]").is(":checked")) {
+				$("input:checkbox[class=inpt_checkbox]:checked").each(function(i) {
+					chk_Val.push($(this).attr('id'));
+						$("." + $(this).attr('id')).css("border-color", "purple");
+				});
+				
+				$("input:checkbox[class=inpt_checkbox]").not(":checked").each(function(i) {
+					$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+				});
+					console.log(chk_Val);
+				
+				$.ajax({
+					url: "/hotelFilter",
+					data: {'check':  chk_Val, 'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+					dataType: 'json',
+					traditional: true,
+					success: function(data) {
+						console.log(data);
+						alert(data);
+						/* $.each(data, function(index, item) { // 데이터 =item
+							$("#demo").append(index + " "); // index가 끝날때까지 
+							$("#demo").append(item.name + " ");
+							$("#demo").append(item.age + " ");
+							$("#demo").append(item.address + " ");
+							$("#demo").append(item.phone + "<br>");
+						}) */
+						$.each(data, function(i) {
+							
+						});
+					}
+				});
+			} else {
+					$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+			}
+			
+		})
+		
+	})
 </script>
 </html>

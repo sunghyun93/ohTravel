@@ -34,6 +34,11 @@ public class HomeController {
 		return "hotel/cssTest";
 	}
 	
+	@GetMapping(value = "/tilesTest")
+	public String goTilesTest() {
+		return "empty/tilesTest";
+	}
+	
 	
 	
 	/* =============== 입장권 =============== */

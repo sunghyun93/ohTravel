@@ -53,12 +53,12 @@ public class PkageRestController {
 			PkgSearch pkgSearch = new PkgSearch();
 			pkgSearch.setPkage_gubun(1);
 			pkgSearch.setToDesti(310);
-			pkgSearch.setDates_start_check("2022-12-21");
+			pkgSearch.setDates_start_check("2022-12-19");
 			
 			Map<String, Object> map = new HashMap<>();
 			map.put("toDesti", pkgSearch.getToDesti());
 			map.put("dates_start_check", pkgSearch.getDates_start_check());
-			map.put("order", 3); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3,4)
+			map.put("order", 4); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3,4)
 			
 			List<PkageDTORM> list = pkageService.selectPkgWithDetailAndFlight(map);
 			return list;

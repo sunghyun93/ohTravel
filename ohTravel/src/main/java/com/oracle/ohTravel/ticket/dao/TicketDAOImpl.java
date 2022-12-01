@@ -16,10 +16,27 @@ public class TicketDAOImpl implements TicketDAO {
 	/* MyBatis DB 연동 */
 	private final SqlSession session;
 
+	
+	@Override
+	public int totalTicket() {
+		int totTicketCnt = 0;
+		System.out.println("~~ TicketDAOImpl Start total ~~");
+		
+		try {
+			totTicketCnt = session.selectOne("ticketTotal");
+			System.out.println("TicketDAOImpl totalTicket totTicketCnt -> " + totTicketCnt);
+		} catch (Exception e) {
+			System.out.println("TicketDAOImpl totalTicket Exception -> " + e.getMessage());
+		}
+		
+		return totTicketCnt;
+	}
+	
 	// [입장권 메인] 입장권 목록
 	@Override
-	public List<TicketDTO> ticketList(TicketDTO ticketdto) {
-		return session.selectList("ticketList");
+	public List<TicketDTO> ticketList(TicketDTO ticketDTO) {
+		List<TicketDTO> ticketList = session.selectList("ticketList", ticketDTO);
+		return ticketList;
 	}
 
 	// 입장권 상세 정보
@@ -27,7 +44,8 @@ public class TicketDAOImpl implements TicketDAO {
 	public TicketDTO getTicketDetail(TicketDTO ticketDTO) {
 		return session.selectOne("ticketDetail", ticketDTO);
 	}
-	
+
+
 	
 	
 	

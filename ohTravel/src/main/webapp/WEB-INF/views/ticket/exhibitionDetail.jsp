@@ -999,9 +999,41 @@
 									
 								</div> <!-- show_review -->
 							</div> <!-- all_review -->
+							
+							<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+									  <div class="modal-dialog modal-dialog-centered" role="document">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									        <h5 class="modal-title" id="modalLongTitle">리뷰 작성</h5>
+									        <button type="button" class="close" data-dismiss="modal" onclick="closeModal()" aria-label="Close">
+									          <span aria-hidden="true">&times;</span>
+									        </button>
+						      </div>
+						      <div class="modal-body">
+						      	<span class="star">
+							      	 ★★★★★
+							      	 <span>★★★★★</span>
+				 					 <input type="range" oninput="drawStar()" id="starRate" value="1" step="1" min="0" max="10">
+								</span>
+						      	
+					        	<div class="form-group">
+						            <label for="message-text" class="col-form-label">내용:</label>
+						            <textarea class="form-control" id="review-text"></textarea>
+					         	</div>
+					         	
+					       		<!-- registerReview() -->
+					         	
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-primary" onclick="registerReview()">리뷰 등록</button>
+						        <button type="button" class="btn btn-secondary" onclick="closeModal()" data-dismiss="modal">취소</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
                         </div>
                     </div><!-- inr -->
-
+				
                     <!-- 상세 정보 오른쪽 부분 -->
                     <div class="inr right">
                         <div class="text_wrap big">
@@ -1216,76 +1248,6 @@
 			document.querySelector('.star span').style.width = (width * 10) + '%'
 		}
 		 	
-
-		// 리뷰 관련 ajax
-		// 처음 hotelDetail 페이지에 들어왔을 때 DB review테이블의 데이터를 가져와서 뿌림
-		// 가져올 데이터는 해당 hotelDetail 페이지의 hotel_id값에 해당하는 값들
-		function getReviewList(){
-			
-			let hotelId = '${hotelDetail.hotel_id}'
-			
-			$.ajax({
-				
-						url:"${pageContext.request.contextPath }/review/reviewList",
-						data:{
-							// 리뷰 테이블의 해당 상품id값을 읽어오는 부분
-							rv_real_id : hotelId
-						},
-						type:"get",
-						dataType:"json",
-						success: function(result) {
-							
-							// 가지고온 리뷰 데이터들을 포함해 화면 랜더링 함수 호출
-							makeReviewTable(result);
-							
-						}
-				
-			});
-			
-		}
-
-		function makeReviewTable(data) {
-			
-			let targetTable = $('#reviewTable');
-			
-			targetTable.html('')
-			
-			let innerHtml = '';
-			
-			for(let datum of data) {
-				innerHtml += makeRow(datum)
-			}
-			
-			targetTable.append(innerHtml);
-		}
-
-
-		function makeRow(datum) {
-			
-			let innerHtml = ''
-			innerHtml += '<tr>'
-				innerHtml += '<input type="hidden" class="rv_sort" value="'+datum.rv_sort+'">'
-				innerHtml += '<input type="hidden" class="rv_id" value="'+datum.rv_id +'">'
-				innerHtml += '<td>'
-					innerHtml += '<span class="rv_date">'+datum.rv_date +'</span>'
-				innerHtml += '</td>'
-				innerHtml += '<td>'
-					innerHtml += '<span class="rv_rating">'+datum.rv_rating +'</span>'
-				innerHtml += '</td>'
-				innerHtml += '<td>'
-					innerHtml += '<span class="rv_contents">'+datum.rv_contents +'</span>'
-				innerHtml += '</td>'
-				innerHtml += '<td>'
-					// 작성자 = 로그인 정보여야 수정 버튼 활성화 
-					//if(aaaa) {	
-						innerHtml += '<button type="button" class="rv_modify genric-btn primary ela" onclick="openUpdateModal(this)">수정</button>'
-					//	innerHtml += '<button type="button" class="rv_modify genric-btn primary ela" onclick="openUpdateModal(this)">삭제</button>'
-					//}
-				innerHtml += '</td>'
-			innerHtml += '</tr>'
-			
-			return innerHtml;
-		}
 	
 		
 	</script>
