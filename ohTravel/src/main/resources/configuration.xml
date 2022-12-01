@@ -44,7 +44,10 @@
 		<!-- ticket -->
 		<typeAlias type="com.oracle.ohTravel.ticket.model.TicketDTO" alias="TicketDTO"/>
 		
+		<!-- Member -->
 		<typeAlias type="com.oracle.ohTravel.member.model.MemberDTO" alias="MemberDTO"/>
+		<typeAlias type="com.oracle.ohTravel.member.model.TicketReservationDTO" alias="TicketReservationDTO"/>
+		
 		
 	</typeAliases>
 </configuration>

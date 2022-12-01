@@ -1,5 +1,7 @@
 package com.oracle.ohTravel.member.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.oracle.ohTravel.member.model.MemberDTO;
+import com.oracle.ohTravel.member.model.TicketReservationDTO;
 import com.oracle.ohTravel.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
-	
+
 	// 로그인 페이지 이동
 	@GetMapping(value = "/loginForm")
 	public String goLoginForm() {
@@ -40,7 +43,11 @@ public class MemberController {
 		MemberDTO res = memberService.login(memberDTO);
 		
 		if(res != null) {
+			// session에 로그인 정보 저장
 			session.setAttribute("res", res);
+			String sessionId = res.getMem_id();
+			session.setAttribute("sessionId", sessionId);
+			System.out.println("MemberController login sessionId -> " + sessionId);
 			return "redirect:/";
 		} else {
 			return "redirect:/member/login";
@@ -51,6 +58,7 @@ public class MemberController {
 	// 회원가입 페이지 이동
 	@GetMapping(value = "/memberForm") 
 	public String goMemberForm() {
+		log.info("MemberController goMemberForm start..");
 		return "member/memberForm";
 	}
 	
@@ -81,6 +89,7 @@ public class MemberController {
 	public String goMyPageMain() {
 		return "member/myPageMain";
 	}
+	
 	// 패키지 예약 내역 페이지 이동
 	@GetMapping(value = "/myPageReservPackage")
 	public String goMyPageReservPackage() {
@@ -99,9 +108,35 @@ public class MemberController {
 		return "member/myPageReservAir";
 	}
 	
-	// 티켓 예약 내역 페이지 이동
-	@GetMapping(value = "/myPageReservTicket")
-	public String goMyPageReservTicket() {
+	/*
+	 * // 티켓 예약 내역 페이지 이동
+	 * 
+	 * @GetMapping(value = "/myPageReservTicket") public String
+	 * goMyPageReservTicket() {
+	 * log.info("MemberController goMyPageReservTicket start.."); return
+	 * "member/myPageReservTicket"; }
+	 */
+	
+	// 티켓 예약 내역 조회
+	@RequestMapping(value = "/myPageReservTicket")
+	public String myPageReservTicket(TicketReservationDTO ticketReservationDTO, Model model, HttpServletRequest request) {
+		log.info("MemberController myPageReservTicket start..");
+		HttpSession session = request.getSession();
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO res = (MemberDTO) session.getAttribute("res");
+		String sessionId = res.getMem_id();
+		System.out.println("MemberController myPageReservTicket sessionId -> " + sessionId );
+		
+		// 페이징 나중에
+		
+		// 티켓 예약 내역
+		// ticketReservationDTO에 mem_id를 세션에 로그인 된 id값으로 설정
+		ticketReservationDTO.setMem_id(sessionId);
+		List<TicketReservationDTO> ticketReservList = memberService.myPageReservTicket(ticketReservationDTO);
+		model.addAttribute("ticketReservList", ticketReservList);
+		System.out.println("MemberController ticketReservList.size() -> " + ticketReservList.size());
+		
 		return "member/myPageReservTicket";
 	}
 	
