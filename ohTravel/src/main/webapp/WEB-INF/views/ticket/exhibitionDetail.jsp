@@ -841,13 +841,24 @@
 	.count-wrap > button.plus {right: 0;}
 	.count-wrap .inp {border: 0;height: 38px;text-align: center;display: block;width: 100%;}
 	
+	.dot-list li {
+	    position: relative;
+	    margin: 0;
+	    color: #666;
+	    padding-left: 10px;
+	}	
+	
+	.dot-list>p, .dot-list li {
+	    line-height: 1.6;
+	}	
+	
 </style>
 <body>
 	<div class="container" style="height:auto;">
 		<div class="info" style="width: 1250px; height: 770px;">
 			<!-- 왼쪽 티켓 이미지 -->
 			<div class="ticketImg" style="width: 750px; height: 770px; border: 1px solid #808080; float:left; translate: 0px;">
-				<h2><img src="https://static.hanatour.com/product/2022/03/15/23436zw98i/default.png" style="width: 735px; height: 500px; margin: 0 auto; position: relative; transform: translate(4px, 139px);"> ${ticket_rep_img_path}</h2>
+				<h2><img src="${ticketDetail.ticket_rep_img_path}" style="width: 735px; height: 500px; margin: 0 auto; position: relative; transform: translate(4px, 139px);"></h2>
 			</div>
 			
 			<!-- 오른쪽 제목 -->
@@ -855,11 +866,11 @@
 				<div id="productInfoWrap">
 					<div class="product-info" style="padding: 40px 40px 60px; height: 770px;">
 						<div class="product-title" style="width: 350px; float: right; translate: -30px 90px;">
-							<p class="city" style="font-size: 18px; color: #666; font-weight: 700;">여수(전남) ${city_name}</p>
-							<h2 style="font-weight: 700">[여수] 아르떼뮤지엄</h2>
+							<p class="city" style="font-size: 18px; color: #666; font-weight: 700;">${ticketDetail.city_name}</p>
+							<h2 style="font-weight: 700">${ticketDetail.ticket_name }</h2>
 							<div class="price-wrap">
 								<div class="price" style="margin: 18px 0 0; font-size: 16px;">
-									<span class="dc" style="font-size: 32px; color: #f06c5e; font-weight: 700; margin-right: 15px;">10,000원</span>
+									<span class="dc" style="font-size: 32px; color: #f06c5e; font-weight: 700; margin-right: 15px;">${ticketDetail.ticket_child_price}원</span>
 								</div>
 							</div>
 							<!-- 찜 버튼 -->
@@ -869,7 +880,7 @@
 							
 							<!-- 별점 -->
 							<div class="rate-wrap">
-								<h4 style="translate: 15px; font-style: italic;">4.5${ticket_score }</h4>
+								<h4 style="translate: 15px; font-style: italic;">${ticketDetail.ticket_score }</h4>
 							</div>
 							
 							<div class="features">
@@ -898,8 +909,8 @@
 									<div class="title" style="font-weight: 700; font-size: 24px; margin:0 0 27px;">꼭 읽어보세요!</div>
 									<div class="dot-list" style="margin: 9px 0; line-height: 1.6;">
 										<ul>
-											<li style="position: relative; margin: 0; color: #666; padding-left: 10px;"><i class="bi bi-check"></i> 판매기간 : ~2022.12.31 ${ticket_due_date}</li>
-											<li style="position: relative; margin: 0; color: #666; padding-left: 10px;"><i class="bi bi-check"></i> 유효기간 : ~2022.12.31 ${ticket_due_date}</li>
+											<li style="position: relative; margin: 0; color: #666; padding-left: 10px;"><i class="bi bi-check"></i> 판매기간 : ~${ticketDetail.ticket_due_date}</li>
+											<li style="position: relative; margin: 0; color: #666; padding-left: 10px;"><i class="bi bi-check"></i> 유효기간 : ~${ticketDetail.ticket_due_date}</li>
 										</ul>
 									</div>
 								</div>
@@ -933,7 +944,71 @@
                             <div class="text_wrap big">
                                 <strong class="tit">상품정보</strong>
                             </div>
-                            <img src="https://image6.yanolja.com/leisure/ZUgATmFmGlcFVcTC">
+                            
+                            <img src="${ticketDetail.ticket_detail_img_path }">
+                            <div class="option_wrap"></div>
+                        </div>
+
+                        <hr class="pkg">
+                        
+                        <!-- 사용방법 -->
+                        <div class="cont_unit pic">
+                            <div class="text_wrap big">
+                                <strong class="tit">사용방법</strong>
+                            </div>
+                            <div class="how-to-use" style="color: #666;">
+                            	<div class="dot-list" style="margin: 9px 0; line-height: 1.6;">
+                            		<ul style="margin: 17px 0; list-style-type:disc;">
+                            			<li><i class="bi bi-check"></i> 당일 구매 당일 사용 가능 (당일 구매 1시간 후 사용가능)</li>
+                            			<li><i class="bi bi-check"></i> 현장 매표소에서 구매자 성함 확인 및 휴대폰 번호 뒷자리 제시!</li>
+                            			<li><i class="bi bi-check"></i> 입장 후 신나게 즐기기!</li>
+                            		</ul>
+                            	</div>
+                            </div>
+                            
+                            <div class="option_wrap"></div>
+                        </div>
+
+                        <hr class="pkg">
+                        
+                        <!-- 유의사항 -->
+                        <div class="cont_unit pic">
+                            <div class="text_wrap big">
+                                <strong class="tit">유의사항</strong>
+                            </div>
+                            <div class="how-to-use" style="color: #666;">
+                            	<div class="dot-list" style="margin: 9px 0; line-height: 1.6;">
+                            		<ul style="margin: 17px 0; list-style-type:disc;">
+                            			<li><i class="bi bi-check"></i> 업체주소 : <b>${ticketDetail.ticket_location }</b></li>
+                            			<li><i class="bi bi-check"></i> 운영시간 : 매일 11:00 ~ 22:00 [입장마감 21:00]</li>
+                            			<li><i class="bi bi-check"></i> 마감 1시간 전에 방문하셔야 입장이 가능합니다.</li>
+                            			<li><i class="bi bi-check"></i> 휴무일 : 연중무휴</li>
+                            			<li><i class="bi bi-check"></i> 무료입장 : 24개월 미만 (증빙서류 필수 지참)</li>
+                            		</ul>
+                            	</div>
+                            </div>
+                            
+                            <div class="option_wrap"></div>
+                        </div>
+                        
+                        <hr class="pkg">
+                        
+                        <!-- 취소 및 환불규정 -->
+                        <div class="cont_unit pic">
+                            <div class="text_wrap big">
+                                <strong class="tit">유의사항</strong>
+                            </div>
+                            <div class="how-to-use" style="color: #666;">
+                            	<div class="dot-list" style="margin: 9px 0; line-height: 1.6;">
+                            		<ul style="margin: 17px 0; list-style-type:disc;">
+                            			<li><i class="bi bi-check"></i> 유효기간 내 취소/환불 가능</li>
+                            			<li><i class="bi bi-check"></i> 미사용 티켓 100% 환불가능</li>
+                            			<li><i class="bi bi-check"></i> 사용한 티켓 환불 불가</li>
+                            			<li><i class="bi bi-check"></i> 중복 할인 적용 불가</li>
+                            		</ul>
+                            	</div>
+                            </div>
+                            
                             <div class="option_wrap"></div>
                         </div>
 
@@ -1046,7 +1121,7 @@
                                     <li>
                                         <p class="tit">
                                             <span class="txt">성인</span>
-                                            <span class="price">20,000원</span>
+                                            <span class="price">${ticketDetail.ticket_adult_price }원</span>
                                         </p>
                                         <span class="num_count_group">
                                             <button class="btn_decrement down"></button>
@@ -1057,7 +1132,7 @@
                                     <li>
                                         <p class="tit">
                                             <span class="txt">아동</span>
-                                            <span class="price">10,000원</span>
+                                            <span class="price">${ticketDetail.ticket_child_price }원</span>
                                         </p>
                                         <span class="num_count_group">
                                             <button class="btn_decrement down"></button>
@@ -1101,8 +1176,8 @@
 		    let down = $(".down");
 
 		    // 성인 가격 / 아동 가격 (서버에서 받아와야 함 - 우선 하드코딩)
-		    let adultPrice = 20000;
-		    let childPrice = 10000;
+		    let adultPrice = ${ticketDetail.ticket_adult_price};
+		    let childPrice = ${ticketDetail.ticket_child_price};
 
 		    // 총 금액 (기본적으로 성인이 1명 선택되어있기 때문에 시작하자마자 성인 가격을 대입함)
 		    let totalPrice = adultPrice;

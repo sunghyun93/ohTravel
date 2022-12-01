@@ -15,7 +15,7 @@ public class TicketDTO {
 	private BigDecimal  ticket_score;
 	private Date		ticket_due_date;
 	private int 		ticket_adult_price;
-	private int 		ticket_chile_price;
+	private int 		ticket_child_price;
 	
 	//입장권 이미지
 	private int 		ticket_img_id;
