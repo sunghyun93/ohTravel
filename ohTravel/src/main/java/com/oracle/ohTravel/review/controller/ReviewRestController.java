@@ -27,6 +27,7 @@ public class ReviewRestController {
 	
 	//리뷰 목록 조회
 	@GetMapping(value = "/reviewList")
+
 	public Map<String,Object> reviewList(ReviewDTO reviewDTO) {
 		Map<String,Object> resultMap = new HashMap<String, Object>();
 		
@@ -36,6 +37,7 @@ public class ReviewRestController {
 		resultMap.put("avgScore", rs.selectAvgRating(reviewDTO));
 		
 		return resultMap;
+
 	}
 	
 	//리뷰 등록

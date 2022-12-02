@@ -107,6 +107,7 @@ public class PkageController {
 			
 			// 관련 pkg 테이블들 모두 가져오기 (상세의 일정 부분 제외)
 			Map<String, Object> map = new HashMap<>();
+			map.put("pkage_id", pkgSearch.getPkage_id());
 			map.put("toDesti", pkgSearch.getToDesti());
 			map.put("dates_start_check", pkgSearch.getDates_start_check());
 			map.put("order", order); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3 desc,4 asc)

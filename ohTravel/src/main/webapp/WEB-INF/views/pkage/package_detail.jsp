@@ -138,7 +138,7 @@
                                 <dd>${pkageDTORM.cityDTO.city_name }</dd>
                                 <dt>예약현황</dt>
                                 <dd class="state"><%-- 패키지 인원 / 예약 인원 / 최소 인원 --%>
-                                    <span class="info">예약 : ${pkageDTORM.pkage_detailDTO.pkage_dt_cnt }명</span>
+                                    <span class="info">예약 : ${pkageDTORM.pkage_detailDTO.pkage_dt_Rcnt }명</span>
                                     <span class="info" id="possibleCnt" data-possibleCnt="${pkageDTORM.pkage_detailDTO.pkage_dt_cnt - pkageDTORM.pkage_detailDTO.pkage_dt_Rcnt }">
                                                                                  잔여좌석 : ${pkageDTORM.pkage_detailDTO.pkage_dt_cnt - pkageDTORM.pkage_detailDTO.pkage_dt_Rcnt }석 (최소출발 : ${pkageDTORM.pkage_detailDTO.pkage_dt_Mcnt }명)
                                     </span>
@@ -414,25 +414,63 @@
                                         </div><!-- js_tabs type1 v-tabs -->
                                     </div><!-- cont_unit tour -->
                                 </div><!-- sticky02 -->
+                                
+                                <!-- 리뷰 모달 (있어야할 위치는 상관없습니다..)-->
+								<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+								  <div class="modal-dialog modal-dialog-centered" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h5 class="modal-title" id="modalLongTitle">리뷰 작성</h5>
+								        <button type="button" class="close" data-dismiss="modal" onclick="closeModal()" aria-label="Close">
+								          <span aria-hidden="true">&times;</span>
+								        </button>
+								      </div>
+								      
+								      <div class="modal-body">
+								      	<span class="star">
+									      	 ★★★★★
+									      	 <span>★★★★★</span>
+						 					 <input type="range" oninput="drawStar()" id="starRate" value="1" step="1" min="0" max="10">
+										</span>
+								      	
+							        	<div class="form-group">
+								            <label for="message-text" class="col-form-label">내용:</label>
+								            <textarea class="form-control" id="review-text"></textarea>
+							         	</div>
+								      </div>
+								      
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-primary" onclick="registerReview()">리뷰 등록</button>
+								        <button type="button" class="btn btn-secondary" onclick="closeModal()" data-dismiss="modal">취소</button>
+								      </div>
+								    </div>
+								  </div>
+								</div> <!-- 리뷰 모달 끝 -->
 
                                 <!-- 상품평 -->
                                 <div id="sticky03" class="panel">
+	                                <div class="rv_btn">
+										<button class="genric-btn primary ela" data-toggle="modal" onclick="openModal()" data-target="#reviewModal">리뷰 등록</button>
+									</div>
                                     <div class="cont_unit review">
                                         <div class="review_wrap">
                                             <div class="js_tabs type1 v-tabs">
                                                 <div class="panels">
                                                     <div id="review01" class="panelh selected">
-                                                        <ul class="list_review">
-                                                            <li>
+                                                        <ul class="list_review" data-pkgDetailId="${pkageDTORM.pkage_id }">
+                                                            <!-- <li>
                                                                 <div class="inr review_area">
                                                                     <div class="option_wrap">
                                                                         <span class="wrap_star pink">
-                                                                            <span class="star_value" style="width: 50%;"></span>
+                                                                            <span class="star_value" style="width: 100%;"></span>
                                                                         </span>
                                                                         <strong class="grade"><em class="num">4.6</em></strong>
+                                                                        
                                                                         <div class="right_cont list_txt">
                                                                             <span>김철수</span>
                                                                             <span>2022.11.13</span>
+                                                                            <button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>
+                                                                        <button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>
                                                                         </div>
                                                                     </div>
                                                                     <div class="item_group">
@@ -444,70 +482,11 @@
                                                                     <div class="review_cont">
                                                                         <div class="content" stype="white-space:pre-line;">
 											                                                                            저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요
+											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.                   
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </li>
-
-                                                            <li>
-                                                                <div class="inr review_area">
-                                                                    <div class="option_wrap">
-                                                                        <span class="wrap_star pink">
-                                                                            <span class="star_value" style="width: 50%;"></span>
-                                                                        </span>
-                                                                        <strong class="grade"><em class="num">4.6</em></strong>
-                                                                        <div class="right_cont list_txt">
-                                                                            <span>김철수</span>
-                                                                            <span>2022.11.13</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="item_group">
-                                                                        <p class="item_text">
-                                                                            <strong>상품명</strong>
-                                                                            <span>[출발확정] 방콕/파타야 5일 #가볍게떠나는여행 #4명이상출발확정 #무앙보란 #산호섬 #농눅빌리지</span>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="review_cont">
-                                                                        <div class="content" stype="white-space:pre-line;">
-											                                                                            저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
+                                                            </li> -->
                                                         </ul><!-- list_review -->
 
                                                         <!-- 페이지 네비게이션 -->
@@ -531,7 +510,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> <!-- review01 -->
                                                 </div>
                                             </div><!-- js_tabs type1 v-tabs -->
                                         </div><!-- review_wrap -->
@@ -604,7 +583,9 @@
     	let possibleCnt = Number($('#possibleCnt').attr('data-possibleCnt'));
     
         $(function() {
-        	
+        	/* 페이지 읽고 바로 리뷰 리스트 뿌려주기 */
+        	getReviewList();
+
             /* 인원 수 버튼 증감 및 총 금액 부분의 합계 script 부분 */
 
                 // 어른 / 아동 인원수
@@ -760,28 +741,226 @@
                     viewDiv.css('display', 'none');
                 }
             });
-
-            /* 찜 하트 변경 script 부분 (구글 font-icons 활용) */
-            let tmp = false;
-            if(!tmp) {
-                    $('.btn-like-span').addClass("material-symbols-outlined-empty");
-                    tmp = true;
-                }
-
-            $('.btn-like').on('click', function() {
-                if(!tmp) {
-                    $('.btn-like-span').removeClass("material-symbols-outlined-filled");
-                    $('.btn-like-span').addClass("material-symbols-outlined-empty");
-
-                    tmp = true;
-                } else {
-                    $('.btn-like-span').removeClass("material-symbols-outlined-empty");
-                    $('.btn-like-span').addClass("material-symbols-outlined-filled");
-
-                    tmp = false;
-                }
-            }); 
         });
+        
+        /* 리뷰 */
+        // 선택한 리뷰 아이디에 대한 전역변수 설정
+		let selectedRvId; // 리뷰의 ID (각 상품의 번호(rv_real_id)가 아님)
+        
+        //리뷰 등록과 수정이 같은 [리뷰 등록] 버튼을 사용하기 때문에,
+		//rv_id 값의 유무에 따라 작동해야하는 함수가 달라져야함
+		//rv_id 값이 이미 있으면 : 수정 / 없다면 : 새로 등록
+		function registerReview() {
+			
+			if(!selectedRvId) {
+				writeReview()
+			} else {
+				updateReview()
+			}
+			
+		}
+        
+		//[수정] 버튼을 클릭한 해당 행의 review 정보를 모두 가져와야함
+		function openUpdateModal(target){
+			
+			let targetTr =  $(target).closest('li')
+			// 수정할 리뷰가 있다면, 해당 행의 hidden값 rv_id값을 가져옴
+			selectedRvId = targetTr.find('.rv_id').val();
+			
+			// 별점이 작성자가 등록한 별점대로 보여야함 (DB에는 5가 max값이므로 별 표시가 제대로 되려면 *2)
+			let currentValue = Number(targetTr.find('.rv_rating').text()) * 2
+			$('#starRate').val(currentValue)
+			drawStar();
+			
+			// 내용도 작성자가 등록한 내용으로 불러와야한다.
+			let currentContents = targetTr.find('.rv_contents').text()
+			$('#review-text').val(currentContents)
+			
+			// 모달창을 open
+			$('#reviewModal').modal('show')
+		}
+		
+		// 리뷰 조회 ajax
+		// 처음 Detail 페이지에 들어왔을 때 DB review테이블의 데이터를 가져와서 뿌림
+		// 가져올 데이터는 해당 Detail 페이지의 []_id에 해당하는 값들
+		function getReviewList(){
+			
+			// 각자의 상품 Id값 변수 선언을 이쪽에서
+			let pkageId = '${pkageDTORM.pkage_id}'
+			console.log(pkageId);
+			
+			$.ajax({
+				url:"${pageContext.request.contextPath }/review/reviewList",
+				data:{
+					// 리뷰 테이블의 해당 상품id값을 읽어오는 부분
+					rv_real_id : pkageId
+				},
+				type:"get",
+				dataType:"json",
+				success: function(result) {
+					
+					// 가지고온 리뷰 데이터들을 포함해 화면 랜더링 함수 호출
+					makeReviewTable(result);
+				}
+			});
+		}
+
+		// 리뷰 조회 -- 랜더링 함수1 (append)
+		function makeReviewTable(data) {
+			
+			let targetDiv = $('.list_review');
+			
+			targetDiv.html('')
+			
+			let innerHtml = '';
+			
+			for(let datum of data) {
+				innerHtml += makeRow(datum)
+			}
+			
+			targetDiv.append(innerHtml);
+		}
+
+		// 리뷰 조회 -- 랜더링 함수2 (진짜 구조 그려줌)
+		function makeRow(datum) {
+
+			let innerHtml = '<li>'
+				innerHtml += '<input type="hidden" class="rv_id" value="'+datum.rv_id +'">'
+				innerHtml += '<div class="inr review_area">'
+				innerHtml +=    '<div class="option_wrap">'
+				innerHtml +=        '<span class="wrap_star pink">'
+				innerHtml +=            '<span class="star_value" style="width: '+datum.rv_percent+'%;"></span>'
+				innerHtml +=        '</span>'
+				innerHtml +=        '<strong class="grade"><em class="num"><span class="rv_rating">'+datum.rv_rating+'</span></em></strong>'
+				innerHtml +=        '<div class="right_cont list_txt">'
+				innerHtml +=            '<span>김철수</span>'
+				innerHtml +=            '<span>2022.11.13</span>'
+				innerHtml +=            '<button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>'
+				innerHtml +=        	'<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'
+				innerHtml +=        '</div>'
+				innerHtml +=    '</div>'
+				innerHtml +=    '<div class="item_group">'
+				innerHtml +=        '<p class="item_text">'
+				innerHtml +=            '<strong>상품명</strong>'
+				innerHtml +=            '<span>${pkageDTORM.pkage_name}</span>'
+				innerHtml +=        '</p>'
+				innerHtml +=    '</div>'
+				innerHtml +=    '<div class="review_cont">'
+				innerHtml +=        '<div class="content rv_contents" stype="white-space:pre-line;">'+datum.rv_contents+'</div>' 
+				innerHtml +=   	'</div>'
+				innerHtml += '</div>'
+				innerHtml +='</li>'
+			return innerHtml;
+		}
+
+		// 리뷰 등록 ajax
+		function writeReview(){
+			
+			// 유효성 검사
+			if(!valid_chk()){
+				return false;
+			}
+			
+			// 가져가야할 data : 작성자 mem_id, rv_sort (하드코딩), rv_rating(별점), rv_contents(리뷰 내용), 
+			//				  rv_date (작성시점 : ReviewServiceImpl에서 해결), rv_real_id(상품id값)
+			
+			let sendData = {
+				//TODO:나중에 세션?에 있는 정보로 읽어와야함
+				mem_id: 'test1',
+				rv_rating: ($('#starRate').val())/2, // starRate에서 10에 해당하는 값이 별점 5점이기 때문에 /2
+				rv_contents: $('#review-text').val(),
+				// 상품마다 rv_real_id값을 바꿔줘야함
+				rv_real_id: '${pkageDTORM.pkage_id }'
+			}
+			
+			
+			$.ajax({
+				url:"${pageContext.request.contextPath }/review/writeReview",
+				data: sendData,
+				type:'post',
+				success: function(result) {
+					// insert 성공시, 성공 알림
+					if(result == "SUCCESS"){
+						alert("리뷰가 등록되었습니다.")
+					} else {
+					// insert 실패하면 실패 alert
+						alert("등록이 실패하였습니다.")
+					}
+					
+					//모달창 닫기
+					$('#reviewModal').modal('hide');
+					//랜더링 함수 호출
+					getReviewList();
+					
+				}
+			});
+		}
+
+
+		// 리뷰 수정 ajax
+		function updateReview(){
+			
+			// 유효성 검사
+			if(!valid_chk()){
+				return false;
+			}
+			
+			let sendData = {
+				rv_id : selectedRvId,
+				mem_id : 'test1',
+				rv_rating : ($('#starRate').val())/2,
+				rv_contents : $('#review-text').val(),
+				// 상품마다 rv_real_id값을 바꿔줘야함
+				rv_real_id : '${pkageDTORM.pkage_id}'
+			}
+			
+			$.ajax({
+				url:"${pageContext.request.contextPath }/review/updateReview",
+				data: sendData,
+				type:'post',
+				success: function(result){
+					// update 성공하면 성공 alert
+					if(result == "SUCCESS"){
+						alert("리뷰가 수정되었습니다.")
+					} else {
+					// update 실패하면 실패 alert
+						alert("수정에 실패하였습니다.")
+					}
+					
+					//모달창 닫기
+					$('#reviewModal').modal('hide');
+					//랜더링 함수 호출
+					getReviewList();
+				}
+			});
+		}
+
+
+		// [삭제] 버튼을 클릭한 해당 행의 review 정보를 가져와서 삭제
+		function deleteReview(target){
+			
+			let targetTr =  $(target).closest('li')
+			// 삭제할 리뷰 행의 hidden값 rv_id값을 가져옴
+			selectedRvId = targetTr.find('.rv_id').val();
+			
+			if(!confirm("해당 리뷰를 삭제하시겠습니까?")){
+				alert("삭제가 취소되었습니다.")
+			} else {
+				$.ajax({
+					
+					url:"${pageContext.request.contextPath }/review/deleteReview",
+					data:{rv_id : selectedRvId},
+					type: 'post',
+					success: function(result){
+						alert("리뷰가 삭제되었습니다.")
+						//랜더링 함수 호출
+						getReviewList();
+					}
+				});
+			}
+		}
+     	
     </script>
+    <script src="/js/pkage/review.js"></script>
 </body>
 </html>

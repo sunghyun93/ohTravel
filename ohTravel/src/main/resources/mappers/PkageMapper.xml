@@ -13,14 +13,17 @@
 		<result property="pkage_soldCnt" column="pkage_soldCnt"/>
 		<result property="pkage_score" column="pkage_score"/>
 		
+		
 		<!-- 도시 (국가) -->
-		<association property="cityDTO" javaType="cityDTO">
+		<association property="cityDTO" resultMap="selectCityResult"></association>
+		<!-- 도시 (국가) -->
+		<!-- <association property="cityDTO" javaType="cityDTO">
 			<id property="city_id" column="city_id"/>
 			<result property="country_id" column="country_id"/>
 			<result property="city_name" column="city_name"/>
 			
 			<association property="countryDTO" column="country_id" select="selectCountry" ></association>
-		</association>
+		</association> -->
 		
 		<!-- 패키지 이미지 -->
 		<collection property="pkage_imageDTOList" column="pkage_id" ofType="pkage_imageDTO"
@@ -39,13 +42,7 @@
 		<result property="pkage_score" column="pkage_score"/>
 		
 		<!-- 도시 (국가) -->
-		<association property="cityDTO" javaType="cityDTO">
-			<id property="city_id" column="city_id"/>
-			<result property="country_id" column="country_id"/>
-			<result property="city_name" column="city_name"/>
-			
-			<association property="countryDTO" column="country_id" select="selectCountry" ></association>
-		</association>
+		<association property="cityDTO" resultMap="selectCityResult"></association>
 		
 		<!-- 패키지 상세 -->
 		<collection property="pkage_detailDTOList" ofType="pkage_detailDTO"
@@ -105,6 +102,20 @@
 		<collection property="pkage_hotelDTOList" resultMap="selectPkgHotelResult"></collection>
 	</resultMap>
 	
+	<!-- 도시 resultMap -->
+	<resultMap id="selectCityResult" type="CityDTO">
+		<id property="city_id" column="city_id"/>
+		<result property="country_id" column="country_id"/>
+		<result property="city_name" column="city_name"/>
+		
+		<association property="countryDTO" resultMap="selectCountryResult"></association>
+	</resultMap>
+	
+	<!-- 국가 resultMap -->
+	<resultMap id="selectCountryResult" type="CountryDTO">
+		<id property="country_id" column="country_id"/>
+		<result property="country_name" column="country_name"/>
+	</resultMap>
 	
 	<!-- 패키지 이미지 resultMap -->
 	<resultMap id="selectPkgImgResult" type="pkage_imageDTO">
@@ -239,21 +250,44 @@
 		left outer join package_flightSche pfs on pd.pkage_dt_id = pfs.pkage_dt_id
 		left outer join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
 		left outer join airline aline on ashe.Air_num = aline.Air_num
-		where p.city_id = #{toDesti} and pkage_dt_startDay >= #{dates_start_check}
-		<choose>
-			<when test="order == 1">
-				order by pkage_soldCnt desc
-			</when>
-			<when test="order == 2">
-				order by pkage_score desc
-			</when>
-			<when test="order == 3">
-				order by pkage_dt_Aprice desc
-			</when>
-			<when test="order == 4">
-				order by pkage_dt_Aprice asc
-			</when>
-		</choose>
+		<!-- pkage_id 가 null 이 아닌 경우는 검색을 해서 들어온 것이 아니고, 패키지는 클릭했을 때 해당 패키지에 대한 내용만 가져오기 위함 -->
+		<if test="pkage_id != null">
+			where p.pkage_id = #{pkage_id}
+			<choose>
+				<when test="order == 1">
+					order by pkage_soldCnt desc
+				</when>
+				<when test="order == 2">
+					order by pkage_score desc
+				</when>
+				<when test="order == 3">
+					order by pkage_dt_Aprice desc
+				</when>
+				<when test="order == 4">
+					order by pkage_dt_Aprice asc
+				</when>
+				<otherwise>
+					order by pkage_soldCnt desc
+				</otherwise>
+			</choose>
+		</if>
+		<if test="pkage_id == null">
+			where p.city_id = #{toDesti} and pkage_dt_startDay >= #{dates_start_check}
+			<choose>
+				<when test="order == 1">
+					order by pkage_soldCnt desc
+				</when>
+				<when test="order == 2">
+					order by pkage_score desc
+				</when>
+				<when test="order == 3">
+					order by pkage_dt_Aprice desc
+				</when>
+				<when test="order == 4">
+					order by pkage_dt_Aprice asc
+				</when>
+			</choose>
+		</if>
 	</select>
 	
 	<!-- 판매순, 평점순으로 패키지 select (원하는 갯수만) -->
