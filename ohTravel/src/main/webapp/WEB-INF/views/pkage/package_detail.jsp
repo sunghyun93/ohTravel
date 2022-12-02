@@ -43,7 +43,7 @@
                             <div class="dummyDiv"></div>
                             <div class="right_cont">
                             <%-- 패키지 평점 --%>
-                                <span class="icn star" style="cursor: pointer;">${pkageDTORM.pkage_score }</span>
+                                <span class="icn star" style="cursor: pointer;"></span>
                             <%-- 패키지 리뷰 수 --%>
                                 <span class="icn balloon" style="cursor: pointer;">${pkageDTORM.reviewCnt }</span>
                             </div>
@@ -581,7 +581,7 @@
         
     <script>
     	let possibleCnt = Number($('#possibleCnt').attr('data-possibleCnt'));
-    
+    	alert("${sessionScope.sessionId}")
         $(function() {
         	/* 페이지 읽고 바로 리뷰 리스트 뿌려주기 */
         	getReviewList();
@@ -800,7 +800,9 @@
 				success: function(result) {
 					
 					// 가지고온 리뷰 데이터들을 포함해 화면 랜더링 함수 호출
-					makeReviewTable(result);
+					makeReviewTable(result.reviewList);
+					console.log(result.avgScore);
+					$('.right_cont .icn.star').text(result.avgScore);
 				}
 			});
 		}
@@ -823,6 +825,7 @@
 
 		// 리뷰 조회 -- 랜더링 함수2 (진짜 구조 그려줌)
 		function makeRow(datum) {
+			let mem_id = datum.mem_id
 
 			let innerHtml = '<li>'
 				innerHtml += '<input type="hidden" class="rv_id" value="'+datum.rv_id +'">'
@@ -833,10 +836,12 @@
 				innerHtml +=        '</span>'
 				innerHtml +=        '<strong class="grade"><em class="num"><span class="rv_rating">'+datum.rv_rating+'</span></em></strong>'
 				innerHtml +=        '<div class="right_cont list_txt">'
-				innerHtml +=            '<span>김철수</span>'
+				innerHtml +=            '<span>'+datum.mem_id+'</span>'
 				innerHtml +=            '<span>2022.11.13</span>'
+										if(mem_id == "${sessionScope.sessionId}") {
 				innerHtml +=            '<button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>'
-				innerHtml +=        	'<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'
+				innerHtml +=        	'<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'					
+										}
 				innerHtml +=        '</div>'
 				innerHtml +=    '</div>'
 				innerHtml +=    '<div class="item_group">'
@@ -861,12 +866,12 @@
 				return false;
 			}
 			
-			// 가져가야할 data : 작성자 mem_id, rv_sort (하드코딩), rv_rating(별점), rv_contents(리뷰 내용), 
+			// 가져가야할 data : 작성자 mem_id, rv_rating(별점), rv_contents(리뷰 내용), 
 			//				  rv_date (작성시점 : ReviewServiceImpl에서 해결), rv_real_id(상품id값)
 			
 			let sendData = {
 				//TODO:나중에 세션?에 있는 정보로 읽어와야함
-				mem_id: 'test1',
+				mem_id: '${sessionScope.sessionId}',
 				rv_rating: ($('#starRate').val())/2, // starRate에서 10에 해당하는 값이 별점 5점이기 때문에 /2
 				rv_contents: $('#review-text').val(),
 				// 상품마다 rv_real_id값을 바꿔줘야함
@@ -907,7 +912,7 @@
 			
 			let sendData = {
 				rv_id : selectedRvId,
-				mem_id : 'test1',
+				mem_id : '${sessionScope.sessionId}',
 				rv_rating : ($('#starRate').val())/2,
 				rv_contents : $('#review-text').val(),
 				// 상품마다 rv_real_id값을 바꿔줘야함
@@ -938,7 +943,6 @@
 
 		// [삭제] 버튼을 클릭한 해당 행의 review 정보를 가져와서 삭제
 		function deleteReview(target){
-			
 			let targetTr =  $(target).closest('li')
 			// 삭제할 리뷰 행의 hidden값 rv_id값을 가져옴
 			selectedRvId = targetTr.find('.rv_id').val();
@@ -949,13 +953,19 @@
 				$.ajax({
 					
 					url:"${pageContext.request.contextPath }/review/deleteReview",
-					data:{rv_id : selectedRvId},
+					data:{	
+						rv_id : selectedRvId,
+						rv_real_id : '${pkageDTORM.pkage_id}'				
+					},
 					type: 'post',
 					success: function(result){
 						alert("리뷰가 삭제되었습니다.")
 						//랜더링 함수 호출
 						getReviewList();
-					}
+					},
+					error : function (err) {
+						console.error(err)
+					}	
 				});
 			}
 		}

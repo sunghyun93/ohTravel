@@ -39,6 +39,9 @@
 		
 		<!-- hotel -->
 		<typeAlias type="com.oracle.ohTravel.hotel.model.HotelDTO" alias="Hotel"/>
+		<typeAlias type="com.oracle.ohTravel.hotel.model.HotelDTORM" alias="HotelDTORM"/>
+		<typeAlias type="com.oracle.ohTravel.hotel.model.Hotel_imageDTO" alias="Hotel_image"/>
+		<typeAlias type="com.oracle.ohTravel.hotel.model.Hotel_optionDTO" alias="Hotel_option"/>
 		
 		<!-- Airport -->
 		<typeAlias type="com.oracle.ohTravel.airport.model.Air_ScheduleDTO" alias="Air_ScheduleDTO"/>

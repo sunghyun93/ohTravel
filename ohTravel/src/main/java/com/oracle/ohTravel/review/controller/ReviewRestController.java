@@ -32,7 +32,11 @@ public class ReviewRestController {
 		Map<String,Object> resultMap = new HashMap<String, Object>();
 		
 		resultMap.put("reviewList", rs.reviewSelect(reviewDTO));
-		
+		List<ReviewDTO> list = (List<ReviewDTO>)resultMap.get("reviewList");
+		// pkage 쪽 별점 표시 때문에 살짝 변경했습니다 (퍼센트를 구해야함..)
+		for(ReviewDTO dto : list) {
+			dto.getRvPercent();
+		}
 		//평점 가져오는 메서드
 		resultMap.put("avgScore", rs.selectAvgRating(reviewDTO));
 		
