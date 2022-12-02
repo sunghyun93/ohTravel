@@ -213,7 +213,7 @@
 	</resultMap>
 	
 	<!-- 호텔 resultMap -->
-	<resultMap id="selectHotelResult" type="Hotel">
+	<resultMap id="selectHotelResult" type="HotelDTORM">
 		<id property="hotel_id" column="hotel_id"/>
 		<result property="city_id" column="city_id"/>
 		<result property="hotel_kor" column="hotel_kor"/>
@@ -223,7 +223,28 @@
 		<result property="hotel_grade" column="hotel_grade"/>
 		<result property="hotel_score" column="hotel_score"/>
 		<result property="hotel_tel" column="hotel_tel"/>
+		
+		<association property="hotel_imageDTO" resultMap="selectHotelImgResult"></association>
+		<collection property="hotel_optionDTOList" resultMap="selectHotelOptionResult"></collection>
 	</resultMap>
+	
+	<!-- 호텔 이미지 resultMap -->
+	<resultMap id="selectHotelImgResult" type="Hotel_image">
+		<id property="h_img_id" column="h_img_id"/>
+		<result property="hotel_id" column="hotel_id"/>
+		<result property="h_s_img_path" column="h_s_img_path"/>
+		<result property="h_l_img_path" column="h_l_img_path"/>
+	</resultMap>
+	
+	<!-- 호텔 옵션 resultMap -->
+	<resultMap id="selectHotelOptionResult" type="Hotel_option">
+		<id property="option_id" column="option_id"/>
+		<result property="hotel_id" column="hotel_id"/>
+		<result property="hotel_option" column="hotel_option"/>
+		<result property="option_gubun" column="option_gubun"/>
+		<result property="hotel_exist" column="hotel_exist"/>
+	</resultMap>
+	
 	<!-- resultMap을 위한 select 문들 -->
 	<select id="selectPkgImg" resultType="pkage_imageDTO">
 		select * from package_image where pkage_id = #{pkage_id}
@@ -237,7 +258,8 @@
 
 	<!-- 패키지 검색시 관련 pkg 테이블들의 값 select  -->
 	<select id="selectPkgWithDetailAndFlight" parameterType="map" resultMap="pkageDTO_ResultMap">
-		select p.*, 
+		select 
+		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
 		c.*,
 		pd.*,
         pfs.*,
@@ -292,29 +314,35 @@
 	
 	<!-- 판매순, 평점순으로 패키지 select (원하는 갯수만) -->
 	<select id="selectPkgBySoldScoreOrder" parameterType="map" resultType="PkageDTO">
-		select p.*, min(pd.pkage_dt_Aprice) as pkage_dt_Aprice, pi.pkage_Img_path from package p 
+		select 
+		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
+		min(pd.pkage_dt_Aprice) as pkage_dt_Aprice, pi.pkage_Img_path from package p 
 		join package_image pi on p.pkage_id = pi.pkage_id
 		join package_detail pd on p.pkage_id = pd.pkage_id
 		where p.pkage_gubun = #{pkage_gubun}
 		group by p.pkage_id 
-		order by p.pkage_soldCnt desc, p.pkage_score desc
+		order by p.pkage_soldCnt desc, pkage_score desc
 		limit 0, #{row_count}
 	</select>
 	
 	<!-- 테마를 지정하여 판매순, 평점순으로 패키지 select (원하는 갯수만) -->
 	<select id="selectPkgByThemaSoldScoreOrder" parameterType="map" resultType="PkageDTO">
-		select p.*, min(pd.pkage_dt_Aprice) as pkage_dt_Aprice, pi.pkage_Img_path from package p 
+		select 
+		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
+		min(pd.pkage_dt_Aprice) as pkage_dt_Aprice, pi.pkage_Img_path from package p 
 		join package_image pi on p.pkage_id = pi.pkage_id
 		join package_detail pd on p.pkage_id = pd.pkage_id
 		where p.pkage_gubun = #{pkage_gubun} and pd.pkage_dt_thema = #{thema}
 		group by p.pkage_id 
-		order by p.pkage_soldCnt desc, p.pkage_score desc
+		order by p.pkage_soldCnt desc, pkage_score desc
 		limit 0, #{row_count}
 	</select>
 
 	<!-- pkage_id를 받아 해당 패키지(이미지, 도시까지) select -->
 	<select id="selectPkgByPkgId" parameterType="string" resultMap="PkageDTORM_city_pkimg">
-		select p.*, c.*, pi.*  
+		select 
+		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
+		c.*, pi.*  
 		from package p
 		join city c on p.city_id = c.city_id
 		join package_image pi on p.pkage_id = pi.pkage_id
@@ -344,5 +372,13 @@
 		join attraction_image arimg on ar.attr_id = arimg.attr_id
 		where pd.pkage_dt_id = ${pkage_dt_id}
 	</select>
+	
+<!--  sql 태그들  -->
+	<sql id="selectPkgColumn">
+		p.pkage_id, p.city_id, p.pkage_name, p.pkage_info, p.pkage_gubun, p.pkage_soldCnt, 
+		 (SELECT	FORMAT( IFNULL ( AVG(rv_rating), 0 ), 1 ) score
+		FROM	review 
+		WHERE	rv_real_id = p.pkage_id) as pkage_score, 
+	</sql>
 	
 </mapper>
