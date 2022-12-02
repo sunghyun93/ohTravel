@@ -6,6 +6,9 @@
 <meta charset="UTF-8">
 <title>개인정보</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/myPage.css">
+<style type="text/css">
+
+</style>
 </head>
 <body>
 	<div id="container">

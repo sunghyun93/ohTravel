@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,24 +64,24 @@
 					        <div class="text_wrap inquiry mt0">
 					            <div class="inr fl">총 <em>0</em>건</div>
 					        </div>	<!-- text_wrap inquiry mt0 -->
+					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
-					                    <col style="width: 14%;" />
-					                    <col />
-					                    <col style="width: 14%;" />
-					                    <col style="width: 8%;" />
-					                    <col style="width: 12%;" />
+					                    <col style="width: 20%;" />
+					                    <col style="width: 40%;" />
+					                    <col style="width: 20%;" />
+					                    <col style="width: 20%;" />
 					                </colgroup>
 					                <thead>
 					                    <tr>
-					                        <th>예약일/예약코드</th>
-					                        <th>상품명</th>
+					                        <th>예약번호</th>
+					                        <th>호텔명</th>
 					                        <th>결제 금액</th>
-					                        <th>인원</th>
-					                        <th>출발일</th>
+					                        <th>사용가능일</th>
 					                    </tr>
 					                </thead>
+					                
 					                <tbody>
 					                    <tr>
 					                        <td colspan="5">
@@ -89,7 +90,16 @@
 					                            </div>
 					                        </td>
 					                    </tr>
+					                    <c:forEach var="hotelReservList" items="${hotelReservList}">
+					                    <tr>
+					   						<td>${hotelReservList.h_rev_id}</td>
+					                    	<td>${hotelReservList.mem_id}</td>
+					                    	<td>${hotelReservList.rev_tot_price}</td>
+					                    	<td>${hotelReservList.rev_start}</td>
+					                    </tr>
+					                    </c:forEach>
 					                </tbody>
+					                
 					            </table>
 					        </div>	<!-- tbl -->
 					    </div>	<!-- panel selected -->
