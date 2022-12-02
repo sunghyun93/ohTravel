@@ -57,16 +57,16 @@
 				    <div class="inr right" style="width: 685px; padding-left: 100px;">
 				        <ul class="btn_wrap">
 				            <li>
-				                <a href="/com/mpg/CHPC0MPG0101M200" class="btn big icn"><span class="member">회원정보 수정</span></a>
+				                <a href="${pageContext.request.contextPath}/member/modifyMember" class="btn big"><span class="member">회원정보 수정</span></a>
 				            </li>
 				            <li>
-				                <a href="/com/mpg/CHPC0MPG0108M200" class="btn big icn"><span class="pw">비밀번호 변경</span></a>
+				                <a href="${pageContext.request.contextPath}/member/modifyPassword" class="btn big"><span class="pw">비밀번호 변경</span></a>
 				            </li>
 				            <li>
-				                <a href="/com/mpg/CHPC0MPG0106M200" class="btn big icn"><span class="sns">SNS연동</span></a>
+				                <a href="${pageContext.request.contextPath}/member/" class="btn big"><span class="sns">로그아웃</span></a>
 				            </li>
 				            <li>
-				                <a href="/com/mpg/CHPC0MPG0103M200" class="btn big icn"><span class="out">회원탈퇴</span></a>
+				                <a href="${pageContext.request.contextPath}/member/deleteMember" class="btn big"><span class="out">회원탈퇴</span></a>
 				            </li>
 				        </ul>
 				    </div>	<!-- inr right -->

@@ -108,15 +108,6 @@ public class MemberController {
 		return "member/myPageReservAir";
 	}
 	
-	/*
-	 * // 티켓 예약 내역 페이지 이동
-	 * 
-	 * @GetMapping(value = "/myPageReservTicket") public String
-	 * goMyPageReservTicket() {
-	 * log.info("MemberController goMyPageReservTicket start.."); return
-	 * "member/myPageReservTicket"; }
-	 */
-	
 	// 티켓 예약 내역 조회
 	@RequestMapping(value = "/myPageReservTicket")
 	public String myPageReservTicket(TicketReservationDTO ticketReservationDTO, Model model, HttpServletRequest request) {
@@ -210,6 +201,24 @@ public class MemberController {
 	@GetMapping(value = "/myPagePrivacy")
 	public String goMyPagePrivacy() {
 		return "member/myPagePrivacy";
+	}
+	
+	// 개인 정보 수정 페이지 이동
+	@GetMapping(value = "/modifyMember") 
+	public String goModifyMember() {
+		return "member/modifyMember";
+	}
+	
+	// 비밀번호 변경 페이지 이동
+	@GetMapping(value = "/modifyPassword")
+	public String goModifyPassword() {
+		return "member/modifyPassword";
+	}
+	
+	// 회원 탈퇴 페이지 이동
+	@GetMapping(value = "/deleteMember")
+	public String goDeleteMember() {
+		return "member/deleteMember";
 	}
 	
 	// 결제 step1 페이지 이동

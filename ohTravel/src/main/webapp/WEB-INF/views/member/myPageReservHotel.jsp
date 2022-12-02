@@ -61,28 +61,7 @@
 					<div class="panels">
 					    <div class="panel selected">
 					        <div class="text_wrap inquiry mt0">
-					            <div class="inr right_cont" style="width: 532px;">
-					                <dl>
-					                    <dt class="label">예약기간 선택하여 조회</dt>
-					                    <dd>
-					                        <div class="form_holder">
-					                            <button type="button" data-target="#select_tripstartdate" class="calandar js_show">2021.11.22</button> 
-					                            <span class="divider">~</span> 
-					                            <button type="button" class="calandar">2022.11.22</button>
-					                            <button type="submit" class="btn line">조회</button>
-					                        </div>	<!-- form_holder -->
-					                    </dd>
-					                </dl>
-					            </div>	<!-- inr right_cont -->
-					        </div>	<!-- text_wrap inquiry mt0 -->
-					        <div class="text_wrap inquiry mt0">
 					            <div class="inr fl">총 <em>0</em>건</div>
-					            <div class="right_cont">
-					                <ul class="list_sort js_act">
-					                    <li class="on"><a href="javacript:void(0);">예약일 최신순</a></li>
-					                    <li><a href="javacript:void(0);">출발일 최신순</a></li>
-					                </ul>
-					            </div>	<!-- right_cont -->
 					        </div>	<!-- text_wrap inquiry mt0 -->
 					        <div class="tbl">
 					            <table class="board_type">
