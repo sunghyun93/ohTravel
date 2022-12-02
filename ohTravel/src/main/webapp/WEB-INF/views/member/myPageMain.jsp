@@ -91,12 +91,12 @@
 					<!-- 1:1 게시판 문의 내역인데 나중에 다른 걸로 수정 -->
 					<div class="inr w526">
 					    <div class="text_wrap big type mb15">
-					        <strong class="tit">나의 1:1 게시판 문의내역</strong> <span class="right_cont"><a href="/com/mpg/CHPC0MPG0400M200" class="txt arrow_r">더보기</a></span>
+					        <strong class="tit">나의 쿠폰함</strong> <span class="right_cont"><a href="${pageContext.request.contextPath}/member/myPageCouponPackage" class="txt arrow_r">더보기</a></span>
 					    </div>
 					    <ul class="default_list">
 					        <li>
 					            <div class="data_no">
-					                <div class="cont"><strong>문의내역이 없습니다.</strong></div>
+					                <div class="cont"><strong>쿠폰이 없습니다.</strong></div>
 					            </div>
 					        </li>
 					    </ul>
