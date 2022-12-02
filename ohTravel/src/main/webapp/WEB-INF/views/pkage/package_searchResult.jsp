@@ -291,11 +291,16 @@
 <script>
 // url 만드는 함수
 function makeURL(order) {
+	/* 패키지를 클릭해서 검색결과가 나올 때와, 검색해서 검색결과가 나올때를 구분해주기 위함..(패키지 클릭 시는 pkage_id가 딸려옴) */
+	let pkage_id = '${pkgSearch.pkage_id}';
 	let tmp = '${toURL}';
 	tmp += '?pkage_gubun=${pkgSearch.pkage_gubun}';
 	tmp += '&toDesti=${pkgSearch.toDesti}';
 	tmp += '&dates_start_check=${pkgSearch.dates_start_check}';
 	tmp += '&order='+order;
+	if(pkage_id != '') tmp += '&pkage_id=${pkgSearch.pkage_id}';
+	
+	
 	
 	return tmp;
 }

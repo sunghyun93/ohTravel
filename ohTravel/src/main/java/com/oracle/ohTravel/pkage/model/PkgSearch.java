@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class PkgSearch {
-	private Integer toDesti; // 가고싶은 나라
+	private String pkage_id;		// 패키지 ID
+	private Integer toDesti; 		// 가고싶은 도시
 	private String dates_start_check; // 출발날짜
 	private Integer pkage_gubun; 	// 패키지 구분(0:국내, 1:해외)
 	

@@ -95,3 +95,8 @@
     content: '';
     display: block;
 }
+.rv_btn:after {
+	clear: both;
+    content: '';
+    display: block;
+}
