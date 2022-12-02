@@ -20,4 +20,11 @@ public class ReviewDTO {
 	
 	//hotel
 	//private double hotel_score;
+	
+	// pkage 쪽 리뷰의 평점은 100분율의 값으로 별 모양이 표시가 되서 컬럼 하나 만들고 함수 만들겠습니다.
+	private Integer rv_percent;
+	
+	public void getRvPercent() {
+		rv_percent = (int)((rv_rating / 5)*100);
+	}
 }
