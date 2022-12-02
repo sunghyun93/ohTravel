@@ -15,6 +15,6 @@ public interface ReviewService {
 
 	String deleteReview(Review review);
 	
-	int selectAvgRating(ReviewDTO reviewDTO);
+	double selectAvgRating(ReviewDTO reviewDTO);
 
 }

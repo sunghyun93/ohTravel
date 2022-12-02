@@ -22,11 +22,11 @@
 		AND rv_real_id = #{rv_real_id}	
 	</update>	
 	
-	<select id="selectAvgRating" resultType="int">
+	<select id="selectAvgRating" resultType="Double">
 	
-		SELECT 	IFNULL( AVG(rv_rating) , 0 )
-		FROM 	review
-		WHERE 	rv_real_id = #{rv_real_id}
+		SELECT	FORMAT( IFNULL ( AVG(rv_rating), 0 ), 1 ) score
+		FROM	review 
+		WHERE	rv_real_id = #{rv_real_id}
 	
 	</select>
 	

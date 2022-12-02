@@ -34,7 +34,7 @@
 					
 					</div> -->
 					<div class="star_scr" id="star_scr">
-						${hotelDetail.hotel_score }
+						
 					</div>
 					<hr>
 					<div class="p_info">
@@ -542,12 +542,13 @@ function getReviewList(){
 				success: function(result) {
 					// 가지고온 리뷰 데이터들을 포함해 화면 랜더링 함수 호출
 					makeReviewTable(result.reviewList);
-					
+					$('#star_scr').text(result.avgScore);
 				}
 		
 	});
 	
 }
+
 
 // 리뷰 조회 -- 랜더링 함수1 (append)
 function makeReviewTable(data) {
@@ -630,7 +631,7 @@ function writeReview(){
 		return false;
 	}
 	
-	// 가져가야할 data : 작성자 mem_id, rv_sort (하드코딩), rv_rating(별점), rv_contents(리뷰 내용), 
+	// 가져가야할 data : 작성자 mem_id, rv_rating(별점), rv_contents(리뷰 내용), 
 	//				  rv_date (작성시점 : ReviewServiceImpl에서 해결), rv_real_id(상품id값)
 	
 	let sendData = {

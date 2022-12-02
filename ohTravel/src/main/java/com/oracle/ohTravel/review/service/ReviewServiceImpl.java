@@ -71,7 +71,7 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public int selectAvgRating(ReviewDTO reviewDTO) {
+	public double selectAvgRating(ReviewDTO reviewDTO) {
 		return rd.selectAvgRating(reviewDTO);
 	}
 	

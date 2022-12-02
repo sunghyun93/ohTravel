@@ -25,6 +25,7 @@ public class HotelDTO {
 	private LocalTime checkin;
 	@JsonFormat(pattern = "HH:mm", timezone = "Asia/Seoul")
 	private LocalTime checkout;
+	private double score;
 	
 	private String h_img_path;
 	private String room_name;

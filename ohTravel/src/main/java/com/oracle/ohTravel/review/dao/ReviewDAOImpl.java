@@ -35,7 +35,7 @@ public class ReviewDAOImpl implements ReviewDAO {
 
 
 	@Override
-	public int selectAvgRating(ReviewDTO reviewDTO) {
+	public double selectAvgRating(ReviewDTO reviewDTO) {
 		return session.selectOne("selectAvgRating", reviewDTO);
 	}
 
