@@ -40,10 +40,8 @@ public class HotelController {
 	//호텔 목록에서 호텔 하나를 선택했을때 나올 페이지 (단건 조회)
 	@GetMapping(value = "/hotelDetail")
 	public String goHotelDetail(HotelDTO hotelDTO, Model model) {
-		System.out.println("hotelDetail Controller Start...");
 		hotelDTO = hs.getHotelDetail(hotelDTO);
 		model.addAttribute("hotelDetail", hotelDTO);
-		System.out.println("hotelDTO->"+hotelDTO);
 		return "hotel/hotelDetail";
 	}
 }

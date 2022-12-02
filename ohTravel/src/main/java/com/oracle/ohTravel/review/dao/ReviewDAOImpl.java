@@ -25,7 +25,6 @@ public class ReviewDAOImpl implements ReviewDAO {
 
 	@Override
 	public void updateReview(ReviewDTO reviewDTO) {
-		
 		session.update("updateReview", reviewDTO);
 	}
 	
@@ -36,9 +35,8 @@ public class ReviewDAOImpl implements ReviewDAO {
 
 
 	@Override
-	public void updateRating(ReviewDTO reviewDTO) {
-		System.out.println("updateRating here!");
-		session.update("updateRating", reviewDTO);
+	public double selectAvgRating(ReviewDTO reviewDTO) {
+		return session.selectOne("selectAvgRating", reviewDTO);
 	}
 
 

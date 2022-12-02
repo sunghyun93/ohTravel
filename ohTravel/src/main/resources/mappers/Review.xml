@@ -22,15 +22,13 @@
 		AND rv_real_id = #{rv_real_id}	
 	</update>	
 	
-	<update id="updateRating"  parameterType = "Review">
-		UPDATE hotel SET hotel_score = (
-			SELECT AVG(rv_rating)
-			FROM review
-			WHERE rv_real_id = #{rv_real_id}
-			)
-		WHERE hotel_id = #{rv_real_id};
+	<select id="selectAvgRating" resultType="Double">
 	
-	</update>
+		SELECT	FORMAT( IFNULL ( AVG(rv_rating), 0 ), 1 ) score
+		FROM	review 
+		WHERE	rv_real_id = #{rv_real_id}
+	
+	</select>
 	
 	<!-- 리뷰 개수 가져오는 select 문 -->
 	<select id="reviewCnt" parameterType="String" resultType="int">

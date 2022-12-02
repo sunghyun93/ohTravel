@@ -1,13 +1,17 @@
 package com.oracle.ohTravel.review.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oracle.ohTravel.hotel.model.HotelDTO;
+import com.oracle.ohTravel.hotel.service.HotelService;
 import com.oracle.ohTravel.review.domain.Review;
 import com.oracle.ohTravel.review.model.ReviewDTO;
 import com.oracle.ohTravel.review.service.ReviewService;
@@ -23,16 +27,17 @@ public class ReviewRestController {
 	
 	//리뷰 목록 조회
 	@GetMapping(value = "/reviewList")
-	public List<ReviewDTO> reviewList(ReviewDTO reviewDTO) {
-		System.out.println("getReviewList Start...");
-		List<ReviewDTO> list = rs.reviewSelect(reviewDTO);
-		// pkage 쪽 별점 표시 때문에 살짝 변경했습니다 (퍼센트를 구해야함..)
-		for(ReviewDTO dto : list) {
-			System.out.println("DB 점수"+dto.getRv_rating());
-			dto.getRvPercent();
-			System.out.println("퍼센트:"+dto.getRv_percent());
-		}
-		return list;
+
+	public Map<String,Object> reviewList(ReviewDTO reviewDTO) {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap.put("reviewList", rs.reviewSelect(reviewDTO));
+		
+		//평점 가져오는 메서드
+		resultMap.put("avgScore", rs.selectAvgRating(reviewDTO));
+		
+		return resultMap;
+
 	}
 	
 	//리뷰 등록

@@ -2,6 +2,7 @@ package com.oracle.ohTravel.hotel.model;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -21,9 +22,10 @@ public class HotelDTO {
 	private String hotel_tel;
 	private int hotel_rv_num;
 	@JsonFormat(pattern = "HH:mm", timezone = "Asia/Seoul")
-	private LocalDateTime checkin;
+	private LocalTime checkin;
 	@JsonFormat(pattern = "HH:mm", timezone = "Asia/Seoul")
-	private LocalDateTime checkout;
+	private LocalTime checkout;
+	private double score;
 	
 	private String h_img_path;
 	private String room_name;
