@@ -81,7 +81,7 @@
 					                        <th>사용가능일</th>
 					                    </tr>
 					                </thead>
-					                <c:forEach var="ticketReservList" items="${ticketReservList}">
+					                
 					                <tbody>
 					                	<!-- 티켓 예약 내역이 하나도 없을 때 -->
 					                    <tr>
@@ -91,14 +91,15 @@
 					                            </div>
 					                        </td>
 					                    </tr>
+					                    <c:forEach var="ticketReservList" items="${ticketReservList}">
 					                    <tr>
 					   						<td>${ticketReservList.ticket_order_id}</td>
 					                    	<td>${ticketReservList.ticket_name}</td>
 					                    	<td>${ticketReservList.ticket_total_price}</td>
 					                    	<td>${ticketReservList.ticket_admission_date}</td>
 					                    </tr>
+					                    </c:forEach>
 					                </tbody>
-					                </c:forEach>
 					            </table>
 					        </div>	<!-- tbl -->
 					    </div>	<!-- panel selected -->

@@ -56,6 +56,9 @@
 		<!-- Member -->
 		<typeAlias type="com.oracle.ohTravel.member.model.MemberDTO" alias="MemberDTO"/>
 		<typeAlias type="com.oracle.ohTravel.member.model.TicketReservationDTO" alias="TicketReservationDTO"/>
+		<typeAlias type="com.oracle.ohTravel.member.model.AirReservationDTO" alias="AirReservationDTO"/>
+		<typeAlias type="com.oracle.ohTravel.member.model.HotelReservationDTO" alias="HotelReservationDTO"/>
+		<typeAlias type="com.oracle.ohTravel.member.model.PackageReservationDTO" alias="PackageReservationDTO"/>
 		
 		
 	</typeAliases>

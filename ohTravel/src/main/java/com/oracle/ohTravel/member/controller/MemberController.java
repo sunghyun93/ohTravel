@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.oracle.ohTravel.member.model.AirReservationDTO;
+import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
+import com.oracle.ohTravel.member.model.PackageReservationDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 import com.oracle.ohTravel.member.service.MemberService;
 
@@ -91,20 +94,69 @@ public class MemberController {
 	}
 	
 	// 패키지 예약 내역 페이지 이동
-	@GetMapping(value = "/myPageReservPackage")
-	public String goMyPageReservPackage() {
+	@RequestMapping(value = "/myPageReservPackage")
+	public String myPageReservPackage(PackageReservationDTO packageReservationDTO, Model model, HttpServletRequest request) {
+		log.info("MemberController myPageReservPackage start..");
+		HttpSession session = request.getSession();
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO res = (MemberDTO) session.getAttribute("res");
+		String sessionId = res.getMem_id();
+		System.out.println("MemberController myPageReservPackage sessionId -> " + sessionId );
+		
+		// 페이징 나중에
+		
+		// 호텔 예약 내역
+		packageReservationDTO.setMem_id(sessionId);
+		List<PackageReservationDTO> packageReservList = memberService.myPageReservPackage(packageReservationDTO);
+		model.addAttribute("packageReservList", packageReservList);
+		System.out.println("MemberController packageReservList.size() -> " + packageReservList.size());
+		
 		return "member/myPageReservPackage";
 	}
 	
 	// 호텔 예약 내역 페이지 이동
-	@GetMapping(value = "/myPageReservHotel")
-	public String goMyPageReservHotel() {
+	@RequestMapping(value = "/myPageReservHotel")
+	public String myPageReservHotel(HotelReservationDTO hotelReservationDTO, Model model, HttpServletRequest request) {
+		log.info("MemberController myPageReservHotel start..");
+		HttpSession session = request.getSession();
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO res = (MemberDTO) session.getAttribute("res");
+		String sessionId = res.getMem_id();
+		System.out.println("MemberController myPageReservHotel sessionId -> " + sessionId );
+		
+		// 페이징 나중에
+		
+		// 호텔 예약 내역
+		hotelReservationDTO.setMem_id(sessionId);
+		List<HotelReservationDTO> hotelReservList = memberService.myPageReservHotel(hotelReservationDTO);
+		model.addAttribute("hotelReservList", hotelReservList);
+		System.out.println("MemberController hotelReservList.size() -> " + hotelReservList.size());
+		
 		return "member/myPageReservHotel";
 	}
 	
 	// 항공 예약 내역 페이지 이동 페이지 이동
-	@GetMapping(value = "/myPageReservAir")
-	public String goMyPageReservAir() {
+	@RequestMapping(value = "/myPageReservAir")
+	public String myPageReservAir(AirReservationDTO airReservationDTO, Model model, HttpServletRequest request) {
+		log.info("MemberController myPageReservAir start..");
+		HttpSession session = request.getSession();
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO res = (MemberDTO) session.getAttribute("res");
+		String sessionId = res.getMem_id();
+		System.out.println("MemberController myPageReservAir sessionId -> " + sessionId );
+		
+		// 페이징 나중에
+		
+		
+		// 호텔 예약 내역
+		airReservationDTO.setMem_id(sessionId);
+		List<AirReservationDTO> airReservList = memberService.myPageReservAir(airReservationDTO);
+		model.addAttribute("airReservList", airReservList);
+		System.out.println("MemberController airReservList.size() -> " + airReservList.size());
+		
 		return "member/myPageReservAir";
 	}
 	
