@@ -42,6 +42,7 @@ public class HotelController {
 	public String goHotelDetail(HotelDTO hotelDTO, Model model) {
 		hotelDTO = hs.getHotelDetail(hotelDTO);
 		model.addAttribute("hotelDetail", hotelDTO);
+		model.addAttribute("rv_real_id", hotelDTO.getHotel_id());
 		return "hotel/hotelDetail";
 	}
 }

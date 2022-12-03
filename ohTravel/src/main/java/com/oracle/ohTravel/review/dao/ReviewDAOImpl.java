@@ -39,6 +39,5 @@ public class ReviewDAOImpl implements ReviewDAO {
 		return session.selectOne("selectAvgRating", reviewDTO);
 	}
 
-
 	
 }

@@ -9,7 +9,7 @@
 		FROM review
 		WHERE rv_real_id = #{rv_real_id}
 		ORDER BY rv_id DESC
-	
+		LIMIT #{rowPage} OFFSET #{start}
 	</select>
 	
 	<update id="updateReview" parameterType = "Review">
