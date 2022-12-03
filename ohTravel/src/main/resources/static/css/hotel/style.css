@@ -800,5 +800,24 @@ button {
   
   
  /* 리뷰 테이블 관련*/
- 
+
+.reviewTable {
+	
+	margin-top: 20px;
+	margin-bottom: 20px;
+	
+}
+
+.reviewTable td {
+	
+	margin-top:10px;
+}
+
+/* 페이지 처리 관련*/
+
+.review-pagination	{
+	
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
  

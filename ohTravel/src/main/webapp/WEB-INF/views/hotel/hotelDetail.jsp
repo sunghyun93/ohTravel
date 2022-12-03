@@ -10,7 +10,6 @@
 	<link rel="stylesheet" href=" ${pageContext.request.contextPath}/css/hotel/style.css">
 </head>
 <body>
-<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
 <input type="hidden" id="rv_real_id" value="${rv_real_id}">
 
 	<div class="hd_container">
@@ -186,13 +185,14 @@
 							
 						<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
 							<!-- 리뷰 들어갈 위치에 table생성 -->
-							<table id="reviewTable"> <!-- id값 변경 X -->
+							<table id="reviewTable" class="reviewTable"> <!-- id값 변경 X -->
 								
 							</table>
 
 						</div> <!-- show_review -->
 						
 					    <nav class="review-pagination blog-pagination justify-content-center d-flex">
+					    	<!-- 페이징 처리 들어갈 위치 -->
                            <ul class="pagination" id="reviewPaginationUl">
                                
                            </ul>

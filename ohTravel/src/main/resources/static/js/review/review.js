@@ -1,8 +1,9 @@
 // 이하 리뷰와 관련된 함수들 //
-// 선택한 리뷰 아이디 / 페이지 / 리뷰 아이디에 대한 전역변수 설정
+// 선택한 리뷰 아이디 / 페이지 / 리뷰 아이디에 대한 전역변수 설정 -> 리뷰아이디는 해당 jsp 최상단 #rv_real_id에 hidden값으로 설정해줌
 let selectedRvId;
 let currentPage = 1;
 let rv_real_id;
+
 
 // 페이지 로딩될 때 리뷰 조회 함수 바로 실행
 $(function(){
@@ -80,11 +81,10 @@ function registerReview() {
 // 가져올 데이터는 해당 Detail 페이지의 []_id에 해당하는 값들
 function getReviewList(){
 	
-	// 각자의 상품 Id값 변수 선언을 이쪽에서
 	$.ajax({
 		url:"/review/reviewList",
 		data:{
-			// 리뷰 테이블의 해당 상품id값을 읽어오는 부분
+			// 설정해준 전역변수 rv_real_id = 상품id , currentPage=1
 			rv_real_id,
 			currentPage
 		},
@@ -94,6 +94,7 @@ function getReviewList(){
 			// 가지고온 리뷰 데이터들을 포함해 화면 랜더링 함수 호출
 			makeReviewTable(result.reviewList);
 			$('#star_scr').text(result.avgScore);
+			//페이징 처리
 			makePaginationLi(result.page);
 		}
 		
@@ -182,7 +183,7 @@ function writeReview(){
 	}
 	
 	// 가져가야할 data : 작성자 mem_id, rv_rating(별점), rv_contents(리뷰 내용), 
-	//				  rv_date (작성시점 : ReviewServiceImpl에서 해결), rv_real_id(상품id값)
+	//				  rv_date (작성시점 : ReviewServiceImpl에서 해결), rv_real_id(전역변수에서 해결)
 	
 	let sendData = {
 		//TODO:나중에 세션?에 있는 정보로 읽어와야함
@@ -208,7 +209,7 @@ function writeReview(){
 			
 			//모달창 닫기
 			$('#reviewModal').modal('hide');
-			//
+			// 특정 리뷰 페이지를 조회하던 중에 리뷰를 등록하면, 본인이 등록한 리뷰를 볼 수 있도록 첫페이지로 이동
 			currentPage = 1;
 			//랜더링 함수 호출
 			getReviewList();
@@ -281,7 +282,7 @@ function deleteReview(target){
 			url:"/review/deleteReview",
 			data:{	
 				rv_id : selectedRvId,
-				rv_real_id : '${hotelDetail.hotel_id}'				
+				rv_real_id			
 			},
 			type: 'post',
 			success: function(result){
@@ -312,7 +313,6 @@ function changePage(e, page) {
 }
 
 function makePaginationLi(pageData) {
-	console.log(pageData)
 	
 	let innerHTML = ``;
 	
@@ -320,13 +320,10 @@ function makePaginationLi(pageData) {
 	<li class="page-item">
 	`
     if(pageData.startPage == 1) {
-		innerHTML += `
-	       <a class="page-link" aria-label="Previous" onclick="return false;">
-	    `
+		innerHTML += `<a class="page-link" aria-label="Previous" onclick="return false;">`
+	    // 첫 1~5페이지에서 [<] 키가 작동하지 않도록함 
     } else {
-    	innerHTML += `
-	       <a class="page-link" aria-label="Previous" onclick="changePage(event,${pageData.startPage - 1})">
-	    `
+    	innerHTML += ` <a class="page-link" aria-label="Previous" onclick="changePage(event,${pageData.startPage - 1})">`
     }
     
 	innerHTML += `
@@ -346,6 +343,7 @@ function makePaginationLi(pageData) {
 	innerHTML += `<li class="page-item">`
 	if(pageData.endPage == pageData.totalPage){
 		innerHTML += `<a class="page-link" aria-label="Next" onclick="return false;">`
+		// 마지막 PageBlock에서  [>] 버튼이 작동하지 않도록 함
 	} else {
 		innerHTML += `<a class="page-link" aria-label="Next" onclick="changePage(event,${pageData.endPage + 1})">`
 	}
