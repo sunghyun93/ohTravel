@@ -9,22 +9,26 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
 import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.country.service.CountryService;
+import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 import com.oracle.ohTravel.pkage.model.Pkage_flightScheDTO;
+import com.oracle.ohTravel.pkage.model.PkgReserve;
 import com.oracle.ohTravel.pkage.model.PkgSearch;
 import com.oracle.ohTravel.pkage.service.PkageService;
 
@@ -118,7 +122,7 @@ public class PkageController {
 			// 리뷰 개수는 service 단에서 가져옴
 			
 			// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수 구하기
-			getMakingDetail(pkageDTORmlist);
+			getMakingDetailByList(pkageDTORmlist);
 			
 			model.addAttribute("toURL", toURL);
 			model.addAttribute("pkgCnt", pkgCnt);
@@ -133,6 +137,7 @@ public class PkageController {
 		return "pkage/package_searchResult";
 	}
 	
+	// 패키지 상세 상품가져오는 메서드
 	@GetMapping("/detail")
 	public String detail(String pkage_id, Integer pkage_dt_id, Model model) {
 		log.info("PkageController detail() start...");
@@ -150,29 +155,9 @@ public class PkageController {
 			
 			// 패키지 상세의 일 수 구하기
 			Pkage_detailDTO tmpDTO = pkageDTORM.getPkage_detailDTO();
-			Date start = tmpDTO.getPkage_dt_startDay();
-			Date end = tmpDTO.getPkage_dt_endDay();
-			tmpDTO.setDay(tmpDTO.getDay(start, end));
 			
-			// 요일 구하기
-			Date date = tmpDTO.getPkage_dt_startDay();
-			String yoil = tmpDTO.getYoil(date);
-			tmpDTO.setStartYoil(yoil);
-			
-			date = tmpDTO.getPkage_dt_endDay();
-			yoil = tmpDTO.getYoil(date);
-			tmpDTO.setEndYoil(yoil);
-			
-			// 해외만 비행일정이 있기 때문에 if문 걸어야함.
-			if(tmpDTO.getPkage_flightScheDTOList().size() > 1) {
-				// 출발 / 도착 비행 시간 계산
-				for(Pkage_flightScheDTO fsh : tmpDTO.getPkage_flightScheDTOList()) {
-					fsh.getTime();
-				}
-				
-				// 비행일정이 있기 때문에 값 1로 변경  (jsp 에서 비행일정이 있는 것과 없는 것 구분해주기 위함)
-				tmpDTO.setFlightExist(1);
-			}
+			// 패키지 상세내의 필요 변수들 채우기
+			getMakingDetailByDTO(tmpDTO);
 			
 			model.addAttribute("pkageDTORM", pkageDTORM);
 		} catch(Exception e) {
@@ -183,13 +168,52 @@ public class PkageController {
 		return "pkage/package_detail";
 	}
 	
+	// 패키지 예약 페이지 메서드
 	@GetMapping("/reservation")
-	public String reservation() {
+	public String reservation(PkgReserve pkgReserve, Model model, HttpServletRequest request, HttpSession session) {
+		log.info("PkageController reservation() start...");
+		log.info("pkgReserve = " + pkgReserve);
+		
+		// 데이터 전달 확인 검사
+		if(pkgReserve.getPkage_dt_id() == null) {
+			String url = request.getRequestURI();
+			return "redirect:"+url;
+		}
+		
+		// 현재 로그인하고 있는 사용자 정보
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		log.info("memberDTO = " + memberDTO);
+		
+		if(memberDTO == null) {
+			return "redirect:/member/loginForm";
+		}
+		
+		try {
+			// 패키지 가져오기(항공편의 도착 때문에 가져옴)
+			PkageDTORM pkageDTORM = pkageService.selectPkgByPkgId(pkgReserve.getPkage_id());
+			
+			// 패키지 상세 가져오기
+			Pkage_detailDTO pkage_detailDTO = pkageService.selectPkgDetailById2(pkgReserve.getPkage_dt_id());
+			// 패키지 상세내의 필요 변수들 채우기
+			getMakingDetailByDTO(pkage_detailDTO);
+			
+			// 총 가격 만들어주기
+			pkgReserve.makeTotalPay(pkage_detailDTO.getPkage_dt_Aprice(), pkage_detailDTO.getPkage_dt_Cprice());
+			
+			model.addAttribute("pkageDTORM", pkageDTORM);
+			model.addAttribute("pkage_detailDTO", pkage_detailDTO);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("memberDTO", memberDTO);
+		model.addAttribute("pkgReserve", pkgReserve);
+		log.info("PkageController reservation() end...");
 		return "pkage/package_reservation";
 	}
 	
 	// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수(전체 상품 디테일들 중 최소 기간과 최대기간) 구하기
-	private void getMakingDetail(List<PkageDTORM> list) {
+	private void getMakingDetailByList(List<PkageDTORM> list) {
 		for(PkageDTORM pkageDTORM : list) {
 			ArrayList<Integer> priceBox = new ArrayList<>(); // 가격을 정렬을 위한 변수
 //			ArrayList<Long> daysBox = new ArrayList<>();
@@ -238,4 +262,30 @@ public class PkageController {
 		}
 	}
 	
+	// pkg 상품 detail 의 필요 변수들 만들기(출발/도착 요일, 일 수, 출발/도착 때 걸린 비행시간, 비행 일정 유무 구분)
+	private void getMakingDetailByDTO(Pkage_detailDTO tmpDTO) {
+		Date start = tmpDTO.getPkage_dt_startDay();
+		Date end = tmpDTO.getPkage_dt_endDay();
+		tmpDTO.setDay(tmpDTO.getDay(start, end));
+		
+		// 요일 구하기
+		Date date = tmpDTO.getPkage_dt_startDay();
+		String yoil = tmpDTO.getYoil(date);
+		tmpDTO.setStartYoil(yoil);
+		
+		date = tmpDTO.getPkage_dt_endDay();
+		yoil = tmpDTO.getYoil(date);
+		tmpDTO.setEndYoil(yoil);
+		
+		// 해외만 비행일정이 있기 때문에 if문 걸어야함.
+		if(tmpDTO.getPkage_flightScheDTOList().size() > 1) {
+			// 출발 / 도착 비행 시간 계산
+			for(Pkage_flightScheDTO fsh : tmpDTO.getPkage_flightScheDTOList()) {
+				fsh.getTime();
+			}
+			
+			// 비행일정이 있기 때문에 값 1로 변경  (jsp 에서 비행일정이 있는 것과 없는 것 구분해주기 위함)
+			tmpDTO.setFlightExist(1);
+		}
+	}
 }

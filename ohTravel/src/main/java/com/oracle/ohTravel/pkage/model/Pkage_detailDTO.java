@@ -31,6 +31,7 @@ public class Pkage_detailDTO {
 	
 	// package_hotel 패키지숙박
 	private List<Pkage_hotelDTO> pkage_hotelDTOList;
+	private Pkage_hotelDTO pkage_hotelDTO; // 예약 페이지 확인 용
 	
 	
 	// 더미 변수

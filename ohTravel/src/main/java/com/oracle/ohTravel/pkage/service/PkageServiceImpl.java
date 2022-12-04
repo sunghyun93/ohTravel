@@ -75,4 +75,23 @@ public class PkageServiceImpl implements PkageService {
 		log.info("PkageServiceImpl selectPkgDetailWithSchedule() end...");
 		return pkageDTORM;
 	}
+	
+	@Override
+	public PkageDTORM selectPkgByPkgId(String pkage_id) throws Exception {
+		log.info("PkageServiceImpl selectPkgByPkgId() start...");
+		PkageDTORM pkageDTORM = pkageDao.selectPkgByPkgId(pkage_id);
+		log.info("PkageServiceImpl selectPkgByPkgId() end...");
+		return pkageDTORM;
+	}
+	
+	@Override
+	public Pkage_detailDTO selectPkgDetailById2(Integer pkage_dt_id) throws Exception {
+		log.info("PkageServiceImpl selectPkgDetailById2() start...");
+		// package_detail 가져오기(여행일정, 비행일정, 호텔)
+		Pkage_detailDTO pkage_detailDTO = pkageDao.selectPkgDetailById2(pkage_dt_id);
+		
+		log.info("PkageServiceImpl selectPkgDetailById2() end...");
+		return pkage_detailDTO;
+				
+	}
 }

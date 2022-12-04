@@ -67,4 +67,14 @@ public class PkageDaoImpl implements PkageDao {
 		log.info("PkageDaoImpl selectPkgDetailById() end...");
 		return dto;
 	}
+	
+//	pkage_dt_id 를 받아 해당 패키지 상세와 관련된 것들 select(패키지 예약때 필요한 정보만 가져오기)
+	@Override
+	public Pkage_detailDTO selectPkgDetailById2(Integer pkage_dt_id) throws Exception {
+		log.info("PkageDaoImpl selectPkgDetailById() start...");
+		log.info("id="+pkage_dt_id);
+		Pkage_detailDTO dto = session.selectOne(namespace+"selectPkgDetailById2", pkage_dt_id);
+		log.info("PkageDaoImpl selectPkgDetailById() end...");
+		return dto;
+	}
 }
