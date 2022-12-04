@@ -809,8 +809,7 @@ button {
 }
 
 .reviewTable td {
-	
-	margin-top:10px;
+	padding-left: 10px;	
 }
 
 /* 페이지 처리 관련*/

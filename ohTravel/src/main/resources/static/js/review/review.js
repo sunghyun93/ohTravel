@@ -55,6 +55,7 @@ function closeModal() {
 	selectedRvId = '';
 }
 
+
 //별 그리기 함수
 function drawStar() {
 	let width = $('#starRate').val();
@@ -236,7 +237,6 @@ function updateReview(){
 			mem_id : 'test1',
 			rv_rating : ($('#starRate').val())/2,
 			rv_contents : $('#review-text').val(),
-			// 상품마다 rv_real_id값을 바꿔줘야함
 			rv_real_id
 	}
 	
@@ -305,6 +305,7 @@ function deleteReview(target){
 // 페이징 처리 관련 함수
 
 function changePage(e, page) {
+	// a태그 기본 작동을 막기 위한 함수(클릭 시 상단으로 올라가버린다거나 하는 ...)
 	e.preventDefault();
 	// 선택한 페이지 넘버값을 받아서 전역변수 currentPage에 담는다.
 	currentPage = page;
@@ -314,6 +315,9 @@ function changePage(e, page) {
 
 function makePaginationLi(pageData) {
 	
+	// Backtick(백틱)사용 : ES6부터 새로 도입된 문자열 표기법
+	// 백틱으로 템플릿 리터럴을 사용하면 줄바꿈, 변수나 연산 삽입에 용이함(+로 연결하거나 ''로 분리하지 않아도 됨)
+	//  JSON에서는 사용 불가
 	let innerHTML = ``;
 	
 	innerHTML += `

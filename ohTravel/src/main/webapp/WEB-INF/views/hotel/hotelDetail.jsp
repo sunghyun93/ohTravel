@@ -32,9 +32,7 @@
 					<div class="star_img">
 						<img alt="별점뙇~" src="${pageContext.request.contextPath }/img/hotel/star.png">
 					</div>
-					<!-- <div id="star_scr">
-					
-					</div> -->
+					<!-- 평균 별점 ajax 계산되어 들어가는 부분 -->
 					<div class="star_scr" id="star_scr">
 						
 					</div>
@@ -119,7 +117,6 @@
 		
 		<!-- 호텔이 가지고 있는 방 종류마다 반복될 folding box -->
 		<div class="room_type_more">
-			
 			<div class="fluid-wrap">
 			 <div class="container-fluid" >
 			 	<!-- style="min-height: calc(100vh - 136px);" -->
@@ -214,7 +211,7 @@
 	</div> <!-- hd_container 끝 -->
 	
 		<!-- 리뷰 모달 (있어야할 위치는 상관없습니다..)-->
-		<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+		<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 			  <div class="modal-dialog modal-dialog-centered" role="document">
 			    <div class="modal-content">
 			      <div class="modal-header">
