@@ -5,7 +5,7 @@
 
 .contents {
   min-height: 3424px;
-    padding-left: 0;
+  padding-left: 0;
 }
 
 .text_wrap.line.top {
@@ -272,6 +272,27 @@ a.txt {
   right: 0;
 }
 
+.tag_group>span.attr {
+	border: 1px solid #5b699c;
+	color: #5b699c;
+}
+
+.tag_group>span+span {
+	margin-left: 5px;
+}
+
+.tag_group>span {
+	background: #fff;
+}
+
+.tag, .tag_group>span, .badge {
+	display: inline-block;
+	padding: 0 6px;
+	height: 19px;
+	line-height: 17px;
+	font-size: 12px;
+}
+
 .item_group {
   margin-top: 15px;
 }
@@ -392,3 +413,6 @@ a.txt {
 	margin-bottom: 30px;
 }
 
+button {
+	cursor: pointer;
+}

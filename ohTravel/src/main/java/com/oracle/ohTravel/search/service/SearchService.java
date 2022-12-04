@@ -1,5 +1,6 @@
 package com.oracle.ohTravel.search.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
@@ -12,12 +13,12 @@ public interface SearchService {
 
 	List<PkageDTO> getPkageList(PkageDTO pkageDTO);
 
-	List<HotelDTO> getHotelList(PkageDTO pkageDTO);
+	List<HotelDTO> getHotelList(HotelDTO hotelDTO);
 
-	List<TicketDTO> getTicketList(PkageDTO pkageDTO);
+	List<TicketDTO> getTicketList(TicketDTO ticketDTO);
 
-	List<PkageDTO> filteredPkageList(PkageDTO pkageDTO);
+	List<PkageDTO> filteredPkageList(HashMap<String, Object> pkageHM);
 
-	List<HotelDTO> filteredHotelList(HotelDTO hotelDTO);
+	List<HotelDTO> filteredHotelList(HashMap<String, Object> hotelHM);
 
 }

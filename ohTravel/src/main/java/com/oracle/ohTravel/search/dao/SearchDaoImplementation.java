@@ -1,5 +1,6 @@
 package com.oracle.ohTravel.search.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -19,11 +20,11 @@ public class SearchDaoImplementation implements SearchDao {
 
 	// 티켓 목록 가져와
 	@Override
-	public List<TicketDTO> getTicketList(PkageDTO pkageDTO) {
+	public List<TicketDTO> getTicketList(TicketDTO ticketDTO) {
 		System.out.println("Dao getTicketList Start...");
 		List<TicketDTO> ticketList = null;
 		try {
-			ticketList = sqs.selectList("yqTicketList", pkageDTO);
+			ticketList = sqs.selectList("yqTicketList", ticketDTO);
 		} catch (Exception e) {
 			System.out.println("Dao getTicketList Exception -> " + e.getMessage());
 		}
@@ -32,11 +33,11 @@ public class SearchDaoImplementation implements SearchDao {
 
 	// 호텔 목록 가져와
 	@Override
-	public List<HotelDTO> getHotelList(PkageDTO pkageDTO) {
+	public List<HotelDTO> getHotelList(HotelDTO hotelDTO) {
 		System.out.println("Dao getHotelList Start...");
 		List<HotelDTO> hotelList = null;
 		try {
-			hotelList = sqs.selectList("yqHotelList", pkageDTO);
+			hotelList = sqs.selectList("yqHotelList", hotelDTO);
 		} catch (Exception e) {
 			System.out.println("Dao getHotelList Exception -> " + e.getMessage());
 		}
@@ -57,15 +58,27 @@ public class SearchDaoImplementation implements SearchDao {
 	}
 
 	@Override
-	public List<PkageDTO> filteredPkageList(PkageDTO pkageDTO) {
+	public List<PkageDTO> filteredPkageList(HashMap<String, Object> pkageHM) {
 		System.out.println("Dao filteredPkageList Start...");
 		List<PkageDTO> filteredPkageList = null;
 		try {
-			filteredPkageList = sqs.selectList("yqFilteredPkageList", pkageDTO);
+			filteredPkageList = sqs.selectList("yqFilteredPkageList", pkageHM);
 		} catch (Exception e) {
 			System.out.println("Dao filteredPkageList Exception -> " + e.getMessage());
 		}
 		return filteredPkageList;
+	}
+
+	@Override
+	public List<HotelDTO> filteredHotelList(HashMap<String, Object> hotelHM) {
+		System.out.println("Dao filteredHotelList Start...");
+		List<HotelDTO> filteredHotelList = null;
+		try {
+			filteredHotelList = sqs.selectList("yqFilteredHotelList", hotelHM);
+		} catch (Exception e) {
+			System.out.println("Dao filteredHotelList Exception -> " + e.getMessage());
+		}
+		return filteredHotelList;
 	}
 	
 }

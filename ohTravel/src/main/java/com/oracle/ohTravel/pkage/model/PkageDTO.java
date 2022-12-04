@@ -18,6 +18,8 @@ public class PkageDTO {
 //	package_detail 
 	private Integer pkage_dt_Aprice;
 	private Integer pkage_dt_Cprice;
+	private String pkage_dt_thema;
+	
 	
 //	pakcage_image
 	private String pkage_Img_path;
@@ -28,4 +30,6 @@ public class PkageDTO {
 	private String search_word;
 	private int min_price;
 	private String check;
+	
+	private int review_cnt;
 }

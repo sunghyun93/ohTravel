@@ -94,6 +94,7 @@ a {
 .tabs {
 	overflow: hidden;
 	padding-left: 0;
+		cursor: pointer;
 }
 
 .js_tabs.no_division>.tabs.sort>li.item01 {
@@ -277,6 +278,7 @@ span.form_holder {
 button, input, textarea {
 	-webkit-border-radius: 0;
 	border-radius: 0;
+	cursor: pointer;
 }
 
 .form_holder.text label {
@@ -334,7 +336,6 @@ button, input, textarea {
 .filter_top .tit {
 	float: left;
 	width: 110px;
-	padding-top: 3px;
 	font-size: 17px;
 }
 
@@ -354,6 +355,22 @@ p {
 	background-repeat: no-repeat;
 	background-image:
 		url(https://image.hanatour.com/usr/static/img2/pc/com/spr_com.png);
+}
+
+#reset-btn {
+	background-image: none;
+	height: 32px;
+	width: auto;
+	border: 1px solid #c2c2c2;    /*---테두리 정의---*/
+	border-radius: 4px;
+	font: 12px;
+	font-weight: 400;   /*--폰트 굵기---*/
+	color: #666;    /*--폰트 색깔---*/
+	background-color: white;
+}
+
+#reset-btn:hover {
+	border-color: black;
 }
 
 .filter_top .tit .notice_count {
@@ -381,7 +398,12 @@ p {
 .filter_top .inr {
 	width: 1090px;
 	float: left;
-	margin-top: 20px;
+}
+
+.filter_top .inr .btn {
+	border: 1px solid gray;
+	color: #333;
+	padding: 15px 10px;
 }
 
 .option_wrap.result {
@@ -662,7 +684,7 @@ img {
     line-height: 21px;
 }
 
-.score_htl_wrap .icn.star {
+.start_icon {
     color: #111;
     font-size: 14px;
     font-weight: bold;
@@ -687,11 +709,10 @@ img {
 }
 
 .prod_list_wrap .htl .price_group {
-    top: 30px;
+    top: 40px;
 }
 .prod_list_wrap .type .price_group {
     position: absolute;
-    top: 2px;
     right: 0;
     text-align: right;
 }
@@ -793,6 +814,26 @@ prod_list_wrap .htl .btn.line {
     text-decoration: underline;
   }
   
+  .list_sort li {
+  cursor: pointer;
+  }
+  
+  .choice-btn {
+	position: absolute;
+    width: 50px;
+    right: 0;
+    top: 2px;
+  }
+  .icn.choice {
+    width: 24px;
+    height: 22px;
+    background-position: -485px -26px;
+    vertical-align: middle;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+  
 </style>
 </head>
 <body>
@@ -802,7 +843,6 @@ prod_list_wrap .htl .btn.line {
 	        <li class="item selected"><button id="pkage" class="item02">패키지</button></li>
 	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
 	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
-			<li class="item05"><button id="airplane" class="item02">항공</button></li>
 		</ul>
 	</div>
 	<div>
@@ -810,24 +850,24 @@ prod_list_wrap .htl .btn.line {
 			<div class="inr">
 				<div class="js_acc multi filter_wrap">
 					<div class="inr">
-						<a href="#filter_con1" class="header">가격</a><!-- <span id="toc-toggle" onclick="toggle()">ㅇㅇ</span> -->
+						<a href="#filter_con1" class="header">가격</a>
 						<div id="filter_con1" class="view">
 							<div class="form_wrap">
 								<span class="form_holder text">
 									<input type="checkbox" id="fprice_0" class="inpt_checkbox" name="inpt_checkbox0">
-									<label for="fprice_0" class="label_checkbox fprice_0" id="label_checkbox0">0~44만원</label>
+									<label for="fprice_0" class="label_checkbox fprice_0" id="label_checkbox0">0~20만원</label>
 								</span>
 								<span class="form_holder text">
 									<input type="checkbox"id="fprice_1" class="inpt_checkbox" name="inpt_checkbox1">
-									<label for="fprice_1" class="label_checkbox fprice_1" id="label_checkbox1">44~90만원</label>
+									<label for="fprice_1" class="label_checkbox fprice_1" id="label_checkbox1">21~50만원</label>
 								</span>
 								<span class="form_holder text">
 									<input type="checkbox" id="fprice_2" class="inpt_checkbox" name="inpt_checkbox2">
-									<label for="fprice_2" class="label_checkbox fprice_2" id="label_checkbox2">90~141만원</label>
+									<label for="fprice_2" class="label_checkbox fprice_2" id="label_checkbox2">51~70만원</label>
 								</span>
 								<span class="form_holder text">
 									<input type="checkbox" id="fprice_3" class="inpt_checkbox" name="inpt_checkbox3">
-									<label for="fprice_3" class="label_checkbox fprice_3" id="label_checkbox3">141~1175만원</label>
+									<label for="fprice_3" class="label_checkbox fprice_3" id="label_checkbox3">71~200만원</label>
 								</span>
 							</div>
 							<!-- <a href="#none" class="btn gray">직접입력</a> -->
@@ -847,20 +887,20 @@ prod_list_wrap .htl .btn.line {
 						<div id="filter_con3" class="view">
 							<div class="form_wrap">
 								<span class="form_holder text">
-									<input type="checkbox" id="score_0" class="inpt_checkbox">
-									<label for="score_0" class="label_checkbox score_0">7일</label>
+									<input type="checkbox" id="period_0" class="inpt_checkbox">
+									<label for="period_0" class="label_checkbox period_0">4일</label>
 								</span>
 								<span class="form_holder text">
-									<input type="checkbox" id="score_1" class="inpt_checkbox">
-									<label for="score_1" class="label_checkbox score_1">5일</label>
+									<input type="checkbox" id="period_1" class="inpt_checkbox">
+									<label for="period_1" class="label_checkbox period_1">3일</label>
 								</span>
 								<span class="form_holder text">
-									<input type="checkbox" id="score_2" class="inpt_checkbox">
-									<label for="score_2" class="label_checkbox score_2">4일</label>
+									<input type="checkbox" id="period_2" class="inpt_checkbox">
+									<label for="period_2" class="label_checkbox period_2">2일</label>
 								</span>
 								<span class="form_holder text">
-									<input type="checkbox" id="score_3" class="inpt_checkbox">
-									<label for="score_3" class="label_checkbox score_3">3일</label>
+									<input type="checkbox" id="period_3" class="inpt_checkbox">
+									<label for="period_3" class="label_checkbox period_3">1일</label>
 								</span>
 							</div>
 						</div>
@@ -869,27 +909,34 @@ prod_list_wrap .htl .btn.line {
 						<a href="#filter_con4" class="header">출발도시</a>
 						<div id="filter_con4" class="view">
 							<div class="form_wrap">
-								<span class="form_holder text"><input type="checkbox" id="kind_0" class="inpt_checkbox">
-								<label for="kind_0" class="label_checkbox kind_0">인천</label></span>
 								<span class="form_holder text">
-										<input type="checkbox" id="kind_1" class="inpt_checkbox">
-										<label for="kind_1" class="label_checkbox kind_1">부산</label>
-									</span>
-									<span class="form_holder text"><input type="checkbox"
-									id="kind_2" class="inpt_checkbox"> <label
-									for="kind_2" class="label_checkbox kind_2">대구</label></span><span
-									class="form_holder text"><input type="checkbox"
-									id="kind_3" class="inpt_checkbox"> <label
-									for="kind_3" class="label_checkbox kind_3">김포</label></span><span
-									class="form_holder text"><input type="checkbox"
-									id="kind_4" class="inpt_checkbox"> <label
-									for="kind_4" class="label_checkbox kind_4">양양</label></span><span
-									class="form_holder text"><input type="checkbox"
-									id="kind_5" class="inpt_checkbox"> <label
-									for="kind_5" class="label_checkbox kind_5">광주(무안)</label></span><span
-									class="form_holder text"><input type="checkbox"
-									id="kind_6" class="inpt_checkbox"> <label
-									for="kind_6" class="label_checkbox kind_6">제주</label></span>
+									<input type="checkbox" id="kind_0" class="inpt_checkbox">
+									<label for="kind_0" class="label_checkbox kind_0">인천</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="kind_1" class="inpt_checkbox">
+									<label for="kind_1" class="label_checkbox kind_1">부산</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="kind_2" class="inpt_checkbox">
+									<label for="kind_2" class="label_checkbox kind_2">대구</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="kind_3" class="inpt_checkbox">
+									<label for="kind_3" class="label_checkbox kind_3">김포</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="kind_4" class="inpt_checkbox">
+									<label for="kind_4" class="label_checkbox kind_4">양양</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="kind_5" class="inpt_checkbox">
+									<label for="kind_5" class="label_checkbox kind_5">광주(무안)</label>
+								</span>
+								<span class="form_holder text">
+									<input type="checkbox" id="kind_6" class="inpt_checkbox">
+									<label for="kind_6" class="label_checkbox kind_6">제주</label>
+								</span>
 							</div>
 							<a href="#" class="more" style="display: none;">더보기</a>
 						</div>
@@ -902,29 +949,39 @@ prod_list_wrap .htl .btn.line {
 						<span class="spr filter"></span>필터 <span class="notice_count">0</span>
 					</p>
 					<div class="inr">
-						<a href="#" class="btn"><span class="spr refresh10"></span>필터초기화
-						</a>
+						<div id='result'></div>
+						<input type="button" class="spr refresh10" id="reset-btn" value="필터초기화">
 					</div>
 				</div>
 				<div class="option_wrap result">
 					<span class="count">패키지<em>(${pkageListCount})</em></span>
 					<div class="right_cont">
 						<ul class="list_sort">
-							<li><a href="#">가격높은순</a></li>
-							<li><a href="#">가격낮은순</a></li>
-							<li><a href="#">성급 높은순</a></li>
-							<li><a href="#">성급 낮은순</a></li>
-							<li><a href="#">상품평 높은순</a></li>
+							<li>
+								<input type="checkbox" id="Sorder0" class="inpt_checkbox">
+								<label for="Sorder0" class="label_checkbox Sorder0">구매순</label>
+							</li>
+							<li class="sort_order">
+								<input type="checkbox" id="Sorder1" class="inpt_checkbox">
+								<label for="Sorder1" class="label_checkbox Sorder1">평점순</label>
+							</li>
+							<li class="sort_order" id="Sorder2">
+								<input type="checkbox" id="Sorder2" class="inpt_checkbox">
+								<label for="Sorder2" class="label_checkbox Sorder2">높은 가격순</label>
+							</li>
+							<li class="sort_order" id="Sorder3">
+								<input type="checkbox" id="Sorder3" class="inpt_checkbox">
+								<label for="Sorder3" class="label_checkbox Sorder3">낮은 가격순</label>
+							</li>
 						</ul>
 					</div>
 				</div>
 				<div class="prod_list_wrap">
 					<ul class="type">
-						<c:forEach var="pkageList" items="${pkageList }" begin="0" end="19">
+						<c:forEach var="pkageList" items="${pkageList}" begin="0" end="19">
 						<li>
 							<div>
 								<div class="inr img">
-									<!---->
 									<div class="group_area">
 										<div></div>
 									</div>
@@ -932,30 +989,32 @@ prod_list_wrap .htl .btn.line {
 								</div>
 								<div class="inr htl">
 									<div class="tag_group">
-										<!---->
-										<span class="attr">에어텔?</span> <span
-											class="attr star_value item_text">인천/김포출발??</span>
+										<span class="attr">패키지</span>
+										<!-- <span class="attr star_value item_text"></span> -->
 									</div>
 									<div class="item_title eps2">
 										<strong>${pkageList.pkage_name}</strong>
+										<p class="item_text stit">${pkageList.pkage_info}</p>
 									</div>
 									<div class="info_bottom">
 										<div class="item_group">
 											<div class="score_htl_wrap">
-												<span class="icn star">${pkageList.pkage_score}</span>
-												<p class="txt">우수?</p>
+												<span class="icn star"><span class="star_icon"></span>${pkageList.pkage_score}</span>
 												<p class="txt">
-													<em>931개의 후기?</em>
+													<em>${pkageList.review_cnt }</em>
 												</p>
 											</div>
 										</div>
+									</div>
+									<div class="choice-btn">
+										<span class="icn choice">찜</span>
 									</div>
 									<div class="price_group">
 										<p class="state"></p>
 										<strong class="price">${pkageList.min_price}<span>원~</span></strong>
 									</div>
 									<div class="btn_wrap">
-										<a href="#" class="btn line">판매상품보기</a>
+										<a href="/pkage/searchResult?toDesti=${pkageList.city_id }&dates_start_check=2022-12-20&pkage_gubun=${pkageList.pkage_gubun}&order=1" class="btn line">판매상품보기</a>
 									</div>
 								</div>
 							</div>
@@ -978,9 +1037,7 @@ prod_list_wrap .htl .btn.line {
 							</c:if>
 						</div>
 					</div>
-					<!---->
 				</div>
-				<!---->
 			</div>
 		</div>
 	</div>
@@ -995,8 +1052,7 @@ prod_list_wrap .htl .btn.line {
 			console.log(gubun);
 			$.ajax({
 				url: '/searchCategoryAjax',
-				data: {'search_word' : $('#search_word').val(),
-						'gubun' : gubun},
+				data: {'search_word' : $('#search_word').val(), 'gubun' : gubun},
 				dataType: 'html',
 				success: function(data) {
 					$('.no_division').empty();
@@ -1011,16 +1067,63 @@ prod_list_wrap .htl .btn.line {
 	$(function() {
 		$(document).on("click", ".inpt_checkbox", function() {
 		    let chk_Val = [];
+		    let toHTML = function(li_html) {
+			    let str = "<ul class='type'>";
+				console.log(li_html)
+				li_html.forEach(function(pkageList) {
+					str += 	"<li>";
+					str += 		"<div>";
+					str += 			"<div class='inr img'>";
+					str += 				"<div class='group_area'>";
+					str += 					"<div></div>";
+					str += 				"</div>";
+					str += 				"<img src="+pkageList.pkage_Img_path+">";
+					str += 			"</div>";
+					str += 			"<div class='inr htl'>";
+					str += 				"<div class='tag_group'>";
+					str += 					"<span class='attr'>패키지</span>";
+					/* str += 					"<span class='attr star_value item_text'>인천/김포출발</span>"; */
+					str += 				"</div>";
+					str += 				"<div class='item_title eps2'>";
+					str += 					"<strong>"+pkageList.pkage_name+"</strong>";
+					str +=					"<p class='item_text stit'>"+pkageList.pkage_info+"</p>";
+					str += 				"</div>";
+					str += 				"<div class='info_bottom'>";
+					str += 					"<div class='item_group'>";
+					str += 						"<div class='score_htl_wrap'>";
+					str += 							"<span class='icn star'>"+pkageList.pkage_score+"</span>";
+					str += 							"<p class='txt'>";
+					str += 								"<em>"+pkageList.review_cnt+"</em>";
+					str += 							"</p>";
+					str += 						"</div>";
+					str +=	 				"</div>";
+					str += 				"</div>";
+					str += 				"<div class='price_group'>";
+					str += 					"<p class='state'></p>";
+					str += 					"<strong class='price'>"+pkageList.min_price+"<span>원~</span></strong>";
+					str += 				"</div>";
+					str += 				"<div class='btn_wrap'>";
+					str += 					"<a href='/pkage/searchResult?toDesti="+pkageList.city_id+"&dates_start_check=2022-12-20&pkage_gubun="+pkageList.pkage_gubun+"&order=1' class='btn line'>판매상품보기</a>";
+					str += 				"</div>";
+					str += 			"</div>";
+					str += 		"</div>";
+					str += 	"</li>";
+				});
+				return str + "</ul>";
+		    }
+			
 			if($("input:checkbox[class=inpt_checkbox]").is(":checked")) {
 				$("input:checkbox[class=inpt_checkbox]:checked").each(function(i) {
 					chk_Val.push($(this).attr('id'));
 						$("." + $(this).attr('id')).css("border-color", "purple");
+						$("." + $(this).attr('id')).css("color", "purple");
 				});
 				
 				$("input:checkbox[class=inpt_checkbox]").not(":checked").each(function(i) {
 					$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+					$("."+ $(this).attr('id')).css("color", "#333");
 				});
-					console.log(chk_Val);
+				console.log(chk_Val);
 				
 				$.ajax({
 					url: "/pkageFilter",
@@ -1029,25 +1132,94 @@ prod_list_wrap .htl .btn.line {
 					traditional: true,
 					success: function(data) {
 						console.log(data);
-						alert(data);
-						/* $.each(data, function(index, item) { // 데이터 =item
-							$("#demo").append(index + " "); // index가 끝날때까지 
-							$("#demo").append(item.name + " ");
-							$("#demo").append(item.age + " ");
-							$("#demo").append(item.address + " ");
-							$("#demo").append(item.phone + "<br>");
-						}) */
-						$.each(data, function(i) {
+						$('.prod_list_wrap ul').empty();
+						$('.prod_list_wrap').html(toHTML(data));
 							
-						});
 					}
 				});
-			} else {
-					$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+			}
+			else {
+				$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+				$("."+ $(this).attr('id')).css("color", "#333");
+				$.ajax({
+					url: "/packageFilterReset",
+					data: {'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+					dataType: 'json',
+					traditional: true,
+					success: function(data) {
+						console.log(data);
+						$('.prod_list_wrap ul').empty();
+						$('.prod_list_wrap').html(toHTML(data));
+							
+					}
+				});
 			}
 			
 		})
 		
+	})
+	
+	// 필터초기화 --(구분에 담겨있는거 비워야 됨)
+	$(function() {
+		$(document).on("click", "#reset-btn", function() {
+			let filterReset = [];
+		    let sendHtml = function(li_html) {
+			    let str = "<ul class='type'>";
+				console.log(li_html)
+				li_html.forEach(function(pkageList) {
+					str += 	"<li>";
+					str += 		"<div>";
+					str += 			"<div class='inr img'>";
+					str += 				"<div class='group_area'>";
+					str += 					"<div></div>";
+					str += 				"</div>";
+					str += 				"<img src="+pkageList.pkage_Img_path+">";
+					str += 			"</div>";
+					str += 			"<div class='inr htl'>";
+					str += 				"<div class='tag_group'>";
+					str += 					"<span class='attr'>패키지</span>";
+					/* str += 					"<span class='attr star_value item_text'>인천/김포출발</span>"; */
+					str += 				"</div>";
+					str += 				"<div class='item_title eps2'>";
+					str += 					"<strong>"+pkageList.pkage_name+"</strong>";
+					str +=					"<p class='item_text stit'>"+pkageList.pkage_info+"</p>";
+					str += 				"</div>";
+					str += 				"<div class='info_bottom'>";
+					str += 					"<div class='item_group'>";
+					str += 						"<div class='score_htl_wrap'>";
+					str += 							"<span class='icn star'>"+pkageList.pkage_score+"</span>";
+					str += 							"<p class='txt'>";
+					str += 								"<em>"+pkageList.review_cnt+"</em>";
+					str += 							"</p>";
+					str += 						"</div>";
+					str +=	 				"</div>";
+					str += 				"</div>";
+					str += 				"<div class='price_group'>";
+					str += 					"<p class='state'></p>";
+					str += 					"<strong class='price'>"+pkageList.min_price+"<span>원~</span></strong>";
+					str += 				"</div>";
+					str += 				"<div class='btn_wrap'>";
+					str += 					"<a href='/pkage/searchResult?toDesti="+pkageList.city_id+"&dates_start_check=2022-12-20&pkage_gubun="+pkageList.pkage_gubun+"&order=1' class='btn line'>판매상품보기</a>";
+					str += 				"</div>";
+					str += 			"</div>";
+					str += 		"</div>";
+					str += 	"</li>";
+				});
+				return str + "</ul>";
+		    }
+			$.ajax({
+				url: "/packageFilterReset",
+				data: {'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+				dataType: 'json',
+				success: function(data) {
+					console.log(data);
+					$('.prod_list_wrap ul').empty();
+					$('.prod_list_wrap').html(sendHtml(data));
+				    $(".label_checkbox").css("color", "#666");
+				    $(".label_checkbox").css("border-color", "#c2c2c2");
+				}
+			});
+		})
 	})
 
 </script>

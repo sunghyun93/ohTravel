@@ -21,19 +21,19 @@ public class SearchController {
 	private final SearchService ss;
 	
 	@GetMapping("/search/searchResult")
-	public String searchResult(PkageDTO pkageDTO, Model model) {
+	public String searchResult(PkageDTO pkageDTO, HotelDTO hotelDTO, TicketDTO ticketDTO, Model model) {
 		System.out.println("Controller SearchResultPage Start...");
 		model.addAttribute("search_word", pkageDTO.getSearch_word());
 
 		// 입장권 목록
-		List<TicketDTO> ticketList = ss.getTicketList(pkageDTO);
+		List<TicketDTO> ticketList = ss.getTicketList(ticketDTO);
 		System.out.println("Controller ticketList -> " + ticketList);
 		model.addAttribute("ticketList", ticketList);
 		System.out.println("Controller ticketList.size() -> " + ticketList.size());
 		model.addAttribute("ticketListCount", ticketList.size());
 
 		// 호텔 목록
-		List<HotelDTO> hotelList = ss.getHotelList(pkageDTO);
+		List<HotelDTO> hotelList = ss.getHotelList(hotelDTO);
 		System.out.println("Controller hotelList -> " + hotelList);
 		model.addAttribute("hotelList", hotelList);
 		System.out.println("Controller hotelList.size() -> " + hotelList.size());
@@ -51,7 +51,7 @@ public class SearchController {
 	}
 	
 	@GetMapping("/searchCategoryAjax")
-	public String searchCategoryAjax(String gubun, Model model, HotelDTO hotelDTO, PkageDTO pkageDTO, String currentPage) {
+	public String searchCategoryAjax(String gubun, Model model, HotelDTO hotelDTO, PkageDTO pkageDTO, TicketDTO ticketDTO, String currentPage) {
 		System.out.println("Controller searchPkageAjax");
 		System.out.println(pkageDTO.getSearch_word()+", "+gubun);
 		System.out.println("start " + pkageDTO.getStart());
@@ -65,6 +65,7 @@ public class SearchController {
 			model.addAttribute("pkageListCount", pkageList.size());
 			// Paging 작업
 			int totalPkage = pkageList.size();
+			System.out.println("totalPkage -> " + totalPkage);
 			Paging page = new Paging(totalPkage, currentPage); // currentPage Paging 메소드 안에서 null값 체크해줌
 			// Parameter emp --> Page만 추가 Setting
 			pkageDTO.setStart(page.getStart());
@@ -72,11 +73,12 @@ public class SearchController {
 			System.out.println("pkageDTO.getStart() " + pkageDTO.getStart());
 			System.out.println("pkageDTO.getEnd() " + pkageDTO.getEnd());
 			model.addAttribute("page", page);
-			return "/search/searchResultPkage";
+			System.out.println("page -> " + page);
+			return "empty/search/searchResultPkage";
 		} 
 		
 		if (gubun.equals("hotel")) {
-			List<HotelDTO> hotelList = ss.getHotelList(pkageDTO);
+			List<HotelDTO> hotelList = ss.getHotelList(hotelDTO);
 			System.out.println("Controller hoteList -> " + hotelList);
 			model.addAttribute("hotelList", hotelList);
 			model.addAttribute("hotelListCount", hotelList.size());
@@ -88,11 +90,11 @@ public class SearchController {
 			System.out.println("page.getStart() " + page.getStart());
 			System.out.println("page.getEnd() " + page.getEnd());
 			model.addAttribute("page", page);
-			return "/search/searchResultHotel";
+			return "empty/search/searchResultHotel";
 		} 
 		
 		if (gubun.equals("ticket")) {
-			List<TicketDTO> ticketList = ss.getTicketList(pkageDTO);
+			List<TicketDTO> ticketList = ss.getTicketList(ticketDTO);
 			System.out.println("Controller ticketList -> " + ticketList);
 			model.addAttribute("ticketList", ticketList);
 			model.addAttribute("ticketListCount", ticketList.size());
@@ -101,21 +103,21 @@ public class SearchController {
 			System.out.println("page.getStart() " + page.getStart());
 			System.out.println("page.getEnd() " + page.getEnd());
 			model.addAttribute("page", page);
-			return "/search/searchResultTicket";
+			return "empty/search/searchResultTicket";
 		} 
 		
-		if (gubun.equals("all")) {
+		else if (gubun.equals("all")) {
 			System.out.println("Controller all");
 			model.addAttribute("search_word", pkageDTO);
 			// 입장권 목록
-			List<TicketDTO> ticketList = ss.getTicketList(pkageDTO);
+			List<TicketDTO> ticketList = ss.getTicketList(ticketDTO);
 			System.out.println("Controller ticketList -> " + ticketList);
 			model.addAttribute("ticketList", ticketList);
 			System.out.println("Controller ticketList.size() -> " + ticketList.size());
 			model.addAttribute("ticketListCount", ticketList.size());
 
 			// 호텔 목록
-			List<HotelDTO> hotelList = ss.getHotelList(pkageDTO);
+			List<HotelDTO> hotelList = ss.getHotelList(hotelDTO);
 			System.out.println("Controller hotelList -> " + hotelList);
 			model.addAttribute("hotelList", hotelList);
 			System.out.println("Controller hotelList.size() -> " + hotelList.size());
@@ -129,9 +131,9 @@ public class SearchController {
 			System.out.println("Controller pkageList.size() -> " + pkageList.size());
 			model.addAttribute("pkageListCount", pkageList.size());
 
-			return "/search/searchResultPageAjax";
+			return "empty/search/searchResultPageAjax";
 		}
-		else return "/search/searchResultAirplane";
+		else return "errorPage";
 	}
 	
 }
