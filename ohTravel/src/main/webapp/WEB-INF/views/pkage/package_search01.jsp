@@ -91,14 +91,14 @@
 	                    <div class="col-xl-4 col-lg-4 col-md-6">
 	                        <div class="single-place mb-30">
 	                            <div class="place-img"> <%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
-	                                <a href="/pkage/searchResult?pkage_id=${pkage.pkage_id }&toDesti=${pkage.city_id}&dates_start_check=2022-12-20">
+	                                <a href="/pkage/searchResult?pkage_id=${pkage.pkage_id }&pkage_gubun=${gubun }&toDesti=${pkage.city_id}&dates_start_check=2022-12-20">
 	                                	<img src="${pkage.pkage_Img_path }" alt="" height="246.52px">
 	                                </a>
 	                            </div>
 	                            <div class="place-cap">
 	                                <div class="place-cap-top"><%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
 	                                    <span><i class="fas fa-star"></i><span>${pkage.pkage_score }</span></span>
-	                                    <h6><a href="/pkage/searchResult?pkage_id=${pkage.pkage_id }&toDesti=${pkage.city_id}&dates_start_check=2022-12-20">${pkage.pkage_name }</a></h6>
+	                                    <h6><a href="/pkage/searchResult?pkage_id=${pkage.pkage_id }pkage_gubun=${gubun }&toDesti=${pkage.city_id}&dates_start_check=2022-12-20">${pkage.pkage_name }</a></h6>
 	                                    <h6>${pkage.pkage_info }</h6>
 	                                    <p class="dolor"><fmt:formatNumber value="${pkage.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
 	                                </div>     
@@ -127,13 +127,13 @@
                 	<c:forEach var="pkageThema" items="${pkageListThema }">
 	                    <div class="col-xl-4 col-lg-4 col-md-6">
 	                        <div class="single-place mb-30"><%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
-	                            <a href="/pkage/searchResult?pkage_id=${pkageThema.pkage_id }&toDesti=${pkageThema.city_id}&dates_start_check=2022-12-20">
+	                            <a href="/pkage/searchResult?pkage_id=${pkageThema.pkage_id }&pkage_gubun=${gubun }&toDesti=${pkageThema.city_id}&dates_start_check=2022-12-20">
 	                                	<img src="${pkageThema.pkage_Img_path }" alt="" height="246.52px">
 	                                </a>
 	                            <div class="place-cap">
 	                                <div class="place-cap-top"><%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
 	                                    <span><i class="fas fa-star"></i><span>${pkageThema.pkage_score }</span></span>
-	                                    <h6><a href="/pkage/searchResult?pkage_id=${pkageThema.pkage_id }&toDesti=${pkageThema.city_id}&dates_start_check=2022-12-20">${pkageThema.pkage_name }</a></h6>
+	                                    <h6><a href="/pkage/searchResult?pkage_id=${pkageThema.pkage_id }&pkage_gubun=${gubun }&toDesti=${pkageThema.city_id}&dates_start_check=2022-12-20">${pkageThema.pkage_name }</a></h6>
 	                                    <h6>${pkageThema.pkage_info }</h6>
 	                                    <p class="dolor"><fmt:formatNumber value="${pkageThema.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
 	                                </div>     

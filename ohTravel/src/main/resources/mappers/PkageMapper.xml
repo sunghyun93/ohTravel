@@ -309,43 +309,63 @@
 		left outer join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
 		left outer join airline aline on ashe.Air_num = aline.Air_num
 		<!-- pkage_id 가 null 이 아닌 경우는 검색을 해서 들어온 것이 아니고, 패키지는 클릭했을 때 해당 패키지에 대한 내용만 가져오기 위함 -->
+		where True
 		<if test="pkage_id != null">
-			where p.pkage_id = #{pkage_id}
-			<choose>
-				<when test="order == 1">
-					order by pkage_soldCnt desc
-				</when>
-				<when test="order == 2">
-					order by pkage_score desc
-				</when>
-				<when test="order == 3">
-					order by pkage_dt_Aprice desc
-				</when>
-				<when test="order == 4">
-					order by pkage_dt_Aprice asc
-				</when>
-				<otherwise>
-					order by pkage_soldCnt desc
-				</otherwise>
-			</choose>
+			and p.pkage_id = #{pkage_id}
 		</if>
 		<if test="pkage_id == null">
-			where p.city_id = #{toDesti} and pkage_dt_startDay >= #{dates_start_check}
-			<choose>
-				<when test="order == 1">
-					order by pkage_soldCnt desc
+			and p.city_id = #{toDesti} and pkage_dt_startDay >= #{dates_start_check}
+		</if>
+		<!-- 가격 필터 --> <!-- (max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3) -->
+		<if test='pkgSearch.amtGubun != null'>
+			<choose> 
+				<when test='amtGubun.equals("1")'>
+				<![CDATA[ 
+					And (pd.pkage_dt_Aprice <= ${pkgSearch.maxAmt})
+				]]>
 				</when>
-				<when test="order == 2">
-					order by pkage_score desc
+				<when test='amtGubun.equals("2")'>
+				<![CDATA[ 
+					And (pd.pkage_dt_Aprice >= ${pkgSearch.minAmt})
+				]]>
 				</when>
-				<when test="order == 3">
-					order by pkage_dt_Aprice desc
-				</when>
-				<when test="order == 4">
-					order by pkage_dt_Aprice asc
+				<when test='pkgSearch.amtGubun.equals("3")'>
+				<![CDATA[ 
+					And (pd.pkage_dt_Aprice between ${pkgSearch.minAmt} and ${pkgSearch.maxAmt})
+				]]>
 				</when>
 			</choose>
 		</if>
+		<if test='pkgSearch.chk_term != null'> <!-- 두 날짜의 차이 (day) -->
+			and TIMESTAMPDIFF(DAY, date(pd.pkage_dt_startDay), date(pd.pkage_dt_endDay))+1 = #{pkgSearch.chk_term}
+		</if>
+		<if test='pkgSearch.chk_time != null'> <!-- date의 시간만 비교 -->
+			<choose>
+				<when test='pkgSearch.chk_time.equals("AM")'>
+					and (hour(pd.pkage_dt_startDay) between '5' and '12')
+				</when>
+				<when test='pkgSearch.chk_time.equals("PM")'>
+					and (hour(pd.pkage_dt_startDay) between '12' and '18')
+				</when>
+			</choose>
+		</if>
+		<choose>
+			<when test="order == 1">
+				order by pkage_soldCnt desc
+			</when>
+			<when test="order == 2">
+				order by pkage_score desc
+			</when>
+			<when test="order == 3">
+				order by pkage_dt_Aprice desc
+			</when>
+			<when test="order == 4">
+				order by pkage_dt_Aprice asc
+			</when>
+			<otherwise>
+				order by pkage_soldCnt desc
+			</otherwise>
+		</choose>
 	</select>
 	
 	<!-- 판매순, 평점순으로 패키지 select (원하는 갯수만) -->
@@ -424,11 +444,13 @@
 	</select>
 	
 <!--  sql 태그들  -->
+	<!-- 평점을 위한 sql -->
 	<sql id="selectPkgColumn">
 		p.pkage_id, p.city_id, p.pkage_name, p.pkage_info, p.pkage_gubun, p.pkage_soldCnt, 
 		 (SELECT	FORMAT( IFNULL ( AVG(rv_rating), 0 ), 1 ) score
 		FROM	review 
 		WHERE	rv_real_id = p.pkage_id) as pkage_score, 
 	</sql>
+	
 	
 </mapper>
