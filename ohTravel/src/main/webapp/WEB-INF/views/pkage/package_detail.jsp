@@ -333,8 +333,8 @@
 	                                                                <div class="hotel_detail_wrap">
 	                                                                    <div class="hotel_info">
 	                                                                        <div class="img_box">
-	                                                                        <%-- 호텔 이미지 해야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --%>
-	                                                                            <img src="package_beijing31001_1.jpg">
+	                                                                        <%-- 호텔 이미지 해야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --%>     	
+	                                                                            <img src="${pkage_hotelDTO.hotelDTO.hotel_imageDTO.h_l_img_path }">
 	                                                                        </div>
 	                                                                        <div class="info">
 	                                                                            <div class="text_wrap">
@@ -360,14 +360,14 @@
 	                                                                                <tr>
 	                                                                                    <th>주소</th>
 	                                                                                    <td>${pkage_hotelDTO.hotelDTO.hotel_loc }</td>
-	                                                                                    <th>평점</th>
-	                                                                                    <td>${pkage_hotelDTO.hotelDTO.hotel_score } / 5</td>
+	                                                                                    <th>타입</th>
+	                                                                                    <td>${pkage_hotelDTO.hotelDTO.hotel_loc }</td>
 	                                                                                </tr>
 	                                                                                <tr>
 	                                                                                    <th>연락처</th>
 	                                                                                    <td>${pkage_hotelDTO.hotelDTO.hotel_tel }</td>
-	                                                                                    <th>등급</th>
-	                                                                                    <td>${pkage_hotelDTO.hotelDTO.hotel_grade }</td>
+	                                                                                    <th>유형</th>
+	                                                                                    <td>${pkage_hotelDTO.hotelDTO.hotel_type }</td>
 	                                                                                </tr>
 	                                                                            </tbody>
 	                                                                        </table>
@@ -386,16 +386,14 @@
 	                                                                            </colgroup>
 	                                                                            <tbody>
 	                                                                                <tr>
-	                                                                                    <th>부대시설</th>
+	                                                                                    <th>부대시설 & 편의시설</th>
 	                                                                                    <td class="vtop" colspan="3">
 	                                                                                        <ul class="service_list">
-	                                                                                            <li style="white-space: pre-line;">- 레스토랑
-	                                                                                                - 야외수영장
-	                                                                                                - 피트니스시설
-	                                                                                                - 세탁서비스
-	                                                                                                - 엘리베이터
-	                                                                                                - 테라스
-	                                                                                                - 와이파이
+	                                                                                            <li style="white-space: pre-line;">
+	                                                                                            <%-- 부대시설 --%>
+	                                                                                            	<c:forEach var="hotel_optionDTO" items="${pkage_hotelDTO.hotelDTO.hotel_optionDTOList }">
+	                                                                                            		-${hotel_optionDTO.hotel_option }
+	                                                                                            	</c:forEach>
 	                                                                                            </li>
 	                                                                                        </ul>
 	                                                                                    </td>
@@ -565,7 +563,7 @@
                                 <hr class="pkg">
                                 <div class="cont_unit foot">
                                     <div class="btn_wrap">
-                                        <button class="btn-rv">예약</button>
+                                        <button id="reservBtn" class="btn-rv">예약</button>
                                         <!-- <button class="btn-like">
                                             <span class="btn-like-span">favorite</span>
                                         </button> -->
@@ -578,10 +576,15 @@
             </div> <!-- pk_inr wide -->
         </div> <!-- pk_contents -->
     </div> <!-- pk_container -->
+	
+	<div style="">
+	    <form id="pkgReserveForm" name="pkgReserveForm">
+	    </form>
+    </div>
         
     <script>
     	let possibleCnt = Number($('#possibleCnt').attr('data-possibleCnt'));
-    	alert("${sessionScope.sessionId}")
+    	alert("${sessionScope.res.mem_id}")
         $(function() {
         	/* 페이지 읽고 바로 리뷰 리스트 뿌려주기 */
         	getReviewList();
@@ -635,6 +638,7 @@
                     console.log('성인 up');
                     // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
                     if(totalCnt >= possibleCnt) {
+                    	alert("예약 가능 인원을 초과하여 예약할 수 없습니다.");
                         return;
                     } else {
                         cnt += 1;
@@ -649,6 +653,7 @@
                     console.log('아동 up');
                     // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
                     if(totalCnt >= possibleCnt) {
+                    	alert("예약 가능 인원을 초과하여 예약할 수 없습니다.");
                         return;
                     } else {
                         cnt += 1;
@@ -707,6 +712,36 @@
                 }
 
                 totalPay.html(totalPrice+'<em>원</em>');
+            });
+            
+            /* 예약 버튼 부분 */
+            $('#reservBtn').on('click', function() {
+            	// 로그인 확인
+            	$.ajax({
+            		url : '/pkageRest/loginCheck',
+            		type : 'get',
+            		dataType : 'text',
+            		success : function(data) {
+            			console.log(data);
+            			let aCnt = adultCnt.text();
+        				let cCnt = childCnt.text();
+        				
+            			if(data == 'LOGIN_OK') {
+            				/* form 에 보낼 데이터와 함께 input 태그 추가해주고 서버로 전송 */
+            				makeForm($('#pkgReserveForm'), aCnt, cCnt)
+            				$('#pkgReserveForm').attr('action', '/pkage/reservation');
+            				$('#pkgReserveForm').attr('method', 'get');
+            				$('#pkgReserveForm').submit();
+            			}
+            			else {
+            				alert("로그인 하고 예약해주세요.");
+            			}
+            		}, 
+            		error : function(err) {
+            			console.log(err)
+            		}
+            	})
+            	
             });
 
             /* 여행일정 / 호텔 / 상품평 tab 및 내용 class 부여 부분 */
@@ -968,6 +1003,20 @@
 					}	
 				});
 			}
+		}
+		
+		/* 예약 버튼 클릭 시 예약 form 안에 요소들 만드는 함수 */
+		function makeForm(reserveform, adultCnt, childCnt) {
+			
+			form = reserveform;
+
+			tmp = '';	
+			tmp += "<input type='text' name='pkage_id' value='${pkageDTORM.pkage_id}'>"
+			tmp += '<input type="text" name="pkage_dt_id" value="${pkageDTORM.pkage_detailDTO.pkage_dt_id}">'
+			tmp += '<input type="text" name="adultCnt" value="'+adultCnt+'">'
+			tmp += '<input type="text" name="childCnt" value="'+childCnt+'">'
+			
+			form.html(tmp);
 		}
      	
     </script>

@@ -372,6 +372,20 @@ span.form_holder:last-child {
     padding-top: 20px;
     border-top: 1px dashed #ddd;
 }
+/* 마일리지 부분 */
+.pay_info .info_area .mileage_save {
+    margin-top: 10px;
+    text-align: right;
+}
+.mileage_save p:not(.txt) {
+    font-size: 15px;
+    color: #111;
+    line-height: 24px;
+}
+.pay_info .info_area .mileage_save p {
+    font-size: 13px;
+    color: #666;
+}
 
 /* float 해제부분 */
 .pkRv_contents:after {

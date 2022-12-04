@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,7 @@ public class PkageRestController {
 	@Autowired
 	private PkageDao pkageDao;
 	
+	// 패키지 검색부분의 나라에 따른 도시 보내는 메서드
 	@PostMapping("/selectCity")
 	public ResponseEntity<List<CityDTO>> selectCity(Integer country_id) {
 		log.info("PkageRestController selectCity() start...");
@@ -48,6 +51,21 @@ public class PkageRestController {
 			e.printStackTrace();
 			log.info("PkageRestController selectCity() end...");
 			return new ResponseEntity<List<CityDTO>>(HttpStatus.INTERNAL_SERVER_ERROR); // 500
+		}
+	}
+	
+	// 로그인 체크 용
+	@GetMapping("/loginCheck")
+	public ResponseEntity<String> loginCheck(HttpSession session) {
+		log.info("PkageRestController loginCheck() start");
+		boolean loginCheck = session.getAttribute("sessionId") == null; 
+		log.info("로그인ID="+(String)session.getAttribute("sessionId"));
+		if(!loginCheck) {
+			log.info("PkageRestController loginCheck() end");
+			return new ResponseEntity<String>("LOGIN_OK", HttpStatus.OK);
+		} else {
+			log.info("PkageRestController loginCheck() end");
+			return new ResponseEntity<String>("LOGIN_NO", HttpStatus.OK);
 		}
 	}
 	
@@ -98,6 +116,33 @@ public class PkageRestController {
 			Integer pkage_dt_id = 33;
 			
 			Pkage_detailDTO dto = pkageDao.selectPkgDetailById(pkage_dt_id);
+			log.info("dto="+dto);
+			
+			// 해외만 비행일정이 있기 때문에 if문 걸어야함.
+			if(dto.getPkage_flightScheDTOList().size() > 1) {
+				// 출발 / 도착 비행 시간 계산
+				for(Pkage_flightScheDTO fsh : dto.getPkage_flightScheDTOList()) {
+					fsh.getTime();
+				}
+				
+				// 비행일정이 있기 때문에 값 1로 변경  (jsp 에서 비행일정이 있는 것과 없는 것 구분해주기 위함)
+				dto.setFlightExist(1);
+			}
+			
+			return dto;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	// 테스트용
+	@GetMapping("/test4")
+	public Pkage_detailDTO test4() {
+		try {
+			Integer pkage_dt_id = 34;
+			
+			Pkage_detailDTO dto = pkageDao.selectPkgDetailById2(pkage_dt_id);
 			log.info("dto="+dto);
 			
 			// 해외만 비행일정이 있기 때문에 if문 걸어야함.

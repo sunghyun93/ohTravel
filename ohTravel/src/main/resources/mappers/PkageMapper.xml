@@ -102,6 +102,31 @@
 		<collection property="pkage_hotelDTOList" resultMap="selectPkgHotelResult"></collection>
 	</resultMap>
 	
+	<!-- 상품 상세 resultMap3 (패키지 예약 페이지로 갔을 때 들고오는 package_detail - 항공, 호텔) -->
+	<resultMap id="selectPkgDetailResult3" type="pkage_detailDTO">
+		<id property="pkage_dt_id" column="pkage_dt_id"/>
+		<result property="pkage_id" column="pkage_id"/>
+		<result property="pkage_dt_name" column="pkage_dt_name"/>
+		<result property="pkage_dt_thema" column="pkage_dt_thema"/>
+		<result property="pkage_dt_Aprice" column="pkage_dt_Aprice"/>
+		<result property="pkage_dt_Cprice" column="pkage_dt_Cprice"/>
+		<result property="pkage_dt_cnt" column="pkage_dt_cnt"/>
+		<result property="pkage_dt_Mcnt" column="pkage_dt_Mcnt"/>
+		<result property="pkage_dt_Rcnt" column="pkage_dt_Rcnt"/>
+		<result property="pkage_dt_Gname" column="pkage_dt_Gname"/>
+		<result property="pkage_dt_meet" column="pkage_dt_meet"/>
+		<result property="pkage_dt_meetDate" column="pkage_dt_meetDate"/>
+		<result property="pkage_dt_startDay" column="pkage_dt_startDay"/>
+		<result property="pkage_dt_endDay" column="pkage_dt_endDay"/>
+		
+		<!-- package_hotel 패키지숙박 -->
+		<association property="pkage_hotelDTO" column="pkage_dt_id" javaType="pkage_hotelDTO"
+					 select="selectPkgHotel"></association>
+		<!-- package_flightSche 비행일정 -->
+		<collection property="pkage_flightScheDTOList" resultMap="selectPkgFlightScheResult"></collection>
+	
+	</resultMap>
+	
 	<!-- 도시 resultMap -->
 	<resultMap id="selectCityResult" type="CityDTO">
 		<id property="city_id" column="city_id"/>
@@ -225,13 +250,14 @@
 		<result property="hotel_tel" column="hotel_tel"/>
 		
 		<association property="hotel_imageDTO" resultMap="selectHotelImgResult"></association>
-		<collection property="hotel_optionDTOList" resultMap="selectHotelOptionResult"></collection>
+		<collection property="hotel_optionDTOList" column="hotel_id" ofType="Hotel_Option" 
+		select="selectHotelOption"></collection>
 	</resultMap>
 	
 	<!-- 호텔 이미지 resultMap -->
 	<resultMap id="selectHotelImgResult" type="Hotel_image">
 		<id property="h_img_id" column="h_img_id"/>
-		<result property="hotel_id" column="hotel_id"/>
+		<id property="hotel_id" column="hotel_id"/>
 		<result property="h_s_img_path" column="h_s_img_path"/>
 		<result property="h_l_img_path" column="h_l_img_path"/>
 	</resultMap>
@@ -254,6 +280,14 @@
 		select * from country where country_id = #{country_id}
 	</select>
 	
+	<select id="selectPkgHotel" resultType="pkage_hotelDTO">
+		select * from package_hotel where pkage_dt_id = #{pkage_dt_id}
+	</select>
+	
+	<select id="selectHotelOption" resultType="Hotel_option">
+		select * from hotel_option where hotel_id = #{hotel_id} and hotel_exist="Y" 
+	</select>
+	
 <!-- Dao와 이어지는 select 문들 시작  -->
 
 	<!-- 패키지 검색시 관련 pkg 테이블들의 값 select  -->
@@ -261,12 +295,14 @@
 		select 
 		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
 		c.*,
+		ct.*,
 		pd.*,
         pfs.*,
         ashe.*,
 		aline.*,
         pi.pkage_Img_path from package p 
 		join city c on p.city_id = c.city_id
+		join country ct on c.country_id = ct.country_id
 		join package_image pi on p.pkage_id = pi.pkage_id
 		join package_detail pd on p.pkage_id = pd.pkage_id
 		left outer join package_flightSche pfs on pd.pkage_dt_id = pfs.pkage_dt_id
@@ -370,6 +406,20 @@
 			 ) psd on ps.pkage_sche_day = psd.pkage_sche_day and ps.pkage_dt_id = psd.pkage_dt_id
 		join attraction ar on psd.attr_id = ar.attr_id
 		join attraction_image arimg on ar.attr_id = arimg.attr_id
+		where pd.pkage_dt_id = ${pkage_dt_id}
+	</select>
+	
+	<!-- pkage_dt_id 를 받아 해당 패키지 상세와 관련된 것들 select(패키지 예약때 필요한 정보만 가져오기) -->
+	<select id="selectPkgDetailById2" parameterType="int" resultMap="selectPkgDetailResult3">
+		select 
+		pd.*, ph.*,pfs.*,ashe.*,aline.*
+		from package_detail pd
+		join package_hotel ph on pd.pkage_dt_id = ph.pkage_dt_id
+		left join (	select * from package_flightsche 
+					where pkage_dt_id = ${pkage_dt_id}
+					order by pkage_flight_gubun) pfs on pd.pkage_dt_id = pfs.pkage_dt_id
+		left join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
+		left join airline aline on ashe.Air_num = aline.Air_num
 		where pd.pkage_dt_id = ${pkage_dt_id}
 	</select>
 	
