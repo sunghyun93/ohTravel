@@ -74,5 +74,20 @@ public class ReviewServiceImpl implements ReviewService {
 	public double selectAvgRating(ReviewDTO reviewDTO) {
 		return rd.selectAvgRating(reviewDTO);
 	}
+
+	@Override
+	public int totalReviewCnt(String rv_real_id) {
+		
+		try {
+			return rd.reviewCnt(rv_real_id);
+			
+		} catch (Exception e) {
+			log.debug(e.getMessage());
+			return 0;
+		}
+		
+		
+		
+	}
 	
 }

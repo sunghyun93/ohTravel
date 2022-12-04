@@ -17,4 +17,6 @@ public interface ReviewService {
 	
 	double selectAvgRating(ReviewDTO reviewDTO);
 
+	int totalReviewCnt(String rv_real_id);
+
 }
