@@ -5,7 +5,7 @@
 <mapper namespace="com.oracle.ohTravel.Hotel">
 
 	<select id="hotelList" resultType="Hotel">
-		SELECT hotel_id, city_id, hotel_kor, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_tel, hotel_rv_num, checkin, checkout, 
+		SELECT hotel_id, city_id, hotel_kor, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_tel, room_cnt, checkin, checkout, 
 			(	SELECT 	FORMAT( IFNULL ( AVG(r.rv_rating) , 0 ), 1)
 				FROM 	review r
 				WHERE 	r.rv_real_id = h.hotel_id 	) score

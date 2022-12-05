@@ -20,7 +20,7 @@ public class HotelDTO {
 	private int hotel_grade;
 	private double hotel_score;
 	private String hotel_tel;
-	private int hotel_rv_num;
+	private int room_cnt;
 	@JsonFormat(pattern = "HH:mm", timezone = "Asia/Seoul")
 	private LocalTime checkin;
 	@JsonFormat(pattern = "HH:mm", timezone = "Asia/Seoul")
