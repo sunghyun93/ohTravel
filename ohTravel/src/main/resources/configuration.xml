@@ -39,6 +39,11 @@
 		<typeAlias type="com.oracle.ohTravel.airport.model.AirSearch" alias="AirSearch"/>
 		<typeAlias type="com.oracle.ohTravel.airport.model.Air_ScheduleDTORM" alias="Air_ScheduleDTORM"/>
 		<typeAlias type="com.oracle.ohTravel.airport.model.AirlineDTO" alias="AirlineDTO"/>
+		<typeAlias type="com.oracle.ohTravel.airport.model.Air_ReservationDTO" alias="Air_ReservationDTO"/>
+		<typeAlias type="com.oracle.ohTravel.airport.model.Air_Reservation_PiDTO" alias="Air_Reservation_PiDTO"/>
+		<typeAlias type="com.oracle.ohTravel.airport.model.Air_FlightSchDTO" alias="Air_FlightSchDTO"/>
+		<typeAlias type="com.oracle.ohTravel.airport.model.Reservation_Seat" alias="Reservation_Seat"/>
+		
 		
 		<!-- ticket -->
 		<typeAlias type="com.oracle.ohTravel.ticket.model.TicketDTO" alias="TicketDTO"/>

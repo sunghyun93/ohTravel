@@ -6,7 +6,9 @@ import lombok.Data;
 public class AirSearch {
 	private int gubun_check;
 	private int start_country_id;
+	private String start_city_name;
 	private int end_country_id;
+	private String end_city_name;
 	private int start_city_id;
 	private int end_city_id;
 	private String start_date1; //왕복 가는날짜

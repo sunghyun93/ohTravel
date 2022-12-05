@@ -17,7 +17,7 @@
                             </ul>
                    		</div>
                         
-                  
+                  			
 	                        <div class="text_wrap big">
 									<h5><strong>✈️ 가는 항공편</strong></h5>
 										<c:if test="${not empty start_date1 }">

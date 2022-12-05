@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -305,8 +306,11 @@
 	 font-weight: bold;
 }
 .emoji{
-	width:15px;
-    height:15px;
+	
+}
+
+.air_name{
+	margin-left: 10px;
 }
 
 </style>
@@ -314,28 +318,33 @@
 <title>Insert title here</title>
 </head>
 <body>
+<form action="/airport/airplaneReserve"  id="airplaneReserve" method="post">
+<input type="hidden" value="${count }" name="count">
+<input type="hidden" value="${go_schedule_id }" name="go_schedule_id">
+<input type="hidden" value="${come_schedule_id }" name="come_schedule_id">
+<input type="hidden" value="${seat_position}" name="seat_position">
 <div class="all">
 	<div class="inr">
 		<h4>예약하기</h4><hr>
 		<!--가는 항공편  -->
+		<c:if test="${not empty go}">
 		<div class="text_wrap big">
 			<h5><strong>✈️ 가는 항공편</strong></h5>
-			<span class="start"><strong>서울(ICN)</strong></span> ➡️ <span class="end"><strong>일본(Japan)</strong></span>
+			<span class="start"><strong class="startCity1"></strong></span> ➡️ <span class="end"><strong class="endCity1"></strong></span>
 			<div class="tag_group">
 				<span class="state1">예약가능</span>
 			   	<span class="state2">요금확정</span>
 		   </div> 
 		</div>
 		<div class="go_airplane">
-			<%-- <c:forEach var="" items=""> --%>
-				<div class="airline"><img class="emoji" src="${pageContext.request.contextPath}/airport/img/airline/korean_air.png" > 대한항공<br>
-				<span class="airline_num">A380</span>
+				<div class="airline"><img class="emoji" src="${pageContext.request.contextPath}${go.air_picture}" width="15px" height="15px" ><span class="air_name">${go.air_name }</span><br>
+				<span class="airline_num">${go.airplane_name }</span>
 				</div>
 				
 				<div class="go_airplane_day">
-					2022.11.24(목)<br>
-					<span class="time">17:55</span><br>
-					<span class="airport">인천국제공항</span>
+					<fmt:formatDate pattern="yyyy-MM-dd" value="${go.start_time}"/><br>
+					<span class="time"><fmt:formatDate pattern="HH:mm" value="${go.start_time}"/></span><br>
+					<span class="airport">${go.start_airport_name }</span>
 				</div>
 				<div>
 						<span class="step">직항</span><br>
@@ -343,12 +352,12 @@
 						<span class="hour">6시간</span>
 				</div>		
 				<div class="depart_airplane_day">
-					2022.11.25(목)<br>
-					<span class="time">01:50</span><br>
-					<span class="airport">오사카공항</span>
+					<fmt:formatDate pattern="yyyy-MM-dd" value="${go.end_time}"/><br>
+					<span class="time"><fmt:formatDate pattern="HH:mm" value="${go.end_time}"/></span><br>
+					<span class="airport">${go.end_airport_name }</span>
 				</div>
 				<div>
-					 성인 1<br>
+					 성인 ${count }명<br>
 					<span>일반석</span>
 				</div>
 				<div>
@@ -356,28 +365,27 @@
 					 <span class="count">1개</span>
 				</div>
 				
-				
-			<%-- </c:forEach> --%>
 		</div>
+		</c:if>
 		<!--오는항공편 -->
+		<c:if test="${not empty come}">
 		<div class="text_wrap2 big">
 			<h5><strong>✈️ 오는 항공편</strong></h5>
-			<span class="start"><strong>서울(ICN)</strong></span> ➡️ <span class="end"><strong>일본(Japan)</strong></span>
+			<span class="start"><strong class="endCity1"></strong></span> ➡️ <span class="end"><strong class="startCity1"></strong></span>
 			<div class="tag_group">
 				<span class="state1">예약가능</span>
 			   	<span class="state2">요금확정</span>
 		   </div> 
 		</div>
 		<div class="go_airplane">
-			<%-- <c:forEach var="" items=""> --%>
-				<div class="airline"><img class="emoji" src="${pageContext.request.contextPath}/airport/img/korean_air.png" width="15px" height="15px"> 대한항공<br>
-				<span class="airline_num">A380</span>
+				<div class="airline"><img class="emoji" src="${pageContext.request.contextPath}${come.air_picture}" width="15px" height="15px"><span class="air_name">${come.air_name }</span><br>
+				<span class="airline_num">${come.airplane_name}</span>
 				</div>
 				
 				<div class="go_airplane_day">
-					2022.11.24(목)<br>
-					<span class="time">17:55</span><br>
-					<span class="airport">인천국제공항</span>
+					<fmt:formatDate pattern="yyyy-MM-dd" value="${come.start_time }"/><br>
+					<span class="time"><fmt:formatDate pattern="HH:mm" value="${come.start_time }"/></span><br>
+					<span class="airport">${come.start_airport_name }</span>
 				</div>
 				<div>
 						<span class="step">직항</span><br>
@@ -385,12 +393,12 @@
 						<span class="hour">6시간</span>
 				</div>		
 				<div class="depart_airplane_day">
-					2022.11.25(목)<br>
-					<span class="time">01:50</span><br>
-					<span class="airport">오사카공항</span>
+				<fmt:formatDate pattern="yyyy-MM-dd" value="${come.end_time }"/><br>
+					<span class="time"><fmt:formatDate pattern="HH:mm" value="${come.end_time }"/></span><br>
+					<span class="airport">${come.end_airport_name }</span>
 				</div>
 				<div>
-					 성인 1<br>
+					 성인 ${count}명<br>
 					<span>일반석</span>
 				</div>
 				<div>
@@ -398,9 +406,9 @@
 					 <span class="count">1개</span>
 				</div>
 				
-				
-			<%-- </c:forEach> --%>
-		</div>
+			</div>
+		</c:if>
+		
 		<div class="notice_1">
 			<ul>
 				<li>📢 유류할증료/제세공과금은 항공사 사정 및 환율변동에 의해 매일 변경되며 발권 당일 환율에 따라 적용됩니다.</li>
@@ -655,7 +663,7 @@
                         </div> <!-- border-line-box fold-box-list-wrap 약관 동의 전체 구조 -->
 				</div>
 			<div class="next_step">	
-				<button class="next_stepBtn">다음단계</button>
+				<button class="next_stepBtn" type="submit">다음단계</button>
 			</div>	
 		</div>
 			
@@ -670,25 +678,113 @@
                                 <div class="info_area total">
                                     <div class="info">
                                         <strong class="tit">결제예정금액</strong>
-                                        <span>성인 1</span>
-                                        <span class="divider_dot">아동 0</span>
+                                        <span>성인 ${count}</span>
                                     </div>
-
-                                    <strong class="price">270000<span>원</span></strong>
+									
+                                    <strong class="price">
+                                    <c:if test="${seat_name == '일반석'}">
+									<fmt:formatNumber value="${1*(go.schedule_price + come.schedule_price)}" pattern="#,###"/>원<br>
+									 
+									 </c:if>
+									 <c:if test="${seat_name == '비즈니스석'}">
+									<fmt:formatNumber value="${2*(go.schedule_price + come.schedule_price)}" pattern="#,###"/>원<br> 	
+									 </c:if>
+									 <c:if test="${seat_name == '일등석'}">
+									<fmt:formatNumber value="${3*(go.schedule_price + come.schedule_price)}" pattern="#,###"/>원<br>
+									 </c:if>
+                                    </strong>
                                     <span class="include_tax">유류할증료/제세공과금 포함</span>
                                     
                                      <div class="info_area">
                                 		<div>총 상품금액</div>
-									<strong class="total_price">270000<span>원</span></strong>
+									<strong class="total_price">
+									<c:if test="${seat_name == '일반석'}">
+									<fmt:formatNumber value="${1*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br>
+									 <input type="hidden" value="${count*(1*(go.schedule_price + come.schedule_price))}" name="total_price" class="price_hidden">
+									 </c:if>
+									 <c:if test="${seat_name == '비즈니스석'}">
+									<fmt:formatNumber value="${2*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br> 	
+									 <input type="hidden" value="${count*(2*(go.schedule_price + come.schedule_price))}" name="total_price" class="price_hidden">
+									 </c:if>
+									 <c:if test="${seat_name == '일등석'}">
+									<fmt:formatNumber value="${3*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br>
+									<input type="hidden" value="${count*(3*(go.schedule_price + come.schedule_price))}" name="total_price" class="price_hidden">
+									 </c:if>
+					
+									</strong>
                                 	</div>
                                 </div>
 					
                             </div>
                         </div>
-                    </div><!-- inr right -->  
-			</div>
-    </div>		
+                    </div><!-- inr right -->     
+				</div>
+    	</div>
+    </form>		
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <script src="${pageContext.request.contextPath }/airport/js/memWriteForm.js"></script>
+<script type="text/javascript">
+$(function(){
+	//출발도시
+    if(${start_city_id == 110}){
+    	$('.startCity1').text('인천');
+    	$('.endCity2').text('인천');
+    }else if(${start_city_id == 140}){
+    	$('.startCity1').text('제주');
+    	$('.endCity2').text('제주');
+    }else if(${start_city_id == 210}){
+    	$('.startCity1').text('후쿠오카');
+    	$('.endCity2').text('후쿠오카');
+    }else if(${start_city_id == 220}){
+    	$('.startCity1').text('오사카');
+    	$('.endCity2').text('오사카');
+    }else if(${start_city_id == 310}){
+    	$('.startCity1').text('베이징');
+    	$('.endCity2').text('베이징');
+    }else if(${start_city_id == 320}){
+    	$('.startCity1').text('상하이');
+    	$('.endCity2').text('상하이');
+    }else if(${start_city_id == 410}){
+    	$('.startCity1').text('방콕');
+    	$('.endCity2').text('방콕');
+    }else if(${start_city_id == 420}){
+    	$('.startCity1').text('파타야');
+    	$('.endCity2').text('파타야');
+    }
+	
+    //도착도시
+    
+    if(${end_city_id == 110}){
+    	$('.endCity1').text('인천');
+    	$('.startCity2').text('인천');
+    }else if(${end_city_id == 140}){
+    	$('.startCity1').text('제주');
+    	$('.endCity2').text('제주');
+    }else if(${end_city_id == 210}){
+    	$('.endCity1').text('후쿠오카');
+    	$('.startCity2').text('후쿠오카');
+    }else if(${end_city_id == 220}){
+    	$('.endCity1').text('오사카');
+    	$('.startCity2').text('오사카');
+    }else if(${end_city_id == 310}){
+    	$('.endCity1').text('베이징');
+    	$('.startCity2').text('베이징');
+    }else if(${end_city_id == 320}){
+    	$('.endCity1').text('상하이');
+    	$('.startCity2').text('상하이');
+    }else if(${end_city_id == 410}){
+    	$('.endCity1').text('방콕');
+    	$('.startCity2').text('방콕');
+    }else if(${end_city_id == 420}){
+    	$('.endCity1').text('파타야');
+    	$('.startCity2').text('파타야');
+    }
+	
+    
+    
+});	
+	
+
+</script>
 </body>
 </html>
