@@ -6,12 +6,17 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/memberForm.css">
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
 	<div class="container" id="container">
 		<div class="inner">
 			<form name="register" action="register" method="post">
 				<input type="hidden" id="mem_role" name="mem_role" value="ROLE_USER">
+				<input type="hidden" id="membership_id" name="membership_id" value="1">
+				<input type="hidden" id="mem_mile" name="mem_mile" value="0">
  				<div class="certify_wrap">
 					<div class="text_wrap pTit">
 						<strong class="tit">Oh! Travel 회원가입을 위한 고객님의 소중한 정보를 입력해 주세요.</strong>

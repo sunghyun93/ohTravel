@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class MemberDTO {
+	// member
 	private String mem_id;
 	private String mem_name;
 	private String mem_password;
@@ -17,4 +18,8 @@ public class MemberDTO {
 	private Date mem_birthday;
 	private Date mem_create;
 	private String mem_role;
+	
+	// mem_membership
+	private int membership_id;
+	private int mem_mile;
 }
