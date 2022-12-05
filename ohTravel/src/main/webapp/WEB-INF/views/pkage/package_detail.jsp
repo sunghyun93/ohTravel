@@ -334,7 +334,7 @@
 	                                                                    <div class="hotel_info">
 	                                                                        <div class="img_box">
 	                                                                        <%-- 호텔 이미지 해야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --%>     	
-	                                                                            <img src="${pkage_hotelDTO.hotelDTO.hotel_imageDTO.h_l_img_path }">
+	                                                                            <img src="${pkage_hotelDTO.hotelDTO.hotel_imageDTO.h_img_path }">
 	                                                                        </div>
 	                                                                        <div class="info">
 	                                                                            <div class="text_wrap">
@@ -448,7 +448,15 @@
                                 <!-- 상품평 -->
                                 <div id="sticky03" class="panel">
 	                                <div class="rv_btn">
+	                                <c:if test="${sessionScope.res eq null }">
+	                                	<span style="font-size : 9pt;">로그인 후 리뷰를 등록할 수 있습니다.</span><br>
+	                                	<a href="/member/loginForm" style="color:black; text-decoration:underline;">
+	                                		<button type="button" class="genric-btn info radius small">로그인 하러 가기</button>
+                                		</a>
+	                                </c:if>
+	                                <c:if test="${sessionScope.res ne null }">
 										<button class="genric-btn primary ela" data-toggle="modal" onclick="openModal()" data-target="#reviewModal">리뷰 등록</button>
+									</c:if>
 									</div>
                                     <div class="cont_unit review">
                                         <div class="review_wrap">
@@ -456,58 +464,17 @@
                                                 <div class="panels">
                                                     <div id="review01" class="panelh selected">
                                                         <ul class="list_review" data-pkgDetailId="${pkageDTORM.pkage_id }">
-                                                            <!-- <li>
-                                                                <div class="inr review_area">
-                                                                    <div class="option_wrap">
-                                                                        <span class="wrap_star pink">
-                                                                            <span class="star_value" style="width: 100%;"></span>
-                                                                        </span>
-                                                                        <strong class="grade"><em class="num">4.6</em></strong>
-                                                                        
-                                                                        <div class="right_cont list_txt">
-                                                                            <span>김철수</span>
-                                                                            <span>2022.11.13</span>
-                                                                            <button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>
-                                                                        <button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="item_group">
-                                                                        <p class="item_text">
-                                                                            <strong>상품명</strong>
-                                                                            <span>[출발확정] 방콕/파타야 5일 #가볍게떠나는여행 #4명이상출발확정 #무앙보란 #산호섬 #농눅빌리지</span>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="review_cont">
-                                                                        <div class="content" stype="white-space:pre-line;">
-											                                                                            저렴한 비용으로 재미있게 잘 다녀왔어요.
-											                                                                            다음에 또 가고 싶어요저렴한 비용으로 재미있게 잘 다녀왔어요.                   
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li> -->
+                                                            
                                                         </ul><!-- list_review -->
 
                                                         <!-- 페이지 네비게이션 -->
-                                                        <div class="paginate_wrap">
-                                                            <div class="paginate">
-                                                                <div>
-                                                                    <a href="#none" class="direction prev">이전</a>
-                                                                    <span>
-                                                                        <strong>11</strong>
-                                                                        <a href="#none">12</a>
-                                                                        <a href="#none">13</a>
-                                                                        <a href="#none">14</a>
-                                                                        <a href="#none">15</a>
-                                                                        <a href="#none">16</a>
-                                                                        <a href="#none">17</a>
-                                                                        <a href="#none">18</a>
-                                                                        <a href="#none">19</a>
-                                                                        <a href="#none">20</a>
-                                                                    </span>
-                                                                    <a href="#none" class="direction next">다음</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <nav class="review-pagination blog-pagination justify-content-center d-flex">
+													    	<!-- 페이징 처리 들어갈 위치 -->
+								                           <ul class="pagination" id="reviewPaginationUl">
+								                               
+								                           </ul>
+								                       </nav>
+                                                        
                                                     </div> <!-- review01 -->
                                                 </div>
                                             </div><!-- js_tabs type1 v-tabs -->
@@ -583,7 +550,7 @@
     </div>
         
     <script>
-    	let possibleCnt = Number($('#possibleCnt').attr('data-possibleCnt'));
+    	let possibleCnt = Number($('#possibleCnt').attr('data-possibleCnt')); /* 예약 가능 인원  */
     	alert("${sessionScope.res.mem_id}")
         $(function() {
         	/* 페이지 읽고 바로 리뷰 리스트 뿌려주기 */
@@ -781,7 +748,7 @@
         /* 리뷰 */
         // 선택한 리뷰 아이디에 대한 전역변수 설정
 		let selectedRvId; // 리뷰의 ID (각 상품의 번호(rv_real_id)가 아님)
-        
+
         //리뷰 등록과 수정이 같은 [리뷰 등록] 버튼을 사용하기 때문에,
 		//rv_id 값의 유무에 따라 작동해야하는 함수가 달라져야함
 		//rv_id 값이 이미 있으면 : 수정 / 없다면 : 새로 등록
@@ -828,7 +795,8 @@
 				url:"${pageContext.request.contextPath }/review/reviewList",
 				data:{
 					// 리뷰 테이블의 해당 상품id값을 읽어오는 부분
-					rv_real_id : pkageId
+					rv_real_id : pkageId,
+					currentPage : currentPage
 				},
 				type:"get",
 				dataType:"json",
@@ -838,6 +806,11 @@
 					makeReviewTable(result.reviewList);
 					console.log(result.avgScore);
 					$('.right_cont .icn.star').text(result.avgScore);
+					//페이징 처리
+					makePaginationLi(result.page);
+				},
+				error: function(err) {
+					console.log(err);
 				}
 			});
 		}
@@ -872,8 +845,8 @@
 				innerHtml +=        '<strong class="grade"><em class="num"><span class="rv_rating">'+datum.rv_rating+'</span></em></strong>'
 				innerHtml +=        '<div class="right_cont list_txt">'
 				innerHtml +=            '<span>'+datum.mem_id+'</span>'
-				innerHtml +=            '<span>2022.11.13</span>'
-										if(mem_id == "${sessionScope.sessionId}") {
+				innerHtml +=            '<span>'+datum.rv_date+'</span>'
+										if(mem_id == "${sessionScope.res.mem_id}") {
 				innerHtml +=            '<button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>'
 				innerHtml +=        	'<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'					
 										}
