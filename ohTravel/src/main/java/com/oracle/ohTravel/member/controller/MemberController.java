@@ -50,13 +50,31 @@ public class MemberController {
 			// session에 로그인 정보 저장
 			session.setAttribute("member", member);
 			String sessionId = member.getMem_id();
+			String sessionName = member.getMem_name();
+			String sessionEmail = member.getMem_email();
+			
 			session.setAttribute("sessionId", sessionId);
+			session.setAttribute("sessionName", sessionName);
+			session.setAttribute("sessionEmail", sessionEmail);
+			
 			System.out.println("MemberController login sessionId -> " + sessionId);
+			System.out.println("MemberController login sessionName -> " + sessionName);
+			System.out.println("MemberController login sessionEmail -> " + sessionEmail);
 			return "redirect:/";
 		} else {
+			session.setAttribute("member", null);
 			return "redirect:/member/login";
 		}
 		
+	}
+	
+	// 로그아웃
+	@GetMapping(value = "/logout")
+	public String logout(HttpSession session) {
+		log.info("MemberController logout start.. ");
+		session.invalidate();
+
+		return "redirect:/";
 	}
 		
 	// 회원가입 페이지 이동
@@ -167,10 +185,10 @@ public class MemberController {
 		log.info("MemberController myPageReservTicket start..");
 		HttpSession session = request.getSession();
 		
-		// session에 로그인 된 아이디 정보
+		// session에 로그인 된 정보
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String sessionId = member.getMem_id();
-		System.out.println("MemberController myPageReservTicket sessionId -> " + sessionId );
+		System.out.println("MemberController myPageReservTicket sessionId -> " + sessionId);
 		
 		// 페이징 나중에
 		
@@ -263,12 +281,17 @@ public class MemberController {
 	}
 	
 	// 개인 정보 수정
-	@PostMapping(value = "/modifyMember")
-	public String modifyMember(MemberDTO memberDTO, HttpServletRequest request) {
-		log.info("MemberController modifyMember start..");
+	@PostMapping(value = "/updateMember")
+	public String updateMember(MemberDTO memberDTO, HttpServletRequest request) {
+		log.info("MemberController updateMember start..");
 		
+		HttpSession session = request.getSession();
 		
-		return "";
+		memberService.updateMember(memberDTO);
+		
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 	
 	// 비밀번호 변경 페이지 이동

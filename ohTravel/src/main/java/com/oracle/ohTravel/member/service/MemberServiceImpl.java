@@ -83,6 +83,16 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	// 개인 정보 수정
+	@Override
+	public int updateMember(MemberDTO memberDTO) {
+		log.info("MemberServiceImpl updateMember Start..");
+		
+		int result = memberDao.updateMember(memberDTO);
+		
+		return result;
+	}
+
 	
 
 	

@@ -96,5 +96,15 @@ public class MemberDaoImpl implements MemberDao {
 		
 		return result;
 	}
+
+	// 개인 정보 수정
+	@Override
+	public int updateMember(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl updateMember start..");
+		
+		int result = sqlSession.update("updateMember", memberDTO);
+		
+		return result;
+	}
 	
 }

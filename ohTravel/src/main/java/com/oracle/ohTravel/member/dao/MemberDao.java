@@ -30,5 +30,8 @@ public interface MemberDao {
 
 	// 회원 탈퇴
 	public int deleteMember(MemberDTO memberDTO);
+
+	// 개인 정보 수정
+	public int updateMember(MemberDTO memberDTO);
 }
 
