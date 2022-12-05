@@ -18,14 +18,13 @@ public class HotelDTO {
 	private String hotel_loc;
 	private String hotel_type;
 	private int hotel_grade;
-	private double hotel_score;
 	private String hotel_tel;
-	private int hotel_rv_num;
+	private int room_cnt;
 	@JsonFormat(pattern = "HH:mm", timezone = "Asia/Seoul")
 	private LocalTime checkin;
 	@JsonFormat(pattern = "HH:mm", timezone = "Asia/Seoul")
 	private LocalTime checkout;
-	private double score;
+	private double hotel_score;
 	
 	private String h_img_path;
 	private String room_name;
