@@ -28,6 +28,9 @@ public interface MemberService {
 	// 패키지 예약 내역
 	public List<PackageReservationDTO> myPageReservPackage(PackageReservationDTO packageReservationDTO);
 
+	// 회원 탈퇴
+	public int deleteMember(MemberDTO memberDTO);
+
 	
 
 	

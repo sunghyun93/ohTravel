@@ -74,6 +74,15 @@ public class MemberServiceImpl implements MemberService{
 		return packageReservList;
 	}
 
+	// 회원 탈퇴
+	@Override
+	public int deleteMember(MemberDTO memberDTO) {
+		log.info("MemberServiceImpl deleteMember Start..");
+		int result = memberDao.deleteMember(memberDTO);
+		System.out.println("MemberServiceImpl deleteMember result -> " + result);
+		return result;
+	}
+
 	
 
 	
