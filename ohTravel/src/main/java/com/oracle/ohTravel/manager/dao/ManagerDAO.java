@@ -3,6 +3,7 @@ package com.oracle.ohTravel.manager.dao;
 import java.util.List;
 
 import com.oracle.ohTravel.manager.dto.CouponDTO;
+import com.oracle.ohTravel.manager.dto.ManageAirportDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
 import com.oracle.ohTravel.manager.dto.NoticeDTO;
@@ -100,6 +101,76 @@ public interface ManagerDAO {
 	int insertPackage(ManagePackageDTO pk);
 
 	List<ManagePackageDTO> getPackageDetailOne(ManagePackageDTO pk);
+
+	List<ManageAirportDTO> getAirScheduleList(ManageAirportDTO air);
+
+	int totalAirSchedule();
+
+	int totalAirline();
+
+	List<ManageAirportDTO> getAirlineList(ManageAirportDTO air);
+
+	List<ManageAirportDTO> getAirlineDetail(ManageAirportDTO air);
+
+	int updateAirline(ManageAirportDTO air);
+
+	int insertAirline(ManageAirportDTO air);
+
+	int deleteAirline(ManageAirportDTO air);
+
+	List<ManageAirportDTO> getAirplaneList(ManageAirportDTO air);
+
+	int totalAirplane();
+
+	List<ManageAirportDTO> getAirplaneDetail(ManageAirportDTO air);
+
+	int updateAirplane(ManageAirportDTO air);
+
+	int deleteAirplane(ManageAirportDTO air);
+
+	int insertAirplane(ManageAirportDTO air);
+
+	List<ManageAirportDTO> getStartAirportList(ManageAirportDTO air);
+
+	int totalStartAirport();
+
+	int insertStartAirport(ManageAirportDTO air);
+
+	List<ManageAirportDTO> getStartAirportDetail(ManageAirportDTO air);
+
+	int updateStartAirport(ManageAirportDTO air);
+
+	int deletestartAirport(ManageAirportDTO air);
+
+	int totalEndAirport();
+
+	List<ManageAirportDTO> getEndAirportList(ManageAirportDTO air);
+
+	int insertEndAirport(ManageAirportDTO air);
+
+	List<ManageAirportDTO> getEndAirportDetail(ManageAirportDTO air);
+
+	int updateEndAirport(ManageAirportDTO air);
+
+	int deleteEndAirport(ManageAirportDTO air);
+
+	List<ManageAirportDTO> getSeatList();
+
+	List<ManageAirportDTO> getAirlineList();
+
+	List<ManageAirportDTO> getAirplaneList();
+
+	List<ManageAirportDTO> getStartAirportList();
+
+	List<ManageAirportDTO> getEndAirportList();
+
+	List<ManageAirportDTO> getAirplaneChange(ManageAirportDTO air);
+
+	List<ManageAirportDTO> getAirScheduleDetail(ManageAirportDTO air);
+
+	int insertAirSchedule(ManageAirportDTO air);
+
+	int deleteAirSchedule(ManageAirportDTO air);
 
 
 

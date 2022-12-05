@@ -121,6 +121,157 @@
 		SELECT * FROM package_detail WHERE pkage_id=#{pkage_id} AND pkage_dt_id=#{pkage_dt_id}
 	</select>
 	
+	<!-- ===================================================================================================================== -->
+	<!-- 항공권 관련 -->
+	<select id="getAirScheduleList" parameterType="Air" resultType="Air">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT * FROM air_schedule) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	<select id="totalAirSchedule" resultType="int">
+		SELECT count(*) FROM air_schedule
+	</select>
+	<select id="totalAirline" resultType="int">
+		SELECT count(*) FROM airline
+	</select>
+	<select id="getAirlineList" parameterType="Air" resultType="Air">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT * FROM airline) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	<select id="getAirlineDetail" parameterType="Air" resultType="Air">
+		SELECT * FROM airline WHERE air_num=#{air_num}
+	</select>
+	<update id="updateAirline" parameterType="Air">
+		UPDATE airline SET air_code=#{air_code},air_name=#{a ir_name},air_picture=#{air_picture} WHERE air_num=#{air_num}
+	</update>
+	<insert id="insertAirline" parameterType="Air">
+		<selectKey resultType="int" keyProperty="air_num" order="BEFORE">
+			select max(air_num)+100 from airline
+		</selectKey>
+		INSERT INTO airline(air_num,air_code,air_name,air_picture) VALUES(#{air_num},#{air_code},#{air_name},#{air_picture})
+	</insert>
+	<delete id="deleteAirline" parameterType="Air">
+		DELETE FROM airline WHERE air_num=#{air_num}
+	</delete>
+	<select id="getAirplaneList" parameterType="Air" resultType="Air">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT * FROM airplane) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	<select id="totalAirplane" resultType="int">
+		SELECT count(*) from airplane
+	</select>
+	<select id="getAirplaneDetail" parameterType="Air" resultType="Air">
+		SELECT * FROM airplane WHERE airplane_name = #{airplane_name}
+	</select>
+	<update id="updateAirplane" parameterType="Air">
+		UPDATE airplane SET general_seat=#{general_seat},business_seat=#{business_seat},first_seat=#{first_seat} WHERE airplane_name=#{airplane_name}
+	</update>
+	<delete id="deleteAirplane">
+		DELETE FROM airplane WHERE airplane_name=#{airplane_name}
+	</delete>
+	<insert id="insertAirplane" parameterType="Air">
+		INSERT INTO airplane(airplane_name,general_seat,business_seat,first_seat) VALUES(#{airplane_name},#{general_seat},#{business_seat},#{first_seat})
+	</insert>
+	<select id="getStartAirportList" parameterType="Air" resultType="Air">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (select sa.*, co.country_name, c.city_name from start_airport sa, country co, city c WHERE sa.country_id = co.country_id AND sa.city_id=c.city_id) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	<select id="totalStartAirport" resultType="int">
+		SELECT count(*) from start_airport
+	</select>
+	<insert id="insertStartAirport" parameterType="Air">
+		INSERT INTO start_airport(start_airport_name,country_id,city_id) VALUES(#{start_airport_name},#{country_id},#{city_id})
+	</insert>
+	<select id="getStartAirportDetail" parameterType="Air" resultType="Air">
+		select sa.*, co.country_name, c.city_name from start_airport sa, country co, city c WHERE sa.country_id = co.country_id AND sa.city_id=c.city_id AND sa.Start_Airport_name=#{start_airport_name};
+	</select>
+	<update id="updateStartAirport" parameterType="Air">
+		UPDATE start_airport SET country_id = #{country_id},city_id=#{city_id} WHERE start_airport_name=#{start_airport_name}
+	</update>
+	<delete id="deleteStartAirport" parameterType="Air">
+		DELETE FROM start_airport WHERE start_airport_name=#{start_airport_name}
+	</delete>
+	<select id="totalEndAirport" resultType="int">
+		SELECT count(*) from end_airport
+	</select>
+	<select id="getEndAirportList" parameterType="Air" resultType="Air">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (select ea.*, co.country_name, c.city_name from end_airport ea, country co, city c WHERE ea.country_id = co.country_id AND ea.city_id=c.city_id) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	<insert id="insertEndAirport" parameterType="Air">
+		INSERT INTO end_airport(end_airport_name,country_id,city_id) VALUES(#{end_airport_name},#{country_id},#{city_id})
+	</insert>
+	<select id="getEndAirportDetail" parameterType="Air" resultType="Air">
+		select ea.*, co.country_name, c.city_name from end_airport ea, country co, city c WHERE ea.country_id = co.country_id AND ea.city_id=c.city_id AND ea.end_Airport_name=#{end_airport_name};
+	</select>
+	<update id="updateEndAirport" parameterType="Air">
+		UPDATE end_airport SET country_id = #{country_id},city_id=#{city_id} WHERE end_airport_name=#{end_airport_name}
+	</update>
+	<delete id="deleteEndAirport" parameterType="Air">
+		DELETE FROM end_airport WHERE end_airport_name=#{end_airport_name}
+	</delete>
+	<select id="getSeatList" resultType="Air">
+		SELECT * FROM seat
+	</select>
+	<select id="getAirlineListAll" resultType="Air">
+		SELECT * FROM airline
+	</select>
+	<select id="getAirplaneListAll" resultType="Air">
+		SELECT * FROM airplane
+	</select>
+	<select id="getStartAirportListAll" resultType="Air">
+		SELECT * FROM start_airport
+	</select>
+	<select id="getEndAirportListAll" resultType="Air">
+		SELECT * FROM end_airport
+	</select>
+	<insert id="insertAirSchedule" parameterType="Air">
+		INSERT INTO air_schedule(air_num,airplane_name,start_airport_name,end_airport_name,start_time,end_time,schedule_price) VALUES(#{air_num},#{airplane_name},#{start_airport_name},#{end_airport_name},#{start_time},#{end_time},#{schedule_price})
+	</insert>
+	<delete id="deleteAirSchedule" parameterType="Air">
+		DELETE FROM air_schedule WHERE schedule_id = #{schedule_id}
+	</delete>
+	<select id="getAirplaneChange" parameterType="Air" resultType="Air">
+		<choose>
+			<when test="air_num == 100">
+				SELECT * FROM airplane WHERE airplane_name like 'KOR%'
+			</when>
+			<when test="air_num ==200">
+				SELECT * FROM airplane WHERE airplane_name like 'ASI%'
+			</when>
+			<when test="air_num ==300">
+				SELECT * FROM airplane WHERE airplane_name like 'JIN%'
+			</when>
+			<when test="air_num ==400">
+				SELECT * FROM airplane WHERE airplane_name like 'JEJ%'
+			</when>
+			<when test="air_num ==500">
+				SELECT * FROM airplane WHERE airplane_name like 'JAL%'
+			</when>
+			<when test="air_num ==600">
+				SELECT * FROM airplane WHERE airplane_name like 'ANA%'
+			</when>
+			<when test="air_num ==700">
+				SELECT * FROM airplane WHERE airplane_name like 'CHE%'
+			</when>
+			<when test="air_num ==800">
+				SELECT * FROM airplane WHERE airplane_name like 'CHI%'
+			</when>
+			<when test="air_num ==900">
+				SELECT * FROM airplane WHERE airplane_name like 'THA%'
+			</when>
+			<when test="air_num ==1000">
+				SELECT * FROM airplane WHERE airplane_name like 'AAS%'
+			</when>
+		</choose>
+	</select>
+	<select id="getAirScheduleDetail" parameterType="Air" resultType="Air">
+		SELECT * FROM air_schedule WHERE schedule_id=#{schedule_id}
+	</select>
 	
 	
 	
@@ -129,14 +280,7 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	<!-- ===================================================================================================================== -->
 	<!-- 입장권관련 -->
 	<select id="totalTicket" resultType="int">
 		SELECT COUNT(*) FROM ticket_detail

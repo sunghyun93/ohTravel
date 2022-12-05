@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.oracle.ohTravel.manager.dao.ManagerDAO;
 import com.oracle.ohTravel.manager.dto.CouponDTO;
+import com.oracle.ohTravel.manager.dto.ManageAirportDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
 import com.oracle.ohTravel.manager.dto.NoticeDTO;
@@ -262,6 +263,214 @@ public class ManagerServiceImpl implements ManagerService {
 		List<ManagePackageDTO> packageDetailOne = dao.getPackageDetailOne(pk);
 		return packageDetailOne;
 	}
+
+	@Override
+	public List<ManageAirportDTO> getAirScheduleList(ManageAirportDTO air) {
+		List<ManageAirportDTO> airSchduleList = dao.getAirScheduleList(air);
+		return airSchduleList;
+	}
+
+	@Override
+	public int totalAirSchedule() {
+		int total = dao.totalAirSchedule();
+		return total;
+	}
+
+	@Override
+	public int totalAirline() {
+		int total = dao.totalAirline();
+		return total;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirlineList(ManageAirportDTO air) {
+		List<ManageAirportDTO> airlineList = dao.getAirlineList(air);
+		return airlineList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirlineDetail(ManageAirportDTO air) {
+		List<ManageAirportDTO> airlineDetail = dao.getAirlineDetail(air);
+		return airlineDetail;
+	}
+
+	@Override
+	public int updateAirline(ManageAirportDTO air) {
+		int result = dao.updateAirline(air);
+		return result;
+	}
+
+	@Override
+	public int insertAirline(ManageAirportDTO air) {
+		int result = dao.insertAirline(air);
+		return result;
+	}
+
+	@Override
+	public int deleteAirline(ManageAirportDTO air) {
+		int result = dao.deleteAirline(air);
+		return result;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirplaneList(ManageAirportDTO air) {
+		List<ManageAirportDTO> airplaneList = dao.getAirplaneList(air);
+		return airplaneList;
+	}
+
+	@Override
+	public int totalAirplane() {
+		int total = dao.totalAirplane();
+		return total;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirplaneDetail(ManageAirportDTO air) {
+		List<ManageAirportDTO> airplaneDetail = dao.getAirplaneDetail(air);
+		return airplaneDetail;
+	}
+
+	@Override
+	public int updateAirplane(ManageAirportDTO air) {
+		int result = dao.updateAirplane(air);
+		return result;
+	}
+
+	@Override
+	public int deleteAirplane(ManageAirportDTO air) {
+		int result = dao.deleteAirplane(air);
+		return result;
+	}
+
+	@Override
+	public int insertAirplane(ManageAirportDTO air) {
+		int result =dao.insertAirplane(air);
+		return result;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getStartAirportList(ManageAirportDTO air) {
+		List<ManageAirportDTO> startAirportList = dao.getStartAirportList(air);
+		return startAirportList;
+	}
+
+	@Override
+	public int totalStartAirport() {
+		int total = dao.totalStartAirport();
+		return total;
+	}
+
+	@Override
+	public int insertStartAirport(ManageAirportDTO air) {
+		int result = dao.insertStartAirport(air);
+		return result;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getStartAirportDetail(ManageAirportDTO air) {
+		List<ManageAirportDTO> startAirportDetail = dao.getStartAirportDetail(air);
+		return startAirportDetail;
+	}
+
+	@Override
+	public int updateStartAirport(ManageAirportDTO air) {
+		int result = dao.updateStartAirport(air);
+		return result;
+	}
+
+	@Override
+	public int deletestartAirport(ManageAirportDTO air) {
+		int result = dao.deletestartAirport(air);
+		return result;
+	}
+
+	@Override
+	public int totalEndAirport() {
+		int total = dao.totalEndAirport();
+		return total;
+	}
 	
+	@Override
+	public List<ManageAirportDTO> getEndAirportList(ManageAirportDTO air) {
+		List<ManageAirportDTO> endAirportList = dao.getEndAirportList(air);
+		return endAirportList;
+	}
+
+	@Override
+	public int insertEndAirport(ManageAirportDTO air) {
+		int result = dao.insertEndAirport(air);
+		return result;
+	}
 	
+	@Override
+	public List<ManageAirportDTO> getEndAirportDetail(ManageAirportDTO air) {
+		List<ManageAirportDTO> endAirportDetail = dao.getEndAirportDetail(air);
+		return endAirportDetail;
+	}
+	
+	@Override
+	public int updateEndAirport(ManageAirportDTO air) {
+		int result = dao.updateEndAirport(air);
+		return result;
+	}
+
+	@Override
+	public int deleteEndAirport(ManageAirportDTO air) {
+		int result = dao.deleteEndAirport(air);
+		return result;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getSeatList() {
+		List<ManageAirportDTO> seatList = dao.getSeatList();
+		return seatList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirlineList() {
+		List<ManageAirportDTO> airlineList = dao.getAirlineList();
+		return airlineList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirplaneList() {
+		List<ManageAirportDTO> airplaneList = dao.getAirplaneList();
+		return airplaneList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getStartAirportList() {
+		List<ManageAirportDTO> startAirportList = dao.getStartAirportList();
+		return startAirportList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getEndAirportList() {
+		List<ManageAirportDTO> endAirportList = dao.getEndAirportList();
+		return endAirportList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirplaneChange(ManageAirportDTO air) {
+		List<ManageAirportDTO> getAirplaneChange = dao.getAirplaneChange(air);
+		return getAirplaneChange;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirScheduleDetail(ManageAirportDTO air) {
+		List<ManageAirportDTO> getAirScheduleDetail = dao.getAirScheduleDetail(air);
+		return getAirScheduleDetail;
+	}
+
+	@Override
+	public int insertAirSchedule(ManageAirportDTO air) {
+		int result = dao.insertAirSchedule(air);
+		return result;
+	}
+
+	@Override
+	public int deleteAirSchedule(ManageAirportDTO air) {
+		int result = dao.deleteAirSchedule(air);
+		return result;
+	}
 }
