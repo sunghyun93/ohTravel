@@ -258,8 +258,7 @@
 	<resultMap id="selectHotelImgResult" type="Hotel_image">
 		<id property="h_img_id" column="h_img_id"/>
 		<id property="hotel_id" column="hotel_id"/>
-		<result property="h_s_img_path" column="h_s_img_path"/>
-		<result property="h_l_img_path" column="h_l_img_path"/>
+		<result property="h_img_path" column="h_img_path"/>
 	</resultMap>
 	
 	<!-- 호텔 옵션 resultMap -->
