@@ -30,6 +30,11 @@
 	})
 
 </script>
+<style type="text/css">
+	.container > .inr {
+		margin: 0;
+	}
+</style>
 </head>
 <body>
 <div class="container">
@@ -41,7 +46,6 @@
 	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
 	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
 	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
-			<li class="item05"><button id="airplane" class="item02">항공</button></li>
 		</ul>
       </div>
       
@@ -82,7 +86,7 @@
                       </div>
                     </div>
                     <div class="price_group">
-                      <strong class="price now">${pkageList.pkage_dt_Aprice}<span>원~</span></strong>
+                      <strong class="price now">${pkageList.min_price}<span>원~</span></strong>
                     </div>
                     <div class="btn_wrap">
                       <a href="#none" class="btn arrow">판매상품보기</a>
@@ -103,9 +107,9 @@
       <div class="empty_here">
         <div class="cont_unit search_result">
           <div class="text_wrap big result mt40">
-            <strong class="tit">호텔/펜션<em>(${hotelListCount})</em></strong>
+            <strong class="tit">호텔<em>(${hotelListCount})</em></strong>
             <span class="right_cont">
-            <a href="#" class="txt arrow_r">호텔/펜션 더보기</a>
+            <a href="#" class="txt arrow_r">호텔 더보기</a>
             </span>
           </div>
           <div class="prod_list_wrap mtm30">
@@ -118,7 +122,7 @@
                   </div>
                   <div class="inr right route_type">
                     <strong class="item_title eps2">${hotelList.hotel_kor}</strong>
-                    <p class="item_text stit"><p>
+                    <p class="item_text stit">${hotelList.hotel_eng }<p>
                     <div class="info_bottom">
                       <div class="item_group">
                         <span class="icn star">
@@ -130,10 +134,10 @@
                       </div>
                     </div>
                     <div class="price_group">
-                      <strong class="price now">조장님 가격 어떻게 할까요<span>원~</span></strong>
+                      <strong class="price now">${hotelList.room_min_price}<span>원~</span></strong>
                     </div>
                     <div class="btn_wrap">
-                      <a href="#none" class="btn arrow">판매상품보기</a>
+                      <a href="#none" class="btn arrow">상세보기</a>
                     </div>
                   </div>
                 </div>
