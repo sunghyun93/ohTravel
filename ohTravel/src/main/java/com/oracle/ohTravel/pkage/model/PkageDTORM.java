@@ -29,6 +29,7 @@ public class PkageDTORM {
 	
 	// 더미 변수
 	private int minPrice; 		// 패키지 상세들 중 최소가격
+	private int maxPrice;		// 패키지 상세들 중 최대가격
 	private int pkgDetailCnt;	// 관련 패키지 내의 detail 개수
 	private long[] days;	// 종합 일수 (전체 상품 디테일들 중 최소 기간과 최대기간)
 	private int reviewCnt;	// 리뷰 개수

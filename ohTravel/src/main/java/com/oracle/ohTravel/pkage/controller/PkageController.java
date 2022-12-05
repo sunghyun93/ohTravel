@@ -95,14 +95,21 @@ public class PkageController {
 	
 	// 검색 결과 메서드
 	@GetMapping("/searchResult")
-	public String searchResult(PkgSearch pkgSearch,Integer order, Model model, HttpServletRequest request) {
+	public String searchResult(PkgSearch pkgSearch, Model model, HttpServletRequest request) {
 		log.info("PkageController searchResult() start...");
 		log.info("pkgSearch="+pkgSearch);
 		
 		String toURL = request.getRequestURL().toString();
 		log.info("toURL="+toURL);
+		log.info("queryString="+pkgSearch.getQueryString());
 		
-		if(order == null) order = 1; // 초기값 세팅
+		if(pkgSearch.getOrder() == null) pkgSearch.setOrder(1);; // 초기값 세팅
+		
+		// 넘어온 가격의 구분 정해주기 (max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3)
+		pkgSearch.makeAmtGubun();
+		// DB로 전달할 출발 시간 설정
+		pkgSearch.makeDBtime();
+		log.info("AmtGubun = " + pkgSearch.getAmtGubun());
 		
 		try {
 			// 국가 가져오기
@@ -111,10 +118,13 @@ public class PkageController {
 			
 			// 관련 pkg 테이블들 모두 가져오기 (상세의 일정 부분 제외)
 			Map<String, Object> map = new HashMap<>();
+			// pkage_id 가 null 이 아닌 경우는 검색을 해서 들어온 것이 아니고, 패키지는 클릭했을 때 해당 패키지에 대한 내용만 가져오기 위함
 			map.put("pkage_id", pkgSearch.getPkage_id());
 			map.put("toDesti", pkgSearch.getToDesti());
 			map.put("dates_start_check", pkgSearch.getDates_start_check());
-			map.put("order", order); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3 desc,4 asc)
+			map.put("order", pkgSearch.getOrder()); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3 desc,4 asc)
+			map.put("amtGubun", pkgSearch.getAmtGubun());
+			map.put("pkgSearch", pkgSearch);	// 가격, 여행기간, 출발시간을 위해 전달
 			
 			List<PkageDTORM> pkageDTORmlist = pkageService.selectPkgWithDetailAndFlight(map);
 			// 관련 pkg 개수
@@ -126,7 +136,7 @@ public class PkageController {
 			
 			model.addAttribute("toURL", toURL);
 			model.addAttribute("pkgCnt", pkgCnt);
-			model.addAttribute("orderli", order);
+			model.addAttribute("orderli", pkgSearch.getOrder());
 			model.addAttribute("pkgSearch", pkgSearch);
 			model.addAttribute("pkageDTORmlist", pkageDTORmlist);
 		} catch(Exception e) {
@@ -256,9 +266,10 @@ public class PkageController {
 //			Collections.sort(pkageDTORM.getDays());
 			Arrays.sort(pkageDTORM.getDays());
 
-			// 정렬 후 1번째 가격 넣기
+			// 정렬 후 1번째, 마지막 가격 넣기
 			Collections.sort(priceBox);
 			pkageDTORM.setMinPrice(priceBox.get(0));
+			pkageDTORM.setMaxPrice(priceBox.get(priceBox.size()-1));
 		}
 	}
 	
