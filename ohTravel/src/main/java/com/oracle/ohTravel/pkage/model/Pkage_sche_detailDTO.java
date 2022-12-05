@@ -10,5 +10,5 @@ public class Pkage_sche_detailDTO {
 	private Integer	pkage_s_d_order;	// 여행순서
 	
 	// AttractionDTO 관광지
-	private AttractionDTO attrcationDTO;
+	private AttractionDTO attractionDTO;
 }

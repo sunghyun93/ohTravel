@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.oracle.ohTravel.pkage.dao.PkageDao;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
+import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 import com.oracle.ohTravel.review.dao.ReviewDAO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,5 +52,46 @@ public class PkageServiceImpl implements PkageService {
 		
 		log.info("PkageServiceImpl selectPkgByThemaSoldScoreOrder() end...");
 		return list;
+	}
+	
+	@Override
+	public PkageDTORM selectPkgDetailWithSchedule(Map<String, Object> map) throws Exception {
+		log.info("PkageServiceImpl selectPkgDetailWithSchedule() start...");
+		// package 가져오기 (이미지, 도시, 리뷰 수 등등)
+		PkageDTORM pkageDTORM = pkageDao.selectPkgByPkgId((String)map.get("pkage_id"));
+		
+		// 리뷰 개수 가져오기
+		int reviewCnt = reviewDao.reviewCnt((String)map.get("pkage_id"));
+		
+		// 리뷰 가져오기
+		
+		// package_detail 가져오기(여행일정, 비행일정, 호텔)
+		Pkage_detailDTO pkage_detailDTO = pkageDao.selectPkgDetailById((Integer)map.get("pkage_dt_id"));
+		
+		// PkageDTORM 에 합치기
+		pkageDTORM.setReviewCnt(reviewCnt);
+		pkageDTORM.setPkage_detailDTO(pkage_detailDTO);
+		
+		log.info("PkageServiceImpl selectPkgDetailWithSchedule() end...");
+		return pkageDTORM;
+	}
+	
+	@Override
+	public PkageDTORM selectPkgByPkgId(String pkage_id) throws Exception {
+		log.info("PkageServiceImpl selectPkgByPkgId() start...");
+		PkageDTORM pkageDTORM = pkageDao.selectPkgByPkgId(pkage_id);
+		log.info("PkageServiceImpl selectPkgByPkgId() end...");
+		return pkageDTORM;
+	}
+	
+	@Override
+	public Pkage_detailDTO selectPkgDetailById2(Integer pkage_dt_id) throws Exception {
+		log.info("PkageServiceImpl selectPkgDetailById2() start...");
+		// package_detail 가져오기(여행일정, 비행일정, 호텔)
+		Pkage_detailDTO pkage_detailDTO = pkageDao.selectPkgDetailById2(pkage_dt_id);
+		
+		log.info("PkageServiceImpl selectPkgDetailById2() end...");
+		return pkage_detailDTO;
+				
 	}
 }

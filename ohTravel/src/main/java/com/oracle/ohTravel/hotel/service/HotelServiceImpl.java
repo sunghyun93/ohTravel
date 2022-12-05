@@ -22,7 +22,6 @@ public class HotelServiceImpl implements HotelService {
 
 	@Override
 	public HotelDTO getHotelDetail(HotelDTO hotelDTO) {
-		System.out.println("getHotelDetail Service Start...");
 		return hd.getHotelDetail(hotelDTO);
 	}
 

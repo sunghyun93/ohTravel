@@ -32,4 +32,25 @@
 							now(),
 							#{mem_role}	)
 	</insert>
+	
+	<!-- 티켓 예약 내역 조회 -->
+	<select id="ticketReservList" resultType="TicketReservationDTO" parameterType="TicketReservationDTO">
+		SELECT * FROM ticket_reservation WHERE mem_id = #{mem_id}
+	</select>
+	
+	<!-- 항공 예약 내역 조회 -->
+	<select id="airReservList" resultType="AirReservationDTO" parameterType="AirReservationDTO">
+		SELECT * FROM reservation WHERE mem_id = #{mem_id}
+	</select>
+	
+	<!-- 호텔 예약 내역 조회 -->
+	<select id="hotelReservList" resultType="HotelReservationDTO" parameterType="HotelReservationDTO">
+		SELECT * FROM hotel_reservation WHERE mem_id = #{mem_id}
+	</select>
+	
+	<!-- 패키지 예약 내역 조회 -->
+	<select id="packageReservList" resultType="PackageReservationDTO" parameterType="PackageReservationDTO">
+		SELECT * FROM package_reservation WHERE mem_id = #{mem_id}
+	</select>
+	
 </mapper>

@@ -8,30 +8,72 @@
 	<select id="airplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 		where sa.city_id = #{start_city_id} and ea.city_id = #{end_city_id} and a.start_time like concat('%',#{start_date2},'%')
+		<choose>
+			<when test="order == 1">
+				order by a.start_time asc
+			</when>
+			<when test="order == 2">
+				order by a.schedule_price desc
+			</when>
+			<when test="order == 3">
+				order by a.schedule_price asc
+			</when>
+		</choose>
 	</select>
 	
 	<!--왕복 일자선택에 대한 가는 비행기 일정 조회 List-->
  	<select id="round_goairplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 		where sa.city_id = #{start_city_id} and ea.city_id = #{end_city_id} and a.start_time like concat('%',#{start_date1},'%')
+		<choose>
+			<when test="order == 1">
+				order by a.start_time asc
+			</when>
+			<when test="order == 2">
+				order by a.schedule_price desc
+			</when>
+			<when test="order == 3">
+				order by a.schedule_price asc
+			</when>
+		</choose>
 	</select>
 	
 	
 	<!--왕복 일자선택에 대한 오는 비행기 일정 조회 List-->
  	<select id="round_airplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
-		where sa.city_id = #{end_city_id} and ea.city_id = #{start_city_id} and a.start_time like concat('%',#{end_date},'%');
+		where sa.city_id = #{end_city_id} and ea.city_id = #{start_city_id} and a.start_time like concat('%',#{end_date},'%')
+		<choose>
+			<when test="order==1">
+				order by a.start_time asc
+			</when>
+			<when test="order==2">
+				order by a.schedule_price desc
+			</when>
+			<when test="order==3">
+				order by a.schedule_price asc
+			</when>
+		</choose>
 	</select>
 	
 	
+	<!-- 스케줄 id 얻어와서 그 일정에 대한 검색 -->
+	<select id="goAirplane" parameterType="int" resultType="Air_ScheduleDTO">
+		<include refid="trip"></include>
+				where a.schedule_id = #{go_schedule_id}
+	</select>
 	
 	
+	<select id="comeAirplane" parameterType="int" resultType="Air_ScheduleDTO">
+		<include refid="trip"></include>
+				where a.schedule_id = #{come_schedule_id}
+	</select>
 	
 	
 	<!--비행기 select sql 재활용  -->
 	<sql id="trip">
-		SELECT al.air_picture,a.air_num,al.air_name, a.airplane_name, a.start_time,sa.city_id ,a.start_airport_name,a.end_time,ea.city_id ,a.end_airport_name,
-			ap.general_seat,ap.business_seat,ap.first_seat,a.schedule_price
+		SELECT al.air_picture,a.air_num,al.air_name, a.airplane_name, a.start_time,sa.country_id,sa.city_id as start_city_id,a.start_airport_name,a.end_time,ea.country_id,ea.city_id as end_city_id,a.end_airport_name,
+			ap.general_seat,ap.business_seat,ap.first_seat,a.schedule_price,a.schedule_id
 			from air_schedule a
 			join airline al on a.air_num = al.air_num
 			join airplane ap on a.airplane_name = ap.airplane_name
@@ -39,6 +81,23 @@
 			join end_airport ea on a.end_airport_name = ea.end_airport_name
 	</sql>
 	
+	<!-- 예약테이블 insert -->
+	<insert id="ReservationList" parameterType="Air_ReservationDTO">
+		insert into reservation values (#{reservation_id},#{mem_id},#{seat_position},now(),#{reservation_price})
+	</insert>
+	
+	<!-- 예약테이블 insert -->
+	<insert id="pplList" parameterType="Air_Reservation_PiDTO">
+		insert into air_reservation_pi (air_pi_name,air_pi_birth,air_pi_gen,air_pi_lname,air_pi_fname,air_pi_tel,air_pi_email,air_passport) values (#{air_pi_name},#{air_pi_birth},#{air_pi_gen},#{air_pi_lname},#{air_pi_fname},#{air_pi_tel},#{air_pi_email},#{air_passport})
+	</insert>	
+		<!-- 예약테이블 insert -->
+	<insert id="flightList" parameterType="Air_FlightSchDTO">
+		insert into air_flightSche (air_gubun) values (#{air_gubun})
+	</insert>
+	
+	<insert id="seatList" parameterType="Reservation_Seat">
+		insert into reservation_seat (seated_status) values ("1")
+	</insert>
 	
 	
 	

@@ -22,10 +22,10 @@ public class TicketController {
 	
 	private final TicketService ts;
 	
-	/* 입장권 메인 화면 (= 입장권 목록 전체 조회) */
+	/* 입장권 메인 화면 */
 	@GetMapping(value = "/exhibitionMain")
 	public String goExhibition(TicketDTO ticketDTO,  Model model) {
-		System.out.println("~~ TicketController Start exhibitionDetail ~~");
+		System.out.println("== TicketController Start exhibitionDetail ==");
 
 		// Ticket 전체 Count
 		int totalTicket = ts.totalTicket();		
@@ -47,7 +47,7 @@ public class TicketController {
 		return "ticket/exhibitionMain";
 	}
 	
-	// 입장권 검색 결과 (밑에 둘 중 하나 없애기)
+	// 입장권 검색 결과
 	@GetMapping(value = "/exhSearchResult")
 	public String goExhSearchResult() {
 		return "ticket/exhSearchResult";
@@ -55,10 +55,10 @@ public class TicketController {
 	
 	// 입장권 상세정보
 	@GetMapping(value = "/exhibitionDetail")
-	public String goExhibitionDetail(TicketDTO ticketDTO, Model model) {
-		System.out.println("~~ TicketController Start exhibitionDetail ~~");
+	public String goExhibitionDetail(String ticket_id, Model model) {
+		System.out.println("== TicketController Start exhibitionDetail ==");
 		
-		ticketDTO = ts.getTicketDetail(ticketDTO);
+		TicketDTO ticketDTO = ts.getTicketDetail(ticket_id);
 		model.addAttribute("ticketDetail", ticketDTO);
 		
 		return "ticket/exhibitionDetail";

@@ -522,13 +522,15 @@ button {
 		     편도
 		</div>
 	</div>
-		<form action="/airport/searchAirplane" method="post">
+		<form action="/airport/searchAirplane" method="get">
 		<input type="hidden" value="" name="gubun_check" class="gubun_check">
+		<input type="hidden" value="1" name="order">
 		<div class="start_end">
 				<!--왕복 모달시작  -->
 				 <input type="text" id="modal_btn" class="starting" data-toggle="modal" data-target="#exampleModalCenter" placeholder="인천">
 				 <input type="hidden" name="start_country_id" value="" class="starting_hidden">
-				 <input type="hidden" name="start_city_id" value="" class="starting_hidden">	
+				 <input type="hidden" name="start_city_id" value="" class="starting_hidden">
+				 <input type="hidden" name="start_city_name" value="" class="starting_hidden">	
 					<div class="black_bg"></div>
 						<div class="modal_wrap">
 						    <div class="modal_close"><span>close</span></div>

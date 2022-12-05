@@ -113,6 +113,11 @@ input[type=text], input[type=number], input[type=date], input[type=password] {
     font-size: 17px;
     padding: 0 35px;
 }
+.btn.gray {
+    color: #fff !important;
+    border: solid 1px #5b606e;
+    background-color: #5b606e;
+}
 .btn.pink, .form_holder .btn.pink {
     color: #fff !important;
     border: solid 1px #5e2bb8;
@@ -862,7 +867,13 @@ ul.btn_wrap li .btn.icn span:before {
 ul.btn_wrap li .btn.icn .member:before {
     background-position: 0 -262px;
 }
-
+ul.btn_wrap li .btn.icn span:before {
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+    background: url(https://image.hanatour.com/usr/static/img2/pc/mpg/spr_mpg.png) no-repeat;
+    vertical-align: middle;
+}
 
 /* step_wrap */
 .step_wrap {

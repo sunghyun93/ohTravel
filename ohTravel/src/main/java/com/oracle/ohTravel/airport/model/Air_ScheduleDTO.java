@@ -23,13 +23,17 @@ public class Air_ScheduleDTO {
 	
 	//출발공항명
 	private String start_airport_name;
-	private int country_id;
-	private int country_name;
-	private int city_id;
-	private int city_name;
+	private int start_country_id;
+	private int start_country_name;
+	private int start_city_id;
+	private int start_city_name;
 	
 	//도착공항명
 	private String end_airport_name;
+	private int end_country_id;
+	private int end_country_name;
+	private int end_city_id;
+	private int end_city_name;
 	
 	//출발시간
 	private Timestamp start_time;

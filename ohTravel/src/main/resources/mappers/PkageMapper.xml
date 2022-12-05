@@ -3,8 +3,35 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oracle.ohTravel.PkageMapper">
+	<!-- 패키지 상세는 가져오지 않는 패키지 resultMap -->
+	<resultMap type="pkageDTORM" id="PkageDTORM_city_pkimg">
+		<id property="pkage_id" column="pkage_id"/>
+		<result property="city_id" column="city_id"/>
+		<result property="pkage_name" column="pkage_name"/>
+		<result property="pkage_info" column="pkage_info"/>
+		<result property="pkage_gubun" column="pkage_gubun"/>
+		<result property="pkage_soldCnt" column="pkage_soldCnt"/>
+		<result property="pkage_score" column="pkage_score"/>
+		
+		
+		<!-- 도시 (국가) -->
+		<association property="cityDTO" resultMap="selectCityResult"></association>
+		<!-- 도시 (국가) -->
+		<!-- <association property="cityDTO" javaType="cityDTO">
+			<id property="city_id" column="city_id"/>
+			<result property="country_id" column="country_id"/>
+			<result property="city_name" column="city_name"/>
+			
+			<association property="countryDTO" column="country_id" select="selectCountry" ></association>
+		</association> -->
+		
+		<!-- 패키지 이미지 -->
+		<collection property="pkage_imageDTOList" column="pkage_id" ofType="pkage_imageDTO"
+					select="selectPkgImg">
+		</collection>
+	</resultMap>
 	
-	<!-- 패키지부터 상세와 관련된 것들 다 끌어오는 resultMap -->
+	<!-- 패키지 검색 후 패키지부터 상세와 관련된 것들 다 끌어오는 resultMap -->
 	<resultMap type="pkageDTORM" id="pkageDTO_ResultMap">
 		<id property="pkage_id" column="pkage_id"/>
 		<result property="city_id" column="city_id"/>
@@ -15,13 +42,7 @@
 		<result property="pkage_score" column="pkage_score"/>
 		
 		<!-- 도시 (국가) -->
-		<association property="cityDTO" javaType="cityDTO">
-			<id property="city_id" column="city_id"/>
-			<result property="country_id" column="country_id"/>
-			<result property="city_name" column="city_name"/>
-			
-			<association property="countryDTO" column="country_id" select="selectCountry" ></association>
-		</association>
+		<association property="cityDTO" resultMap="selectCityResult"></association>
 		
 		<!-- 패키지 상세 -->
 		<collection property="pkage_detailDTOList" ofType="pkage_detailDTO"
@@ -51,7 +72,74 @@
 		<result property="pkage_dt_startDay" column="pkage_dt_startDay"/>
 		<result property="pkage_dt_endDay" column="pkage_dt_endDay"/>
 		
+		<!-- package_flightSche 비행일정 -->
 		<collection property="pkage_flightScheDTOList" resultMap="selectPkgFlightScheResult"></collection>
+		
+	</resultMap>
+	
+	<!-- 상품 상세 resultMap2 (상세 페이지로 들어갔을 때가져오는 놈) -->
+	<resultMap id="selectPkgDetailResult2" type="pkage_detailDTO">
+		<id property="pkage_dt_id" column="pkage_dt_id"/>
+		<result property="pkage_id" column="pkage_id"/>
+		<result property="pkage_dt_name" column="pkage_dt_name"/>
+		<result property="pkage_dt_thema" column="pkage_dt_thema"/>
+		<result property="pkage_dt_Aprice" column="pkage_dt_Aprice"/>
+		<result property="pkage_dt_Cprice" column="pkage_dt_Cprice"/>
+		<result property="pkage_dt_cnt" column="pkage_dt_cnt"/>
+		<result property="pkage_dt_Mcnt" column="pkage_dt_Mcnt"/>
+		<result property="pkage_dt_Rcnt" column="pkage_dt_Rcnt"/>
+		<result property="pkage_dt_Gname" column="pkage_dt_Gname"/>
+		<result property="pkage_dt_meet" column="pkage_dt_meet"/>
+		<result property="pkage_dt_meetDate" column="pkage_dt_meetDate"/>
+		<result property="pkage_dt_startDay" column="pkage_dt_startDay"/>
+		<result property="pkage_dt_endDay" column="pkage_dt_endDay"/>
+		
+		<!-- package_flightSche 비행일정 -->
+		<collection property="pkage_flightScheDTOList" resultMap="selectPkgFlightScheResult"></collection>
+		<!-- package_schedule	여행일정 -->
+		<collection property="pkage_schedulDTOList" resultMap="selectPkgScheduleResult"></collection>
+		<!-- package_hotel 패키지숙박 -->
+		<collection property="pkage_hotelDTOList" resultMap="selectPkgHotelResult"></collection>
+	</resultMap>
+	
+	<!-- 상품 상세 resultMap3 (패키지 예약 페이지로 갔을 때 들고오는 package_detail - 항공, 호텔) -->
+	<resultMap id="selectPkgDetailResult3" type="pkage_detailDTO">
+		<id property="pkage_dt_id" column="pkage_dt_id"/>
+		<result property="pkage_id" column="pkage_id"/>
+		<result property="pkage_dt_name" column="pkage_dt_name"/>
+		<result property="pkage_dt_thema" column="pkage_dt_thema"/>
+		<result property="pkage_dt_Aprice" column="pkage_dt_Aprice"/>
+		<result property="pkage_dt_Cprice" column="pkage_dt_Cprice"/>
+		<result property="pkage_dt_cnt" column="pkage_dt_cnt"/>
+		<result property="pkage_dt_Mcnt" column="pkage_dt_Mcnt"/>
+		<result property="pkage_dt_Rcnt" column="pkage_dt_Rcnt"/>
+		<result property="pkage_dt_Gname" column="pkage_dt_Gname"/>
+		<result property="pkage_dt_meet" column="pkage_dt_meet"/>
+		<result property="pkage_dt_meetDate" column="pkage_dt_meetDate"/>
+		<result property="pkage_dt_startDay" column="pkage_dt_startDay"/>
+		<result property="pkage_dt_endDay" column="pkage_dt_endDay"/>
+		
+		<!-- package_hotel 패키지숙박 -->
+		<association property="pkage_hotelDTO" column="pkage_dt_id" javaType="pkage_hotelDTO"
+					 select="selectPkgHotel"></association>
+		<!-- package_flightSche 비행일정 -->
+		<collection property="pkage_flightScheDTOList" resultMap="selectPkgFlightScheResult"></collection>
+	
+	</resultMap>
+	
+	<!-- 도시 resultMap -->
+	<resultMap id="selectCityResult" type="CityDTO">
+		<id property="city_id" column="city_id"/>
+		<result property="country_id" column="country_id"/>
+		<result property="city_name" column="city_name"/>
+		
+		<association property="countryDTO" resultMap="selectCountryResult"></association>
+	</resultMap>
+	
+	<!-- 국가 resultMap -->
+	<resultMap id="selectCountryResult" type="CountryDTO">
+		<id property="country_id" column="country_id"/>
+		<result property="country_name" column="country_name"/>
 	</resultMap>
 	
 	<!-- 패키지 이미지 resultMap -->
@@ -74,6 +162,7 @@
 	<resultMap id="selectAirScheResult" type="Air_ScheduleDTORM">
 		<id property="schedule_id" column="schedule_id"/>
 		<result property="air_num" column="air_num"/>
+		<result property="airplane_name" column="airplane_name"/>
 		<result property="start_airport_name" column="start_airport_name"/>
 		<result property="end_airport_name" column="end_airport_name"/>
 		<result property="start_time" column="start_time"/>
@@ -91,7 +180,97 @@
 		<result property="air_picture" column="air_picture"/>
 	</resultMap>
 	
-
+	<!-- 비행기 resultMap -->
+	<resultMap id="selectAirplaneResult" type="AirplaneDTO">
+		<id property="airplane_name" column="airplane_name"/>
+		<result property="general_seat" column="general_seat"/>
+		<result property="business_seat" column="business_seat"/>
+		<result property="first_seat" column="first_seat"/>
+	</resultMap>
+	
+	<!-- 여행일정 resultMap -->
+	<resultMap id="selectPkgScheduleResult" type="Pkage_schedulDTO">
+		<id property="pkage_sche_day" column="pkage_sche_day"/>
+		<id property="pkage_dt_id" column="pkage_dt_id"/>
+		<result property="pkage_sche_trans" column="pkage_sche_trans"/>
+		<result property="pkage_sche_b" column="pkage_sche_b"/>
+		<result property="pkage_sche_l" column="pkage_sche_l"/>
+		<result property="pkage_sche_d" column="pkage_sche_d"/>
+		
+		<collection property="pkage_s_dDTOList" resultMap="selectPkgScheDetailResult"></collection>
+	</resultMap>
+	
+	<!-- 여행일정_관광지 resultMap -->
+	<resultMap id="selectPkgScheDetailResult" type="Pkage_sche_detailDTO">
+		<id property="pkage_dt_id" column="pkage_dt_id"/>
+		<id property="pkage_sche_day" column="pkage_sche_day"/>
+		<id property="attr_id" column="attr_id"/>
+		<result property="pkage_s_d_order" column="pkage_s_d_order"/>
+		
+		<association property="attractionDTO" resultMap="selectAttrResult"></association>
+	</resultMap>
+	
+	<!-- 관광지 resultMap -->
+	<resultMap id="selectAttrResult" type="AttractionDTO">
+		<id property="attr_id" column="attr_id"/>
+		<result property="city_id" column="city_id"/>
+		<result property="attr_name" column="attr_name"/>
+		<result property="attr_ename" column="attr_ename"/>
+		<result property="attr_info" column="attr_info"/>
+		
+		<collection property="attr_img_DTOList" resultMap="selectAttrImgResult"></collection>
+	</resultMap>
+	
+	<!-- 관광지 이미지 resultMap -->
+	<resultMap id="selectAttrImgResult" type="Attraction_imageDTO">
+		<id property="attr_img_code" column="attr_img_code"/>
+		<result property="attr_id" column="attr_id"/>
+		<result property="attr_img_path" column="attr_img_path"/>
+	</resultMap>
+	
+	<!-- 패키지 숙박 resultMap-->
+	<resultMap id="selectPkgHotelResult" type="Pkage_hotelDTO">
+		<id property="pkage_dt_id" column="pkage_dt_id"/>
+		<id property="hotel_id" column="hotel_id"/>
+		
+		<!-- 호텔 -->
+		<association property="hotelDTO" resultMap="selectHotelResult"></association>
+	</resultMap>
+	
+	<!-- 호텔 resultMap -->
+	<resultMap id="selectHotelResult" type="HotelDTORM">
+		<id property="hotel_id" column="hotel_id"/>
+		<result property="city_id" column="city_id"/>
+		<result property="hotel_kor" column="hotel_kor"/>
+		<result property="hotel_eng" column="hotel_eng"/>
+		<result property="hotel_loc" column="hotel_loc"/>
+		<result property="hotel_type" column="hotel_type"/>
+		<result property="hotel_grade" column="hotel_grade"/>
+		<result property="hotel_score" column="hotel_score"/>
+		<result property="hotel_tel" column="hotel_tel"/>
+		
+		<association property="hotel_imageDTO" resultMap="selectHotelImgResult"></association>
+		<collection property="hotel_optionDTOList" column="hotel_id" ofType="Hotel_Option" 
+		select="selectHotelOption"></collection>
+	</resultMap>
+	
+	<!-- 호텔 이미지 resultMap -->
+	<resultMap id="selectHotelImgResult" type="Hotel_image">
+		<id property="h_img_id" column="h_img_id"/>
+		<id property="hotel_id" column="hotel_id"/>
+		<result property="h_s_img_path" column="h_s_img_path"/>
+		<result property="h_l_img_path" column="h_l_img_path"/>
+	</resultMap>
+	
+	<!-- 호텔 옵션 resultMap -->
+	<resultMap id="selectHotelOptionResult" type="Hotel_option">
+		<id property="option_id" column="option_id"/>
+		<result property="hotel_id" column="hotel_id"/>
+		<result property="hotel_option" column="hotel_option"/>
+		<result property="option_gubun" column="option_gubun"/>
+		<result property="hotel_exist" column="hotel_exist"/>
+	</resultMap>
+	
 	<!-- resultMap을 위한 select 문들 -->
 	<select id="selectPkgImg" resultType="pkage_imageDTO">
 		select * from package_image where pkage_id = #{pkage_id}
@@ -101,24 +280,75 @@
 		select * from country where country_id = #{country_id}
 	</select>
 	
+	<select id="selectPkgHotel" resultType="pkage_hotelDTO">
+		select * from package_hotel where pkage_dt_id = #{pkage_dt_id}
+	</select>
+	
+	<select id="selectHotelOption" resultType="Hotel_option">
+		select * from hotel_option where hotel_id = #{hotel_id} and hotel_exist="Y" 
+	</select>
+	
 <!-- Dao와 이어지는 select 문들 시작  -->
 
 	<!-- 패키지 검색시 관련 pkg 테이블들의 값 select  -->
 	<select id="selectPkgWithDetailAndFlight" parameterType="map" resultMap="pkageDTO_ResultMap">
-		select p.*, 
+		select 
+		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
 		c.*,
+		ct.*,
 		pd.*,
         pfs.*,
         ashe.*,
 		aline.*,
         pi.pkage_Img_path from package p 
 		join city c on p.city_id = c.city_id
+		join country ct on c.country_id = ct.country_id
 		join package_image pi on p.pkage_id = pi.pkage_id
 		join package_detail pd on p.pkage_id = pd.pkage_id
 		left outer join package_flightSche pfs on pd.pkage_dt_id = pfs.pkage_dt_id
 		left outer join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
 		left outer join airline aline on ashe.Air_num = aline.Air_num
-		where p.city_id = #{toDesti} and pkage_dt_startDay >= #{dates_start_check}
+		<!-- pkage_id 가 null 이 아닌 경우는 검색을 해서 들어온 것이 아니고, 패키지는 클릭했을 때 해당 패키지에 대한 내용만 가져오기 위함 -->
+		where True
+		<if test="pkage_id != null">
+			and p.pkage_id = #{pkage_id}
+		</if>
+		<if test="pkage_id == null">
+			and p.city_id = #{toDesti} and pkage_dt_startDay >= #{dates_start_check}
+		</if>
+		<!-- 가격 필터 --> <!-- (max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3) -->
+		<if test='pkgSearch.amtGubun != null'>
+			<choose> 
+				<when test='amtGubun.equals("1")'>
+				<![CDATA[ 
+					And (pd.pkage_dt_Aprice <= ${pkgSearch.maxAmt})
+				]]>
+				</when>
+				<when test='amtGubun.equals("2")'>
+				<![CDATA[ 
+					And (pd.pkage_dt_Aprice >= ${pkgSearch.minAmt})
+				]]>
+				</when>
+				<when test='pkgSearch.amtGubun.equals("3")'>
+				<![CDATA[ 
+					And (pd.pkage_dt_Aprice between ${pkgSearch.minAmt} and ${pkgSearch.maxAmt})
+				]]>
+				</when>
+			</choose>
+		</if>
+		<if test='pkgSearch.chk_term != null'> <!-- 두 날짜의 차이 (day) -->
+			and TIMESTAMPDIFF(DAY, date(pd.pkage_dt_startDay), date(pd.pkage_dt_endDay))+1 = #{pkgSearch.chk_term}
+		</if>
+		<if test='pkgSearch.chk_time != null'> <!-- date의 시간만 비교 -->
+			<choose>
+				<when test='pkgSearch.chk_time.equals("AM")'>
+					and (hour(pd.pkage_dt_startDay) between '5' and '12')
+				</when>
+				<when test='pkgSearch.chk_time.equals("PM")'>
+					and (hour(pd.pkage_dt_startDay) between '12' and '18')
+				</when>
+			</choose>
+		</if>
 		<choose>
 			<when test="order == 1">
 				order by pkage_soldCnt desc
@@ -132,29 +362,95 @@
 			<when test="order == 4">
 				order by pkage_dt_Aprice asc
 			</when>
+			<otherwise>
+				order by pkage_soldCnt desc
+			</otherwise>
 		</choose>
 	</select>
 	
 	<!-- 판매순, 평점순으로 패키지 select (원하는 갯수만) -->
 	<select id="selectPkgBySoldScoreOrder" parameterType="map" resultType="PkageDTO">
-		select p.*, min(pd.pkage_dt_Aprice) as pkage_dt_Aprice, pi.pkage_Img_path from package p 
+		select 
+		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
+		min(pd.pkage_dt_Aprice) as pkage_dt_Aprice, pi.pkage_Img_path from package p 
 		join package_image pi on p.pkage_id = pi.pkage_id
 		join package_detail pd on p.pkage_id = pd.pkage_id
 		where p.pkage_gubun = #{pkage_gubun}
 		group by p.pkage_id 
-		order by p.pkage_soldCnt desc, p.pkage_score desc
+		order by p.pkage_soldCnt desc, pkage_score desc
 		limit 0, #{row_count}
 	</select>
 	
 	<!-- 테마를 지정하여 판매순, 평점순으로 패키지 select (원하는 갯수만) -->
 	<select id="selectPkgByThemaSoldScoreOrder" parameterType="map" resultType="PkageDTO">
-		select p.*, min(pd.pkage_dt_Aprice) as pkage_dt_Aprice, pi.pkage_Img_path from package p 
+		select 
+		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
+		min(pd.pkage_dt_Aprice) as pkage_dt_Aprice, pi.pkage_Img_path from package p 
 		join package_image pi on p.pkage_id = pi.pkage_id
 		join package_detail pd on p.pkage_id = pd.pkage_id
 		where p.pkage_gubun = #{pkage_gubun} and pd.pkage_dt_thema = #{thema}
 		group by p.pkage_id 
-		order by p.pkage_soldCnt desc, p.pkage_score desc
+		order by p.pkage_soldCnt desc, pkage_score desc
 		limit 0, #{row_count}
 	</select>
+
+	<!-- pkage_id를 받아 해당 패키지(이미지, 도시까지) select -->
+	<select id="selectPkgByPkgId" parameterType="string" resultMap="PkageDTORM_city_pkimg">
+		select 
+		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
+		c.*, pi.*  
+		from package p
+		join city c on p.city_id = c.city_id
+		join package_image pi on p.pkage_id = pi.pkage_id
+		where p.pkage_id = #{pkage_id}
+	</select>
+	
+	<!-- pkage_dt_id 를 받아 해당 패키지 상세와 관련된 것들 select(여행일정 상세테이블은 각 일정 순서에 맞게 select) -->
+	<select id="selectPkgDetailById" parameterType="int" resultMap="selectPkgDetailResult2">
+		select 
+		pd.*, ph.*,h.*,pfs.*,ashe.*,aline.*, ps.*, psd.*, ar.*, arimg.*
+		from package_detail pd
+		join package_hotel ph on pd.pkage_dt_id = ph.pkage_dt_id
+		join hotel h on ph.hotel_id = h.hotel_id
+		left join (	select * from package_flightsche 
+					where pkage_dt_id = ${pkage_dt_id}
+					order by pkage_flight_gubun) pfs on pd.pkage_dt_id = pfs.pkage_dt_id
+		left join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
+		left join airline aline on ashe.Air_num = aline.Air_num
+		join ( 	select * from package_schedule
+		where pkage_dt_id = #{pkage_dt_id}
+		order by pkage_sche_day ) ps on pd.pkage_dt_id = ps.pkage_dt_id
+		join (	select * from packageSchedule_detail 
+				where pkage_dt_id = ${pkage_dt_id}
+				order by pkage_sche_day, pkage_s_d_order
+			 ) psd on ps.pkage_sche_day = psd.pkage_sche_day and ps.pkage_dt_id = psd.pkage_dt_id
+		join attraction ar on psd.attr_id = ar.attr_id
+		join attraction_image arimg on ar.attr_id = arimg.attr_id
+		where pd.pkage_dt_id = ${pkage_dt_id}
+	</select>
+	
+	<!-- pkage_dt_id 를 받아 해당 패키지 상세와 관련된 것들 select(패키지 예약때 필요한 정보만 가져오기) -->
+	<select id="selectPkgDetailById2" parameterType="int" resultMap="selectPkgDetailResult3">
+		select 
+		pd.*, ph.*,pfs.*,ashe.*,aline.*
+		from package_detail pd
+		join package_hotel ph on pd.pkage_dt_id = ph.pkage_dt_id
+		left join (	select * from package_flightsche 
+					where pkage_dt_id = ${pkage_dt_id}
+					order by pkage_flight_gubun) pfs on pd.pkage_dt_id = pfs.pkage_dt_id
+		left join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
+		left join airline aline on ashe.Air_num = aline.Air_num
+		where pd.pkage_dt_id = ${pkage_dt_id}
+	</select>
+	
+<!--  sql 태그들  -->
+	<!-- 평점을 위한 sql -->
+	<sql id="selectPkgColumn">
+		p.pkage_id, p.city_id, p.pkage_name, p.pkage_info, p.pkage_gubun, p.pkage_soldCnt, 
+		 (SELECT	FORMAT( IFNULL ( AVG(rv_rating), 0 ), 1 ) score
+		FROM	review 
+		WHERE	rv_real_id = p.pkage_id) as pkage_score, 
+	</sql>
+	
 	
 </mapper>

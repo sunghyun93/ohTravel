@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +31,8 @@
                     <!-- 왼쪽 부분 -->
                     <div class="inr">
                         <div class="text_wrap mid">
-                            <strong class="tit">방콕/파타야 5일 #가볍게떠나는여행 #4명이상출발확정 #무앙보란 #산호섬 #농눅빌리지</strong>
+                        <%-- 패키지 상세 이름 --%>
+                            <strong class="tit">${pkage_detailDTO.pkage_dt_name }</strong>
                         </div>
 
                         <!-- 예약 정보 table -->
@@ -41,32 +44,42 @@
                                 <tbody>
                                     <tr>
                                         <th>여행기간</th>
-                                        <td><strong>2022.12.01~2022.12.05 / 3박 5일</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <th>항공편</th>
                                         <td>
-                                            <div class="item_course">
-                                                <p>
-                                                    <strong class="air_name">서울</strong>
-                                                    <span class="move_arrow round">출발도착</span>
-                                                    <strong class="air_name">방콕</strong>
-
-                                                    <span class="air_info">
-                                                        <span class="air_name">
-                                                            <span class="air_img">
-                                                                <img src="https://image.hanatour.com/usr/static/img/airline/BX.png" title="에어부산" data-src="" alt="에어부산">
-                                                            </span>
-                                                            	에어부산
-                                                        </span>
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </td>
+                                        	<strong><%-- pkg detail의 일정 --%>
+                                        	<fmt:formatDate value="${pkage_detailDTO.pkage_dt_startDay }" pattern="yyyy.MM.dd"/>
+                                       		 ~
+                                       		 <fmt:formatDate value="${pkage_detailDTO.pkage_dt_endDay }" pattern="yyyy.MM.dd"/>
+                                       		 / ${pkage_detailDTO.day-1 }박 ${pkage_detailDTO.day }일
+                                        	</strong>
+                                       	</td>
                                     </tr>
+                                    <%-- 비행일정이 있는 상품만 표시 --%>
+                                    <c:if test="${pkage_detailDTO.pkage_flightScheDTOList[0].schedule_id != null }">
+	                                    <tr>
+	                                        <th>항공편</th>
+	                                        <td>
+	                                            <div class="item_course">
+	                                                <p><%-- 항공편, 출발쪽은 인천으로 고정되어있기 때문에 하드코딩함 --%>
+	                                                    <strong class="air_name">인천</strong>
+	                                                    <span class="move_arrow round">출발도착</span>
+	                                                    <strong class="air_name">${pkageDTORM.cityDTO.city_name }</strong>
+	
+	                                                    <span class="air_info">
+	                                                        <span class="air_name">
+	                                                            <span class="air_img">
+	                                                                <img src="${pkage_detailDTO.pkage_flightScheDTOList[0].air_ScheduleDTORM.airlineDTO.air_picture }" data-src="">
+	                                                            </span>
+	                                                            	${pkage_detailDTO.pkage_flightScheDTOList[0].air_ScheduleDTORM.airlineDTO.air_name }
+	                                                        </span>
+	                                                    </span>
+	                                                </p>
+	                                            </div>
+	                                        </td>
+	                                    </tr>
+                                    </c:if>
                                     <tr>
-                                        <th>이용호텔</th>
-                                        <td><em>호텔예정</em></td>
+                                        <th>이용호텔</th><%-- 호텔예정  --%>
+                                        <td><em>${pkage_detailDTO.pkage_hotelDTO != 'null' ? '호텔예정' : ''}</em></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -87,24 +100,24 @@
                                     <col>
                                 </colgroup>
                                 <tbody>
-                                    <tr>
+                                    <tr><%-- 로그인 한 사람의 정보 --%>
                                         <th>이름</th>
                                         <td>
-                                            <input type="text" id="" class="" name="" value="김성현" maxlength="10" minlength="3" readonly="readonly" placeholder="한글성명(ex. 홍길동)">
+                                            <input type="text" id="" class="" name="" value="${memberDTO.mem_name }" maxlength="10" minlength="3" readonly="readonly" placeholder="한글성명(ex. 홍길동)">
                                         </td>
                                         <th>생년월일</th>
                                         <td>
-                                            <input type="text" id="" class="" name="" value="19911223" maxlength="8" minlength="3" readonly="readonly" placeholder="법정 생년월일(ex. 19911223)">
+                                            <input type="text" id="" class="" name="" value="<fmt:formatDate value="${memberDTO.mem_birthday }" pattern="yyyy-MM-dd"/>" maxlength="10" minlength="3" readonly="readonly" placeholder="법정 생년월일(ex. 1991-12-23)">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>이메일</th>
                                         <td>
-                                            <input type="text" id="" class="" name="" value="Hong@naver.com" maxlength="30" minlength="3" readonly="readonly" placeholder="이메일 주소(ex. Hong@naver.com)">
+                                            <input type="text" id="" class="" name="" value="${memberDTO.mem_email }" maxlength="30" minlength="3" readonly="readonly" placeholder="이메일 주소(ex. Hong@naver.com)">
                                         </td>
                                         <th>휴대폰 번호</th>
                                         <td>
-                                            <input type="text" id="" class="" name="" value="01012345678" maxlength="20" minlength="3" readonly="readonly" placeholder="휴대폰 번호(ex. 01012345678)">
+                                            <input type="text" id="" class="" name="" value="${memberDTO.mem_tel }" maxlength="20" minlength="3" readonly="readonly" placeholder="휴대폰 번호(ex. 01012345678)">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -126,17 +139,17 @@
                                     <col>
                                 </colgroup>
                                 <tbody>
-                                    <tr>
+                                    <tr><%-- 인원 정보와 가격 부분 --%>
                                         <th>성인</th>
-                                        <td class="inpt_counter_adult">1<span>명</span></td>
+                                        <td class="inpt_counter_adult">${pkgReserve.adultCnt }<span>명</span></td>
                                         <th>가격</th>
-                                        <td class="price_adult">789000<span>원</span></td>
+                                        <td class="price_adult">${pkage_detailDTO.pkage_dt_Aprice*pkgReserve.adultCnt }<span>원</span></td>
                                     </tr>
                                     <tr>
                                         <th>아동</th>
-                                        <td class="inpt_counter_child">0<span>명</span></td>
+                                        <td class="inpt_counter_child">${pkgReserve.childCnt }<span>명</span></td>
                                         <th>가격</th>
-                                        <td class="price_child">789000<span>원</span></td>
+                                        <td class="price_child">${pkage_detailDTO.pkage_dt_Cprice*pkgReserve.childCnt }<span>원</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -211,66 +224,121 @@
                                                 </tbody>
                                             </table>
                                         </div>
-
-                                        <div class="tbl">
-                                            <div class="text_wrap type sml">
-                                                <strong class="tit">성인 2</strong>
-                                            </div>
-
-                                            <table class="type2">
-                                                <colgroup>
-                                                    <col style="width: 17%;"> 
-                                                    <col style="width: 33%;"> 
-                                                    <col style="width: 17%;"> 
-                                                    <col style="width: 33%;">
-                                                </colgroup>
-                                                <tbody>
-                                                    <tr>
-                                                        <th>성명(한글)</th>
-                                                        <td colspan="3">
-                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_name" value="" maxlength="4" minlength="3" placeholder="한글성명(ex. 홍길동)" style="width: 250px;">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>생년월일</th>
-                                                        <td>
-                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_birth" value="" maxlength="10" minlength="3" placeholder="법정 생년월일(ex. 1991-12-23)" style="width: 250px;">
-                                                        </td>
-                                                        <th>성별</th>
-                                                        <td>
-                                                            <div class="genderDiv">
-                                                                <span class="genderDiv_radio">
-                                                                    <input type="radio" name="gender_1" id="gender1_1" class="inpt_radio" value="0">
-                                                                    <label for="gender1_1">남성</label>
-                                                                </span>
-                                                                <span class="genderDiv_radio">
-                                                                    <input type="radio" name="gender_1" id="gender2_1" class="inpt_radio" value="1">
-                                                                    <label for="gender2_1">여성</label>
-                                                                </span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>영문 성</th>
-                                                        <td><input type="text" id="" class="input_keyword" name="pkage_pi_lname" value="" maxlength="30" minlength="3" placeholder="여권 상의 영문 성(ex. HONG)" style="width: 250px;"></td>
-                                                        <th>영문 이름</th>
-                                                        <td>
-                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_fname" value="" maxlength="30" minlength="3" placeholder="여권 상의 영문 이름(ex. GILDONG)" style="width: 250px;">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>이메일</th>
-                                                        <td>
-                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_email" value="" maxlength="30" minlength="3"  placeholder="이메일 주소(ex. Hong@naver.com)" style="width: 250px;">
-                                                        </td>
-                                                        <th>휴대폰 번호</th>
-                                                        <td>
-                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_tel" value="" maxlength="20" minlength="3" placeholder="휴대폰 번호(ex. 01012345678)" style="width: 250px;">
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+										<%-- 성인 예약자들 --%>          <%-- 성인 1명은 무조건 위쪽에 나타나기 때문에 성인은 1명 뺀 수 만큼 반복 --%>
+										<c:forEach begin="1" end="${pkgReserve.adultCnt-1 }" varStatus="status">
+	                                        <div class="tbl">
+	                                            <div class="text_wrap type sml"> <%-- 성인 2부터 시작해야함 --%>
+	                                                <strong class="tit">성인 ${status.count+1 }</strong>
+	                                            </div>
+	
+	                                            <table class="type2">
+	                                                <colgroup>
+	                                                    <col style="width: 17%;"> 
+	                                                    <col style="width: 33%;"> 
+	                                                    <col style="width: 17%;"> 
+	                                                    <col style="width: 33%;">
+	                                                </colgroup>
+	                                                <tbody>
+	                                                    <tr>
+	                                                        <th>성명(한글)</th>
+	                                                        <td colspan="3">
+	                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_name" value="" maxlength="4" minlength="3" placeholder="한글성명(ex. 홍길동)" style="width: 250px;">
+	                                                        </td>
+	                                                    </tr>
+	                                                    <tr>
+	                                                        <th>생년월일</th>
+	                                                        <td>
+	                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_birth" value="" maxlength="10" minlength="3" placeholder="법정 생년월일(ex. 1991-12-23)" style="width: 250px;">
+	                                                        </td>
+	                                                        <th>성별</th>
+	                                                        <td>
+	                                                            <div class="genderDiv">
+	                                                                <span class="genderDiv_radio">
+	                                                                    <input type="radio" name="gender_1" id="gender1_1" class="inpt_radio" value="0">
+	                                                                    <label for="gender1_1">남성</label>
+	                                                                </span>
+	                                                                <span class="genderDiv_radio">
+	                                                                    <input type="radio" name="gender_1" id="gender2_1" class="inpt_radio" value="1">
+	                                                                    <label for="gender2_1">여성</label>
+	                                                                </span>
+	                                                            </div>
+	                                                        </td>
+	                                                    </tr>
+	                                                    <tr>
+	                                                        <th>영문 성</th>
+	                                                        <td><input type="text" id="" class="input_keyword" name="pkage_pi_lname" value="" maxlength="30" minlength="3" placeholder="여권 상의 영문 성(ex. HONG)" style="width: 250px;"></td>
+	                                                        <th>영문 이름</th>
+	                                                        <td>
+	                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_fname" value="" maxlength="30" minlength="3" placeholder="여권 상의 영문 이름(ex. GILDONG)" style="width: 250px;">
+	                                                        </td>
+	                                                    </tr>
+	                                                    <tr>
+	                                                        <th>이메일</th>
+	                                                        <td>
+	                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_email" value="" maxlength="30" minlength="3"  placeholder="이메일 주소(ex. Hong@naver.com)" style="width: 250px;">
+	                                                        </td>
+	                                                        <th>휴대폰 번호</th>
+	                                                        <td>
+	                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_tel" value="" maxlength="20" minlength="3" placeholder="휴대폰 번호(ex. 01012345678)" style="width: 250px;">
+	                                                        </td>
+	                                                    </tr>
+	                                                </tbody>
+	                                            </table>
+	                                        </div><!-- tbl -->
+                                        </c:forEach>
+                                        
+                                        <%-- 아동 예약자들 --%> 
+										<c:forEach begin="1" end="${pkgReserve.childCnt }" varStatus="status">
+	                                        <div class="tbl">
+	                                            <div class="text_wrap type sml"> <%-- 아동 2부터 시작해야함 --%>
+	                                                <strong class="tit">아동 ${status.count }</strong>
+	                                            </div>
+	
+	                                            <table class="type2">
+	                                                <colgroup>
+	                                                    <col style="width: 17%;"> 
+	                                                    <col style="width: 33%;"> 
+	                                                    <col style="width: 17%;"> 
+	                                                    <col style="width: 33%;">
+	                                                </colgroup>
+	                                                <tbody>
+	                                                    <tr>
+	                                                        <th>성명(한글)</th>
+	                                                        <td colspan="3">
+	                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_name" value="" maxlength="4" minlength="3" placeholder="한글성명(ex. 홍길동)" style="width: 250px;">
+	                                                        </td>
+	                                                    </tr>
+	                                                    <tr>
+	                                                        <th>생년월일</th>
+	                                                        <td>
+	                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_birth" value="" maxlength="10" minlength="3" placeholder="법정 생년월일(ex. 1991-12-23)" style="width: 250px;">
+	                                                        </td>
+	                                                        <th>성별</th>
+	                                                        <td>
+	                                                            <div class="genderDiv">
+	                                                                <span class="genderDiv_radio">
+	                                                                    <input type="radio" name="gender_1" id="gender1_1" class="inpt_radio" value="0">
+	                                                                    <label for="gender1_1">남성</label>
+	                                                                </span>
+	                                                                <span class="genderDiv_radio">
+	                                                                    <input type="radio" name="gender_1" id="gender2_1" class="inpt_radio" value="1">
+	                                                                    <label for="gender2_1">여성</label>
+	                                                                </span>
+	                                                            </div>
+	                                                        </td>
+	                                                    </tr>
+	                                                    <tr>
+	                                                        <th>영문 성</th>
+	                                                        <td><input type="text" id="" class="input_keyword" name="pkage_pi_lname" value="" maxlength="30" minlength="3" placeholder="여권 상의 영문 성(ex. HONG)" style="width: 250px;"></td>
+	                                                        <th>영문 이름</th>
+	                                                        <td>
+	                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_fname" value="" maxlength="30" minlength="3" placeholder="여권 상의 영문 이름(ex. GILDONG)" style="width: 250px;">
+	                                                        </td>
+	                                                    </tr>
+	                                                </tbody>
+	                                            </table>
+	                                        </div><!-- tbl -->
+                                        </c:forEach>
                                     </div>
                                 </div><!-- tabConTrvlP -->
                             </div><!-- panels -->
@@ -318,13 +386,20 @@
                         <div class="js_acc multi filter_wrap">
                             <div class="pay_area">
                                 <div class="info_area total">
-                                    <div class="info">
+                                    <div class="info"><%-- 성인 / 아동 인원 수 및 가격 --%>
                                         <strong class="tit">최종결제금액</strong>
-                                        <span>성인 1</span>
-                                        <span class="divider_dot">아동 0</span>
+                                        <span>성인 ${pkgReserve.adultCnt }</span>
+                                        <span class="divider_dot">아동 ${pkgReserve.childCnt }</span>
                                     </div>
 
-                                    <strong class="price">270000<span>원</span></strong>
+                                    <strong class="price"><fmt:formatNumber value="${pkgReserve.totalPay }" pattern="#,###"/><span>원</span></strong>
+                                    <div class="mileage_save">
+                                    	<p>OhTravel 마일리지 
+                                    		<em class="mileage">
+                                    			<fmt:formatNumber value="${pkgReserve.totalPay*0.005 }" pattern="#,###"/>
+                                    		</em> 
+                                   		적립예정</p>
+                                    </div>
                                 </div>
 
                                 <div class="info_area">

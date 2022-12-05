@@ -31,20 +31,16 @@ public class ReviewServiceImpl implements ReviewService {
 		return rd.selectReview(reviewDTO);
 	}
 
-
 	@Override
 	public String writeReview(Review review) {
 		
 		try {
 			review.setRv_date(new Date());
 			rr.writeReview(review);
-			
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return "FAIL";
-			
 		}
-		
 		return "SUCCESS";
 	}
 
@@ -52,15 +48,11 @@ public class ReviewServiceImpl implements ReviewService {
 	public String updateReview(ReviewDTO reviewDTO) {
 		
 		try {
-			
 			rd.updateReview(reviewDTO);
-			
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return "FAIL";
-			
 		}
-		
 		return "SUCCESS";
 	}
 
@@ -70,14 +62,32 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		try {
 			rr.deleteReview(review);
-			
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return "FAIL";
-			
 		}
 		
 		return "SUCCESS";
+	}
+
+	@Override
+	public double selectAvgRating(ReviewDTO reviewDTO) {
+		return rd.selectAvgRating(reviewDTO);
+	}
+
+	@Override
+	public int totalReviewCnt(String rv_real_id) {
+		
+		try {
+			return rd.reviewCnt(rv_real_id);
+			
+		} catch (Exception e) {
+			log.debug(e.getMessage());
+			return 0;
+		}
+		
+		
+		
 	}
 	
 }

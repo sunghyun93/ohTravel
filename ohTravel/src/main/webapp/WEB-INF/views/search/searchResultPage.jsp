@@ -39,7 +39,6 @@
 	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
 	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
 	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
-			<li class="item05"><button id="airplane" class="item02">항공</button></li>
 		</ul>
       </div>
       
@@ -50,7 +49,7 @@
           <div class="text_wrap big result mt40">
             <strong class="tit">패키지<em>(${pkageListCount})</em></strong>
             <span class="right_cont">
-            <a href="#" class="txt arrow_r">해외여행 더보기</a>
+            <a href="#" id="pkage" class="txt arrow_r">해외여행 더보기</a>
             </span>
           </div>
           <div class="prod_list_wrap mtm30">
@@ -62,20 +61,21 @@
                     <img src="${pkageList.pkage_Img_path }">
                   </div>
                   <div class="inr right route_type">
+                  	<div class="tag_group">
+						<span class="attr">패키지</span>
+					</div>
                     <strong class="item_title eps2">${pkageList.pkage_name}</strong>
-                    <p class="item_text stit"><p>
+                    <p class="item_text stit">${pkageList.pkage_info }<p>
                     <div class="info_bottom">
                       <div class="item_group">
                         <span class="icn star">
                           ${pkageList.pkage_score}
                         </span>
                         <span class="icn balloon">
-                          25
+                          	리뷰수
                         </span>
                         <span class="hash_group">
-                          <span>#도쿄</span>
-                          <span>#자유여행</span>
-                          <span>#에어텔</span>
+                          <span>#${pkageList.pkage_dt_thema}</span>
                         </span>
                       </div>
                     </div>
@@ -83,7 +83,7 @@
                       <strong class="price now">${pkageList.min_price}<span>원~</span></strong>
                     </div>
                     <div class="btn_wrap">
-                      <a href="#none" class="btn arrow">판매상품보기</a>
+                      <a href="/pkage/searchResult?toDesti=${pkageList.city_id }&dates_start_check=2022-12-20&pkage_gubun=${pkageList.pkage_gubun}&order=1" class="btn arrow">판매상품보기</a>
                     </div>
                   </div>
                   <div class="sub_list_wrap">
@@ -103,7 +103,7 @@
           <div class="text_wrap big result mt40">
             <strong class="tit">호텔<em>(${hotelListCount})</em></strong>
             <span class="right_cont">
-            <a href="#" class="txt arrow_r">호텔 더보기</a>
+            <a href="/searchCategoryAjax" class="txt arrow_r" id="hotel">호텔 더보기</a>
             </span>
           </div>
           <div class="prod_list_wrap mtm30">
@@ -116,7 +116,7 @@
                   </div>
                   <div class="inr right route_type">
                     <a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}"><strong class="item_title eps2">${hotelList.hotel_kor}</strong></a>
-                    <p class="item_text stit"><p>
+                    <p class="item_text stit">${hotelList.hotel_eng }<p>
                     <div class="info_bottom">
                       <div class="item_group">
                         <span class="icn star">
@@ -189,6 +189,24 @@
 	
 	$(function() {
 		$('.item02').click(function() {
+			let gubun = $(this).attr('id');
+			console.log(gubun);
+			$.ajax({
+				url: '/searchCategoryAjax',
+				data: {'search_word' : $('#search_word').val(),
+						'gubun' : gubun},
+				dataType: 'html',
+				success: function(data) {
+					$('.no_division').empty();
+					$('.empty_here').empty();
+					$('.no_division').html(data)
+				}
+			})
+		});
+	})
+	
+	$(function() {
+		$('.txt arrow_r').click(function() {
 			let gubun = $(this).attr('id');
 			console.log(gubun);
 			$.ajax({
