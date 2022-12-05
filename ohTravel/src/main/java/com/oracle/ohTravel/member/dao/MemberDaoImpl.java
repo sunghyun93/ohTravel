@@ -86,5 +86,15 @@ public class MemberDaoImpl implements MemberDao {
 		System.out.println("MemberDaoImpl myPageReservPackage packageReservList.size() -> " + packageReservList.size());
 		return packageReservList;
 	}
+
+	// 회원 탈퇴
+	@Override
+	public int deleteMember(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl deleteMember start..");
+		int result = sqlSession.delete("deleteMember", memberDTO);
+		System.out.println("MemberDaoImpl deleteMember memberDTO.getMem_id() -> " + memberDTO.getMem_id());
+		
+		return result;
+	}
 	
 }

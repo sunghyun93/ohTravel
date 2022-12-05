@@ -4,7 +4,7 @@
 
 <mapper namespace="com.oracle.ohTravel.Member">
 	<!-- 로그인 -->
-	<select id="login" parameterType="memberDTO" resultType="memberDTO">
+	<select id="login" parameterType="MemberDTO" resultType="MemberDTO">
 		SELECT *
 		FROM MEMBER
 		WHERE mem_id = #{mem_id}
@@ -12,7 +12,7 @@
 	</select>
 	
 	<!-- 회원가입 -->
-	<insert id="register" parameterType="memberDTO">
+	<insert id="register" parameterType="MemberDTO">
 		INSERT INTO MEMBER (
 							mem_id,
 							mem_name,
@@ -32,6 +32,13 @@
 							now(),
 							#{mem_role}	)
 	</insert>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteMember" parameterType="MemberDTO"> 
+		DELETE FROM MEMBER
+		WHERE mem_id = #{mem_id}
+		AND	mem_password = #{mem_password}
+	</delete>
 	
 	<!-- 티켓 예약 내역 조회 -->
 	<select id="ticketReservList" resultType="TicketReservationDTO" parameterType="TicketReservationDTO">
