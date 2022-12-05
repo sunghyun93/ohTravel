@@ -46,7 +46,7 @@
 		<div class="wrapper big">
 			<div class="mt-4 button-wrap">
 				<a href="managePackage" class="genric-btn primary ela">패키지 상품 관리</a>
-				<a href="manageAirline" class="genric-btn primary ela">항공권 상품 관리</a>
+				<a href="manageAir" class="genric-btn primary ela">항공권 상품 관리</a>
 				<a href="manageHotel" class="genric-btn primary ela">숙박 상품 관리</a>
 				<a href="manageTicket" class="genric-btn primary ela">입장권 상품 관리</a>
 			</div>
@@ -71,7 +71,7 @@
 					</thead>
 					<c:forEach var="packageDetail" items="${packageDetail }">
 					<tbody>
-					<tr onclick="location.href='managePackageDetailOne?pkage_id=${packageDetail.pkage_id}&pkage_dt_id=${packageDetail.pkage_dt_id }'">
+					<tr onclick="location.href='managePackageDetailOne?pkage_id=${packageDetail.pkage_id}&pkage_dt_id=${packageDetail.pkage_dt_id }&currentPage=${currentPage }'">
 						<td>${packageDetail.pkage_dt_id }</td>
 						<td>${packageDetail.pkage_id}</td>
 						<td>${packageDetail.city_id}</td>
@@ -80,7 +80,6 @@
 						<td>${packageDetail.pkage_gubun}</td>
 						<td>${packageDetail.pkage_soldCnt}</td>
 						<td>${packageDetail.pkage_score}</td>
-
 					</tr>
 					</tbody>
 					</c:forEach>

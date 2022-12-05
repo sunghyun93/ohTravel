@@ -22,7 +22,7 @@
 		<div class="wrapper big">
 			<div class="mt-4 button-wrap">
 				<a href="managePackage" class="genric-btn primary ela">패키지 상품 관리</a>
-				<a href="manageAirline" class="genric-btn primary ela">항공권 상품 관리</a>
+				<a href="manageAir" class="genric-btn primary ela">항공권 상품 관리</a>
 				<a href="manageHotel" class="genric-btn primary ela">숙박 상품 관리</a>
 				<a href="manageTicket" class="genric-btn primary ela">입장권 상품 관리</a>
 			</div>

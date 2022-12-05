@@ -16,6 +16,7 @@
 		<typeAlias type="com.oracle.ohTravel.manager.dto.CouponDTO" alias="Coupon"/>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.ManageTicketDTO" alias="Ticket"/>
 		<typeAlias type="com.oracle.ohTravel.manager.dto.ManagePackageDTO" alias="Package"/>
+		<typeAlias type="com.oracle.ohTravel.manager.dto.ManageAirportDTO" alias="Air"/>
 
 		
 		<!-- pkage -->

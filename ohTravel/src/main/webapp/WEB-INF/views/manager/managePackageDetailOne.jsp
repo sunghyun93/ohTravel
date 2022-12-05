@@ -77,7 +77,7 @@
 			<form method="post" id="form" enctype="multipart/form-data">
 				<div class="row">
 				<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='managePackageDetail?pkage_id=${pkage_id}'" value="돌아가기">
+					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='managePackageDetail?pkage_id=${pkage_id}&currentPage=${currentPage}'" value="돌아가기">
 				</div>
 				<c:forEach var="packageDetailOne" items="${packageDetailOne }">
 					<table border="1" class="table table-striped">

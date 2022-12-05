@@ -29,23 +29,25 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">항공권 상품 관리</h1>
 			<div class="row d-flex justify-content-center">
 			<div class="mt-4 button-wrap">
-				<button class="btn btn-primary mb-3 mr-2" onclick="location.href='insertAirlineForm'">항공사 추가</button>
+				<button class="btn btn-primary mb-3 mr-2" onclick="location.href='insertAirplaneForm'">비행기 추가</button>
 				<input type="button" class="btn btn-primary mb-3" onclick="location.href='manageAir'" value="돌아가기">
 			</div>
 				<table border="1" class="table table-hover">
 					<thead>
 					<tr>
-						<th>항공사번호</th>
-						<th>항공사코드</th>
-						<th>항공사명</th>
+						<th>항공편명</th>
+						<th>일반석 갯수</th>
+						<th>비즈니스석 갯수</th>
+						<th>일등석 갯수</th>
 					</tr>
 					</thead>
 					<tbody>
-					<c:forEach var="airlineList" items="${airlineList }">
-					<tr onclick="location.href='manageAirlineDetail?air_num=${airlineList.air_num }'">
-						<td>${airlineList.air_num }</td>
-						<td>${airlineList.air_code }</td>
-						<td>${airlineList.air_name }</td>
+					<c:forEach var="airplaneList" items="${airplaneList }">
+					<tr onclick="location.href='manageAirplaneDetail?airplane_name=${airplaneList.airplane_name }'">
+						<td>${airplaneList.airplane_name }</td>
+						<td>${airplaneList.general_seat }</td>
+						<td>${airplaneList.business_seat }</td>
+						<td>${airplaneList.first_seat }</td>
 					</tr>
 					</c:forEach>
 					</tbody>
@@ -54,13 +56,13 @@
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 					<c:if test="${page.startPage > page.pageBlock }">
-						<li class="page-item"><a class="page-link" href="manageAirline?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
+						<li class="page-item"><a class="page-link" href="manageAirplane?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
 					</c:if>
 					<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-						<li class="page-item"><a class="page-link" href="manageAirline?currentPage=${i}">${i}</a></li>
+						<li class="page-item"><a class="page-link" href="manageAirplane?currentPage=${i}">${i}</a></li>
 					</c:forEach>
 					<c:if test="${page.endPage < page.totalPage }">
-						<li class="page-item"><a class="page-link" href="manageAirline?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
+						<li class="page-item"><a class="page-link" href="manageAirplane?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
 					</c:if>
 				</ul>
 			</nav>
