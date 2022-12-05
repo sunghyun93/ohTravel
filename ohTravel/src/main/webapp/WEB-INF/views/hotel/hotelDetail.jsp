@@ -48,7 +48,7 @@
 					<div class="info_title">숙소정보</div>
 					<div class="ht_loc">주소 : ${hotelDetail.hotel_loc }</div>
 					<div class="chkTime">체크인 : ${hotelDetail.checkin } 체크아웃 시간 : ${hotelDetail.checkout }</div>
-					<div class="room_cnt">객실 수 : ${hotelDetail.hotel_rv_num }</div>
+					<div class="room_cnt">객실 수 : ${hotelDetail.room_cnt }</div>
 					<div class="ht_tel">전화번호 : ${hotelDetail.hotel_tel }</div>
 				</div> <!-- ht_simple_option 끝 -->
 				<div class="room_info">
