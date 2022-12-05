@@ -1,5 +1,6 @@
 package com.oracle.ohTravel.search.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -25,28 +26,29 @@ public class SearchServiceImplementation implements SearchService {
 	}
 
 	@Override
-	public List<HotelDTO> getHotelList(PkageDTO pkageDTO) {
+	public List<HotelDTO> getHotelList(HotelDTO hotelDTO) {
 		System.out.println("Service getHotelList Start...");
-		List<HotelDTO> hotelList = sd.getHotelList(pkageDTO);
+		List<HotelDTO> hotelList = sd.getHotelList(hotelDTO);
 		return hotelList;
 	}
 
 	@Override
-	public List<TicketDTO> getTicketList(PkageDTO pkageDTO) {
+	public List<TicketDTO> getTicketList(TicketDTO ticketDTO) {
 		System.out.println("Service getTicketList Start...");
-		List<TicketDTO> ticketList = sd.getTicketList(pkageDTO);
+		List<TicketDTO> ticketList = sd.getTicketList(ticketDTO);
 		return ticketList;
 	}
 
 	@Override
-	public List<PkageDTO> filteredPkageList(PkageDTO pkageDTO) {
-		List<PkageDTO> filteredPkageList = sd.filteredPkageList(pkageDTO);
+	public List<PkageDTO> filteredPkageList(HashMap<String, Object> hm) {
+		List<PkageDTO> filteredPkageList = sd.filteredPkageList(hm);
 		return filteredPkageList;
 	}
 
 	@Override
-	public List<HotelDTO> filteredHotelList(HotelDTO hotelDTO) {
-		return null;
+	public List<HotelDTO> filteredHotelList(HashMap<String, Object> hotelHM) {
+		List<HotelDTO> filteredHotelList = sd.filteredHotelList(hotelHM);
+		return filteredHotelList;
 	}
 
 	

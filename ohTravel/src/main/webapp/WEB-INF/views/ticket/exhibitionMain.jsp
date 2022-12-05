@@ -574,8 +574,7 @@
 </style>
 </head>
 <body>
-	<!-- 상품 목록 -->
-	          <!-- 테마 추천 Start -->
+	    <!-- 테마 추천 Start -->
         <div class="favourite-place place-padding">
             <div class="container">
                 <!-- Section Tittle -->
@@ -588,10 +587,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- 상품 반복문 실행중,,,, -->
+                <!-- 상품 목록 -->
                 <div class="row">
-                	<c:forEach var="ticketList" items="${ticketList}" begin="0" end="3">
-						<div class="col-xl-4 col-lg-4 col-md-6" style="height: 500px;">
+                	<c:forEach var="ticketList" items="${ticketList}"> <!--  begin="0" end="5" -->
+						<div class="col-xl-4 col-lg-4 col-md-6" style="height: 500px; margin-bottom: 70px;">
 							<div class="single-place mb-30">
 								<div class="place-img">
 									<img src="${ticketList.ticket_rep_img_path }">
@@ -600,9 +599,9 @@
 									<div class="place-cap-top">
 										<span><span><i class="fas fa-map-marker-alt"></i>${ticketList.city_name}</span></span>
 										<h6>
-											<a href="/ticket/exhibitionDetail" style="height: 40px;"> ${ticketList.ticket_name }</a>
+											<a href="/ticket/exhibitionDetail?ticket_id=${ticketList.ticket_id}" style="height: 40px;"> ${ticketList.ticket_name }</a>
 										</h6>
-										<p class="dolor" style="margin-top: 25px;">${ticketList.ticket_adult_price}<em style="font-size:15px;">원</em></p>
+										<p class="dolor" style="margin-top: 25px;">${ticketList.ticket_child_price}<em style="font-size:15px;">원</em></p>
 										<span><i class="fas fa-star"></i><span>${ticketList.ticket_score }</span> </span>
 									</div>
 									<div class="place-cap-bottom">
@@ -614,144 +613,9 @@
 							</div>
 						</div>
 					</c:forEach>
-
-
-
-<%--                 	<!-- 상품 하나...  -->
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><span><i class="fas fa-map-marker-alt"></i>파리</span></span>
-                                    <h6><a href="#">[파리] 루브르박물관 패스트트랙 입장권 ${ticket_name }</a></h6>
-                                    <p class="dolor">52250원</p>
-                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>~${ticket_due_date}까지 사용 가능</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- 상품 하나 끝 --> --%>
-                    
-                    
-                    
-                    <!-- 상품 둘,,,  -->
-<%--                     <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><span><i class="fas fa-map-marker-alt"></i>파리</span></span>
-                                    <h6><a href="#">[파리] 루브르박물관 패스트트랙 입장권 ${ticket_name }</a></h6>
-                                    <p class="dolor">52250원</p>
-                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>~${ticket_due_date}까지 사용 가능</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 상품 셋,,,  -->
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><span><i class="fas fa-map-marker-alt"></i>파리</span></span>
-                                    <h6><a href="#">[파리] 루브르박물관 패스트트랙 입장권 ${ticket_name }</a></h6>
-                                    <p class="dolor">52250원</p>
-                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>~${ticket_due_date}까지 사용 가능</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 상품 넷,,,  -->
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><span><i class="fas fa-map-marker-alt"></i>파리</span></span>
-                                    <h6><a href="#">[파리] 루브르박물관 패스트트랙 입장권 ${ticket_name }</a></h6>
-                                    <p class="dolor">52250원</p>
-                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>~${ticket_due_date}까지 사용 가능</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 상품 다섯,,,  -->
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><span><i class="fas fa-map-marker-alt"></i>파리</span></span>
-                                    <h6><a href="#">[파리] 루브르박물관 패스트트랙 입장권 ${ticket_name }</a></h6>
-                                    <p class="dolor">52250원</p>
-                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>~${ticket_due_date}까지 사용 가능</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 상품 여섯,,,  -->
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath}/assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><span><i class="fas fa-map-marker-alt"></i>파리</span></span>
-                                    <h6><a href="#">[파리] 루브르박물관 패스트트랙 입장권 ${ticket_name }</a></h6>
-                                    <p class="dolor">52250원</p>
-                                    <span><i class="fas fa-star"></i><span>4.5점</span> </span>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>~${ticket_due_date}까지 사용 가능</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --%>
                 </div> <!-- row div 끝 -->
             </div>
-        </div> 
-        <!-- 테마 추천 End -->
-	  
-	  
+        </div>  <!-- 테마 추천 End -->
 	  
 	  <!-- 입장권 예약상담 -->
 	  <section class="use-guide" style="text-align:left; margin-bottom: 40px;">

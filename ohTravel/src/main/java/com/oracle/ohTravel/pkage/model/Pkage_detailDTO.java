@@ -31,12 +31,16 @@ public class Pkage_detailDTO {
 	
 	// package_hotel 패키지숙박
 	private List<Pkage_hotelDTO> pkage_hotelDTOList;
+	private Pkage_hotelDTO pkage_hotelDTO; // 예약 페이지 확인 용
 	
 	
 	// 더미 변수
 	private String startYoil;	// 출발 요일
 	private String endYoil;		// 도착 요일
 	private long day;			// 일수
+	private long timeInStart;	// 출발 때 걸린 비행 시간
+	private long timeInEnd;		// 도착 때 걸린 비행 시간
+	private int flightExist = 0; // 비행 일정이 있는지 구분 , 0:없음, 1:있음(해외 or 제주도)
 	
 	// 요일 구하는 함수
 	public String getYoil(Date date) {
@@ -46,7 +50,7 @@ public class Pkage_detailDTO {
 		return " 일월화수목금토".charAt(c.get(Calendar.DAY_OF_WEEK))+"";
 	}
 	
-	// 일수 구하는 함수
+	// 일 수 구하는 함수(여행이 며칠인지 구하기 위함)
 	public long getDay(Date start, Date end) {
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = Calendar.getInstance();
@@ -73,4 +77,5 @@ public class Pkage_detailDTO {
 		// 일 구하기
 		return diffDay/(24*60*60)+1;
 	}
+	
 }

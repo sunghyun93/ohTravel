@@ -8,7 +8,8 @@
 		SELECT rv_id, mem_id, rv_rating, rv_contents, rv_date, rv_real_id
 		FROM review
 		WHERE rv_real_id = #{rv_real_id}
-	
+		ORDER BY rv_id DESC
+		LIMIT #{rowPage} OFFSET #{start}
 	</select>
 	
 	<update id="updateReview" parameterType = "Review">
@@ -20,6 +21,14 @@
 		AND mem_id = #{mem_id}
 		AND rv_real_id = #{rv_real_id}	
 	</update>	
+	
+	<select id="selectAvgRating" resultType="Double">
+	
+		SELECT	FORMAT( IFNULL ( AVG(rv_rating), 0 ), 1 ) score
+		FROM	review 
+		WHERE	rv_real_id = #{rv_real_id}
+	
+	</select>
 	
 	<!-- 리뷰 개수 가져오는 select 문 -->
 	<select id="reviewCnt" parameterType="String" resultType="int">

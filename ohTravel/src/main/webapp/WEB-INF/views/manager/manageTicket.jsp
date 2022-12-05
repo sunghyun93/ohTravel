@@ -72,7 +72,7 @@
 					<tbody>
 					<tr onclick="location.href='manageTicketDetail?ticket_id=${ticketList.ticket_id}&currentPage=${page.currentPage}'">
 						<td>${ticketList.ticket_id }</td>
-						<td>${ticketList.ticket_name}</td>
+						<td class="content">${ticketList.ticket_name}</td>
 						<td>${ticketList.ticket_sales_cnt}</td>
 						<td class="content">${ticketList.ticket_location}</td>
 						<td>${ticketList.ticket_score}</td>

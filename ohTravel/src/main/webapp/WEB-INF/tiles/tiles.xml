@@ -3,12 +3,12 @@
 <tiles-definitions>
 	
 	<!-- layout의 header footer 적용 안되고 body만 출력되는 부분 // 로그인 화면에 활용해도 괜찮음-->
-   <!-- <definition name="popup-layout" template="경로 지정할것">
+   <definition name="empty" template="/WEB-INF/views/layouts/empty.jsp">
        <put-attribute name="body" value="" />
    </definition>
-   <definition name="/popup/*" extends="popup-layout">
-       <put-attribute name="body" value="/WEB-INF/jsp/popup/{1}.jsp" />
-   </definition> -->
+   <definition name="empty/*" extends="empty">
+       <put-attribute name="body" value="/WEB-INF/views/empty/{1}.jsp" />
+   </definition> 
 
 
 	<definition name="layout-tiles" template="/WEB-INF/views/layouts/layout-basic.jsp">

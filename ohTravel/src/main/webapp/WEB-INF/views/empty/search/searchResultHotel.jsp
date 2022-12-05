@@ -326,6 +326,12 @@ button, input, textarea {
 	margin-bottom: 30px;
 }
 
+.filter_top .inr .btn {
+	border: 1px solid gray;
+	color: #333;
+	padding: 15px 10px;
+}
+
 .mt0 {
 	display: inline-block;
 	margin-top: 0px !important;
@@ -334,7 +340,6 @@ button, input, textarea {
 .filter_top .tit {
 	float: left;
 	width: 110px;
-	padding-top: 3px;
 	font-size: 17px;
 }
 
@@ -345,6 +350,7 @@ p {
 .spr.filter {
 	width: 17px;
 	height: 17px;
+	margin-right: 4px;
 	background-position: -58px -52px;
 }
 
@@ -354,6 +360,22 @@ p {
 	background-repeat: no-repeat;
 	background-image:
 		url(https://image.hanatour.com/usr/static/img2/pc/com/spr_com.png);
+}
+
+#reset-btn {
+	background-image: none;
+	height: 32px;
+	width: auto;
+	border: 1px solid #c2c2c2;    /*---테두리 정의---*/
+	border-radius: 4px;
+	font: 12px;
+	font-weight: 400;   /*--폰트 굵기---*/
+	color: #666;    /*--폰트 색깔---*/
+	background-color: white;
+}
+
+#reset-btn:hover {
+	border-color: black;
 }
 
 .filter_top .tit .notice_count {
@@ -381,7 +403,6 @@ p {
 .filter_top .inr {
 	width: 1090px;
 	float: left;
-	margin-top: 20px;
 }
 
 .option_wrap.result {
@@ -792,7 +813,6 @@ prod_list_wrap .htl .btn.line {
 	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
 	        <li class="item03 selected"><button id="hotel" class="item02">호텔/펜션</button></li>
 	        <li class="item04"><button id="ticket" class="item02">투어/입장권</button></li>
-			<li class="item05"><button id="airplane" class="item02">항공</button></li>
 		</ul>
 	</div>
 	<div>
@@ -1059,18 +1079,29 @@ prod_list_wrap .htl .btn.line {
 					<div class="inr">
 						<!-- 여기 삽입 -->
 						<div id='result'></div>
-						<a href="#" class="btn"><span class="spr refresh10"></span>필터초기화</a>
+						<input type="button" class="spr refresh10" id="reset-btn" value="필터초기화">
 					</div>
 				</div>
 				<div class="option_wrap result">
-					<span class="count"> 호텔 <em>(${hotelListCount})</em></span>
+					<span class="count">호텔 <em>(${hotelListCount})</em></span>
 					<div class="right_cont">
 						<ul class="list_sort">
-							<li><a href="#">가격높은순</a></li>
-							<li><a href="#">가격낮은순</a></li>
-							<li><a href="#">성급 높은순</a></li>
-							<li><a href="#">성급 낮은순</a></li>
-							<li><a href="#">상품평 높은순</a></li>
+							<li>
+								<input type="checkbox" id="Sorder0" class="inpt_checkbox">
+								<label for="Sorder0" class="label_checkbox Sorder0">구매순</label>
+							</li>
+							<li class="sort_order">
+								<input type="checkbox" id="Sorder1" class="inpt_checkbox">
+								<label for="Sorder1" class="label_checkbox Sorder1">평점순</label>
+							</li>
+							<li class="sort_order" id="Sorder2">
+								<input type="checkbox" id="Sorder2" class="inpt_checkbox">
+								<label for="Sorder2" class="label_checkbox Sorder2">높은 가격순</label>
+							</li>
+							<li class="sort_order" id="Sorder3">
+								<input type="checkbox" id="Sorder3" class="inpt_checkbox">
+								<label for="Sorder3" class="label_checkbox Sorder3">낮은 가격순</label>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -1107,7 +1138,7 @@ prod_list_wrap .htl .btn.line {
 												<span class="icn star">${hotelList.hotel_score}</span>
 												<p class="txt">우수</p>
 												<p class="txt">
-													<em>931개의 후기</em>
+													<em>(리뷰수 넣기)개의 후기</em>
 												</p>
 											</div>
 										</div>
@@ -1149,14 +1180,14 @@ prod_list_wrap .htl .btn.line {
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script type="text/javascript">
 	
+	// 카테고리 선택
 	$(function() {
 		$('.item02').click(function() {
-			let gubun = $(this).attr('id');
+			let gubun = $(this).attr('id'); // 클릭한 애의 Id가 this에 들어옴 
 			console.log(gubun);
 			$.ajax({
 				url: '/searchCategoryAjax',
-				data: {'search_word' : $('#search_word').val(),
-						'gubun' : gubun},
+				data: {'search_word' : $('#search_word').val(), 'gubun' : gubun},
 				dataType: 'html',
 				success: function(data) {
 					$('.no_division').empty();
@@ -1165,22 +1196,74 @@ prod_list_wrap .htl .btn.line {
 				}
 			})
 		});
-	})
+	});
 
 	// 필터 선택
 	$(function() {
 		$(document).on("click", ".inpt_checkbox", function() {
 		    let chk_Val = [];
+		    let toHTML = function(li_html) {
+			    let str = "<ul class='type'>";
+				console.log(li_html)
+				li_html.forEach(function(hotelList) {
+					str += "<li>";
+					str += 	"<div>";
+					str += 		"<div class='inr img'>";
+					str += 			"<div class='group_area'>";
+					str += 				"<div></div>";
+					str += 			"</div>";
+					str += 			"<img src="+hotelList.h_img_path+">";
+					str += 		"</div>";
+					str += 		"<div class='inr htl'>";
+					str += 			"<div class='tag_group'>";
+					str += 				"<span class='attr'>호텔</span> <span class='attr star_value item_text'>"+hotelList.hotel_grade+"성급</span>";
+					str += 			"</div>";
+					str += 			"<div class='item_title eps2'>";
+					str += 				"<strong>"+hotelList.hotel_kor+"</strong>";
+					str += 			"</div>";
+					str += 			"<p class='item_title sub'>"+hotelList.hotel_eng+"</p>";
+					str += 			"<div class='info_group'>";
+					str += 				"<p class='item_text'>";
+					str += 					"<span class='icn pos'>"+hotelList.city_name+"</span>";
+					str += 				"</p>";
+					str += 			"</div>";
+					str += 			"<div class='info_bottom'>";
+					str += 				"<div class='item_group'>";
+					str += 					"<div class='score_htl_wrap'>";
+					str += 						"<span class='icn star'>"+hotelList.hotel_score+"</span>";
+					str += 						"<p class='txt'>우수</p>";
+					str += 						"<p class='txt'>";
+					str += 							"<em>(리뷰수 넣기)개의 후기</em>";
+					str += 						"</p>";
+					str += 					"</div>";
+					str += 				"</div>";
+					str += 			"</div>";
+					str += 		"<div class='price_group'>";
+					str += 			"<p class='state'></p>";
+					str += 			"<strong class='price'>"+hotelList.room_min_price+"<span>원~</span></strong>";
+					str += 		"</div>";
+					str += 		"<div class='btn_wrap'>";
+					str += 			"<a href=''#' class='btn line'>상세보기</a>";
+					str += 		"</div>";
+					str += 	"</div>";
+					str += 	"</div>";
+					str += "</li>";
+				});
+				return str + "</ul>";
+		    }
+			
 			if($("input:checkbox[class=inpt_checkbox]").is(":checked")) {
 				$("input:checkbox[class=inpt_checkbox]:checked").each(function(i) {
 					chk_Val.push($(this).attr('id'));
 						$("." + $(this).attr('id')).css("border-color", "purple");
+						$("." + $(this).attr('id')).css("color", "purple");
 				});
 				
 				$("input:checkbox[class=inpt_checkbox]").not(":checked").each(function(i) {
 					$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+					$("."+ $(this).attr('id')).css("color", "#333");
 				});
-					console.log(chk_Val);
+				console.log(chk_Val);
 				
 				$.ajax({
 					url: "/hotelFilter",
@@ -1189,25 +1272,100 @@ prod_list_wrap .htl .btn.line {
 					traditional: true,
 					success: function(data) {
 						console.log(data);
-						alert(data);
-						/* $.each(data, function(index, item) { // 데이터 =item
-							$("#demo").append(index + " "); // index가 끝날때까지 
-							$("#demo").append(item.name + " ");
-							$("#demo").append(item.age + " ");
-							$("#demo").append(item.address + " ");
-							$("#demo").append(item.phone + "<br>");
-						}) */
-						$.each(data, function(i) {
+						$('.prod_list_wrap ul').empty();
+						$('.prod_list_wrap').html(toHTML(data));
 							
-						});
 					}
 				});
-			} else {
-					$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+			}
+			else {
+				$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+				$("."+ $(this).attr('id')).css("color", "#333");
+				$.ajax({
+					url: "/hotelFilterReset",
+					data: {'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+					dataType: 'json',
+					traditional: true,
+					success: function(data) {
+						console.log(data);
+						$('.prod_list_wrap ul').empty();
+						$('.prod_list_wrap').html(toHTML(data));
+							
+					}
+				});
 			}
 			
 		})
 		
 	})
+	
+	// 필터초기화 --(구분에 담겨있는거 비워야 됨)
+	$(function() {
+		$(document).on("click", "#reset-btn", function() {
+			let filterReset = [];
+		    let sendHtml = function(li_html) {
+			    let str = "<ul class='type'>";
+				console.log(li_html)
+				li_html.forEach(function(hotelList) {
+					str += "<li>";
+					str += 	"<div>";
+					str += 		"<div class='inr img'>";
+					str += 			"<div class='group_area'>";
+					str += 				"<div></div>";
+					str += 			"</div>";
+					str += 			"<img src="+hotelList.h_img_path+">";
+					str += 		"</div>";
+					str += 		"<div class='inr htl'>";
+					str += 			"<div class='tag_group'>";
+					str += 				"<span class='attr'>호텔</span> <span class='attr star_value item_text'>"+hotelList.hotel_grade+"성급</span>";
+					str += 			"</div>";
+					str += 			"<div class='item_title eps2'>";
+					str += 				"<strong>"+hotelList.hotel_kor+"</strong>";
+					str += 			"</div>";
+					str += 			"<p class='item_title sub'>"+hotelList.hotel_eng+"</p>";
+					str += 			"<div class='info_group'>";
+					str += 				"<p class='item_text'>";
+					str += 					"<span class='icn pos'>"+hotelList.city_name+"</span>";
+					str += 				"</p>";
+					str += 			"</div>";
+					str += 			"<div class='info_bottom'>";
+					str += 				"<div class='item_group'>";
+					str += 					"<div class='score_htl_wrap'>";
+					str += 						"<span class='icn star'>"+hotelList.hotel_score+"</span>";
+					str += 						"<p class='txt'>우수</p>";
+					str += 						"<p class='txt'>";
+					str += 							"<em>(리뷰수 넣기)개의 후기</em>";
+					str += 						"</p>";
+					str += 					"</div>";
+					str += 				"</div>";
+					str += 			"</div>";
+					str += 		"<div class='price_group'>";
+					str += 			"<p class='state'></p>";
+					str += 			"<strong class='price'>"+hotelList.room_min_price+"<span>원~</span></strong>";
+					str += 		"</div>";
+					str += 		"<div class='btn_wrap'>";
+					str += 			"<a href=''#' class='btn line'>상세보기</a>";
+					str += 		"</div>";
+					str += 	"</div>";
+					str += 	"</div>";
+					str += "</li>";
+				});
+				return str + "</ul>";
+		    }
+			$.ajax({
+				url: "/hotelFilterReset",
+				data: {'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+				dataType: 'json',
+				success: function(data) {
+					console.log(data);
+					$('.prod_list_wrap ul').empty();
+					$('.prod_list_wrap').html(sendHtml(data));
+				    $(".label_checkbox").css("color", "#666");
+				    $(".label_checkbox").css("border-color", "#c2c2c2");
+				}
+			});
+		})
+	})
+
 </script>
 </html>

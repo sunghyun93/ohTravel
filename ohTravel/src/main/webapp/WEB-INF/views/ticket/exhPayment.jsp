@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/member/myPage.css">
-</head>
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+</head>
 <script>
 	$(function() {
 		alert('text');

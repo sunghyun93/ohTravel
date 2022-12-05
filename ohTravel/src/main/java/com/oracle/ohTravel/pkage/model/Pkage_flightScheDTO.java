@@ -1,6 +1,7 @@
 package com.oracle.ohTravel.pkage.model;
 
-import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.oracle.ohTravel.airport.model.Air_ScheduleDTORM;
 
@@ -14,4 +15,22 @@ public class Pkage_flightScheDTO {
 
 	// 비행 일정
 	Air_ScheduleDTORM air_ScheduleDTORM;
+	
+	// 더미 변수
+	private long flightHour;
+	private long flightMinute;
+	
+	// 비행 시간 구하는 함수 (시, 분)
+	public void getTime() {
+		Date start = air_ScheduleDTORM.getStart_time();
+		Date end = air_ScheduleDTORM.getEnd_time();
+		
+		long diff = end.getTime() - start.getTime();
+		
+		// 1000 밀리초 = 1초
+		flightHour = diff / (1000 * 60 * 60);
+		flightMinute = (diff-(flightHour*(1000 * 60 * 60))) / (1000 * 60);
+		
+		
+	}
 }

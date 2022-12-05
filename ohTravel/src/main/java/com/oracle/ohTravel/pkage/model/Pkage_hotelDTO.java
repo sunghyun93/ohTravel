@@ -1,6 +1,6 @@
 package com.oracle.ohTravel.pkage.model;
 
-import com.oracle.ohTravel.hotel.model.HotelDTO;
+import com.oracle.ohTravel.hotel.model.HotelDTORM;
 
 import lombok.Data;
 
@@ -10,5 +10,5 @@ public class Pkage_hotelDTO {
 	private String hotel_id;		// 호텔ID
 	
 	// hotel 호텔
-	private HotelDTO hotelDTO;		
+	private HotelDTORM hotelDTO;		
 }

@@ -146,6 +146,7 @@ a {
 .type1 .tabs>li.selected {
 	border-color: #111;
 	border-right: 1px solid #111;
+	border-right-color: black;
 	border-bottom: none;
 	color: #5e2bb8;
 }
@@ -178,7 +179,7 @@ a {
 }
 
 .type1 .tabs>li:last-child {
-	border-right: 1px solid #ddd;
+	border-right: 1px solid black;
 }
 
 .ly_wrap {
@@ -782,28 +783,6 @@ prod_list_wrap .htl .btn.line {
 
 
 </style>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
-<script type="text/javascript">
-	
-	$(function() {
-		$('.item02').click(function() {
-			let gubun = $(this).attr('id');
-			console.log(gubun);
-			$.ajax({
-				url: '/searchCategoryAjax',
-				data: {'search_word' : $('#search_word').val(),
-						'gubun' : gubun},
-				dataType: 'html',
-				success: function(data) {
-					$('.no_division').empty();
-					$('.empty_here').empty();
-					$('.no_division').html(data)
-				}
-			})
-		});
-	})
-
-</script>
 </head>
 <body>
 	<div class="js_tabs type1 no_division">
@@ -812,7 +791,6 @@ prod_list_wrap .htl .btn.line {
 	        <li class="item"><button id="pkage" class="item02">패키지</button></li>
 	        <li class="item03"><button id="hotel" class="item02">호텔/펜션</button></li>
 	        <li class="item04 selected"><button id="ticket" class="item02">투어/입장권</button></li>
-			<li class="item05"><button id="airplane" class="item02">항공</button></li>
 		</ul>
 	</div>
 	<div>
@@ -822,11 +800,10 @@ prod_list_wrap .htl .btn.line {
 					<span class="count">투어/입장권<em>(${ticketListCount})</em></span>
 					<div class="right_cont">
 						<ul class="list_sort">
-							<li><a href="#">가격높은순</a></li>
-							<li><a href="#">가격낮은순</a></li>
-							<li><a href="#">성급 높은순</a></li>
-							<li><a href="#">성급 낮은순</a></li>
-							<li><a href="#">상품평 높은순</a></li>
+							<li><a href="#">구매순</a></li>
+							<li><a href="#">평점순</a></li>
+							<li><a href="#">높은 가격순</a></li>
+							<li><a href="#">낮은 가격순</a></li>
 						</ul>
 					</div>
 				</div>
@@ -874,4 +851,26 @@ prod_list_wrap .htl .btn.line {
 		</div>
 	</div>
 </body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+	
+	$(function() {
+		$('.item02').click(function() {
+			let gubun = $(this).attr('id');
+			console.log(gubun);
+			$.ajax({
+				url: '/searchCategoryAjax',
+				data: {'search_word' : $('#search_word').val(),
+						'gubun' : gubun},
+				dataType: 'html',
+				success: function(data) {
+					$('.no_division').empty();
+					$('.empty_here').empty();
+					$('.no_division').html(data)
+				}
+			})
+		});
+	})
+
+</script>
 </html>

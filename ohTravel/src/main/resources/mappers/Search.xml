@@ -14,7 +14,7 @@
 	</select> 
 
 	<select id="yqHotelList" parameterType="java.lang.String" resultType="Hotel">
-		select h.hotel_id, c.city_name, h.hotel_kor, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price
+		select h.hotel_id, c.city_name, h.hotel_kor, h.hotel_eng, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price
 		FROM room r 
 		left join room_detail rd on r.room_id = rd.room_id left join hotel h on r.hotel_id = h.hotel_id left join city c on c.city_id = h.city_id
 		group by h.hotel_id
@@ -26,100 +26,230 @@
 
 	<!-- 패키지 + 패키지 이미지 + 패키지 디테일 가져오기 -->
 	<select id="yqPkageList" parameterType="PkageDTO" resultType="PkageDTO">
-		SELECT p.pkage_id, city_id, pkage_name, pkage_info, pkage_soldCnt, pkage_score, pi.pkage_Img_path, min_price
+		SELECT p.pkage_id, city_id, pkage_name, pkage_info, pkage_soldCnt, pi.pkage_Img_path, min_price, pkage_gubun, pkage_dt_thema, 
+		(SELECT    FORMAT( IFNULL ( AVG(r.rv_rating) , 0 ), 1) FROM    review r WHERE    r.rv_real_id = p.pkage_id) pkage_score
 		FROM package p left join package_image pi on p.pkage_id = pi.pkage_id 
-		left join (select distinct pkage_id, min(pkage_dt_Aprice) min_price from package_detail group by pkage_id) as pd on p.pkage_id = pd.pkage_id
-		Where pkage_name LIKe concat('%', #{search_word}, '%') 
+		left join (select distinct pkage_id,  pkage_dt_thema, min(pkage_dt_Aprice) min_price from package_detail group by pkage_id) as pd on p.pkage_id = pd.pkage_id
+		Where pkage_name LIKe concat('%', #{search_word}, '%')
 		<if test="start != 0">
 			LIMIT #{start} OFFSET #{end}
 		</if>
 	</select>
 	
-	<select id="yqFilteredPkageList" parameterType="PkageDTO" resultType="PkageDTO">
-		SELECT p.pkage_id, city_id, pkage_name, pkage_info, pkage_soldCnt, pkage_score, pi.pkage_Img_path, min_price
+	<select id="yqFilteredPkageList" parameterType="Map" resultType="PkageDTO">
+		SELECT p.pkage_id, city_id, pkage_name, pkage_info, pkage_soldCnt, pi.pkage_Img_path, min_price, pd.pkage_dt_thema
+		, (SELECT FORMAT( IFNULL ( AVG(r.rv_rating) , 0 ), 1) 
+			FROM review r
+			WHERE r.rv_real_id = p.pkage_id) pkage_score
+		, period 
 		FROM package p left join package_image pi on p.pkage_id = pi.pkage_id 
-		left join (select distinct pkage_id, min(pkage_dt_Aprice) min_price from package_detail group by pkage_id) as pd on p.pkage_id = pd.pkage_id
-		Where pkage_name LIKe concat('%', #{search_word}, '%')
-		<choose>
-			<when test="check == 'fprice_0'">
+		left join (select distinct pkage_id, pkage_dt_thema, min(pkage_dt_Aprice) min_price, datediff(pkage_dt_endDay, pkage_dt_startDay) + 1 period from package_detail group by pkage_id) pd on p.pkage_id = pd.pkage_id
+		Where pkage_name LIKe concat('%', #{pkageDTO.search_word}, '%') AND
+		<foreach collection="check" item="filter"  open="" close="" separator="or">
+			<if test="filter == 'fprice_0'">
 				<![CDATA[
-				AND min_price >= 0 AND min_price <= 440000
+				 min_price >= 0 AND min_price <= 200000
 				]]>
-			</when>
-			<when test="check == 'fprice_1'">
+			</if>
+			<if test="filter == 'fprice_1'">
 				<![CDATA[
-				AND min_price > 440000 AND min_price <= 900000
+				 min_price > 210000 AND min_price <= 500000
 				]]>
-			</when>
-			<when test="check == 'fprice_2'">
+			</if>
+			<if test="filter == 'fprice_2'">
 				<![CDATA[
-				AND min_price > 900000 AND min_price <= 1410000
+				 min_price > 510000 AND min_price <= 700000
 				]]>
-			</when>
-			<when test="check.equals('fprice_3')">
+			</if>
+			<if test="filter == 'fprice_3'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 min_price > 710000 AND min_price <= 2000000
 				]]>
-			</when>
-			<!-- <when test="check.equals('score_0')">
+			</if>
+			<if test="filter == 'period_0'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 period = 4
 				]]>
-			</when>
-			<when test="check.equals('score_1')">
+			</if>
+			<if test="filter == 'period_1'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 period = 3
 				]]>
-			</when>
-			<when test="check.equals('score_2')">
+			</if>
+			<if test="filter == 'period_2'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 period = 2
 				]]>
-			</when>
-			<when test="check.equals('score_3')">
+			</if>
+			<if test="filter == 'period_3'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 period = 1
 				]]>
-			</when>
-			<when test="check.equals('kind_0')">
+			</if>
+			<if test="filter == 'kind_0'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 min_price > 1410000 AND min_price <= 11750000
 				]]>
-			</when>
-			<when test="check.equals('kind_1')">
+			</if>
+			<if test="filter == 'kind_1'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 min_price > 1410000 AND min_price <= 11750000
 				]]>
-			</when>
-			<when test="check.equals('kind_2')">
+			</if>
+			<if test="filter == 'kind_2'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 min_price > 1410000 AND min_price <= 11750000
 				]]>
-			</when>
-			<when test="check.equals('kind_3')">
+			</if>
+			<if test="filter == 'kind_3'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 min_price > 1410000 AND min_price <= 11750000
 				]]>
-			</when>
-			<when test="check.equals('kind_4')">
+			</if>
+			<if test="filter == 'kind_4'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 min_price > 1410000 AND min_price <= 11750000
 				]]>
-			</when>
-			<when test="check.equals('kind_5')">
+			</if>
+			<if test="filter == 'kind_5'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 min_price > 1410000 AND min_price <= 11750000
 				]]>
-			</when>
-			<when test="check.equals('kind_6')">
+			</if>
+			<if test="filter == 'kind_6'">
 				<![CDATA[
-				AND min_price > 1410000 AND min_price <= 11750000
+				 min_price > 1410000 AND min_price <= 11750000
 				]]>
-			</when> -->
-		</choose>
-		<if test="start != 0">
-			LIMIT #{end} OFFSET #{start}
-		</if>
+			</if>
+			<if test="filter == 'Sorder0'">
+				<![CDATA[
+				<!-- ORDER BY min_price desc 데이터 넣어보고 서브쿼리로 reservation join해서 가져오기-->
+				]]>
+			</if>
+			<if test="filter == 'Sorder1'">
+				<![CDATA[
+				ORDER BY pkage_score desc
+				]]>
+			</if>
+			<if test="filter == 'Sorder2'">
+				<![CDATA[
+				ORDER BY min_price desc
+				]]>
+			</if>
+			<if test="filter == 'Sorder3'">
+				<![CDATA[
+				ORDER BY min_price
+				]]>
+			</if>
+		</foreach>
+		<!-- <if test="start != 0">
+			LIMIT #{pkageDTO.end} OFFSET #{pkageDTO.start}
+		</if> -->
+	</select>
+
+	<select id="yqFilteredHotelList" parameterType="Map" resultType="Hotel">
+		
+		
+		<foreach collection="check" item="filter"  open="" close="" separator="or">
+			<if test="filter == 'fprice_0'">
+				<![CDATA[
+				 min_price >= 0 AND min_price <= 200000
+				]]>
+			</if>
+			<if test="filter == 'fprice_1'">
+				<![CDATA[
+				 min_price > 210000 AND min_price <= 500000
+				]]>
+			</if>
+			<if test="filter == 'fprice_2'">
+				<![CDATA[
+				 min_price > 510000 AND min_price <= 700000
+				]]>
+			</if>
+			<if test="filter == 'fprice_3'">
+				<![CDATA[
+				 min_price > 710000 AND min_price <= 2000000
+				]]>
+			</if>
+			<if test="filter == 'period_0'">
+				<![CDATA[
+				 period = 4
+				]]>
+			</if>
+			<if test="filter == 'period_1'">
+				<![CDATA[
+				 period = 3
+				]]>
+			</if>
+			<if test="filter == 'period_2'">
+				<![CDATA[
+				 period = 2
+				]]>
+			</if>
+			<if test="filter == 'period_3'">
+				<![CDATA[
+				 period = 1
+				]]>
+			</if>
+			<if test="filter == 'kind_0'">
+				<![CDATA[
+				 min_price > 1410000 AND min_price <= 11750000
+				]]>
+			</if>
+			<if test="filter == 'kind_1'">
+				<![CDATA[
+				 min_price > 1410000 AND min_price <= 11750000
+				]]>
+			</if>
+			<if test="filter == 'kind_2'">
+				<![CDATA[
+				 min_price > 1410000 AND min_price <= 11750000
+				]]>
+			</if>
+			<if test="filter == 'kind_3'">
+				<![CDATA[
+				 min_price > 1410000 AND min_price <= 11750000
+				]]>
+			</if>
+			<if test="filter == 'kind_4'">
+				<![CDATA[
+				 min_price > 1410000 AND min_price <= 11750000
+				]]>
+			</if>
+			<if test="filter == 'kind_5'">
+				<![CDATA[
+				 min_price > 1410000 AND min_price <= 11750000
+				]]>
+			</if>
+			<if test="filter == 'kind_6'">
+				<![CDATA[
+				 min_price > 1410000 AND min_price <= 11750000
+				]]>
+			</if>
+			<if test="filter == 'Sorder0'">
+				<![CDATA[
+				<!-- ORDER BY min_price desc 데이터 넣어보고 서브쿼리로 reservation join해서 가져오기-->
+				]]>
+			</if>
+			<if test="filter == 'Sorder1'">
+				<![CDATA[
+				ORDER BY pkage_score desc
+				]]>
+			</if>
+			<if test="filter == 'Sorder2'">
+				<![CDATA[
+				ORDER BY min_price desc
+				]]>
+			</if>
+			<if test="filter == 'Sorder3'">
+				<![CDATA[
+				ORDER BY min_price
+				]]>
+			</if>
+		</foreach>
+		<!-- <if test="start != 0">
+			LIMIT #{pkageDTO.end} OFFSET #{pkageDTO.start}
+		</if> -->
 	</select>
 
 </mapper>

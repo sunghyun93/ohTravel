@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.ohTravel.review.domain.Review;
 import com.oracle.ohTravel.review.model.ReviewDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,6 @@ public class ReviewDAOImpl implements ReviewDAO {
 
 	@Override
 	public void updateReview(ReviewDTO reviewDTO) {
-		
 		session.update("updateReview", reviewDTO);
 	}
 	
@@ -32,4 +32,12 @@ public class ReviewDAOImpl implements ReviewDAO {
 	public int reviewCnt(String rv_real_id) throws Exception {
 		return session.selectOne("reviewCnt", rv_real_id);
 	}
+
+
+	@Override
+	public double selectAvgRating(ReviewDTO reviewDTO) {
+		return session.selectOne("selectAvgRating", reviewDTO);
+	}
+
+	
 }

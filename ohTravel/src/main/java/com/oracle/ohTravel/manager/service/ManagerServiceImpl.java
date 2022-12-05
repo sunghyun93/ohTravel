@@ -210,8 +210,8 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public List<ManagePackageDTO> getAttractionList() {
-		List<ManagePackageDTO> attractionList = dao.getAttractionList();
+	public List<ManagePackageDTO> getAttractionList(ManagePackageDTO pk) {
+		List<ManagePackageDTO> attractionList = dao.getAttractionList(pk);
 		return attractionList;
 	}
 
@@ -243,6 +243,24 @@ public class ManagerServiceImpl implements ManagerService {
 	public int updateAttraction(ManagePackageDTO pk) {
 		int result = dao.updateAttraction(pk);
 		return result;
+	}
+
+	@Override
+	public int deleteAttraction(ManagePackageDTO pk) {
+		int result = dao.deleteAttraction(pk);
+		return result;
+	}
+
+	@Override
+	public int insertPackage(ManagePackageDTO pk) {
+		int result = dao.insertPackage(pk);
+		return result;
+	}
+
+	@Override
+	public List<ManagePackageDTO> getPackageDetailOne(ManagePackageDTO pk) {
+		List<ManagePackageDTO> packageDetailOne = dao.getPackageDetailOne(pk);
+		return packageDetailOne;
 	}
 	
 	

@@ -8,7 +8,6 @@
 	    <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="manifest" href="site.webmanifest">
 		<link rel="shortcut icon" type="${pageContext.request.contextPath }/image/x-icon" href="${pageContext.request.contextPath }/assets/img/favicon.ico">
 
 		<!-- CSS here -->
@@ -38,7 +37,7 @@
 		
 		<!-- Jquery, Popper, Bootstrap -->
 		<script src="${pageContext.request.contextPath }/assets/js/vendor/jquery-1.12.4.min.js"></script>
-        <script src="${pageContext.request.contextPath }/assets/js/popper.min.js"></script>
+        <!-- <script src="${pageContext.request.contextPath }/assets/js/popper.min.js"></script>-->
         <script src="${pageContext.request.contextPath }/assets/js/bootstrap.min.js"></script>
 	    <!-- Jquery Mobile Menu -->
         <script src="${pageContext.request.contextPath }/assets/js/jquery.slicknav.min.js"></script>
@@ -49,7 +48,7 @@
 		<!-- One Page, Animated-HeadLin -->
         <script src="${pageContext.request.contextPath }/assets/js/wow.min.js"></script>
 		<script src="${pageContext.request.contextPath }/assets/js/animated.headline.js"></script>
-        <script src="${pageContext.request.contextPath }/assets/js/jquery.magnific-po/pup.js"></script>
+        <!-- <script src="${pageContext.request.contextPath }/assets/js/jquery.magnific-po/pup.js"></script>  -->
 
 		<!-- Scrollup, nice-select, sticky -->
         <script src="${pageContext.request.contextPath }/assets/js/jquery.scrollUp.min.js"></script>

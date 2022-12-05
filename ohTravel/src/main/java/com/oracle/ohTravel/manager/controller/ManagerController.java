@@ -167,17 +167,37 @@ public class ManagerController {
 	}
 	//상품관리 ->패키지 상세 보기
 	@RequestMapping(value = "managePackageDetail")
-	public String managePackageDetail(ManagePackageDTO pk, String currentPage, Model model) {
+	public String managePackageDetail(ManagePackageDTO pk,String pkage_id, String currentPage, Model model) {
 		List<ManagePackageDTO> packageDetail = service.getPackageDetail(pk);
+		model.addAttribute("pkage_id", pk.getPkage_id());
 		model.addAttribute("packageDetail", packageDetail);
 		model.addAttribute("currentPage", currentPage);
 		return "manager/managePackageDetail";
 	}
+	//상품관리 ->패키지 상세 추가하기 form으로 이동
+	@RequestMapping(value = "insertPackageForm")
+	public String insertPackageForm(ManagePackageDTO pk, Model model) {
+		model.addAttribute("pk", pk);
+		return "manager/insertPackageForm";
+	}
+	//상품관리 ->패키지 상세 추가하기
+	@PostMapping(value = "insertPackage")
+	public String insertPackage(ManagePackageDTO pk, Model model) {
+		System.out.println("meet ->"+pk.getPkage_dt_meetDate());
+		System.out.println("start ->"+pk.getPkage_dt_startDay());
+		System.out.println("end ->"+pk.getPkage_dt_endDay());
+		System.out.println("pkage_id->"+pk.getPkage_id());
+		int result = service.insertPackage(pk);
+		model.addAttribute("result", result);
+		return "redirect:managePackageDetail?pkage_id="+pk.getPkage_id();
+	}
+	
 	//상품관리 -> 패키지 한개 상세보기
 	@RequestMapping(value = "managePackageDetailOne")
-	public String managePackageDetailOne(ManagePackageDTO pk, Model model) {
-		
-		
+	public String managePackageDetailOne(ManagePackageDTO pk,String pkage_id, Model model) {
+		List<ManagePackageDTO> packageDetailOne = service.getPackageDetailOne(pk);
+		model.addAttribute("packageDetailOne", packageDetailOne);
+		model.addAttribute("pkage_id", pkage_id);
 		return "manager/managePackageDetailOne";
 	}
 	
@@ -185,10 +205,13 @@ public class ManagerController {
 	@RequestMapping(value = "manageAttraction")
 	public String manageAttraction(ManagePackageDTO pk,String currentPage, Model model) {
 		int total = service.totalAttraction();
+		System.out.println("total->"+total);
 		PagingManager page = new PagingManager(total, currentPage);
 		pk.setStart(page.getStart());
 		pk.setEnd(page.getEnd());
-		List<ManagePackageDTO> attractionList = service.getAttractionList();
+		List<ManagePackageDTO> attractionList = service.getAttractionList(pk);
+		System.out.println("size->"+attractionList.size());
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("attractionList",attractionList);
 		model.addAttribute("page", page);
 		return "manager/manageAttraction";
@@ -208,10 +231,53 @@ public class ManagerController {
 	}
 	//상품관리 ->패키지 관광지 수정
 	@PostMapping(value = "updateAttraction")
-	public String updateAttraction(ManagePackageDTO pk, Model model) {
+	public String updateAttraction(ManagePackageDTO pk,@RequestParam(value = "file1")MultipartFile file1, Model model, HttpServletRequest request) {
+		String path = request.getServletContext().getRealPath("/img/pkage/");
+		if(!file1.isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			String fileName= file1.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file1.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file1.transferTo(saveFile);
+				System.out.println("와?");
+				System.out.println("path->"+path);
+				System.out.println("uuid->"+uuid);
+				System.out.println("fileName->"+fileName);
+				pk.setAttr_Img_path("/img/pkage/"+uuFileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(file1.isEmpty()) {
+			System.out.println("file1 없어용~");
+			System.out.println("2"+pk.getAttr_id());
+			System.out.println("3"+pk.getAttr_Img_code());
+			pk.setAttr_Img_path(service.getAttractionDetail(pk).get(0).getAttr_Img_path());
+			System.out.println("empty attr_img_path"+pk.getAttr_Img_path());
+		}
+		
+		System.out.println("2"+pk.getAttr_id());
+		System.out.println("3"+pk.getAttr_Img_code());
 		int result = service.updateAttraction(pk);
-		model.addAttribute("result", result); 
-		return "manager/updateAttraction";
+		System.out.println("result->"+result);
+		model.addAttribute("updateAttractionMsg1", result);
+		return "forward:manageAttraction";
+	}
+	
+	@PostMapping(value = "deleteAttraction")
+	public String deleteAttraction(ManagePackageDTO pk, Model model) {
+		int result = service.deleteAttraction(pk);
+		model.addAttribute("deleteAttractionMsg1", result);
+		return "forward:manageAttraction";
 	}
 	
 	
@@ -258,7 +324,7 @@ public class ManagerController {
 		System.out.println("child->"+pk.getAttr_Img_path());
 		
 		int result = service.insertAttraction(pk);
-		model.addAttribute("insertTicketMsg1", result);
+		model.addAttribute("insertAttractionMsg1", result);
 		return "forward:manageAttraction";
 	}
 	
@@ -371,10 +437,11 @@ public class ManagerController {
 	
 	//상품관리 -> 입장권 수정하기
 	@PostMapping(value = "updateTicket")
-	public String updateTicket(ManageTicketDTO ticket,@RequestParam(value = "file1") MultipartFile file1,@RequestParam(value = "file2")MultipartFile file2, Model model) {
+	public String updateTicket(ManageTicketDTO ticket,@RequestParam(value = "file1") MultipartFile file1,@RequestParam(value = "file2")MultipartFile file2, Model model, HttpServletRequest request) {
 		System.out.println("file1.getOriginalFilename() ->"+file1.getOriginalFilename());
 		System.out.println("file2.getOriginalFilename() ->"+file2.getOriginalFilename());
-		String path = "C:\\Users\\zest_\\Desktop\\ohTravel\\ohTravel\\src\\main\\resources\\static\\img\\ticket";
+		String path = request.getServletContext().getRealPath("/img/ticket/");
+		//String path = "C:\\Users\\zest_\\Desktop\\ohTravel\\ohTravel\\src\\main\\resources\\static\\img\\ticket";
 		if(!file1.isEmpty()) {
 			System.out.println("file1 없어용~");
 			UUID uuid = UUID.randomUUID();
@@ -392,7 +459,7 @@ public class ManagerController {
 				System.out.println("path->"+path);
 				System.out.println("uuid->"+uuid);
 				System.out.println("fileName->"+fileName);
-				ticket.setTicket_rep_img_path("/img/ticket/"+fileName);
+				ticket.setTicket_rep_img_path("/img/ticket/"+uuFileName);
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -421,7 +488,7 @@ public class ManagerController {
 				System.out.println("path2->"+path);
 				System.out.println("uuid2->"+uuid);
 				System.out.println("fileName2->"+fileName);
-				ticket.setTicket_detail_img_path("/img/ticket/"+fileName);
+				ticket.setTicket_detail_img_path("/img/ticket/"+uuFileName);
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -239,8 +239,8 @@ public class ManagerDAOImpl implements ManagerDAO {
 	}
 
 	@Override
-	public List<ManagePackageDTO> getAttractionList() {
-		List<ManagePackageDTO> attractionList = session.selectList("getAttractionList");
+	public List<ManagePackageDTO> getAttractionList(ManagePackageDTO pk) {
+		List<ManagePackageDTO> attractionList = session.selectList("getAttractionList",pk);
 		return attractionList;
 	}
 
@@ -271,7 +271,26 @@ public class ManagerDAOImpl implements ManagerDAO {
 	@Override
 	public int updateAttraction(ManagePackageDTO pk) {
 		int result = session.update("updateAttraction", pk);
+		System.out.println("DAO result->"+result);
 		return result;
+	}
+
+	@Override
+	public int deleteAttraction(ManagePackageDTO pk) {
+		int result = session.delete("deleteAttraction", pk);
+		return result;
+	}
+
+	@Override
+	public int insertPackage(ManagePackageDTO pk) {
+		int result = session.insert("insertPackage", pk);
+		return result;
+	}
+
+	@Override
+	public List<ManagePackageDTO> getPackageDetailOne(ManagePackageDTO pk) {
+		List<ManagePackageDTO> packageDetailOne = session.selectList("getPackageDetailOne", pk);
+		return packageDetailOne;
 	}
 
 	

@@ -27,6 +27,7 @@
               	 <div class="row">
               	 
                     <!-- 상품에 따라 반복되어야할 부분 -->
+                    <c:forEach var="hotelList" items="${hotelList }" begin="0" end="3">
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
@@ -34,88 +35,22 @@
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
+                                    <span><i class="fas fa-star"></i><span>${hotelList.score }Superb</span> </span>
+                                    <h3><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
                                     <p class="dolor">$1870 <span>/ Per Person</span></p>
                                 </div>
                                 <div class="place-cap-bottom">
                                     <ul>
                                         <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
+                                        <li><i class="fas fa-map-marker-alt"></i>${hotelList.hotel_loc }</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+                   </c:forEach>
                     <!-- 상품에 따라 반복되어야할 부분 끝 -->
                     
-                    <c:forEach var="hotelList" items="${hotelList }">
-                    	<input type="hidden" value="${hotelList.hotel_kor }">
-                    
-                    </c:forEach>
-                    
-                    
-                    
-                    <div class="col-xl-3 col-lg-3 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath }/assets/img/service/services2.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath }/assets/img/service/services3.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="${pageContext.request.contextPath }/assets/img/service/services4.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     
                 </div> <!-- row class 끝 -->
