@@ -114,7 +114,8 @@
 				<input type="date" name="dates_start_end" value=""  id="dates_start_end" class="dates_start_end">
 			</div>
 		</div>
-		
+	
+	<c:forEach var="rooms" items="${roomList }">
 		<!-- 호텔이 가지고 있는 방 종류마다 반복될 folding box -->
 		<div class="room_type_more">
 			<div class="fluid-wrap">
@@ -136,7 +137,7 @@
 									<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">
 								</div>
 								<div class="r_name">
-									<h3>room 이름</h3>
+									<h3>${room.room_name }</h3>
 								</div>
 								<div class="r_option">
 									<h4>뭔가의 방 옵션정보</h4>
@@ -154,9 +155,8 @@
 			      </div> <!-- panel-group -->
 				</div> <!-- container-fluid -->
 			</div>
-		
 		</div> <!-- room_type_more 끝 -->
-					
+	</c:forEach>			
 					
 					<div class="ht_option">
 						<div class="add_opt">

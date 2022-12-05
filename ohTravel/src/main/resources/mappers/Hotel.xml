@@ -17,6 +17,12 @@
 		WHERE hotel_id = #{hotel_id}
 	</select>
 	
+	<select id="roomList" resultType="Room">
+		SELECT room_id, hotel_id, room_type, room_per, room_name
+		FROM room
+		WHERE hotel_id = #{hotel_id}	
+	</select>
+	
 <!-- <insert id="">
 		
 		<selectKey keyColumn="next_id" keyProperty="hotelID" order="BEFORE" res
