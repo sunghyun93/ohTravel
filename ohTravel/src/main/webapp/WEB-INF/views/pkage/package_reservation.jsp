@@ -124,6 +124,7 @@
                             </table>
                         </div><!-- tbl -->
 
+						
                         <!-- 인원정보 -->
                         <div class="text_wrap mid">
                             <strong class="tit">인원정보</strong>
@@ -159,7 +160,14 @@
                         <div class="text_wrap mid">
                             <strong class="tit">여행자 정보</strong>
                         </div>
-
+				<form id="reserveForm" name="reserveForm">
+					<input type="hidden" name="pkage_dt_id" value="${pkage_detailDTO.pkage_dt_id }"> <!-- 패키지 상세 ID -->
+					<input type="hidden" name="mem_id" value="${memberDTO.mem_id }"> <!-- 회원 아이디 -->
+					<input type="hidden" name="pkage_rv_Acnt" value="${pkgReserve.adultCnt }"> <!-- 성인 인원 -->
+					<input type="hidden" name="pkage_rv_Ccnt" value="${pkgReserve.childCnt }"> <!-- 아동 인원 -->
+					<input type="hidden" name="pkage_rv_tprice" value="${priceWithGd }"> <!-- 최종 가격 -->
+					<input type="hidden" name="coupon_id" value=""> <!-- 적용한 쿠폰 ID -->
+					<input type="hidden" name="mile" value="${mile }"> <!-- 적용할 마일리지 -->
                         <!-- 여행자 정보 부분 table -->
                         <div class="js_tabs type1 v-tabs alone">
                             <div class="panels personChk">
@@ -192,14 +200,19 @@
                                                         <th>성별</th>
                                                         <td>
                                                             <div class="genderDiv">
-                                                                <span class="genderDiv_radio">
+                                                                <%-- <span class="genderDiv_radio">
                                                                     <input type="radio" name="gender_0" id="gender1_0" class="inpt_radio" value="0">
                                                                     <label for="gender1_0">남성</label>
                                                                 </span>
                                                                 <span class="genderDiv_radio">
                                                                     <input type="radio" name="gender_0" id="gender2_0" class="inpt_radio" value="1">
                                                                     <label for="gender2_0">여성</label>
-                                                                </span>
+                                                                </span> --%>
+                                                                <select class="select_gender" name="gender">
+                                                               		<option value="">성별선택</option>
+                                                                	<option value="0">남자</option>
+                                                                	<option value="1">여자</option>
+                                                                </select>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -253,14 +266,19 @@
 	                                                        <th>성별</th>
 	                                                        <td>
 	                                                            <div class="genderDiv">
-	                                                                <span class="genderDiv_radio">
-	                                                                    <input type="radio" name="gender_1" id="gender1_1" class="inpt_radio" value="0">
-	                                                                    <label for="gender1_1">남성</label>
+	                                                                <%-- <span class="genderDiv_radio">
+	                                                                    <input type="radio" name="gender_${status.count }" id="gender1_${status.count }" class="inpt_radio" value="0">
+	                                                                    <label for="gender1_${status.count }">남성</label>
 	                                                                </span>
 	                                                                <span class="genderDiv_radio">
-	                                                                    <input type="radio" name="gender_1" id="gender2_1" class="inpt_radio" value="1">
-	                                                                    <label for="gender2_1">여성</label>
-	                                                                </span>
+	                                                                    <input type="radio" name="gender_${status.count+1 }" id="gender2_${status.count }" class="inpt_radio" value="1">
+	                                                                    <label for="gender2_${status.count }">여성</label>
+	                                                                </span> --%>
+	                                                                <select class="select_gender" name="gender">
+	                                                                	<option value="">성별선택</option>
+	                                                                	<option value="0">남자</option>
+	                                                                	<option value="1">여자</option>
+	                                                                </select>
 	                                                            </div>
 	                                                        </td>
 	                                                    </tr>
@@ -316,14 +334,19 @@
 	                                                        <th>성별</th>
 	                                                        <td>
 	                                                            <div class="genderDiv">
-	                                                                <span class="genderDiv_radio">
-	                                                                    <input type="radio" name="gender_1" id="gender1_1" class="inpt_radio" value="0">
-	                                                                    <label for="gender1_1">남성</label>
+	                                                                <%-- <span class="genderDiv_radio">
+	                                                                    <input type="radio" name="gender_${status.count }" id="Cgender1_${status.count }" class="inpt_radio" value="0">
+	                                                                    <label for="gender1_${status.count }">남성</label>
 	                                                                </span>
 	                                                                <span class="genderDiv_radio">
-	                                                                    <input type="radio" name="gender_1" id="gender2_1" class="inpt_radio" value="1">
-	                                                                    <label for="gender2_1">여성</label>
-	                                                                </span>
+	                                                                    <input type="radio" name="gender_${status.count }" id="Cgender2_${status.count }" class="inpt_radio" value="1">
+	                                                                    <label for="gender2_${status.count }">여성</label>
+	                                                                </span> --%>
+	                                                                <select class="select_gender" name="gender">
+	                                                                	<option value="">성별선택</option>
+	                                                                	<option value="0">남자</option>
+	                                                                	<option value="1">여자</option>
+	                                                                </select>
 	                                                            </div>
 	                                                        </td>
 	                                                    </tr>
@@ -343,7 +366,8 @@
                                 </div><!-- tabConTrvlP -->
                             </div><!-- panels -->
                         </div><!-- js_tabs type1 v-tabs alone, 여행자 정보 부분 table  -->
-
+					</form> <!-- reserve 폼 -->
+					
                         <!-- 예약 시 유의사항 -->
                         <div class="notice_wrap bg">
                             <strong class="tit line">예약 시 유의사항</strong>
@@ -391,20 +415,32 @@
                                         <span>성인 ${pkgReserve.adultCnt }</span>
                                         <span class="divider_dot">아동 ${pkgReserve.childCnt }</span>
                                     </div>
-
-                                    <strong class="price"><fmt:formatNumber value="${pkgReserve.totalPay }" pattern="#,###"/><span>원</span></strong>
+                                    <%-- 처음엔 회원 등급을 뺀 가격 ( 쿠폰 적용 X 인 가격 ) --%>
+                                    <strong class="price" data-realPrice="${priceWithGd }"><fmt:formatNumber value="${priceWithGd }" pattern="#,###"/><span>원</span></strong>
                                     <div class="mileage_save">
                                     	<p>OhTravel 마일리지 
                                     		<em class="mileage">
-                                    			<fmt:formatNumber value="${pkgReserve.totalPay*0.005 }" pattern="#,###"/>
+                                    			<fmt:formatNumber value="${mile }" pattern="#,###"/>
                                     		</em> 
                                    		적립예정</p>
                                     </div>
                                 </div>
 
                                 <div class="info_area">
+                                	<p class="mem_grade">회원등급에 따른 할인가격 : <fmt:formatNumber value="${pkgReserve.totalPay*memberDTO.membership_discount/100 }" pattern="#,###"/><span>원</span></p>
+                                	<p class="mem_coupon">쿠폰 적용에 따른 할인가격 : <span class="cp_discount"></span><span>원</span></p>
                                 </div>
                             </div>
+                        </div>
+                        
+                        <div class="coupon_list">
+                        	<div class="cp_name">쿠폰</div> 
+                        	<select id="cp_list" name="cp_list"> <!--  onchange="changeSelectCp()" -->
+                        		<option value="">${memberDTO.couponList[0] == null ? '쿠폰 없음' : '쿠폰 적용' }</option>
+                        		<c:forEach var="coupon" items="${memberDTO.couponList }">
+                        			<option value="${coupon.coupon_discount }" data-cpId="${coupon.coupon_id }">${coupon.coupon_name }</option>
+                        		</c:forEach>
+                        	</select>
                         </div>
                     </div><!-- inr right -->
                 </div><!-- ly_wrap pay_info -->
@@ -597,9 +633,36 @@
                 } // keyup: function(e)
             }); // $('.input_keyword').on()
 
-            // 성별 체크란 선택 시 만약 error 메세지 있으면 없애는 부분
-            $('.inpt_radio').on('click', function() {
-                $(this).parents('.genderDiv').siblings().remove();
+            // 성별 select란 선택 시 만약 error 메세지 있으면 없애는 부분
+            $('.select_gender').on('change', function() {
+            	if($(this).val() != '') {
+                	$(this).parents('.genderDiv').siblings().remove();
+            	}
+            })
+            
+            /* 처음 회원 등급이 적용된 가격 */
+            let lastPrice = Number('${priceWithGd }');
+            
+            /* 쿠폰 select 박스 선택 시 */
+            $('#cp_list').on('change', function() {
+            	console.log($(this).val());
+            	/* 쿠폰 할인 가격 표시 쪽에 쿠폰에 따른 할인 가격 넣어주기 */
+            	$('.cp_discount').text('');
+            	let selectCpPrice = Number($(this).val())
+            	$('.cp_discount').text(selectCpPrice.toLocaleString('ko-KR'));
+            	
+            	$('.price').text('');
+            	
+            	// 진짜 들고갈 가격 넣어주기
+            	let realPrice = lastPrice - selectCpPrice;
+            	// , 콤마 붙인 가격
+            	let realPriceToLocale = realPrice.toLocaleString('ko-KR');
+            	$('.price').html(realPriceToLocale+'<span>원</span>');
+
+            	// hidden 태그에 쿠폰 적용 시의 값 및 넣은 쿠폰의 id 넣어주기
+            	$('.price').attr('data-realPrice', realPrice);
+            	$('input[name="pkage_rv_tprice"]').val(realPrice);
+            	$('input[name="coupon_id"]').val($(this).find('option:selected').attr("data-cpid"));
             })
 
             // 다음 단계 버튼 클릭 시
@@ -629,20 +692,22 @@
 
                 // 성별 input 태그를 품고 있는 div
                 $('.genderDiv').each(function(index, item) {
-                    // 각 div 에서 성별 input 찾아 다시 반복
-                    $(item).find('.inpt_radio').each(function(index, item2){
-                        // 성별 체크된 것이 있으면 +1
-                        if($(item2).is(':checked')) {
+                    // 각 div 에서 성별 select을 찾아 다시 반복
+                    $(item).find('.select_gender').each(function(index, item2){
+                        // 성별이 selected된 것이 있으면 0 또는 1(남자 또는 여자)면 genIpCnt 증가
+                        if($(item2).find('option:selected').val() == "0" || $(item2).find('option:selected').val() == "1") {
                             genIpCnt++;
+                        	console.log(genIpCnt);
                         }
                     });
 
                     // 체크된 것이 하나도 없으면 에러 메세지 추가 있으면 에러메세지 삭제
                     if(genIpCnt != 1) {
                         if($(item).siblings().length == 0) {
-                            $(item).after('<p class="error_message">성별을 선택해주세요.</p>'); 
+                            /* $(item).after('<p class="error_message">성별을 선택해주세요.</p>');  */
+                            alert("성별을 선택해주세요.");
                         } 
-                        $(item).find('.inpt_radio').focus();
+                        $(item).find('.select_gender').focus();
                         lastCheck = false;
                         genIpCnt=0; // 다른 div 쪽 검사하기 위한 초기화
                         return false;
@@ -653,8 +718,14 @@
                 });
 
                 console.log(lastCheck+"?");
+                
+                if(lastCheck) {
+                	// 진짜 들고갈 가격 넣어주기 (쿠폰 까지 적용 된 가격 / 쿠폰이 적용 되지 않으면 서버에서 들고온 가격)
+                    alert($('.price').attr('data-realPrice'));
+                }
             });
         }); // $(function() {});
+
     </script>
 </body>
 </html>

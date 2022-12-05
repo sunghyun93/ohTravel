@@ -16,14 +16,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
 import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.country.service.CountryService;
+import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
+import com.oracle.ohTravel.member.service.MemberService;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
@@ -44,6 +45,8 @@ public class PkageController {
 	private CountryService countryService;
 	@Autowired
 	private PkageService pkageService;
+	@Autowired
+	private MemberService memberService;
 	
 	// 국내 / 해외 패키지 상품 가져오는 메서드
 	// 국내/해외 search 페이지(0:국내 1:해외)
@@ -198,6 +201,8 @@ public class PkageController {
 			return "redirect:/member/loginForm";
 		}
 		
+		String mem_id = memberDTO.getMem_id();
+		
 		try {
 			// 패키지 가져오기(항공편의 도착 때문에 가져옴)
 			PkageDTORM pkageDTORM = pkageService.selectPkgByPkgId(pkgReserve.getPkage_id());
@@ -210,13 +215,29 @@ public class PkageController {
 			// 총 가격 만들어주기
 			pkgReserve.makeTotalPay(pkage_detailDTO.getPkage_dt_Aprice(), pkage_detailDTO.getPkage_dt_Cprice());
 			
+			// 멤버 (등급 까지 들고가기)
+			memberDTO = memberService.selectMemberWithGrade(mem_id);
+			
+			List<CouponDTO> couponList = memberService.selectMemberWithCoupon(mem_id);
+			log.info("couponList = " + couponList);
+			memberDTO.setCouponList(couponList);
+			
+			// 회원 등급 적용한 가격 가져가기
+			int priceWithGd = pkgReserve.getTotalPay() - (pkgReserve.getTotalPay()*memberDTO.getMembership_discount() / 100); 
+			log.info("priceWithGd = " + priceWithGd);
+			
+			// 회원 등급 적용한 마일리지 가져가기
+			int mile = pkgReserve.getTotalPay() * memberDTO.getMembership_discount() / 100;
+			
+			model.addAttribute("mile", mile);
+			model.addAttribute("priceWithGd", priceWithGd);
 			model.addAttribute("pkageDTORM", pkageDTORM);
 			model.addAttribute("pkage_detailDTO", pkage_detailDTO);
+			model.addAttribute("memberDTO", memberDTO);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		model.addAttribute("memberDTO", memberDTO);
 		model.addAttribute("pkgReserve", pkgReserve);
 		log.info("PkageController reservation() end...");
 		return "pkage/package_reservation";

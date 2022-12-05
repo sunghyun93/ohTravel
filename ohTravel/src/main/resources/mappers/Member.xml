@@ -53,4 +53,46 @@
 		SELECT * FROM package_reservation WHERE mem_id = #{mem_id}
 	</select>
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 회원 등급까지 가져오는 sql -->
+	<select id="selectMemberWithGrade" parameterType="string" resultType="memberDTO">
+		select 
+		m.*, 
+		m_ms.membership_id, m_ms.mem_mile,
+		ms.membership_name, ms.membership_discount 
+		from member m
+		join mem_membership m_ms on m.mem_id = m_ms.mem_id
+		join membership ms on m_ms.membership_id = ms.membership_id
+		where m.mem_id = #{mem_id};
+	</select>
+	
+	<!-- 회원이 가지고 있는 쿠폰 가져오기 sql - 사용 기한(coupon_limit_date) 가 지나지 않은 것만 -->
+	<select id="selectMemberWithCoupon" parameterType="string" resultType="Coupon">
+		select 
+		m.mem_id, 
+		mc.coupon_id, mc.coupon_down, mc.coupon_use, mc.coupon_limit_date,
+		c.coupon_name, c.coupon_discount
+		from member m
+		join mem_coupon mc on m.mem_id = mc.mem_id
+		join coupon c on mc.coupon_id = c.coupon_id
+		where mc.mem_id = #{mem_id} and  mc.coupon_use = 0 and mc.coupon_limit_date >= now()
+	</select>
 </mapper>

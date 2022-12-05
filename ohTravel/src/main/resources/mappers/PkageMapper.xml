@@ -328,7 +328,7 @@
 					And (pd.pkage_dt_Aprice >= ${pkgSearch.minAmt})
 				]]>
 				</when>
-				<when test='pkgSearch.amtGubun.equals("3")'>
+				<when test='amtGubun.equals("3")'>
 				<![CDATA[ 
 					And (pd.pkage_dt_Aprice between ${pkgSearch.minAmt} and ${pkgSearch.maxAmt})
 				]]>
@@ -348,18 +348,18 @@
 				</when>
 			</choose>
 		</if>
-		<choose>
+		<choose><!-- 각 정렬에 맞게 먼저 정렬되고, 같은 것이 있다면 더 많이 팔린것 순으로 정렬 -->
 			<when test="order == 1">
 				order by pkage_soldCnt desc
 			</when>
 			<when test="order == 2">
-				order by pkage_score desc
+				order by pkage_score desc, pkage_soldCnt desc
 			</when>
 			<when test="order == 3">
-				order by pkage_dt_Aprice desc
+				order by pkage_dt_Aprice desc, pkage_soldCnt desc
 			</when>
 			<when test="order == 4">
-				order by pkage_dt_Aprice asc
+				order by pkage_dt_Aprice asc, pkage_soldCnt desc
 			</when>
 			<otherwise>
 				order by pkage_soldCnt desc
