@@ -35,7 +35,7 @@
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>${hotelList.score }Superb</span> </span>
+                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score }Superb</span> </span>
                                     <h3><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
                                     <p class="dolor">$1870 <span>/ Per Person</span></p>
                                 </div>
