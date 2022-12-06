@@ -132,10 +132,9 @@
 			</div>
 		</div>
 	
-	<c:forEach var="rooms" items="${roomList }">
-		<!-- 호텔이 가지고 있는 방 종류마다 반복될 folding box -->
+	
 	<div id="roomAllInfo">
-		<div class="room_type_more">
+		<%-- <div class="room_type_more">
 			<div class="fluid-wrap">
 			 <div class="container-fluid" >
 			 	<!-- style="min-height: calc(100vh - 136px);" -->
@@ -173,9 +172,8 @@
 			      </div> <!-- panel-group -->
 				</div> <!-- container-fluid -->
 			</div>
-		</div> <!-- room_type_more 끝 -->
+		</div> <!-- room_type_more 끝 --> --%>
 	</div>
-	</c:forEach>			
 					
 					<div class="ht_option">
 						<div class="add_opt">
@@ -261,6 +259,18 @@
 			  </div>
 			</div> <!-- 리뷰 모달 끝 -->
 					
+<%-- 		<c:set var="type" value="" ></c:set>
+               <c:forEach items="${roomList}" var="item"> 
+                  <c:if test="${type ne  item.room_type}">
+                     <c:set var="type" value="${item.room_type }" ></c:set>
+                     <div>
+                        ${room_type }
+                     </div>
+                  </c:if>
+               </c:forEach> --%>
+
+
+
 
 <script type="text/javascript">
 
@@ -605,6 +615,7 @@ function makeRoomList(data) {
 	` */
 	
 			$('#roomAllInfo').append(innerHtml);
+	
 	
 	}
 	
