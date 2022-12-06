@@ -442,6 +442,42 @@
 		where pd.pkage_dt_id = ${pkage_dt_id}
 	</select>
 	
+	<!-- package_reservation insert 문 -->
+	<insert id="insertPkgReserve" parameterType="Pkage_rsDTO">
+		INSERT INTO package_reservation
+		(pkage_dt_id, mem_id, pkage_rv_Acnt, pkage_rv_Ccnt,
+		pkage_rv_tprice, pkage_rv_date, pkage_rv_status)
+		VALUES
+		(#{pkage_dt_id}, #{mem_id}, #{pkage_rv_Acnt}, #{pkage_rv_Ccnt},
+		#{pkage_rv_tprice}, now(), 1)
+	</insert>
+	
+	<!-- 어떤 사용자가 예약을 했을 경우 바로 생긴 pkage_rv_id 가져오기 -->
+	<select id="selectPkgRvIdByMemId" parameterType="map" resultType="int">
+		select max(pkage_rv_id) pkage_rv_id
+		from package_reservation
+		where mem_id = #{mem_id}
+	</select>
+	
+	<!-- package_reservation_pi 다중 insert 문 -->
+	<insert id="insertPkgReservePies" parameterType="map">
+		INSERT INTO package_reservation_pi
+		(pkage_rv_id, pkage_pi_name, pkage_pi_birth, pkage_pi_gen,
+		 pkage_pi_lname, pkage_pi_fname, pkage_pi_tel, pkage_pi_email)
+		VALUES
+		<foreach collection="pkage_rs_piDTOList" item="item" separator=",">
+			(#{item.pkage_rv_id}, #{item.pkage_pi_name}, #{item.pkage_pi_birth}, #{item.pkage_pi_gen},
+			#{item.pkage_pi_lname}, #{item.pkage_pi_fname}, #{item.pkage_pi_tel}, #{item.pkage_pi_email})
+		</foreach>
+	</insert>
+	
+	<!-- package 판매 update 문 -->
+	<update id="updatePkgSoldCnt" parameterType="string">
+		update package 
+		set pkage_soldCnt = pkage_soldCnt + 1 
+		where pkage_id = #{pkage_id};
+	</update>
+	
 <!--  sql 태그들  -->
 	<!-- 평점을 위한 sql -->
 	<sql id="selectPkgColumn">

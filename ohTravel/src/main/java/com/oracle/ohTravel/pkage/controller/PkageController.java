@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oracle.ohTravel.city.model.CityDTO;
@@ -29,7 +30,9 @@ import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 import com.oracle.ohTravel.pkage.model.Pkage_flightScheDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_rsDTO;
 import com.oracle.ohTravel.pkage.model.PkgReserve;
+import com.oracle.ohTravel.pkage.model.PkgReserveEle;
 import com.oracle.ohTravel.pkage.model.PkgSearch;
 import com.oracle.ohTravel.pkage.service.PkageService;
 
@@ -241,6 +244,48 @@ public class PkageController {
 		model.addAttribute("pkgReserve", pkgReserve);
 		log.info("PkageController reservation() end...");
 		return "pkage/package_reservation";
+	}
+	
+	@PostMapping("/reserve")
+	public String reserve(PkgReserveEle pkgReserveEle,  Model model, HttpSession session) {
+		log.info("PkageController reserve() start...");
+		log.info("pkgReserveEle = " + pkgReserveEle);
+		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		
+		// 로그인 안되어 있으면 redirect
+		if(memberDTO == null) {
+			return "redirect:/member/loginForm";
+		}
+		
+		try {
+			String mem_id = memberDTO.getMem_id();
+			
+			// Map 만들어 주기
+			Map<String, Object> map = new HashMap<>();
+			map.put("mem_id", mem_id);
+			map.put("pkgReserveEle", pkgReserveEle);
+			
+			// Pkage_rsDTO 만들기
+			Pkage_rsDTO pkage_rsDTO = new Pkage_rsDTO();
+			pkage_rsDTO.setPkage_dt_id(pkgReserveEle.getPkage_dt_id());
+			pkage_rsDTO.setMem_id(mem_id);
+			pkage_rsDTO.setPkage_rv_Acnt(pkgReserveEle.getPkage_rv_Acnt());
+			pkage_rsDTO.setPkage_rv_Ccnt(pkgReserveEle.getPkage_rv_Ccnt());
+			pkage_rsDTO.setPkage_rv_tprice(pkgReserveEle.getPkage_rv_tprice());
+			map.put("pkage_rsDTO", pkage_rsDTO);
+			
+			// insert 결과 받기		
+			int rowCnt = pkageService.insertPkgReserveInsertWithAll(map);
+			log.info("rowCnt = " + rowCnt);
+			
+			model.addAttribute("rowCnt", rowCnt);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		log.info("PkageController reserve() end...");
+		return "pkage/package_completeReserve";
 	}
 	
 	// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수(전체 상품 디테일들 중 최소 기간과 최대기간) 구하기

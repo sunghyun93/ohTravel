@@ -161,13 +161,13 @@
                             <strong class="tit">여행자 정보</strong>
                         </div>
 				<form id="reserveForm" name="reserveForm">
+					<input type="hidden" name="pkage_id" value="${pkageDTORM.pkage_id }"> <!-- 패키지 ID - 판매 개수 올리는 용도 -->
 					<input type="hidden" name="pkage_dt_id" value="${pkage_detailDTO.pkage_dt_id }"> <!-- 패키지 상세 ID -->
-					<input type="hidden" name="mem_id" value="${memberDTO.mem_id }"> <!-- 회원 아이디 -->
 					<input type="hidden" name="pkage_rv_Acnt" value="${pkgReserve.adultCnt }"> <!-- 성인 인원 -->
 					<input type="hidden" name="pkage_rv_Ccnt" value="${pkgReserve.childCnt }"> <!-- 아동 인원 -->
 					<input type="hidden" name="pkage_rv_tprice" value="${priceWithGd }"> <!-- 최종 가격 -->
-					<input type="hidden" name="coupon_id" value=""> <!-- 적용한 쿠폰 ID -->
-					<input type="hidden" name="mile" value="${mile }"> <!-- 적용할 마일리지 -->
+					<input type="hidden" name="coupon_id" value=""> <!-- 적용한 쿠폰 ID - 쿠폰 사용 시 사용여부 변경을 위함 -->
+					<input type="hidden" name="mile" value="${mile }"> <!-- 적용할 마일리지 - 회원에게 마일리지 적용 -->
                         <!-- 여행자 정보 부분 table -->
                         <div class="js_tabs type1 v-tabs alone">
                             <div class="panels personChk">
@@ -208,7 +208,7 @@
                                                                     <input type="radio" name="gender_0" id="gender2_0" class="inpt_radio" value="1">
                                                                     <label for="gender2_0">여성</label>
                                                                 </span> --%>
-                                                                <select class="select_gender" name="gender">
+                                                                <select class="select_gender" name="pkage_pi_gen">
                                                                		<option value="">성별선택</option>
                                                                 	<option value="0">남자</option>
                                                                 	<option value="1">여자</option>
@@ -274,7 +274,7 @@
 	                                                                    <input type="radio" name="gender_${status.count+1 }" id="gender2_${status.count }" class="inpt_radio" value="1">
 	                                                                    <label for="gender2_${status.count }">여성</label>
 	                                                                </span> --%>
-	                                                                <select class="select_gender" name="gender">
+	                                                                <select class="select_gender" name="pkage_pi_gen">
 	                                                                	<option value="">성별선택</option>
 	                                                                	<option value="0">남자</option>
 	                                                                	<option value="1">여자</option>
@@ -307,6 +307,7 @@
                                         
                                         <%-- 아동 예약자들 --%> 
 										<c:forEach begin="1" end="${pkgReserve.childCnt }" varStatus="status">
+											
 	                                        <div class="tbl">
 	                                            <div class="text_wrap type sml"> <%-- 아동 2부터 시작해야함 --%>
 	                                                <strong class="tit">아동 ${status.count }</strong>
@@ -342,7 +343,7 @@
 	                                                                    <input type="radio" name="gender_${status.count }" id="Cgender2_${status.count }" class="inpt_radio" value="1">
 	                                                                    <label for="gender2_${status.count }">여성</label>
 	                                                                </span> --%>
-	                                                                <select class="select_gender" name="gender">
+	                                                                <select class="select_gender" name="pkage_pi_gen">
 	                                                                	<option value="">성별선택</option>
 	                                                                	<option value="0">남자</option>
 	                                                                	<option value="1">여자</option>
@@ -357,9 +358,15 @@
 	                                                        <td>
 	                                                            <input type="text" id="" class="input_keyword" name="pkage_pi_fname" value="" maxlength="30" minlength="3" placeholder="여권 상의 영문 이름(ex. GILDONG)" style="width: 250px;">
 	                                                        </td>
+	                                                    </tr>  
+	                                                    <tr>
+                          		                                
 	                                                    </tr>
 	                                                </tbody>
 	                                            </table>
+	                                           	<%-- 아동들의 휴대폰번호와 이메일은 기본 값 0으로 구별하여 DB로는 들고가지 않을 것 --%>
+												<input type="hidden" id="" class="" name="pkage_pi_email" value="0">
+                                             	<input type="hidden" id="" class="" name="pkage_pi_tel" value="0">
 	                                        </div><!-- tbl -->
                                         </c:forEach>
                                     </div>
@@ -719,9 +726,15 @@
 
                 console.log(lastCheck+"?");
                 
+                
+                // 유효성 검사 등을 모두 통과 한 뒤  예약 ㄱㄱ (결제가 들어가야됨)
                 if(lastCheck) {
                 	// 진짜 들고갈 가격 넣어주기 (쿠폰 까지 적용 된 가격 / 쿠폰이 적용 되지 않으면 서버에서 들고온 가격)
-                    alert($('.price').attr('data-realPrice'));
+                   	console.log($('.price').attr('data-realPrice'));
+                	
+                	$('#reserveForm').attr('method', 'post');
+                	$('#reserveForm').attr('action', '/pkage/reserve');
+                	$('#reserveForm').submit();
                 }
             });
         }); // $(function() {});
