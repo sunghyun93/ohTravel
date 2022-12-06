@@ -80,15 +80,15 @@
 								        </tr>
 								        <tr>
 								            <th>휴대폰번호</th>
-								            <td><input type="text" id="mem_tel" name="mem_tel" placeholder="휴대폰번호" style="width:500px;"></td>
+								            <td><input type="text" id="mem_tel" name="mem_tel" placeholder="휴대폰번호" style="width:500px;" value="${sessionTel}"></td>
 								        </tr>
 								        <tr>
 								            <th>이메일</th>
-								            <td><input type="text" id="mem_email" name="mem_email" placeholder="이메일" style="width:500px;"></td>
+								            <td><input type="text" id="mem_email" name="mem_email" placeholder="이메일" style="width:500px;" value="${sessionEmail }"></td>
 								        </tr>
 								        <tr>
 								            <th>생년월일</th>
-								            <td><input type="text" id="mem_birthday" name="mem_birthday" placeholder="생년월일" style="width:500px;"></td>
+								            <td><input type="text" id="mem_birthday" name="mem_birthday" placeholder="생년월일" style="width:500px;" value="${sessionBirthday }"></td>
 								        </tr>
 								        <!-- 필요 시 컬럼 추가 해주세용 -->
 								    </tbody>

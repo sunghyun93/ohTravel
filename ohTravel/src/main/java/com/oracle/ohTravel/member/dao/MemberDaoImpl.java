@@ -106,5 +106,15 @@ public class MemberDaoImpl implements MemberDao {
 		
 		return result;
 	}
+
+	// 비밀번호 변경
+	@Override
+	public int updatePassword(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl updatePassword start..");
+		
+		int result = sqlSession.update("updatePassword", memberDTO);
+		
+		return result;
+	}
 	
 }

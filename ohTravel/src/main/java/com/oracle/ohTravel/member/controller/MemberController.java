@@ -1,5 +1,7 @@
 package com.oracle.ohTravel.member.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +42,7 @@ public class MemberController {
 	
 	// 로그인
 	@PostMapping("/login")
-	public String login(MemberDTO memberDTO, HttpServletRequest request) {
+	public String login(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) {
 		log.info("MemberController login Start..");
 		
 		HttpSession session = request.getSession();
@@ -52,19 +54,32 @@ public class MemberController {
 			String sessionId = member.getMem_id();
 			String sessionName = member.getMem_name();
 			String sessionEmail = member.getMem_email();
+			String sessionTel = member.getMem_tel();
+			Date sessionBirth = (Date) member.getMem_birthday();
+			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+			String sessionBirthday = simpleDateFormat.format(sessionBirth); 
+			
 			
 			session.setAttribute("sessionId", sessionId);
 			session.setAttribute("sessionName", sessionName);
 			session.setAttribute("sessionEmail", sessionEmail);
+			session.setAttribute("sessionTel", sessionTel);
+			session.setAttribute("sessionBirthday", sessionBirthday);
 			
 			System.out.println("MemberController login sessionId -> " + sessionId);
 			System.out.println("MemberController login sessionName -> " + sessionName);
 			System.out.println("MemberController login sessionEmail -> " + sessionEmail);
+			System.out.println("MemberController login sessionTel -> " + sessionTel);
+			System.out.println("MemberController login sessionBirthday -> " + sessionBirthday);
 			return "redirect:/";
 		} else {
 			session.setAttribute("member", null);
-			return "redirect:/member/login";
+			rttr.addFlashAttribute("msg", false);
+			System.out.println("MemberController login msg -> " + rttr.getAttribute("msg"));
+			return "redirect:/member/loginForm";
 		}
+		
 		
 	}
 	
@@ -89,8 +104,11 @@ public class MemberController {
 	public ModelAndView register(MemberDTO memberDTO) {
 		log.info("MemberController register Start... ");
 		ModelAndView mav = new ModelAndView();
+		
+		// 회원가입 서비스 실행
 		memberService.register(memberDTO);
-		mav.setViewName("redirect:/member/loginForm");
+		mav.setViewName("redirect:/member/loginForm"); 
+		
 		return mav;
 	}
 	
@@ -108,7 +126,11 @@ public class MemberController {
 	
 	// 마이페이지 메인  페이지 이동
 	@GetMapping(value = "/myPageMain")
-	public String goMyPageMain() {
+	public String goMyPageMain(HttpSession session) {
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		return "member/myPageMain";
 	}
 	
@@ -300,7 +322,38 @@ public class MemberController {
 		return "member/modifyPassword";
 	}
 	
+	
+	
 	// 비밀번호 변경
+	@PostMapping(value = "/updatePassword")
+	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) {
+		log.info("MemberController updatePassword start..");
+		
+		HttpSession session = request.getSession();
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		
+		// session에 저장된 로그인된 아이디의 비밀번호
+		String sessionPw = member.getMem_password();
+		System.out.println("MemberController updatePassword sessionPw -> "  + sessionPw);
+		
+		
+		// 비밀번호 확인을 위해 새로 입력한 비밀번호
+		String testPw = memberDTO.getMem_password();
+		System.out.println("MemberController updatePassword testPw -> " + testPw);
+		
+		String newPw = null;
+		
+		if(!(sessionPw.equals(testPw))) {
+			rttr.addFlashAttribute("msg", false);
+			return "redirect:/member/updatePassword";
+		} else {
+			member.setMem_password(testPw);
+			memberService.updatePassword(member);
+			session.invalidate();
+			System.out.println("MemberController updatePassword after..");
+			return "redirect:/";
+		}
+	}
 	
 	// 회원 탈퇴 페이지 이동
 	@GetMapping(value = "/deleteMember")
