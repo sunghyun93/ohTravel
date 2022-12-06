@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
+import com.oracle.ohTravel.hotel.model.RoomDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,11 @@ public class HotelDAOImpl implements HotelDAO {
 	@Override
 	public HotelDTO getHotelDetail(HotelDTO hotelDTO) {
 		return session.selectOne("hotelDetail",hotelDTO);
+	}
+
+	@Override
+	public List<RoomDTO> getRoomList(RoomDTO roomDTO) {
+		return session.selectList("roomList",roomDTO);
 	}
 	
 	

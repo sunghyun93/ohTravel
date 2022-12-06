@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,33 +86,36 @@
 						<div class="text_wrap mid">
 							<strong class="tit">가입정보</strong>
 						</div>	<!-- text_wrap -->
-						<div class="tbl">
-							<table class="type2">
-							    <colgroup>
-							        <col style="width: 17%;" />
-							        <col />
-							    </colgroup>
-							    <tbody>
-							        <tr>
-							            <th>이름</th>
-							            <td>이름</td>
-							        </tr>
-							        <tr>
-							            <th>아이디</th>
-							            <td>아이디</td>
-							        </tr>
-							        <tr>
-							            <th>비밀번호</th>
-							            <td><input type="text" placeholder="비밀번호를 입력해주세요" style="width:500px;"></td>
-							        </tr>
-							        <!-- 필요 시 컬럼 추가 해주세용 -->
-							    </tbody>
-							</table>
-						</div>	<!-- tbl -->
-						<div class="btn_wrap">
-  							<a href="${pageContext.request.contextPath}/member/myPageMain" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
-  							<a href="#" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">회원탈퇴</a>
-  						</div>
+						<form name="deleteMember" method="post" action="deleteMember">
+							<div class="tbl">
+								<table class="type2">
+								    <colgroup>
+								        <col style="width: 17%;" />
+								        <col />
+								    </colgroup>
+								    <tbody>
+								        <tr>
+								            <th>아이디</th>
+								            <td>${sessionId}</td>
+								        </tr>
+								        <tr>
+								            <th>비밀번호</th>
+								            <td><input type="password" id="mem_password" name="mem_password" placeholder="비밀번호를 입력해주세요" style="width:500px;"></td>
+								        </tr>
+								        <!-- 필요 시 컬럼 추가 해주세용 -->
+								    </tbody>
+								</table>
+							</div>	<!-- tbl -->
+							<div class="btn_wrap">
+	  							<a href="${pageContext.request.contextPath}/member/myPageMain" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
+	  							<button type="submit" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">회원탈퇴</button>
+	  						</div>
+						</form>
+						<div>
+							<c:if test="${msg == false}">
+								비밀번호가 맞지 않습니다.
+							</c:if>
+						</div>
 					</div>	<!-- inr -->
 				</div>	<!-- ly_wrap pay_info -->
 			</div>

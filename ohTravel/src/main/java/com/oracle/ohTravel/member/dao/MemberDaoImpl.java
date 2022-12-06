@@ -86,6 +86,36 @@ public class MemberDaoImpl implements MemberDao {
 		System.out.println("MemberDaoImpl myPageReservPackage packageReservList.size() -> " + packageReservList.size());
 		return packageReservList;
 	}
+
+	// 회원 탈퇴
+	@Override
+	public int deleteMember(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl deleteMember start..");
+		int result = sqlSession.delete("deleteMember", memberDTO);
+		System.out.println("MemberDaoImpl deleteMember memberDTO.getMem_id() -> " + memberDTO.getMem_id());
+		
+		return result;
+	}
+
+	// 개인 정보 수정
+	@Override
+	public int updateMember(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl updateMember start..");
+		
+		int result = sqlSession.update("updateMember", memberDTO);
+		
+		return result;
+	}
+
+	// 비밀번호 변경
+	@Override
+	public int updatePassword(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl updatePassword start..");
+		
+		int result = sqlSession.update("updatePassword", memberDTO);
+		
+		return result;
+	}
 	
 	
 	

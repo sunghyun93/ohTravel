@@ -4,16 +4,16 @@
 
 <mapper namespace="com.oracle.ohTravel.Member">
 	<!-- 로그인 -->
-	<select id="login" parameterType="memberDTO" resultType="memberDTO">
+	<select id="login" parameterType="MemberDTO" resultType="MemberDTO">
 		SELECT *
-		FROM MEMBER
+		FROM member
 		WHERE mem_id = #{mem_id}
 		AND mem_password = #{mem_password}
 	</select>
 	
 	<!-- 회원가입 -->
-	<insert id="register" parameterType="memberDTO">
-		INSERT INTO MEMBER (
+	<insert id="register" parameterType="MemberDTO">
+		INSERT INTO member (
 							mem_id,
 							mem_name,
 							mem_password,
@@ -30,8 +30,39 @@
 							#{mem_tel},
 							#{mem_birthday},
 							now(),
-							#{mem_role}	)
+							#{mem_role}	);
+		INSERT INTO mem_membership (
+									mem_id,
+									membership_id,
+									mem_mile	)
+							VALUES (
+									#{mem_id},
+									#{membership_id},
+									#{mem_mile}		);
 	</insert>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteMember" parameterType="MemberDTO"> 
+		DELETE FROM member
+		WHERE mem_id = #{mem_id}
+		AND	mem_password = #{mem_password}
+	</delete>
+	
+	<!-- 개인 정보 수정 -->
+	<update id="updateMember">
+		UPDATE member SET
+			mem_tel = #{mem_tel},
+			mem_email = #{mem_email},
+			mem_birthday = #{mem_birthday}
+		WHERE mem_id = #{mem_id}
+	</update>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePassword">
+		UPDATE password SET
+			mem_password = #{mem_password}
+		WHERE mem_id = #{mem_id}
+	</update>
 	
 	<!-- 티켓 예약 내역 조회 -->
 	<select id="ticketReservList" resultType="TicketReservationDTO" parameterType="TicketReservationDTO">

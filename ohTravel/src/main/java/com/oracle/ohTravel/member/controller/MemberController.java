@@ -1,5 +1,7 @@
 package com.oracle.ohTravel.member.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
@@ -39,23 +42,54 @@ public class MemberController {
 	
 	// 로그인
 	@PostMapping("/login")
-	public String login(MemberDTO memberDTO, HttpServletRequest request) {
+	public String login(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) {
 		log.info("MemberController login Start..");
 		
 		HttpSession session = request.getSession();
-		MemberDTO res = memberService.login(memberDTO);
+		MemberDTO member = memberService.login(memberDTO);
 		
-		if(res != null) {
+		if(member != null) {
 			// session에 로그인 정보 저장
-			session.setAttribute("res", res);
-			String sessionId = res.getMem_id();
+			session.setAttribute("member", member);
+			String sessionId = member.getMem_id();
+			String sessionName = member.getMem_name();
+			String sessionEmail = member.getMem_email();
+			String sessionTel = member.getMem_tel();
+			Date sessionBirth = (Date) member.getMem_birthday();
+			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+			String sessionBirthday = simpleDateFormat.format(sessionBirth); 
+			
+			
 			session.setAttribute("sessionId", sessionId);
+			session.setAttribute("sessionName", sessionName);
+			session.setAttribute("sessionEmail", sessionEmail);
+			session.setAttribute("sessionTel", sessionTel);
+			session.setAttribute("sessionBirthday", sessionBirthday);
+			
 			System.out.println("MemberController login sessionId -> " + sessionId);
+			System.out.println("MemberController login sessionName -> " + sessionName);
+			System.out.println("MemberController login sessionEmail -> " + sessionEmail);
+			System.out.println("MemberController login sessionTel -> " + sessionTel);
+			System.out.println("MemberController login sessionBirthday -> " + sessionBirthday);
 			return "redirect:/";
 		} else {
-			return "redirect:/member/login";
+			session.setAttribute("member", null);
+			rttr.addFlashAttribute("msg", false);
+			System.out.println("MemberController login msg -> " + rttr.getAttribute("msg"));
+			return "redirect:/member/loginForm";
 		}
 		
+		
+	}
+	
+	// 로그아웃
+	@GetMapping(value = "/logout")
+	public String logout(HttpSession session) {
+		log.info("MemberController logout start.. ");
+		session.invalidate();
+
+		return "redirect:/";
 	}
 		
 	// 회원가입 페이지 이동
@@ -70,8 +104,11 @@ public class MemberController {
 	public ModelAndView register(MemberDTO memberDTO) {
 		log.info("MemberController register Start... ");
 		ModelAndView mav = new ModelAndView();
+		
+		// 회원가입 서비스 실행
 		memberService.register(memberDTO);
-		mav.setViewName("redirect:/member/loginForm");
+		mav.setViewName("redirect:/member/loginForm"); 
+		
 		return mav;
 	}
 	
@@ -89,7 +126,11 @@ public class MemberController {
 	
 	// 마이페이지 메인  페이지 이동
 	@GetMapping(value = "/myPageMain")
-	public String goMyPageMain() {
+	public String goMyPageMain(HttpSession session) {
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		return "member/myPageMain";
 	}
 	
@@ -100,8 +141,8 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		
 		// session에 로그인 된 아이디 정보
-		MemberDTO res = (MemberDTO) session.getAttribute("res");
-		String sessionId = res.getMem_id();
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
 		System.out.println("MemberController myPageReservPackage sessionId -> " + sessionId );
 		
 		// 페이징 나중에
@@ -122,8 +163,8 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		
 		// session에 로그인 된 아이디 정보
-		MemberDTO res = (MemberDTO) session.getAttribute("res");
-		String sessionId = res.getMem_id();
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
 		System.out.println("MemberController myPageReservHotel sessionId -> " + sessionId );
 		
 		// 페이징 나중에
@@ -144,8 +185,8 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		
 		// session에 로그인 된 아이디 정보
-		MemberDTO res = (MemberDTO) session.getAttribute("res");
-		String sessionId = res.getMem_id();
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
 		System.out.println("MemberController myPageReservAir sessionId -> " + sessionId );
 		
 		// 페이징 나중에
@@ -166,10 +207,10 @@ public class MemberController {
 		log.info("MemberController myPageReservTicket start..");
 		HttpSession session = request.getSession();
 		
-		// session에 로그인 된 아이디 정보
-		MemberDTO res = (MemberDTO) session.getAttribute("res");
-		String sessionId = res.getMem_id();
-		System.out.println("MemberController myPageReservTicket sessionId -> " + sessionId );
+		// session에 로그인 된 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		System.out.println("MemberController myPageReservTicket sessionId -> " + sessionId);
 		
 		// 페이징 나중에
 		
@@ -261,16 +302,92 @@ public class MemberController {
 		return "member/modifyMember";
 	}
 	
+	// 개인 정보 수정
+	@PostMapping(value = "/updateMember")
+	public String updateMember(MemberDTO memberDTO, HttpServletRequest request) {
+		log.info("MemberController updateMember start..");
+		
+		HttpSession session = request.getSession();
+		
+		memberService.updateMember(memberDTO);
+		
+		session.invalidate();
+		
+		return "redirect:/";
+	}
+	
 	// 비밀번호 변경 페이지 이동
 	@GetMapping(value = "/modifyPassword")
 	public String goModifyPassword() {
 		return "member/modifyPassword";
 	}
 	
+	
+	
+	// 비밀번호 변경
+	@PostMapping(value = "/updatePassword")
+	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) {
+		log.info("MemberController updatePassword start..");
+		
+		HttpSession session = request.getSession();
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		
+		// session에 저장된 로그인된 아이디의 비밀번호
+		String sessionPw = member.getMem_password();
+		System.out.println("MemberController updatePassword sessionPw -> "  + sessionPw);
+		
+		
+		// 비밀번호 확인을 위해 새로 입력한 비밀번호
+		String testPw = memberDTO.getMem_password();
+		System.out.println("MemberController updatePassword testPw -> " + testPw);
+		
+		String newPw = null;
+		
+		if(!(sessionPw.equals(testPw))) {
+			rttr.addFlashAttribute("msg", false);
+			return "redirect:/member/updatePassword";
+		} else {
+			member.setMem_password(testPw);
+			memberService.updatePassword(member);
+			session.invalidate();
+			System.out.println("MemberController updatePassword after..");
+			return "redirect:/";
+		}
+	}
+	
 	// 회원 탈퇴 페이지 이동
 	@GetMapping(value = "/deleteMember")
 	public String goDeleteMember() {
 		return "member/deleteMember";
+	}
+	
+	// 회원 탈퇴
+	@PostMapping(value = "/deleteMember")
+	public String deleteMemeber(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+		log.info("MemberController deleteMemeber Start..");
+		
+		HttpSession session = request.getSession();
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		
+		// session에 저장된 로그인된 아이디의 비밀번호
+		String sessionPw = member.getMem_password();
+		System.out.println("MemberController deleteMemeber sessionPw -> "  + sessionPw);
+		
+		// 비밀번호 확인을 위해 새로 입력한 비밀번호
+		String delPw = memberDTO.getMem_password();
+		System.out.println("MemberController deleteMemeber delPw -> " + delPw);
+		
+		if(!(sessionPw.equals(delPw))) {
+			rttr.addFlashAttribute("msg", false);
+			return "redirect:/member/deleteMember";
+		} else {
+			memberService.deleteMember(member);
+			session.invalidate();
+			System.out.println("MemberController deleteMemeber after..");
+			return "redirect:/";
+		}
+		
+		
 	}
 	
 	// 결제 step1 페이지 이동

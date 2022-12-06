@@ -28,19 +28,20 @@ public interface MemberService {
 
 	// 패키지 예약 내역
 	public List<PackageReservationDTO> myPageReservPackage(PackageReservationDTO packageReservationDTO);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	// 회원 탈퇴
+	public int deleteMember(MemberDTO memberDTO);
+
+	// 개인 정보 수정
+	public int updateMember(MemberDTO memberDTO);
+
+	// 비밀번호 변경
+	public int updatePassword(MemberDTO memberDTO);
+  
+  
+  
+  
+  
 	
 	// 회원 select (등급 까지 포함)
 	MemberDTO selectMemberWithGrade(String mem_id) throws Exception;

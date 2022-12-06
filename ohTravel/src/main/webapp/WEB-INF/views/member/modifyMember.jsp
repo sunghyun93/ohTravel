@@ -62,41 +62,43 @@
 						<div class="text_wrap mid">
 							<strong class="tit">가입정보</strong>
 						</div>	<!-- text_wrap -->
-						<div class="tbl">
-							<table class="type2">
-							    <colgroup>
-							        <col style="width: 17%;" />
-							        <col />
-							    </colgroup>
-							    <tbody>
-							        <tr>
-							            <th>이름</th>
-							            <td>이름</td>
-							        </tr>
-							        <tr>
-							            <th>아이디</th>
-							            <td>아이디</td>
-							        </tr>
-							        <tr>
-							            <th>휴대폰번호</th>
-							            <td><input type="text" placeholder="휴대폰번호" style="width:500px;"></td>
-							        </tr>
-							        <tr>
-							            <th>이메일</th>
-							            <td><input type="text" placeholder="이메일" style="width:500px;"></td>
-							        </tr>
-							        <tr>
-							            <th>생년월일</th>
-							            <td><input type="text" placeholder="생년월일" style="width:500px;"></td>
-							        </tr>
-							        <!-- 필요 시 컬럼 추가 해주세용 -->
-							    </tbody>
-							</table>
-						</div>	<!-- tbl -->
-						<div class="btn_wrap">
-  							<a href="${pageContext.request.contextPath}/member/myPageMain" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
-  							<a href="#" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">수정</a>
-  						</div>
+						<form action="updateMember" method="post" action="updateMember">
+							<div class="tbl">
+								<table class="type2">
+								    <colgroup>
+								        <col style="width: 17%;" />
+								        <col />
+								    </colgroup>
+								    <tbody>
+								        <tr>
+								            <th>이름</th>
+								            <td><input type="hidden" id="mem_name" name="mem_name" value="${sessionName}">${sessionName}</td>
+								        </tr>
+								        <tr>
+								            <th>아이디</th>
+								            <td><input type="hidden" id="mem_id" name="mem_id" value="${sessionId}">${sessionId}</td>
+								        </tr>
+								        <tr>
+								            <th>휴대폰번호</th>
+								            <td><input type="text" id="mem_tel" name="mem_tel" placeholder="휴대폰번호" style="width:500px;" value="${sessionTel}"></td>
+								        </tr>
+								        <tr>
+								            <th>이메일</th>
+								            <td><input type="text" id="mem_email" name="mem_email" placeholder="이메일" style="width:500px;" value="${sessionEmail }"></td>
+								        </tr>
+								        <tr>
+								            <th>생년월일</th>
+								            <td><input type="text" id="mem_birthday" name="mem_birthday" placeholder="생년월일" style="width:500px;" value="${sessionBirthday }"></td>
+								        </tr>
+								        <!-- 필요 시 컬럼 추가 해주세용 -->
+								    </tbody>
+								</table>
+							</div>	<!-- tbl -->
+							<div class="btn_wrap">
+	  							<a href="${pageContext.request.contextPath}/member/myPageMain" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
+	  							<button type="submit" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">수정</button>
+	  						</div>
+						</form>
 					</div>	
 				</div>	<!-- ly_wrap pay_info -->
 			</div>
