@@ -31,6 +31,8 @@
 		<typeAlias type="com.oracle.ohTravel.pkage.model.Pkage_schedulDTO" alias="Pkage_schedulDTO"/>
 		<typeAlias type="com.oracle.ohTravel.pkage.model.AttractionDTO" alias="AttractionDTO"/>
 		<typeAlias type="com.oracle.ohTravel.pkage.model.Attraction_imageDTO" alias="Attraction_imageDTO"/>
+		<typeAlias type="com.oracle.ohTravel.pkage.model.Pkage_rsDTO" alias="Pkage_rsDTO"/>
+		<typeAlias type="com.oracle.ohTravel.pkage.model.Pkage_rs_piDTO" alias="Pkage_rs_piDTO"/>
 		
 		<!-- search -->
 		<typeAlias type="com.oracle.ohTravel.search.model.SearchDTO" alias="Search"/>

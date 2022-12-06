@@ -76,16 +76,16 @@ public class PkageRestController {
 	public List<PkageDTORM> test() {
 		try {
 			PkgSearch pkgSearch = new PkgSearch();
-			pkgSearch.setPkage_id("pk420001");
+//			pkgSearch.setPkage_id("pk310001");
 			pkgSearch.setPkage_gubun(1);
 			pkgSearch.setToDesti(310);
 			pkgSearch.setDates_start_check("2022-12-20");
 			
 			Map<String, Object> map = new HashMap<>();
 			map.put("pkage_id", pkgSearch.getPkage_id());
-//			map.put("toDesti", pkgSearch.getToDesti());
-//			map.put("dates_start_check", pkgSearch.getDates_start_check());
-			map.put("order", 1); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3,4)
+			map.put("toDesti", pkgSearch.getToDesti());
+			map.put("dates_start_check", pkgSearch.getDates_start_check());
+			map.put("order", 3); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3,4)
 			map.put("pkgSearch", pkgSearch);
 			
 			List<PkageDTORM> list = pkageService.selectPkgWithDetailAndFlight(map);
