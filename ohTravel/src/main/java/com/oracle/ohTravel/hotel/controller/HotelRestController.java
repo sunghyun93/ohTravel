@@ -20,7 +20,6 @@ public class HotelRestController {
 	
 	@GetMapping(value = "/roomList")
 	public List<RoomDTO> getRoomList(RoomDTO roomDTO) {
-		
 		return hs.getRoomList(roomDTO);
 	}
 }
