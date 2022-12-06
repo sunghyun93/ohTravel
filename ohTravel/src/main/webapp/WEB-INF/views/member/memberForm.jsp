@@ -13,9 +13,9 @@
 <body>
 	<div class="container" id="container">
 		<div class="inner">
-			<form name="register" action="register" method="post">
+			<form name="register" id="register" method="post">
 				<input type="hidden" id="mem_role" name="mem_role" value="ROLE_USER">
-				<input type="hidden" id="membership_id" name="membership_id" value="1">
+				<input type="hidden" id="membership_id" name="membership_id" value="5">
 				<input type="hidden" id="mem_mile" name="mem_mile" value="0">
  				<div class="certify_wrap">
 					<div class="text_wrap pTit">
@@ -36,16 +36,26 @@
 									<th>이름</th>
 									<td>
 										<span class="form_holder">
-											<input id="mem_id" name="mem_id" type="text" title="이름" placeholder="이름을 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
+											<input id="mem_name" name="mem_name" type="text" title="이름" placeholder="이름을 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
 										</span>
+										<p class="error_message" id="name_error" style="display: none;">
+								        	이름을 입력해주세요.
+								        </p>
 									</td>
 								</tr>
 								<tr>
 									<th>아이디</th>
 									<td>
 										<span class="form_holder">
-											<input id="mem_name" name="mem_name" type="text" title="아이디" placeholder="아이디를 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
+											<input id="mem_id" name="mem_id" type="text" title="아이디" placeholder="아이디를 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
 										</span>
+										<p class="error_message" id="id_error" style="display: none;">
+								        	아이디를 입력해주세요.
+								        </p>
+										<p class="error_message" id="id_val" style="display: none;">
+								        	이미 존재하는 아이디입니다.
+								        </p>
+								        <button type="button" class="btn " style="margin-left: 15px; margin-top:10px; width: 70px; height: 30px">중복확인</button>
 									</td>
 								</tr>
 								<tr>
@@ -54,6 +64,9 @@
 										<span class="form_holder">
 											<input id="mem_email" name="mem_email" type="text" title="이메일" placeholder="이메일을 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
 										</span>
+										<p class="error_message" id="email_error" style="display: none;">
+								        	이메일을 입력해주세요.
+								        </p>
 									</td>
 								</tr>
 								<tr>
@@ -62,25 +75,37 @@
 										<span class="form_holder">
 											<input id="mem_tel" name="mem_tel" type="text" title="휴대폰 번호" placeholder="휴대폰 번호를 입력해 주세요." class="inpt_text v-placeholder" style="width: 360px">
 										</span>
+										<p class="error_message" id="tel_error" style="display: none;">
+								        	휴대폰번호를 입력해주세요.
+								        </p>
 									</td>
 								</tr>
 								<tr>
 									<th>생년월일</th>
 									<td>
 										<span class="form_holder">
-											<input id="mem_birthday" name="mem_birthday" type="text" title="생년월일" placeholder="생년월일을 입력해 주세요." class="inpt_text" style="width: 270px;">
+											<input id="mem_birthday" name="mem_birthday" type="text" title="생년월일" placeholder="생년월일을 입력해 주세요.   ex)20000101" class="inpt_text" style="width: 360px;">
 										</span>
+										<p class="error_message" id="birth_error" style="display: none;">
+								        	생년월일을 입력해주세요.
+								        </p>
 									</td>
 								</tr>
 								<tr>
 									<th>비밀번호</th>
 									<td class="passwd">
 										<div class="form_holder">
-											<input id="mem_password" name="mem_password" type="password" title="비밀번호" placeholder="비밀번호" maxlength="16" class="inpt_text v-placeholdder" style="width: 360px">
+											<input id="mem_password" name="mem_password" type="password" title="비밀번호" placeholder="비밀번호를 입력해 주세요." maxlength="16" class="inpt_text v-placeholdder" style="width: 360px">
 										</div>
+										<p class="error_message" id="pw_error" style="display: none;">
+								        	비밀번호를 입력해주세요.
+								        </p>
 										<div class="form_holder">
 											<input id="mem_password2" name="mem_password2" type="password" title="비밀번호" placeholder="비밀번호를 확인하기 위해 다시 입력해 주세요." maxlength="16" class="inpt_text v-placeholdder" style="width: 360px">
 										</div>
+										<p class="error_message" id="pwck_error" style="display: none;">
+								        	비밀번호 확인을 입력해주세요.
+								        </p>
 										<p class="txt billiard">
 											8~16자리의 영문 대/소문자, 숫자, 특수문자 중 2개 이상을 조합해서 비밀번호를 설정해 주세요.<br>
 											(아이디, 생년월일, 동일한 연속 문자/숫자 사용 불가능)
@@ -328,7 +353,7 @@
 						</div>	<!-- checkbox_group  -->
 					</div>	<!-- terms_wrap -->
 					<div class="btn_wrap">
-						<input type="submit" class="btn big pink" value="회원가입">
+						<input type="button" id="join_button"  class="btn big pink" value="회원가입">
 					</div>	<!-- btn_wrap -->
 					<div class="cont_unit"></div>
 				</div>	<!-- certify_wrap -->
@@ -337,15 +362,62 @@
 	</div>	<!-- container -->
 </body>
 <script type="text/javascript">
-/* // 약관 동의 전체 선택/해제
-$('#check_all').on('click', function(){
-	var checked = $(this).is(':checked');
-    
-    if(checked) {
-    	$(this).closest('.checkbox_group').find('.inpt_checkbox').prop('checked', true);
-    } else {
-    	$(this).closest('.checkbox_group').find('.inpt_checkbox').prop('checked', false);
-    }
+
+var code = "";		// 이메일 인증번호
+
+/* 유효성 검사 통과유무 변수 */
+var idCheck = false;            // 아이디
+var idckCheck = false;            // 아이디 중복 검사
+var pwCheck = false;            // 비번
+var pwckCheck = false;            // 비번 확인
+var pwckcorCheck = false;        // 비번 확인 일치 확인
+var nameCheck = false;            // 이름
+var mailCheck = false;            // 이메일
+var mailnumCheck = false;        // 이메일 인증번호 확인
+var birthday = false;         // 주소
+var tel = false;		// 휴대폰 번호
+
+$(document).ready(function() {
+	
+	// 회원가입 버튼(회원가입 기능 작동)
+	$("#join_button").click(function() {
+		/* 입력값 변수 */
+        var id = $('#mem_id').val();                // id 입력란
+  		var pw = $('#mem_password').val();          // 비밀번호 입력란
+        var pwck = $('#mem_password2').val();       // 비밀번호 확인 입력란
+        var name = $('#mem_name').val();            // 이름 입력란
+        var mail = $('#mem_email').val();           // 이메일 입력란
+        var addr = $('#mem_tel').val();        		// 휴대폰 번호 입력란
+        var birth = $('#mem_birthday').val();       // 생년월일 입력란
+		
+        
+        /* 아이디 유효성 검사 */
+		/* if(id == "") {
+			$("#id_error").css('display', 'block');
+			idCheck = false;
+		} else {
+			$("#id_error").css('display', 'none');
+			idCheck = true;
+		} */
+
+	    $("#register").attr("action", "/member/register");
+		$("#register").submit();
+	});
+});
+
+/* // 아이디 중복 검사
+$('#mem_id').on("propertychange change keyup paste input", function() {
+		var mem_id = $('#mem_id').val();		// #mem_id에 입력되는 값
+		var data = {mem_id : mem_id}			// 컨트롤에 넘길 데이터 이름 : 데이터(#mem_id에 입력되는 값)
+		
+		$.ajax({
+			type : "post",
+			url : "/member/memberIdChk",
+			data : data,
+			success : function(result) {
+				
+			}
+		})
 }); */
 
 </script>

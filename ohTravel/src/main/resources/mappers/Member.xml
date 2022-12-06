@@ -57,6 +57,13 @@
 		WHERE mem_id = #{mem_id}
 	</update>
 	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePassword">
+		UPDATE password SET
+			mem_password = #{mem_password}
+		WHERE mem_id = #{mem_id}
+	</update>
+	
 	<!-- 티켓 예약 내역 조회 -->
 	<select id="ticketReservList" resultType="TicketReservationDTO" parameterType="TicketReservationDTO">
 		SELECT * FROM ticket_reservation WHERE mem_id = #{mem_id}

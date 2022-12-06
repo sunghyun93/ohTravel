@@ -93,6 +93,16 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	// 비밀번호 변경
+	@Override
+	public int updatePassword(MemberDTO memberDTO) {
+		log.info("MemberServiceImpl updatePassword start..");
+		
+		int result = memberDao.updatePassword(memberDTO);
+		
+		return result;
+	}
+
 	
 
 	

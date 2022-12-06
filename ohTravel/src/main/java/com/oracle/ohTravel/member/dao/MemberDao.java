@@ -33,5 +33,8 @@ public interface MemberDao {
 
 	// 개인 정보 수정
 	public int updateMember(MemberDTO memberDTO);
+
+	// 비밀번호 변경
+	public int updatePassword(MemberDTO memberDTO);
 }
 
