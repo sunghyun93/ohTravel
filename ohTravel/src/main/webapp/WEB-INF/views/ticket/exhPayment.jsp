@@ -377,7 +377,7 @@ table {
 }
 
 .table-row td {
-	padding: 15px 20px;
+	padding: 15px 12px;
 	vertical-align: middle;
 	line-height: 1.6;
 	color: #666;
@@ -463,7 +463,7 @@ col {
 								<tbody>
 									<tr>
 										<th>이름</th>
-										<td><input type="text" value="홍길동"> ${mem_name}</td>
+										<td><input type="text" value="${mem_name}"> ${mem_name}</td>
 									</tr>
 									<tr>
 										<th>이메일</th>
@@ -600,7 +600,7 @@ col {
 									</div>
 
 									<!-- 왼쪽 : 취소 및 환불정책 -->
-									<div class="box" style="display: inline-block;">
+									<div class="box" style="display: inline-block; height:">
 										<div class="item">
 											<label role="checkbox" class="el-checkbox"> <span
 												aria-checked="mixed" class="el-checkbox__input"> <input
@@ -611,7 +611,7 @@ col {
 											</span>
 											</label>
 										</div>
-										<div class="detail-wrap">
+										<div class="detail-wrap" style="height: 446.78px;">
 											<div class="detail" style="padding: 0 20px 20px 20px;">
 												<h1>취소 및 환불 정책</h1>
 												<h1>제22조 (반품/환불/취소)</h1>
@@ -634,23 +634,21 @@ col {
 									</div>
 
 									<!-- 오른쪽 : 개인정보 제 3자 제공 -->
-									<div class="box"
-										style="display: inline-block; translate: 0 -310px;">
+									<div class="box" style="display: inline-block; translate: 0 -310px; height: 532px;">
 										<div class="item">
 											<label role="checkbox" class="el-checkbox"> <span
 												aria-checked="mixed" class="el-checkbox__input"> <input
 													type="checkbox" name="chk" class="el-checkbox__original">
-											</span> <span class="el-checkbox__label"> <span>개인정보 제
-														3자 제공 <span class="require">(필수)</span>
+											</span> <span class="el-checkbox__label"> <span>개인정보 제 3자 제공 <span class="require">(필수)</span>
 												</span>
 											</span>
 											</label>
 										</div>
 
-										<div class="detail-wrap" style="padding: 20px 20px 20px 20px;">
+										<div class="detail-wrap" style="padding: 20px 20px 20px 20px;" style="height: 446.78px;">
 											<div class="detail">
 												<p style="margin-bottom: 15px; padding: 0 10px 10px 15px;">고객님께서는
-													아래 내용에 대하여 동의를 거부하실 수 있으며, 거부시 상품 배송(예약), 고객상담이 제한됩니다</p>
+													아래 내용에 대하여 동의를 거부하실 수 있으며, 거부 시 상품 배송(예약), 고객상담이 제한됩니다</p>
 												<table class="table-row repeat">
 													<colgroup style="display: table-column-group;">
 														<col>
@@ -686,8 +684,7 @@ col {
 
 						<div class="btn_wrap">
 							<!---->
-							<span class="btn big pink"
-								style="height: 56px; line-height: 54px;">결제하기</span>
+							<span class="btn big pink" style="height: 56px; line-height: 54px; translate: 0 -300px;">결제하기</span>
 						</div>
 					</div>
 					<!-- inr -->
@@ -701,8 +698,9 @@ col {
 							<div class="pay_area">
 								<div class="info_area total">
 									<div class="info">
-										<strong class="tit">최종 결제 금액</strong> <span>성인 2</span> <span
-											class="divider_dot">아동 0</span>
+										<strong class="tit">최종 결제 금액</strong>
+										<span>성인 2</span>
+										<span class="divider_dot">아동 0</span>
 									</div>
 									<div class="mileage_save"></div>
 									<!-- mileage_save -->
