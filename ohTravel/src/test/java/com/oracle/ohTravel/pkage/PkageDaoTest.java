@@ -14,10 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oracle.ohTravel.member.dao.MemberDao;
+import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 import com.oracle.ohTravel.pkage.dao.PkageDao;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
-import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
+import com.oracle.ohTravel.pkage.model.PkgReserveEle;
 import com.oracle.ohTravel.pkage.model.PkgSearch;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 public class PkageDaoTest {
 	@Autowired
 	PkageDao pkageDao;
+	@Autowired
+	MemberDao memberDao;
 	
 	@Test
 	@Ignore
@@ -85,4 +89,31 @@ public class PkageDaoTest {
 		assertTrue(dto.getPkage_id().equals(pkage_id));
 	}
 	
+	@Test
+//	@Transactional(rollbackFor = Exception.class)
+	public void memberDaoTest() throws Exception {
+		// 마일리지 update 및 마일리지 등급 변경(필요 시 - 마일리지가 기준 점수를 넘어갔을 때)
+		String mem_id = "test1";
+		PkgReserveEle pkgReserveEle = new PkgReserveEle();
+		pkgReserveEle.setMile(7000);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("mem_id", mem_id);
+		map.put("pkgReserveEle", pkgReserveEle);
+		
+		try {
+			int rowCnt = 0;
+			rowCnt = memberDao.updateMemMileage(map);
+			
+			UpdateMileGradeDTO updateMile = new UpdateMileGradeDTO();
+			updateMile.setMem_id(mem_id);
+			updateMile.setResult(0);
+			memberDao.updateMemMileGrade(updateMile);
+			
+			log.info("업데이트 후 updateMile = "+updateMile);
+			log.info("updateMemMileGrade 후  rowCnt - " + rowCnt);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

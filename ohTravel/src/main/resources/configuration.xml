@@ -73,7 +73,7 @@
 		<typeAlias type="com.oracle.ohTravel.member.model.AirReservationDTO" alias="AirReservationDTO"/>
 		<typeAlias type="com.oracle.ohTravel.member.model.HotelReservationDTO" alias="HotelReservationDTO"/>
 		<typeAlias type="com.oracle.ohTravel.member.model.PackageReservationDTO" alias="PackageReservationDTO"/>
-		
+		<typeAlias type="com.oracle.ohTravel.member.model.UpdateMileGradeDTO" alias="UpdateMileGradeDTO"/>
 		
 	</typeAliases>
 </configuration>

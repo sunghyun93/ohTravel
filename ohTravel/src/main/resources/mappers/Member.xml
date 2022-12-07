@@ -89,4 +89,70 @@
 		SELECT * FROM package_reservation WHERE mem_id = #{mem_id}
 	</select>
 	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 회원 등급까지 가져오는 sql -->
+	<select id="selectMemberWithGrade" parameterType="string" resultType="memberDTO">
+		select 
+		m.*, 
+		m_ms.membership_id, m_ms.mem_mile,
+		ms.membership_name, ms.membership_discount 
+		from member m
+		join mem_membership m_ms on m.mem_id = m_ms.mem_id
+		join membership ms on m_ms.membership_id = ms.membership_id
+		where m.mem_id = #{mem_id};
+	</select>
+	
+	<!-- 회원이 가지고 있는 쿠폰 가져오기 sql - 사용 기한(coupon_limit_date) 가 지나지 않은 것만 -->
+	<select id="selectMemberWithCoupon" parameterType="string" resultType="Coupon">
+		select 
+		m.mem_id, 
+		mc.coupon_id, mc.coupon_down, mc.coupon_use, mc.coupon_limit_date,
+		c.coupon_name, c.coupon_discount
+		from member m
+		join mem_coupon mc on m.mem_id = mc.mem_id
+		join coupon c on mc.coupon_id = c.coupon_id
+		where mc.mem_id = #{mem_id} and  mc.coupon_use = 0 and mc.coupon_limit_date >= now()
+	</select>
+	
+	<!-- 회원 마일리지 update -->
+	<update id="updateMemMileage" parameterType="map">
+		update mem_membership 
+		set mem_mile = mem_mile + ${pkgReserveEle.mile}
+		where mem_id = #{mem_id}
+	</update>
+	
+	<!-- 회원 마일리지 변동에 따른 마일리지 등급 변경 (기준 마일리지를 넘거나 내려갔을 시 그에 맞는 마일리지 등급으로 변경 -->
+	<select id="updateMemMileGrade" parameterType="UpdateMileGradeDTO" statementType="CALLABLE">
+		call pro_mem_membership_update(
+				#{mem_id, mode=IN, jdbcType=VARCHAR, javaType=string}, 
+				#{result, mode=OUT, jdbcType=INTEGER, javaType=int}
+				)
+	</select>
+	
+	<!-- 회원이 쿠폰 사용 시 해당 쿠폰 사용 컬럼 1로 update -->
+	<update id="updateMemCouponUsed" parameterType="map">
+		update mem_coupon 
+		set coupon_use = 1
+		where mem_id = #{mem_id} and coupon_id = #{coupon_id};
+	</update>
+
 </mapper>
