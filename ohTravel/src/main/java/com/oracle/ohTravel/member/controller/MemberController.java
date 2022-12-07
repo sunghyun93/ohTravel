@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -110,6 +112,23 @@ public class MemberController {
 		mav.setViewName("redirect:/member/loginForm"); 
 		
 		return mav;
+	}
+	
+	// 아이디 중복 검사
+	@RequestMapping(value = "/memberIdChk", method = RequestMethod.POST)
+	@ResponseBody
+	public String memberIdChk(String mem_id) throws Exception {
+		log.info("MemberController memberIdChk start..");
+		
+		int result = memberService.idCheck(mem_id);
+		
+		log.info("MemberController memberIdChk result -> " + result);
+		
+		if(result != 0) {
+			return "fail";	// 중복 아이디가 존재
+		} else {
+			return "success";	// 중복 아이디 X
+		}
 	}
 	
 	// 아이디 찾기 페이지 이동

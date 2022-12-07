@@ -64,7 +64,7 @@
 					        <div class="text_wrap inquiry mt0">
 					            <div class="inr fl">총 <em>0</em>건</div>
 					        </div>	<!-- text_wrap inquiry mt0 -->
-					        <div>${sessionId}</div>ㄴ
+					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
