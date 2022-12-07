@@ -20,14 +20,34 @@
 		WHERE h.hotel_id= #{hotel_id}
 	</select>
 	
-	<select id="roomList" resultType="Room">
+	
+<!-- 	<select id="roomList" resultType="Room">
 		SELECT r.room_id, r.room_type, r.room_name, rd.room_price, r.hotel_id, rd.room_date, rd.room_detail_id
 		FROM room r
 		LEFT JOIN room_detail rd ON r.room_id = rd.room_id
 		WHERE r.hotel_id = #{hotel_id}
 		AND rd.room_rev = 'Y'
 		AND rd.room_date = #{startDate}
+	</select>  -->
+	
+	
+ 	<select id="roomList" resultType="Room">
+		SELECT * , count(room_date) as canRevDateCnt
+		FROM room r
+		LEFT OUTER JOIN (
+		               SELECT * , count(room_detail_id) as cnt
+		               FROM room_detail
+		               WHERE room_rev = 'Y'
+		               AND room_date between #{startDate} and #{endDate}
+		               group by room_id, room_date
+		            ) rd
+		ON r.room_id = rd.room_id
+		WHERE r.hotel_id = #{hotel_id}
+		AND cnt >= 1
+		GROUP BY r.room_id
+		HAVING canRevDateCnt = #{calDate}+1; 
 	</select>
+	
 	
 <!-- <insert id="">
 		

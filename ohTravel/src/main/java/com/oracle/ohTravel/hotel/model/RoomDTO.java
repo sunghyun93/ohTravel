@@ -13,4 +13,13 @@ public class RoomDTO {
 	private int room_per;
 	private String room_name;
 	private String startDate;
+	private String endDate;
+	private int calDate;
+	private int canRevDateCnt;
+	
+	private int room_detail_id;
+	private Date room_date;
+	private int room_price;
+	private String room_rev;
+	
 }
