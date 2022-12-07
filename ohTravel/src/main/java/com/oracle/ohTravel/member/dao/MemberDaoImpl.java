@@ -116,5 +116,14 @@ public class MemberDaoImpl implements MemberDao {
 		
 		return result;
 	}
+
+	@Override
+	public int idCheck(String mem_id) {
+		log.info("MemberDaoImpl idCheck start..");
+		
+		int result = sqlSession.selectOne("idCheck", mem_id);
+		
+		return result;
+	}
 	
 }

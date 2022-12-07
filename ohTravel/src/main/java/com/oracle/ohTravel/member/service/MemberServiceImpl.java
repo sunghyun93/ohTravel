@@ -103,6 +103,13 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	// 아이디 중복 검사
+	@Override
+	public int idCheck(String mem_id) {
+		log.info("MemberServiceImpl idCheck start..");
+		return memberDao.idCheck(mem_id);
+	}
+
 	
 
 	

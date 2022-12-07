@@ -36,5 +36,8 @@ public interface MemberDao {
 
 	// 비밀번호 변경
 	public int updatePassword(MemberDTO memberDTO);
+
+	// 아이디 중복 검사
+	public int idCheck(String mem_id);
 }
 
