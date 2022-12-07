@@ -37,7 +37,7 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="header-info-right f-right">
-                                <ul class="header-social">    
+                                <ul class="header-social">
                                 	<li><a href="${pageContext.request.contextPath }/manager/managerMain">관리자페이지</a>
                                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                                     <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>

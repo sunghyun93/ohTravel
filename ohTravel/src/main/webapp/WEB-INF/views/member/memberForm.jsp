@@ -83,7 +83,7 @@
 								        	휴대폰번호를 입력해주세요.
 								        </p>
 										<p class="error_message" id="tel_reg" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
-								        	올바르지 않은 휴대폰번호 형식입니다. 번호만 입력해주세요.
+								        	올바르지 않은 휴대폰번호 형식입니다.
 								        </p>
 									</td>
 								</tr>
@@ -97,7 +97,7 @@
 								        	생년월일을 입력해주세요.
 								        </p>
 										<p class="error_message" id="birth_reg" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
-								        	올바르지 않은 생년월일 형식입니다.
+								        	YYYYMMDD 형식으로 입력해주세요.
 								        </p>
 									</td>
 								</tr>
@@ -481,7 +481,11 @@ $(document).ready(function() {
             $('#tel_error').css('display','block');
             telCheck = false;
         }else{
-        	
+        	if(!tCheck(tel)) {
+            	$('#tel_reg').css("display", "block");
+            } else {
+            	$('#tel_reg').css("display", "none");
+            }
             $('#tel_error').css('display', 'none');
             telCheck = true;
         }
@@ -491,7 +495,7 @@ $(document).ready(function() {
             $('#birth_error').css('display','block');
             bdCheck = false;
         }else{
-        	if(!birthCheck(tel)) {
+        	if(!birthCheck(birth)) {
             	$('#birth_reg').css("display", "block");
             } else {
             	$('#birth_reg').css("display", "none");
@@ -557,14 +561,14 @@ $('#mem_password2').on("propertychange change keyup paste input", function(){
 
 /* 이름 형식 유효성 검사 */
 function isCorrect(asValue) { // 2~4자 한글만 입력 
-	var regExp =  /^[가-힣]{2,4}$/; ///[ㄱ-힣]{2,4}$/g;
-	return regExp.test(asValue);
+	var form =  /^[가-힣]{2,4}$/; ///[ㄱ-힣]{2,4}$/g;
+	return form.test(asValue);
 }
 
 /* 비밀번호 유효성 검사 */
 function isPassword(asValue) { // 비밀번호 체크, 8 ~ 16자 영문, 숫자, 특수문자를 최소 한가지씩 조합
-	var regExp = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
-	return regExp.test(asValue);
+	var form = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+	return form.test(asValue);
 }
 
 /* 입력 이메일 형식 유효성 검사 */
@@ -573,11 +577,17 @@ function mailFormCheck(email){
 	return form.test(email);
 }
 
+/* 생년월일 형식 유효성 검사 */
 function birthCheck(birth) {
 	var form = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
 	return form.test(birth);
 }
 
+/* 휴대폰번호 형식 유효성 검사 */
+function tCheck(tel) {
+	var form = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+	return form.test(tel);
+}
 
 </script>
 </html>
