@@ -41,6 +41,11 @@
 									#{mem_mile}		);
 	</insert>
 	
+	<!-- 아이디 중복 검사 -->
+	<select id="idCheck" resultType="int">
+		SELECT count(*) FROM member WHERE mem_id = #{mem_id}
+	</select>
+	
 	<!-- 회원 탈퇴 -->
 	<delete id="deleteMember" parameterType="MemberDTO"> 
 		DELETE FROM member
@@ -84,6 +89,7 @@
 		SELECT * FROM package_reservation WHERE mem_id = #{mem_id}
 	</select>
 	
+
 	
 	
 	
@@ -148,4 +154,5 @@
 		set coupon_use = 1
 		where mem_id = #{mem_id} and coupon_id = #{coupon_id};
 	</update>
+
 </mapper>

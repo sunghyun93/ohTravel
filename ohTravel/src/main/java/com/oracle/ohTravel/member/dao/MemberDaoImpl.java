@@ -119,6 +119,16 @@ public class MemberDaoImpl implements MemberDao {
 		return result;
 	}
 	
+	// 아이디 중복 체크
+	@Override
+	public int idCheck(String mem_id) {
+		log.info("MemberDaoImpl idCheck start..");
+		
+		int result = sqlSession.selectOne("idCheck", mem_id);
+		
+		return result;
+	}
+	
 	
 	
 	
