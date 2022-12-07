@@ -6,6 +6,10 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/memberForm.css">
+<script type="text/javascript">
+
+</script>
+</head>
 <body>
 	<div class="container" id="container">
 		<div class="inner">
@@ -48,12 +52,10 @@
 										<p class="error_message" id="id_error" style="display: none;">
 								        	아이디를 입력해주세요.
 								        </p>
-								        <p class="error_message" id="id_input_re_1" style="display: none; color: green; font-size: 13px; margin: 15px 0 0 15px;">
-								        	사용 가능한 아이디입니다.
-								        </p>
-										<p class="error_message" id="id_input_re_2" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
+										<p class="error_message" id="id_val" style="display: none;">
 								        	이미 존재하는 아이디입니다.
 								        </p>
+								        <button type="button" class="btn " style="margin-left: 15px; margin-top:10px; width: 70px; height: 30px">중복확인</button>
 									</td>
 								</tr>
 								<tr>
@@ -359,11 +361,6 @@
 		</div>	<!-- inner -->
 	</div>	<!-- container -->
 </body>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
-</head>
 <script type="text/javascript">
 
 var code = "";		// 이메일 인증번호
@@ -402,35 +399,26 @@ $(document).ready(function() {
 			$("#id_error").css('display', 'none');
 			idCheck = true;
 		} */
-		alert("");
-	    $("#register").attr("action", "${pageContext.request.contextPath}/member/register");
+
+	    $("#register").attr("action", "/member/register");
 		$("#register").submit();
 	});
 });
 
-// 아이디 중복 검사
+/* // 아이디 중복 검사
 $('#mem_id').on("propertychange change keyup paste input", function() {
-	// console.log("keyup 테스트");
-	
-	var mem_id = $('#mem_id').val()	// #mem_id에 입력되는 값
-	var data = {mem_id : mem_id}		// '컨트롤에 넘길 데이터 이름' : '데이터(#mem_id에 입력되는 값)'
-
-	$.ajax({
-		type : "post",
-		url : "/member/memberIdChk",
-		data : data,
-		success : function(result) {
-			// console.log("성공 여부 -> " + result);
-			if(result != 'fail') {
-				$('#id_input_re_1').css("display","inline-block");
-				$('#id_input_re_2').css("display", "none");
-			} else {
-				$('#id_input_re_2').css("display","inline-block");
-				$('#id_input_re_1').css("display", "none");				
+		var mem_id = $('#mem_id').val();		// #mem_id에 입력되는 값
+		var data = {mem_id : mem_id}			// 컨트롤에 넘길 데이터 이름 : 데이터(#mem_id에 입력되는 값)
+		
+		$.ajax({
+			type : "post",
+			url : "/member/memberIdChk",
+			data : data,
+			success : function(result) {
+				
 			}
-		}
-	}); // ajax 종료	
-}); 
+		})
+}); */
 
 </script>
 </html>
