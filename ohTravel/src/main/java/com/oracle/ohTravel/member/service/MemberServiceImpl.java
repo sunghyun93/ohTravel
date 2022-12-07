@@ -111,7 +111,18 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.idCheck(mem_id);
 	}
 	
-	
+	// 아이디 찾기
+	@Override
+	public MemberDTO findID(MemberDTO memberDTO) {
+		log.info("MemberServiceImpl findID start..");
+		return memberDao.findID(memberDTO);
+	}
+
+	// 비밀번호 찾기
+	public MemberDTO findPassword(MemberDTO memberDTO) {
+		log.info("MemberServiceImpl findPassword start..");
+		return memberDao.findPassword(memberDTO);
+	}
 	
 	
 	
@@ -153,6 +164,8 @@ public class MemberServiceImpl implements MemberService{
 		log.info("MemberServiceImpl selectMemberWithCoupon() end...");
 		return list;
 	}
+
+	
 
 	
 }

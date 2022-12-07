@@ -41,7 +41,11 @@ public interface MemberService {
 	// 아이디 중복 검사
 	public int idCheck(String mem_id);
   
-  
+	// 아이디 찾기
+	public MemberDTO findID(MemberDTO memberDTO);
+	
+	// 비밀번호 찾기
+	public MemberDTO findPassword(MemberDTO memberDTO);
   
 	
 	// 회원 select (등급 까지 포함)

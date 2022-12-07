@@ -46,6 +46,24 @@
 		SELECT count(*) FROM member WHERE mem_id = #{mem_id}
 	</select>
 	
+	<!-- 아이디 찾기 -->
+	<select id="findID" resultType="MemberDTO">
+		SELECT * 
+		FROM member 
+		WHERE mem_name = #{mem_name} 
+		AND mem_birthday = #{mem_birthday} 
+		AND mem_tel = #{mem_tel}
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="findPassword" resultType="MemberDTO">
+		SELECT * FROM member 
+		WHERE mem_id = #{mem_id} 
+		AND mem_birthday = #{mem_birthday} 
+		AND mem_tel = #{mem_tel}
+		AND mem_id = #{mem_id}
+	</select>
+	
 	<!-- 회원 탈퇴 -->
 	<delete id="deleteMember" parameterType="MemberDTO"> 
 		DELETE FROM member
