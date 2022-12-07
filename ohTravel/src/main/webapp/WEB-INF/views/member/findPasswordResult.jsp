@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>아이디 찾기</title>
+<title>비밀번호 찾기</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/memberForm.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/find.css">
 <style type="text/css">
@@ -72,19 +72,12 @@ em {
     <div class="inr">
         <!---->
         <div id="contents" class="contents">
-       		<c:if test="${check == 0}">
-	            <div class="text_wrap mid"><strong class="tit">회원님의 아이디는 다음과 같습니다.</strong></div>
-	            <div class="msg_wrap bg txc" style="">
-	                <p class="mt10"><em>${member.mem_id}</em></p>
-	            </div>
-	            <div class="btn_wrap"><a href="${pageContext.request.contextPath}/member/loginForm" class="btn big pink">확인</a></div>
-         	</c:if>
          	<c:if test="${check == 1}">
 	            <div class="msg_wrap bg txc" style="">
 	                <p class="mt10"><em>일치하는 회원 정보가 없습니다.</em></p>
 	            </div>
-	            <div class="btn_wrap"><a href="javascript:history.back();" class="btn big pink">확인</a></div>
          	</c:if>
+            <div class="btn_wrap"><a href="javascript:history.back();" class="btn big pink">확인</a></div>
         </div>
     </div>
 </div>

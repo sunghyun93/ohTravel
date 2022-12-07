@@ -172,6 +172,27 @@ public class MemberController {
 		return "member/findPassword";
 	}
 	
+	// 비밀번호 찾기
+	@PostMapping(value = "/findPassword")
+	public String findPassword(MemberDTO memberDTO, Model model, HttpSession session) {
+		log.info("MemberController findPassword start..");
+		
+		MemberDTO member = memberService.findPassword(memberDTO);
+		System.out.println("MemberController findID findPassword " + member);
+		
+		if(member == null) {
+			model.addAttribute("check", 1);
+			return "member/findPasswordResult";
+			
+		} else {
+			model.addAttribute("member", member);
+			model.addAttribute("check", 0);
+			model.addAttribute("id", member.getMem_id());
+			session.setAttribute("pw", member.getMem_password());
+			return "member/modifyPassword";
+		}
+	}
+	
 	// 마이페이지 메인  페이지 이동
 	@GetMapping(value = "/myPageMain")
 	public String goMyPageMain(HttpSession session) {

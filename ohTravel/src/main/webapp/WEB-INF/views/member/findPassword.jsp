@@ -12,7 +12,7 @@
 	<div class="container" id="container">
 		<div class="inr">
 			<div class="contents" id="contents">
-				<form action="">
+				<form action="findPassword" name="findPassword" id="findPassword" method="post">
 					<div class="certify_wrap">
 						<div class="text_wrap pTit">
 						    <strong class="tit">아이디/비밀번호를 잊어버리셨나요?</strong>
@@ -39,7 +39,7 @@
 											                    <th>이름</th>
 											                    <td>
 											                        <div class="form_holder gender">
-											                            <input type="text" title="이름" style="width: 100%;" placeholder="이름을 입력해 주세요." class="inpt_text v-placeholder" />
+											                            <input type="text" title="이름" name="mem_name" id="mem_name" style="width: 100%;" placeholder="이름을 입력해 주세요." class="inpt_text v-placeholder" />
 											                        </div>	<!-- form_holder gender -->
 											                        <p class="error_message" style="display: none;">
 											                        	이름을 입력해 주세요.
@@ -50,7 +50,7 @@
 											                    <th>생년월일</th>
 											                    <td>
 											                        <div class="form_holder">
-											                            <input type="text" title="생년월일" maxlength="8" placeholder="생년월일을 입력해 주세요. (ex: 19900101)" style="width: 100%;" class="inpt_text v-placeholder" />
+											                            <input type="text" title="생년월일" name="mem_birthday" id="mem_birthday" maxlength="8" placeholder="생년월일을 입력해 주세요. (ex: 19900101)" style="width: 100%;" class="inpt_text v-placeholder" />
 											                        </div>	<!-- form_holder -->
 											                        <p class="error_message" style="display: none;">
 											                        	생년월일 형식에 맞게 입력해 주세요.(ex. 19991231)
@@ -61,7 +61,7 @@
 											                    <th>휴대폰번호</th>
 											                    <td>
 											                        <div class="form_holder">
-											                            <input type="text" title="이메일" placeholder="이메일 주소를 입력해 주세요. (ex: sample@sample.com)" class="inpt_text v-placeholder" style="width: 100%;"/>
+											                            <input type="text" title="휴대폰번호" name="mem_tel" id="mem_tel" placeholder="휴대폰번호를 입력해 주세요. (ex: 01012345678)" class="inpt_text v-placeholder" style="width: 100%;"/>
 											                        </div>	<!-- form_holder -->
 											                        <p class="error_message" style="display: none;">
 											                        	휴대폰번호 형식에 맞게 입력해 주세요.(ex. 01012345678)
@@ -71,7 +71,7 @@
 											                <tr>
 															    <th>아이디</th>
 															    <td>
-															        <div class="form_holder"><input type="text" title="아이디" placeholder="아이디를 입력해 주세요." class="inpt_text v-placeholder" style="width: 100%;" /></div>
+															        <div class="form_holder"><input type="text" name="mem_id" id="mem_id" title="아이디" placeholder="아이디를 입력해 주세요." class="inpt_text v-placeholder" style="width: 100%;" /></div>
 															        <p class="error_message" style="display: none;">
 															        	아이디를 입력해 주세요.
 															        </p>
@@ -81,7 +81,7 @@
 											        </table>	<!-- type2 -->
 											    </div>	<!-- tbl -->
 											    <div class="btn_wrap">
-											    	<a href="#" class="btn big gray">이전</a> 
+											    	<a href="javascript:history.back();" class="btn big gray">이전</a> 
 											    	<button type="submit" class="btn big pink">다음</button>
 											    </div>
 											</div>	<!-- view active -->
