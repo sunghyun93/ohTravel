@@ -2,6 +2,7 @@ package com.oracle.ohTravel.member.service;
 
 import java.util.List;
 
+import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
@@ -36,8 +37,15 @@ public interface MemberService {
 
 	// 비밀번호 변경
 	public int updatePassword(MemberDTO memberDTO);
-
+  
+  
+  
+  
+  
 	
-
+	// 회원 select (등급 까지 포함)
+	MemberDTO selectMemberWithGrade(String mem_id) throws Exception;
 	
+	// 한 회원이 가진 쿠폰 select (쿠폰 테이블에선 쿠폰 이름과, 할인율만 가져옴)
+	List<CouponDTO> selectMemberWithCoupon(String mem_id) throws Exception;
 }

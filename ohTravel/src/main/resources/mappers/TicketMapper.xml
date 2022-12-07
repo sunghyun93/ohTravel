@@ -10,7 +10,8 @@
 
 	<!-- 입장권 상품 목록 -->
 	<select id="ticketList" parameterType="TicketDTO" resultType="Map" >
-		SELECT distinct td.ticket_id, td.city_id, td.ticket_name, td.ticket_score, td.ticket_child_price, td.ticket_due_date, ti.ticket_rep_img_path, ti.ticket_detail_img_path, ct.city_name
+		SELECT distinct td.ticket_id, td.city_id, td.ticket_name, td.ticket_child_price, td.ticket_due_date, ti.ticket_rep_img_path, ti.ticket_detail_img_path, ct.city_name,
+			   (SELECT FORMAT( IFNULL(AVG(r.rv_rating), 0), 1) FROM review r  WHERE r.rv_real_id = td.ticket_id ) AS ticket_score 
 		FROM ticket_detail td
 		LEFT JOIN ticket_img ti
 		  ON td.ticket_id = ti.ticket_id
@@ -20,7 +21,8 @@
 
 	<!-- 입장권 상품 상세 정보 -->
 	<select id="ticketDetail" parameterType="TicketDTO" resultType="TicketDTO" >
-		SELECT distinct td.*, date_format(td.ticket_due_date, '%Y.%m.%d') AS ticket_due_date, td.ticket_adult_price, td.ticket_child_price, ti.ticket_rep_img_path, ti.ticket_detail_img_path, ct.city_name
+		SELECT distinct td.*, date_format(td.ticket_due_date, '%Y.%m.%d') AS ticket_due_date, td.ticket_adult_price, td.ticket_child_price, ti.ticket_rep_img_path, ti.ticket_detail_img_path, ct.city_name,
+			   (SELECT FORMAT( IFNULL(AVG(r.rv_rating), 0), 1) FROM review r  WHERE r.rv_real_id = td.ticket_id ) AS ticket_score
 		FROM ticket_detail td
 		LEFT JOIN ticket_img ti
 		  ON td.ticket_id = ti.ticket_id
@@ -29,5 +31,15 @@
 		WHERE td.ticket_id = #{ticket_id}
 	</select>
 
+	<!-- pkage_dt_id 를 받아 해당 입장권 상세와 관련된 것들 select (입장권 예약 때 필요한 정보만 가져오기) -->
+<!-- 	<select id="selectTicketDetailById" parameterType="Ticket_detailDTO" resultType="TicketDTO">
+		SELECT distinct td.*, date_format(td.ticket_due_date, '%Y.%m.%d') AS ticket_due_date, td.ticket_adult_price, td.ticket_child_price, ti.ticket_rep_img_path, ti.ticket_detail_img_path, ct.city_name,
+		FROM ticket_detail td
+		LEFT JOIN ticket_img ti
+		  ON td.ticket_id = ti.ticket_id
+		LEFT JOIN  city ct
+		  ON td.city_id = ct.city_id
+		WHERE td.ticket_id = #{ticket_id}
+	</select> -->
 
 </mapper>

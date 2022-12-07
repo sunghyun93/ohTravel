@@ -386,6 +386,41 @@ span.form_holder:last-child {
     font-size: 13px;
     color: #666;
 }
+/* 할인 부분 */
+.info_area .mem_grade {
+	display: block;
+    margin-top: 3px;
+    font-size: 13px;
+    color: #0e1c35;
+    text-align: right;
+}
+.info_area .mem_coupon {
+	display: block;
+    margin-top: 3px;
+    font-size: 13px;
+    color: #0e1c35;
+    text-align: right;
+}
+/* 쿠폰 부분 */
+.coupon_list {
+	margin-top : 10px;
+}
+.cp_name {
+	border-bottom : 1px solid #ddd;
+	text-align: right;
+	margin-bottom : 10px;
+	padding-bottom : 5px;
+}
+.coupon_list .nice-select {
+	text-align: right;
+	margin-top : 5px;
+	float : right;
+}
+.coupon_list:after {
+	clear: both;
+    content: '';
+    display: table;
+}
 
 /* float 해제부분 */
 .pkRv_contents:after {

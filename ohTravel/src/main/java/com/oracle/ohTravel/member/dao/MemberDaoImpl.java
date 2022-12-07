@@ -3,10 +3,10 @@ package com.oracle.ohTravel.member.dao;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
@@ -117,4 +117,46 @@ public class MemberDaoImpl implements MemberDao {
 		return result;
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 회원 select (등급 까지 포함)
+	@Override
+	public MemberDTO selectMemberWithGrade(String mem_id) throws Exception {
+		log.info("MemberDaoImpl selectMemberWithGrade() start...");
+		MemberDTO memberDTO = sqlSession.selectOne("selectMemberWithGrade", mem_id);
+		log.info("MemberDaoImpl selectMemberWithGrade() end...");
+		return memberDTO;
+	}
+	
+	// 한 회원이 가진 쿠폰 select (쿠폰 테이블에선 쿠폰 이름과, 할인율만 가져옴)
+	@Override
+	public List<CouponDTO> selectMemberWithCoupon(String mem_id) throws Exception {
+		log.info("MemberDaoImpl selectMemberWithCoupon() start...");
+		List<CouponDTO> list = sqlSession.selectList("selectMemberWithCoupon", mem_id);
+		log.info("MemberDaoImpl selectMemberWithCoupon() end...");
+		return list;
+	}
 }

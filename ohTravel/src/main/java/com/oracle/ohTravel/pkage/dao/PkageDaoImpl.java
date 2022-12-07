@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_rsDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_rs_piDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,5 +78,41 @@ public class PkageDaoImpl implements PkageDao {
 		Pkage_detailDTO dto = session.selectOne(namespace+"selectPkgDetailById2", pkage_dt_id);
 		log.info("PkageDaoImpl selectPkgDetailById() end...");
 		return dto;
+	}
+	
+//	package_reservation insert 문
+	@Override
+	public int insertPkgReserve(Pkage_rsDTO pkage_rsDTO) throws Exception {
+		log.info("PkageDaoImpl insertPkgReserve() start...");
+		int rowCnt = session.insert(namespace+"insertPkgReserve", pkage_rsDTO);
+		log.info("PkageDaoImpl insertPkgReserve() end...");
+		return rowCnt;
+	}
+	
+//	어떤 사용자가 예약을 했을 경우 바로 생긴 pkage_rv_id 가져오기
+	@Override
+	public int selectPkgRvIdByMemId(String mem_id) throws Exception {
+		log.info("PkageDaoImpl selectPkgRvIdByMemId() start...");
+		int pkage_rv_id = session.selectOne(namespace+"selectPkgRvIdByMemId", mem_id);
+		log.info("PkageDaoImpl selectPkgRvIdByMemId() end...");
+		return pkage_rv_id;
+	}
+	
+//	package_reservation_pi 다중 insert 문
+	@Override
+	public int insertPkgReservePies(Map<String, List<Pkage_rs_piDTO>> map) throws Exception {
+		log.info("PkageDaoImpl insertPkgReservePies() start...");
+		int rowCnt = session.insert(namespace+"insertPkgReservePies", map);
+		log.info("PkageDaoImpl insertPkgReservePies() end...");
+		return rowCnt;
+	}
+	
+//	package 판매 update 문
+	@Override
+	public int updatePkgSoldCnt(String pkage_id) throws Exception {
+		log.info("PkageDaoImpl updatePkgSoldCnt() start...");
+		int rowCnt = session.update(namespace+"updatePkgSoldCnt", pkage_id);
+		log.info("PkageDaoImpl updatePkgSoldCnt() end...");
+		return rowCnt;
 	}
 }

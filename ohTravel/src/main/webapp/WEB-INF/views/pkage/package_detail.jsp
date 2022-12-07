@@ -580,7 +580,8 @@
             childCnt.text("0");
 
                 // 총 금액 기본 설정 (서버에서 받아와야 함 - 우선 하드코딩)
-            totalPay.html(adultPrice+'<em>원</em>');
+            let adultPriceWithCurrency = adultPrice.toLocaleString('ko-KR');
+            totalPay.html(adultPriceWithCurrency+'<em>원</em>');
 			
        
             up.on('click', function() {
@@ -632,7 +633,8 @@
                 }
 
                 // 총 금액 부분에 내용 삽입
-                totalPay.html(totalPrice+'<em>원</em>');
+                let totalPriceWithCurrency = totalPrice.toLocaleString('ko-KR');
+                totalPay.html(totalPriceWithCurrency+'<em>원</em>');
             });
 
             down.on('click', function() {
@@ -677,8 +679,9 @@
                 } else if(!isAdult && isUp){
                     console.log('아동 up');
                 }
-
-                totalPay.html(totalPrice+'<em>원</em>');
+				
+                let totalPriceWithCurrency = totalPrice.toLocaleString('ko-KR');
+                totalPay.html(totalPriceWithCurrency+'<em>원</em>');
             });
             
             /* 예약 버튼 부분 */

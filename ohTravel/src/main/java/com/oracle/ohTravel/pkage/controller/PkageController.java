@@ -23,12 +23,16 @@ import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
 import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.country.service.CountryService;
+import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
+import com.oracle.ohTravel.member.service.MemberService;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 import com.oracle.ohTravel.pkage.model.Pkage_flightScheDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_rsDTO;
 import com.oracle.ohTravel.pkage.model.PkgReserve;
+import com.oracle.ohTravel.pkage.model.PkgReserveEle;
 import com.oracle.ohTravel.pkage.model.PkgSearch;
 import com.oracle.ohTravel.pkage.service.PkageService;
 
@@ -44,6 +48,8 @@ public class PkageController {
 	private CountryService countryService;
 	@Autowired
 	private PkageService pkageService;
+	@Autowired
+	private MemberService memberService;
 	
 	// 국내 / 해외 패키지 상품 가져오는 메서드
 	// 국내/해외 search 페이지(0:국내 1:해외)
@@ -198,6 +204,8 @@ public class PkageController {
 			return "redirect:/member/loginForm";
 		}
 		
+		String mem_id = memberDTO.getMem_id();
+		
 		try {
 			// 패키지 가져오기(항공편의 도착 때문에 가져옴)
 			PkageDTORM pkageDTORM = pkageService.selectPkgByPkgId(pkgReserve.getPkage_id());
@@ -210,16 +218,74 @@ public class PkageController {
 			// 총 가격 만들어주기
 			pkgReserve.makeTotalPay(pkage_detailDTO.getPkage_dt_Aprice(), pkage_detailDTO.getPkage_dt_Cprice());
 			
+			// 멤버 (등급 까지 들고가기)
+			memberDTO = memberService.selectMemberWithGrade(mem_id);
+			
+			List<CouponDTO> couponList = memberService.selectMemberWithCoupon(mem_id);
+			log.info("couponList = " + couponList);
+			memberDTO.setCouponList(couponList);
+			
+			// 회원 등급 적용한 가격 가져가기
+			int priceWithGd = pkgReserve.getTotalPay() - (pkgReserve.getTotalPay()*memberDTO.getMembership_discount() / 100); 
+			log.info("priceWithGd = " + priceWithGd);
+			
+			// 회원 등급 적용한 마일리지 가져가기
+			int mile = pkgReserve.getTotalPay() * memberDTO.getMembership_discount() / 100;
+			
+			model.addAttribute("mile", mile);
+			model.addAttribute("priceWithGd", priceWithGd);
 			model.addAttribute("pkageDTORM", pkageDTORM);
 			model.addAttribute("pkage_detailDTO", pkage_detailDTO);
+			model.addAttribute("memberDTO", memberDTO);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		model.addAttribute("memberDTO", memberDTO);
 		model.addAttribute("pkgReserve", pkgReserve);
 		log.info("PkageController reservation() end...");
 		return "pkage/package_reservation";
+	}
+	
+	@PostMapping("/reserve")
+	public String reserve(PkgReserveEle pkgReserveEle,  Model model, HttpSession session) {
+		log.info("PkageController reserve() start...");
+		log.info("pkgReserveEle = " + pkgReserveEle);
+		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		
+		// 로그인 안되어 있으면 redirect
+		if(memberDTO == null) {
+			return "redirect:/member/loginForm";
+		}
+		
+		try {
+			String mem_id = memberDTO.getMem_id();
+			
+			// Map 만들어 주기
+			Map<String, Object> map = new HashMap<>();
+			map.put("mem_id", mem_id);
+			map.put("pkgReserveEle", pkgReserveEle);
+			
+			// Pkage_rsDTO 만들기
+			Pkage_rsDTO pkage_rsDTO = new Pkage_rsDTO();
+			pkage_rsDTO.setPkage_dt_id(pkgReserveEle.getPkage_dt_id());
+			pkage_rsDTO.setMem_id(mem_id);
+			pkage_rsDTO.setPkage_rv_Acnt(pkgReserveEle.getPkage_rv_Acnt());
+			pkage_rsDTO.setPkage_rv_Ccnt(pkgReserveEle.getPkage_rv_Ccnt());
+			pkage_rsDTO.setPkage_rv_tprice(pkgReserveEle.getPkage_rv_tprice());
+			map.put("pkage_rsDTO", pkage_rsDTO);
+			
+			// insert 결과 받기		
+			int rowCnt = pkageService.insertPkgReserveInsertWithAll(map);
+			log.info("rowCnt = " + rowCnt);
+			
+			model.addAttribute("rowCnt", rowCnt);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		log.info("PkageController reserve() end...");
+		return "pkage/package_completeReserve";
 	}
 	
 	// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수(전체 상품 디테일들 중 최소 기간과 최대기간) 구하기

@@ -24,8 +24,6 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 	@Override
 	public void deleteReview(Review review) {
 		Review findReview = em.find(Review.class, review.getRv_id());
-		System.out.println("deleteReview Repository Start...");
-		System.out.println("deleteReview Repository findReview->"+findReview);
 		em.remove(findReview);
 		em.flush();
 	}
