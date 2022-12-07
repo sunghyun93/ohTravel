@@ -110,13 +110,28 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		}
 		return ReservationCnt;
 	}
+	
+	@Override
+	public Air_ReservationDTO selectReservationList(String mem_id) {
+		
+		Air_ReservationDTO reservationList = null;
+		try {
+			
+			reservationList = session.selectOne(namespace + "ReservationListSelect", mem_id);
+			System.out.println("ScheduleDAOImpl  reservationList=" + reservationList);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return reservationList;
+	}
 
 	@Override
-	public int pplList(Air_Reservation_PiDTO air_Reservation_PiDTO) {
+	public int pplList(Map<String,Object> map)throws Exception {
 		int pplCnt = 0;
 		try {
 			
-			pplCnt = session.insert(namespace + "pplList", air_Reservation_PiDTO);
+			pplCnt = session.insert(namespace + "pplList", map);
 			System.out.println("ScheduleDAOImpl pplCnt=" + pplCnt);
 		
 		} catch (Exception e) {
@@ -126,26 +141,40 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 	}
 
 	@Override
-	public int flightList(Air_FlightSchDTO air_FlightSchDTO) {
-		int flightCnt = 0;
+	public int goflightList(Map<String,Object> map)throws Exception {
+		int goflightCnt = 0;
 		try {
 			
-			flightCnt = session.insert(namespace + "flightList", air_FlightSchDTO);
-			System.out.println("ScheduleDAOImpl flightCnt=" + flightCnt);
+			goflightCnt = session.insert(namespace + "goflightList", map);
+			System.out.println("ScheduleDAOImpl flightCnt=" + goflightCnt);
 		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return flightCnt;
+		return goflightCnt;
+	}
+	
+	@Override
+	public int comeflightList(Map<String,Object> map)throws Exception {
+		int comeflightCnt = 0;
+		try {
+			
+			comeflightCnt = session.insert(namespace + "comeflightList", map);
+			System.out.println("ScheduleDAOImpl flightCnt=" + comeflightCnt);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comeflightCnt;
 	}
 
 	@Override
-	public int seatList(Reservation_Seat reservation_Seat) {
+	public int goSeatList(Map<String,Object> map)throws Exception{
 		int seatCnt=0;
 		
 		try {
 			
-			seatCnt = session.insert(namespace + "seatList", reservation_Seat);
+			seatCnt = session.insert(namespace + "goSeatList",  map);
 			System.out.println("ScheduleDAOImpl seatCnt=" + seatCnt);
 		
 		} catch (Exception e) {
@@ -153,6 +182,37 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		}
 		return seatCnt;
 	}
+	
+	@Override
+	public int comeSeatList(Map<String,Object> map) throws Exception{
+		int seatCnt=0;
+		
+		try {
+			
+			seatCnt = session.insert(namespace + "comeSeatList",map);
+			System.out.println("ScheduleDAOImpl seatCnt=" + seatCnt);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return seatCnt;
+	}
+
+	@Override
+	public int paymentList(Map<String, Object> map) throws Exception {
+		int paymentCnt = 0;
+		try {
+			
+			paymentCnt = session.insert(namespace + "paymentList",map);
+			System.out.println("ScheduleDAOImpl paymentCnt=" + paymentCnt);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return paymentCnt;
+	}
+
+	
 
 	
 	

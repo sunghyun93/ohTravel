@@ -1,6 +1,7 @@
 package com.oracle.ohTravel.airport.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.oracle.ohTravel.airport.model.AirSearch;
 import com.oracle.ohTravel.airport.model.Air_FlightSchDTO;
@@ -22,12 +23,23 @@ public interface ScheduleDAO {
 	Air_ScheduleDTO ComeairplaneList(Integer come_schedule_id);
 
 	int ReservationList(Air_ReservationDTO air_ReservationDTO);
+	
+	Air_ReservationDTO selectReservationList(String mem_id);
 
-	int pplList(Air_Reservation_PiDTO air_Reservation_PiDTO);
+	int pplList(Map<String,Object> map)throws Exception;
 
-	int seatList(Reservation_Seat reservation_Seat);
+	int goSeatList(Map<String,Object> map)throws Exception;
+	
+	int comeSeatList(Map<String,Object> map) throws Exception;
 
-	int flightList(Air_FlightSchDTO air_FlightSchDTO);
+	int goflightList(Map<String,Object> map) throws Exception;
+	
+	int comeflightList(Map<String,Object> map) throws Exception;
+
+	int paymentList(Map<String, Object> map) throws Exception;
+	
+
+	
 
 
 	

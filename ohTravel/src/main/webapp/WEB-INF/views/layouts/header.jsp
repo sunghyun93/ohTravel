@@ -73,9 +73,7 @@
                                                 </ul>
                                             </li>
                                             <li><a href="${pageContext.request.contextPath}/airport/searchTicket">항공</a>
-                                            	  <ul class="submenu">
-                                                    <li><a href="/airport/air_reservation">항공예약 페이지</a></li>
-                                                </ul>
+                                            	  
                                             </li>
                                             <li><a href="#">패키지</a>
                                                 <ul class="submenu">
