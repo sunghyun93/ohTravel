@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.oracle.ohTravel.manager.dto.CouponDTO;
+import com.oracle.ohTravel.manager.dto.ManageAirportDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
 import com.oracle.ohTravel.manager.dto.NoticeDTO;
@@ -29,6 +29,7 @@ import com.oracle.ohTravel.manager.dto.ManagePackageDTO;
 import com.oracle.ohTravel.manager.dto.PagingManager;
 import com.oracle.ohTravel.manager.dto.ManageTicketDTO;
 import com.oracle.ohTravel.manager.service.ManagerService;
+import com.oracle.ohTravel.ticket.model.TicketDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,6 +47,10 @@ public class ManagerController {
 		return "manager/managerMain";
 		
 	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 회원관리 관련////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//회원관리 ->회원관리
 	@RequestMapping(value = "manageUser")
 	public String manageUser(MemberDTO member, String currentPage ,Model model) {
@@ -101,7 +106,9 @@ public class ManagerController {
 		return "forward:manageUser";
 	}
 	
-	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 회원등급 관련////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//회원관리 ->등급관리
 	@RequestMapping(value = "manageMemberShip")
 	public String manageMemberShip(Model model) {
@@ -152,6 +159,9 @@ public class ManagerController {
 		return "forward:manageMemberShip";
 	}
 	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 패키지 관련//////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//상품관리 ->패키지 관리
 	@RequestMapping(value = "managePackage")
 	public String managePackage(ManagePackageDTO pk,String currentPage, Model model) {
@@ -194,10 +204,11 @@ public class ManagerController {
 	
 	//상품관리 -> 패키지 한개 상세보기
 	@RequestMapping(value = "managePackageDetailOne")
-	public String managePackageDetailOne(ManagePackageDTO pk,String pkage_id, Model model) {
+	public String managePackageDetailOne(ManagePackageDTO pk,String currentPage, String pkage_id, Model model) {
 		List<ManagePackageDTO> packageDetailOne = service.getPackageDetailOne(pk);
 		model.addAttribute("packageDetailOne", packageDetailOne);
 		model.addAttribute("pkage_id", pkage_id);
+		model.addAttribute("currentPage", currentPage);
 		return "manager/managePackageDetailOne";
 	}
 	
@@ -289,7 +300,7 @@ public class ManagerController {
 		return "manager/insertAttractionForm";
 	}
 	//상품관리 -> 패키지 관광지 추가
-	@RequestMapping(value = "insertAttraction")
+	@PostMapping(value = "insertAttraction")
 	public String insertAttraction(ManagePackageDTO pk,@RequestParam(value = "file1") MultipartFile file1, HttpServletRequest request, Model model) {
 		String path = request.getServletContext().getRealPath("/img/pkage/");
 		
@@ -328,20 +339,393 @@ public class ManagerController {
 		return "forward:manageAttraction";
 	}
 	
-	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 항공권관련//////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//상품관리 ->항공권 상품 관리
-	@RequestMapping(value = "manageAirline")
-	public String manageAirline() {
+	@RequestMapping(value = "manageAir")
+	public String manageAir(ManageAirportDTO air,String currentPage,Model model) {
+		int total = service.totalAirSchedule();
+		PagingManager page = new PagingManager(total, currentPage);
+		air.setStart(page.getStart());
+		air.setEnd(page.getEnd());
+		List<ManageAirportDTO> airScheduleList = service.getAirScheduleList(air);
+		model.addAttribute("AirScheduleList", airScheduleList);
+		model.addAttribute("page", page);
+		return "manager/manageAir";
+	}
+	
+	//상품관리 - > 항공권 상품관리 ->일정 상세조회
+	@RequestMapping(value = "manageAirScheduleDetail")
+	public String manageAirScheduleDetail(ManageAirportDTO air, String currentPage, Model model) {
+		List<ManageAirportDTO> airScheduleDetail = service.getAirScheduleDetail(air);
+		List<ManageAirportDTO> getAirlineList = service.getAirlineList();
+		List<ManageAirportDTO> getAirplaneList = service.getAirplaneList();
+		List<ManageAirportDTO> getStartAirportList = service.getStartAirportList();
+		List<ManageAirportDTO> getEndAirportList = service.getEndAirportList();
+		List<ManageAirportDTO> getSeatList = service.getSeatList();
+		model.addAttribute("airScheduleDetail", airScheduleDetail);
+		model.addAttribute("airlineList", getAirlineList);
+		model.addAttribute("airplaneList", getAirplaneList);
+		model.addAttribute("startAirportList", getStartAirportList);
+		model.addAttribute("endAirportList", getEndAirportList);
+		model.addAttribute("seatList", getSeatList);
+		model.addAttribute("currentPage", currentPage);
 		
+		return "manager/manageAirScheduleDetail";
+	}
+	
+
+	//상품관리 -> 항공권 -> 항공사관리
+	@RequestMapping(value = "manageAirline")
+	public String manageAirline(ManageAirportDTO air, String currentPage, Model model) {
+		int total = service.totalAirline();
+		PagingManager page = new PagingManager(total, currentPage);
+		air.setStart(page.getStart());
+		air.setEnd(page.getEnd());
+		List<ManageAirportDTO> airlineList = service.getAirlineList(air);
+		System.out.println(airlineList.size());
+		model.addAttribute("airlineList", airlineList);
+		model.addAttribute("page", page);
+		model.addAttribute("currentPage", currentPage);
 		return "manager/manageAirline";
 	}
+	//상품관리 -> 항공권 ->항공사관리 상세보기
+	@RequestMapping(value = "manageAirlineDetail")
+	public String manageAirlineDetail(ManageAirportDTO air,Model model) {
+		List<ManageAirportDTO> airlineDetail = service.getAirlineDetail(air);
+		model.addAttribute("airlineDetail", airlineDetail);
+		return "manager/manageAirlineDetail";
+	}
+	//상품관리 -> 항공권 -> 항공사 수정하기
+	@PostMapping(value = "updateAirline")
+	public String updateAirline(ManageAirportDTO air,@RequestParam(value = "file1")MultipartFile file1, Model model, HttpServletRequest request) {
+		String path = request.getServletContext().getRealPath("/img/air/");
+		if(!file1.isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			String fileName= file1.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file1.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file1.transferTo(saveFile);
+				System.out.println("와?");
+				System.out.println("path->"+path);
+				System.out.println("uuid->"+uuid);
+				System.out.println("fileName->"+fileName);
+				air.setAir_picture("/img/air/"+uuFileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(file1.isEmpty()) {
+			System.out.println("file1 없어용~");
+			System.out.println("2"+air.getAir_num());
+			System.out.println("3"+air.getAir_name());
+			air.setAir_picture(service.getAirlineDetail(air).get(0).getAir_picture());
+			System.out.println("empty getAir_picture"+air.getAir_picture());
+		}
+		
+		System.out.println("2"+air.getAir_num());
+		System.out.println("3"+air.getAir_name());
+		int result = service.updateAirline(air);
+		System.out.println("result->"+result);
+		model.addAttribute("updateAirlineMsg1", result);
+		return "redirect:manageAirline";
+	}
+	//상품관리 -> 항공권 -> 항공사 추가하기로 이동
+	@RequestMapping(value = "insertAirlineForm")
+	public String insertAirlineForm() {
+		
+		return "manager/insertAirlineForm";
+	}
+	//상품관리 -> 항공권 -> 항공사 추가하기 실행
+	@PostMapping(value = "insertAirline")
+	public String insertAirline(ManageAirportDTO air, @RequestParam(value = "file1") MultipartFile file1, HttpServletRequest request, Model model) {
+		String path = request.getServletContext().getRealPath("/img/air/");
+		System.out.println("realpath->"+path);
+		//String path = "C:\\Users\\zest_\\Desktop\\ohTravel\\ohTravel\\src\\main\\resources\\static\\img\\ticket";
+		String fileName = "";
+		UUID uuid = UUID.randomUUID();
+		fileName= file1.getOriginalFilename();
+		String uuFileName = uuid.toString()+"_"+file1.getOriginalFilename();
+		System.out.println("fileName=->"+fileName);
+		File saveFile = new File(path,uuFileName);
+		if (!saveFile.getParentFile().exists())
+			saveFile.getParentFile().mkdirs();
+		System.out.println(saveFile);
+		System.out.println("오냐??");
+		try {
+			file1.transferTo(saveFile);
+			System.out.println("와?");
+			System.out.println("path->"+path);
+			System.out.println("uuid->"+uuid);
+			System.out.println("fileName->"+fileName);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		air.setAir_picture("/img/air/"+uuFileName);
+		System.out.println("child->"+air.getAir_picture());
+		
+		int result = service.insertAirline(air);
+		model.addAttribute("insertAirlineMsg1", result);
+		return "redirect:manageAirline";
+	}
+	//상품관리 -> 항공권 -> 항공사 삭제하기 Ajax로
+	@ResponseBody
+	@PostMapping(value = "deleteAirline")
+	public int deleteAirline(ManageAirportDTO air) {
+		System.out.println("air_num-->"+air.getAir_num());
+		int result = service.deleteAirline(air);
+		return result;
+	}
+	
+	//상품관리 -> 항공권 -> 비행기 관리
+	@RequestMapping(value = "manageAirplane")
+	public String manageAirplane(ManageAirportDTO air,String currentPage,Model model) {
+		int total = service.totalAirplane();
+		PagingManager page = new PagingManager(total, currentPage);
+		air.setStart(page.getStart());
+		air.setEnd(page.getEnd());
+		List<ManageAirportDTO> airplaneList = service.getAirplaneList(air);
+		System.out.println(airplaneList.size());
+		model.addAttribute("airplaneList", airplaneList);
+		model.addAttribute("page", page);
+		model.addAttribute("currentPage", currentPage);
+		return "manager/manageAirplane";
+	}
+	
+	//상품관리 -> 항공권 ->비행기관리 상세보기
+	@RequestMapping(value = "manageAirplaneDetail")
+	public String manageAirplaneDetail(ManageAirportDTO air,Model model) {
+		List<ManageAirportDTO> airplaneDetail = service.getAirplaneDetail(air);
+		model.addAttribute("airplaneDetail", airplaneDetail);
+		return "manager/manageAirplaneDetail";
+	}
+	//상품관리 -> 항공권 ->비행기 수정하기 Ajax
+	@ResponseBody
+	@PostMapping(value = "updateAirplane")
+	public int updateAirplane(ManageAirportDTO air) {
+		int result = service.updateAirplane(air);
+		System.out.println(result);
+		return result;
+	}
+	//상품관리 -> 항공권 ->비행기 삭제하기 Ajax
+	@ResponseBody
+	@PostMapping(value = "deleteAirplane")
+	public int deleteAirplane(ManageAirportDTO air) {
+		int result = service.deleteAirplane(air);
+		
+		return result;
+	}
+	//상품관리 -> 항공권 ->비행기 추가하기 Form으로 이동
+	@RequestMapping(value = "insertAirplaneForm")
+	public String insertAirplaneForm() {
+		
+		return "manager/insertAirplaneForm";
+	}
+	//상품관리 -> 항공권 ->비행기 추가하기 실행k Ajax
+	@ResponseBody
+	@RequestMapping(value = "insertAirplane")
+	public int insertAirplane(ManageAirportDTO air) {
+		int result = service.insertAirplane(air);
+
+		return result;
+	}
+	
+
+	//상품관리 -> 항공권 -> 출발공항 관리
+	@RequestMapping(value = "manageStartAirport")
+	public String manageStartAirport(ManageAirportDTO air,String currentPage,Model model) {
+		int total = service.totalStartAirport();
+		PagingManager page = new PagingManager(total, currentPage);
+		air.setStart(page.getStart());
+		air.setEnd(page.getEnd());
+		List<ManageAirportDTO> startAirportList = service.getStartAirportList(air);
+		System.out.println(startAirportList.size());
+		model.addAttribute("startAirportList", startAirportList);
+		model.addAttribute("page", page);
+		model.addAttribute("currentPage", currentPage);
+		return "manager/manageStartAirport";
+	}
+	//상품관리 -> 항공권 -> 출발공항 추가 Form으로 이동
+	@RequestMapping(value = "insertStartAirportForm")
+	public String insertStartAirportForm(ManageTicketDTO ticket ,Model model) {
+		List<ManageTicketDTO>countryList = service.getCountryList();
+		List<ManageTicketDTO>cityList = service.getCityList(ticket);
+		model.addAttribute("countryList", countryList);
+		model.addAttribute("cityList", cityList);
+		return "manager/insertStartAirportForm";
+	}
+	//상품관리 -> 항공권 -> 출발공항 추가 실행 Ajax
+	@ResponseBody
+	@PostMapping(value = "insertStartAirport")
+	public int insertStartAirport(ManageAirportDTO air) {
+		System.out.println("name->"+air.getStart_airport_name());
+		System.out.println("country->"+air.getCountry_id());
+		System.out.println("city ->"+air.getCity_id());
+		int result = service.insertStartAirport(air);
+		return result;
+	}
+	//상품관리 -> 항공권 ->출발공항 상세보기
+	@RequestMapping(value = "manageStartAirportDetail")
+	public String manageStartAirportDetail(ManageTicketDTO ticket,ManageAirportDTO air, Model model) {
+		List<ManageAirportDTO> startAirportDetail = service.getStartAirportDetail(air);
+		ticket.setCity_id(startAirportDetail.get(0).getCity_id());
+		List<ManageTicketDTO>countryList = service.getCountryList();
+		List<ManageTicketDTO>cityList = service.getCityList(ticket);
+		model.addAttribute("startAirportDetail", startAirportDetail);
+		model.addAttribute("countryList", countryList);
+		model.addAttribute("cityList", cityList);
+		return "manager/manageStartAirportDetail";
+	}
+	//상품관리 -> 항공권 -> 출발공항 수정
+	@ResponseBody
+	@PostMapping(value = "updateStartAirport")
+	public int updatestartAirport(ManageAirportDTO air) {
+		int result = service.updateStartAirport(air);
+		return result;
+	}
+	//상품관리 -> 항공권 -> 출발공항 삭제
+	@ResponseBody
+	@PostMapping(value = "deleteStartAirport")
+	public int deletestartAirport(ManageAirportDTO air) {
+		int result = service.deletestartAirport(air);
+		return result;
+	}
+	
+	
+	//상품관리 -> 항공권 -> 도착공항 관리
+	@RequestMapping(value = "manageEndAirport")
+	public String manageEndAirport(ManageAirportDTO air,String currentPage,Model model) {
+		int total = service.totalEndAirport();
+		PagingManager page = new PagingManager(total, currentPage);
+		air.setStart(page.getStart());
+		air.setEnd(page.getEnd());
+		List<ManageAirportDTO> endAirportList = service.getEndAirportList(air);
+		System.out.println(endAirportList.size());
+		model.addAttribute("endAirportList", endAirportList);
+		model.addAttribute("page", page);
+		model.addAttribute("currentPage", currentPage);
+		return "manager/manageEndAirport";
+	}
+	//상품관리 -> 항공권 -> 도착공항 추가 Form으로 이동
+	@RequestMapping(value = "insertEndAirportForm")
+	public String insertEndAirportForm(ManageTicketDTO ticket ,Model model) {
+		List<ManageTicketDTO>countryList = service.getCountryList();
+		List<ManageTicketDTO>cityList = service.getCityList(ticket);
+		model.addAttribute("countryList", countryList);
+		model.addAttribute("cityList", cityList);
+		return "manager/insertEndAirportForm";
+	}
+	//상품관리 -> 항공권 -> 도착공항 추가 실행 Ajax
+	@ResponseBody
+	@PostMapping(value = "insertEndAirport")
+	public int insertEndAirport(ManageAirportDTO air) {
+		System.out.println("name->"+air.getStart_airport_name());
+		System.out.println("country->"+air.getCountry_id());
+		System.out.println("city ->"+air.getCity_id());
+		int result = service.insertEndAirport(air);
+		return result;
+	}
+	//상품관리 -> 항공권 ->도착공항 상세보기
+	@RequestMapping(value = "manageEndAirportDetail")
+	public String manageEndAirportDetail(ManageTicketDTO ticket,ManageAirportDTO air, Model model) {
+		List<ManageAirportDTO> endAirportDetail = service.getEndAirportDetail(air);
+		ticket.setCity_id(endAirportDetail.get(0).getCity_id());
+		List<ManageTicketDTO>countryList = service.getCountryList();
+		List<ManageTicketDTO>cityList = service.getCityList(ticket);
+		model.addAttribute("endAirportDetail", endAirportDetail);
+		model.addAttribute("countryList", countryList);
+		model.addAttribute("cityList", cityList);
+		return "manager/manageEndAirportDetail";
+	}
+	//상품관리 -> 항공권 -> 도착공항 수정
+	@ResponseBody
+	@PostMapping(value = "updateEndAirport")
+	public int updateEndAirport(ManageAirportDTO air) {
+		int result = service.updateEndAirport(air);
+		return result;
+	}
+	//상품관리 -> 항공권 -> 도착공항 삭제
+	@ResponseBody
+	@PostMapping(value = "deleteEndAirport")
+	public int deleteEndAirport(ManageAirportDTO air) {
+		int result = service.deleteEndAirport(air);
+		return result;
+	}
+	
+	//상품관리 -> 항공권 -> 좌석 관리
+	@RequestMapping(value = "manageSeat")
+	public String manageSeat(Model model) {
+		List<ManageAirportDTO> seatList = service.getSeatList();
+		model.addAttribute("seatList", seatList);
+		return "manager/manageSeat";
+	}
+	//상품관리 -> 항공권 -> 일정 추가 Form 으로 이동
+	@RequestMapping(value = "insertAirScheduleForm")
+	public String insertAirSchedule(ManageAirportDTO air, Model model) {
+		List<ManageAirportDTO> getAirlineList = service.getAirlineList();
+		List<ManageAirportDTO> getAirplaneList = service.getAirplaneList();
+		List<ManageAirportDTO> getStartAirportList = service.getStartAirportList();
+		List<ManageAirportDTO> getEndAirportList = service.getEndAirportList();
+		List<ManageAirportDTO> getSeatList = service.getSeatList();
+		model.addAttribute("airlineList", getAirlineList);
+		model.addAttribute("airplaneList", getAirplaneList);
+		model.addAttribute("startAirportList", getStartAirportList);
+		model.addAttribute("endAirportList", getEndAirportList);
+		model.addAttribute("seatList", getSeatList);
+		return "manager/insertAirScheduleForm";
+	}
+	//상품관리 -> 항공권 -> 일정추가 실행
+	@ResponseBody
+	@PostMapping(value = "insertAirSchedule")
+	public int insertAirSchedule(ManageAirportDTO air) {
+		int result = 0;
+		result = service.insertAirSchedule(air);
+		return result;
+	}
+	
+	//상품관리 -> 항공권 -> 일정 삭제
+	@ResponseBody
+	@PostMapping(value = "deleteAirSchedule")
+	public int deleteAirSchedule(ManageAirportDTO air) {
+		int result = service.deleteAirSchedule(air);
+		return result;
+	}
+	
+	//상품관리 ->항공권 항공사마다 항공기 달라지는 셀렉문 Ajax
+	@ResponseBody
+	@RequestMapping(value = "changeAirline")
+	public List<ManageAirportDTO> changeAirline(ManageAirportDTO air) {
+		System.out.println("getAir_num-->"+air.getAir_num());
+		
+		List<ManageAirportDTO> airlineChangenum = service.getAirplaneChange(air);
+		System.out.println(airlineChangenum.size());
+		return airlineChangenum;
+	}
+	
 	//상품관리 ->숙박 상품 관리
 	@RequestMapping(value = "manageHotel")
 	public String manageHotel() {
 		
 		return "manager/manageHotel";
 	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 입장권관련//////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//상품관리 ->입장권 상품 관리
 	@RequestMapping(value = "manageTicket")
 	public String manageTicket(ManageTicketDTO ticket,String currentPage, Model model) {
@@ -461,10 +845,8 @@ public class ManagerController {
 				System.out.println("fileName->"+fileName);
 				ticket.setTicket_rep_img_path("/img/ticket/"+uuFileName);
 			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else if(file1.isEmpty()) {
@@ -519,6 +901,9 @@ public class ManagerController {
 		
 		return "manager/manageBoard";
 	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 게시판관련//////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//게시판관리 -> 공지사항관리
 	@RequestMapping(value = "manageNotice")
 	public String manageNotice(NoticeDTO notice, String currentPage, Model model) {
@@ -582,12 +967,19 @@ public class ManagerController {
 		return "forward:manageNotice";
 	}
 	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 매출관련//////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//매출관리
 	@RequestMapping(value = "manageSales")
 	public String manageSales() {
 		
 		return "manager/manageSales";
 	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 쿠폰관련//////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//쿠폰관리 ->모든 쿠폰 조회
 	@RequestMapping(value = "manageCoupon")
 	public String manageCoupon(Model model) {

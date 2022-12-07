@@ -1,17 +1,19 @@
 package com.oracle.ohTravel.member.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
+import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -86,5 +88,116 @@ public class MemberDaoImpl implements MemberDao {
 		System.out.println("MemberDaoImpl myPageReservPackage packageReservList.size() -> " + packageReservList.size());
 		return packageReservList;
 	}
+
+	// 회원 탈퇴
+	@Override
+	public int deleteMember(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl deleteMember start..");
+		int result = sqlSession.delete("deleteMember", memberDTO);
+		System.out.println("MemberDaoImpl deleteMember memberDTO.getMem_id() -> " + memberDTO.getMem_id());
+		
+		return result;
+	}
+
+	// 개인 정보 수정
+	@Override
+	public int updateMember(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl updateMember start..");
+		
+		int result = sqlSession.update("updateMember", memberDTO);
+		
+		return result;
+	}
+
+	// 비밀번호 변경
+	@Override
+	public int updatePassword(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl updatePassword start..");
+		
+		int result = sqlSession.update("updatePassword", memberDTO);
+		
+		return result;
+	}
 	
+	// 아이디 중복 체크
+	@Override
+	public int idCheck(String mem_id) {
+		log.info("MemberDaoImpl idCheck start..");
+		
+		int result = sqlSession.selectOne("idCheck", mem_id);
+		
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 회원 select (등급 까지 포함)
+	@Override
+	public MemberDTO selectMemberWithGrade(String mem_id) throws Exception {
+		log.info("MemberDaoImpl selectMemberWithGrade() start...");
+		MemberDTO memberDTO = sqlSession.selectOne("selectMemberWithGrade", mem_id);
+		log.info("MemberDaoImpl selectMemberWithGrade() end...");
+		return memberDTO;
+	}
+	
+	// 한 회원이 가진 쿠폰 select (쿠폰 테이블에선 쿠폰 이름과, 할인율만 가져옴)
+	@Override
+	public List<CouponDTO> selectMemberWithCoupon(String mem_id) throws Exception {
+		log.info("MemberDaoImpl selectMemberWithCoupon() start...");
+		List<CouponDTO> list = sqlSession.selectList("selectMemberWithCoupon", mem_id);
+		log.info("MemberDaoImpl selectMemberWithCoupon() end...");
+		return list;
+	}
+	
+	// 회원 마일리지 update
+	@Override
+	public int updateMemMileage(Map<String, Object> map) throws Exception {
+		log.info("MemberDaoImpl updateMemMileage() start...");
+		int rowCnt = sqlSession.update("updateMemMileage", map);
+		log.info("MemberDaoImpl updateMemMileage() end...");
+		return rowCnt;
+	}
+	
+	// 프로시저 사용 (업데이트가 성공적으로 되면 매개변수로 던져준 updateMile 의 result 컬럼이 0(기본값) 에서 1로 변경되어 있음)
+	// 회원 마일리지 변동에 따른 마일리지 등급 변경 (기준 마일리지를 넘거나 내려갔을 시 그에 맞는 마일리지 등급으로 변경)
+	@Override
+	public void updateMemMileGrade(UpdateMileGradeDTO updateMile) throws Exception {
+		log.info("MemberDaoImpl updateMemMileGrade() start...");
+		log.info("updateMile = " + updateMile);
+		sqlSession.selectOne("updateMemMileGrade", updateMile);
+		log.info("MemberDaoImpl updateMemMileGrade() end...");
+//		return rowCnt;
+	}
+	
+	// 회원이 쿠폰 사용 시 해당 쿠폰 사용 컬럼 1로 update
+	@Override
+	public int updateMemCouponUsed(Map<String, Object> map) throws Exception {
+		log.info("MemberDaoImpl updateMemCouponUsed() start...");
+		int rowCnt = sqlSession.update("updateMemCouponUsed", map);
+		log.info("MemberDaoImpl updateMemCouponUsed() end...");
+		return rowCnt;
+	}
 }

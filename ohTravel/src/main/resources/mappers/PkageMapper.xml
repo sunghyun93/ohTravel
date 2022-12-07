@@ -258,8 +258,7 @@
 	<resultMap id="selectHotelImgResult" type="Hotel_image">
 		<id property="h_img_id" column="h_img_id"/>
 		<id property="hotel_id" column="hotel_id"/>
-		<result property="h_s_img_path" column="h_s_img_path"/>
-		<result property="h_l_img_path" column="h_l_img_path"/>
+		<result property="h_img_path" column="h_img_path"/>
 	</resultMap>
 	
 	<!-- 호텔 옵션 resultMap -->
@@ -329,7 +328,7 @@
 					And (pd.pkage_dt_Aprice >= ${pkgSearch.minAmt})
 				]]>
 				</when>
-				<when test='pkgSearch.amtGubun.equals("3")'>
+				<when test='amtGubun.equals("3")'>
 				<![CDATA[ 
 					And (pd.pkage_dt_Aprice between ${pkgSearch.minAmt} and ${pkgSearch.maxAmt})
 				]]>
@@ -349,18 +348,18 @@
 				</when>
 			</choose>
 		</if>
-		<choose>
+		<choose><!-- 각 정렬에 맞게 먼저 정렬되고, 같은 것이 있다면 더 많이 팔린것 순으로 정렬 -->
 			<when test="order == 1">
 				order by pkage_soldCnt desc
 			</when>
 			<when test="order == 2">
-				order by pkage_score desc
+				order by pkage_score desc, pkage_soldCnt desc
 			</when>
 			<when test="order == 3">
-				order by pkage_dt_Aprice desc
+				order by pkage_dt_Aprice desc, pkage_soldCnt desc
 			</when>
 			<when test="order == 4">
-				order by pkage_dt_Aprice asc
+				order by pkage_dt_Aprice asc, pkage_soldCnt desc
 			</when>
 			<otherwise>
 				order by pkage_soldCnt desc
@@ -442,6 +441,42 @@
 		left join airline aline on ashe.Air_num = aline.Air_num
 		where pd.pkage_dt_id = ${pkage_dt_id}
 	</select>
+	
+	<!-- package_reservation insert 문 -->
+	<insert id="insertPkgReserve" parameterType="Pkage_rsDTO">
+		INSERT INTO package_reservation
+		(pkage_dt_id, mem_id, pkage_rv_Acnt, pkage_rv_Ccnt,
+		pkage_rv_tprice, pkage_rv_date, pkage_rv_status)
+		VALUES
+		(#{pkage_dt_id}, #{mem_id}, #{pkage_rv_Acnt}, #{pkage_rv_Ccnt},
+		#{pkage_rv_tprice}, now(), 1)
+	</insert>
+	
+	<!-- 어떤 사용자가 예약을 했을 경우 바로 생긴 pkage_rv_id 가져오기 -->
+	<select id="selectPkgRvIdByMemId" parameterType="map" resultType="int">
+		select max(pkage_rv_id) pkage_rv_id
+		from package_reservation
+		where mem_id = #{mem_id}
+	</select>
+	
+	<!-- package_reservation_pi 다중 insert 문 -->
+	<insert id="insertPkgReservePies" parameterType="map">
+		INSERT INTO package_reservation_pi
+		(pkage_rv_id, pkage_pi_name, pkage_pi_birth, pkage_pi_gen,
+		 pkage_pi_lname, pkage_pi_fname, pkage_pi_tel, pkage_pi_email)
+		VALUES
+		<foreach collection="pkage_rs_piDTOList" item="item" separator=",">
+			(#{item.pkage_rv_id}, #{item.pkage_pi_name}, #{item.pkage_pi_birth}, #{item.pkage_pi_gen},
+			#{item.pkage_pi_lname}, #{item.pkage_pi_fname}, #{item.pkage_pi_tel}, #{item.pkage_pi_email})
+		</foreach>
+	</insert>
+	
+	<!-- package 판매 update 문 -->
+	<update id="updatePkgSoldCnt" parameterType="string">
+		update package 
+		set pkage_soldCnt = pkage_soldCnt + 1 
+		where pkage_id = #{pkage_id};
+	</update>
 	
 <!--  sql 태그들  -->
 	<!-- 평점을 위한 sql -->

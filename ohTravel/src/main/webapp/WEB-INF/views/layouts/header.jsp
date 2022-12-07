@@ -68,7 +68,6 @@
                                             	  <ul class="submenu">
                                                     <li><a href="${pageContext.request.contextPath }/blog">블로그 구조 참고</a></li>
                                                     <li><a href="${pageContext.request.contextPath }/element">Element</a></li>
-                                                    <li><a href="${pageContext.request.contextPath }/hotel/hotelDetail">호텔상세확인용</a></li>
                                                     <li><a href="${pageContext.request.contextPath }/tilesTest">이러지마 타일즈야</a></li>
                                                 </ul>
                                             </li>

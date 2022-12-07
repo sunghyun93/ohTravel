@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.mysql.cj.protocol.x.Notice;
 import com.oracle.ohTravel.manager.dto.CouponDTO;
+import com.oracle.ohTravel.manager.dto.ManageAirportDTO;
 import com.oracle.ohTravel.manager.dto.MemberDTO;
 import com.oracle.ohTravel.manager.dto.MembershipDTO;
 import com.oracle.ohTravel.manager.dto.NoticeDTO;
@@ -293,6 +293,213 @@ public class ManagerDAOImpl implements ManagerDAO {
 		return packageDetailOne;
 	}
 
-	
+	@Override
+	public List<ManageAirportDTO> getAirScheduleList(ManageAirportDTO air) {
+		List<ManageAirportDTO> airScheduleList = session.selectList("getAirScheduleList", air);
+		return airScheduleList;
+	}
 
+	@Override
+	public int totalAirSchedule() {
+		int total = session.selectOne("totalAirSchedule");
+		return total;
+	}
+
+	@Override
+	public int totalAirline() {
+		int total = session.selectOne("totalAirline");
+		return total;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirlineList(ManageAirportDTO air) {
+		List<ManageAirportDTO> airlineList = session.selectList("getAirlineList", air);
+		return airlineList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirlineDetail(ManageAirportDTO air) {
+		List<ManageAirportDTO> airlineDetail = session.selectList("getAirlineDetail", air);
+		return airlineDetail;
+	}
+
+	@Override
+	public int updateAirline(ManageAirportDTO air) {
+		int result = session.update("updateAirline", air);
+		return result;
+	}
+
+	@Override
+	public int insertAirline(ManageAirportDTO air) {
+		int result = session.insert("insertAirline", air);
+		return result;
+	}
+
+	@Override
+	public int deleteAirline(ManageAirportDTO air) {
+		int result = session.delete("deleteAirline", air);
+		return result;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirplaneList(ManageAirportDTO air) {
+		List<ManageAirportDTO> airplaneList = session.selectList("getAirplaneList", air);
+		return airplaneList;
+	}
+
+	@Override
+	public int totalAirplane() {
+		int total = session.selectOne("totalAirplane");
+		return total;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirplaneDetail(ManageAirportDTO air) {
+		List<ManageAirportDTO> airplaneDetail = session.selectList("getAirplaneDetail", air);
+		return airplaneDetail;
+	}
+
+	@Override
+	public int updateAirplane(ManageAirportDTO air) {
+		int result = session.update("updateAirplane", air);
+		return result;
+	}
+
+	@Override
+	public int deleteAirplane(ManageAirportDTO air) {
+		int result = session.delete("deleteAirplane", air);
+		return result;
+	}
+
+	@Override
+	public int insertAirplane(ManageAirportDTO air) {
+		int result = session.insert("insertAirplane", air);
+		return result;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getStartAirportList(ManageAirportDTO air) {
+		List<ManageAirportDTO> startAirportList = session.selectList("getStartAirportList", air);
+		return startAirportList;
+	}
+
+	@Override
+	public int totalStartAirport() {
+		int total = session.selectOne("totalStartAirport");
+		return total;
+	}
+
+	@Override
+	public int insertStartAirport(ManageAirportDTO air) {
+		int result = session.insert("insertStartAirport", air);
+		return result;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getStartAirportDetail(ManageAirportDTO air) {
+		List<ManageAirportDTO>startAirportDetail = session.selectList("getStartAirportDetail", air);
+		return startAirportDetail;
+	}
+
+	@Override
+	public int updateStartAirport(ManageAirportDTO air) {
+		int result = session.update("updateStartAirport", air);
+		return result;
+	}
+
+	@Override
+	public int deletestartAirport(ManageAirportDTO air) {
+		int result = session.delete("deleteStartAirport", air);
+		return result;
+	}
+
+	@Override
+	public int totalEndAirport() {
+		int total = session.selectOne("totalEndAirport");
+		return total;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getEndAirportList(ManageAirportDTO air) {
+		List<ManageAirportDTO> endAirportList = session.selectList("getEndAirportList", air);
+		return endAirportList;
+	}
+
+	@Override
+	public int insertEndAirport(ManageAirportDTO air) {
+		int result = session.insert("insertEndAirport", air);
+		return result;
+	}
+	
+	@Override
+	public List<ManageAirportDTO> getEndAirportDetail(ManageAirportDTO air) {
+		List<ManageAirportDTO>endAirportDetail = session.selectList("getEndAirportDetail", air);
+		return endAirportDetail;
+	}
+	
+	@Override
+	public int updateEndAirport(ManageAirportDTO air) {
+		int result = session.update("updateEndAirport", air);
+		return result;
+	}
+
+	@Override
+	public int deleteEndAirport(ManageAirportDTO air) {
+		int result = session.delete("deleteEndAirport", air);
+		return result;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getSeatList() {
+		List<ManageAirportDTO> seatList = session.selectList("getSeatList");
+		return seatList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirlineList() {
+		List<ManageAirportDTO> airlineList = session.selectList("getAirlineListAll");
+		return airlineList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirplaneList() {
+		List<ManageAirportDTO> airplaneList = session.selectList("getAirplaneListAll");
+		return airplaneList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getStartAirportList() {
+		List<ManageAirportDTO> startAirportList = session.selectList("getStartAirportListAll");
+		return startAirportList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getEndAirportList() {
+		List<ManageAirportDTO> endAirportList = session.selectList("getEndAirportListAll");
+		return endAirportList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirplaneChange(ManageAirportDTO air) {
+		List<ManageAirportDTO> getAirplaneChange = session.selectList("getAirplaneChange", air);
+		return getAirplaneChange;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirScheduleDetail(ManageAirportDTO air) {
+		List<ManageAirportDTO> getAirScheduleDetail = session.selectList("getAirScheduleDetail", air);
+		return getAirScheduleDetail;
+	}
+
+	@Override
+	public int insertAirSchedule(ManageAirportDTO air) {
+		int result = session.insert("insertAirSchedule", air);
+		return result;
+	}
+
+	@Override
+	public int deleteAirSchedule(ManageAirportDTO air) {
+		int result = session.delete("deleteAirSchedule", air);
+		return result;
+	}
 }
