@@ -409,6 +409,12 @@ span.form_holder {
 .item_text .info:first-child {
     margin-left: 0;
 }
+/* 예약 자리 여부 */
+.reserv_impossible {
+	margin-left: 2px;
+    border: 1px solid red;
+    color: red;
+}
 /* 상세 가격부분 */
 .sub_list_wrap .prod_list_wrap .type .price_group {
     position: relative;

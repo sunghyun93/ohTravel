@@ -696,20 +696,48 @@
             			let aCnt = adultCnt.text();
         				let cCnt = childCnt.text();
         				
+        				/* 로그인 여부  */
             			if(data == 'LOGIN_OK') {
-            				/* form 에 보낼 데이터와 함께 input 태그 추가해주고 서버로 전송 */
-            				makeForm($('#pkgReserveForm'), aCnt, cCnt)
-            				$('#pkgReserveForm').attr('action', '/pkage/reservation');
-            				$('#pkgReserveForm').attr('method', 'get');
-            				$('#pkgReserveForm').submit();
+            				/* 로그인이 되어 있으면 */
+            				/* 로그인 된 사용자가 이미 예약한 상품인지 check */
+            				$.ajax({
+            					url : '/pkageRest/reservedCheck',
+            					type : 'post',
+            					data : {
+            						'pkage_dt_id' : '${pkageDTORM.pkage_detailDTO.pkage_dt_id}'
+            					},
+            					dataType : 'text',
+            					success : function(data) {
+            						/* 이미 예약한 상품이라면 */
+            						if(data == 'reserved') {
+            							alert("이미 예약한 상품입니다.")
+            						} else {
+            							/* 해당 패키지 상품의 잔여좌석이 없을 경우 alert 창 띄워주기 */
+                        				if(possibleCnt == '0') {
+                        					alert("모든 예약이 꽉 차있습니다.")
+                        				} else {
+                        					/* form 에 보낼 데이터와 함께 input 태그 추가해주고 서버로 전송 */
+                            				makeForm($('#pkgReserveForm'), aCnt, cCnt)
+                            				$('#pkgReserveForm').attr('action', '/pkage/reservation');
+                            				$('#pkgReserveForm').attr('method', 'get');
+                            				$('#pkgReserveForm').submit();
+                        				}
+            						}
+            					},
+            					error : function(err) {
+            						console.log(err);
+            					}
+            					
+            				});
             			}
+        				/* 로그인 여부 */
             			else {
             				alert("로그인 하고 예약해주세요.");
             			}
-            		}, 
+            		}, /* success */
             		error : function(err) {
             			console.log(err)
-            		}
+            		} /* error */
             	})
             	
             });
@@ -748,7 +776,7 @@
             });
         });
         
-        /* 리뷰 */
+/* 리뷰와 관련된 js 시작 */
         // 선택한 리뷰 아이디에 대한 전역변수 설정
 		let selectedRvId; // 리뷰의 ID (각 상품의 번호(rv_real_id)가 아님)
 
@@ -980,7 +1008,8 @@
 				});
 			}
 		}
-		
+/* 리뷰와 관련된 js 끝 */	
+
 		/* 예약 버튼 클릭 시 예약 form 안에 요소들 만드는 함수 */
 		function makeForm(reserveform, adultCnt, childCnt) {
 			
