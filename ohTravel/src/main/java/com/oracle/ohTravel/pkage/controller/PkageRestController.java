@@ -59,9 +59,9 @@ public class PkageRestController {
 	@GetMapping("/loginCheck")
 	public ResponseEntity<String> loginCheck(HttpSession session) {
 		log.info("PkageRestController loginCheck() start");
-		boolean loginCheck = session.getAttribute("res") == null; 
+		boolean loginCheck = session.getAttribute("member") == null; 
 		if(session.getAttribute("res") != null)
-			log.info("로그인ID="+((MemberDTO)session.getAttribute("res")).getMem_id());
+			log.info("로그인ID="+((MemberDTO)session.getAttribute("member")).getMem_id());
 		if(!loginCheck) {
 			log.info("PkageRestController loginCheck() end");
 			return new ResponseEntity<String>("LOGIN_OK", HttpStatus.OK);

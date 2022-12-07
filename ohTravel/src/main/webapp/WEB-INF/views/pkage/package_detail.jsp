@@ -448,13 +448,13 @@
                                 <!-- 상품평 -->
                                 <div id="sticky03" class="panel">
 	                                <div class="rv_btn">
-	                                <c:if test="${sessionScope.res eq null }">
+	                                <c:if test="${sessionScope.member eq null }">
 	                                	<span style="font-size : 9pt;">로그인 후 리뷰를 등록할 수 있습니다.</span><br>
 	                                	<a href="/member/loginForm" style="color:black; text-decoration:underline;">
 	                                		<button type="button" class="genric-btn info radius small">로그인 하러 가기</button>
                                 		</a>
 	                                </c:if>
-	                                <c:if test="${sessionScope.res ne null }">
+	                                <c:if test="${sessionScope.member ne null }">
 										<button class="genric-btn primary ela" data-toggle="modal" onclick="openModal()" data-target="#reviewModal">리뷰 등록</button>
 									</c:if>
 									</div>
@@ -551,7 +551,7 @@
         
     <script>
     	let possibleCnt = Number($('#possibleCnt').attr('data-possibleCnt')); /* 예약 가능 인원  */
-    	alert("${sessionScope.res.mem_id}")
+    	alert("${sessionScope.member.mem_id}")
         $(function() {
         	/* 페이지 읽고 바로 리뷰 리스트 뿌려주기 */
         	getReviewList();
@@ -849,7 +849,7 @@
 				innerHtml +=        '<div class="right_cont list_txt">'
 				innerHtml +=            '<span>'+datum.mem_id+'</span>'
 				innerHtml +=            '<span>'+datum.rv_date+'</span>'
-										if(mem_id == "${sessionScope.res.mem_id}") {
+										if(mem_id == "${sessionScope.member.mem_id}") {
 				innerHtml +=            '<button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>'
 				innerHtml +=        	'<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'					
 										}

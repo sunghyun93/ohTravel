@@ -197,7 +197,7 @@ public class PkageController {
 		}
 		
 		// 현재 로그인하고 있는 사용자 정보
-		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		log.info("memberDTO = " + memberDTO);
 		
 		if(memberDTO == null) {
@@ -251,7 +251,7 @@ public class PkageController {
 		log.info("PkageController reserve() start...");
 		log.info("pkgReserveEle = " + pkgReserveEle);
 		
-		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		
 		// 로그인 안되어 있으면 redirect
 		if(memberDTO == null) {

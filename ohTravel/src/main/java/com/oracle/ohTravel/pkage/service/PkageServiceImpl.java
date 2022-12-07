@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oracle.ohTravel.member.dao.MemberDao;
+import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 import com.oracle.ohTravel.pkage.dao.PkageDao;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
@@ -27,6 +29,8 @@ public class PkageServiceImpl implements PkageService {
 	private PkageDao pkageDao;
 	@Autowired
 	private ReviewDAO reviewDao;
+	@Autowired
+	private MemberDao memberDao;
 	
 //	판매순, 평점순으로 패키지 select (원하는 갯수만)
 	@Override
@@ -114,8 +118,10 @@ public class PkageServiceImpl implements PkageService {
 	// 패키지 예약 insert
 		rowCnt = pkageDao.insertPkgReserve((Pkage_rsDTO)map.get("pkage_rsDTO"));
 		
+		String mem_id = (String)map.get("mem_id");
+		
 	// 방금 생성된 패키지 예약 ID 가져오기
-		int pkage_rv_id = pkageDao.selectPkgRvIdByMemId((String)map.get("mem_id"));
+		int pkage_rv_id = pkageDao.selectPkgRvIdByMemId(mem_id);
 		log.info("pkage_rv_id = " + pkage_rv_id);
 		
 	// 패키지 인원 정보 insert
@@ -156,12 +162,26 @@ public class PkageServiceImpl implements PkageService {
 	// 패키지 판매 update
 		rowCnt = pkageDao.updatePkgSoldCnt(pkageReserveEle.getPkage_id());
 		
-	// 마일리지 update
+	// 마일리지 update 및 마일리지 등급 변경(필요 시 - 마일리지가 기준 점수를 넘어갔을 때)
+		rowCnt = memberDao.updateMemMileage(map);
+		
+		UpdateMileGradeDTO updateMile = new UpdateMileGradeDTO();
+		updateMile.setMem_id(mem_id);
+		updateMile.setResult(0);
+		memberDao.updateMemMileGrade(updateMile);
+		log.info("프로시저 수행 후 updateMile = "+ updateMile); // 업데이트가 되면 result 값이 1로 바뀌어 있음
+		log.info("updateMemMileGrade 후  rowCnt - " + rowCnt);
 		
 	// 쿠폰 사용 시 쿠폰 사용내역 update
+		if(pkageReserveEle.getCoupon_id() != null) {
+			Map<String, Object> couponMap = new HashMap<>();
+			couponMap.put("mem_id", mem_id);
+			couponMap.put("coupon_id", pkageReserveEle.getCoupon_id());
+			rowCnt = memberDao.updateMemCouponUsed(couponMap);
+		}
 		
 	// 결제 정보 insert
-		
+
 		return rowCnt;
 	}
 }

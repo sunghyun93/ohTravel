@@ -126,4 +126,26 @@
 		join coupon c on mc.coupon_id = c.coupon_id
 		where mc.mem_id = #{mem_id} and  mc.coupon_use = 0 and mc.coupon_limit_date >= now()
 	</select>
+	
+	<!-- 회원 마일리지 update -->
+	<update id="updateMemMileage" parameterType="map">
+		update mem_membership 
+		set mem_mile = mem_mile + ${pkgReserveEle.mile}
+		where mem_id = #{mem_id}
+	</update>
+	
+	<!-- 회원 마일리지 변동에 따른 마일리지 등급 변경 (기준 마일리지를 넘거나 내려갔을 시 그에 맞는 마일리지 등급으로 변경 -->
+	<select id="updateMemMileGrade" parameterType="UpdateMileGradeDTO" statementType="CALLABLE">
+		call pro_mem_membership_update(
+				#{mem_id, mode=IN, jdbcType=VARCHAR, javaType=string}, 
+				#{result, mode=OUT, jdbcType=INTEGER, javaType=int}
+				)
+	</select>
+	
+	<!-- 회원이 쿠폰 사용 시 해당 쿠폰 사용 컬럼 1로 update -->
+	<update id="updateMemCouponUsed" parameterType="map">
+		update mem_coupon 
+		set coupon_use = 1
+		where mem_id = #{mem_id} and coupon_id = #{coupon_id};
+	</update>
 </mapper>
