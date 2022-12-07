@@ -934,13 +934,14 @@ prod_list_wrap .htl .btn.line {
 		</ul>
 	</div> -->
 	                <!-- 필터 부분 -->
-	        <form id="searchAirplane" action="/airport/reservationAirplaneAgreeCheck" method="post">
+	        <form id="searchAirplane" action="/airport/reservationAirplaneAgreeCheck" method="post" onsubmit="return checkId()">
 	        <input type="hidden" name="count" value="${count }">
          	<input type="hidden" name="seat_name" value="${seat_name}">
          	<input type="hidden" name="gubun_check" value="${gubun_check}">
          	<input type="hidden" name="start_city_id" value="${start_city_id}">
          	<input type="hidden" name="end_city_id" value="${end_city_id}">
          	<input type="hidden" name="seat_position" value="${seat_position}">
+         	
 	         <div class="container">       
 	          <div class="ly_wrap result_wrap">      
                 <div class="inr">
@@ -975,23 +976,7 @@ prod_list_wrap .htl .btn.line {
                                 </div>
                             </div>
 
-                            <!-- 여행기간 -->
-                            <div class="inr">
-                                <a href="#trvlDayCntsDiv" class="header active">항공사</a>
-                                <div id="trvlDayCntsDiv" class="view" style="display: block;">
-                                    <div class="form_wrap">
-                                        <span class="form_holder text">
-                                            <input type="checkbox" id="chk_trvlDayCnts3" class="inpt_checkbox" value="3"> 
-                                            <label for="chk_trvlDayCnts3" class="label_checkbox">3일</label>
-                                        </span>
-
-                                        <span class="form_holder text">
-                                            <input type="checkbox" id="chk_trvlDayCnts4" class="inpt_checkbox" value="4"> 
-                                            <label for="chk_trvlDayCnts4" class="label_checkbox">4일</label>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                           
 
                             <!-- 출발시간 -->
                             <div class="inr">
@@ -1027,7 +1012,7 @@ prod_list_wrap .htl .btn.line {
                         
                   
 	                        <div class="text_wrap big">
-									<h5><strong>✈️ 가는 항공편</strong></h5>
+									<h5><strong>✈️ 가는 항공편${memberDTO.getMem_id() }</strong></h5>
 									<c:if test="${not empty start_date1 }">
 										<div class="calendar">${start_date1}
 											<span class="calendar_day1"></span>
@@ -1080,7 +1065,7 @@ prod_list_wrap .htl .btn.line {
 									 <c:if test="${seat_position == 'A'}">
 									<fmt:formatNumber value="${3*schedule.schedule_price}" pattern="#,###"/>원<br>
 									 </c:if>
-							</div>
+								</div>
 						</div>
 				</c:forEach>
 				</c:if>
@@ -1121,7 +1106,7 @@ prod_list_wrap .htl .btn.line {
 									 <c:if test="${seat_position == 'A'}">
 									<fmt:formatNumber value="${3*go.schedule_price}" pattern="#,###"/>원<br>
 									 </c:if>
-							</div>
+								</div>
 						</div>
 				</c:forEach>
 				</c:if>  
@@ -1179,12 +1164,12 @@ prod_list_wrap .htl .btn.line {
 							</div>
 					</c:forEach>
 				</c:if>	
-			</div>
-			<div class="reservation_go">
-				<button type="button">일정 상세보기</button>
-				<button type="submit" class="reservation_go_btn"><span>예약하기</span></button>
 			</div>     
 		</div>
+		<div class="reservation_go">
+				<button type="button">일정 상세보기</button>
+				<button type="submit" class="reservation_go_btn" onclick="check()"><span>예약하기</span></button>
+			</div>
 	</div>
 </div>
 </form>  			
@@ -1322,7 +1307,7 @@ prod_list_wrap .htl .btn.line {
 		
         $(document).on('click','.search_type' ,function() {
         	let order = $(this).attr('data-order');
-        	alert('order='+order);
+     
         	 $.ajax({
         		url: '${pageContext.request.contextPath}/airport/searchAirplaneAjax',
 				type: 'get',
@@ -1363,8 +1348,17 @@ prod_list_wrap .htl .btn.line {
       });
         
 	
-	
-	
+	//로그인 안되있으면 로그인 먼저 하라고 alert 띄우기
+	function checkId() {
+		 if('${memberDTO.mem_id}' == null){ 
+	  		  alert("로그인부터 해주세요");
+	  		  location.href="${pageContext.request.contextPath}/member/loginForm";
+	  		  return false;
+	  		  
+	  	  }else return true;
+	}
+  	 
+   
 	
 </script>			
 </body>

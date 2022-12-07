@@ -54,16 +54,20 @@
 <script src="/js/pkage/regExp.js"></script>
 </head>
 <body>
-<form id="completeReservation" action="/airplaneInsertReservation" method="post">
+<form id="completeReservation" action="/airport/airplaneInsertReservation" method="post">
 <div id="pkRv_container">
         <div class="pkRv_contents">
             <div id="" class="fontCtrl">
                 <!-- 헤더 -->
                 <div class="text_wrap big">
-                    <strong class="tit">예약하기$</strong>
+                    <strong class="tit">예약하기</strong>
                     <input type="hidden" value="${go_schedule_id}" name="go_schedule_id">
                     <input type="hidden" value="${come_schedule_id}" name="come_schedule_id">
-                    <input type="hidden" name="seat_position" value="${seat_position }">
+                    <input type="hidden" value="${seat_position }" name="seat_position">
+                    <input type="hidden" value="${memberDTO.mem_id}" name="mem_id">
+                    <input type="hidden" value="${go_airplane_name }" name="go_airplane_name">
+                    <input type="hidden" value="${come_airplane_name }" name="come_airplane_name">
+                   
                 </div>
 
                 <!-- 내용 -->
@@ -95,21 +99,21 @@
                                     <tr>
                                         <th>이름</th>
                                         <td>
-                                            <input type="text" id="" class="" name="" value="김성현" maxlength="10" minlength="3" readonly="readonly" placeholder="한글성명(ex. 홍길동)">
+                                            <input type="text" id="" class="" name="" value="${memberDTO.mem_name}" maxlength="10" minlength="3" readonly="readonly" placeholder="한글성명(ex. 홍길동)">
                                         </td>
                                         <th>생년월일</th>
                                         <td>
-                                            <input type="text" id="" class="" name="" value="19911223" maxlength="8" minlength="3" readonly="readonly" placeholder="법정 생년월일(ex. 19911223)">
+                                            <input type="text" id="" class="" name="" value="<fmt:formatDate value="${memberDTO.mem_birthday}" pattern="yyyy-MM-dd" />" maxlength="8" minlength="3" readonly="readonly" placeholder="법정 생년월일(ex. 19911223)">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>이메일</th>
                                         <td>
-                                            <input type="text" id="" class="" name="" value="Hong@naver.com" maxlength="30" minlength="3" readonly="readonly" placeholder="이메일 주소(ex. Hong@naver.com)">
+                                            <input type="text" id="" class="" name="" value="${memberDTO.mem_email}" maxlength="30" minlength="3" readonly="readonly" placeholder="이메일 주소(ex. Hong@naver.com)">
                                         </td>
                                         <th>휴대폰 번호</th>
                                         <td>
-                                            <input type="text" id="" class="" name="" value="01012345678" maxlength="20" minlength="3" readonly="readonly" placeholder="휴대폰 번호(ex. 01012345678)">
+                                            <input type="text" id="" class="" name="" value="${memberDTO.mem_tel}" maxlength="20" minlength="3" readonly="readonly" placeholder="휴대폰 번호(ex. 01012345678)">
                                         </td>
                                         
                                     </tr>
@@ -129,12 +133,12 @@
                         </div>
 
                         <!-- 여행자 정보 부분 table -->
-                        <c:forEach var="count" items="${count} ">
+                        <c:forEach var="count"  begin="1" end="${count}">
                         <div class="js_tabs type1 v-tabs alone">
                             <div class="panels personChk">
                                 <div id="tabConTrvlP" class="panel selected">
                                     <div class="text_wrap type sml">
-                                        <strong class="tit">성인</strong>
+                                        <strong class="tit">성인 ${count}</strong>
                                     </div>
                                     
                                     <div>
@@ -156,29 +160,28 @@
                                                     <tr>
                                                         <th>생년월일</th>
                                                         <td>
-                                                            <input type="text" name="" id="" class="input_keyword" name="air_pi_birth" value="" maxlength="10" minlength="3" placeholder="법정 생년월일(ex. 1991-12-23)" style="width: 250px;">
+                                                            <input type="text"  id="" class="input_keyword" name="air_pi_birth" value="" maxlength="10" minlength="3" placeholder="법정 생년월일(ex. 1991-12-23)" style="width: 250px;">
                                                         </td>
                                                         <th>성별</th>
                                                         <td>
                                                             <div class="genderDiv">
                                                                 <span class="genderDiv_radio">
-                                                                    <input type="radio" name="air_pi_gen" id="gender1_0" class="inpt_radio" value="0">
-                                                                    
-                                                                    <label for="gender1_0">남성</label>
+                                                                    <input type="checkbox" name="air_pi_gen" id="gender1_${count+1}" class="inpt_radio" value="0">
+                                                                    <label for="gender1_${count+1}">남성</label>
                                                                 </span>
                                                                 <span class="genderDiv_radio">
-                                                                    <input type="radio" name="air_pi_gen" id="gender2_0" class="inpt_radio" value="1">
-                                                                    <label for="gender2_0">여성</label>
+                                                                    <input type="checkbox" name="air_pi_gen" id="gender2_${count+1}" class="inpt_radio" value="1">
+                                                                    <label for="gender2_${count+1}">여성</label>
                                                                 </span>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <th>영문 성</th>
-                                                        <td><input type="text" name="" id="" class="input_keyword"  value="" maxlength="30" minlength="3" placeholder="여권 상의 영문 성(ex. HONG)" style="width: 250px;"></td>
+                                                        <td><input type="text" name="air_pi_lname" id="" class="input_keyword"  value="" maxlength="30" minlength="3" placeholder="여권 상의 영문 성(ex. HONG)" style="width: 250px;"></td>
                                                         <th>영문 이름</th>
                                                         <td>
-                                                            <input type="text" name="" id="" class="input_keyword"  value="" maxlength="30" minlength="3" placeholder="여권 상의 영문 이름(ex. GILDONG)" style="width: 250px;">
+                                                            <input type="text" name="air_pi_fname" id="" class="input_keyword"  value="" maxlength="30" minlength="3" placeholder="여권 상의 영문 이름(ex. GILDONG)" style="width: 250px;">
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -470,7 +473,7 @@
             })
 
             // 다음 단계 버튼 클릭 시
-            $('#nextBtn').on('click', function() {
+            $('.reserve').on('click', function() {
                 // 유효성 검사를 통과하면 계속 true 인 상태임.
                 let lastCheck = true;
             
@@ -520,28 +523,27 @@
                 });
 
                 console.log(lastCheck+"?");
+               
+                if(lastCheck){
+                	$.ajax({
+                		url: '${pageContext.request.contextPath}/airport/airplaneInsertReservation',
+        				type: 'post',
+        				data: ('#completeReservation').serealize(),
+        				dataType:'json',
+        				success : function(data){
+        					console.log(data);
+        					alert(data);
+        				},
+        				error: function(err){
+        					alert('예약이 실패하였습니다');
+        					history.go(-1);
+        					console.log(err);
+        				}
+                	});  
+                }
+                
             });
-            
-            //예약하기 버튼
-            $(document).on('click','.reserve' ,function() {
-            	 $.ajax({
-            		url: '${pageContext.request.contextPath}/airport/airplaneInsertReservation',
-    				type: 'post',
-    				data: ('#completeReservation').serealize(),
-    				dataType:'json',
-    				success : function(data){
-    					console.log(data);
-    					alert(data);
-    				},
-    				error: function(err){
-    					alert('예약이 실패하였습니다');
-    					history.go(-1);
-    					console.log(err);
-    				}
-            	});  
-            });
-            
-            
+              
         }); // $(function() {});
     </script>
 </body>

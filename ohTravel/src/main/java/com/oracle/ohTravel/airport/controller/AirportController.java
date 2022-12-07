@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,8 @@ import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
 import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.country.service.CountryService;
+import com.oracle.ohTravel.manager.dto.PaymentDTO;
+import com.oracle.ohTravel.member.model.MemberDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,9 +73,15 @@ public class AirportController {
 	}
 	
 	@GetMapping("/searchAirplane")
-	public ModelAndView searchAirplane(AirSearch airSearch) {
+	public ModelAndView searchAirplane(AirSearch airSearch,HttpServletRequest request,HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView();
+		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		log.info("memberDTO = " + memberDTO);
+		
+		
+		
 		List<Air_ScheduleDTO> oneway_schedule_list= null;
 		List<Air_ScheduleDTO> round_trip_come_schedule_list=null;
 		List<Air_ScheduleDTO> round_trip_go_schedule_list=null;
@@ -110,13 +121,15 @@ public class AirportController {
 		mav.addObject("seat_name",airSearch.getSeat_name());
 		mav.addObject("start_country_id",airSearch.getStart_country_id());
 		mav.addObject("end_country_id",airSearch.getEnd_country_id());
+		mav.addObject("memberDTO",memberDTO);
 
 
 		return mav;
 	}
 	
 	@GetMapping("/searchAirplaneAjax")
-	public ModelAndView searchAirplaneAjax(int order,AirSearch airSearch) {
+	@ResponseBody
+	public ModelAndView searchAirplaneAjax(String seat_position,int order,AirSearch airSearch) {
 		
 		System.out.println("searchAirplaneAjax airSearch="+airSearch);
 		System.out.println("searchAirplaneAjax order="+order);
@@ -145,17 +158,22 @@ public class AirportController {
 		System.out.println("round_trip_come_schedule_list="+round_trip_come_schedule_list);
 		System.out.println("airSearch="+airSearch);
 		
-		mav.setViewName("ajaxSearch/resultAirplaneAjax");
+		mav.setViewName("empty/resultAirplaneAjax");
 		mav.addObject("gubun_check",airSearch.getGubun_check());
+		mav.addObject("seat_position",seat_position);
 		mav.addObject("start_date1",airSearch.getStart_date1());
 		mav.addObject("start_date2",airSearch.getStart_date2());
+		mav.addObject("end_date",airSearch.getEnd_date());
 		mav.addObject("start_city_id",airSearch.getStart_city_id());
 		mav.addObject("end_city_id",airSearch.getEnd_city_id());
 		return mav;
 	}
 	
 	@PostMapping("/reservationAirplaneAgreeCheck")
+	@ResponseBody
 	public ModelAndView airplaneReservationAgreeCheck(Integer count,Integer go_schedule_id,Integer come_schedule_id,String seat_position,String seat_name,Integer gubun_check,Integer start_city_id,Integer end_city_id) {
+		
+		
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -198,15 +216,25 @@ public class AirportController {
 	
 	
 	@PostMapping("/airplaneReserve")
-	public String airReserve(int go_schedule_id,int come_schedule_id, int count,String total_price, String seat_position,String seat_name,Model model) {
+	public String airReserve(int go_schedule_id,int come_schedule_id, int count,String total_price, String go_airplane_name,String come_airplane_name,String seat_position,String seat_name,Model model,HttpSession session) {
+		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		log.info("memberDTO = " + memberDTO);
+		
+		if(memberDTO == null) {
+			return "redirect:/member/loginForm";
+			
+		}
 		
 		model.addAttribute("count", count);
 		model.addAttribute("price", total_price);
 		model.addAttribute("go_schedule_id", go_schedule_id);
 		model.addAttribute("come_schedule_id", come_schedule_id);
+		model.addAttribute("go_airplane_name", go_airplane_name);
+		model.addAttribute("come_airplane_name", come_airplane_name);
 		model.addAttribute("seat_position", seat_position);
 		model.addAttribute("seat_name", seat_name);
-		
+		model.addAttribute("memberDTO", memberDTO);
 		System.out.println("price="+total_price);
 		
 		
@@ -214,22 +242,60 @@ public class AirportController {
 	}
 	
 	@PostMapping("/airplaneInsertReservation")
-	public ModelAndView airInsertReserva(String seat_position,int go_schedule_id,int come_schedule_id,Air_ReservationDTO air_ReservationDTO,Air_Reservation_PiDTO air_Reservation_PiDTO,Air_FlightSchDTO air_FlightSchDTO,Reservation_Seat reservation_Seat) throws Exception {
-	
+	public ModelAndView airInsertReserve(String go_airplane_name,String come_airplane_name,String seat_position,int go_schedule_id,int come_schedule_id,Air_ReservationDTO air_ReservationDTO,Air_Reservation_PiDTO air_Reservation_PiDTO,Air_FlightSchDTO air_FlightSchDTO,Reservation_Seat reservation_Seat,PaymentDTO paymentDTO,HttpSession session) throws Exception {
+		System.out.println("air_Reservation_PiDTO="+air_Reservation_PiDTO);
+		System.out.println("go_airplane_name="+go_airplane_name);
+		System.out.println("come_airplane_name="+come_airplane_name);
+		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		log.info("memberDTO = " + memberDTO);
+		
 		ModelAndView mav = new ModelAndView();
+	    int reservationCnt = scheduleService.insertReservation(air_ReservationDTO);
+	    System.out.println("reservationCtn 갯수?"+reservationCnt);
+	    
+	    Air_ReservationDTO reservationList = scheduleService.selectReservationId(air_ReservationDTO.getMem_id());
+		System.out.println("reservationList="+reservationList);
 		
 		
+		
+		//일정이 한국에서 가는비행기인지 or 다시 한국으로 오는 비행기인지 구분하려고
+	    if(go_schedule_id < 645 ) {
+	    	air_FlightSchDTO.setAir_gubun(0);
+	    }else if(go_schedule_id >= 645  ) {
+	    	air_FlightSchDTO.setAir_gubun(1);
+	    }
+		
+	    System.out.println("에어구분 넘버는?"+air_FlightSchDTO.getAir_gubun());
+		
+	    
 		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("air_ReservationDTO",air_ReservationDTO);
-		map.put("air_Reservation_PiDTO",air_Reservation_PiDTO);
+		
+		map.put("reservation_id",reservationList.getReservation_id());
 		map.put("air_FlightSchDTO",air_FlightSchDTO);
 		map.put("reservation_Seat",reservation_Seat);
+		map.put("air_Reservation_PiDTO",air_Reservation_PiDTO);
+		map.put("go_airplane_name",go_airplane_name);
+		map.put("come_airplane_name",come_airplane_name);
+		map.put("seat_position",seat_position);
+		map.put("go_schedule_id",go_schedule_id);
+		map.put("come_schedule_id",come_schedule_id);
+		map.put("air_gubun",air_FlightSchDTO.getAir_gubun());
+		map.put("paymentDTO",paymentDTO);
+		map.put("mem_id",memberDTO.getMem_id());
+		
 		
 		System.out.println("map="+map);
 		
 		
+		 
 		 int insertMethod = scheduleService.insertAll(map);
+		 System.out.println("insertMethod 갯수?"+insertMethod);
+		 
 		
+		 
+		
+		 
 //		 int reservationCnt = scheduleService.insertReservation(air_ReservationDTO);
 //		 int piCnt = scheduleService.insertPiReservation(air_Reservation_PiDTO);
 //		 int flightCnt = scheduleService.insertFlightSche(air_FlightSchDTO);
@@ -241,11 +307,14 @@ public class AirportController {
 		mav.addObject("seat_position", seat_position);
 		mav.addObject("go_schedule_id", go_schedule_id);
 		mav.addObject("come_schedule_id", come_schedule_id);
+		mav.addObject("come_airplane_name", come_airplane_name);
+		mav.addObject("go_airplane_name", go_airplane_name);
 //		mav.addObject("reservationCnt",reservationCnt);
 //		mav.addObject("piCnt",piCnt);
 //		mav.addObject("flightCnt",flightCnt);
 //		mav.addObject("seatCnt",seatCnt);
 		mav.addObject("insertMethod",insertMethod);
+		mav.addObject("reservationCnt",reservationCnt);
 		
 		
 		return mav;

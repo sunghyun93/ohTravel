@@ -83,20 +83,53 @@
 	
 	<!-- 예약테이블 insert -->
 	<insert id="ReservationList" parameterType="Air_ReservationDTO">
-		insert into reservation values (#{reservation_id},#{mem_id},#{seat_position},now(),#{reservation_price})
+		insert into reservation (mem_id,seat_position,reservation_date,reservation_price) values (#{mem_id},#{seat_position},now(),#{reservation_price})
 	</insert>
+	
+	<select id="ReservationListSelect" parameterType="string" resultType="Air_ReservationDTO">
+		select * from reservation where mem_id=#{mem_id} and Reservation_id=(select max(Reservation_id) from reservation where mem_id = #{mem_id}) 
+	</select>
+	
+
 	
 	<!-- 예약테이블 insert -->
-	<insert id="pplList" parameterType="Air_Reservation_PiDTO">
-		insert into air_reservation_pi (air_pi_name,air_pi_birth,air_pi_gen,air_pi_lname,air_pi_fname,air_pi_tel,air_pi_email,air_passport) values (#{air_pi_name},#{air_pi_birth},#{air_pi_gen},#{air_pi_lname},#{air_pi_fname},#{air_pi_tel},#{air_pi_email},#{air_passport})
+	<insert id="pplList" parameterType="Map">
+		insert into air_reservation_pi 
+		(reservation_id,air_pi_name,air_pi_birth,air_pi_gen,air_pi_lname,air_pi_fname,air_pi_tel,air_pi_email,air_passport) 
+		values
+		<foreach collection="air_Reservation_PiDTO" item="item" separator=" , ">
+			(#{reservation_id},
+			#{item.air_Reservation_PiDTO.air_pi_name},
+			#{item.air_Reservation_PiDTO.air_pi_birth},
+			#{item.air_Reservation_PiDTO.air_pi_gen},
+			#{item.air_Reservation_PiDTO.air_pi_lname},
+			#{item.air_Reservation_PiDTO.air_pi_fname},
+			#{item.air_Reservation_PiDTO.air_pi_tel},
+			#{item.air_Reservation_PiDTO.air_pi_email},
+			#{item.air_Reservation_PiDTO.air_passport})
+		</foreach>
 	</insert>	
 		<!-- 예약테이블 insert -->
-	<insert id="flightList" parameterType="Air_FlightSchDTO">
-		insert into air_flightSche (air_gubun) values (#{air_gubun})
+	<insert id="goSeatList" parameterType="Map">
+		insert into reservation_seat (reservation_id,airplane_name,seat_position,seated_status) values (#{reservation_id},#{go_airplane_name},#{seat_position},1)
 	</insert>
 	
-	<insert id="seatList" parameterType="Reservation_Seat">
-		insert into reservation_seat (seated_status) values ("1")
+	<insert id="comeSeatList" parameterType="Map">
+		insert into reservation_seat (reservation_id,airplane_name,seat_position,seated_status) values (#{reservation_id},#{come_airplane_name},#{seat_position},1)
+	</insert>	
+		
+	<insert id="goflightList" parameterType="Map">
+			insert into air_flightSche (schedule_id,reservation_id,air_gubun) values (#{go_schedule_id},#{reservation_id},#{air_gubun})
+	</insert>
+	
+	<insert id="comeflightList" parameterType="Map">
+		insert into air_flightSche (schedule_id,reservation_id,air_gubun) values (#{come_schedule_id},#{reservation_id},#{air_gubun})
+	</insert>
+	
+	
+	<!-- 결제정보 insert -->
+	<insert id="paymentList" parameterType="Map">
+		insert into payment(mem_id,reservation_id,payment_method) values (#{mem_id},#{reservation_id},'card')
 	</insert>
 	
 	

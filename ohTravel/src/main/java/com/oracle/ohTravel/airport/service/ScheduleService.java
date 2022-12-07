@@ -22,15 +22,11 @@ public interface ScheduleService {
 
 	Air_ScheduleDTO airplaneReservationAgreeCheckCome(Integer come_schedule_id); //선택한  오는 비행기 불러오기
 
-//	int insertReservation(Air_ReservationDTO air_ReservationDTO) throws Exception; // 예약 insert
-//
-//	int insertPiReservation(Air_Reservation_PiDTO air_Reservation_PiDTO) throws Exception;// 인원정보 insert
-//
-//	int insertFlightSche(Air_FlightSchDTO air_FlightSchDTO) throws Exception;// 비행 일정 insert(왕복인지 아닌지 확인 하기위해)
-//
-//	int insertSeat(Reservation_Seat reservation_Seat) throws Exception;// 예약된 좌석인지 확인
-
 	int insertAll(Map<String, Object> map) throws Exception;
+
+	int insertReservation(Air_ReservationDTO air_ReservationDTO);
+
+	Air_ReservationDTO selectReservationId(String mem_id); //reservation_id 가져오기위해서
 
 
 
