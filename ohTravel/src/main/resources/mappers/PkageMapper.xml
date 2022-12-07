@@ -72,6 +72,7 @@
 		<result property="pkage_dt_meetDate" column="pkage_dt_meetDate"/>
 		<result property="pkage_dt_startDay" column="pkage_dt_startDay"/>
 		<result property="pkage_dt_endDay" column="pkage_dt_endDay"/>
+		<result property="pkage_rv_id" column="pkage_rv_id"/>
 		
 		<!-- package_flightSche 비행일정 -->
 		<collection property="pkage_flightScheDTOList" resultMap="selectPkgFlightScheResult"></collection>
@@ -299,6 +300,8 @@
 		c.*,
 		ct.*,
 		pd.*,
+		(select pkage_rv_id from package_reservation
+		where mem_id = 'test1' and pkage_dt_id = pd.pkage_dt_id) as pkage_rv_id, <!-- 로그인한 회원이 예약한 상품인지 확인 -->
         pfs.*,
         ashe.*,
 		aline.*,

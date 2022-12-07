@@ -201,7 +201,9 @@
 		                                                        <div class="tag_group">
 		                                                            <span class="attr">${pkgDetail.pkage_dt_thema }</span> 
 		                                                        </div>
-		                                                        <strong class="item_title eps3">${pkgDetail.pkage_dt_name }</strong>
+		                                                        <strong class="item_title eps3">${pkgDetail.pkage_dt_name }
+		                                                        	<c:if test="${pkgDetail.pkage_rv_id ne null}"><span class="reserved">내가 예약한 상품</span></c:if>
+		                                                        </strong>
 		                                                        
 		                                                        <p class="item_text">
 		                                                        	<!-- 해외일 때만 항공정보 불러오기 -->

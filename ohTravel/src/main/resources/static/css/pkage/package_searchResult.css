@@ -398,6 +398,13 @@ span.form_holder {
     font-weight: 600;
     line-height: 27px;
 }
+/* 로그인한 회원이 예약한 상품인지 여부 */
+.reserved {
+	font-size: 9pt;
+	margin-left: 2px;
+    border: 1px solid red;
+    color: red;
+}
 /* 비행기 부분 */
 .sub_list_wrap .prod_list_wrap .type .inr .item_text {
     margin-top: 2px;
@@ -409,7 +416,7 @@ span.form_holder {
 .item_text .info:first-child {
     margin-left: 0;
 }
-/* 예약 자리 여부 */
+/* 예약 자리 존재 여부 */
 .reserv_impossible {
 	margin-left: 2px;
     border: 1px solid red;
