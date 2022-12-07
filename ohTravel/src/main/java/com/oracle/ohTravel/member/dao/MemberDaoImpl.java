@@ -129,6 +129,32 @@ public class MemberDaoImpl implements MemberDao {
 		return result;
 	}
 	
+	// 아이디 찾기
+	@Override
+	public MemberDTO findID(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl findID start..");
+		
+		MemberDTO member = sqlSession.selectOne("findID", memberDTO);
+		System.out.println("MemberDaoImpl findID member -> " + member);
+		return member;
+	}
+
+	// 비밀번호 찾기
+	@Override
+	public MemberDTO findPassword(MemberDTO memberDTO) {
+		log.info("findID findPassword start..");
+		
+		MemberDTO res = null;
+		
+		try {
+			res = sqlSession.selectOne("findPassword", memberDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+
 	
 	
 	
@@ -200,4 +226,6 @@ public class MemberDaoImpl implements MemberDao {
 		log.info("MemberDaoImpl updateMemCouponUsed() end...");
 		return rowCnt;
 	}
+
+	
 }

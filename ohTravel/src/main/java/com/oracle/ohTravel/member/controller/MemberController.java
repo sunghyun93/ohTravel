@@ -69,6 +69,7 @@ public class MemberController {
 			session.setAttribute("sessionTel", sessionTel);
 			session.setAttribute("sessionBirthday", sessionBirthday);
 			
+			System.out.println("MemberController login member -> " + member);
 			System.out.println("MemberController login sessionId -> " + sessionId);
 			System.out.println("MemberController login sessionName -> " + sessionName);
 			System.out.println("MemberController login sessionEmail -> " + sessionEmail);
@@ -137,6 +138,34 @@ public class MemberController {
 		return "member/findID";
 	}
 	
+	// 아이디 찾기
+	@PostMapping(value = "/findID") 
+	public String findID(MemberDTO memberDTO,Model model) {
+		log.info("MemberController findID start..");
+		MemberDTO member = memberService.findID(memberDTO);
+		System.out.println("MemberController findID member " + member);
+		
+		if(member == null) {
+			model.addAttribute("check", 1);
+			model.addAttribute("msg", false);
+			System.out.println("MemberController findID check ->" + model.getAttribute("check"));
+			return "member/findIDResult";
+		} else {
+			model.addAttribute("member", member);
+			model.addAttribute("check", 0);
+			model.addAttribute("id", member.getMem_id());
+			System.out.println("MemberController findID check ->" + model.getAttribute("check"));
+			return "member/findIDResult";
+		}
+		
+	}
+	
+	// 아이디 찾기 결과 페이지 이동
+	@GetMapping(value = "/findIDResult")
+	public String findIDResult() {
+		return "member/findIDResult";
+	}
+	
 	// 비밀번호 찾기 페이지 이동
 	@GetMapping(value = "/findPassword")
 	public String goFindPassword() {
@@ -158,7 +187,10 @@ public class MemberController {
 	public String myPageReservPackage(PackageReservationDTO packageReservationDTO, Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservPackage start..");
 		HttpSession session = request.getSession();
-		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		// session에 로그인 된 아이디 정보
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String sessionId = member.getMem_id();

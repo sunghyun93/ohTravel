@@ -60,5 +60,11 @@ public interface MemberDao {
 
 	// 회원이 쿠폰 사용 시 해당 쿠폰 사용 컬럼 1로 update
 	int updateMemCouponUsed(Map<String, Object> map) throws Exception;
+
+	// 아이디 찾기
+	public MemberDTO findID(MemberDTO memberDTO);
+
+	// 비밀번호 찾기
+	public MemberDTO findPassword(MemberDTO memberDTO);
 }
 
