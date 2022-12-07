@@ -49,6 +49,8 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		MemberDTO member = memberService.login(memberDTO);
+		// 로그인 상태 저장 -> 0 이면 로그인 안된 상태, 1 이면 로그인 된 상태
+		
 		
 		if(member != null) {
 			// session에 로그인 정보 저장
@@ -78,6 +80,7 @@ public class MemberController {
 			return "redirect:/";
 		} else {
 			session.setAttribute("member", null);
+			// 로그인 안 된 상태 저장
 			rttr.addFlashAttribute("msg", false);
 			System.out.println("MemberController login msg -> " + rttr.getAttribute("msg"));
 			return "redirect:/member/loginForm";

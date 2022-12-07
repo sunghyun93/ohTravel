@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,8 +88,14 @@
                                                 </ul>
                                             </li>
                                             <li><a href="#">예약내역 확인</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
+                                            <c:if test="${member == null}">
+                                            	<li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
+                                            	<li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
+                                            </c:if>
+                                            <c:if test="${member != null}">
+                                            	<li><a href="${pageContext.request.contextPath}/member/logout">LOGOUT</a></li>
+                                            	<li><a href="${pageContext.request.contextPath}/member/memberForm" style="display:none;">회원가입</a></li>
+                                            </c:if>
                                         	<li><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></li>
                                         </ul>
                                     </nav>
