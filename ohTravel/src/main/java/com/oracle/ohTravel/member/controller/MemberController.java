@@ -49,6 +49,8 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		MemberDTO member = memberService.login(memberDTO);
+		// 로그인 상태 저장 -> 0 이면 로그인 안된 상태, 1 이면 로그인 된 상태
+		
 		
 		if(member != null) {
 			// session에 로그인 정보 저장
@@ -78,6 +80,7 @@ public class MemberController {
 			return "redirect:/";
 		} else {
 			session.setAttribute("member", null);
+			// 로그인 안 된 상태 저장
 			rttr.addFlashAttribute("msg", false);
 			System.out.println("MemberController login msg -> " + rttr.getAttribute("msg"));
 			return "redirect:/member/loginForm";
@@ -170,6 +173,27 @@ public class MemberController {
 	@GetMapping(value = "/findPassword")
 	public String goFindPassword() {
 		return "member/findPassword";
+	}
+	
+	// 비밀번호 찾기
+	@PostMapping(value = "/findPassword")
+	public String findPassword(MemberDTO memberDTO, Model model, HttpSession session) {
+		log.info("MemberController findPassword start..");
+		
+		MemberDTO member = memberService.findPassword(memberDTO);
+		System.out.println("MemberController findID findPassword " + member);
+		
+		if(member == null) {
+			model.addAttribute("check", 1);
+			return "member/findPasswordResult";
+			
+		} else {
+			model.addAttribute("member", member);
+			model.addAttribute("check", 0);
+			model.addAttribute("id", member.getMem_id());
+			session.setAttribute("pw", member.getMem_password());
+			return "member/modifyPassword";
+		}
 	}
 	
 	// 마이페이지 메인  페이지 이동

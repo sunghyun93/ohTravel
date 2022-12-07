@@ -58,7 +58,7 @@
 	<!-- 비밀번호 찾기 -->
 	<select id="findPassword" resultType="MemberDTO">
 		SELECT * FROM member 
-		WHERE mem_id = #{mem_id} 
+		WHERE mem_name = #{mem_name} 
 		AND mem_birthday = #{mem_birthday} 
 		AND mem_tel = #{mem_tel}
 		AND mem_id = #{mem_id}

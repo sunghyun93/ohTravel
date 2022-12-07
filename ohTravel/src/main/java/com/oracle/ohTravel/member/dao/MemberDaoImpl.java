@@ -136,23 +136,19 @@ public class MemberDaoImpl implements MemberDao {
 		
 		MemberDTO member = sqlSession.selectOne("findID", memberDTO);
 		System.out.println("MemberDaoImpl findID member -> " + member);
+		
 		return member;
 	}
 
 	// 비밀번호 찾기
 	@Override
 	public MemberDTO findPassword(MemberDTO memberDTO) {
-		log.info("findID findPassword start..");
+		log.info("MemberDaoImpl findID start..");
 		
-		MemberDTO res = null;
+		MemberDTO member = sqlSession.selectOne("findPassword", memberDTO);
+		System.out.println("MemberDaoImpl findPassword member -> " + member);
 		
-		try {
-			res = sqlSession.selectOne("findPassword", memberDTO);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return res;
+		return member;
 	}
 
 	
