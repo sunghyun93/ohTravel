@@ -22,6 +22,7 @@ import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
+import com.oracle.ohTravel.member.model.ReviewDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 import com.oracle.ohTravel.member.service.MemberService;
 
@@ -209,7 +210,7 @@ public class MemberController {
 		return "member/myPageMain";
 	}
 	
-	// 패키지 예약 내역 페이지 이동
+	// 패키지 예약 내역 조회
 	@RequestMapping(value = "/myPageReservPackage")
 	public String myPageReservPackage(PackageReservationDTO packageReservationDTO, Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservPackage start..");
@@ -234,12 +235,16 @@ public class MemberController {
 		return "member/myPageReservPackage";
 	}
 	
-	// 호텔 예약 내역 페이지 이동
+	// 호텔 예약 내역 조회
 	@RequestMapping(value = "/myPageReservHotel")
 	public String myPageReservHotel(HotelReservationDTO hotelReservationDTO, Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservHotel start..");
 		HttpSession session = request.getSession();
-		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+
 		// session에 로그인 된 아이디 정보
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String sessionId = member.getMem_id();
@@ -256,12 +261,15 @@ public class MemberController {
 		return "member/myPageReservHotel";
 	}
 	
-	// 항공 예약 내역 페이지 이동 페이지 이동
+	// 항공 예약 내역 조회
 	@RequestMapping(value = "/myPageReservAir")
 	public String myPageReservAir(AirReservationDTO airReservationDTO, Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservAir start..");
 		HttpSession session = request.getSession();
-		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		// session에 로그인 된 아이디 정보
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String sessionId = member.getMem_id();
@@ -270,7 +278,7 @@ public class MemberController {
 		// 페이징 나중에
 		
 		
-		// 호텔 예약 내역
+		// 항공 예약 내역
 		airReservationDTO.setMem_id(sessionId);
 		List<AirReservationDTO> airReservList = memberService.myPageReservAir(airReservationDTO);
 		model.addAttribute("airReservList", airReservList);
@@ -284,7 +292,10 @@ public class MemberController {
 	public String myPageReservTicket(TicketReservationDTO ticketReservationDTO, Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservTicket start..");
 		HttpSession session = request.getSession();
-		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		// session에 로그인 된 정보
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String sessionId = member.getMem_id();
@@ -351,8 +362,27 @@ public class MemberController {
 	}
 	
 	// My 상품평 (패키지) 페이지 이동
-	@GetMapping(value = "/myPageReviewPackage")
-	public String goMyPageReviewPackage() {
+	@RequestMapping(value = "/myPageReviewPackage")
+	public String myPageReviewPackage(ReviewDTO reviewDTO, Model model, HttpServletRequest request) {
+		log.info("MemberController myPagemyPageReviewPackageReservPackage start..");
+		HttpSession session = request.getSession();
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		System.out.println("MemberController myPageReviewPackage sessionId -> " + sessionId );
+		
+		// 페이징 나중에
+		
+		// 패키지 리뷰 목록
+		reviewDTO.setMem_id(sessionId);
+		List<ReviewDTO> packageReviewList = memberService.myPageReviewPackage(reviewDTO);
+		model.addAttribute("packageReviewList", packageReviewList);
+		System.out.println("MemberController packgeReviewList.size() -> " + packageReviewList.size());
+		
 		return "member/myPageReviewPackage";
 	}
 	
@@ -382,9 +412,12 @@ public class MemberController {
 	
 	// 개인 정보 수정
 	@PostMapping(value = "/updateMember")
-	public String updateMember(MemberDTO memberDTO, HttpServletRequest request) {
+	public String updateMember(MemberDTO memberDTO, HttpServletRequest request, HttpSession session) {
 		log.info("MemberController updateMember start..");
-		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		// HttpSession session = request.getSession();
 		
 		memberService.updateMember(memberDTO);
@@ -406,7 +439,10 @@ public class MemberController {
 		// 로그인 정보 가져오기
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		// session에 저장된 로그인된 아이디의 비밀번호
 		String sessionPw = member.getMem_password();
 		System.out.println("MemberController checkPassword sessionPw -> "  + sessionPw);
@@ -426,8 +462,13 @@ public class MemberController {
 	
 	// 비밀번호 변경
 	@PostMapping(value = "/updatePassword")
-	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request) {
+	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request, HttpSession session) {
 		log.info("MemberController updatePassword start..");
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		
 		memberService.updatePassword(memberDTO);
 		
@@ -445,7 +486,11 @@ public class MemberController {
 	
 	// 회원 탈퇴 페이지 이동
 	@GetMapping(value = "/deleteMember")
-	public String goDeleteMember() {
+	public String goDeleteMember(HttpSession session) {
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		return "member/deleteMember";
 	}
 	
@@ -456,6 +501,11 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		
 		// session에 저장된 로그인된 아이디의 비밀번호
 		String sessionPw = member.getMem_password();

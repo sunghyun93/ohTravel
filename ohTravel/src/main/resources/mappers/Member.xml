@@ -107,11 +107,14 @@
 		SELECT * FROM package_reservation WHERE mem_id = #{mem_id}
 	</select>
 	
-
+	<!-- 패키지 리뷰 조회 -->
+	<select id="packageReviewList" resultType="ReviewDTO" parameterType="ReviewDTO">
+		SELECT * FROM review WHERE rv_real_id LIKE concat('%',#{pk},'%') AND mem_id = #{mem_id}
+	</select>
 	
+	<!-- 호텔 리뷰 조회 -->
 	
-	
-	
+	<!-- 티켓 리뷰 조회 -->
 	
 	
 	

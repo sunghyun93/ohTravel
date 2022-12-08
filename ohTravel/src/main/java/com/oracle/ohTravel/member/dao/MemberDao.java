@@ -8,6 +8,7 @@ import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
+import com.oracle.ohTravel.member.model.ReviewDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 
@@ -65,6 +66,9 @@ public interface MemberDao {
 
 	// 비밀번호 변경
 	public int updatePassword(MemberDTO memberDTO);
+
+	// 패키지 리뷰 목록
+	public List<ReviewDTO> mypageReviewPackage(ReviewDTO reviewDTO);
 
 }
 
