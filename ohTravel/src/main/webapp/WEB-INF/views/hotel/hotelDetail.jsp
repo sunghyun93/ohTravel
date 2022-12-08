@@ -519,7 +519,7 @@ function makeRoomList(data) {
 	console.log(data);
 	console.log(data.length);
 	
-	let innerHtml = '';
+	
 	let arr = [];
 	let str ='';
 	let roomType = '';
@@ -548,59 +548,54 @@ function makeRoomList(data) {
 	
 		<!-- 호텔이 가지고 있는 방 종류마다 반복될 folding box -->
 	
+    let innerHtml = '';
     let type='';
 	for(let i = 0; i < typeArr.length; i++){
-		if(data[i].room_type != type){
-			type = data[i].room_type
+	
 		innerHtml += '<div class="room_type_more">'
 		innerHtml +=	'<div class="fluid-wrap">'
 		innerHtml +=	 	'<div class="container-fluid">'
-/* 			 	<!-- style="min-height: calc(100vh - 136px);" -->
-			    <!-- 그룹 태그로 role과 aria-multiselectable를 설정한다. --> */
+
 	    innerHtml +=	    	'<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">'
-			   /*    <!-- 하나의 item입니다. data-parent 설청과 href 설정만 제대로 하면 문제없이 작동합니다. --> */
 		innerHtml +=	      		'<div class="panel panel-default">'
-		innerHtml +=	         		'<a class="r_type_name" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_'+data[i].room_id+'" aria-expanded="false">'
+		innerHtml +=	         		'<a class="r_type_name" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_'+typeArr[i]+'" aria-expanded="false">'
 		innerHtml +=				        '<div class="panel-heading" role="tab">'
-		innerHtml +=				           	'<p>'+data[i].room_type+'</p>'
+		innerHtml +=				           	'<p>'+typeArr[i]+'</p>'
 		innerHtml +=					   	'</div>'
 		innerHtml +=    				'</a>'
 		
+			for(let j = 0; j < data.length; j++){
 			
-			innerHtml +=				'<div id="collapse_'+data[i].room_id+'" class="panel-collapse collapse" role="tabpanel">'	
+			innerHtml +=				'<div id="collapse_'+data[j].room_type+'" class="panel-collapse collapse" role="tabpanel">'	
 		    innerHtml +=     				'<div class="panel-body">'
 		    innerHtml +=       					'<div class="room_type_detail">'
 			innerHtml +=							'<div class="room_img">'
 			innerHtml +=								'<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">'
 			innerHtml +=							'</div>'
 			innerHtml +=						'<div class="r_name">'
-			innerHtml +=							'<h3>'+data[i].room_name+'</h3>'
+			innerHtml +=							'<h3>'+data[j].room_name+'</h3>'
 			innerHtml +=						'</div>'
 	/* 		innerHtml +=						'<div class="r_option">'
 			innerHtml +=							'<h4>뭔가의 방 옵션정보</h4>'
 			innerHtml +=						'</div>' */
 			innerHtml +=						'<div class="r_price">'
-			innerHtml +=							'<h3>'+data[i].room_price+'</h3>'
+			innerHtml +=							'<h3>'+data[j].room_price+'</h3>'
 			innerHtml +=						'</div>'
 			innerHtml +=						'<div class="reservation">'
-			innerHtml +=							'<button type="button" class="genric-btn primary ela" onclick="goReserve('+data[i].room_id+')">예약하기</button>'
+			innerHtml +=							'<button type="button" class="genric-btn primary ela" onclick="goReserve('+data[j].room_id+')">예약하기</button>'
 			innerHtml +=						'</div>'
 			innerHtml +=					'</div>'
 			innerHtml +=				'</div><!-- panel-body -->'
 		    innerHtml +=   	 		 '</div> <!-- #collapse1 -->'
-	
+		    
+			}
+		
 	    innerHtml +=    '</div> <!-- panel-default -->'
 	    innerHtml +=  '</div> <!-- panel-group -->'
 		innerHtml += '</div> <!-- container-fluid -->'
 		innerHtml +='</div>'
 		innerHtml +='</div> <!-- room_type_more 끝 -->'
-	
-
-			console.log('반복문'+(i+1)+'번째-> '+type);
 		
-		} else {
-			continue;
-		}
 	}
 	
 	$('#roomAllInfo').append(innerHtml);
