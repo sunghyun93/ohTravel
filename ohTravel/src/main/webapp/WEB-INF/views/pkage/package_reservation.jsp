@@ -747,37 +747,9 @@
                			buyer_tel : '${memberDTO.mem_tel}',
                 	}
                 	
-                	$.ajax({
-                        url: "/pkage/reserve", //가맹점 서버
-                        method: "POST",
-                        /* headers: { "Content-Type": "application/text" }, */
-                        data: $('#reserveForm').serialize(),
-                        dataType: 'json',
-                        success: function(data){
-                           //var msg1 = '결제가 완료되었습니다.';
-                            //msg1 += '고유ID : ' + rsp.imp_uid;
-                            //msg1 += '상점 거래ID : ' + rsp.merchant_uid;
-                            //msg1 += '결제 금액 : ' + rsp.paid_amount;
-                            //msg1 += '구매자 이름 :' + rsp.buyer_name;
-                            //msg += '카드 승인번호 : ' + rsp.apply_num;
-                            //msg1 += '구매자'+ rsp.buyer_name + '님의';
-                            
-                            //alert('구매자 '+ rsp.buyer_name + '님의 결제가 완료되었습니다.');
-                            
-                            /* 예약 완료 후 결제 완료 form 에 데이터 채워서 예약 완료 페이지로 ㄱㄱ */
-                            $('#paymentResultForm').attr('action', '/pkage/reserveComplete');
-                            $('#paymentResultForm').attr('method', 'POST');
-                            $('#paymentResultForm input[name="pkage_rv_id"]').val(data.pkageReserveEle.pkage_rv_id);
-                            $('#paymentResultForm').submit();
-                          },
-                          error: function(err){
-                             var msg2 = '결제에 실패하였습니다.';
-                             alert(msg2);
-                          }
-                          
-                      }); /* 예약 ajax ㄱㄱ */
+                	 /* 예약 ajax ㄱㄱ */
                 	// 이미 예약한 상품인지 먼저 검사 
-            		/* $.ajax({
+            		$.ajax({
             			url: "/pkageRest/reservedCheck",
             			type: "post",
             			data : { "pkage_dt_id" : "${pkage_detailDTO.pkage_dt_id}" },
@@ -788,13 +760,41 @@
             					alert("이미 예약한 상품입니다.");
             				} else {
             					// 예약된 상품이 아니면 예약 ajax ㄱㄱ
-            					
+            					$.ajax({
+                                    url: "/pkage/reserve", //가맹점 서버
+                                    method: "POST",
+                                    /* headers: { "Content-Type": "application/text" }, */
+                                    data: $('#reserveForm').serialize(),
+                                    dataType: 'json',
+                                    success: function(data){
+                                       //var msg1 = '결제가 완료되었습니다.';
+                                        //msg1 += '고유ID : ' + rsp.imp_uid;
+                                        //msg1 += '상점 거래ID : ' + rsp.merchant_uid;
+                                        //msg1 += '결제 금액 : ' + rsp.paid_amount;
+                                        //msg1 += '구매자 이름 :' + rsp.buyer_name;
+                                        //msg += '카드 승인번호 : ' + rsp.apply_num;
+                                        //msg1 += '구매자'+ rsp.buyer_name + '님의';
+                                        
+                                        //alert('구매자 '+ rsp.buyer_name + '님의 결제가 완료되었습니다.');
+                                        
+                                        /* 예약 완료 후 결제 완료 form 에 데이터 채워서 예약 완료 페이지로 ㄱㄱ */
+                                        $('#paymentResultForm').attr('action', '/pkage/reserveComplete');
+                                        $('#paymentResultForm').attr('method', 'POST');
+                                        $('#paymentResultForm input[name="pkage_rv_id"]').val(data.pkageReserveEle.pkage_rv_id);
+                                        $('#paymentResultForm').submit();
+                                      },
+                                      error: function(err){
+                                         var msg2 = '결제에 실패하였습니다.';
+                                         alert(msg2);
+                                      }
+                                      
+                                  });
             				}
             			},
             			error: function(err) {
             				console.log(err);
             			}
-            		}) // 이미 예약한 상품인지 먼저 검사 ajax */
+            		}) // 이미 예약한 상품인지 먼저 검사 ajax 
                 	
                 	
                    	//requestPay(data);

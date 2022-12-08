@@ -323,14 +323,14 @@
 	<!-- 패키지 검색시 관련 pkg 테이블들의 값 select  -->
 	<select id="selectPkgWithDetailAndFlight" parameterType="map" resultMap="pkageDTO_ResultMap">
 		select 
-		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
+	 	<include refid="selectPkgColumn"></include><!-- pkg 컬럼들 가져오는 include -->
 		(select basket_id from basket
 		where mem_id = #{mem_id} and basket_ref_id = p.pkage_id) as basket_id, <!-- 로그인 한 회원이 찜한 상품인지 확인 -->
 		c.*,
 		ct.*,
 		pd.*,
 		(select pkage_rv_id from package_reservation
-		where mem_id = 'test1' and pkage_dt_id = pd.pkage_dt_id) as pkage_rv_id, <!-- 로그인한 회원이 예약한 상품인지 확인 -->
+		where mem_id = #{mem_id} and pkage_dt_id = pd.pkage_dt_id) as pkage_rv_id, <!-- 로그인한 회원이 예약한 상품인지 확인 -->
         pfs.*,
         ashe.*,
 		aline.*,
@@ -370,10 +370,10 @@
 				</when>
 			</choose>
 		</if>
-		<if test='pkgSearch.chk_term != null'> <!-- 두 날짜의 차이 (day) -->
+		<if test='pkgSearch.chk_term != null'> <!-- 여행 기간 - 두 날짜의 차이 (day) -->
 			and TIMESTAMPDIFF(DAY, date(pd.pkage_dt_startDay), date(pd.pkage_dt_endDay))+1 = #{pkgSearch.chk_term}
 		</if>
-		<if test='pkgSearch.chk_time != null'> <!-- date의 시간만 비교 -->
+		<if test='pkgSearch.chk_time != null'> <!-- 출발 시간 - date의 시간만 비교 -->
 			<choose>
 				<when test='pkgSearch.chk_time.equals("AM")'>
 					and (hour(pd.pkage_dt_startDay) between '5' and '12')

@@ -29,6 +29,8 @@ import com.oracle.ohTravel.country.service.CountryService;
 import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.service.MemberService;
+import com.oracle.ohTravel.pkage.model.MaxPriceHighOrderComp;
+import com.oracle.ohTravel.pkage.model.MinPriceHighOrderComp;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
@@ -146,6 +148,15 @@ public class PkageController {
 			
 			// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수 구하기
 			getMakingDetailByList(pkageDTORmlist);
+			
+			// 높은 가격 순 혹은 낮은 가격 정렬일 때, 패키지 detail 상품은 정렬이 되서 오는데, 패키지는 정렬되지 않음.
+			//  패키지의 최소가격은  DB에서 정렬을 못하겠음. 그래서, 직접 자바에서 정렬해준 것.
+			if(pkgSearch.getOrder() == 3) {
+				Collections.sort(pkageDTORmlist, new MinPriceHighOrderComp());
+			}
+			if(pkgSearch.getOrder() == 4) {
+				Collections.sort(pkageDTORmlist, new MaxPriceHighOrderComp());
+			}
 			
 			model.addAttribute("toURL", toURL);
 			model.addAttribute("pkgCnt", pkgCnt);
@@ -371,7 +382,7 @@ public class PkageController {
 		}
 	}
 	
-	// pkg 상품 detail 의 필요 변수들 만들기(출발/도착 요일, 일 수, 출발/도착 때 걸린 비행시간, 비행 일정 유무 구분)
+	// pkg 상품 detail 의 필요 변수들 값 만들기(출발/도착 요일, 일 수, 출발/도착 때 걸린 비행시간, 비행 일정 유무 구분)
 	private void getMakingDetailByDTO(Pkage_detailDTO tmpDTO) {
 		Date start = tmpDTO.getPkage_dt_startDay();
 		Date end = tmpDTO.getPkage_dt_endDay();

@@ -1,5 +1,6 @@
 package com.oracle.ohTravel.pkage.model;
 
+import java.util.Comparator;
 import java.util.List;
 
 import com.oracle.ohTravel.city.model.CityDTO;
@@ -36,3 +37,5 @@ public class PkageDTORM {
 	private int reviewCnt;	// 리뷰 개수
 	
 }
+
+
