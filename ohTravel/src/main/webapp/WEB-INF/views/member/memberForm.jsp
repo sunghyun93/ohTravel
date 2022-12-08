@@ -546,7 +546,7 @@ $('#mem_id').on("propertychange change keyup paste input", function() {
 $('#mem_password2').on("propertychange change keyup paste input", function(){
 	var pw = $('#mem_password').val();
 	var pwck = $('#mem_password2').val();
-	$('#pwck_error').css('disply', 'none');
+	$('#pwck_error').css('display', 'none');
 	
 	if(pw == pwck){
         $('#pwck_input_re_1').css('display','block');

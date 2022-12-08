@@ -94,16 +94,6 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
-	// 비밀번호 변경
-	@Override
-	public int updatePassword(MemberDTO memberDTO) {
-		log.info("MemberServiceImpl updatePassword start..");
-		
-		int result = memberDao.updatePassword(memberDTO);
-		
-		return result;
-	}
-
 	// 아이디 중복 검사
 	@Override
 	public int idCheck(String mem_id) {
@@ -124,29 +114,6 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.findPassword(memberDTO);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// 회원 select (등급 까지 포함)
 	@Override
 	public MemberDTO selectMemberWithGrade(String mem_id) throws Exception {
@@ -164,6 +131,17 @@ public class MemberServiceImpl implements MemberService{
 		log.info("MemberServiceImpl selectMemberWithCoupon() end...");
 		return list;
 	}
+
+	// 비밀번호 변경
+	@Override
+	public int updatePassword(MemberDTO memberDTO) {
+		log.info("MemberServiceImpl updatePassword start...");
+		
+		int result = memberDao.updatePassword(memberDTO);
+		
+		return result;
+	}
+
 
 	
 

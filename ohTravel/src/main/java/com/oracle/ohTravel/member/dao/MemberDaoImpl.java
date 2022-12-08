@@ -109,15 +109,6 @@ public class MemberDaoImpl implements MemberDao {
 		return result;
 	}
 
-	// 비밀번호 변경
-	@Override
-	public int updatePassword(MemberDTO memberDTO) {
-		log.info("MemberDaoImpl updatePassword start..");
-		
-		int result = sqlSession.update("updatePassword", memberDTO);
-		
-		return result;
-	}
 	
 	// 아이디 중복 체크
 	@Override
@@ -151,31 +142,6 @@ public class MemberDaoImpl implements MemberDao {
 		return member;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// 회원 select (등급 까지 포함)
 	@Override
 	public MemberDTO selectMemberWithGrade(String mem_id) throws Exception {
@@ -222,6 +188,17 @@ public class MemberDaoImpl implements MemberDao {
 		log.info("MemberDaoImpl updateMemCouponUsed() end...");
 		return rowCnt;
 	}
+
+	// 비밀번호 변경
+	@Override
+	public int updatePassword(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl updatePassword start..");
+		
+		int result = sqlSession.update("updatePassword", memberDTO);
+		
+		return result;
+	}
+
 
 	
 }

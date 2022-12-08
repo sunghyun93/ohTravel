@@ -43,10 +43,6 @@ public interface MemberDao {
 	// 개인 정보 수정
 	public int updateMember(MemberDTO memberDTO);
 
-	// 비밀번호 변경
-	public int updatePassword(MemberDTO memberDTO);
-	
-
 	// 회원 마일리지 update
 	int updateMemMileage(Map<String, Object> map) throws Exception;
 	
@@ -66,5 +62,9 @@ public interface MemberDao {
 
 	// 비밀번호 찾기
 	public MemberDTO findPassword(MemberDTO memberDTO);
+
+	// 비밀번호 변경
+	public int updatePassword(MemberDTO memberDTO);
+
 }
 

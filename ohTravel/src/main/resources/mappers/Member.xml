@@ -64,6 +64,13 @@
 		AND mem_id = #{mem_id}
 	</select>
 	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePassword">
+		UPDATE member
+		SET mem_password = #{mem_password}
+		WHERE mem_id = #{mem_id}
+	</update>
+	
 	<!-- 회원 탈퇴 -->
 	<delete id="deleteMember" parameterType="MemberDTO"> 
 		DELETE FROM member
@@ -77,13 +84,6 @@
 			mem_tel = #{mem_tel},
 			mem_email = #{mem_email},
 			mem_birthday = #{mem_birthday}
-		WHERE mem_id = #{mem_id}
-	</update>
-	
-	<!-- 비밀번호 변경 -->
-	<update id="updatePassword">
-		UPDATE password SET
-			mem_password = #{mem_password}
 		WHERE mem_id = #{mem_id}
 	</update>
 	

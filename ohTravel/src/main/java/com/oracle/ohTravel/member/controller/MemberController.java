@@ -60,6 +60,7 @@ public class MemberController {
 			String sessionEmail = member.getMem_email();
 			String sessionTel = member.getMem_tel();
 			Date sessionBirth = (Date) member.getMem_birthday();
+			String sessionPw = member.getMem_password();
 			
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 			String sessionBirthday = simpleDateFormat.format(sessionBirth); 
@@ -70,6 +71,7 @@ public class MemberController {
 			session.setAttribute("sessionEmail", sessionEmail);
 			session.setAttribute("sessionTel", sessionTel);
 			session.setAttribute("sessionBirthday", sessionBirthday);
+			session.setAttribute("sessionPw", sessionPw);
 			
 			System.out.println("MemberController login member -> " + member);
 			System.out.println("MemberController login sessionId -> " + sessionId);
@@ -188,11 +190,12 @@ public class MemberController {
 			return "member/findPasswordResult";
 			
 		} else {
+			session.setAttribute("sessionId", member.getMem_id());
 			model.addAttribute("member", member);
 			model.addAttribute("check", 0);
 			model.addAttribute("id", member.getMem_id());
 			session.setAttribute("pw", member.getMem_password());
-			return "member/modifyPassword";
+			return "redirect:/member/modifyPassword2";
 		}
 	}
 	
@@ -382,53 +385,63 @@ public class MemberController {
 	public String updateMember(MemberDTO memberDTO, HttpServletRequest request) {
 		log.info("MemberController updateMember start..");
 		
-		HttpSession session = request.getSession();
+		// HttpSession session = request.getSession();
 		
 		memberService.updateMember(memberDTO);
 		
-		session.invalidate();
-		
-		return "redirect:/";
+		return "redirect:/member/myPageReservPackage";
 	}
 	
-	// 비밀번호 변경 페이지 이동
+	// 비밀번호 변경 페이지1 이동
 	@GetMapping(value = "/modifyPassword")
 	public String goModifyPassword() {
 		return "member/modifyPassword";
 	}
 	
-	
-	
-	// 비밀번호 변경
-	@PostMapping(value = "/updatePassword")
-	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) {
-		log.info("MemberController updatePassword start..");
+	// 비밀번호 확인
+	@PostMapping(value = "/checkPassword")
+	public String checkPassword(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+		log.info("MemberController checkPassword start..");
 		
+		// 로그인 정보 가져오기
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		
 		// session에 저장된 로그인된 아이디의 비밀번호
 		String sessionPw = member.getMem_password();
-		System.out.println("MemberController updatePassword sessionPw -> "  + sessionPw);
-		
+		System.out.println("MemberController checkPassword sessionPw -> "  + sessionPw);
 		
 		// 비밀번호 확인을 위해 새로 입력한 비밀번호
-		String testPw = memberDTO.getMem_password();
-		System.out.println("MemberController updatePassword testPw -> " + testPw);
-		
-		String newPw = null;
-		
-		if(!(sessionPw.equals(testPw))) {
+		String ckPw = memberDTO.getMem_password();
+		System.out.println("MemberController checkPassword ckPw -> " + ckPw);
+	
+		if(!(sessionPw.equals(ckPw))) {
 			rttr.addFlashAttribute("msg", false);
-			return "redirect:/member/updatePassword";
+			return "redirect:/member/modifyPassword";
 		} else {
-			member.setMem_password(testPw);
-			memberService.updatePassword(member);
-			session.invalidate();
-			System.out.println("MemberController updatePassword after..");
-			return "redirect:/";
+			System.out.println("MemberController checkPassword after..");
+			return "redirect:/member/modifyPassword2";
 		}
 	}
+	
+	// 비밀번호 변경
+	@PostMapping(value = "/updatePassword")
+	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request) {
+		log.info("MemberController updatePassword start..");
+		
+		memberService.updatePassword(memberDTO);
+		
+		return "redirect:/member/myPageReservPackage";
+	}
+	
+	
+	// 비밀번호 변경 페이지2 이동
+	@GetMapping(value = "/modifyPassword2")
+	public String goModifyPassword2() {
+		return "member/modifyPassword2";
+	}
+	
+	
 	
 	// 회원 탈퇴 페이지 이동
 	@GetMapping(value = "/deleteMember")
