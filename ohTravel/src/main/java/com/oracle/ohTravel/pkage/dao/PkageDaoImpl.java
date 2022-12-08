@@ -80,6 +80,15 @@ public class PkageDaoImpl implements PkageDao {
 		return dto;
 	}
 	
+//	사용자가 이미 예약한 상품인지 확인
+	@Override
+	public Integer selectPkgDetailReservCheck(Map<String, Object> map) throws Exception {
+		log.info("PkageDaoImpl selectPkgDetailReservCheck() start...");
+		int check = session.selectOne(namespace+"selectPkgDetailReservCheck", map);
+		log.info("PkageDaoImpl selectPkgDetailReservCheck() end...");
+		return check;
+	}
+	
 //	package_reservation insert 문
 	@Override
 	public int insertPkgReserve(Pkage_rsDTO pkage_rsDTO) throws Exception {
@@ -113,6 +122,15 @@ public class PkageDaoImpl implements PkageDao {
 		log.info("PkageDaoImpl updatePkgSoldCnt() start...");
 		int rowCnt = session.update(namespace+"updatePkgSoldCnt", pkage_id);
 		log.info("PkageDaoImpl updatePkgSoldCnt() end...");
+		return rowCnt;
+	}
+	
+//	결제 후 해당 패키지 detail의 잔여좌석 update
+	@Override
+	public int updatePkgDetailRcnt(Map<String, Object> map) throws Exception {
+		log.info("PkageDaoImpl updatePkgDetailRcnt() start...");
+		int rowCnt = session.update(namespace+"updatePkgDetailRcnt", map);
+		log.info("PkageDaoImpl updatePkgDetailRcnt() end...");
 		return rowCnt;
 	}
 }

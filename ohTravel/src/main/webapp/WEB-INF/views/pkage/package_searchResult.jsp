@@ -173,7 +173,13 @@
 	                                    </div>
 	                                    <div class="btn_wrap">
 		                                    <button class="btn-like">
-	                                            <span class="btn-like-span">favorite</span>
+		                                    <%-- 로그인한 회원이 찜을 한 패키지인지 여부 --%>
+		                                    <c:if test="${pkageDTORm.basket_id eq null }">
+		                                    	<span class="btn-like-span material-symbols-outlined-empty">favorite</span>
+		                                    </c:if>
+	                                        <c:if test="${pkageDTORm.basket_id ne null }">
+	                                        	<span class="btn-like-span material-symbols-outlined-filled">favorite</span>
+	                                        </c:if>
 	                                        </button>
                                         </div>
 	                                    <div class="btn_wrap">
@@ -195,7 +201,9 @@
 		                                                        <div class="tag_group">
 		                                                            <span class="attr">${pkgDetail.pkage_dt_thema }</span> 
 		                                                        </div>
-		                                                        <strong class="item_title eps3">${pkgDetail.pkage_dt_name }</strong>
+		                                                        <strong class="item_title eps3">${pkgDetail.pkage_dt_name }
+		                                                        	<c:if test="${pkgDetail.pkage_rv_id ne null}"><span class="reserved">내가 예약한 상품</span></c:if>
+		                                                        </strong>
 		                                                        
 		                                                        <p class="item_text">
 		                                                        	<!-- 해외일 때만 항공정보 불러오기 -->
@@ -215,6 +223,7 @@
 		                                                            </c:if>
 		                                                            <!-- 패키지 인원 - 패키지 예약인원 -->
 		                                                            <span>잔여 ${pkgDetail.pkage_dt_cnt-pkgDetail.pkage_dt_Rcnt }석</span>
+		                                                            <c:if test="${pkgDetail.pkage_dt_cnt-pkgDetail.pkage_dt_Rcnt == '0' }"><span class="reserv_impossible">예약불가</span></c:if>
 		                                                        </p>
 		                                                        <p class="item_text air_info">
 		                                                        	<!-- 출발 / 도착 날짜 적어주기 -->
@@ -409,10 +418,10 @@ $(function() {
 		location.href='/pkage/searchResult'+url;
 		
 	});
-	
+
 	/* 찜 하트 변경 script 부분 (구글 font-icons 활용) */
 	/* 찜이 되어있으면 꽉찬 하트, 안되어있으면 빈 하트로 초기화 시켜주는 로직 완성시켜야함 !! */
-	$('.btn-like-span').addClass("material-symbols-outlined-empty");
+	/* $('.btn-like-span').addClass("material-symbols-outlined-empty"); */
 
 
     $('.btn-like').on('click', function() {

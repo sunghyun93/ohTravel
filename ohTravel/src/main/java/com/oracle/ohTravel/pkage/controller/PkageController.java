@@ -101,7 +101,7 @@ public class PkageController {
 	
 	// 검색 결과 메서드
 	@GetMapping("/searchResult")
-	public String searchResult(PkgSearch pkgSearch, Model model, HttpServletRequest request) {
+	public String searchResult(PkgSearch pkgSearch, Model model, HttpServletRequest request, HttpSession session) {
 		log.info("PkageController searchResult() start...");
 		log.info("pkgSearch="+pkgSearch);
 		
@@ -111,9 +111,12 @@ public class PkageController {
 		
 		if(pkgSearch.getOrder() == null) pkgSearch.setOrder(1);; // 초기값 세팅
 		
-		// 넘어온 가격의 구분 정해주기 (max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3)
+		// 찜한 상품인지 알기 위한 로그인한 회원의 ID 가져오기
+		String mem_id = (String)session.getAttribute("sessionId");
+		
+		// 필터로 인해 넘어온 가격의 구분 정해주기 (max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3)
 		pkgSearch.makeAmtGubun();
-		// DB로 전달할 출발 시간 설정
+		// 필터로 인해 넘어온 출발 시간 값을 DB로 전달하기 위해 출발 시간 설정(AM-5~12, PM-12~18)
 		pkgSearch.makeDBtime();
 		log.info("AmtGubun = " + pkgSearch.getAmtGubun());
 		
@@ -125,11 +128,12 @@ public class PkageController {
 			// 관련 pkg 테이블들 모두 가져오기 (상세의 일정 부분 제외)
 			Map<String, Object> map = new HashMap<>();
 			// pkage_id 가 null 이 아닌 경우는 검색을 해서 들어온 것이 아니고, 패키지는 클릭했을 때 해당 패키지에 대한 내용만 가져오기 위함
+			map.put("mem_id", mem_id);
 			map.put("pkage_id", pkgSearch.getPkage_id());
 			map.put("toDesti", pkgSearch.getToDesti());
 			map.put("dates_start_check", pkgSearch.getDates_start_check());
 			map.put("order", pkgSearch.getOrder()); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3 desc,4 asc)
-			map.put("amtGubun", pkgSearch.getAmtGubun());
+			map.put("amtGubun", pkgSearch.getAmtGubun()); // max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3
 			map.put("pkgSearch", pkgSearch);	// 가격, 여행기간, 출발시간을 위해 전달
 			
 			List<PkageDTORM> pkageDTORmlist = pkageService.selectPkgWithDetailAndFlight(map);

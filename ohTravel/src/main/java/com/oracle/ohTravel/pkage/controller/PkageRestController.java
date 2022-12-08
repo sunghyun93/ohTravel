@@ -60,7 +60,7 @@ public class PkageRestController {
 	public ResponseEntity<String> loginCheck(HttpSession session) {
 		log.info("PkageRestController loginCheck() start");
 		boolean loginCheck = session.getAttribute("member") == null; 
-		if(session.getAttribute("res") != null)
+		if(session.getAttribute("member") != null)
 			log.info("로그인ID="+((MemberDTO)session.getAttribute("member")).getMem_id());
 		if(!loginCheck) {
 			log.info("PkageRestController loginCheck() end");
@@ -68,6 +68,33 @@ public class PkageRestController {
 		} else {
 			log.info("PkageRestController loginCheck() end");
 			return new ResponseEntity<String>("LOGIN_NO", HttpStatus.OK);
+		}
+	}
+	
+	// 이미 예약한 상품인지 체크 용
+	@PostMapping("/reservedCheck")
+	public ResponseEntity<String> reservedCheck(String pkage_dt_id, HttpSession session) {
+		log.info("PkageRestController reservedCheck() start");
+		String mem_id = ((MemberDTO)session.getAttribute("member")).getMem_id();
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pkage_dt_id", pkage_dt_id);
+		map.put("mem_id", mem_id);
+		
+		Integer check = 0;
+		try {
+			check = pkageService.selectPkgDetailReservCheck(map);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		// check가 1이면 이미 예약한 상품
+		if(check == 1) {
+			log.info("PkageRestController reservedCheck() end");
+			return new ResponseEntity<String>("reserved", HttpStatus.OK);
+		} else {
+			log.info("PkageRestController reservedCheck() end");
+			return new ResponseEntity<String>("no", HttpStatus.OK);
 		}
 	}
 	
@@ -82,6 +109,7 @@ public class PkageRestController {
 			pkgSearch.setDates_start_check("2022-12-20");
 			
 			Map<String, Object> map = new HashMap<>();
+			map.put("mem_id", "test1");	// 로그인한 회원이 찜한 상품인지 가리기 위한 데이터
 			map.put("pkage_id", pkgSearch.getPkage_id());
 			map.put("toDesti", pkgSearch.getToDesti());
 			map.put("dates_start_check", pkgSearch.getDates_start_check());

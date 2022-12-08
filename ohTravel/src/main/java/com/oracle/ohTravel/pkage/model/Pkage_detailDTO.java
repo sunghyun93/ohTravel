@@ -22,6 +22,7 @@ public class Pkage_detailDTO {
 	private Date pkage_dt_meetDate;		// 사전미팅날짜
 	private Date pkage_dt_startDay;		// 일정시작날짜
 	private Date pkage_dt_endDay;		// 일정정료날짜
+	private Integer pkage_rv_id;		// 로그인한 회원이 예약한 상품인지 여부(예약하지 않았으면 null)
 	
 	// package_flightSche 비행일정
 	private List<Pkage_flightScheDTO> pkage_flightScheDTOList;

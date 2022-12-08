@@ -40,6 +40,7 @@
 		<result property="pkage_gubun" column="pkage_gubun"/>
 		<result property="pkage_soldCnt" column="pkage_soldCnt"/>
 		<result property="pkage_score" column="pkage_score"/>
+		<result property="basket_id" column="basket_id"/> <!-- 찜한 상품인지 확인하는 컬럼 -->
 		
 		<!-- 도시 (국가) -->
 		<association property="cityDTO" resultMap="selectCityResult"></association>
@@ -71,6 +72,7 @@
 		<result property="pkage_dt_meetDate" column="pkage_dt_meetDate"/>
 		<result property="pkage_dt_startDay" column="pkage_dt_startDay"/>
 		<result property="pkage_dt_endDay" column="pkage_dt_endDay"/>
+		<result property="pkage_rv_id" column="pkage_rv_id"/>
 		
 		<!-- package_flightSche 비행일정 -->
 		<collection property="pkage_flightScheDTOList" resultMap="selectPkgFlightScheResult"></collection>
@@ -293,9 +295,13 @@
 	<select id="selectPkgWithDetailAndFlight" parameterType="map" resultMap="pkageDTO_ResultMap">
 		select 
 		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
+		(select basket_id from basket
+		where mem_id = #{mem_id} and basket_ref_id = p.pkage_id) as basket_id, <!-- 로그인 한 회원이 찜한 상품인지 확인 -->
 		c.*,
 		ct.*,
 		pd.*,
+		(select pkage_rv_id from package_reservation
+		where mem_id = 'test1' and pkage_dt_id = pd.pkage_dt_id) as pkage_rv_id, <!-- 로그인한 회원이 예약한 상품인지 확인 -->
         pfs.*,
         ashe.*,
 		aline.*,
@@ -452,6 +458,12 @@
 		#{pkage_rv_tprice}, now(), 1)
 	</insert>
 	
+	<!-- 사용자가 이미 예약한 상품인지 확인 -->
+	<select id="selectPkgDetailReservCheck" parameterType="map" resultType="int">
+		select 1 from package_reservation 
+		where pkage_dt_id = ${pkage_dt_id} and mem_id = #{mem_id}
+	</select>
+	
 	<!-- 어떤 사용자가 예약을 했을 경우 바로 생긴 pkage_rv_id 가져오기 -->
 	<select id="selectPkgRvIdByMemId" parameterType="map" resultType="int">
 		select max(pkage_rv_id) pkage_rv_id
@@ -476,6 +488,13 @@
 		update package 
 		set pkage_soldCnt = pkage_soldCnt + 1 
 		where pkage_id = #{pkage_id};
+	</update>
+	
+	<!-- 결제 후 해당 패키지 detail의 잔여좌석 update -->
+	<update id="updatePkgDetailRcnt" parameterType="map">
+		update package_detail
+		set pkage_dt_Rcnt = pkage_dt_Rcnt + ${pkage_dt_Rcnt}
+		where pkage_dt_id = #{pkage_dt_id};
 	</update>
 	
 <!--  sql 태그들  -->

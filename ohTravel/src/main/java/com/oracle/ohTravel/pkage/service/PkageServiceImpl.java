@@ -110,6 +110,15 @@ public class PkageServiceImpl implements PkageService {
 		return pkage_detailDTO;
 	}
 	
+//	사용자가 이미 예약한 상품인지 확인
+	@Override
+	public Integer selectPkgDetailReservCheck(Map<String, Object> map) throws Exception {
+		log.info("PkageServiceImpl selectPkgDetailReservCheck() start...");
+		Integer check = pkageDao.selectPkgDetailReservCheck(map);
+		log.info("PkageServiceImpl selectPkgDetailReservCheck() end...");
+		return check;
+	}
+	
 //	패키지 예약 관련 insert 및 update
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -158,6 +167,13 @@ public class PkageServiceImpl implements PkageService {
 		Map<String, List<Pkage_rs_piDTO>> insertMap = new HashMap<>();
 		insertMap.put("pkage_rs_piDTOList", pkage_rs_piDTOList);
 		rowCnt = pkageDao.insertPkgReservePies(insertMap);
+		
+	// 패키지 잔여 좌석 update
+		Map<String, Object> updateRcntMap = new HashMap<>();
+		updateRcntMap.put("pkage_dt_id", pkageReserveEle.getPkage_dt_id());
+		// 아동인원  + 성인인원
+		updateRcntMap.put("pkage_dt_Rcnt", pkageReserveEle.getPkage_rv_Acnt()+pkageReserveEle.getPkage_rv_Ccnt());
+		rowCnt = pkageDao.updatePkgDetailRcnt(updateRcntMap);
 		
 	// 패키지 판매 update
 		rowCnt = pkageDao.updatePkgSoldCnt(pkageReserveEle.getPkage_id());
