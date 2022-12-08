@@ -2,6 +2,7 @@ package com.oracle.ohTravel.pkage.model;
 
 import lombok.Data;
 
+// 패키지 예약 페이지로 갈 때 사용하는 클래스
 @Data
 public class PkgReserve {
 	private String pkage_id;

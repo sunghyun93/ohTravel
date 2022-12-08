@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_detail.css">
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-<title>Package</title>
+<title>${pkageDTORM.pkage_detailDTO.pkage_dt_name }</title>
 </head>
 <body>
 <div id="pk_container">

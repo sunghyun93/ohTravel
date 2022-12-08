@@ -3,6 +3,8 @@ package com.oracle.ohTravel.pkage.model;
 import java.util.Date;
 import java.util.List;
 
+import com.oracle.ohTravel.member.model.MemberDTO;
+
 import lombok.Data;
 
 // 패키지예약
@@ -19,4 +21,10 @@ public class Pkage_rsDTO {
 	
 	// 패키지 예약 인원 정보 
 	private List<Pkage_rs_piDTO> Pkage_rs_piDTOList;
+	
+	// 패키지 상세
+	private Pkage_detailDTO pkage_detailDTO;
+	
+	// 회원
+	private MemberDTO memberDTO;
 }

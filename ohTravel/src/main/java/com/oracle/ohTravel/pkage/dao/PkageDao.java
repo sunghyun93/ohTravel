@@ -22,4 +22,6 @@ public interface PkageDao {
 	int insertPkgReservePies(Map<String, List<Pkage_rs_piDTO>> map) throws Exception;
 	int updatePkgSoldCnt(String pkage_id) throws Exception;
 	int updatePkgDetailRcnt(Map<String, Object> map) throws Exception;
+	int insertPayment(Map<String, Object> map) throws Exception;
+	Pkage_rsDTO selectPkgReservById(Integer pkage_rv_id) throws Exception;
 }

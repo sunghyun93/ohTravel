@@ -272,6 +272,35 @@
 		<result property="hotel_exist" column="hotel_exist"/>
 	</resultMap>
 	
+	<!-- 회원 resultMap -->
+	<resultMap id="selectMemberResult" type="MemberDTO">
+		<id property="mem_id" column="mem_id"/>
+		<result property="mem_name" column="mem_name"/>
+		<result property="mem_password" column="mem_password"/>
+		<result property="mem_email" column="mem_email"/>
+		<result property="mem_tel" column="mem_tel"/>
+		<result property="mem_birthday" column="mem_birthday"/>
+		<result property="mem_create" column="mem_create"/>
+		<result property="mem_role" column="mem_role"/>
+	</resultMap>
+	
+	<!-- 패키지 예약 resultMap -->
+	<resultMap id="selectPkgReservResult" type="Pkage_rsDTO" >
+		<id property="pkage_rv_id" column="pkage_rv_id"/>
+		<result property="pkage_dt_id" column="pkage_dt_id"/>
+		<result property="mem_id" column="mem_id"/>
+		<result property="pkage_rv_Acnt" column="pkage_rv_Acnt"/>
+		<result property="pkage_rv_Ccnt" column="pkage_rv_Ccnt"/>
+		<result property="pkage_rv_tprice" column="pkage_rv_tprice"/>
+		<result property="pkage_rv_date" column="pkage_rv_date"/>
+		<result property="pkage_rv_status" column="pkage_rv_status"/>
+		
+		<!-- 패키지 상세 -->
+		<association property="pkage_detailDTO" resultMap="selectPkgDetailResult"/>
+		<!-- 회원 -->
+		<association property="memberDTO" resultMap="selectMemberResult"/>
+	</resultMap>
+	
 	<!-- resultMap을 위한 select 문들 -->
 	<select id="selectPkgImg" resultType="pkage_imageDTO">
 		select * from package_image where pkage_id = #{pkage_id}
@@ -294,14 +323,14 @@
 	<!-- 패키지 검색시 관련 pkg 테이블들의 값 select  -->
 	<select id="selectPkgWithDetailAndFlight" parameterType="map" resultMap="pkageDTO_ResultMap">
 		select 
-		<include refid="selectPkgColumn"></include> <!-- pkg 컬럼들 가져오는 include -->
+	 	<include refid="selectPkgColumn"></include><!-- pkg 컬럼들 가져오는 include -->
 		(select basket_id from basket
 		where mem_id = #{mem_id} and basket_ref_id = p.pkage_id) as basket_id, <!-- 로그인 한 회원이 찜한 상품인지 확인 -->
 		c.*,
 		ct.*,
 		pd.*,
 		(select pkage_rv_id from package_reservation
-		where mem_id = 'test1' and pkage_dt_id = pd.pkage_dt_id) as pkage_rv_id, <!-- 로그인한 회원이 예약한 상품인지 확인 -->
+		where mem_id = #{mem_id} and pkage_dt_id = pd.pkage_dt_id) as pkage_rv_id, <!-- 로그인한 회원이 예약한 상품인지 확인 -->
         pfs.*,
         ashe.*,
 		aline.*,
@@ -341,10 +370,10 @@
 				</when>
 			</choose>
 		</if>
-		<if test='pkgSearch.chk_term != null'> <!-- 두 날짜의 차이 (day) -->
+		<if test='pkgSearch.chk_term != null'> <!-- 여행 기간 - 두 날짜의 차이 (day) -->
 			and TIMESTAMPDIFF(DAY, date(pd.pkage_dt_startDay), date(pd.pkage_dt_endDay))+1 = #{pkgSearch.chk_term}
 		</if>
-		<if test='pkgSearch.chk_time != null'> <!-- date의 시간만 비교 -->
+		<if test='pkgSearch.chk_time != null'> <!-- 출발 시간 - date의 시간만 비교 -->
 			<choose>
 				<when test='pkgSearch.chk_time.equals("AM")'>
 					and (hour(pd.pkage_dt_startDay) between '5' and '12')
@@ -496,6 +525,23 @@
 		set pkage_dt_Rcnt = pkage_dt_Rcnt + ${pkage_dt_Rcnt}
 		where pkage_dt_id = #{pkage_dt_id};
 	</update>
+	
+	<!-- 결제 insert -->
+	<insert id="insertPayment" parameterType="Map">
+		insert into payment(mem_id,pkage_rv_id,payment_method) values (#{mem_id},#{pkage_rv_id},'card')
+	</insert>
+	
+	<!-- 결제 후 예약 완료 페이지에 보여줄 데이터 select -->
+	<select id="selectPkgReservById" parameterType="int" resultMap="selectPkgReservResult">
+		select 
+		pr.*,
+		pd.*,
+		m.*
+		from package_reservation pr
+		join package_detail pd on pr.pkage_dt_id = pd.pkage_dt_id
+		join member m on pr.mem_id = m.mem_id
+		where pr.pkage_rv_id = #{pkage_rv_id}
+	</select>
 	
 <!--  sql 태그들  -->
 	<!-- 평점을 위한 sql -->
