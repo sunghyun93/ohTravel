@@ -14,4 +14,6 @@ public class ReviewDTO {
 	private String rv_real_id;
 	
 	private String pk = "pk";
+	private String ht = "ht";
+	private String ti = "ti";
 }

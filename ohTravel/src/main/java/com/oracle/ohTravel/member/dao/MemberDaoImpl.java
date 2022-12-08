@@ -210,5 +210,15 @@ public class MemberDaoImpl implements MemberDao {
 		return packageReviewList;
 	}
 
+	// 호텔 리뷰 목록
+	@Override
+	public List<ReviewDTO> mypageReviewHotel(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl mypageReviewHotel Start..");
+		List<ReviewDTO> hotelReviewList = sqlSession.selectList("hotelReviewList", reviewDTO);
+		
+		System.out.println("MemberDaoImpl mypageReviewHotel hotelReviewList.size() -> " + hotelReviewList.size());
+		return hotelReviewList;
+	}
+
 	
 }

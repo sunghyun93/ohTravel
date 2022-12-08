@@ -150,7 +150,14 @@ public class MemberServiceImpl implements MemberService{
 		List<ReviewDTO> packageReviewList = memberDao.mypageReviewPackage(reviewDTO);
 		return packageReviewList;
 	}
-
+	
+	// 호텔 리뷰 목록
+	@Override
+	public List<ReviewDTO> myPageReviewHotel(ReviewDTO reviewDTO) {
+		log.info("MemberServiceImpl myPageReviewHotel start...");
+		List<ReviewDTO> hotelReviewList = memberDao.mypageReviewHotel(reviewDTO);
+		return hotelReviewList;
+	}
 	
 	
 

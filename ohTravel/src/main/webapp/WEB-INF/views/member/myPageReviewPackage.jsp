@@ -65,8 +65,8 @@
 					            <table class="board_type">
 					                <colgroup>
 					                    <col style="width: 20%;" />
-					                    <col style="width: 40%;" />
 					                    <col style="width: 20%;" />
+					                    <col style="width: 40%;" />
 					                    <col style="width: 20%;" />
 					                </colgroup>
 					                <thead>

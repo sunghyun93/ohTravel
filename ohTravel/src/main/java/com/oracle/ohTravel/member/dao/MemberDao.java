@@ -70,5 +70,8 @@ public interface MemberDao {
 	// 패키지 리뷰 목록
 	public List<ReviewDTO> mypageReviewPackage(ReviewDTO reviewDTO);
 
+	// 호텔 리뷰 목록
+	public List<ReviewDTO> mypageReviewHotel(ReviewDTO reviewDTO);
+
 }
 

@@ -56,5 +56,8 @@ public interface MemberService {
 
 	// 패키지 리뷰 목록
 	public List<ReviewDTO> myPageReviewPackage(ReviewDTO reviewDTO);
+
+	// 호텔 리뷰 목록
+	public List<ReviewDTO> myPageReviewHotel(ReviewDTO reviewDTO);
 	
 }
