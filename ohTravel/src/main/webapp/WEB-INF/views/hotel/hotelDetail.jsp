@@ -563,33 +563,9 @@ function makeRoomList(data) {
 		innerHtml +=				           	'<p>'+typeArr[i]+'</p>'
 		innerHtml +=					   	'</div>'
 		innerHtml +=    				'</a>'
-		
-			for(let j = 0; j < data.length; j++){
-			
-			innerHtml +=				'<div id="collapse_'+data[j].room_type+'" class="panel-collapse collapse" role="tabpanel">'	
-		    innerHtml +=     				'<div class="panel-body">'
-		    innerHtml +=       					'<div class="room_type_detail">'
-			innerHtml +=							'<div class="room_img">'
-			innerHtml +=								'<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">'
-			innerHtml +=							'</div>'
-			innerHtml +=						'<div class="r_name">'
-			innerHtml +=							'<h3>'+data[j].room_name+'</h3>'
-			innerHtml +=						'</div>'
-	/* 		innerHtml +=						'<div class="r_option">'
-			innerHtml +=							'<h4>뭔가의 방 옵션정보</h4>'
-			innerHtml +=						'</div>' */
-			innerHtml +=						'<div class="r_price">'
-			innerHtml +=							'<h3>'+data[j].room_price+'</h3>'
-			innerHtml +=						'</div>'
-			innerHtml +=						'<div class="reservation">'
-			innerHtml +=							'<button type="button" class="genric-btn primary ela" onclick="goReserve('+data[j].room_id+')">예약하기</button>'
-			innerHtml +=						'</div>'
-			innerHtml +=					'</div>'
-			innerHtml +=				'</div><!-- panel-body -->'
-		    innerHtml +=   	 		 '</div> <!-- #collapse1 -->'
-		    
-			}
-		
+		innerHtml +=    				'<div id="panelBodyHere">'
+		innerHtml +=    				'</div>'
+										
 	    innerHtml +=    '</div> <!-- panel-default -->'
 	    innerHtml +=  '</div> <!-- panel-group -->'
 		innerHtml += '</div> <!-- container-fluid -->'
@@ -599,6 +575,35 @@ function makeRoomList(data) {
 	}
 	
 	$('#roomAllInfo').append(innerHtml);
+	
+	
+	let innerHtmlBody = '';
+	
+ 	for(let j = 0; j < data.length; j++){
+		
+		innerHtmlBody +=				'<div id="collapse_'+data[j].room_type+'" class="panel-collapse collapse" role="tabpanel">'	
+		innerHtmlBody +=     				'<div class="panel-body">'
+		innerHtmlBody +=       					'<div class="room_type_detail">'
+		innerHtmlBody +=							'<div class="room_img">'
+		innerHtmlBody +=								'<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">'
+		innerHtmlBody +=							'</div>'
+		innerHtmlBody +=						'<div class="r_name">'
+		innerHtmlBody +=							'<h3>'+data[j].room_name+'</h3>'
+		innerHtmlBody +=						'</div>'
+
+		innerHtmlBody +=						'<div class="r_price">'
+		innerHtmlBody +=							'<h3>'+data[j].room_price+'</h3>'
+		innerHtmlBody +=						'</div>'
+		innerHtmlBody +=						'<div class="reservation">'
+		innerHtmlBody +=							'<button type="button" class="genric-btn primary ela" onclick="goReserve('+data[j].room_id+')">예약하기</button>'
+		innerHtmlBody +=						'</div>'
+		innerHtmlBody +=					'</div>'
+		innerHtmlBody +=				'</div><!-- panel-body -->'
+		innerHtmlBody +=   	 		 '</div> <!-- #collapse1 -->'
+	    
+		}
+		
+		$('#panelBodyHere').append(innerHtmlBody); 
 
 }
 </script>	
