@@ -27,7 +27,7 @@ import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
 import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.country.service.CountryService;
-import com.oracle.ohTravel.manager.dto.PaymentDTO;
+import com.oracle.ohTravel.manager.model.PaymentDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 
 import lombok.RequiredArgsConstructor;
