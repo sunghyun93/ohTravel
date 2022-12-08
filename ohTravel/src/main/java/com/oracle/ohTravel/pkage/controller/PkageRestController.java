@@ -21,6 +21,7 @@ import com.oracle.ohTravel.pkage.dao.PkageDao;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 import com.oracle.ohTravel.pkage.model.Pkage_flightScheDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_rsDTO;
 import com.oracle.ohTravel.pkage.model.PkgSearch;
 import com.oracle.ohTravel.pkage.service.PkageService;
 
@@ -194,5 +195,20 @@ public class PkageRestController {
 		}
 		return null;
 	}
-
+	
+	// 패키지 예약 데이터 가져오기 테스트용
+	@GetMapping("/test5")
+	public Pkage_rsDTO test5() {
+		try {
+			Integer pkage_rv_id = 3;
+			
+			Pkage_rsDTO pkage_rsDTO = pkageDao.selectPkgReservById(pkage_rv_id);
+			
+			return pkage_rsDTO;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }

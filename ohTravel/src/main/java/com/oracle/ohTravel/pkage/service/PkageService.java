@@ -6,6 +6,7 @@ import java.util.Map;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_rsDTO;
 import com.oracle.ohTravel.pkage.model.PkgSearch;
 
 public interface PkageService {
@@ -16,5 +17,6 @@ public interface PkageService {
 	PkageDTORM selectPkgByPkgId(String pkage_id) throws Exception;
 	Pkage_detailDTO selectPkgDetailById2(Integer pkage_dt_id) throws Exception;
 	Integer selectPkgDetailReservCheck(Map<String, Object> map) throws Exception;
-	int insertPkgReserveInsertWithAll(Map<String, Object> map) throws Exception;
+	Map<String, Object> insertPkgReserveInsertWithAll(Map<String, Object> map) throws Exception;
+	Pkage_rsDTO selectPkgReservById(Integer pkage_rv_id) throws Exception;
 }

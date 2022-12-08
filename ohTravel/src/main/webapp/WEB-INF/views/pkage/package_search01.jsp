@@ -9,8 +9,24 @@
 <meta charset="UTF-8">
 <title>${gubun == 0 ? '국내' : '해외' } 패키지 여행</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_search.css">
+<style>
+.searchTitle {
+    color: #191d34;
+    font-size: 60px;
+    font-weight: 600;
+    line-height: 1;
+    
+}
+.searchTitle h1 {
+	margin: 30px 0px;
+	text-align: center;
+}
+</style>
 </head>
 <body>
+<div class="searchTitle">
+	<h1>${gubun == 0 ? '국내' : '해외' } 패키지 여행 검색</h1>
+</div>
 <!--티켓 검색부분  -->
 <div class="search_field">
 	<div class="trip">

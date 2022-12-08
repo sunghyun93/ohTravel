@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
@@ -251,17 +254,19 @@ public class PkageController {
 	}
 	
 	@PostMapping("/reserve")
-	public String reserve(PkgReserveEle pkgReserveEle,  Model model, HttpSession session) {
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> reserve(PkgReserveEle pkgReserveEle,  Model model, HttpSession session) {
 		log.info("PkageController reserve() start...");
 		log.info("pkgReserveEle = " + pkgReserveEle);
 		
 		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
-		
 		// 로그인 안되어 있으면 redirect
-		if(memberDTO == null) {
-			return "redirect:/member/loginForm";
-		}
+//		if(memberDTO == null) {
+//			return "redirect:/member/loginForm";
+//		}
 		
+//		결과를 받아 전달할 map
+		Map<String, Object> resultMap = null;
 		try {
 			String mem_id = memberDTO.getMem_id();
 			
@@ -280,15 +285,38 @@ public class PkageController {
 			map.put("pkage_rsDTO", pkage_rsDTO);
 			
 			// insert 결과 받기		
-			int rowCnt = pkageService.insertPkgReserveInsertWithAll(map);
-			log.info("rowCnt = " + rowCnt);
+			resultMap = pkageService.insertPkgReserveInsertWithAll(map);
 			
-			model.addAttribute("rowCnt", rowCnt);
+			log.info("PkageController reserve() end...");
+			// 결과가 0 이면 fail, 0 이 아니면 OK
+			if((Integer)resultMap.get("rowCnt") == 0) {
+				return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+			} else {
+				return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			resultMap.put("rowCnt", 0);
+			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.BAD_REQUEST);
+		}
+		
+		
+	}
+	
+//	결제 완료 페이지
+	@PostMapping("/reserveComplete")
+	public String reserveComplete(Integer pkage_rv_id, Model model) {
+		log.info("PkageController reserveComplete() start...");
+		log.info("pkage_rv_id = " + pkage_rv_id);
+		try {
+			Pkage_rsDTO pkage_rsDTO = pkageService.selectPkgReservById(pkage_rv_id);
+			log.info("pkage_rsDTO = " + pkage_rsDTO);
+			model.addAttribute("pkage_rsDTO", pkage_rsDTO);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		log.info("PkageController reserve() end...");
+		log.info("PkageController reserveComplete() end...");
 		return "pkage/package_completeReserve";
 	}
 	

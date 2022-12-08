@@ -17,6 +17,10 @@ public class PkgReserveEle {
 	private Integer pkage_rv_tprice;	// 총 가격
 	private Integer	coupon_id;			// 적용한 쿠폰 ID - 쿠폰 사용 시 사용여부 변경을 위함
 	private Integer mile;				// 적용할 마일리지 - 회원에게 마일리지 적용
+
+	// 패키지 예약 완료 후 예약 완료 페이지로 전달하기 위한 변수
+	private Integer pkage_rv_id;		// 예약번호
+	
 	
 	// 여행자 정보
 	private List<String> pkage_pi_name;		// 한글성명

@@ -133,4 +133,22 @@ public class PkageDaoImpl implements PkageDao {
 		log.info("PkageDaoImpl updatePkgDetailRcnt() end...");
 		return rowCnt;
 	}
+	
+//	결제 insert
+	@Override
+	public int insertPayment(Map<String, Object> map) throws Exception {
+		log.info("PkageDaoImpl insertPayment() start...");
+		int rowCnt = session.insert(namespace+"insertPayment", map);
+		log.info("PkageDaoImpl insertPayment() end...");
+		return rowCnt;
+	}
+	
+//	결제 후 예약 완료 페이지에 보여줄 데이터 select
+	@Override
+	public Pkage_rsDTO selectPkgReservById(Integer pkage_rv_id) throws Exception {
+		log.info("PkageDaoImpl selectPkgReservById() start...");
+		Pkage_rsDTO pkage_rsDTO = session.selectOne(namespace+"selectPkgReservById", pkage_rv_id);
+		log.info("PkageDaoImpl selectPkgReservById() end...");
+		return pkage_rsDTO;
+	}
 }
