@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.oracle.ohTravel.manager.dao.ManagerDAO;
-import com.oracle.ohTravel.manager.dto.CouponDTO;
-import com.oracle.ohTravel.manager.dto.ManageAirportDTO;
-import com.oracle.ohTravel.manager.dto.MemberDTO;
-import com.oracle.ohTravel.manager.dto.MembershipDTO;
-import com.oracle.ohTravel.manager.dto.NoticeDTO;
-import com.oracle.ohTravel.manager.dto.ManagePackageDTO;
-import com.oracle.ohTravel.manager.dto.ManageTicketDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
+import com.oracle.ohTravel.manager.model.ManageAirportDTO;
+import com.oracle.ohTravel.manager.model.ManagePackageDTO;
+import com.oracle.ohTravel.manager.model.ManageTicketDTO;
+import com.oracle.ohTravel.manager.model.MemberDTO;
+import com.oracle.ohTravel.manager.model.MembershipDTO;
+import com.oracle.ohTravel.manager.model.NoticeDTO;
 
 import lombok.RequiredArgsConstructor;
 @Service
@@ -471,6 +471,12 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public int deleteAirSchedule(ManageAirportDTO air) {
 		int result = dao.deleteAirSchedule(air);
+		return result;
+	}
+
+	@Override
+	public int updateAirSchedule(ManageAirportDTO air) {
+		int result = dao.updateAirSchedule(air);
 		return result;
 	}
 }

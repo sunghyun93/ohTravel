@@ -1,4 +1,4 @@
-package com.oracle.ohTravel.manager.dto;
+package com.oracle.ohTravel.manager.model;
 
 import java.math.BigDecimal;
 import java.sql.Date;
