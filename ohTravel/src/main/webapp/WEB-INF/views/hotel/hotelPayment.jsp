@@ -48,15 +48,15 @@
 							            <th>체크인/체크아웃</th>
 							            <td>
 							                <div class="item_course">
-							                    2022.12.13 ~ 2022.12.14
-							                    <span class="divider_dot"></span>1박
+							                   
+							                    <span class="divider_dot"></span>1박 ${startDate }, ${endDate }
 							                </div>
 							            </td>
 							        </tr>
 							        <tr>
 							            <th>예약 정보(객실 정보, 항공명 등)</th>
 							            <td>
-							                Standard Room With 1 Queen Bed With Guest Lounge Access
+							                ${roomName }
 							                <span class="divider_dot">
 							                    <span>성인2</span>
 							                    <!---->

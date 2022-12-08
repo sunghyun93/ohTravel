@@ -125,11 +125,15 @@
 			</div>
 		</div>
 	
-	
-	<div id="roomAllInfo">
-	
-	</div>
-					
+	<form action="${pageContext.request.contextPath }/hotel/hotelReservation" name="ReserveForm" method="post">
+		<input type="hidden" name="startDate" value="">
+		<input type="hidden" name="endDate" value="">
+		<input type="hidden" name="calDate" value="">
+		<input type="hidden" name="room_id" value="">
+	</form>
+		<div id="roomAllInfo">
+		
+		</div>
 					<div class="ht_option">
 						<div class="add_opt">
 							<div class="add_title">숙소 부대시설</div>
@@ -438,32 +442,51 @@ function getRoomOption(){
 }
 
 
-/* function goReserve(roomId){
+function goReserve(room_id){
+	 
+	let startDate = $('#dates_start_check').val()
+	let endDate = $('#dates_start_end').val()
 	
-	$.ajax({
+	let startDate_arr = startDate.split("-");
+	let endDate_arr = endDate.split("-");
+	
+	let stDate = new Date(startDate_arr[0], startDate_arr[1], startDate_arr[2]);
+	let edDate = new Date(endDate_arr[0], endDate_arr[1], endDate_arr[2]);
+	
+	let cal = edDate.getTime() - stDate.getTime();
+	let calDate = cal / (1000*60*60*24);
+	
+	
+			$('input[name=startDate]').attr('value',startDate);
+			$('input[name=endDate]').attr('value',endDate);
+			$('input[name=calDate]').attr('value',calDate);
+			$('input[name=room_id]').attr('value',room_id);
+			
+			
+			ReserveForm.submit();
+	
+/* 	$.ajax({
 		
-		url:
-		data:
-		type:
-		dataType:
+		url:"${pageContext.request.contextPath }/hotel/hotelReservation",
+		data: {
+			startDate, endDate, calDate, room_id
+		},
+		type: 'get',
 		success: function(result){
 			
-			
-			location.href="${pageContext.request.contextPath }/hotel/hotelReservation"
-			
+			console.log(result)
+			//location.href="/hotel/hotelReserve"
 		}
 		
 		
-		
 	});
+	 */
 	
 	
 }
- */
-
 
 // 호텔의 객실 리스트 가져오는 함수 
-$(function getRoomList(){
+function getRoomList(){
 	
 	// 시작 날짜, 종료 날짜, 날짜 계산, 인원 수, 호텔 아이디 가져가서
 	// 해당하는 방 보여주고
@@ -511,7 +534,7 @@ $(function getRoomList(){
 	 
 	
 	
-})
+}
 
 
 function makeRoomList(data) {
@@ -590,7 +613,6 @@ function makeRoomList(data) {
 		innerHtmlBody +=						'<div class="r_name">'
 		innerHtmlBody +=							'<h3>'+data[j].room_name+'</h3>'
 		innerHtmlBody +=						'</div>'
-
 		innerHtmlBody +=						'<div class="r_price">'
 		innerHtmlBody +=							'<h3>'+data[j].room_price+'</h3>'
 		innerHtmlBody +=						'</div>'
@@ -602,9 +624,10 @@ function makeRoomList(data) {
 		innerHtmlBody +=   	 		 '</div> <!-- #collapse1 -->'
 	    
 		}
-		
+ 	
 		$('#panelBodyHere').append(innerHtmlBody); 
 
+ 		
 }
 </script>	
 <script src="${pageContext.request.contextPath }/js/review/review.js"></script>

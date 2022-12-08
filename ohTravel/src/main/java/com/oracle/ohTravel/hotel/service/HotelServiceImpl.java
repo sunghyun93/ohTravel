@@ -31,4 +31,9 @@ public class HotelServiceImpl implements HotelService {
 		return hd.getRoomList(roomDTO);
 	}
 
+	@Override
+	public List<RoomDTO> getRoomDetail(RoomDTO roomDTO) {
+		return hd.getRoomDetail(roomDTO);
+	}
+
 }
