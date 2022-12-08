@@ -22,6 +22,7 @@ label {
 /* 내용 - 왼쪽 부분 */
 .ly_wrap.pay_info {
     border-top: 2px solid #111;
+    margin-bottom: 150px;
 }
 /* 항공편 부분 */
 .item_course > p {
@@ -284,6 +285,21 @@ span.form_holder:last-child {
     text-align: center;
     margin-top: 50px;
     margin-bottom:200px;
+}
+#nextBtn {
+	width: 100%;
+    height: 56px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border-color: #0e1c35;
+    background-color: #fff;
+    color: #0e1c35;
+    font-size: large;
+    cursor: pointer;
+}
+#nextBtn:hover {
+	background-color: #0e1c35;
+    color: #fff;
 }
 
 

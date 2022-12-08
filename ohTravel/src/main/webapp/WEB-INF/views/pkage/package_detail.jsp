@@ -733,6 +733,7 @@
         				/* 로그인 여부 */
             			else {
             				alert("로그인 하고 예약해주세요.");
+            				location.href="/member/loginForm";
             			}
             		}, /* success */
             		error : function(err) {
