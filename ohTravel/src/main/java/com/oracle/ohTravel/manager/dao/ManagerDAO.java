@@ -2,13 +2,13 @@ package com.oracle.ohTravel.manager.dao;
 
 import java.util.List;
 
-import com.oracle.ohTravel.manager.dto.CouponDTO;
-import com.oracle.ohTravel.manager.dto.ManageAirportDTO;
-import com.oracle.ohTravel.manager.dto.MemberDTO;
-import com.oracle.ohTravel.manager.dto.MembershipDTO;
-import com.oracle.ohTravel.manager.dto.NoticeDTO;
-import com.oracle.ohTravel.manager.dto.ManagePackageDTO;
-import com.oracle.ohTravel.manager.dto.ManageTicketDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
+import com.oracle.ohTravel.manager.model.ManageAirportDTO;
+import com.oracle.ohTravel.manager.model.ManagePackageDTO;
+import com.oracle.ohTravel.manager.model.ManageTicketDTO;
+import com.oracle.ohTravel.manager.model.MemberDTO;
+import com.oracle.ohTravel.manager.model.MembershipDTO;
+import com.oracle.ohTravel.manager.model.NoticeDTO;
 
 public interface ManagerDAO {
 
@@ -171,6 +171,8 @@ public interface ManagerDAO {
 	int insertAirSchedule(ManageAirportDTO air);
 
 	int deleteAirSchedule(ManageAirportDTO air);
+
+	int updateAirSchedule(ManageAirportDTO air);
 
 
 
