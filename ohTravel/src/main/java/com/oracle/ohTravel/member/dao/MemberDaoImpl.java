@@ -12,6 +12,7 @@ import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
+import com.oracle.ohTravel.member.model.ReviewDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 
@@ -199,6 +200,25 @@ public class MemberDaoImpl implements MemberDao {
 		return result;
 	}
 
+	// 패키지 리뷰 목록
+	@Override
+	public List<ReviewDTO> mypageReviewPackage(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl mypageReviewPackage Start..");
+		List<ReviewDTO> packageReviewList = sqlSession.selectList("packageReviewList", reviewDTO);
+		
+		System.out.println("MemberDaoImpl mypageReviewPackage packageReviewList.size() -> " + packageReviewList.size());
+		return packageReviewList;
+	}
+
+	// 호텔 리뷰 목록
+	@Override
+	public List<ReviewDTO> mypageReviewHotel(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl mypageReviewHotel Start..");
+		List<ReviewDTO> hotelReviewList = sqlSession.selectList("hotelReviewList", reviewDTO);
+		
+		System.out.println("MemberDaoImpl mypageReviewHotel hotelReviewList.size() -> " + hotelReviewList.size());
+		return hotelReviewList;
+	}
 
 	
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,6 +57,50 @@
 				        <li class="fx-cobrand-wt" style="width: 33%;"><a href="${pageContext.request.contextPath}/member/myPageReviewTicket">티켓</a></li>
 				    </ul>
 				</div>	<!-- js_tabs type1 v-tabs nojq -->
+				<div class="js_tabs type2 no_division">
+					<div class="panels">
+					    <div class="panel selected">
+					        <div>${sessionId}</div>
+					        <div class="tbl">
+					            <table class="board_type">
+					                <colgroup>
+					                    <col style="width: 20%;" />
+					                    <col style="width: 20%;" />
+					                    <col style="width: 40%;" />
+					                    <col style="width: 20%;" />
+					                </colgroup>
+					                <thead>
+					                    <tr>
+					                        <th>글번호</th>
+					                        <th>상품명</th>
+					                        <th>리뷰</th>
+					                        <th>작성일자</th>
+					                    </tr>
+					                </thead>
+					                <tbody>
+					                    <c:forEach var="packageReviewList" items="${packageReviewList}">
+					                    <c:if test="${empty packageReviewList}">
+						                    <tr>
+						                        <td colspan="5">
+						                            <div class="data_no">
+						                                <div class="cont"><strong>등록된 리뷰가 없습니다.</strong></div>
+						                            </div>
+						                        </td>
+						                    </tr>
+						                </c:if>
+					                    <tr>
+					   						<td>${packageReviewList.rv_id}</td>
+					                    	<td>${packageReviewList.rv_real_id}</td>
+					                    	<td>${packageReviewList.rv_contents}</td>
+					                    	<td>${packageReviewList.rv_date}</td>
+					                    </tr>
+					                    </c:forEach>
+					                </tbody>
+					            </table>
+					        </div>	<!-- tbl -->
+					    </div>	<!-- panel selected -->
+					</div>	<!-- panels -->
+				</div>	<!-- js_tabs type2 no_division -->
 			</div>	<!-- contents -->
 		</div>
 	</div>

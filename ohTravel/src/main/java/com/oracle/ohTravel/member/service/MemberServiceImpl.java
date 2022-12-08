@@ -12,6 +12,7 @@ import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
+import com.oracle.ohTravel.member.model.ReviewDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -142,7 +143,22 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
-
+	// 패키지 리뷰 목록
+	@Override
+	public List<ReviewDTO> myPageReviewPackage(ReviewDTO reviewDTO) {
+		log.info("MemberServiceImpl myPageReviewPackage start...");
+		List<ReviewDTO> packageReviewList = memberDao.mypageReviewPackage(reviewDTO);
+		return packageReviewList;
+	}
+	
+	// 호텔 리뷰 목록
+	@Override
+	public List<ReviewDTO> myPageReviewHotel(ReviewDTO reviewDTO) {
+		log.info("MemberServiceImpl myPageReviewHotel start...");
+		List<ReviewDTO> hotelReviewList = memberDao.mypageReviewHotel(reviewDTO);
+		return hotelReviewList;
+	}
+	
 	
 
 	

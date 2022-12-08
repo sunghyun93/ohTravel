@@ -61,9 +61,6 @@
 				<div class="js_tabs type2 no_division">
 					<div class="panels">
 					    <div class="panel selected">
-					        <div class="text_wrap inquiry mt0">
-					            <div class="inr fl">총 <em>0</em>건</div>
-					        </div>	<!-- text_wrap inquiry mt0 -->
 					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
@@ -81,17 +78,18 @@
 					                        <th>사용가능일</th>
 					                    </tr>
 					                </thead>
-					                
 					                <tbody>
 					                	<!-- 티켓 예약 내역이 하나도 없을 때 -->
-					                    <tr>
-					                        <td colspan="5">
-					                            <div class="data_no">
-					                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
-					                            </div>
-					                        </td>
-					                    </tr>
 					                    <c:forEach var="ticketReservList" items="${ticketReservList}">
+				                    	<c:if test="${empty ticketReservList}">
+						                    <tr>
+						                        <td colspan="5">
+						                            <div class="data_no">
+						                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
+						                            </div>
+						                        </td>
+						                    </tr>
+						                </c:if>
 					                    <tr>
 					   						<td>${ticketReservList.ticket_order_id}</td>
 					                    	<td>${ticketReservList.ticket_name}</td>
