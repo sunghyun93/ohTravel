@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -459,7 +461,6 @@
 	    border: none;
 	    border-left: 1px solid #ddd;
 	    border-bottom: 1px solid #ddd;
-	    translate: 0 -35px;
 	}
 	.num_count_group .btn_increment:hover {
 	    cursor: pointer;
@@ -931,7 +932,7 @@
                                 	<!-- ticket_admission_date -->
                                		<div class="date">
 										<div class="date_start" style="translate: 0 20px;">
-											<input type="date" name="dates_start_check" value="" id="dates_start_check" class="dates_start_check">
+											<input type="date" name="dates_start_check" id="adDate" class="dates_start_check" onchange="input()">
 										</div>
 									</div>
                             </div>
@@ -1323,7 +1324,11 @@
 			document.querySelector('.star span').style.width = (width * 10) + '%'
 		}
 		 	
-	
+		/* 날짜 값 받아오기 */
+		function input() {
+			const ticket_admission_date = document.querySelector("#adDate").value;
+			console.log(ticket_admission_date);
+		}
 		
 	</script>
 </body>

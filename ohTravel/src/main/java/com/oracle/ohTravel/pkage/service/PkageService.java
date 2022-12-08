@@ -15,4 +15,6 @@ public interface PkageService {
 	PkageDTORM selectPkgDetailWithSchedule(Map<String, Object> map) throws Exception;
 	PkageDTORM selectPkgByPkgId(String pkage_id) throws Exception;
 	Pkage_detailDTO selectPkgDetailById2(Integer pkage_dt_id) throws Exception;
+	Integer selectPkgDetailReservCheck(Map<String, Object> map) throws Exception;
+	int insertPkgReserveInsertWithAll(Map<String, Object> map) throws Exception;
 }

@@ -5,17 +5,49 @@
 <mapper namespace="com.oracle.ohTravel.Hotel">
 
 	<select id="hotelList" resultType="Hotel">
-		SELECT hotel_id, city_id, hotel_kor, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_tel, hotel_rv_num, checkin, checkout, 
+		SELECT hotel_id, city_id, hotel_kor, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_tel, room_cnt, checkin, checkout, 
 			(	SELECT 	FORMAT( IFNULL ( AVG(r.rv_rating) , 0 ), 1)
 				FROM 	review r
-				WHERE 	r.rv_real_id = h.hotel_id 	) score
+				WHERE 	r.rv_real_id = h.hotel_id 	) hotel_score
 		FROM hotel h 
 	</select>
 	
 	<select id="hotelDetail" resultType="Hotel">
-		SELECT * FROM hotel
-		WHERE hotel_id = #{hotel_id}
+		SELECT h.hotel_id, h.city_id, h.hotel_kor, h.hotel_eng, h.hotel_loc, h.hotel_grade, h.hotel_tel, h.room_cnt, h.checkin, h.checkout, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price
+		FROM room r 
+		LEFT JOIN room_detail rd on r.room_id = rd.room_id 
+		LEFT JOIN hotel h on r.hotel_id = h.hotel_id 
+		WHERE h.hotel_id= #{hotel_id}
 	</select>
+	
+	
+<!-- 	<select id="roomList" resultType="Room">
+		SELECT r.room_id, r.room_type, r.room_name, rd.room_price, r.hotel_id, rd.room_date, rd.room_detail_id
+		FROM room r
+		LEFT JOIN room_detail rd ON r.room_id = rd.room_id
+		WHERE r.hotel_id = #{hotel_id}
+		AND rd.room_rev = 'Y'
+		AND rd.room_date = #{startDate}
+	</select>  -->
+	
+	
+ 	<select id="roomList" resultType="Room">
+		SELECT * , count(room_date) as canRevDateCnt
+		FROM room r
+		LEFT OUTER JOIN (
+		               SELECT * , count(room_detail_id) as cnt
+		               FROM room_detail
+		               WHERE room_rev = 'Y'
+		               AND room_date between #{startDate} and #{endDate}
+		               group by room_id, room_date
+		            ) rd
+		ON r.room_id = rd.room_id
+		WHERE r.hotel_id = #{hotel_id}
+		AND cnt >= 1
+		GROUP BY r.room_id
+		HAVING canRevDateCnt = #{calDate}+1; 
+	</select>
+	
 	
 <!-- <insert id="">
 		

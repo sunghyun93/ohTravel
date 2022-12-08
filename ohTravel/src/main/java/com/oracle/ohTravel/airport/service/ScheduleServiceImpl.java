@@ -81,20 +81,57 @@ public class ScheduleServiceImpl implements ScheduleService{
 		
 		return comeAirplaneList;
 	}
-
+	
+	@Override
+	public int insertReservation(Air_ReservationDTO air_ReservationDTO) {
+		
+		int insertReservationCnt = scheduleDAO.ReservationList(air_ReservationDTO);
+		
+			return insertReservationCnt;
+	}
+	
+	@Override
+	public Air_ReservationDTO selectReservationId(String mem_id) {
+		Air_ReservationDTO selectReservationList = scheduleDAO.selectReservationList(mem_id);
+		
+		return selectReservationList;
+	}
+	
 
 	@Override
 	@Transactional(rollbackFor = Exception.class) //insert시 하나라도 예외 발생시 롤백
 	public int insertAll(Map<String, Object> map) throws Exception{
+		System.out.println(map.get("reservation_id"));
+		int insertCnt = 0;
+			
+			
 		
+			//인원정보 
+			insertCnt = scheduleDAO.pplList(map);
 		
-		int insertCnt = scheduleDAO.ReservationList((Air_ReservationDTO)map.get("air_ReservationDTO"));
-			insertCnt = scheduleDAO.pplList((Air_Reservation_PiDTO)map.get("air_Reservation_PiDTO"));
-			insertCnt = scheduleDAO.flightList((Air_FlightSchDTO)map.get("air_FlightSchDTO"));
-			insertCnt = scheduleDAO.seatList((Reservation_Seat)map.get("reservation_Seat"));
+	
+			if(map.get("go_airplane_name") != null && map.get("come_airplane_name") == null) { //편도
+				insertCnt = scheduleDAO.goSeatList(map);
+			}else if(map.get("go_airplane_name") != null && map.get("come_airplane_name") != null) //왕복
+				insertCnt = scheduleDAO.goSeatList(map);
+				insertCnt= scheduleDAO.comeSeatList(map);
+			
+			if(map.get("go_schedule_id") != null && map.get("come_schedule_id") == null ) { //편도 스케쥴 id
+				insertCnt = scheduleDAO.goflightList(map);
+			}else if(map.get("go_airplane_name") != null && map.get("come_airplane_name") != null) //왕복
+				insertCnt = scheduleDAO.goflightList(map);
+				insertCnt= scheduleDAO.comeflightList(map);
+				
+				//결제정보
+				insertCnt = scheduleDAO.paymentList(map);
+				
 		
 		return insertCnt;
 	}
+
+	
+
+	
 
 	
 

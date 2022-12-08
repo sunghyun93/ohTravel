@@ -23,12 +23,16 @@ import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
 import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.country.service.CountryService;
+import com.oracle.ohTravel.manager.dto.CouponDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
+import com.oracle.ohTravel.member.service.MemberService;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 import com.oracle.ohTravel.pkage.model.Pkage_flightScheDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_rsDTO;
 import com.oracle.ohTravel.pkage.model.PkgReserve;
+import com.oracle.ohTravel.pkage.model.PkgReserveEle;
 import com.oracle.ohTravel.pkage.model.PkgSearch;
 import com.oracle.ohTravel.pkage.service.PkageService;
 
@@ -44,6 +48,8 @@ public class PkageController {
 	private CountryService countryService;
 	@Autowired
 	private PkageService pkageService;
+	@Autowired
+	private MemberService memberService;
 	
 	// 국내 / 해외 패키지 상품 가져오는 메서드
 	// 국내/해외 search 페이지(0:국내 1:해외)
@@ -95,7 +101,7 @@ public class PkageController {
 	
 	// 검색 결과 메서드
 	@GetMapping("/searchResult")
-	public String searchResult(PkgSearch pkgSearch, Model model, HttpServletRequest request) {
+	public String searchResult(PkgSearch pkgSearch, Model model, HttpServletRequest request, HttpSession session) {
 		log.info("PkageController searchResult() start...");
 		log.info("pkgSearch="+pkgSearch);
 		
@@ -105,9 +111,12 @@ public class PkageController {
 		
 		if(pkgSearch.getOrder() == null) pkgSearch.setOrder(1);; // 초기값 세팅
 		
-		// 넘어온 가격의 구분 정해주기 (max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3)
+		// 찜한 상품인지 알기 위한 로그인한 회원의 ID 가져오기
+		String mem_id = (String)session.getAttribute("sessionId");
+		
+		// 필터로 인해 넘어온 가격의 구분 정해주기 (max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3)
 		pkgSearch.makeAmtGubun();
-		// DB로 전달할 출발 시간 설정
+		// 필터로 인해 넘어온 출발 시간 값을 DB로 전달하기 위해 출발 시간 설정(AM-5~12, PM-12~18)
 		pkgSearch.makeDBtime();
 		log.info("AmtGubun = " + pkgSearch.getAmtGubun());
 		
@@ -119,11 +128,12 @@ public class PkageController {
 			// 관련 pkg 테이블들 모두 가져오기 (상세의 일정 부분 제외)
 			Map<String, Object> map = new HashMap<>();
 			// pkage_id 가 null 이 아닌 경우는 검색을 해서 들어온 것이 아니고, 패키지는 클릭했을 때 해당 패키지에 대한 내용만 가져오기 위함
+			map.put("mem_id", mem_id);
 			map.put("pkage_id", pkgSearch.getPkage_id());
 			map.put("toDesti", pkgSearch.getToDesti());
 			map.put("dates_start_check", pkgSearch.getDates_start_check());
 			map.put("order", pkgSearch.getOrder()); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3 desc,4 asc)
-			map.put("amtGubun", pkgSearch.getAmtGubun());
+			map.put("amtGubun", pkgSearch.getAmtGubun()); // max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3
 			map.put("pkgSearch", pkgSearch);	// 가격, 여행기간, 출발시간을 위해 전달
 			
 			List<PkageDTORM> pkageDTORmlist = pkageService.selectPkgWithDetailAndFlight(map);
@@ -191,12 +201,14 @@ public class PkageController {
 		}
 		
 		// 현재 로그인하고 있는 사용자 정보
-		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		log.info("memberDTO = " + memberDTO);
 		
 		if(memberDTO == null) {
 			return "redirect:/member/loginForm";
 		}
+		
+		String mem_id = memberDTO.getMem_id();
 		
 		try {
 			// 패키지 가져오기(항공편의 도착 때문에 가져옴)
@@ -210,16 +222,74 @@ public class PkageController {
 			// 총 가격 만들어주기
 			pkgReserve.makeTotalPay(pkage_detailDTO.getPkage_dt_Aprice(), pkage_detailDTO.getPkage_dt_Cprice());
 			
+			// 멤버 (등급 까지 들고가기)
+			memberDTO = memberService.selectMemberWithGrade(mem_id);
+			
+			List<CouponDTO> couponList = memberService.selectMemberWithCoupon(mem_id);
+			log.info("couponList = " + couponList);
+			memberDTO.setCouponList(couponList);
+			
+			// 회원 등급 적용한 가격 가져가기
+			int priceWithGd = pkgReserve.getTotalPay() - (pkgReserve.getTotalPay()*memberDTO.getMembership_discount() / 100); 
+			log.info("priceWithGd = " + priceWithGd);
+			
+			// 회원 등급 적용한 마일리지 가져가기
+			int mile = pkgReserve.getTotalPay() * memberDTO.getMembership_discount() / 100;
+			
+			model.addAttribute("mile", mile);
+			model.addAttribute("priceWithGd", priceWithGd);
 			model.addAttribute("pkageDTORM", pkageDTORM);
 			model.addAttribute("pkage_detailDTO", pkage_detailDTO);
+			model.addAttribute("memberDTO", memberDTO);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		model.addAttribute("memberDTO", memberDTO);
 		model.addAttribute("pkgReserve", pkgReserve);
 		log.info("PkageController reservation() end...");
 		return "pkage/package_reservation";
+	}
+	
+	@PostMapping("/reserve")
+	public String reserve(PkgReserveEle pkgReserveEle,  Model model, HttpSession session) {
+		log.info("PkageController reserve() start...");
+		log.info("pkgReserveEle = " + pkgReserveEle);
+		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+		
+		// 로그인 안되어 있으면 redirect
+		if(memberDTO == null) {
+			return "redirect:/member/loginForm";
+		}
+		
+		try {
+			String mem_id = memberDTO.getMem_id();
+			
+			// Map 만들어 주기
+			Map<String, Object> map = new HashMap<>();
+			map.put("mem_id", mem_id);
+			map.put("pkgReserveEle", pkgReserveEle);
+			
+			// Pkage_rsDTO 만들기
+			Pkage_rsDTO pkage_rsDTO = new Pkage_rsDTO();
+			pkage_rsDTO.setPkage_dt_id(pkgReserveEle.getPkage_dt_id());
+			pkage_rsDTO.setMem_id(mem_id);
+			pkage_rsDTO.setPkage_rv_Acnt(pkgReserveEle.getPkage_rv_Acnt());
+			pkage_rsDTO.setPkage_rv_Ccnt(pkgReserveEle.getPkage_rv_Ccnt());
+			pkage_rsDTO.setPkage_rv_tprice(pkgReserveEle.getPkage_rv_tprice());
+			map.put("pkage_rsDTO", pkage_rsDTO);
+			
+			// insert 결과 받기		
+			int rowCnt = pkageService.insertPkgReserveInsertWithAll(map);
+			log.info("rowCnt = " + rowCnt);
+			
+			model.addAttribute("rowCnt", rowCnt);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		log.info("PkageController reserve() end...");
+		return "pkage/package_completeReserve";
 	}
 	
 	// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수(전체 상품 디테일들 중 최소 기간과 최대기간) 구하기

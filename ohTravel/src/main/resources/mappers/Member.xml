@@ -4,16 +4,16 @@
 
 <mapper namespace="com.oracle.ohTravel.Member">
 	<!-- 로그인 -->
-	<select id="login" parameterType="memberDTO" resultType="memberDTO">
+	<select id="login" parameterType="MemberDTO" resultType="MemberDTO">
 		SELECT *
-		FROM MEMBER
+		FROM member
 		WHERE mem_id = #{mem_id}
 		AND mem_password = #{mem_password}
 	</select>
 	
 	<!-- 회원가입 -->
-	<insert id="register" parameterType="memberDTO">
-		INSERT INTO MEMBER (
+	<insert id="register" parameterType="MemberDTO">
+		INSERT INTO member (
 							mem_id,
 							mem_name,
 							mem_password,
@@ -30,8 +30,62 @@
 							#{mem_tel},
 							#{mem_birthday},
 							now(),
-							#{mem_role}	)
+							#{mem_role}	);
+		INSERT INTO mem_membership (
+									mem_id,
+									membership_id,
+									mem_mile	)
+							VALUES (
+									#{mem_id},
+									#{membership_id},
+									#{mem_mile}		);
 	</insert>
+	
+	<!-- 아이디 중복 검사 -->
+	<select id="idCheck" resultType="int">
+		SELECT count(*) FROM member WHERE mem_id = #{mem_id}
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="findID" resultType="MemberDTO">
+		SELECT * 
+		FROM member 
+		WHERE mem_name = #{mem_name} 
+		AND mem_birthday = #{mem_birthday} 
+		AND mem_tel = #{mem_tel}
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="findPassword" resultType="MemberDTO">
+		SELECT * FROM member 
+		WHERE mem_name = #{mem_name} 
+		AND mem_birthday = #{mem_birthday} 
+		AND mem_tel = #{mem_tel}
+		AND mem_id = #{mem_id}
+	</select>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteMember" parameterType="MemberDTO"> 
+		DELETE FROM member
+		WHERE mem_id = #{mem_id}
+		AND	mem_password = #{mem_password}
+	</delete>
+	
+	<!-- 개인 정보 수정 -->
+	<update id="updateMember">
+		UPDATE member SET
+			mem_tel = #{mem_tel},
+			mem_email = #{mem_email},
+			mem_birthday = #{mem_birthday}
+		WHERE mem_id = #{mem_id}
+	</update>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePassword">
+		UPDATE password SET
+			mem_password = #{mem_password}
+		WHERE mem_id = #{mem_id}
+	</update>
 	
 	<!-- 티켓 예약 내역 조회 -->
 	<select id="ticketReservList" resultType="TicketReservationDTO" parameterType="TicketReservationDTO">
@@ -53,4 +107,70 @@
 		SELECT * FROM package_reservation WHERE mem_id = #{mem_id}
 	</select>
 	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 회원 등급까지 가져오는 sql -->
+	<select id="selectMemberWithGrade" parameterType="string" resultType="memberDTO">
+		select 
+		m.*, 
+		m_ms.membership_id, m_ms.mem_mile,
+		ms.membership_name, ms.membership_discount 
+		from member m
+		join mem_membership m_ms on m.mem_id = m_ms.mem_id
+		join membership ms on m_ms.membership_id = ms.membership_id
+		where m.mem_id = #{mem_id};
+	</select>
+	
+	<!-- 회원이 가지고 있는 쿠폰 가져오기 sql - 사용 기한(coupon_limit_date) 가 지나지 않은 것만 -->
+	<select id="selectMemberWithCoupon" parameterType="string" resultType="Coupon">
+		select 
+		m.mem_id, 
+		mc.coupon_id, mc.coupon_down, mc.coupon_use, mc.coupon_limit_date,
+		c.coupon_name, c.coupon_discount
+		from member m
+		join mem_coupon mc on m.mem_id = mc.mem_id
+		join coupon c on mc.coupon_id = c.coupon_id
+		where mc.mem_id = #{mem_id} and  mc.coupon_use = 0 and mc.coupon_limit_date >= now()
+	</select>
+	
+	<!-- 회원 마일리지 update -->
+	<update id="updateMemMileage" parameterType="map">
+		update mem_membership 
+		set mem_mile = mem_mile + ${pkgReserveEle.mile}
+		where mem_id = #{mem_id}
+	</update>
+	
+	<!-- 회원 마일리지 변동에 따른 마일리지 등급 변경 (기준 마일리지를 넘거나 내려갔을 시 그에 맞는 마일리지 등급으로 변경 -->
+	<select id="updateMemMileGrade" parameterType="UpdateMileGradeDTO" statementType="CALLABLE">
+		call pro_mem_membership_update(
+				#{mem_id, mode=IN, jdbcType=VARCHAR, javaType=string}, 
+				#{result, mode=OUT, jdbcType=INTEGER, javaType=int}
+				)
+	</select>
+	
+	<!-- 회원이 쿠폰 사용 시 해당 쿠폰 사용 컬럼 1로 update -->
+	<update id="updateMemCouponUsed" parameterType="map">
+		update mem_coupon 
+		set coupon_use = 1
+		where mem_id = #{mem_id} and coupon_id = #{coupon_id};
+	</update>
+
 </mapper>

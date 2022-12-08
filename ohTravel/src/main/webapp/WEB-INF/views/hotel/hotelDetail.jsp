@@ -41,122 +41,94 @@
 						1박 요금 최저가 
 					</div>
 					<div class="h_price">
-						190,000원
+						${hotelDetail.room_min_price }원 ~
 					</div>
 				</div> <!-- hotel_info 끝 -->
 				<div class="ht_simple_option">
 					<div class="info_title">숙소정보</div>
 					<div class="ht_loc">주소 : ${hotelDetail.hotel_loc }</div>
 					<div class="chkTime">체크인 : ${hotelDetail.checkin } 체크아웃 시간 : ${hotelDetail.checkout }</div>
-					<div class="room_cnt">객실 수 : ${hotelDetail.hotel_rv_num }</div>
+					<div class="room_cnt">객실 수 : ${hotelDetail.room_cnt }</div>
 					<div class="ht_tel">전화번호 : ${hotelDetail.hotel_tel }</div>
 				</div> <!-- ht_simple_option 끝 -->
 				<div class="room_info">
 					
 					<div class="rev_option">
-<!-- 						<a href="myModal" class="genric-btn primary ela" data-toggle="modal" data-target="#myModal">날짜 선택</a>
- -->						<button class="genric-btn primary ela">날짜 선택</button>
- 							<div class="ppl">
-				<button type="button" id="modal_btn3" class="genric-btn primary ela" data-toggle="modal" data-target="#exampleModalCenter"><span class="ppl_check_text">성인 1명 / 일반석</span></button>
-				<div class="black_bg3"></div>
-				<div class="member_count modal_wrap3">
-					<div class="modal_close3"><span>close</span></div>
-					<div class="member_count_entire">
-					
-					<span class="ppl_select">인원</span><hr width="460px">
-						<ul>
-							<li>
-								<p class="tit">
-                                            <span class="txt">성인</span><br>
-                                        </p>
-                                        <span class="num_count_group">
-                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
-                                            <span class="inpt_counter adultCnt"></span>
-                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
-                                        </span>
-							</li>
-							<!--  아동
-								<li>
-                                     <p class="tit">
-                                            <span class="txt">아동</span>
-                                     </p>
-                                        <span class="num_count_group">
-                                            <button class="btn_decrement down"><img src="../upload/minus.png"></button>
-                                            <span class="inpt_counter childCnt"></span>
-                                            <button class="btn_increment up"><img src="../upload/plus.png"></button>
-                                       </span>
-                             </li> -->
-						</ul>
-						<br><br>
-						<p class="seat_select">좌석등급</p><hr width="460px">
-						<label><input type="radio" value="일반석" name="radio_seat" class="radio_seat">  일반석</label><p>
-						<label><input type="radio" value="비즈니스석" name="radio_seat" class="radio_seat">  비즈니스석</label><p>
-						<label><input type="radio" value="일등석" name="radio_seat" class="radio_seat">  일등석</label>
-						<input type="hidden" value="">
-						<p><img src="${pageContext.request.contextPath}/airport/img/caution.png" width="20px" height="15px">  예약 가능 최대 인원은 9명입니다.</p>
-						<div class="select_complete"><span class="select_complete_text">선택완료</span></div>
-					</div>	
-				</div>
-				
-			</div>
- 							
+<!-- 					<a href="myModal" class="genric-btn primary ela" data-toggle="modal" data-target="#myModal">날짜 선택</a>
+ -->					<button type="button" class="genric-btn primary ela" onclick="getRoomOption()">날짜 선택</button>
+						<div class="ppl">
+		
+						<div class="black_bg3"></div>
+						<div class="member_count modal_wrap3">
+							<div class="modal_close3"><span>close</span></div>
+							<div class="member_count_entire">
+							
+							<span class="ppl_select">인원</span><hr width="460px">
+								<ul>
+										<li>
+		                                     <p class="tit">
+		                                            <span class="txt">객실 수 </span>
+		                                     </p>
+		                                        <span class="num_count_group">
+		                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+		                                            <span class="inpt_counter roomCnt"></span>
+		                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+		                                       </span>
+		                            	 </li> 
+										<li>
+										<p class="tit">
+		                                            <span class="txt">성인</span><br>
+		                                        </p>
+		                                        <span class="num_count_group">
+		                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+		                                            <span class="inpt_counter adultCnt"></span>
+		                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+		                                        </span>
+										</li>
+									
+										<li>
+		                                     <p class="tit">
+												<span class="txt">아동</span>
+		                                     </p>
+		                                        <span class="num_count_group">
+		                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+		                                            <span class="inpt_counter childCnt"></span>
+		                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+		                                       </span>
+		                           		  </li> 
+									</ul>
+								<br><br>
+								<div class="select_complete"><span class="select_complete_text">선택완료</span></div>
+							</div>	
+						</div>
+					</div>
 					</div>
 					
 		<!--티켓 검색부분  -->
-
-
-		
-		<div class="date">
-			<div class="date_start">
-				<input type="date" name="dates_start_check" value="" id="dates_start_check" class="dates_start_check">
-			</div>
-			<div class="date_end">
-				<input type="date" name="dates_start_end" value=""  id="dates_start_end" class="dates_start_end">
+		<div class="searchOption">
+			<div class="date">
+				<div class="date_start">
+					<input type="date" name="dates_start_check" value="2022-12-20" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27">
+				</div>
+				<div class="date_end">
+					<input type="date" name="dates_start_end" value="2022-12-21"  id="dates_start_end" class="dates_start_end" min="2022-12-20" max="2022-12-27">
+				</div>
+				<div class="selectCnt">
+					<button type="button" id="modal_btn3" class="genric-btn primary ela" data-toggle="modal" data-target="#exampleModalCenter"><span class="ppl_check_text">성인 1명 </span></button>
+				</div>
+				<div class="optionComplete">
+					<button type="button" class="genric-btn primary ela" onclick="getRoomList()">객실 검색</button>
+				</div>
+				<div class="reservation">
+					<button class="genric-btn primary ela">예약하기</button>
+				</div>
 			</div>
 		</div>
-		
-		<!-- 호텔이 가지고 있는 방 종류마다 반복될 folding box -->
-		<div class="room_type_more">
-			<div class="fluid-wrap">
-			 <div class="container-fluid" >
-			 	<!-- style="min-height: calc(100vh - 136px);" -->
-			    <!-- 그룹 태그로 role과 aria-multiselectable를 설정한다. -->
-			    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-			      <!-- 하나의 item입니다. data-parent 설청과 href 설정만 제대로 하면 문제없이 작동합니다. -->
-			      <div class="panel panel-default">
-			          <a class="r_type_name" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false">
-				        <div class="panel-heading" role="tab">
-				           	<p>방 종류 이름</p>
-				        </div>
-			          </a>
-			        <div id="collapse1" class="panel-collapse collapse" role="tabpanel">
-			          <div class="panel-body">
-			            	<div class="room_type_detail">
-								<div class="room_img">
-									<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">
-								</div>
-								<div class="r_name">
-									<h3>room 이름</h3>
-								</div>
-								<div class="r_option">
-									<h4>뭔가의 방 옵션정보</h4>
-								</div>
-								<div class="r_price">
-									<h3>가격</h3>
-								</div>
-								<div class="reservation">
-									<button class="genric-btn primary ela">예약하기</button>
-								</div>
-							</div>
-						</div><!-- panel-body -->
-			          </div> <!-- #collapse1 -->
-			        </div> <!-- panel-default -->
-			      </div> <!-- panel-group -->
-				</div> <!-- container-fluid -->
-			</div>
-		
-		</div> <!-- room_type_more 끝 -->
-					
+	
+	
+	<div id="roomAllInfo">
+	
+	</div>
 					
 					<div class="ht_option">
 						<div class="add_opt">
@@ -241,7 +213,7 @@
 			    </div>
 			  </div>
 			</div> <!-- 리뷰 모달 끝 -->
-					
+
 
 <script type="text/javascript">
 
@@ -370,11 +342,11 @@ $(function() {
 /////////////////////////////성인과 좌석 선택시 값이 들어아게하는 함수///////////////////////////////
 $(function(){
 	 $(".select_complete").click(function(){
-	    	var count = $(".inpt_counter").text();
-	    	var seat = $(".radio_seat:checked").val();
-	    	
+	    	var count = $(".inpt_counter adultCnt").text();
+	    	var count1 = $(".inpt_counter childCnt").text();
+	    	var count2 = $(".inpt_counter roomCnt").text();
 	    	$(".ppl_check_text").text("");
-	    	$(".ppl_check_text").text("성인"+ count+"명 / "+seat);
+	    	$(".ppl_check_text").text("성인"+ count+"명 / 아동"+ count1+"명 / 객실"+count2+"수" );
 	    	
 	    });
 });
@@ -445,6 +417,156 @@ $(function(){
 	
 });
 
+
+// 날짜수 계산 관련 함수
+function getRoomOption(){
+	
+	let startDate = $('#dates_start_check').val()
+	let endDate = $('#dates_start_end').val()
+	
+	let startDate_arr = startDate.split("-");
+	let endDate_arr = endDate.split("-");
+	
+	let stDate = new Date(startDate_arr[0], startDate_arr[1], startDate_arr[2]);
+	let edDate = new Date(endDate_arr[0], endDate_arr[1], endDate_arr[2]);
+	
+	let cal = edDate.getTime() - stDate.getTime();
+	let calDate = cal / (1000*60*60*24);
+	
+	console.log(calDate);	
+	
+}
+
+
+function goReserve(roomName, roomPrice){
+	
+	let str = 'room_name='+roomName+'&room_price='+roomPrice
+	location.href='${pageContext.request.contextPath }/hotel/reservation?'+str
+}
+
+
+
+// 호텔의 객실 리스트 가져오는 함수 
+$(function getRoomList(){
+	
+	// 시작 날짜, 종료 날짜, 날짜 계산, 인원 수, 호텔 아이디 가져가서
+	// 해당하는 방 보여주고
+	// 반복하는 div만들어주는 함수 호출해야됨
+	
+	let startDate = $('#dates_start_check').val()
+	let endDate = $('#dates_start_end').val()
+	
+	let startDate_arr = startDate.split("-");
+	let endDate_arr = endDate.split("-");
+	
+	let stDate = new Date(startDate_arr[0], startDate_arr[1], startDate_arr[2]);
+	let edDate = new Date(endDate_arr[0], endDate_arr[1], endDate_arr[2]);
+	
+	let cal = edDate.getTime() - stDate.getTime();
+	let calDate = cal / (1000*60*60*24);
+	
+	//인원수 가져오는 코드 써야함
+	
+	
+	let sendData = {
+			
+			startDate, endDate, calDate,
+			hotel_id : '${hotelDetail.hotel_id}',
+			//인원수
+	}
+	
+	console.log(sendData);
+	
+	$.ajax({
+		
+		url: "${pageContext.request.contextPath }/hotel/roomList",
+		data: sendData,
+		type: 'get',
+		success: function(result){
+			console.log(result)
+			// 조건에 맞는 방 리스트 그려주는 함수 실행
+			makeRoomList(result)
+	
+		},error : function (err) {
+			console.error(err)
+		}
+		
+		
+		
+	});
+	 
+	
+	
+})
+
+
+function makeRoomList(data) {
+	
+	let innerHtml = '';
+	
+	console.log(data);
+	console.log(data.length);
+	
+    $('#roomAllInfo').empty(); /*Delete Tag*/
+	
+		<!-- 호텔이 가지고 있는 방 종류마다 반복될 folding box -->
+	
+    let type='';
+	for(let i = 0; i < data.length; i++){
+		console.log(data[i].room_type);
+		if(data[i].room_type != type){
+			type = data[i].room_type
+		innerHtml += '<div class="room_type_more">'
+		innerHtml +=	'<div class="fluid-wrap">'
+		innerHtml +=	 	'<div class="container-fluid">'
+/* 			 	<!-- style="min-height: calc(100vh - 136px);" -->
+			    <!-- 그룹 태그로 role과 aria-multiselectable를 설정한다. --> */
+	    innerHtml +=	    	'<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">'
+			   /*    <!-- 하나의 item입니다. data-parent 설청과 href 설정만 제대로 하면 문제없이 작동합니다. --> */
+		innerHtml +=	      		'<div class="panel panel-default">'
+		innerHtml +=	         		'<a class="r_type_name" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_'+data[i].room_id+'" aria-expanded="false">'
+		innerHtml +=				        '<div class="panel-heading" role="tab">'
+		innerHtml +=				           	'<p>'+data[i].room_type+'</p>'
+		innerHtml +=					   	'</div>'
+		innerHtml +=    				'</a>'
+
+		innerHtml +=				'<div id="collapse_'+data[i].room_id+'" class="panel-collapse collapse" role="tabpanel">'	
+	    innerHtml +=     				'<div class="panel-body">'
+	    innerHtml +=       					'<div class="room_type_detail">'
+		innerHtml +=							'<div class="room_img">'
+		innerHtml +=								'<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">'
+		innerHtml +=							'</div>'
+		innerHtml +=						'<div class="r_name">'
+		innerHtml +=							'<h3>'+data[i].room_name+'</h3>'
+		innerHtml +=						'</div>'
+/* 		innerHtml +=						'<div class="r_option">'
+		innerHtml +=							'<h4>뭔가의 방 옵션정보</h4>'
+		innerHtml +=						'</div>' */
+		innerHtml +=						'<div class="r_price">'
+		innerHtml +=							'<h3>'+data[i].room_price+'</h3>'
+		innerHtml +=						'</div>'
+		innerHtml +=						'<div class="reservation">'
+		innerHtml +=							'<button type="button" class="genric-btn primary ela" onclick="goReserve('+data[i].room_name+','+data[i].room_price+')">예약하기</button>'
+		innerHtml +=						'</div>'
+		innerHtml +=					'</div>'
+		innerHtml +=				'</div><!-- panel-body -->'
+	    innerHtml +=   	 		 '</div> <!-- #collapse1 -->'
+	    innerHtml +=    '</div> <!-- panel-default -->'
+	    innerHtml +=  '</div> <!-- panel-group -->'
+		innerHtml += '</div> <!-- container-fluid -->'
+		innerHtml +='</div>'
+		innerHtml +='</div> <!-- room_type_more 끝 -->'
+	
+
+			console.log('반복문'+(i+1)+'번째-> '+type);
+		} else {
+			continue;
+		}
+	}
+	
+	$('#roomAllInfo').append(innerHtml);
+
+}
 </script>	
 <script src="${pageContext.request.contextPath }/js/review/review.js"></script>
 </body>

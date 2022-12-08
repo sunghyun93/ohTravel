@@ -322,7 +322,11 @@
 <input type="hidden" value="${count }" name="count">
 <input type="hidden" value="${go_schedule_id }" name="go_schedule_id">
 <input type="hidden" value="${come_schedule_id }" name="come_schedule_id">
+<input type="hidden" value="${go.airplane_name }" name="go_airplane_name">
+<input type="hidden" value="${come.airplane_name }" name="come_airplane_name">
 <input type="hidden" value="${seat_position}" name="seat_position">
+<input type="hidden" value="${seat_name}" name="seat_name">
+
 <div class="all">
 	<div class="inr">
 		<h4>예약하기</h4><hr>

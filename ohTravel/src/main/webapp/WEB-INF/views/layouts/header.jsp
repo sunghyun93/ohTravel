@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +37,7 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="header-info-right f-right">
-                                <ul class="header-social">    
+                                <ul class="header-social">
                                 	<li><a href="${pageContext.request.contextPath }/manager/managerMain">관리자페이지</a>
                                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                                     <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
@@ -68,14 +69,11 @@
                                             	  <ul class="submenu">
                                                     <li><a href="${pageContext.request.contextPath }/blog">블로그 구조 참고</a></li>
                                                     <li><a href="${pageContext.request.contextPath }/element">Element</a></li>
-                                                    <li><a href="${pageContext.request.contextPath }/hotel/hotelDetail">호텔상세확인용</a></li>
                                                     <li><a href="${pageContext.request.contextPath }/tilesTest">이러지마 타일즈야</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="${pageContext.request.contextPath}/airport/searchTicket">항공</a>
-                                            	  <ul class="submenu">
-                                                    <li><a href="/airport/air_reservation">항공예약 페이지</a></li>
-                                                </ul>
+                                            	  
                                             </li>
                                             <li><a href="#">패키지</a>
                                                 <ul class="submenu">
@@ -90,9 +88,15 @@
                                                 </ul>
                                             </li>
                                             <li><a href="#">예약내역 확인</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
-                                        	<li><a href="${pageContext.request.contextPath}/member/myPageMain">마이페이지</a></li>
+                                            <c:if test="${member == null}">
+                                            	<li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
+                                            	<li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
+                                            </c:if>
+                                            <c:if test="${member != null}">
+                                            	<li><a href="${pageContext.request.contextPath}/member/logout">LOGOUT</a></li>
+                                            	<li><a href="${pageContext.request.contextPath}/member/memberForm" style="display:none;">회원가입</a></li>
+                                            </c:if>
+                                        	<li><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></li>
                                         </ul>
                                     </nav>
                                 </div>

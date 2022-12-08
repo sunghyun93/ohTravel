@@ -7,7 +7,33 @@
 <title>개인정보</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/myPage.css">
 <style type="text/css">
-
+.btn_wrap .btn {
+    min-width: 120px;
+    height: 56px;
+    line-height: 54px;
+    font-size: 15px;
+    color: #333;
+    padding: 0 30px;
+}
+.btn_wrap .btn>span {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+ul.btn_wrap li {
+    float: left;
+    width: 200px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+}
+ul.btn_wrap li .btn {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+}
+span {
+ text-align: center;
+}
 </style>
 </head>
 <body>
@@ -17,7 +43,7 @@
 			<div class="lnb" id="lnb">
 				<div class="inr">
 					<dl>
-						<dt class="type"><a href="${pageContext.request.contextPath}/member/myPageMain">마이페이지</a></dt>
+						<dt class="type"><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></dt>
 						<dd>
 							<ul class="list_lnb">
 							    <li id="EM00000196" class="">
@@ -54,8 +80,8 @@
 				</div>
 				<div class="sns_linkage ly_wrap" style="width: 100%;">
 				    <div class="inr" style="width: 325px;">
-				        <span class="name">선예림</span>
-				        <p class="email">sbnlover1008@naver.com</p>
+				        <span class="name">${sessionName}</span>
+				        <p class="email">${sessionEmail}</p>
 				    </div>	<!-- inr -->
 				    <div class="inr right" style="width: 685px; padding-left: 100px;">
 				        <ul class="btn_wrap">
@@ -66,7 +92,7 @@
 				                <a href="${pageContext.request.contextPath}/member/modifyPassword" class="btn big"><span class="pw">비밀번호 변경</span></a>
 				            </li>
 				            <li>
-				                <a href="${pageContext.request.contextPath}/member/" class="btn big"><span class="sns">로그아웃</span></a>
+				                <a href="${pageContext.request.contextPath}/member/logout" class="btn big"><span class="sns">로그아웃</span></a>
 				            </li>
 				            <li>
 				                <a href="${pageContext.request.contextPath}/member/deleteMember" class="btn big"><span class="out">회원탈퇴</span></a>

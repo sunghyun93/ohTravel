@@ -17,5 +17,6 @@ public interface TicketService {
 	// 입장권 상세 정보
 	TicketDTO getTicketDetail(String ticket_id);
 
+	// 입장권 예약
 	
 }

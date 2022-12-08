@@ -18,15 +18,15 @@
 			<div class="contents fontCtrl" id="contents">
 				<div class="text_wrap big">
 					<strong class="tit">예약하기</strong>
-					<div class="right_cont">
+					<!-- <div class="right_cont">
 						<div class="step_wrap">
 						    <ol class="step">
 						        <li class="on"><span class="num num1 step_txt">예약정보확인</span></li>
 						        <li class=""><span class="num num2 step_txt">옵션정보/약관결제</span></li>
 						        <li class=""><span class="num num3 step_txt">결제완료</span></li>
 						    </ol>
-						</div>	<!-- step_wrap -->
-					</div>	<!-- right_cont -->
+						</div>	step_wrap
+					</div>	right_cont -->
 				</div>	<!-- text_wrap -->
 				<div class="ly_wrap pay_info">
 					<div class="inr">
