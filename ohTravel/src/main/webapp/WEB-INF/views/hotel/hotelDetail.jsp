@@ -438,12 +438,28 @@ function getRoomOption(){
 }
 
 
-function goReserve(roomName, roomPrice){
+/* function goReserve(roomId){
 	
-	let str = 'room_name='+roomName+'&room_price='+roomPrice
-	location.href='${pageContext.request.contextPath }/hotel/reservation?'+str
+	$.ajax({
+		
+		url:
+		data:
+		type:
+		dataType:
+		success: function(result){
+			
+			
+			location.href="${pageContext.request.contextPath }/hotel/hotelReservation"
+			
+		}
+		
+		
+		
+	});
+	
+	
 }
-
+ */
 
 
 // 호텔의 객실 리스트 가져오는 함수 
@@ -475,7 +491,6 @@ $(function getRoomList(){
 			//인원수
 	}
 	
-	console.log(sendData);
 	
 	$.ajax({
 		
@@ -483,7 +498,6 @@ $(function getRoomList(){
 		data: sendData,
 		type: 'get',
 		success: function(result){
-			console.log(result)
 			// 조건에 맞는 방 리스트 그려주는 함수 실행
 			makeRoomList(result)
 	
@@ -502,18 +516,40 @@ $(function getRoomList(){
 
 function makeRoomList(data) {
 	
-	let innerHtml = '';
-	
 	console.log(data);
 	console.log(data.length);
+	
+	let innerHtml = '';
+	let arr = [];
+	let str ='';
+	let roomType = '';
+	
+	for(let j = 0; j < data.length; j++) {
+		
+		roomType = data[j].room_type
+		if(j !== data.length - 1){
+			str += roomType+','
+		}
+		else {
+			str += roomType
+		}
+		
+	}
+	
+	arr = str.split(',')
+	
+	let typeSet = new Set(arr);
+	let typeArr = Array.from(typeSet);
+	
+	console.log('typeSet을array로 변환한 typeArr 입니다 -> ' +typeArr) 
+	
 	
     $('#roomAllInfo').empty(); /*Delete Tag*/
 	
 		<!-- 호텔이 가지고 있는 방 종류마다 반복될 folding box -->
 	
     let type='';
-	for(let i = 0; i < data.length; i++){
-		console.log(data[i].room_type);
+	for(let i = 0; i < typeArr.length; i++){
 		if(data[i].room_type != type){
 			type = data[i].room_type
 		innerHtml += '<div class="room_type_more">'
@@ -529,28 +565,30 @@ function makeRoomList(data) {
 		innerHtml +=				           	'<p>'+data[i].room_type+'</p>'
 		innerHtml +=					   	'</div>'
 		innerHtml +=    				'</a>'
-
-		innerHtml +=				'<div id="collapse_'+data[i].room_id+'" class="panel-collapse collapse" role="tabpanel">'	
-	    innerHtml +=     				'<div class="panel-body">'
-	    innerHtml +=       					'<div class="room_type_detail">'
-		innerHtml +=							'<div class="room_img">'
-		innerHtml +=								'<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">'
-		innerHtml +=							'</div>'
-		innerHtml +=						'<div class="r_name">'
-		innerHtml +=							'<h3>'+data[i].room_name+'</h3>'
-		innerHtml +=						'</div>'
-/* 		innerHtml +=						'<div class="r_option">'
-		innerHtml +=							'<h4>뭔가의 방 옵션정보</h4>'
-		innerHtml +=						'</div>' */
-		innerHtml +=						'<div class="r_price">'
-		innerHtml +=							'<h3>'+data[i].room_price+'</h3>'
-		innerHtml +=						'</div>'
-		innerHtml +=						'<div class="reservation">'
-		innerHtml +=							'<button type="button" class="genric-btn primary ela" onclick="goReserve('+data[i].room_name+','+data[i].room_price+')">예약하기</button>'
-		innerHtml +=						'</div>'
-		innerHtml +=					'</div>'
-		innerHtml +=				'</div><!-- panel-body -->'
-	    innerHtml +=   	 		 '</div> <!-- #collapse1 -->'
+		
+			
+			innerHtml +=				'<div id="collapse_'+data[i].room_id+'" class="panel-collapse collapse" role="tabpanel">'	
+		    innerHtml +=     				'<div class="panel-body">'
+		    innerHtml +=       					'<div class="room_type_detail">'
+			innerHtml +=							'<div class="room_img">'
+			innerHtml +=								'<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">'
+			innerHtml +=							'</div>'
+			innerHtml +=						'<div class="r_name">'
+			innerHtml +=							'<h3>'+data[i].room_name+'</h3>'
+			innerHtml +=						'</div>'
+	/* 		innerHtml +=						'<div class="r_option">'
+			innerHtml +=							'<h4>뭔가의 방 옵션정보</h4>'
+			innerHtml +=						'</div>' */
+			innerHtml +=						'<div class="r_price">'
+			innerHtml +=							'<h3>'+data[i].room_price+'</h3>'
+			innerHtml +=						'</div>'
+			innerHtml +=						'<div class="reservation">'
+			innerHtml +=							'<button type="button" class="genric-btn primary ela" onclick="goReserve('+data[i].room_id+')">예약하기</button>'
+			innerHtml +=						'</div>'
+			innerHtml +=					'</div>'
+			innerHtml +=				'</div><!-- panel-body -->'
+		    innerHtml +=   	 		 '</div> <!-- #collapse1 -->'
+	
 	    innerHtml +=    '</div> <!-- panel-default -->'
 	    innerHtml +=  '</div> <!-- panel-group -->'
 		innerHtml += '</div> <!-- container-fluid -->'
@@ -559,6 +597,7 @@ function makeRoomList(data) {
 	
 
 			console.log('반복문'+(i+1)+'번째-> '+type);
+		
 		} else {
 			continue;
 		}
