@@ -40,6 +40,8 @@
 		let end_airport_name = $('.end_airport_name').val();
 		let start_time = $('.start_time').val();
 		let end_time = $('.end_time').val();
+		let schedule_price = $('.schedule_price').val();
+		
 		let result1 = start_time.substring(0,4)+start_time.substring(5,7)+start_time.substring(8,10);
 		let result2 = end_time.substring(0,4)+end_time.substring(5,7)+end_time.substring(8,10);
 		let result3 = start_time.substring(11,13)+start_time.substring(14,16)+start_time.substring(17,19);
@@ -61,6 +63,10 @@
 			alert("출발공항과 도착공항은 같을수 없습니다")
 		} else if((result1 - result2)>0){
 			alert("도착날짜는 출발날짜보다 이전일수 없습니다")
+		} else if ((result1 - result2)==0){
+			if((result3 - result4) >= 0){
+				alert("같은날에 도착시간은 출발시간보다 이전일수 없습니다")
+			}
 		} else if (start_time >= end_time) {
 			alert("도착시간은 출발시간과 같거나 출발시간 이전일수 없습니다");
 		} else {
@@ -71,7 +77,8 @@
 						'start_airport_name' : start_airport_name,
 						'end_airport_name' : end_airport_name,
 						'start_time' : start_time,
-						'end_time' : end_time},
+						'end_time' : end_time,
+						'schedule_price' : schedule_price},
 				method : 'POST',
 				success : function(data){
 					if(data == 1){
@@ -133,7 +140,7 @@
 		</div>
 		<div class="mb-3">
 			<label for="schedule_price" class="form-label">가격</label>
-			<input type="number" class="form-control" id="schedule_price" name="schedule_price"placeholder="가격을 입력하세요">
+			<input type="number" class="form-control schedule_price" id="schedule_price" name="schedule_price"placeholder="가격을 입력하세요">
 		</div>
 		<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageAir'" value="돌아가기">
 		<button type="button" class="btn btn-primary" onclick="chk()">추가하기</button>

@@ -2,7 +2,7 @@ package com.oracle.ohTravel.member.service;
 
 import java.util.List;
 
-import com.oracle.ohTravel.manager.dto.CouponDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;

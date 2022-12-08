@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.oracle.ohTravel.manager.dto.CouponDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
 
 import lombok.Data;
 

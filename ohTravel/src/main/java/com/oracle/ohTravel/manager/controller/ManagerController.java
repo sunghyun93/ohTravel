@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,14 +23,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import com.oracle.ohTravel.manager.dto.CouponDTO;
-import com.oracle.ohTravel.manager.dto.ManageAirportDTO;
-import com.oracle.ohTravel.manager.dto.MemberDTO;
-import com.oracle.ohTravel.manager.dto.MembershipDTO;
-import com.oracle.ohTravel.manager.dto.NoticeDTO;
-import com.oracle.ohTravel.manager.dto.ManagePackageDTO;
-import com.oracle.ohTravel.manager.dto.PagingManager;
-import com.oracle.ohTravel.manager.dto.ManageTicketDTO;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.oracle.ohTravel.manager.model.CouponDTO;
+import com.oracle.ohTravel.manager.model.ManageAirportDTO;
+import com.oracle.ohTravel.manager.model.ManageHotelDTO;
+import com.oracle.ohTravel.manager.model.ManagePackageDTO;
+import com.oracle.ohTravel.manager.model.ManageTicketDTO;
+import com.oracle.ohTravel.manager.model.MemberDTO;
+import com.oracle.ohTravel.manager.model.MembershipDTO;
+import com.oracle.ohTravel.manager.model.NoticeDTO;
+import com.oracle.ohTravel.manager.model.PagingManager;
+import com.oracle.ohTravel.manager.service.ManageHotelService;
 import com.oracle.ohTravel.manager.service.ManagerService;
 import com.oracle.ohTravel.ticket.model.TicketDTO;
 
@@ -39,6 +46,7 @@ import lombok.RequiredArgsConstructor;
 public class ManagerController {
 	
 	private final ManagerService service;
+	private final ManageHotelService hotelService;
 	
 	//관리자 메인페이지
 	@RequestMapping(value = "managerMain")
@@ -705,6 +713,13 @@ public class ManagerController {
 		int result = service.deleteAirSchedule(air);
 		return result;
 	}
+	//상품관리 -> 항공권 -> 일정 삭제
+	@ResponseBody
+	@PostMapping(value = "updateAirSchedule")
+	public int updateAirSchedule(ManageAirportDTO air) {
+		int result = service.updateAirSchedule(air);
+		return result;
+	}
 	
 	//상품관리 ->항공권 항공사마다 항공기 달라지는 셀렉문 Ajax
 	@ResponseBody
@@ -716,13 +731,193 @@ public class ManagerController {
 		System.out.println(airlineChangenum.size());
 		return airlineChangenum;
 	}
-	
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 호텔 관련//////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//상품관리 ->숙박 상품 관리
 	@RequestMapping(value = "manageHotel")
-	public String manageHotel() {
-		
+	public String manageHotel(ManageHotelDTO hotel, String currentPage, Model model) {
+		int total = hotelService.totalHotel();
+		PagingManager page = new PagingManager(total, currentPage);
+		hotel.setStart(page.getStart());
+		hotel.setEnd(page.getEnd());
+		List<ManageHotelDTO> hotelList = hotelService.getHotelList(hotel);
+		model.addAttribute("hotelList", hotelList);
+		if(currentPage == "" || currentPage == null) {
+			currentPage = "1";
+		}
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("page", page);
 		return "manager/manageHotel";
 	}
+	//상품관리 -> 숙박상품관리 -> 업체 상세보기
+	@RequestMapping(value = "manageHotelDetail")
+	public String manageHotelDetail(ManageTicketDTO ticket,ManageHotelDTO hotel, String currentPage, Model model) {
+		List<ManageHotelDTO> hotelDetail = hotelService.getHotelDetail(hotel);
+		List<ManageTicketDTO>countryList = service.getCountryList();
+		ticket.setCity_id(hotelDetail.get(0).getCity_id());
+		List<ManageTicketDTO>cityList = service.getCityList(ticket);
+		List<ManageHotelDTO> hotelOptionList = hotelService.getHotelOptionList(hotel);
+		System.out.println("hotelOptionList size ->"+hotelOptionList.size());
+		model.addAttribute("hotelOptionList", hotelOptionList);
+		model.addAttribute("countryList", countryList);
+		model.addAttribute("cityList", cityList);
+		model.addAttribute("hotelDetail", hotelDetail);
+		System.out.println("currentPage->"+currentPage);
+		model.addAttribute("currentPage", currentPage);
+		return "manager/manageHotelDetail";
+		
+	}
+	//상품관리 -> 숙박상품관리 -> 업체상세보기 -> 옵션변경 Ajax
+	@ResponseBody
+	@PostMapping(value = "changeHotelOption")
+	public int changeHotelOption(ManageHotelDTO hotel, Model model) {
+		System.out.println("controller hotel.getHotel_exist ->"+hotel.getHotel_exist());
+		int result = hotelService.updateHotelOptionAjax(hotel);
+		return result;
+	}
+	//상품관리 -> 숙박상품관리 -> 업체상세보기 -> 호텔수정
+	@PostMapping(value = "updateHotel")
+	public String updateHotel(ManageHotelDTO hotel, @RequestParam(value = "file1") MultipartFile file1,HttpServletRequest request, Model model) {
+		String path = request.getServletContext().getRealPath("/img/hotel/");
+		if(!file1.isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			String fileName= file1.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file1.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file1.transferTo(saveFile);
+				System.out.println("와?");
+				System.out.println("path->"+path);
+				System.out.println("uuid->"+uuid);
+				System.out.println("fileName->"+fileName);
+				hotel.setH_img_path("/img/hotel/"+uuFileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(file1.isEmpty()) {
+			System.out.println("file1 없어용~");
+			System.out.println("2"+hotel.getHotel_id());
+			hotel.setH_img_path(hotelService.getHotelDetail(hotel).get(0).getH_img_path());
+			System.out.println("empty getAir_picture"+hotel.getH_img_path());
+		}
+		
+		int result = hotelService.updateHotel(hotel);
+		System.out.println("update result ->"+ result);
+		return "forward:manageHotel";
+	}
+	//상품관리 -> 숙박상품관리 -> 호텔추가 폼으로 이동
+	@RequestMapping(value = "insertHotelForm")
+	public String insertHotelForm(Model model) {
+		List<ManageTicketDTO>countryList = service.getCountryList();
+		model.addAttribute("countryList", countryList);
+		return "manager/insertHotelForm";
+	}
+	//상품관리 -> 숙박상품관리 -> 호텔추가 실행
+	@PostMapping(value = "insertHotel")
+	public String insertHotel(ManageHotelDTO hotel,@RequestParam(value = "file1") MultipartFile file1,HttpServletRequest request,Model model) {
+
+		if(hotel.getWifi() == null) {
+			hotel.setWifi("N");
+		}
+		if(hotel.getSmoke() == null) {
+			hotel.setSmoke("N");
+		}
+		if(hotel.getRestaurant() == null) {
+			hotel.setRestaurant("N");
+		}
+		if(hotel.getParking() == null) {
+			hotel.setParking("N");
+		}
+		if(hotel.getShopping() == null) {
+			hotel.setShopping("N");
+		}
+		if(hotel.getCharging_station() == null) {
+			hotel.setCharging_station("N");
+		}
+		if(hotel.getBath() == null) {
+			hotel.setBath("N");
+		}
+		if(hotel.getCoffee() == null) {
+			hotel.setCoffee("N");
+		}
+		if(hotel.getRoomservice() == null) {
+			hotel.setRoomservice("N");
+		}
+		if(hotel.getDisabled() == null) {
+			hotel.setDisabled("N");
+		}
+		if(hotel.getBalcony() == null) {
+			hotel.setBalcony("N");
+		}
+		if(hotel.getSafe() == null) {
+			hotel.setSafe("N");
+		}
+		String[] array = {hotel.getWifi(),hotel.getRestaurant(),hotel.getParking(),hotel.getShopping(),hotel.getBath(),hotel.getCoffee(),hotel.getRoomservice(),hotel.getDisabled(),hotel.getBalcony(),hotel.getSafe()};
+		hotel.setOptionArray(array);
+		System.out.println("grade - >"+hotel.getHotel_grade());
+		System.out.println("type ->"+hotel.getHotel_type());
+		if(file1.isEmpty()) {
+			hotel.setH_img_path("");
+		}else {
+			String path = request.getServletContext().getRealPath("/img/hotel/");
+			System.out.println("realpath->"+path);
+			//String path = "C:\\Users\\zest_\\Desktop\\ohTravel\\ohTravel\\src\\main\\resources\\static\\img\\ticket";
+			String fileName = "";
+			UUID uuid = UUID.randomUUID();
+			fileName= file1.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file1.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file1.transferTo(saveFile);
+				System.out.println("와?");
+				System.out.println("path->"+path);
+				System.out.println("uuid->"+uuid);
+				System.out.println("fileName->"+fileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			hotel.setH_img_path("/img/hotel/"+uuFileName);
+			System.out.println("child->"+hotel.getH_img_path());
+			
+		}
+		
+		
+		int result = hotelService.insertHotel(hotel);
+		System.out.println("insert result ->"+result);
+		model.addAttribute("insertMsg", result);
+		return "forward:manageHotel";
+	}
+	
+	//상품관리 -> 숙박상품관리 -> 삭제 실행 Ajax
+	@ResponseBody
+	@PostMapping(value = "deleteHotel")
+	public int deleteHotel(ManageHotelDTO hotel){
+		int result = hotelService.deleteHotel(hotel);
+		System.out.println("delete hotel result - >"+result);
+		return result;
+	}
+		
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////아래 입장권관련//////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////

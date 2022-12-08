@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.ohTravel.ManageHotel">
+	<select id="getHotelList" parameterType="HotelDTO" resultType="HotelDTO">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (select h.*,c.city_name,ct.country_id,ct.country_name from hotel h inner join city c on h.city_id=c.city_id inner join country ct on c.country_id=ct.country_id) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	<select id="getHotelDetail" parameterType="HotelDTO" resultType="HotelDTO">
+		SELECT h.*,c.city_name,ct.country_id,ct.country_name,hi.h_img_id,hi.h_img_path FROM hotel h inner join city c on h.city_id=c.city_id inner join country ct on c.country_id=ct.country_id left join hotel_image hi on h.hotel_id=hi.hotel_id WHERE h.hotel_id=#{hotel_id};
+	</select>
+	<select id="getHotelOptionList" parameterType="HotelDTO" resultType="HotelDTO">
+		SELECT * FROM hotel_option WHERE hotel_id=#{hotel_id}
+	</select>
+	<update id="updateHotelOptionAjax" parameterType="HotelDTO">
+		UPDATE hotel_option SET hotel_exist = #{hotel_exist} WHERE option_id=#{option_id}
+	</update>
+	<update id="updateHotel" parameterType="HotelDTO">
+		UPDATE hotel h, hotel_image hi SET h.city_id=#{city_id},h.hotel_kor=#{hotel_kor},h.hotel_eng=#{hotel_eng},h.hotel_loc=#{hotel_loc},h.hotel_type=#{hotel_type},h.hotel_grade=#{hotel_grade},h.hotel_score=#{hotel_score},h.hotel_tel=#{hotel_tel},h.hotel_rv_num=#{hotel_rv_num},h.checkin=#{checkin},checkout=#{checkout},hi.h_img_path=#{h_img_path} WHERE h.hotel_id=#{hotel_id} AND hi.hotel_id=#{hotel_id}
+	</update>
+	<insert id="insertHotel" parameterType="HotelDTO">
+		<selectKey resultType="String" keyProperty="hotel_id" order="BEFORE">
+			select concat('ht',ifnull(max(right(hotel_id,6))+1,#{city_id}001)) from hotel WHERE hotel_id like concat('%',#{city_id},'%');
+		</selectKey>
+		INSERT INTO hotel values(#{hotel_id},#{city_id},#{hotel_kor},#{hotel_eng},#{hotel_loc},#{hotel_type},#{hotel_grade},0.00,#{hotel_tel},#{hotel_rv_num},#{checkin},#{checkout});
+		INSERT INTO hotel_image VALUES(null,#{hotel_id},#{h_img_path});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'wifi','부대',#{wifi});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'흡연가능','부대',#{smoke});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'레스토랑','부대',#{restaurant});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'주차','부대',#{parking});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'쇼핑시설','부대',#{shopping});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'전기차 충전소','부대',#{charging_station});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'욕실용품','편의',#{bath});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'커피 메이커','편의',#{coffee});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'룸서비스','편의',#{roomservice});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'장애인 편의시설','편의',#{disabled});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'발코니/테라스','편의',#{balcony});
+		INSERT INTO hotel_option VALUES(null, #{hotel_id},'안전금고','편의',#{safe});
+	</insert>
+	<select id="totalHotel" resultType="int">
+		SELECT count(*) FROM hotel
+	</select>
+	<delete id="deleteHotel" parameterType="HotelDTO">
+		DELETE h,hi,ho FROM hotel h INNER JOIN hotel_image hi ON h.hotel_id = hi.hotel_id INNER JOIN hotel_option ho ON h.hotel_id=ho.hotel_id WHERE h.hotel_id=#{hotel_id}
+	</delete>
+
+</mapper>
