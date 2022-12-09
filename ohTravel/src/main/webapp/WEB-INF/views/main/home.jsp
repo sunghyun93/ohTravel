@@ -5,6 +5,51 @@
 <head>
 <meta charset="UTF-8">
 <title>Oh!Travel - Main</title>
+<style type="text/css">
+.search_modal {
+  border: 1px solid black;
+  display: inline-flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.search_head {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
+  padding: 10px 0;
+  padding: 11px 20px;
+}
+
+.wrap {
+	width: 50%;
+}
+
+.modal-backdrop.show {
+  	width: 0;
+  	height: 0;
+    opacity: 0;
+}
+
+.modal {
+	position: relative;
+	float: left;
+    width: 640px;
+	padding-left: 40px;
+}
+
+.modal-dialog {
+    max-width: none;
+}
+
+.right_contents {
+	float: right;
+	border-left: 2px solid black;
+}
+
+</style>
 <!-- 이 페이지에 참고하는 부트스트랩의 index 코드가 전부 있습니다 -->
 </head>
 <body>
@@ -28,7 +73,7 @@
                                 <!-- form -->
                                 <form action="/search/searchResult" class="search-box">
                                     <div class="input-form mb-30">
-                                        <input type="text" name="search_word" placeholder="어디로 갈래?">
+                                        <input type="text" name="search_word" placeholder="어디로 갈래?" id="input_search">
                                     </div>
                                     <!-- <div class="select-form mb-30">
                                         <div class="select-itms">
@@ -42,10 +87,56 @@
                                     </div> -->
                                     <div class="search-form mb-30">
                                         <button type="submit" class="inputSearch">Search</button>
-                                    </div>	
+                                    </div>
                                 </form>	
                             </div>
                         </div>
+                        	
+                        	<!-- Modal -->
+						<div class="modal" id="exampleModal" tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+					
+										<div class="search_modal">
+											<!-- <div class="wrap left_contents">
+												<div class="recent_search_top search_head">
+													<span>최근검색어</span> <span>전체삭제</span>
+												</div>
+												<div class="recent_search_word">
+													<ul>
+														<li><a class="tit">일</a></li>
+														<li><a class="tit">오kㅅ</a></li>
+													</ul>
+												</div>
+											</div> -->
+											<div class="wrap right_contents">
+												<div class="popular_search_top search_head">
+													<span>인기검색어</span> <span>2022.12.05기준</span>
+												</div>
+												<div class="popular_search_word">
+													<ol>
+														<li><a class="tit">일본</a></li>
+														<li><a class="tit">캘리포니아</a></li>
+														<li><a class="tit">다낭</a></li>
+														<li><a class="tit">괌</a></li>
+														<li><a class="tit">오사카</a></li>
+													</ol>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
                     </div>
                 </div>
             </div>
@@ -411,4 +502,21 @@
         </div>
         <!-- Blog Area End -->
 </body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+// 검색 모달창
+$(document).ready(function() {
+    $("#input_search").click(function() {
+        $("#exampleModal").modal("show");
+    });
+
+    $("#close_modal").click(function() {
+        $("#exampleModal").modal("hide");
+    });
+});
+</script>
 </html>
