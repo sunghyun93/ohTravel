@@ -583,7 +583,7 @@ function makeRoomList(data) {
 		innerHtml +=				           	'<p>'+typeArr[i]+'</p>'
 		innerHtml +=					   	'</div>'
 		innerHtml +=    				'</a>'
-		innerHtml +=    				'<div id="panelBodyHere">'
+		innerHtml +=    				'<div id="room_'+typeArr[i]+'">'
 		innerHtml +=    				'</div>'
 										
 	    innerHtml +=    '</div> <!-- panel-default -->'
@@ -597,9 +597,9 @@ function makeRoomList(data) {
 	$('#roomAllInfo').append(innerHtml);
 	
 	
-	let innerHtmlBody = '';
 	
  	for(let j = 0; j < data.length; j++){
+		let innerHtmlBody = '';
 		
 		innerHtmlBody +=				'<div id="collapse_'+data[j].room_type+'" class="panel-collapse collapse" role="tabpanel">'	
 		innerHtmlBody +=     				'<div class="panel-body">'
@@ -620,9 +620,9 @@ function makeRoomList(data) {
 		innerHtmlBody +=				'</div><!-- panel-body -->'
 		innerHtmlBody +=   	 		 '</div> <!-- #collapse1 -->'
 	    
+			$('#room_'+data[j].room_type).append(innerHtmlBody); 
 		}
  	
-		$('#panelBodyHere').append(innerHtmlBody); 
 
  		
 }
