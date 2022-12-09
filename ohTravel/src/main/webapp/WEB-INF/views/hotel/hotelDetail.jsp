@@ -54,61 +54,54 @@
 				<div class="room_info">
 					
 					<div class="rev_option">
-<!-- 						<a href="myModal" class="genric-btn primary ela" data-toggle="modal" data-target="#myModal">날짜 선택</a>
- -->						<button type="button" class="genric-btn primary ela" onclick="getRoomOption()">날짜 선택</button>
- 							<div class="ppl">
-				
-				<div class="black_bg3"></div>
-				<div class="member_count modal_wrap3">
-					<div class="modal_close3"><span>close</span></div>
-					<div class="member_count_entire">
-					
-					<span class="ppl_select">인원</span><hr width="460px">
-						<ul>
-							<li>
-								<li>
-                                     <p class="tit">
-                                            <span class="txt">객실 수 </span>
-                                     </p>
-                                        <span class="num_count_group">
-                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
-                                            <span class="inpt_counter roomCnt"></span>
-                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
-                                       </span>
-                             </li> 
-							
-							
-							<li>
-								<p class="tit">
-                                            <span class="txt">성인</span><br>
-                                        </p>
-                                        <span class="num_count_group">
-                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
-                                            <span class="inpt_counter adultCnt"></span>
-                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
-                                        </span>
-							</li>
-							
-								<li>
-                                     <p class="tit">
-                                            <span class="txt">아동</span>
-                                     </p>
-                                        <span class="num_count_group">
-                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
-                                            <span class="inpt_counter childCnt"></span>
-                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
-                                       </span>
-                             </li> 
-						</ul>
-						<br><br>
-						
+<!-- 					<a href="myModal" class="genric-btn primary ela" data-toggle="modal" data-target="#myModal">날짜 선택</a>
+ -->					<button type="button" class="genric-btn primary ela" onclick="getRoomOption()">날짜 선택</button>
+						<div class="ppl">
 		
-						<div class="select_complete"><span class="select_complete_text">선택완료</span></div>
-					</div>	
-				</div>
-				
-			</div>
- 							
+						<div class="black_bg3"></div>
+						<div class="member_count modal_wrap3">
+							<div class="modal_close3"><span>close</span></div>
+							<div class="member_count_entire">
+							
+							<span class="ppl_select">인원</span><hr width="460px">
+								<ul>
+										<li>
+		                                     <p class="tit">
+		                                            <span class="txt">객실 수 </span>
+		                                     </p>
+		                                        <span class="num_count_group">
+		                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+		                                            <span class="inpt_counter roomCnt"></span>
+		                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+		                                       </span>
+		                            	 </li> 
+										<li>
+										<p class="tit">
+		                                            <span class="txt">성인</span><br>
+		                                        </p>
+		                                        <span class="num_count_group">
+		                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+		                                            <span class="inpt_counter adultCnt"></span>
+		                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+		                                        </span>
+										</li>
+									
+										<li>
+		                                     <p class="tit">
+												<span class="txt">아동</span>
+		                                     </p>
+		                                        <span class="num_count_group">
+		                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+		                                            <span class="inpt_counter childCnt"></span>
+		                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+		                                       </span>
+		                           		  </li> 
+									</ul>
+								<br><br>
+								<div class="select_complete"><span class="select_complete_text">선택완료</span></div>
+							</div>	
+						</div>
+					</div>
 					</div>
 					
 		<!--티켓 검색부분  -->
@@ -134,45 +127,7 @@
 	
 	
 	<div id="roomAllInfo">
-		<%-- <div class="room_type_more">
-			<div class="fluid-wrap">
-			 <div class="container-fluid" >
-			 	<!-- style="min-height: calc(100vh - 136px);" -->
-			    <!-- 그룹 태그로 role과 aria-multiselectable를 설정한다. -->
-			    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-			      <!-- 하나의 item입니다. data-parent 설청과 href 설정만 제대로 하면 문제없이 작동합니다. -->
-			      <div class="panel panel-default">
-			          <a class="r_type_name" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false">
-				        <div class="panel-heading" role="tab">
-				           	<p>${room.room_type }</p>
-				        </div>
-			          </a>
-			        <div id="collapse1" class="panel-collapse collapse" role="tabpanel">
-			          <div class="panel-body">
-			            	<div class="room_type_detail">
-								<div class="room_img">
-									<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">
-								</div>
-								<div class="r_name">
-									<h3>${room.room_name }</h3>
-								</div>
-								<div class="r_option">
-									<h4>뭔가의 방 옵션정보</h4>
-								</div>
-								<div class="r_price">
-									<h3>가격</h3>
-								</div>
-								<div class="reservation">
-									<button class="genric-btn primary ela">예약하기</button>
-								</div>
-							</div>
-						</div><!-- panel-body -->
-			          </div> <!-- #collapse1 -->
-			        </div> <!-- panel-default -->
-			      </div> <!-- panel-group -->
-				</div> <!-- container-fluid -->
-			</div>
-		</div> <!-- room_type_more 끝 --> --%>
+	
 	</div>
 					
 					<div class="ht_option">
@@ -258,18 +213,6 @@
 			    </div>
 			  </div>
 			</div> <!-- 리뷰 모달 끝 -->
-					
-<%-- 		<c:set var="type" value="" ></c:set>
-               <c:forEach items="${roomList}" var="item"> 
-                  <c:if test="${type ne  item.room_type}">
-                     <c:set var="type" value="${item.room_type }" ></c:set>
-                     <div>
-                        ${room_type }
-                     </div>
-                  </c:if>
-               </c:forEach> --%>
-
-
 
 
 <script type="text/javascript">
@@ -494,6 +437,15 @@ function getRoomOption(){
 	
 }
 
+
+function goReserve(roomName, roomPrice){
+	
+	let str = 'room_name='+roomName+'&room_price='+roomPrice
+	location.href='${pageContext.request.contextPath }/hotel/reservation?'+str
+}
+
+
+
 // 호텔의 객실 리스트 가져오는 함수 
 $(function getRoomList(){
 	
@@ -531,10 +483,12 @@ $(function getRoomList(){
 		data: sendData,
 		type: 'get',
 		success: function(result){
-			
+			console.log(result)
 			// 조건에 맞는 방 리스트 그려주는 함수 실행
 			makeRoomList(result)
-			
+	
+		},error : function (err) {
+			console.error(err)
 		}
 		
 		
@@ -549,26 +503,26 @@ $(function getRoomList(){
 function makeRoomList(data) {
 	
 	let innerHtml = '';
-	let type = "";
 	
 	console.log(data);
 	console.log(data.length);
 	
+    $('#roomAllInfo').empty(); /*Delete Tag*/
+	
 		<!-- 호텔이 가지고 있는 방 종류마다 반복될 folding box -->
 	
+    let type='';
 	for(let i = 0; i < data.length; i++){
-		
 		console.log(data[i].room_type);
 		if(data[i].room_type != type){
-			type = data.room_type
-		
+			type = data[i].room_type
 		innerHtml += '<div class="room_type_more">'
 		innerHtml +=	'<div class="fluid-wrap">'
 		innerHtml +=	 	'<div class="container-fluid">'
-			 	<!-- style="min-height: calc(100vh - 136px);" -->
-			    <!-- 그룹 태그로 role과 aria-multiselectable를 설정한다. -->
+/* 			 	<!-- style="min-height: calc(100vh - 136px);" -->
+			    <!-- 그룹 태그로 role과 aria-multiselectable를 설정한다. --> */
 	    innerHtml +=	    	'<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">'
-			      <!-- 하나의 item입니다. data-parent 설청과 href 설정만 제대로 하면 문제없이 작동합니다. -->
+			   /*    <!-- 하나의 item입니다. data-parent 설청과 href 설정만 제대로 하면 문제없이 작동합니다. --> */
 		innerHtml +=	      		'<div class="panel panel-default">'
 		innerHtml +=	         		'<a class="r_type_name" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_'+data[i].room_id+'" aria-expanded="false">'
 		innerHtml +=				        '<div class="panel-heading" role="tab">'
@@ -576,55 +530,42 @@ function makeRoomList(data) {
 		innerHtml +=					   	'</div>'
 		innerHtml +=    				'</a>'
 
+		innerHtml +=				'<div id="collapse_'+data[i].room_id+'" class="panel-collapse collapse" role="tabpanel">'	
+	    innerHtml +=     				'<div class="panel-body">'
+	    innerHtml +=       					'<div class="room_type_detail">'
+		innerHtml +=							'<div class="room_img">'
+		innerHtml +=								'<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">'
+		innerHtml +=							'</div>'
+		innerHtml +=						'<div class="r_name">'
+		innerHtml +=							'<h3>'+data[i].room_name+'</h3>'
+		innerHtml +=						'</div>'
+/* 		innerHtml +=						'<div class="r_option">'
+		innerHtml +=							'<h4>뭔가의 방 옵션정보</h4>'
+		innerHtml +=						'</div>' */
+		innerHtml +=						'<div class="r_price">'
+		innerHtml +=							'<h3>'+data[i].room_price+'</h3>'
+		innerHtml +=						'</div>'
+		innerHtml +=						'<div class="reservation">'
+		innerHtml +=							'<button type="button" class="genric-btn primary ela" onclick="goReserve('+data[i].room_name+','+data[i].room_price+')">예약하기</button>'
+		innerHtml +=						'</div>'
+		innerHtml +=					'</div>'
+		innerHtml +=				'</div><!-- panel-body -->'
+	    innerHtml +=   	 		 '</div> <!-- #collapse1 -->'
 	    innerHtml +=    '</div> <!-- panel-default -->'
 	    innerHtml +=  '</div> <!-- panel-group -->'
 		innerHtml += '</div> <!-- container-fluid -->'
 		innerHtml +='</div>'
 		innerHtml +='</div> <!-- room_type_more 끝 -->'
-		
-		
-		
-			        /* <div id="collapse_${data.roomList_room_id}" class="panel-collapse collapse" role="tabpanel">
-			          <div class="panel-body">
-			            	<div class="room_type_detail">
-								<div class="room_img">
-									<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">
-								</div>
-								<div class="r_name">
-									<h3>${room.room_name }</h3>
-								</div>
-								<div class="r_option">
-									<h4>뭔가의 방 옵션정보</h4>
-								</div>
-								<div class="r_price">
-									<h3>가격</h3>
-								</div>
-								<div class="reservation">
-									<button class="genric-btn primary ela">예약하기</button>
-								</div>
-							</div>
-						</div><!-- panel-body -->
-			          </div> <!-- #collapse1 -->
-			          
-			          
-			        </div> <!-- panel-default -->
-			      </div> <!-- panel-group -->
-				</div> <!-- container-fluid -->
-			</div>
-		</div> <!-- room_type_more 끝 -->
-	` */
 	
-			$('#roomAllInfo').append(innerHtml);
-	
-	
+
+			console.log('반복문'+(i+1)+'번째-> '+type);
+		} else {
+			continue;
+		}
 	}
 	
-		
-	
-	}
-	
-	
-	
+	$('#roomAllInfo').append(innerHtml);
+
 }
 </script>	
 <script src="${pageContext.request.contextPath }/js/review/review.js"></script>

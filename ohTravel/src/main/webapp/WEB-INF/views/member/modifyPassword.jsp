@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +44,7 @@
 			<div class="lnb" id="lnb">
 				<div class="inr">
 					<dl>
-						<dt class="type"><a href="${pageContext.request.contextPath}/member/myPageMain">마이페이지</a></dt>
+						<dt class="type"><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></dt>
 						<dd>
 							<ul class="list_lnb">
 							    <li id="EM00000196" class="">
@@ -90,50 +91,43 @@
 						<div class="msg_wrap bg" style="background-color: #fff;">
 						    <strong class="tit" style="margin-bottom: 20px;">
 						        <span class="icn lock"></span> 
-						        <em style="font-style: normal">선예림</em> 님의 개인정보 보호를 위해<br />
+						        <em style="font-style: normal">${sessionName }</em> 님의 개인정보 보호를 위해<br />
 						      	 비밀번호를 주기적으로 변경해 주세요.
 						    </strong>
 						</div>
-						<div class="tbl">
-							<table class="type2">
-							    <colgroup>
-							        <col style="width: 17%;" />
-							        <col />
-							    </colgroup>
-							    <tbody>
-							        <tr>
-							            <th>현재 비밀번호</th>
-							            <td><input type="password" placeholder="현재 비밀번호를 입력해주세요" style="width:500px;"></td>
-							        </tr>
-							        <tr>
-							            <th>신규 비밀번호</th>
-							            <td><input type="password" placeholder="변경할 비밀번호를 입력해주세요" style="width:500px;"></td>
-							        </tr>
-							        <tr>
-							            <th>비밀번호 확인</th>
-							            <td><input type="password" placeholder="비밀번호를 입력해주세요" style="width:500px;"></td>
-							        </tr>
-							        <!-- 필요 시 컬럼 추가 해주세용 -->
-							    </tbody>
-							</table>
-						</div>	<!-- tbl -->
-						<ul class="list_bul billiard mt15" style="margin-top: 20px;">
-						    <li class="em">임시비밀번호 발급후에는 임시비밀번호를 기입해 주세요</li>
-						    <li>
-						        8~16자의 영문 대소문자, 숫자, 특수문자 2개 이상을 사용하시기 바랍니다.
-						        <ul class="list_bul dash">
-						            <li>아이디, 생년월일, 동일한 연속 문자/숫자 사용 불가능</li>
-						            <li>특수 문자의 경우 -!@#$%^*?_~ 이외 특수문자 사용시 비밀번호 설정이 불가 합니다.</li>
-						        </ul>
-						    </li>
-						    <li>아이디와 유사하거나 유추하기 쉬운 비밀번호는 유출의 위험이 많습니다.</li>
-						    <li>주기적인 비밀번호 변경으로 고객님의 소중한 개인정보를 보호해 주세요.</li>
-						    <li>비밀번호 변경시 우측 보안등급을 참고하여 안전한 비밀번호를 변경하시기 바랍니다.</li>
-						</ul>
-						<div class="btn_wrap">
-  							<a href="${pageContext.request.contextPath}/member/myPageMain" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
-  							<a href="#" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">비밀번호 변경</a>
-  						</div>
+						<div class="text_wrap mid">
+							<strong class="tit">가입정보</strong>
+						</div>	<!-- text_wrap -->
+						<form name="checkPassword" method="post" action="checkPassword">
+							<div class="tbl">
+								<table class="type2">
+								    <colgroup>
+								        <col style="width: 17%;" />
+								        <col />
+								    </colgroup>
+								    <tbody>
+								        <tr>
+								            <th>아이디</th>
+								            <td>${sessionId}</td>
+								        </tr>
+								        <tr>
+								            <th>현재 비밀번호</th>
+								            <td><input type="password" id="mem_password" name="mem_password" placeholder="비밀번호를 입력해주세요" style="width:500px;"></td>
+								        </tr>
+								        <!-- 필요 시 컬럼 추가 해주세용 -->
+								    </tbody>
+								</table>
+							</div>	<!-- tbl -->
+							<div style="color: red; margin-top: 20px;">
+								<c:if test="${msg == false}">
+									비밀번호가 맞지 않습니다.
+								</c:if>
+							</div>
+							<div class="btn_wrap">
+	 							<a href="${pageContext.request.contextPath}/member/myPageMain" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
+	 							<button type="submit" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">확인</button>
+	 						</div>
+						</form>
 					</div>	<!-- inr -->
 				</div>	<!-- ly_wrap pay_info -->
 			</div>

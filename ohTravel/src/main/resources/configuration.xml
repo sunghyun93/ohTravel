@@ -10,14 +10,14 @@
 		<!-- city -->
 		<typeAlias type="com.oracle.ohTravel.city.model.CityDTO" alias="CityDTO"/>
 	
-		<typeAlias type="com.oracle.ohTravel.manager.dto.MemberDTO" alias="Member"/>
-		<typeAlias type="com.oracle.ohTravel.manager.dto.MembershipDTO" alias="Membership"/>
-		<typeAlias type="com.oracle.ohTravel.manager.dto.NoticeDTO" alias="Notice"/>
-		<typeAlias type="com.oracle.ohTravel.manager.dto.CouponDTO" alias="Coupon"/>
-		<typeAlias type="com.oracle.ohTravel.manager.dto.ManageTicketDTO" alias="Ticket"/>
-		<typeAlias type="com.oracle.ohTravel.manager.dto.ManagePackageDTO" alias="Package"/>
-		<typeAlias type="com.oracle.ohTravel.manager.dto.ManageAirportDTO" alias="Air"/>
-
+		<typeAlias type="com.oracle.ohTravel.manager.model.MemberDTO" alias="Member"/>
+		<typeAlias type="com.oracle.ohTravel.manager.model.MembershipDTO" alias="Membership"/>
+		<typeAlias type="com.oracle.ohTravel.manager.model.NoticeDTO" alias="Notice"/>
+		<typeAlias type="com.oracle.ohTravel.manager.model.CouponDTO" alias="Coupon"/>
+		<typeAlias type="com.oracle.ohTravel.manager.model.ManageTicketDTO" alias="Ticket"/>
+		<typeAlias type="com.oracle.ohTravel.manager.model.ManagePackageDTO" alias="Package"/>
+		<typeAlias type="com.oracle.ohTravel.manager.model.ManageAirportDTO" alias="Air"/>
+		<typeAlias type="com.oracle.ohTravel.manager.model.ManageHotelDTO" alias="HotelDTO"/>
 		
 		<!-- pkage -->
 		<typeAlias type="com.oracle.ohTravel.pkage.model.PkageDTO" alias="PkageDTO"/>
@@ -74,6 +74,7 @@
 		<typeAlias type="com.oracle.ohTravel.member.model.HotelReservationDTO" alias="HotelReservationDTO"/>
 		<typeAlias type="com.oracle.ohTravel.member.model.PackageReservationDTO" alias="PackageReservationDTO"/>
 		<typeAlias type="com.oracle.ohTravel.member.model.UpdateMileGradeDTO" alias="UpdateMileGradeDTO"/>
+		<typeAlias type="com.oracle.ohTravel.member.model.ReviewDTO" alias="ReviewDTO"/>
 		
 	</typeAliases>
 </configuration>

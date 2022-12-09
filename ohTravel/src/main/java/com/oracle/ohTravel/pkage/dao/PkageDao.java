@@ -16,8 +16,12 @@ public interface PkageDao {
 	PkageDTORM selectPkgByPkgId(String pkage_id) throws Exception;
 	Pkage_detailDTO selectPkgDetailById(Integer pkage_dt_id) throws Exception;
 	Pkage_detailDTO selectPkgDetailById2(Integer pkage_dt_id) throws Exception;
+	Integer selectPkgDetailReservCheck(Map<String, Object> map) throws Exception;
 	int insertPkgReserve(Pkage_rsDTO pkage_rsDTO) throws Exception;
 	int selectPkgRvIdByMemId(String mem_id) throws Exception;
 	int insertPkgReservePies(Map<String, List<Pkage_rs_piDTO>> map) throws Exception;
 	int updatePkgSoldCnt(String pkage_id) throws Exception;
+	int updatePkgDetailRcnt(Map<String, Object> map) throws Exception;
+	int insertPayment(Map<String, Object> map) throws Exception;
+	Pkage_rsDTO selectPkgReservById(Integer pkage_rv_id) throws Exception;
 }

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oracle.ohTravel.airport.dao.ScheduleDAO;
+import com.oracle.ohTravel.manager.dto.PaymentDTO;
 import com.oracle.ohTravel.member.dao.MemberDao;
 import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 import com.oracle.ohTravel.pkage.dao.PkageDao;
@@ -110,10 +112,20 @@ public class PkageServiceImpl implements PkageService {
 		return pkage_detailDTO;
 	}
 	
+//	사용자가 이미 예약한 상품인지 확인
+	@Override
+	public Integer selectPkgDetailReservCheck(Map<String, Object> map) throws Exception {
+		log.info("PkageServiceImpl selectPkgDetailReservCheck() start...");
+		Integer check = pkageDao.selectPkgDetailReservCheck(map);
+		log.info("PkageServiceImpl selectPkgDetailReservCheck() end...");
+		return check;
+	}
+	
 //	패키지 예약 관련 insert 및 update
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int insertPkgReserveInsertWithAll(Map<String, Object> map) throws Exception {
+	public Map<String, Object> insertPkgReserveInsertWithAll(Map<String, Object> map) throws Exception {
+		log.info("PkageServiceImpl selectPkgDetailReservCheck() start...");
 		int rowCnt = 0;
 	// 패키지 예약 insert
 		rowCnt = pkageDao.insertPkgReserve((Pkage_rsDTO)map.get("pkage_rsDTO"));
@@ -128,8 +140,10 @@ public class PkageServiceImpl implements PkageService {
 		List<Pkage_rs_piDTO> pkage_rs_piDTOList = new ArrayList<>(); // 한번에 insert 할 list 만들기
 		
 		PkgReserveEle pkageReserveEle = (PkgReserveEle)map.get("pkgReserveEle");
+		pkageReserveEle.setPkage_rv_id(pkage_rv_id); // 결제 완료 페이지로 전달하기 위해 예약 번호 저장
 		int totalCnt = pkageReserveEle.getPkage_pi_name().size(); // 넣어야 할 여행자 인원 수
 		log.info("totalCnt = "+totalCnt);
+		
 		
 		// 인원 수 만큼 Pkage_rs_piDTO 만들어서 list에 추가 
 		for(int i = 0; i < totalCnt; i++) {
@@ -159,6 +173,13 @@ public class PkageServiceImpl implements PkageService {
 		insertMap.put("pkage_rs_piDTOList", pkage_rs_piDTOList);
 		rowCnt = pkageDao.insertPkgReservePies(insertMap);
 		
+	// 패키지 잔여 좌석 update
+		Map<String, Object> updateRcntMap = new HashMap<>();
+		updateRcntMap.put("pkage_dt_id", pkageReserveEle.getPkage_dt_id());
+		// 아동인원  + 성인인원
+		updateRcntMap.put("pkage_dt_Rcnt", pkageReserveEle.getPkage_rv_Acnt()+pkageReserveEle.getPkage_rv_Ccnt());
+		rowCnt = pkageDao.updatePkgDetailRcnt(updateRcntMap);
+		
 	// 패키지 판매 update
 		rowCnt = pkageDao.updatePkgSoldCnt(pkageReserveEle.getPkage_id());
 		
@@ -181,7 +202,24 @@ public class PkageServiceImpl implements PkageService {
 		}
 		
 	// 결제 정보 insert
+		Map<String, Object> paymentMap = new HashMap<>();
+		paymentMap.put("mem_id", mem_id);
+		paymentMap.put("pkage_rv_id", pkage_rv_id);
+		rowCnt = pkageDao.insertPayment(paymentMap);
 
-		return rowCnt;
+//		Controller 로 전달할 데이터가 담긴 map 반환
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("pkageReserveEle", pkageReserveEle);
+		resultMap.put("rowCnt", rowCnt);
+		
+		return resultMap;
+	}
+	
+	@Override
+	public Pkage_rsDTO selectPkgReservById(Integer pkage_rv_id) throws Exception {
+		log.info("PkageServiceImpl selectPkgReservById() start...");
+		Pkage_rsDTO pkage_rsDTO = pkageDao.selectPkgReservById(pkage_rv_id);
+		log.info("PkageServiceImpl selectPkgReservById() end...");
+		return pkage_rsDTO;
 	}
 }

@@ -5,13 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.oracle.ohTravel.manager.dto.CouponDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.dao.MemberDao;
 import com.oracle.ohTravel.member.domain.Member;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
+import com.oracle.ohTravel.member.model.ReviewDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -94,16 +95,6 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
-	// 비밀번호 변경
-	@Override
-	public int updatePassword(MemberDTO memberDTO) {
-		log.info("MemberServiceImpl updatePassword start..");
-		
-		int result = memberDao.updatePassword(memberDTO);
-		
-		return result;
-	}
-
 	// 아이디 중복 검사
 	@Override
 	public int idCheck(String mem_id) {
@@ -111,30 +102,18 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.idCheck(mem_id);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// 아이디 찾기
+	@Override
+	public MemberDTO findID(MemberDTO memberDTO) {
+		log.info("MemberServiceImpl findID start..");
+		return memberDao.findID(memberDTO);
+	}
+
+	// 비밀번호 찾기
+	public MemberDTO findPassword(MemberDTO memberDTO) {
+		log.info("MemberServiceImpl findPassword start..");
+		return memberDao.findPassword(memberDTO);
+	}
 	
 	// 회원 select (등급 까지 포함)
 	@Override
@@ -153,6 +132,34 @@ public class MemberServiceImpl implements MemberService{
 		log.info("MemberServiceImpl selectMemberWithCoupon() end...");
 		return list;
 	}
+
+	// 비밀번호 변경
+	@Override
+	public int updatePassword(MemberDTO memberDTO) {
+		log.info("MemberServiceImpl updatePassword start...");
+		
+		int result = memberDao.updatePassword(memberDTO);
+		
+		return result;
+	}
+
+	// 패키지 리뷰 목록
+	@Override
+	public List<ReviewDTO> myPageReviewPackage(ReviewDTO reviewDTO) {
+		log.info("MemberServiceImpl myPageReviewPackage start...");
+		List<ReviewDTO> packageReviewList = memberDao.mypageReviewPackage(reviewDTO);
+		return packageReviewList;
+	}
+	
+	// 호텔 리뷰 목록
+	@Override
+	public List<ReviewDTO> myPageReviewHotel(ReviewDTO reviewDTO) {
+		log.info("MemberServiceImpl myPageReviewHotel start...");
+		List<ReviewDTO> hotelReviewList = memberDao.mypageReviewHotel(reviewDTO);
+		return hotelReviewList;
+	}
+	
+	
 
 	
 }

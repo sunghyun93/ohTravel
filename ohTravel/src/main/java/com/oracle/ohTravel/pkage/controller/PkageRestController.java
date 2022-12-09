@@ -21,6 +21,7 @@ import com.oracle.ohTravel.pkage.dao.PkageDao;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 import com.oracle.ohTravel.pkage.model.Pkage_flightScheDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_rsDTO;
 import com.oracle.ohTravel.pkage.model.PkgSearch;
 import com.oracle.ohTravel.pkage.service.PkageService;
 
@@ -60,7 +61,7 @@ public class PkageRestController {
 	public ResponseEntity<String> loginCheck(HttpSession session) {
 		log.info("PkageRestController loginCheck() start");
 		boolean loginCheck = session.getAttribute("member") == null; 
-		if(session.getAttribute("res") != null)
+		if(session.getAttribute("member") != null)
 			log.info("로그인ID="+((MemberDTO)session.getAttribute("member")).getMem_id());
 		if(!loginCheck) {
 			log.info("PkageRestController loginCheck() end");
@@ -68,6 +69,33 @@ public class PkageRestController {
 		} else {
 			log.info("PkageRestController loginCheck() end");
 			return new ResponseEntity<String>("LOGIN_NO", HttpStatus.OK);
+		}
+	}
+	
+	// 이미 예약한 상품인지 체크 용
+	@PostMapping("/reservedCheck")
+	public ResponseEntity<String> reservedCheck(String pkage_dt_id, HttpSession session) {
+		log.info("PkageRestController reservedCheck() start");
+		String mem_id = ((MemberDTO)session.getAttribute("member")).getMem_id();
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pkage_dt_id", pkage_dt_id);
+		map.put("mem_id", mem_id);
+		
+		Integer check = 0;
+		try {
+			check = pkageService.selectPkgDetailReservCheck(map);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		// check가 1이면 이미 예약한 상품
+		if(check == 1) {
+			log.info("PkageRestController reservedCheck() end");
+			return new ResponseEntity<String>("reserved", HttpStatus.OK);
+		} else {
+			log.info("PkageRestController reservedCheck() end");
+			return new ResponseEntity<String>("no", HttpStatus.OK);
 		}
 	}
 	
@@ -80,11 +108,16 @@ public class PkageRestController {
 			pkgSearch.setPkage_gubun(1);
 			pkgSearch.setToDesti(310);
 			pkgSearch.setDates_start_check("2022-12-20");
+			pkgSearch.setMinAmt("400000");
+			pkgSearch.setMaxAmt("600000");
+			pkgSearch.makeAmtGubun(); // max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3
 			
 			Map<String, Object> map = new HashMap<>();
+			map.put("mem_id", "test1");	// 로그인한 회원이 찜한 상품인지 가리기 위한 데이터
 			map.put("pkage_id", pkgSearch.getPkage_id());
 			map.put("toDesti", pkgSearch.getToDesti());
 			map.put("dates_start_check", pkgSearch.getDates_start_check());
+			map.put("amtGubun", pkgSearch.getAmtGubun());
 			map.put("order", 3); // pkage_soldCnt(1), pkage_score(2), pkage_dt_Aprice(3,4)
 			map.put("pkgSearch", pkgSearch);
 			
@@ -166,5 +199,20 @@ public class PkageRestController {
 		}
 		return null;
 	}
-
+	
+	// 패키지 예약 데이터 가져오기 테스트용
+	@GetMapping("/test5")
+	public Pkage_rsDTO test5() {
+		try {
+			Integer pkage_rv_id = 3;
+			
+			Pkage_rsDTO pkage_rsDTO = pkageDao.selectPkgReservById(pkage_rv_id);
+			
+			return pkage_rsDTO;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }

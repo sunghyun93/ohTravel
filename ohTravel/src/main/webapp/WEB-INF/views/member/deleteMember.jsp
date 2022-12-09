@@ -25,7 +25,7 @@
 			<div class="lnb" id="lnb">
 				<div class="inr">
 					<dl>
-						<dt class="type"><a href="${pageContext.request.contextPath}/member/myPageMain">마이페이지</a></dt>
+						<dt class="type"><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></dt>
 						<dd>
 							<ul class="list_lnb">
 							    <li id="EM00000196" class="">
@@ -106,16 +106,16 @@
 								    </tbody>
 								</table>
 							</div>	<!-- tbl -->
+							<div style="color: red; margin-top: 20px;">
+								<c:if test="${msg == false}">
+									비밀번호가 맞지 않습니다.
+								</c:if>
+							</div>
 							<div class="btn_wrap">
 	  							<a href="${pageContext.request.contextPath}/member/myPageMain" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
 	  							<button type="submit" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">회원탈퇴</button>
 	  						</div>
 						</form>
-						<div>
-							<c:if test="${msg == false}">
-								비밀번호가 맞지 않습니다.
-							</c:if>
-						</div>
 					</div>	<!-- inr -->
 				</div>	<!-- ly_wrap pay_info -->
 			</div>

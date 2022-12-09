@@ -1,0 +1,107 @@
+
+.buycomp {
+
+   text-align: center;
+}
+
+.order-comp {   
+                  margin-top: 40px;
+                  padding-left: 150px;
+                  padding-right: 150px;
+      
+         }
+         
+.order-comp h1 {
+   font-size: 32px;
+   font-weight: bold;
+}      
+         
+.buy_1   {
+   font-size: 32px;
+   font-weight: bold;
+}
+
+.buy_2{
+   font-size: 18px;
+   font-weight:  500;
+}
+
+
+.pricechk {
+   width: 300px;
+   margin: 0 auto;
+   margin-top: 30px;
+   font-size: 20px;
+   
+}
+
+   
+.price   {
+   
+}
+
+.price_won{
+   color:red;
+   
+}
+.input_a{
+   width: 420px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.input_a input[type="button"] {
+	cursor : pointer;
+}
+.white{
+   border: 1px solid black;
+   width: 200px;
+   height: 60px;
+   color: black;
+   background-color: white;
+   font-size: 18px;
+   font-weight: bold;
+}
+
+.black{
+   border: 1px solid black;
+   width: 200px;
+   height: 60px;
+   color: white;
+   background-color: black;
+   font-size: 18px;
+   font-weight: bold;
+   
+}
+
+.notice{
+
+   width: 900px;
+   height: 200px;
+   margin: 0 auto;
+   
+}   
+
+.notice_1{
+   color: red;
+   margin-left: 220px;
+}
+.notice_2{
+   margin-left: 220px;
+}
+
+.reservation_data{
+   border: 1px solid #999999;
+   background-color: #999999;
+   width: 400px;
+   margin: 0 auto;
+   font-size: 20px;
+   color:white;
+   font-family: sans-serif ;
+}     

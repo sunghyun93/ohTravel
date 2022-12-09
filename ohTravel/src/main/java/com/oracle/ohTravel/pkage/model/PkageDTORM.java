@@ -1,5 +1,6 @@
 package com.oracle.ohTravel.pkage.model;
 
+import java.util.Comparator;
 import java.util.List;
 
 import com.oracle.ohTravel.city.model.CityDTO;
@@ -16,6 +17,7 @@ public class PkageDTORM {
 	private Integer pkage_gubun;	// 해외 국내 여부
 	private Integer pkage_soldCnt;	// 판매개수
 	private double pkage_score;		// 평점
+	private Integer basket_id;		// 로그인한 회원이 찜한 상품인지 여부 (찜안했으면 null)
 	
 	// city
 	private CityDTO cityDTO;
@@ -35,3 +37,5 @@ public class PkageDTORM {
 	private int reviewCnt;	// 리뷰 개수
 	
 }
+
+

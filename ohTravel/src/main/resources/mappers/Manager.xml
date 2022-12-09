@@ -317,6 +317,9 @@
 		DELETE FROM ticket_img WHERE ticket_id=#{ticket_id};
 		DELETE FROM ticket_detail WHERE ticket_id=#{ticket_id};
 	</delete>
+	<update id="updateAirSchedule" parameterType="Air">
+		UPDATE air_schedule SET air_num=#{air_num}, airplane_name=#{airplane_name}, start_airport_name=#{start_airport_name}, end_airport_name=#{end_airport_name}, start_time=#{start_time}, end_time=#{end_time}, schedule_price=#{schedule_price} WHERE schedule_id=#{schedule_id}
+	</update>
 	
 	
 	

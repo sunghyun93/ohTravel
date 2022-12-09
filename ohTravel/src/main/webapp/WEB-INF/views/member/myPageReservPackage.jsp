@@ -15,7 +15,7 @@
 			<div class="lnb" id="lnb">
 				<div class="inr">
 					<dl>
-						<dt class="type"><a href="${pageContext.request.contextPath}/member/myPageMain">마이페이지</a></dt>
+						<dt class="type"><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></dt>
 						<dd>
 							<ul class="list_lnb">
 							    <li id="EM00000196" class="">
@@ -61,9 +61,6 @@
 				<div class="js_tabs type2 no_division">
 					<div class="panels">
 					    <div class="panel selected">
-					        <div class="text_wrap inquiry mt0">
-					            <div class="inr fl">총 <em>0</em>건</div>
-					        </div>	<!-- text_wrap inquiry mt0 -->
 					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
@@ -82,14 +79,16 @@
 					                    </tr>
 					                </thead>
 					                <tbody>
-					                    <tr>
-					                        <td colspan="5">
-					                            <div class="data_no">
-					                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
-					                            </div>
-					                        </td>
-					                    </tr>
 					                    <c:forEach var="packageReservList" items="${packageReservList}">
+					                    <c:if test="${empty packageReservList}">
+						                    <tr>
+						                        <td colspan="5">
+						                            <div class="data_no">
+						                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
+						                            </div>
+						                        </td>
+						                    </tr>
+						                </c:if>
 					                    <tr>
 					   						<td>${packageReservList.pkage_rv_id}</td>
 					                    	<td>${packageReservList.mem_id}</td>

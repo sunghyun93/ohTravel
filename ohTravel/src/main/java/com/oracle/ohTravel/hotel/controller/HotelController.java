@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
+import com.oracle.ohTravel.hotel.model.RoomDTO;
 import com.oracle.ohTravel.hotel.service.HotelService;
 
 import lombok.RequiredArgsConstructor;
@@ -44,5 +45,12 @@ public class HotelController {
 		model.addAttribute("hotelDetail", hotelDTO);
 		model.addAttribute("rv_real_id", hotelDTO.getHotel_id());
 		return "hotel/hotelDetail";
+	}
+	
+	@GetMapping(value = "/hotelReservation")
+	public String goHotelReservation(HotelDTO hotelDTO, RoomDTO roomDTO) {
+		
+		
+		return "hotel/hotelPayment";
 	}
 }

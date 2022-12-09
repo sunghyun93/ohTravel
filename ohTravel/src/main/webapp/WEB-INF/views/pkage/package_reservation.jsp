@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>패키지 예약</title>
 <!-- google fonts icon -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" href="/css/pkage/package_detail.css">
@@ -402,10 +402,7 @@
                             </ul>
                         </div><!-- notice_wrap bg , 예약 시 유의사항 -->
                         
-                        <!-- 다음 단계 버튼 -->
-                        <div class="btn_wrap">
-                            <button id="nextBtn" class="btn big pink">다음단계</button>
-                        </div>
+                        
                     </div><!-- inr -->
 
                     <!-- 오른쪽 부분 -->
@@ -449,12 +446,23 @@
                         		</c:forEach>
                         	</select>
                         </div>
+                        
+                        <!-- 다음 단계 버튼 -->
+                        <div class="btn_wrap">
+                            <button id="nextBtn" class="">다음단계</button>
+                        </div>
                     </div><!-- inr right -->
                 </div><!-- ly_wrap pay_info -->
             </div><!-- fontCtrl -->
         </div><!-- pkRv_contents -->
     </div><!-- pkRv_container -->
-
+    
+    <!-- 결제 완료 후 예약 번호를 보내기 위한 form -->
+    <form id="paymentResultForm" >
+    	<input type="hidden" name="pkage_rv_id" value="">
+    </form>
+	
+	<script src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <script>
         $(function() {
             // 유효성 검사 통과 체크용
@@ -731,13 +739,135 @@
                 if(lastCheck) {
                 	// 진짜 들고갈 가격 넣어주기 (쿠폰 까지 적용 된 가격 / 쿠폰이 적용 되지 않으면 서버에서 들고온 가격)
                    	console.log($('.price').attr('data-realPrice'));
+                	let data = {
+               			name : '${pkage_detailDTO.pkage_dt_name}',
+               			amount : $('strong.price').attr('data-realprice'),
+               			buyer_email : '${memberDTO.mem_email}',
+               			buyer_name : '${memberDTO.mem_name}',
+               			buyer_tel : '${memberDTO.mem_tel}',
+                	}
                 	
-                	$('#reserveForm').attr('method', 'post');
+                	 /* 예약 ajax ㄱㄱ */
+                	// 이미 예약한 상품인지 먼저 검사 
+            		$.ajax({
+            			url: "/pkageRest/reservedCheck",
+            			type: "post",
+            			data : { "pkage_dt_id" : "${pkage_detailDTO.pkage_dt_id}" },
+            			dataType : 'text',
+            			success: function(data) {
+            				if(data == 'reserved') {
+            					// 예약된 상품이면  alert
+            					alert("이미 예약한 상품입니다.");
+            				} else {
+            					// 예약된 상품이 아니면 예약 ajax ㄱㄱ
+            					$.ajax({
+                                    url: "/pkage/reserve", //가맹점 서버
+                                    method: "POST",
+                                    /* headers: { "Content-Type": "application/text" }, */
+                                    data: $('#reserveForm').serialize(),
+                                    dataType: 'json',
+                                    success: function(data){
+                                       //var msg1 = '결제가 완료되었습니다.';
+                                        //msg1 += '고유ID : ' + rsp.imp_uid;
+                                        //msg1 += '상점 거래ID : ' + rsp.merchant_uid;
+                                        //msg1 += '결제 금액 : ' + rsp.paid_amount;
+                                        //msg1 += '구매자 이름 :' + rsp.buyer_name;
+                                        //msg += '카드 승인번호 : ' + rsp.apply_num;
+                                        //msg1 += '구매자'+ rsp.buyer_name + '님의';
+                                        
+                                        //alert('구매자 '+ rsp.buyer_name + '님의 결제가 완료되었습니다.');
+                                        
+                                        /* 예약 완료 후 결제 완료 form 에 데이터 채워서 예약 완료 페이지로 ㄱㄱ */
+                                        $('#paymentResultForm').attr('action', '/pkage/reserveComplete');
+                                        $('#paymentResultForm').attr('method', 'POST');
+                                        $('#paymentResultForm input[name="pkage_rv_id"]').val(data.pkageReserveEle.pkage_rv_id);
+                                        $('#paymentResultForm').submit();
+                                      },
+                                      error: function(err){
+                                         var msg2 = '결제에 실패하였습니다.';
+                                         alert(msg2);
+                                      }
+                                      
+                                  });
+            				}
+            			},
+            			error: function(err) {
+            				console.log(err);
+            			}
+            		}) // 이미 예약한 상품인지 먼저 검사 ajax 
+                	
+                	
+                   	//requestPay(data);
+                	/* $('#reserveForm').attr('method', 'post');
                 	$('#reserveForm').attr('action', '/pkage/reserve');
-                	$('#reserveForm').submit();
+                	$('#reserveForm').submit(); */
                 }
             });
         }); // $(function() {});
+        
+        function requestPay(data) {
+	
+    		console.log(data)
+    		
+            //var IMP = window.IMP; // 생략가능
+            IMP.init('imp37034803');
+            // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+            // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
+            IMP.request_pay({
+                //pg: 'inicis', // version 1.1.0부터 지원.
+                pg: 'html5_inicis',
+                /*
+                'kakao':카카오페이,
+                html5_inicis':이니시스(웹표준결제)
+                'nice':나이스페이
+                'jtnet':제이티넷
+                'uplus':LG유플러스
+                'danal':다날
+                'payco':페이코
+                'syrup':시럽페이
+                'paypal':페이팔
+                */
+                pay_method: 'card',
+                /*
+                'samsung':삼성페이,
+                'card':신용카드,
+                'trans':실시간계좌이체,
+                'vbank':가상계좌,
+                'phone':휴대폰소액결제
+                */
+                merchant_uid: 'merchant_' + new Date().getTime(),
+                /*
+                merchant_uid에 경우
+                https://docs.iamport.kr/implementation/payment
+                위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
+                참고하세요.
+                나중에 포스팅 해볼게요.
+                */
+                name: data.name,
+                //결제창에서 보여질 이름
+                amount: 100,
+                //가격
+                buyer_email: data.buyer_email,
+                buyer_name: data.buyer_name, //구매자 이름
+                buyer_tel: data.buyer_tel,
+                buyer_addr: '',
+                buyer_postcode: '',
+                /*
+                모바일 결제시,
+                결제가 끝나고 랜딩되는 URL을 지정
+                (카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐)
+                */
+            }, function (rsp) {
+                console.log(rsp);
+                 if (rsp.success) {
+                   /* 결제 성공 시 서버 테이블들 insert !! */	
+                   
+                 } else if(rsp.fail) {
+                	 alert('결제에 실패하였습니다.');
+                	 
+                 }
+            })
+        };
 
     </script>
 </body>

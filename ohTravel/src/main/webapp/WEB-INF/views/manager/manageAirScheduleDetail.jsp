@@ -59,6 +59,7 @@ function changeAirline(){
 		let start_time = $('.start_time').val();
 		let end_time = $('.end_time').val();
 		let schedule_id = $('.schedule_id').val();
+		let schedule_price = $('.schedule_price').val();
 		console.log(start_time);
 		console.log(end_time);
 		let result1 = start_time.substring(0,4)+start_time.substring(5,7)+start_time.substring(8,10);
@@ -83,6 +84,10 @@ function changeAirline(){
 				alert("출발공항과 도착공항은 같을수 없습니다")
 			} else if((result1 - result2)>0){
 				alert("도착날짜는 출발날짜보다 이전일수 없습니다")
+			} else if ((result1 - result2)==0){
+				if((result3 - result4) >= 0){
+					alert("같은날에 도착시간은 출발시간보다 이전일수 없습니다")
+				}
 			} else if (start_time >= end_time) {
 				alert("도착시간은 출발시간과 같거나 출발시간 이전일수 없습니다");
 			} else {
@@ -95,7 +100,9 @@ function changeAirline(){
 						'start_airport_name' : start_airport_name,
 						'end_airport_name' : end_airport_name,
 						'start_time' : start_time,
-						'end_time' : end_time
+						'end_time' : end_time,
+						'schedule_id' : schedule_id,
+						'schedule_price' : schedule_price
 					},
 					method : 'POST',
 					success : function(data) {
@@ -120,7 +127,8 @@ function changeAirline(){
 						'start_airport_name' : start_airport_name,
 						'end_airport_name' : end_airport_name,
 						'start_time' : start_time,
-						'end_time' : end_time
+						'end_time' : end_time,
+						'schedule_id' : schedule_id
 					},
 					method : 'POST',
 					success : function(data) {
@@ -236,7 +244,7 @@ function changeAirline(){
 					</tr>
 					<tr>
 						<th>가격</th>
-						<td><input type="number" class="form-control" name="schedule_price" value="${airScheduleDetail.schedule_price }" required="required"></td>
+						<td><input type="number" class="form-control schedule_price" name="schedule_price" value="${airScheduleDetail.schedule_price }" required="required"></td>
 					</tr>
 				</table>
 				<div style="flex: 2">

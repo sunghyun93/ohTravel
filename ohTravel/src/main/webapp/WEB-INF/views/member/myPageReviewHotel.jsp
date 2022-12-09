@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@
 			<div class="lnb" id="lnb">
 				<div class="inr">
 					<dl>
-						<dt class="type"><a href="${pageContext.request.contextPath}/member/myPageMain">마이페이지</a></dt>
+						<dt class="type"><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></dt>
 						<dd>
 							<ul class="list_lnb">
 							    <li id="EM00000196" class="">
@@ -56,6 +57,50 @@
 				        <li class="fx-cobrand-wt" style="width: 33%;"><a href="${pageContext.request.contextPath}/member/myPageReviewTicket">티켓</a></li>
 				    </ul>
 				</div>	<!-- js_tabs type1 v-tabs nojq -->
+				<div class="js_tabs type2 no_division">
+					<div class="panels">
+					    <div class="panel selected">
+					        <div>${sessionId}</div>
+					        <div class="tbl">
+					            <table class="board_type">
+					                <colgroup>
+					                    <col style="width: 20%;" />
+					                    <col style="width: 20%;" />
+					                    <col style="width: 40%;" />
+					                    <col style="width: 20%;" />
+					                </colgroup>
+					                <thead>
+					                    <tr>
+					                        <th>글번호</th>
+					                        <th>상품명</th>
+					                        <th>리뷰</th>
+					                        <th>작성일자</th>
+					                    </tr>
+					                </thead>
+					                <tbody>
+					                    <c:forEach var="hotelReviewList" items="${hotelReviewList}">
+					                    <c:if test="${empty hotelReviewList}">
+						                    <tr>
+						                        <td colspan="5">
+						                            <div class="data_no">
+						                                <div class="cont"><strong>등록된 리뷰가 없습니다.</strong></div>
+						                            </div>
+						                        </td>
+						                    </tr>
+						                </c:if>
+					                    <tr>
+					   						<td>${hotelReviewList.rv_id}</td>
+					                    	<td>${hotelReviewList.rv_real_id}</td>
+					                    	<td>${hotelReviewList.rv_contents}</td>
+					                    	<td>${hotelReviewList.rv_date}</td>
+					                    </tr>
+					                    </c:forEach>
+					                </tbody>
+					            </table>
+					        </div>	<!-- tbl -->
+					    </div>	<!-- panel selected -->
+					</div>	<!-- panels -->
+				</div>	<!-- js_tabs type2 no_division -->
 			</div>	<!-- contents -->
 		</div>
 	</div>

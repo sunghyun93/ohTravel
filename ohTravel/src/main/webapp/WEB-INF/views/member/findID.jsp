@@ -6,13 +6,12 @@
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/find.css">
-
 </head>
 <body>
 	<div class="container" id="container">
 		<div class="inr">
 			<div class="contents" id="contents">
-				<form action="">
+				<form action="findID" name="findID" id="findID" method="post">
 					<div class="certify_wrap">
 						<div class="text_wrap pTit">
 						    <strong class="tit">아이디/비밀번호를 잊어버리셨나요?</strong>
@@ -39,11 +38,7 @@
 											                    <th>이름</th>
 											                    <td>
 											                        <div class="form_holder gender">
-											                            <input type="text" title="이름" placeholder="이름을 입력해 주세요." class="inpt_text v-placeholder" />
-											                            <span class="form_holder bt">
-											                                <input type="radio" name="radioGender3" id="radioGender05" value="M" class="inpt_radio" /> <label for="radioGender05" class="label_radio">남</label>
-											                                <input type="radio" name="radioGender3" id="radioGender06" value="F" class="inpt_radio" /> <label for="radioGender06" class="label_radio">여</label>
-											                            </span>
+											                            <input type="text" id="mem_name" name="mem_name" title="이름" style="width: 100%;" placeholder="이름을 입력해 주세요." class="inpt_text v-placeholder" />
 											                        </div>	<!-- form_holder gender -->
 											                        <p class="error_message" style="display: none;">
 											                        	이름을 입력해 주세요.
@@ -54,7 +49,7 @@
 											                    <th>생년월일</th>
 											                    <td>
 											                        <div class="form_holder">
-											                            <input type="text" title="생년월일" maxlength="8" placeholder="생년월일을 입력해 주세요. (ex: 19900101)" class="inpt_text v-placeholder" /> <button type="submit" class="btn">실명확인</button>
+											                            <input type="text" id="mem_birthday" name="mem_birthday" title="생년월일" style="width: 100%;" maxlength="8" placeholder="생년월일을 입력해 주세요. (ex: 19900101)" class="inpt_text v-placeholder" />
 											                        </div>	<!-- form_holder -->
 											                        <p class="error_message" style="display: none;">
 											                        	생년월일 형식에 맞게 입력해 주세요.(ex. 19991231)
@@ -62,26 +57,13 @@
 											                    </td>
 											                </tr>
 											                <tr>
-											                    <th>이메일</th>
+											                    <th>휴대폰번호</th>
 											                    <td>
 											                        <div class="form_holder">
-											                            <input type="text" title="이메일" placeholder="이메일 주소를 입력해 주세요. (ex: sample@sample.com)" readonly="readonly" class="inpt_text v-placeholder" />
-											                            <button type="submit" disabled="disabled" class="btn">인증번호 요청</button>
+											                            <input type="text" id="mem_tel" name="mem_tel" title="휴대폰번호" style="width: 100%;" placeholder="휴대폰 번호를 입력해 주세요. (ex: 01012345678)" class="inpt_text v-placeholder" />
 											                        </div>	<!-- form_holder -->
 											                        <p class="error_message" style="display: none;">
-											                        	이메일 형식에 맞게 입력해 주세요.(ex. sample@sample.com)
-											                        </p>
-											                    </td>
-											                </tr>
-											                <tr>
-											                    <th>인증번호</th>
-											                    <td>
-											                        <div class="form_holder certify_num">
-											                            <input type="text" title="인증번호" placeholder="인증번호를 입력해 주세요." readonly="readonly" class="inpt_text v-placeholder" /> <em class="time" style="display: none;"><span>남은시간</span>00:00</em>
-											                            <button type="submit" disabled="disabled" class="btn">인증하기</button>
-											                        </div>	<!-- form_holder certify_num -->
-											                        <p class="error_message" style="display: none;">
-											                        	인증번호를 제대로 입력해 주세요.
+											                        	휴대폰번호 형식에 맞게 입력해 주세요.(ex. 01012345678)
 											                        </p>
 											                    </td>
 											                </tr>
@@ -89,11 +71,10 @@
 											        </table>	<!-- type2 -->
 											    </div>	<!-- tbl -->
 											    <div class="btn_wrap">
-											    	<a href="#" class="btn big gray">이전</a> 
-											    	<button type="submit" disabled="disabled" class="btn big pink">다음</button>
+											    	<a href="javascript:history.back();" class="btn big gray">이전</a> 
+											    	<button type="submit" class="btn big pink">다음</button>
 											    </div>
 											</div>	<!-- view active -->
-
 										</div>	<!-- js_acc -->
 									</div>	<!-- js_acc -->
 								</div>	<!-- panel -->
@@ -105,4 +86,7 @@
 		</div>	<!-- inr -->
 	</div>	<!-- container -->
 </body>
+<script type="text/javascript">
+
+</script>
 </html>

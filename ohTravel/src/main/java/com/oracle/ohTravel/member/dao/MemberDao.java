@@ -3,11 +3,12 @@ package com.oracle.ohTravel.member.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.oracle.ohTravel.manager.dto.CouponDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
+import com.oracle.ohTravel.member.model.ReviewDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 
@@ -43,10 +44,6 @@ public interface MemberDao {
 	// 개인 정보 수정
 	public int updateMember(MemberDTO memberDTO);
 
-	// 비밀번호 변경
-	public int updatePassword(MemberDTO memberDTO);
-	
-
 	// 회원 마일리지 update
 	int updateMemMileage(Map<String, Object> map) throws Exception;
 	
@@ -60,5 +57,21 @@ public interface MemberDao {
 
 	// 회원이 쿠폰 사용 시 해당 쿠폰 사용 컬럼 1로 update
 	int updateMemCouponUsed(Map<String, Object> map) throws Exception;
+
+	// 아이디 찾기
+	public MemberDTO findID(MemberDTO memberDTO);
+
+	// 비밀번호 찾기
+	public MemberDTO findPassword(MemberDTO memberDTO);
+
+	// 비밀번호 변경
+	public int updatePassword(MemberDTO memberDTO);
+
+	// 패키지 리뷰 목록
+	public List<ReviewDTO> mypageReviewPackage(ReviewDTO reviewDTO);
+
+	// 호텔 리뷰 목록
+	public List<ReviewDTO> mypageReviewHotel(ReviewDTO reviewDTO);
+
 }
 

@@ -7,11 +7,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.oracle.ohTravel.manager.dto.CouponDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
+import com.oracle.ohTravel.member.model.ReviewDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 
@@ -109,15 +110,6 @@ public class MemberDaoImpl implements MemberDao {
 		return result;
 	}
 
-	// 비밀번호 변경
-	@Override
-	public int updatePassword(MemberDTO memberDTO) {
-		log.info("MemberDaoImpl updatePassword start..");
-		
-		int result = sqlSession.update("updatePassword", memberDTO);
-		
-		return result;
-	}
 	
 	// 아이디 중복 체크
 	@Override
@@ -129,31 +121,28 @@ public class MemberDaoImpl implements MemberDao {
 		return result;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// 아이디 찾기
+	@Override
+	public MemberDTO findID(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl findID start..");
+		
+		MemberDTO member = sqlSession.selectOne("findID", memberDTO);
+		System.out.println("MemberDaoImpl findID member -> " + member);
+		
+		return member;
+	}
+
+	// 비밀번호 찾기
+	@Override
+	public MemberDTO findPassword(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl findID start..");
+		
+		MemberDTO member = sqlSession.selectOne("findPassword", memberDTO);
+		System.out.println("MemberDaoImpl findPassword member -> " + member);
+		
+		return member;
+	}
+
 	// 회원 select (등급 까지 포함)
 	@Override
 	public MemberDTO selectMemberWithGrade(String mem_id) throws Exception {
@@ -200,4 +189,36 @@ public class MemberDaoImpl implements MemberDao {
 		log.info("MemberDaoImpl updateMemCouponUsed() end...");
 		return rowCnt;
 	}
+
+	// 비밀번호 변경
+	@Override
+	public int updatePassword(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl updatePassword start..");
+		
+		int result = sqlSession.update("updatePassword", memberDTO);
+		
+		return result;
+	}
+
+	// 패키지 리뷰 목록
+	@Override
+	public List<ReviewDTO> mypageReviewPackage(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl mypageReviewPackage Start..");
+		List<ReviewDTO> packageReviewList = sqlSession.selectList("packageReviewList", reviewDTO);
+		
+		System.out.println("MemberDaoImpl mypageReviewPackage packageReviewList.size() -> " + packageReviewList.size());
+		return packageReviewList;
+	}
+
+	// 호텔 리뷰 목록
+	@Override
+	public List<ReviewDTO> mypageReviewHotel(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl mypageReviewHotel Start..");
+		List<ReviewDTO> hotelReviewList = sqlSession.selectList("hotelReviewList", reviewDTO);
+		
+		System.out.println("MemberDaoImpl mypageReviewHotel hotelReviewList.size() -> " + hotelReviewList.size());
+		return hotelReviewList;
+	}
+
+	
 }
