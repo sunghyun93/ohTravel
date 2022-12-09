@@ -2,7 +2,9 @@ package com.oracle.ohTravel.member.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.oracle.ohTravel.member.model.AirReservationDTO;
+import com.oracle.ohTravel.airport.model.Air_FlightSchDTO;
+import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
+import com.oracle.ohTravel.airport.model.Air_ScheduleDTO;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -285,7 +290,7 @@ public class MemberController {
 	
 	// 항공 예약 내역 조회
 	@RequestMapping(value = "/myPageReservAir")
-	public String myPageReservAir(AirReservationDTO airReservationDTO, Model model, HttpServletRequest request) {
+	public String myPageReservAir(Air_ReservationDTO air_ReservationDTO,Air_FlightSchDTO air_FlightSchDTO,Air_ScheduleDTO air_ScheduleDTO,Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservAir start..");
 		HttpSession session = request.getSession();
 		// 로그인 안 했을 때 로그인 페이지로 이동
@@ -302,10 +307,17 @@ public class MemberController {
 
 		
 		// 항공 예약 내역
-		List<AirReservationDTO> airReservList = memberService.myPageReservAir(airReservationDTO);
-		int airReservListSize = airReservList.size();
+		air_ReservationDTO.setMem_id(sessionId);
+		Map<String,Object> map = new HashMap<>();
+		map.put("air_ReservationDTO",air_ReservationDTO);
+		map.put("air_FlightSchDTO",air_FlightSchDTO);
+		map.put("air_ScheduleDTO",air_ScheduleDTO);
+		
+		List<AirReservationDetail> airReservList = memberService.myPageReservAir(map);
+		
+		
+
 		model.addAttribute("airReservList", airReservList);
-		model.addAttribute("airReservListSize", airReservListSize);
 		System.out.println("MemberController airReservList.size() -> " + airReservList.size());
 		
 		return "member/myPageReservAir";

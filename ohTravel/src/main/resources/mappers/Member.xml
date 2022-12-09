@@ -102,8 +102,10 @@
 	</select>
 	
 	<!-- 항공 예약 내역 조회 -->
-	<select id="airReservList" resultType="AirReservationDTO" parameterType="AirReservationDTO">
-		SELECT * FROM reservation WHERE mem_id = #{mem_id}
+	<select id="airReservList" resultType="AirReservationDetail" parameterType="Map">
+		select r.reservation_date,r.reservation_id,r.Seat_position, ash.Airplane_name,ash.Start_Airport_name,ash.End_Airport_name, r.reservation_price, ash.Schedule_price,ash.start_time from  reservation r
+			join air_flightsche af on r.reservation_id = af.Reservation_id
+			join air_schedule ash on  ash.schedule_id = af.schedule_id;	
 	</select>
 	
 	<!-- 호텔 예약 내역 조회 -->

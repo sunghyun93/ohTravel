@@ -130,15 +130,15 @@
 			</div>
 		
 		<div class="reservation_data">
-			예약번호:  ${reservationList.reservation_id} <br>
-		 	예약자아이디: ${reservationList.mem_id} <br>
-		    예약일:   ${reservationList.reservation_date}
+			예약번호:  ${air_ReservationDTO.reservation_id} <br>
+		 	예약자아이디: ${mem_id} <br>
+		    예약일:   ${air_ReservationDTO.reservation_date}
 		</div>
 	</div>
 	
 	<div class="input_a">
 		<input type="button" class="white" value="항공 검색" onclick="location.href='${pageContext.request.contextPath}/airport/searchTicket'">
-		<input type="button" class="black" value="구매내역 확인">
+		<input type="button" class="black" value="항공 구매내역 확인">
 	</div>
 	
 </body>
