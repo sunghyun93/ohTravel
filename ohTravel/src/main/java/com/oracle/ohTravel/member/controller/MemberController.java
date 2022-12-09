@@ -303,7 +303,7 @@ public class MemberController {
 		System.out.println("MemberController myPageReservAir sessionId -> " + sessionId );
 		
 		// 페이징 나중에
-		airReservationDTO.setMem_id(sessionId);
+		air_ReservationDTO.setMem_id(sessionId);
 
 		
 		// 항공 예약 내역
