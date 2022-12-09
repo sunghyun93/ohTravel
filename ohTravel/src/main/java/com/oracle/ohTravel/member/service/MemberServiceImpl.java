@@ -194,5 +194,32 @@ public class MemberServiceImpl implements MemberService{
 		return total;
 	}
 
+	// 패키지 예약 총 개수
+	@Override
+	public int totalReservPackage(PackageReservationDTO packageReservationDTO) {
+		log.info("MemberServiceImpl totalReservPackage start..");
+		int total = memberDao.totalReservPackage(packageReservationDTO);
+		System.out.println("MemberServiceImpl totalReservPackage total -> " + total);
+		return total;
+	}
+
+	// 호텔 예약 총 개수
+	@Override
+	public int totalReservHotel(HotelReservationDTO hotelReservationDTO) {
+		log.info("MemberServiceImpl totalReservHotel start..");
+		int total = memberDao.totalReservHotel(hotelReservationDTO);
+		System.out.println("MemberServiceImpl totalReservHotel total -> " + total);
+		return total;
+	}
+
+	// 티켓 예약 총 개수
+	@Override
+	public int totalReservTicket(TicketReservationDTO ticketReservationDTO) {
+		log.info("MemberServiceImpl totalReservTicket start..");
+		int total = memberDao.totalReservTicket(ticketReservationDTO);
+		System.out.println("MemberServiceImpl totalReservTicket total -> " + total);
+		return total;
+	}
+
 	
 }

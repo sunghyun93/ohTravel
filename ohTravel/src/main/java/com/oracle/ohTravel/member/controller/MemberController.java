@@ -213,9 +213,10 @@ public class MemberController {
 	
 	// 패키지 예약 내역 조회 
 	@RequestMapping(value = "/myPageReservPackage")
-	public String myPageReservPackage(PackageReservationDTO packageReservationDTO, Model model, HttpServletRequest request) {
+	public String myPageReservPackage(PackageReservationDTO packageReservationDTO, Model model, String currentPage, HttpServletRequest request) {
 		log.info("MemberController myPageReservPackage start..");
 		HttpSession session = request.getSession();
+		
 		// 로그인 안 했을 때 로그인 페이지로 이동
 		if (session.getAttribute("member")==null) {
 			return "member/loginForm";
@@ -225,14 +226,23 @@ public class MemberController {
 		String sessionId = member.getMem_id();
 		System.out.println("MemberController myPageReservPackage sessionId -> " + sessionId );
 		
-		// 페이징 나중에
-		
-		// 호텔 예약 내역
+		// 페이징
 		packageReservationDTO.setMem_id(sessionId);
+		int total = memberService.totalReservPackage(packageReservationDTO);
+		System.out.println("MemberController myPageReviewPackage total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		packageReservationDTO.setStart(page.getStart());
+		packageReservationDTO.setEnd(page.getEnd());
+		System.out.println("MemberController myPageReservPackage page.getStart() -> " + page.getStart());
+		System.out.println("MemberController myPageReservPackage page.getEnd() -> " + page.getEnd());
+		
+
+		// 패키지 예약 내역
 		List<PackageReservationDTO> packageReservList = memberService.myPageReservPackage(packageReservationDTO);
 		int packageReservListSize = packageReservList.size();
 		model.addAttribute("packageReservList", packageReservList);
 		model.addAttribute("packageReservListSize", packageReservListSize);
+		model.addAttribute("page", page);
 		System.out.println("MemberController packageReservList.size() -> " + packageReservList.size());
 		
 		return "member/myPageReservPackage";
@@ -240,7 +250,7 @@ public class MemberController {
 	
 	// 호텔 예약 내역 조회
 	@RequestMapping(value = "/myPageReservHotel")
-	public String myPageReservHotel(HotelReservationDTO hotelReservationDTO, Model model, HttpServletRequest request) {
+	public String myPageReservHotel(HotelReservationDTO hotelReservationDTO, Model model, String currentPage, HttpServletRequest request) {
 		log.info("MemberController myPageReservHotel start..");
 		HttpSession session = request.getSession();
 		// 로그인 안 했을 때 로그인 페이지로 이동
@@ -254,9 +264,16 @@ public class MemberController {
 		System.out.println("MemberController myPageReservHotel sessionId -> " + sessionId );
 		
 		// 페이징 나중에
+		hotelReservationDTO.setMem_id(sessionId);
+		int total = memberService.totalReservHotel(hotelReservationDTO);
+		System.out.println("MemberController myPageReviewPackage total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		hotelReservationDTO.setStart(page.getStart());
+		hotelReservationDTO.setEnd(page.getEnd());
+		System.out.println("MemberController myPageReservHotel page.getStart() -> " + page.getStart());
+		System.out.println("MemberController myPageReservHotel page.getEnd() -> " + page.getEnd());
 		
 		// 호텔 예약 내역
-		hotelReservationDTO.setMem_id(sessionId);
 		List<HotelReservationDTO> hotelReservList = memberService.myPageReservHotel(hotelReservationDTO);
 		int hotelReservListSize = hotelReservList.size();
 		model.addAttribute("hotelReservList", hotelReservList);
@@ -281,10 +298,10 @@ public class MemberController {
 		System.out.println("MemberController myPageReservAir sessionId -> " + sessionId );
 		
 		// 페이징 나중에
-		
+		airReservationDTO.setMem_id(sessionId);
+
 		
 		// 항공 예약 내역
-		airReservationDTO.setMem_id(sessionId);
 		List<AirReservationDTO> airReservList = memberService.myPageReservAir(airReservationDTO);
 		int airReservListSize = airReservList.size();
 		model.addAttribute("airReservList", airReservList);
@@ -296,7 +313,7 @@ public class MemberController {
 	
 	// 티켓 예약 내역 조회
 	@RequestMapping(value = "/myPageReservTicket")
-	public String myPageReservTicket(TicketReservationDTO ticketReservationDTO, Model model, HttpServletRequest request) {
+	public String myPageReservTicket(TicketReservationDTO ticketReservationDTO, Model model, String currentPage, HttpServletRequest request) {
 		log.info("MemberController myPageReservTicket start..");
 		HttpSession session = request.getSession();
 		// 로그인 안 했을 때 로그인 페이지로 이동
@@ -309,10 +326,17 @@ public class MemberController {
 		System.out.println("MemberController myPageReservTicket sessionId -> " + sessionId);
 		
 		// 페이징 나중에
+		ticketReservationDTO.setMem_id(sessionId);
+		int total = memberService.totalReservTicket(ticketReservationDTO);
+		System.out.println("MemberController myPageReservTicket total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		ticketReservationDTO.setStart(page.getStart());
+		ticketReservationDTO.setEnd(page.getEnd());
+		System.out.println("MemberController myPageReservTicket page.getStart() -> " + page.getStart());
+		System.out.println("MemberController myPageReservTicket page.getEnd() -> " + page.getEnd());
 		
 		// 티켓 예약 내역
 		// ticketReservationDTO에 mem_id를 세션에 로그인 된 id값으로 설정
-		ticketReservationDTO.setMem_id(sessionId);
 		List<TicketReservationDTO> ticketReservList = memberService.myPageReservTicket(ticketReservationDTO);
 		int ticketReservListSize = ticketReservList.size();
 		model.addAttribute("ticketReservList", ticketReservList);

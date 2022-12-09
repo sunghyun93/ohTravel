@@ -20,4 +20,8 @@ public class HotelReservationDTO {
 	private String room_name;
 	private String hotel_kor;
 	
+	private String pageNum;  
+	private int start;
+	private int end;
+	
 }
