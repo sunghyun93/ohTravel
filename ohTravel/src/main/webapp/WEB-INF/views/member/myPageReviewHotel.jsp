@@ -60,7 +60,6 @@
 				<div class="js_tabs type2 no_division">
 					<div class="panels">
 					    <div class="panel selected">
-					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
@@ -79,15 +78,6 @@
 					                </thead>
 					                <tbody>
 					                    <c:forEach var="hotelReviewList" items="${hotelReviewList}">
-					                    <c:if test="${empty hotelReviewList}">
-						                    <tr>
-						                        <td colspan="5">
-						                            <div class="data_no">
-						                                <div class="cont"><strong>등록된 리뷰가 없습니다.</strong></div>
-						                            </div>
-						                        </td>
-						                    </tr>
-						                </c:if>
 					                    <tr>
 					   						<td>${hotelReviewList.rv_id}</td>
 					                    	<td>${hotelReviewList.rv_real_id}</td>
@@ -95,6 +85,15 @@
 					                    	<td>${hotelReviewList.rv_date}</td>
 					                    </tr>
 					                    </c:forEach>
+					                    <c:if test="${ hotelReviewListSize == 0}">
+					                    	<tr>
+						                        <td colspan="5">
+						                            <div class="data_no">
+						                                <div class="cont"><strong>등록된 리뷰가 없습니다.</strong></div>
+						                            </div>
+						                        </td>
+						                    </tr>
+					                    </c:if>
 					                </tbody>
 					            </table>
 					        </div>	<!-- tbl -->

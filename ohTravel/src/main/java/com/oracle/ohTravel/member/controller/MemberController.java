@@ -216,7 +216,7 @@ public class MemberController {
 		return "member/myPageMain";
 	}
 	
-	// 패키지 예약 내역 조회
+	// 패키지 예약 내역 조회 
 	@RequestMapping(value = "/myPageReservPackage")
 	public String myPageReservPackage(PackageReservationDTO packageReservationDTO, Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservPackage start..");
@@ -235,7 +235,9 @@ public class MemberController {
 		// 호텔 예약 내역
 		packageReservationDTO.setMem_id(sessionId);
 		List<PackageReservationDTO> packageReservList = memberService.myPageReservPackage(packageReservationDTO);
+		int packageReservListSize = packageReservList.size();
 		model.addAttribute("packageReservList", packageReservList);
+		model.addAttribute("packageReservListSize", packageReservListSize);
 		System.out.println("MemberController packageReservList.size() -> " + packageReservList.size());
 		
 		return "member/myPageReservPackage";
@@ -261,7 +263,9 @@ public class MemberController {
 		// 호텔 예약 내역
 		hotelReservationDTO.setMem_id(sessionId);
 		List<HotelReservationDTO> hotelReservList = memberService.myPageReservHotel(hotelReservationDTO);
+		int hotelReservListSize = hotelReservList.size();
 		model.addAttribute("hotelReservList", hotelReservList);
+		model.addAttribute("hotelReservListSize", hotelReservListSize);
 		System.out.println("MemberController hotelReservList.size() -> " + hotelReservList.size());
 		
 		return "member/myPageReservHotel";
@@ -285,6 +289,7 @@ public class MemberController {
 		
 		
 		// 항공 예약 내역
+
 		air_ReservationDTO.setMem_id(sessionId);
 		Map<String,Object> map = new HashMap<>();
 		map.put("air_ReservationDTO",air_ReservationDTO);
@@ -292,6 +297,7 @@ public class MemberController {
 		map.put("air_ScheduleDTO",air_ScheduleDTO);
 		
 		List<AirReservationDetail> airReservList = memberService.myPageReservAir(map);
+		
 		
 		model.addAttribute("airReservList", airReservList);
 		System.out.println("MemberController airReservList.size() -> " + airReservList.size());
@@ -319,7 +325,9 @@ public class MemberController {
 		// ticketReservationDTO에 mem_id를 세션에 로그인 된 id값으로 설정
 		ticketReservationDTO.setMem_id(sessionId);
 		List<TicketReservationDTO> ticketReservList = memberService.myPageReservTicket(ticketReservationDTO);
+		int ticketReservListSize = ticketReservList.size();
 		model.addAttribute("ticketReservList", ticketReservList);
+		model.addAttribute("ticketReservListSize", ticketReservListSize);
 		System.out.println("MemberController ticketReservList.size() -> " + ticketReservList.size());
 		
 		return "member/myPageReservTicket";
@@ -406,8 +414,10 @@ public class MemberController {
 		
 		// 패키지 리뷰 목록
 		List<ReviewDTO> packageReviewList = memberService.myPageReviewPackage(reviewDTO);
+		int packageReviewListSize = packageReviewList.size();
 		
 		model.addAttribute("packageReviewList", packageReviewList);
+		model.addAttribute("packageReviewListSize", packageReviewListSize);
 		model.addAttribute("page", page);
 		System.out.println("MemberController packgeReviewList.size() -> " + packageReviewList.size());
 		
@@ -442,7 +452,9 @@ public class MemberController {
 		
 		// 호텔 리뷰 목록
 		List<ReviewDTO> hotelReviewList = memberService.myPageReviewHotel(reviewDTO);
+		int hotelReviewListSize = hotelReviewList.size();
 		model.addAttribute("hotelReviewList", hotelReviewList);
+		model.addAttribute("hotelReviewListSize", hotelReviewListSize);
 		model.addAttribute("page", page);
 		System.out.println("MemberController hotelReviewList.size() -> " + hotelReviewList.size());
 		
@@ -477,7 +489,9 @@ public class MemberController {
 		
 		// 티켓 리뷰 목록
 		List<ReviewDTO> ticketReviewList = memberService.myPageReviewTicket(reviewDTO);
+		int ticketReviewListSize = ticketReviewList.size();
 		model.addAttribute("ticketReviewList", ticketReviewList);
+		model.addAttribute("ticketReviewListSize", ticketReviewListSize);
 		model.addAttribute("page", page);
 		System.out.println("MemberController ticketReviewList.size() -> " + ticketReviewList.size());
 		

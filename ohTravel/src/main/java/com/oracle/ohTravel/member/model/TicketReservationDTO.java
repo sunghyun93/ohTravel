@@ -16,4 +16,8 @@ public class TicketReservationDTO {
 	private int ticket_adult_per;
 	private int titicket_idcket_child_per;
 	private int ticket_total_price;
+	
+	private String pageNum;  
+	private int start;
+	private int end;
 }
