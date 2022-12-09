@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oracle.ohTravel.member.model.MemberDTO;
@@ -74,30 +75,18 @@ public class TicketController {
 
 	
 	/* 1트) 입장권 예약 페이지 */
-	@GetMapping(value = "/exhPayment")
-	public String goExhibitionReservation() {
+	@PostMapping(value = "/exhPayment")
+	public String goExhibitionReservation(Model model, TicketDTO ticketDTO) {
+		
+		model.addAttribute("ticket_name", ticketDTO.getTicket_name());
+		model.addAttribute("totalPay", ticketDTO.getTotalPay());
+		model.addAttribute("adultCnt", ticketDTO.getAdultCnt());
+		model.addAttribute("childCnt",  ticketDTO.getChildCnt());
+		model.addAttribute("adDate", ticketDTO.getAdDate());
+		
+		
 		return "ticket/exhPayment";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	// 2트) 입장권 예약 페이지
