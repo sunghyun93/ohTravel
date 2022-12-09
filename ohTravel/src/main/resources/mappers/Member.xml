@@ -99,7 +99,12 @@
 	
 	<!-- 호텔 예약 내역 조회 -->
 	<select id="hotelReservList" resultType="HotelReservationDTO" parameterType="HotelReservationDTO">
-		SELECT * FROM hotel_reservation WHERE mem_id = #{mem_id}
+		SELECT hr.*, rd.room_detail_id, r.room_name, h.hotel_kor
+		FROM hotel_reservation hr
+		LEFT JOIN room_detail rd ON hr.room_detail_id = rd.room_detail_id
+		LEFT JOIN room r ON r.room_id = rd.room_detail_id
+		LEFT JOIN hotel h ON h.hotel_id = r.hotel_id
+		WHERE hr.mem_id = #{mem_id};  
 	</select>
 	
 	<!-- 패키지 예약 내역 조회 -->

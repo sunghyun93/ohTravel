@@ -60,7 +60,6 @@
 				<div class="js_tabs type2 no_division">
 					<div class="panels">
 					    <div class="panel selected">
-					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
@@ -79,15 +78,6 @@
 					                </thead>
 					                <tbody>
 					                    <c:forEach var="ticketReviewList" items="${ticketReviewList}">
-					                    <c:if test="${empty ticketReviewList}">
-						                    <tr>
-						                        <td colspan="5">
-						                            <div class="data_no">
-						                                <div class="cont"><strong>등록된 리뷰가 없습니다.</strong></div>
-						                            </div>
-						                        </td>
-						                    </tr>
-						                </c:if>
 					                    <tr>
 					   						<td>${ticketReviewList.rv_id}</td>
 					                    	<td>${ticketReviewList.rv_real_id}</td>
@@ -95,6 +85,15 @@
 					                    	<td>${ticketReviewList.rv_date}</td>
 					                    </tr>
 					                    </c:forEach>
+					                    <c:if test="${ticketReviewListSize == 0}">
+					                    	<tr>
+						                        <td colspan="5">
+						                            <div class="data_no">
+						                                <div class="cont"><strong>등록된 리뷰가 없습니다.</strong></div>
+						                            </div>
+						                        </td>
+						                    </tr>
+					                    </c:if>
 					                </tbody>
 					            </table>
 					        </div>	<!-- tbl -->

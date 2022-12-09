@@ -61,7 +61,6 @@
 				<div class="js_tabs type2 no_division">
 					<div class="panels">
 					    <div class="panel selected">
-					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
@@ -78,9 +77,17 @@
 					                        <th>사용가능일</th>
 					                    </tr>
 					                </thead>
+					                
 					                <tbody>
 					                    <c:forEach var="packageReservList" items="${packageReservList}">
-					                    <c:if test="${empty packageReservList}">
+					                    <tr>
+					   						<td>${packageReservList.pkage_rv_id}</td>
+					                    	<td>${packageReservList.mem_id}</td>
+					                    	<td>${packageReservList.pkage_rv_tprice}</td>
+					                    	<td>${packageReservList.pkage_rv_date}</td>
+					                    </tr>
+					                    </c:forEach>
+					                    <c:if test="${packageReservListSize == 0}">
 						                    <tr>
 						                        <td colspan="5">
 						                            <div class="data_no">
@@ -89,13 +96,6 @@
 						                        </td>
 						                    </tr>
 						                </c:if>
-					                    <tr>
-					   						<td>${packageReservList.pkage_rv_id}</td>
-					                    	<td>${packageReservList.mem_id}</td>
-					                    	<td>${packageReservList.pkage_rv_tprice}</td>
-					                    	<td>${packageReservList.pkage_rv_date}</td>
-					                    </tr>
-					                    </c:forEach>
 					                </tbody>
 					            </table>
 					        </div>	<!-- tbl -->
