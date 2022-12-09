@@ -131,7 +131,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		int pplCnt = 0;
 		try {
 			
-			pplCnt = session.insert(namespace + "pplList", map);
+			pplCnt = session.insert(namespace + "peoplelList", map);
 			System.out.println("ScheduleDAOImpl pplCnt=" + pplCnt);
 		
 		} catch (Exception e) {
@@ -212,9 +212,34 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		return paymentCnt;
 	}
 
-	
+	@Override
+	public int goflightListCalc(Map<String, Object> map) throws Exception {
+		int goflightListCalc = 0;
+		try {
+			
+			goflightListCalc = session.insert(namespace + "goflightCalc",map);
+			System.out.println("ScheduleDAOImpl paymentCnt=" + goflightListCalc);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return goflightListCalc;
+	}
 
-	
+	@Override
+	public int comeflightListCalc(Map<String, Object> map) throws Exception {
+		int comeflightListCalc = 0;
+		try {
+			
+			comeflightListCalc = session.insert(namespace + "comeflightCalc",map);
+			System.out.println("ScheduleDAOImpl paymentCnt=" + comeflightListCalc);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comeflightListCalc;
+	}
+
 	
 
 }

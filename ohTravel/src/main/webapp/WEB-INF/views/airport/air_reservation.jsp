@@ -353,7 +353,7 @@
 				<div>
 						<span class="step">직항</span><br>
 						<img class="emoji" src="${pageContext.request.contextPath}/airport/img/arro.png" width="70px" height="30px"><br>
-						<span class="hour">6시간</span>
+						<span class="hour">${go.lead_time }분</span>
 				</div>		
 				<div class="depart_airplane_day">
 					<fmt:formatDate pattern="yyyy-MM-dd" value="${go.end_time}"/><br>
@@ -362,11 +362,11 @@
 				</div>
 				<div>
 					 성인 ${count }명<br>
-					<span>일반석</span>
+					<span>${seat_name }</span>
 				</div>
 				<div>
 					 수화물포함<br>
-					 <span class="count">1개</span>
+					 <span class="count">${count}개</span>
 				</div>
 				
 		</div>
@@ -394,7 +394,7 @@
 				<div>
 						<span class="step">직항</span><br>
 						<img class="emoji" src="${pageContext.request.contextPath}/airport/img/arro.png" width="70px" height="30px"><br>
-						<span class="hour">6시간</span>
+						<span class="hour">${come.lead_time }분</span>
 				</div>		
 				<div class="depart_airplane_day">
 				<fmt:formatDate pattern="yyyy-MM-dd" value="${come.end_time }"/><br>
@@ -403,11 +403,11 @@
 				</div>
 				<div>
 					 성인 ${count}명<br>
-					<span>일반석</span>
+					<span>${seat_name}</span>
 				</div>
 				<div>
 					 수화물포함<br>
-					 <span class="count">1개</span>
+					 <span class="count">${count}개</span>
 				</div>
 				
 			</div>

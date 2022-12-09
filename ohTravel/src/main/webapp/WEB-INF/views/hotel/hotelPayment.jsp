@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,24 +42,21 @@
 							    </colgroup>
 							    <tbody>
 							        <tr>
-							            <th>예약 정보(도시 이름 등)</th>
-							            <td>일본(오사카)</td>
+							            <th>호텔 정보</th>
+							            <td>${roomDetail.hotel_kor }</td>
 							        </tr>
 							        <tr>
-							            <th>체크인/체크아웃</th>
+							            <th>숙박 정보</th>
 							            <td>
-							                <div class="item_course">
-							                    2022.12.13 ~ 2022.12.14
-							                    <span class="divider_dot"></span>1박
-							                </div>
+							               ${calDate }박 ( ${startDate } ~ ${endDate } )
 							            </td>
 							        </tr>
 							        <tr>
-							            <th>예약 정보(객실 정보, 항공명 등)</th>
+							            <th>객실 정보</th>
 							            <td>
-							                Standard Room With 1 Queen Bed With Guest Lounge Access
+							                ${roomDetail.room_name }
 							                <span class="divider_dot">
-							                    <span>성인2</span>
+							                    <span></span>
 							                    <!---->
 							                </span>
 							            </td>
@@ -122,7 +120,8 @@
 					                        (JPY 12,376)
 					                    </p>
 					                </div>	<!-- mileage_save -->
-					                <strong class="price">121,037<span>원</span></strong>
+					                <fmt:formatNumber type="number" maxFractionDigits="3" value="${roomDetail.room_price * calDate}" var="commaPrice"/>
+					                <strong class="price">${commaPrice }<span>원</span></strong>
 					                <div class="mileage_save">
 					                    <p class="txt">
 					                        * 적용환율 JPY=9.78 (2022.11.25)기준
@@ -132,9 +131,9 @@
 					                        <em>121<span class="icn mileage em"></span></em>적립
 					                    </p>
 					                </div>	<!-- mileage_save -->
-					            </div>	<!-- info_area total -->
+					            </div>	<!	-- info_area total -->
 					            <div class="info_area">
-					                <div class="info"><strong class="tit">총 상품 금액</strong> <span>121,037원</span></div>
+					                <div class="info"><strong class="tit">총 상품 금액</strong> <span>${commaPrice }원</span></div>
 					            </div>	<!-- info_area -->
 					        </div>	<!-- pay_area -->
 					    </div>	<!-- js_acc -->

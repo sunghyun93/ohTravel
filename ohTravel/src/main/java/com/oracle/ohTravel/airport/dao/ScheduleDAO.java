@@ -37,6 +37,12 @@ public interface ScheduleDAO {
 	int comeflightList(Map<String,Object> map) throws Exception;
 
 	int paymentList(Map<String, Object> map) throws Exception;
+
+	int goflightListCalc(Map<String, Object> map) throws Exception;
+
+	int comeflightListCalc(Map<String, Object> map) throws Exception;
+
+
 	
 
 	
