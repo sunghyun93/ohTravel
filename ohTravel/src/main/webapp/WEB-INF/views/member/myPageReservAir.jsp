@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<<<<<<< HEAD
 <%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>         
-=======
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
->>>>>>> branch 'main' of https://github.com/sunghyun93/ohTravel.git
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +13,7 @@
 </head>
 <body>
 	<div id="container">
-		<div class="inr">
+		<div class="inr"> 
 			<!-- 카테고리 -->
 			<div class="lnb" id="lnb">
 				<div class="inr">
@@ -88,7 +86,7 @@
 					                    </tr>
 					                </thead>
 					                <tbody>
-					                <c:if test="${airReservList != null}">
+					                
 					                <c:forEach var="reserve" items="${airReservList}">
 					                	<tr>
 					                		<td><fmt:formatDate value="${reserve.reservation_date}" pattern="yy-MM-dd"/></td>
@@ -101,11 +99,11 @@
 					                		<td><fmt:formatDate value="${reserve.start_time}" pattern="yy-MM-dd"/></td>
 					                	</tr>
 					                </c:forEach>
-					                 </c:if>
+					                 
 					                 <!--예약내역이 없으면  -->
-					                 <c:if test="${airReservList == null}">
+					                 <c:if test="${airReservListSize == 0}">
 					                	 <tr>
-					                        <td colspan="5">
+					                        <td colspan="8">
 					                            <div class="data_no">
 					                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
 					                            </div>

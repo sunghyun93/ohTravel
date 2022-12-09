@@ -314,10 +314,11 @@ public class MemberController {
 		map.put("air_ScheduleDTO",air_ScheduleDTO);
 		
 		List<AirReservationDetail> airReservList = memberService.myPageReservAir(map);
-		
+		int airReservListSize = airReservList.size();
 		
 
 		model.addAttribute("airReservList", airReservList);
+		model.addAttribute("airReservListSize", airReservListSize);
 		System.out.println("MemberController airReservList.size() -> " + airReservList.size());
 		
 		return "member/myPageReservAir";
