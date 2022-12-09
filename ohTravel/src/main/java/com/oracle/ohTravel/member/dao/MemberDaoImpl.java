@@ -259,6 +259,33 @@ public class MemberDaoImpl implements MemberDao {
 		return total;
 	}
 
+	// 패키지 예약 총 개수
+	@Override
+	public int totalReservPackage(PackageReservationDTO packageReservationDTO) {
+		log.info("MemberDaoImpl totalReservPackage start..");
+		int total = sqlSession.selectOne("totalReservPacakage", packageReservationDTO);
+		System.out.println("MemberDaoImpl totalReservPackage total -> " + total);
+		return total;
+	}
+
+	// 호텔 예약 총 개수
+	@Override
+	public int totalReservHotel(HotelReservationDTO hotelReservationDTO) {
+		log.info("MemberDaoImpl totalReservHotel start..");
+		int total = sqlSession.selectOne("totalReservHotel", hotelReservationDTO);
+		System.out.println("MemberDaoImpl totalReservHotel total -> " + total);
+		return total;
+	}
+
+	// 티켓 예약 총 개수
+	@Override
+	public int totalReservTicket(TicketReservationDTO ticketReservationDTO) {
+		log.info("MemberDaoImpl totalReservTicket start..");
+		int total = sqlSession.selectOne("totalReservTicket", ticketReservationDTO);
+		System.out.println("MemberDaoImpl totalReservTicket total -> " + total);
+		return total;
+	}
+
 
 	
 }

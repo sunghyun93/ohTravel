@@ -78,6 +78,16 @@ public interface MemberService {
 	// 티켓 리뷰 총 개수
 	public int totalReviewTicket(ReviewDTO reviewDTO);
 
+	// 패키지 예약 총 개수
+	public int totalReservPackage(PackageReservationDTO packageReservationDTO);
+
+	// 호텔 예약 총 개수
+	public int totalReservHotel(HotelReservationDTO hotelReservationDTO);
+
+	// 티켓 예약 총 개수
+	public int totalReservTicket(TicketReservationDTO ticketReservationDTO);
+
+
 
 	
 }
