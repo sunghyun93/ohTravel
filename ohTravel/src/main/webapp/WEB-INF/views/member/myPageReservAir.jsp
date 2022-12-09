@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div id="container">
-		<div class="inr">
+		<div class="inr"> 
 			<!-- 카테고리 -->
 			<div class="lnb" id="lnb">
 				<div class="inr">
