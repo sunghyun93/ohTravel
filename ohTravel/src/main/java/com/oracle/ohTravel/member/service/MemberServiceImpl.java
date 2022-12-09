@@ -159,11 +159,42 @@ public class MemberServiceImpl implements MemberService{
 		return hotelReviewList;
 	}
 
-	
 
-	
-	
-	
+	// 티켓 리뷰 목록
+	@Override
+	public List<ReviewDTO> myPageReviewTicket(ReviewDTO reviewDTO) {
+		log.info("MemberServiceImpl myPageReviewTicket start...");
+		List<ReviewDTO> ticketReviewList = memberDao.myPageReviewTicket(reviewDTO);
+		return ticketReviewList;
+	}
+
+	// 패키지 리뷰 총 개수
+	@Override
+	public int totalReviewPackage(ReviewDTO reviewDTO) {
+		log.info("MemberServiceImpl totalReviewPackage start..");
+		int total = memberDao.totalReviewPackage(reviewDTO);
+		System.out.println("MemberServiceImpl totalReviewPackage total -> " + total);
+		return total;
+	}
+
+	// 호텔 리뷰 총 개수
+	@Override
+	public int totalReviewHotel(ReviewDTO reviewDTO) {
+		log.info("MemberServiceImpl totalReviewHotel start..");
+		int total = memberDao.totalReviewHotel(reviewDTO);
+		System.out.println("MemberServiceImpl totalReviewHotel total -> " + total);
+		return total;
+	}
+
+	// 티켓 리뷰 총 개수
+	@Override
+	public int totalReviewTicket(ReviewDTO reviewDTO) {
+		log.info("MemberServiceImpl totalReviewTicket start..");
+		int total = memberDao.totalReviewTicket(reviewDTO);
+		System.out.println("MemberServiceImpl totalReviewTicket total -> " + total);
+		return total;
+	}
+
 
 	
 }

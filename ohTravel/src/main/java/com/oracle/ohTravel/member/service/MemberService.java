@@ -62,7 +62,22 @@ public interface MemberService {
 	// 호텔 리뷰 목록
 	public List<ReviewDTO> myPageReviewHotel(ReviewDTO reviewDTO);
 
+
 	//항공예약내역
 	public List<AirReservationDetail> myPageReservAir(Map<String, Object> map);
+
+	// 티켓 리뷰 목록
+	public List<ReviewDTO> myPageReviewTicket(ReviewDTO reviewDTO);
+
+	// 패키지 리뷰 총 개수
+	public int totalReviewPackage(ReviewDTO reviewDTO);
+
+	// 호텔 리뷰 총 개수
+	public int totalReviewHotel(ReviewDTO reviewDTO);
+
+	// 티켓 리뷰 총 개수
+	public int totalReviewTicket(ReviewDTO reviewDTO);
+
+
 	
 }

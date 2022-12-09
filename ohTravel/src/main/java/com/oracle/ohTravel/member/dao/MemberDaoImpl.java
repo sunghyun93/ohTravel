@@ -222,5 +222,43 @@ public class MemberDaoImpl implements MemberDao {
 	
 	
 
+	// 티켓 리뷰 목록
+	@Override
+	public List<ReviewDTO> myPageReviewTicket(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl myPageReviewTicket Start..");
+		List<ReviewDTO> ticketReviewList = sqlSession.selectList("ticketReviewList", reviewDTO);
+		
+		System.out.println("MemberDaoImpl myPageReviewTicket ticketReviewList.size() -> " + ticketReviewList.size());
+		return ticketReviewList;
+	}
+
+	// 패키지 리뷰 총 개수
+	@Override
+	public int totalReviewPackage(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl totalReviewPackage start..");
+		int total = sqlSession.selectOne("totalReviewPackage", reviewDTO);
+		System.out.println("MemberDaoImpl totalReviewPackage total -> " + total);
+		return total;
+	}
+
+	// 호텔 리뷰 총 개수
+	@Override
+	public int totalReviewHotel(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl totalReviewHotel start..");
+		int total = sqlSession.selectOne("totalReviewHotel", reviewDTO);
+		System.out.println("MemberDaoImpl totalReviewHotel total -> " + total);
+		return total;
+	}
+
+	// 티켓 리뷰 총 개수
+	@Override
+	public int totalReviewTicket(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl totalReviewTicket start..");
+		int total = sqlSession.selectOne("totalReviewTicket", reviewDTO);
+		System.out.println("MemberDaoImpl totalReviewTicket total -> " + total);
+		return total;
+	}
+
+
 	
 }

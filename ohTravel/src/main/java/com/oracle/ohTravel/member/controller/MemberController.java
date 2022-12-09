@@ -27,6 +27,7 @@ import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
+import com.oracle.ohTravel.member.model.PagingManager;
 import com.oracle.ohTravel.member.model.ReviewDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 import com.oracle.ohTravel.member.service.MemberService;
@@ -374,7 +375,7 @@ public class MemberController {
 	
 	// My 상품평 (패키지) 페이지 이동
 	@RequestMapping(value = "/myPageReviewPackage")
-	public String myPageReviewPackage(ReviewDTO reviewDTO, Model model, HttpServletRequest request) {
+	public String myPageReviewPackage(ReviewDTO reviewDTO, Model model, String currentPage, HttpServletRequest request) {
 		log.info("MemberController myPageReviewPackage start..");
 		HttpSession session = request.getSession();
 		
@@ -382,17 +383,32 @@ public class MemberController {
 		if (session.getAttribute("member")==null) {
 			return "member/loginForm";
 		}
+		
 		// session에 로그인 된 아이디 정보
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String sessionId = member.getMem_id();
-		System.out.println("MemberController myPageReviewPackage sessionId -> " + sessionId);
 		
-		// 페이징 나중에
+		
+		
+		System.out.println("MemberController myPageReviewPackage sessionId -> " + sessionId);
+		System.out.println("MemberController myPageReviewPackage reviewDTO -> " + reviewDTO.getMem_id());
+		System.out.println("MemberController myPageReviewPackage reviewDTO -> " + reviewDTO.getPk());
+		
+		// 페이징
+		reviewDTO.setMem_id(sessionId);
+		int total = memberService.totalReviewPackage(reviewDTO);
+		System.out.println("MemberController myPageReviewPackage total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		reviewDTO.setStart(page.getStart());
+		reviewDTO.setEnd(page.getEnd());
+		System.out.println("MemberController myPageReviewPackage page.getStart() -> " + page.getStart());
+		System.out.println("MemberController myPageReviewPackage page.getEnd() -> " + page.getEnd());
 		
 		// 패키지 리뷰 목록
-		reviewDTO.setMem_id(sessionId);
 		List<ReviewDTO> packageReviewList = memberService.myPageReviewPackage(reviewDTO);
+		
 		model.addAttribute("packageReviewList", packageReviewList);
+		model.addAttribute("page", page);
 		System.out.println("MemberController packgeReviewList.size() -> " + packageReviewList.size());
 		
 		return "member/myPageReviewPackage";
@@ -400,7 +416,7 @@ public class MemberController {
 	
 	// My 상품평 (호텔) 페이지 이동
 	@RequestMapping(value = "/myPageReviewHotel")
-	public String myPageReviewHotel(ReviewDTO reviewDTO, Model model, HttpServletRequest request) {
+	public String myPageReviewHotel(ReviewDTO reviewDTO, Model model, String currentPage, HttpServletRequest request) {
 		log.info("MemberController myPageReviewHotel start..");
 		HttpSession session = request.getSession();
 		
@@ -415,19 +431,56 @@ public class MemberController {
 		System.out.println("MemberController myPageReviewHotel sessionId -> " + sessionId);
 		
 		// 페이징 나중에
-		
-		// 패키지 리뷰 목록
 		reviewDTO.setMem_id(sessionId);
+		int total = memberService.totalReviewHotel(reviewDTO);
+		System.out.println("MemberController myPageReviewHotel total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		reviewDTO.setStart(page.getStart());
+		reviewDTO.setEnd(page.getEnd());
+		System.out.println("MemberController myPageReviewHotel page.getStart() -> " + page.getStart());
+		System.out.println("MemberController myPageReviewHotel page.getEnd() -> " + page.getEnd());
+		
+		// 호텔 리뷰 목록
 		List<ReviewDTO> hotelReviewList = memberService.myPageReviewHotel(reviewDTO);
 		model.addAttribute("hotelReviewList", hotelReviewList);
+		model.addAttribute("page", page);
 		System.out.println("MemberController hotelReviewList.size() -> " + hotelReviewList.size());
 		
 		return "member/myPageReviewHotel";
 	}
 	
 	// My 상품평 (티켓) 페이지 이동
-	@GetMapping(value = "/myPageReviewTicket")
-	public String goMyPageReviewTicket() {
+	@RequestMapping(value = "/myPageReviewTicket")
+	public String goMyPageReviewTicket(ReviewDTO reviewDTO, Model model, String currentPage, HttpServletRequest request) {
+		log.info("MemberController goMyPageReviewTicket start..");
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		System.out.println("MemberController goMyPageReviewTicket sessionId -> " + sessionId);
+		
+		// 페이징 나중에
+		reviewDTO.setMem_id(sessionId);
+		int total = memberService.totalReviewTicket(reviewDTO);
+		System.out.println("MemberController totalReviewTicket total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		reviewDTO.setStart(page.getStart());
+		reviewDTO.setEnd(page.getEnd());
+		System.out.println("MemberController totalReviewTicket page.getStart() -> " + page.getStart());
+		System.out.println("MemberController totalReviewTicket page.getEnd() -> " + page.getEnd());
+		
+		// 티켓 리뷰 목록
+		List<ReviewDTO> ticketReviewList = memberService.myPageReviewTicket(reviewDTO);
+		model.addAttribute("ticketReviewList", ticketReviewList);
+		model.addAttribute("page", page);
+		System.out.println("MemberController ticketReviewList.size() -> " + ticketReviewList.size());
+		
 		return "member/myPageReviewTicket";
 	}
 	

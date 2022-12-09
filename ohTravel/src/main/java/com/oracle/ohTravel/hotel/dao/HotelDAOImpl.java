@@ -30,6 +30,11 @@ public class HotelDAOImpl implements HotelDAO {
 	public List<RoomDTO> getRoomList(RoomDTO roomDTO) {
 		return session.selectList("roomList",roomDTO);
 	}
+
+	@Override
+	public RoomDTO getRoomDetail(RoomDTO roomDTO) {
+		return session.selectOne("roomDetailList",roomDTO);
+	}
 	
 	
 }

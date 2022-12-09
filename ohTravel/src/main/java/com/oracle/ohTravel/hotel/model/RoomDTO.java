@@ -17,6 +17,9 @@ public class RoomDTO {
 	private int calDate;
 	private int canRevDateCnt;
 	
+	private String hotel_kor;
+	private String hotel_eng;
+	
 	private int room_detail_id;
 	private Date room_date;
 	private int room_price;

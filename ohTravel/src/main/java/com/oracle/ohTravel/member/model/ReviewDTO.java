@@ -16,4 +16,8 @@ public class ReviewDTO {
 	private String pk = "pk";
 	private String ht = "ht";
 	private String ti = "ti";
+	
+	private String pageNum;  
+	private int start;
+	private int end;
 }
