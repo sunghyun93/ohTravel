@@ -32,7 +32,7 @@ public class HotelServiceImpl implements HotelService {
 	}
 
 	@Override
-	public List<RoomDTO> getRoomDetail(RoomDTO roomDTO) {
+	public RoomDTO getRoomDetail(RoomDTO roomDTO) {
 		return hd.getRoomDetail(roomDTO);
 	}
 

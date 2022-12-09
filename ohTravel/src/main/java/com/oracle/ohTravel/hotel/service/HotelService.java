@@ -13,6 +13,6 @@ public interface HotelService {
 
 	List<RoomDTO> getRoomList(RoomDTO roomDTO);
 
-	List<RoomDTO> getRoomDetail(RoomDTO roomDTO);
+	RoomDTO getRoomDetail(RoomDTO roomDTO);
 
 }

@@ -56,22 +56,15 @@ public class HotelController {
 	
 	
 	@PostMapping(value="/hotelReservation")
-	public String getRooms(RoomDTO roomDTO, Model model){
+	public String getRoomDetail(RoomDTO roomDTO, Model model){
 		
 		model.addAttribute("startDate", roomDTO.getStartDate());
 		model.addAttribute("endDate", roomDTO.getEndDate());
-		model.addAttribute("calDate",roomDTO.getCalDate());
-		model.addAttribute("roomName", roomDTO.getRoom_name());
+		model.addAttribute("calDate", roomDTO.getCalDate());
+		model.addAttribute("roomDetail", hs.getRoomDetail(roomDTO));
 		
 		return "hotel/hotelPayment";
 	}
 	
 	
-	
-	
-	@GetMapping(value = "/hotelReserve")
-	public String goHotelReserve(Model model, RoomDTO roomDTO) {
-		
-		return "hotel/hotelPayment";
-	}
 }

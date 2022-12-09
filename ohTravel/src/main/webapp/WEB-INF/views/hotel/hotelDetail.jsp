@@ -10,99 +10,103 @@
 	<link rel="stylesheet" href=" ${pageContext.request.contextPath}/css/hotel/style.css">
 </head>
 <body>
-<input type="hidden" id="rv_real_id" value="${rv_real_id}">
+	<input type="hidden" id="rv_real_id" value="${rv_real_id}">
 
 	<div class="hd_container">
 		<div class="container">
-			
-		
-				<div class="ht_image">
-					<img alt="호텔대표사진" src="${pageContext.request.contextPath }/img/hotel/h_img_test.jpg">
+			<div class="ht_image">
+				<img alt="호텔대표사진" src="${pageContext.request.contextPath }/img/hotel/h_img_test.jpg">
+			</div>
+			<div class="hotel_info">
+				${hotelDetail.hotel_grade }성급<br>
+				<div class="ht_name">
+					<h2>${hotelDetail.hotel_kor }</h2>
 				</div>
-				<div class="hotel_info">
-					${hotelDetail.hotel_grade }성급<br>
-					<div class="ht_name">
-						<h2>${hotelDetail.hotel_kor }</h2>
-					</div>
-					<div class="likebtn">
-						
-					</div>
-					${hotelDetail.hotel_eng }<br>
-					${hotelDetail.hotel_loc }<br>
-					<div class="star_img">
-						<img alt="별점뙇~" src="${pageContext.request.contextPath }/img/hotel/star.png">
-					</div>
-					<!-- 평균 별점 ajax 계산되어 들어가는 부분 -->
-					<div class="star_scr" id="star_scr">
-						
-					</div>
-					<hr>
-					<div class="p_info">
-						1박 요금 최저가 
-					</div>
-					<div class="h_price">
-						${hotelDetail.room_min_price }원 ~
-					</div>
-				</div> <!-- hotel_info 끝 -->
-				<div class="ht_simple_option">
-					<div class="info_title">숙소정보</div>
-					<div class="ht_loc">주소 : ${hotelDetail.hotel_loc }</div>
-					<div class="chkTime">체크인 : ${hotelDetail.checkin } 체크아웃 시간 : ${hotelDetail.checkout }</div>
-					<div class="room_cnt">객실 수 : ${hotelDetail.room_cnt }</div>
-					<div class="ht_tel">전화번호 : ${hotelDetail.hotel_tel }</div>
-				</div> <!-- ht_simple_option 끝 -->
-				<div class="room_info">
+				<div class="likebtn">
 					
-					<div class="rev_option">
+				</div>
+				${hotelDetail.hotel_eng }<br>
+				${hotelDetail.hotel_loc }<br>
+				<div class="star_img">
+					<img alt="별점" src="${pageContext.request.contextPath }/img/hotel/star.png">
+				</div>
+				
+				<!-- 평균 별점 ajax 계산되어 들어가는 부분 -->
+				<div class="star_scr" id="star_scr">
+					
+				</div>
+				
+				<hr>
+				
+				<div class="p_info">
+					1박 요금 최저가 
+				</div>
+				
+				<div class="h_price">
+					${hotelDetail.room_min_price }원 ~
+				</div>
+			</div> <!-- hotel_info 끝 -->
+			
+			<div class="ht_simple_option">
+				<div class="info_title">숙소정보</div>
+				<div class="ht_loc">주소 : ${hotelDetail.hotel_loc }</div>
+				<div class="chkTime">체크인 : ${hotelDetail.checkin } 체크아웃 시간 : ${hotelDetail.checkout }</div>
+				<div class="room_cnt">객실 수 : ${hotelDetail.room_cnt }</div>
+				<div class="ht_tel">전화번호 : ${hotelDetail.hotel_tel }</div>
+			</div> <!-- ht_simple_option 끝 -->
+			
+			<div class="room_info">
+				
+				<div class="rev_option">
 <!-- 					<a href="myModal" class="genric-btn primary ela" data-toggle="modal" data-target="#myModal">날짜 선택</a>
  -->					<button type="button" class="genric-btn primary ela" onclick="getRoomOption()">날짜 선택</button>
-						<div class="ppl">
-		
-						<div class="black_bg3"></div>
-						<div class="member_count modal_wrap3">
-							<div class="modal_close3"><span>close</span></div>
-							<div class="member_count_entire">
-							
-							<span class="ppl_select">인원</span><hr width="460px">
-								<ul>
-										<li>
-		                                     <p class="tit">
-		                                            <span class="txt">객실 수 </span>
-		                                     </p>
-		                                        <span class="num_count_group">
-		                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
-		                                            <span class="inpt_counter roomCnt"></span>
-		                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
-		                                       </span>
-		                            	 </li> 
-										<li>
-										<p class="tit">
-		                                            <span class="txt">성인</span><br>
-		                                        </p>
-		                                        <span class="num_count_group">
-		                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
-		                                            <span class="inpt_counter adultCnt"></span>
-		                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
-		                                        </span>
-										</li>
-									
-										<li>
-		                                     <p class="tit">
-												<span class="txt">아동</span>
-		                                     </p>
-		                                        <span class="num_count_group">
-		                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
-		                                            <span class="inpt_counter childCnt"></span>
-		                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
-		                                       </span>
-		                           		  </li> 
-									</ul>
-								<br><br>
-								<div class="select_complete"><span class="select_complete_text">선택완료</span></div>
-							</div>	
-						</div>
+					<div class="ppl">
+	
+					<div class="black_bg3"></div>
+					<div class="member_count modal_wrap3">
+						<div class="modal_close3"><span>close</span></div>
+						<div class="member_count_entire">
+						
+						<span class="ppl_select">인원</span><hr width="460px">
+							<ul>
+									<li>
+	                                     <p class="tit">
+	                                            <span class="txt">객실 수 </span>
+	                                     </p>
+	                                        <span class="num_count_group">
+	                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+	                                            <span class="inpt_counter roomCnt"></span>
+	                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+	                                       </span>
+	                            	 </li> 
+									<li>
+									<p class="tit">
+	                                            <span class="txt">성인</span><br>
+	                                        </p>
+	                                        <span class="num_count_group">
+	                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+	                                            <span class="inpt_counter adultCnt"></span>
+	                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+	                                        </span>
+									</li>
+								
+									<li>
+	                                     <p class="tit">
+											<span class="txt">아동</span>
+	                                     </p>
+	                                        <span class="num_count_group">
+	                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+	                                            <span class="inpt_counter childCnt"></span>
+	                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+	                                       </span>
+	                           		  </li> 
+								</ul>
+							<br><br>
+							<div class="select_complete"><span class="select_complete_text">선택완료</span></div>
+						</div>	
 					</div>
-					</div>
+				</div>
+				</div>
 					
 		<!--티켓 검색부분  -->
 		<div class="searchOption">
@@ -124,119 +128,113 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- 예약 페이지로 정보 담기 위해 생성한 form -->
+		<form action="${pageContext.request.contextPath }/hotel/hotelReservation" name="ReserveForm" method="post">
+			<input type="hidden" name="startDate" value="">
+			<input type="hidden" name="endDate" value="">
+			<input type="hidden" name="calDate" value="">
+			<input type="hidden" name="room_id" value="">
+		</form>
 	
-	<form action="${pageContext.request.contextPath }/hotel/hotelReservation" name="ReserveForm" method="post">
-		<input type="hidden" name="startDate" value="">
-		<input type="hidden" name="endDate" value="">
-		<input type="hidden" name="calDate" value="">
-		<input type="hidden" name="room_id" value="">
-	</form>
-		<div id="roomAllInfo">
+		<div id="roomAllInfo"> <!-- 선택한 날짜에 해당하는 객실 정보 창 나오는 div -->
 		
 		</div>
-					<div class="ht_option">
-						<div class="add_opt">
-							<div class="add_title">숙소 부대시설</div>
-						</div>
-						<div class="conv_opt">
-							<div class="conv_title">숙소 편의시설</div>
-						</div>
-					</div> <!-- ht_option -->
-				
-				
-					<!-- 리뷰 시작 -->
-					<div class="all_review">
-						리뷰
-						<div class="rv_stats">
-							별점 통계가 들어가요
-							
-						</div>
-						
-						<div class="rv_btn">
-							<button class="genric-btn primary ela" data-toggle="modal" onclick="openModal()" data-target="#reviewModal">리뷰 등록</button>
-						</div>
-							
-						<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
-							<!-- 리뷰 들어갈 위치에 table생성 -->
-							<table id="reviewTable" class="reviewTable"> <!-- id값 변경 X -->
-								
-							</table>
-
-						</div> <!-- show_review -->
-						
-					    <nav class="review-pagination blog-pagination justify-content-center d-flex">
-					    	<!-- 페이징 처리 들어갈 위치 -->
-                           <ul class="pagination" id="reviewPaginationUl">
-                               
-                           </ul>
-                       </nav>
-						
-					</div> <!-- all_review -->
-					
-					
-					<!-- 리뷰끝  -->
-					
-					<div class="ht_rec">
-						같은 지역의 다른 호텔 추천해주기
-					
-					</div>
-				</div> <!-- room_info 끝 -->
-			
-		</div> <!-- 부트스트랩 container끝 -->
-		
-	</div> <!-- hd_container 끝 -->
 	
-		<!-- 리뷰 모달 (있어야할 위치는 상관없습니다..)-->
-		<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-			  <div class="modal-dialog modal-dialog-centered" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <h5 class="modal-title" id="modalLongTitle">리뷰 작성</h5>
-			        <button type="button" class="close" data-dismiss="modal" onclick="closeModal()" aria-label="Close">
-			          <span aria-hidden="true">&times;</span>
-			        </button>
-			      </div>
-			      
-			      <div class="modal-body">
-			      	<span class="star">
-				      	 ★★★★★
-				      	 <span>★★★★★</span>
-	 					 <input type="range" oninput="drawStar()" id="starRate" value="1" step="1" min="0" max="10">
-					</span>
-			      	
-		        	<div class="form-group">
-			            <label for="message-text" class="col-form-label">내용:</label>
-			            <textarea class="form-control" id="review-text"></textarea>
-		         	</div>
-			      </div>
-			      
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-primary" onclick="registerReview()">리뷰 등록</button>
-			        <button type="button" class="btn btn-secondary" onclick="closeModal()" data-dismiss="modal">취소</button>
-			      </div>
-			    </div>
-			  </div>
-			</div> <!-- 리뷰 모달 끝 -->
+		<div class="ht_option">
+			<div class="add_opt">
+				<div class="add_title">숙소 부대시설</div>
+			</div>
+			<div class="conv_opt">
+				<div class="conv_title">숙소 편의시설</div>
+			</div>
+		</div> <!-- ht_option -->
+				
+				
+		<!-- 리뷰 시작 -->
+		<div class="all_review">
+			리뷰
+			<div class="rv_stats">
+				별점 통계가 들어가요
+			</div>
+			
+			<div class="rv_btn">
+				<button class="genric-btn primary ela" data-toggle="modal" onclick="openModal()" data-target="#reviewModal">리뷰 등록</button>
+			</div>
+				
+			<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
+				<!-- 리뷰 들어갈 위치에 table생성 -->
+				<table id="reviewTable" class="reviewTable"> <!-- id값 변경 X -->
+					
+				</table>
+			</div> <!-- show_review -->
+			
+			<nav class="review-pagination blog-pagination justify-content-center d-flex">
+				<!-- 페이징 처리 들어갈 위치 -->
+				 <ul class="pagination" id="reviewPaginationUl">
+				     
+				 </ul>
+			</nav>
+		</div> <!-- all_review (리뷰 끝)-->
+		
+		<div class="ht_rec">
+			같은 지역의 다른 호텔 추천해주기
+		
+		</div>
+		</div> <!-- room_info 끝 -->
+	</div> <!-- 부트스트랩 container끝 -->
+</div> <!-- hd_container 끝 -->
+	
+<!-- 리뷰 모달 (있어야할 위치는 상관없습니다..)-->
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+    
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalLongTitle">리뷰 작성</h5>
+				<button type="button" class="close" data-dismiss="modal" onclick="closeModal()" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		      
+			<div class="modal-body">
+				<span class="star">
+					★★★★★
+					<span>★★★★★</span>
+					<input type="range" oninput="drawStar()" id="starRate" value="1" step="1" min="0" max="10">
+				</span>
+				<div class="form-group">
+					<label for="message-text" class="col-form-label">내용:</label>
+					<textarea class="form-control" id="review-text"></textarea>
+				</div>
+			</div>
+		      
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick="registerReview()">리뷰 등록</button>
+				<button type="button" class="btn btn-secondary" onclick="closeModal()" data-dismiss="modal">취소</button>
+			</div>
+			
+		</div> <!-- modal-content -->
+	</div> <!-- modal-dialog-centered -->
+</div> <!-- 리뷰 모달 끝 -->
 
 
 <script type="text/javascript">
 
 
 /////////////////////////인원수와 좌석선택 모달/////////////////////////////////
-	function pplOnClick() {
-	    document.querySelector('.modal_wrap3').style.display ='block';
-	    document.querySelector('.black_bg3').style.display ='block';
-	    
+function pplOnClick() {
+    document.querySelector('.modal_wrap3').style.display ='block';
+    document.querySelector('.black_bg3').style.display ='block';
 	}
-	
-	function pplOffClick() {
-	    document.querySelector('.modal_wrap3').style.display ='none';
-	    document.querySelector('.black_bg3').style.display ='none';
-	    
+
+function pplOffClick() {
+    document.querySelector('.modal_wrap3').style.display ='none';
+    document.querySelector('.black_bg3').style.display ='none';
 	}
-	
-	document.getElementById('modal_btn3').addEventListener('click', pplOnClick);
-	document.querySelector('.modal_close3').addEventListener('click', pplOffClick);
+
+document.getElementById('modal_btn3').addEventListener('click', pplOnClick);
+document.querySelector('.modal_close3').addEventListener('click', pplOffClick);
 ///////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////인원수 선택 모달///////////////////////////////////////
@@ -541,7 +539,6 @@ function makeRoomList(data) {
 	
 	console.log(data);
 	console.log(data.length);
-	
 	
 	let arr = [];
 	let str ='';

@@ -31,10 +31,5 @@ public class HotelRestController {
 		return hs.getRoomList(roomDTO);
 	}
 	
-	/*
-	 * @GetMapping(value = "/hotelReservation") public List<RoomDTO>
-	 * getRoomDetail(RoomDTO roomDTO) { return hs.getRoomDetail(roomDTO); }
-	 */
-	
 
 }

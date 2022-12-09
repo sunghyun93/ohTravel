@@ -49,12 +49,14 @@
 	</select>
 	
 	<select id="roomDetailList" resultType="Room">
-		SELECT rd.*, r.*
+		SELECT rd.*, r.*, h.hotel_kor, h.hotel_eng
 		FROM room_detail rd
 		LEFT JOIN room r ON r.room_id = rd.room_id
+		LEFT JOIN hotel h ON h.hotel_id = r.hotel_id
 		WHERE r.room_id = #{room_id}
 		AND rd.room_date BETWEEN #{startDate} AND #{endDate}
 		AND rd.room_rev = "Y"
+		GROUP BY r.room_id
 	</select>
 <!-- <insert id="">
 		
