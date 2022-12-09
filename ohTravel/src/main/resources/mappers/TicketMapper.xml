@@ -31,15 +31,17 @@
 		WHERE td.ticket_id = #{ticket_id}
 	</select>
 
-	<!-- pkage_dt_id 를 받아 해당 입장권 상세와 관련된 것들 select (입장권 예약 때 필요한 정보만 가져오기) -->
-<!-- 	<select id="selectTicketDetailById" parameterType="Ticket_detailDTO" resultType="TicketDTO">
-		SELECT distinct td.*, date_format(td.ticket_due_date, '%Y.%m.%d') AS ticket_due_date, td.ticket_adult_price, td.ticket_child_price, ti.ticket_rep_img_path, ti.ticket_detail_img_path, ct.city_name,
-		FROM ticket_detail td
-		LEFT JOIN ticket_img ti
-		  ON td.ticket_id = ti.ticket_id
-		LEFT JOIN  city ct
-		  ON td.city_id = ct.city_id
-		WHERE td.ticket_id = #{ticket_id}
-	</select> -->
-
+	<!-- 입장권 예약 insert 문 -->
+<!-- 	<insert id="ticketReserve" parameterType="Ticket_rsDTO">
+		SELECT ticket_name
+		FROM ticket_detail
+		WHERE ticket_name = '${ticket_name}';
+	
+		INSERT INTO ticket_reservation
+		VALUES
+		((SELECT IFNULL(MAX(#{ticket_order_id} + 1, 1) FROM ticket_reservation tr), #{ticket_id}, #{mem_id}, #{ticket_name}, now(),
+		 #{ticket_admission_date}, #{ticket_adult_per}, #{ticket_child_per}, #{ticket_total_price});
+	</insert> -->
+	
 </mapper>
+	
