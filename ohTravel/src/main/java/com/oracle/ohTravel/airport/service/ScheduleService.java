@@ -28,6 +28,8 @@ public interface ScheduleService {
 
 	Air_ReservationDTO selectReservationId(String mem_id); //reservation_id 가져오기위해서
 
+	
+
 
 
 }

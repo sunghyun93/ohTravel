@@ -15,6 +15,7 @@
 	width: 1200px;
 	height: 220px;
 	margin: 0 auto;
+	margin-bottom: 30px;
 }
 
 .trip {
@@ -656,7 +657,7 @@ button {
 
 
 
-<!-- 바디부분 -->
+<%-- <!-- 바디부분 -->
 <!-- 이번주 베스트 Start -->
         <div class="favourite-place place-padding">
             <div class="container">
@@ -942,7 +943,7 @@ button {
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>  --%>
         <!-- 테마 추천 End -->
 
 
@@ -1147,14 +1148,17 @@ $(function(){
 ///////////////////////////////날짜 /////////////////////////////
 $('.air_search').click(function(){
 
-  var dateFrom = document.getElementById('dates_start_check');	//시작일
-  var dateTo = document.getElementById('dates_start_end');	//종료일
+  var dateForm = document.getElementById('dates_start_check');	//왕복시작일
+  var dateTo = document.getElementById('dates_start_end');	//왕복종료일
   var today = new Date();				//오늘 날짜
-
-  dateFrom = new Date(dateFrom.value);
-  var fromYear = dateFrom.getFullYear();
-  var fromMonth = dateFrom.getMonth() + 1;
-  var fromDay = dateFrom.getDate();
+  var dateOneWayForm = document.getElementById('dates_start_oneway'); //편도시작일
+  
+  dateForm = new Date(dateForm.value);
+  dateTo = new Date(dateTo.value);
+  dateOneWayForm = new Date(dateOneWayForm.value);
+  var fromYear = dateForm.getFullYear();
+  var fromMonth = dateForm.getMonth() + 1;
+  var fromDay = dateForm.getDate();
 
   //날짜 지정을 하지 않았을 때 NaN이 발생하여 0으로 처리
   if (isNaN(fromYear) || isNaN(fromMonth) || isNaN(fromDay)){
@@ -1163,9 +1167,8 @@ $('.air_search').click(function(){
     fromDay   = 0;
   }
 
-	dateFrom = fromYear +'/'+ fromMonth +'/'+fromDay; 
+	dateForm = fromYear +'/'+ fromMonth +'/'+fromDay; 
 
-  dateTo = new Date(dateTo.value);
   var toYear  = dateTo.getFullYear();
   var toMonth = dateTo.getMonth() + 1;
   var toDay   = dateTo.getDate();
@@ -1184,13 +1187,38 @@ $('.air_search').click(function(){
   var todayMonth = today.getMonth() + 1;    	//06
   var todayDay   = today.getDate();  		//11
   today = todayYear +'/'+ todayMonth +'/'+todayDay;  // 2020/06/11 (형식 지정은 본인 자유)
-
+  today = new Date(today);
+  
+ 
+	dateForm = new Date(dateForm);
+	dateTo = new Date(dateTo);
+	dateOneWayForm = new Date(dateOneWayForm);
+	
+	console.log(today);
+	console.log(dateForm);
+	console.log(dateTo);
+	
   //날짜 조회 시, 시작일이 오늘 날짜보다는 크고, 종료일이 시작일보다는 커야하기 때문에 조건을 걸어줌
-  if(dateFrom >= today && dateTo >= dateFrom){
-  	return true;
-  } else {
- 	 alert("올바른 날짜를 선택하세요.");
+  if(dateForm != null && dateTo != null && dateOneWayForm == null){
+	  if(dateForm >= today && dateTo >= dateForm){
+		  	return true;
+	  } else {
+	 	 	alert("올바른 왕복 날짜를 선택하세요.");
+	 	 	return false;
+	  }
   }
+  
+  //편도 날짜 조회시 
+  if(dateForm == null && dateTo == null && dateOneWayForm != null ){
+	  if(dateOneWayForm >= totay){
+		  return true;
+	  }else {
+		  alert("올바른 편도 날짜를 선택하세요.");
+		  return false;
+	  }
+  }
+  
+  
 });//click() end
 
 ////////////////////////////////편도클릭할때 편도날짜만 선택가능////////////////////////////
