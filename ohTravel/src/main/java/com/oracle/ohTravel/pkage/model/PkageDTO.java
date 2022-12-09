@@ -30,6 +30,8 @@ public class PkageDTO {
 	private String search_word;
 	private int min_price;
 	private String check;
+	private String mem_id;
+	private String radioCheck;
 	
 	private int review_cnt;
 }

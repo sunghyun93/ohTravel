@@ -21,5 +21,7 @@ public interface SearchDao {
 
 	List<HotelDTO> filteredHotelList(HashMap<String, Object> hotelHM);
 
+	int insertFavorite(PkageDTO pkageDTO);
+
 	
 }
