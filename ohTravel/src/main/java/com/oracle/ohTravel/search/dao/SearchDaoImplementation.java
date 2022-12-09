@@ -18,6 +18,21 @@ public class SearchDaoImplementation implements SearchDao {
 
 	private final SqlSession sqs;
 
+	// 패키지 목록 가져와
+	@Override
+	public List<PkageDTO> getPkageList(PkageDTO pkageDTO) {
+		System.out.println("Dao getPkageList Start...");
+		List<PkageDTO> pkageList = null;
+		try {
+			pkageList = sqs.selectList("yqPkageList", pkageDTO);
+		} catch (Exception e) {
+			System.out.println("Dao getPkageList Exception -> " + e.getMessage());
+		}
+		System.out.println("start -> " + pkageDTO.getStart());
+		System.out.println("end -> " + pkageDTO.getEnd());
+		return pkageList;
+	}
+		
 	// 티켓 목록 가져와
 	@Override
 	public List<TicketDTO> getTicketList(TicketDTO ticketDTO) {
@@ -44,19 +59,6 @@ public class SearchDaoImplementation implements SearchDao {
 		return hotelList;
 	}
 
-	// 패키지 목록 가져와
-	@Override
-	public List<PkageDTO> getPkageList(PkageDTO pkageDTO) {
-		System.out.println("Dao getPkageList Start...");
-		List<PkageDTO> pkageList = null;
-		try {
-			pkageList = sqs.selectList("yqPkageList", pkageDTO);
-		} catch (Exception e) {
-			System.out.println("Dao getPkageList Exception -> " + e.getMessage());
-		}
-		return pkageList;
-	}
-
 	@Override
 	public List<PkageDTO> filteredPkageList(HashMap<String, Object> pkageHM) {
 		System.out.println("Dao filteredPkageList Start...");
@@ -79,6 +81,18 @@ public class SearchDaoImplementation implements SearchDao {
 			System.out.println("Dao filteredHotelList Exception -> " + e.getMessage());
 		}
 		return filteredHotelList;
+	}
+
+	@Override
+	public int insertFavorite(PkageDTO pkageDTO) {
+		System.out.println("Dao insertFavorite Start...");
+		int insertFavorite = 0;
+		try {
+			insertFavorite = sqs.insert("yqInsertFavorite", pkageDTO);
+		} catch (Exception e) {
+			System.out.println("Dao insertFavorite Exception -> " + e.getMessage());
+		}
+		return insertFavorite;
 	}
 	
 }
