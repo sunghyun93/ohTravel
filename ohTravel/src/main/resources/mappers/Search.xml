@@ -9,18 +9,18 @@
 		FROM (ticket_detail td left join ticket_img ti on td.ticket_id = ti.ticket_id)
 		Where ticket_name LIKe concat('%', #{search_word}, '%')
 		<if test="start != 0">
-			LIMIT #{end} OFFSET #{start}
+			LIMIT #{start}, #{end}
 		</if>
 	</select> 
 
 	<select id="yqHotelList" parameterType="java.lang.String" resultType="Hotel">
-		select h.hotel_id, c.city_name, h.hotel_kor, h.hotel_eng, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price
+		select h.hotel_id, c.city_name, h.hotel_kor, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price, h_img_path
 		FROM room r 
-		left join room_detail rd on r.room_id = rd.room_id left join hotel h on r.hotel_id = h.hotel_id left join city c on c.city_id = h.city_id
+		left join room_detail rd on r.room_id = rd.room_id left join hotel_image hi on r.hotel_id = hi.hotel_id join hotel h on r.hotel_id = h.hotel_id left join city c on c.city_id = h.city_id
 		group by h.hotel_id
 		HAving hotel_kor LIKe concat('%', #{search_word}, '%')
 		<if test="start != 0">
-			LIMIT #{end} OFFSET #{start}
+			LIMIT ${start-1}, #{end}
 		</if>
 	</select>
 
@@ -32,7 +32,7 @@
 		left join (select distinct pkage_id,  pkage_dt_thema, min(pkage_dt_Aprice) min_price from package_detail group by pkage_id) as pd on p.pkage_id = pd.pkage_id
 		Where pkage_name LIKe concat('%', #{search_word}, '%')
 		<if test="start != 0">
-			LIMIT #{start} OFFSET #{end}
+			LIMIT ${start-1}, #{end}
 		</if>
 	</select>
 	
@@ -46,44 +46,44 @@
 		left join (select distinct pkage_id, pkage_dt_thema, min(pkage_dt_Aprice) min_price, datediff(pkage_dt_endDay, pkage_dt_startDay) + 1 period from package_detail group by pkage_id) pd on p.pkage_id = pd.pkage_id
 		Where pkage_name LIKe concat('%', #{pkageDTO.search_word}, '%') AND
 		<foreach collection="check" item="filter"  open="" close="" separator="or">
-			<if test="filter == 'fprice_0'">
+			<if test="filter == 'adtMinAmt-0'">
 				<![CDATA[
 				 min_price >= 0 AND min_price <= 200000
 				]]>
 			</if>
-			<if test="filter == 'fprice_1'">
+			<if test="filter == 'adtMinAmt-1'">
 				<![CDATA[
 				 min_price > 210000 AND min_price <= 500000
 				]]>
 			</if>
-			<if test="filter == 'fprice_2'">
+			<if test="filter == 'adtMinAmt-2'">
 				<![CDATA[
 				 min_price > 510000 AND min_price <= 700000
 				]]>
 			</if>
-			<if test="filter == 'fprice_3'">
+			<if test="filter == 'adtMinAmt-3'">
 				<![CDATA[
 				 min_price > 710000 AND min_price <= 2000000
 				]]>
 			</if>
-			<if test="filter == 'period_0'">
-				<![CDATA[
-				 period = 4
-				]]>
-			</if>
-			<if test="filter == 'period_1'">
-				<![CDATA[
-				 period = 3
-				]]>
-			</if>
-			<if test="filter == 'period_2'">
+			<if test="filter == 'trvlDayCnt-0'">
 				<![CDATA[
 				 period = 2
 				]]>
 			</if>
-			<if test="filter == 'period_3'">
+			<if test="filter == 'trvlDayCnt-1'">
 				<![CDATA[
-				 period = 1
+				 period = 3
+				]]>
+			</if>
+			<if test="filter == 'trvlDayCnt-2'">
+				<![CDATA[
+				 period = 4
+				]]>
+			</if>
+			<if test="filter == 'trvlDayCnt-3'">
+				<![CDATA[
+				 period = 5
 				]]>
 			</if>
 			<if test="filter == 'kind_0'">
@@ -171,24 +171,24 @@
 				 min_price > 710000 AND min_price <= 2000000
 				]]>
 			</if>
-			<if test="filter == 'period_0'">
-				<![CDATA[
-				 period = 4
-				]]>
-			</if>
-			<if test="filter == 'period_1'">
-				<![CDATA[
-				 period = 3
-				]]>
-			</if>
-			<if test="filter == 'period_2'">
+			<if test="filter == 'trvlDayCnt-0'">
 				<![CDATA[
 				 period = 2
 				]]>
 			</if>
-			<if test="filter == 'period_3'">
+			<if test="filter == 'trvlDayCnt-1'">
 				<![CDATA[
-				 period = 1
+				 period = 3
+				]]>
+			</if>
+			<if test="filter == 'trvlDayCnt-2'">
+				<![CDATA[
+				 period = 4
+				]]>
+			</if>
+			<if test="filter == 'trvlDayCnt-3'">
+				<![CDATA[
+				 period = 5
 				]]>
 			</if>
 			<if test="filter == 'kind_0'">
@@ -226,30 +226,37 @@
 				 min_price > 1410000 AND min_price <= 11750000
 				]]>
 			</if>
-			<if test="filter == 'Sorder0'">
+		</foreach>
+			<if test="radioCheck == 'buy_order'">
 				<![CDATA[
-				<!-- ORDER BY min_price desc 데이터 넣어보고 서브쿼리로 reservation join해서 가져오기-->
+				 ORDER BY min_price desc kkkk
 				]]>
 			</if>
-			<if test="filter == 'Sorder1'">
+			<if test="radioCheck == 'high_score'">
 				<![CDATA[
 				ORDER BY pkage_score desc
 				]]>
 			</if>
-			<if test="filter == 'Sorder2'">
+			<if test="radioCheck == 'row_price'">
 				<![CDATA[
 				ORDER BY min_price desc
 				]]>
 			</if>
-			<if test="filter == 'Sorder3'">
+			<if test="radioCheck == 'fastest_go'">
 				<![CDATA[
 				ORDER BY min_price
 				]]>
 			</if>
-		</foreach>
-		<!-- <if test="start != 0">
-			LIMIT #{pkageDTO.end} OFFSET #{pkageDTO.start}
-		</if> -->
+		<if test="start != null">
+			LIMIT ${start-1}, #{end}
+		</if>
 	</select>
 
+	<insert id="yqInsertFavorite">
+		insert into basket values(null, #{mem_id}, #{pkage_id})
+	</insert>
+	
+	<delete id="yqDeleteFavorite">
+		DELETE FROM basket where mem_id = #{mem_id} AND basket_ref_id = #{pkage_id}
+	</delete>
 </mapper>
