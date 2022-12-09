@@ -108,6 +108,11 @@
 			join air_schedule ash on  ash.schedule_id = af.schedule_id;	
 	</select>
 	
+	<!-- 항공 예약 총 개수 -->
+	<select id="totalReservAir" resultType="int" parameterType="AirReservationDTO">
+	
+	</select>
+	
 	<!-- 호텔 예약 내역 조회 -->
 	<select id="hotelReservList" resultType="HotelReservationDTO" parameterType="HotelReservationDTO">
 		SELECT hr.*, rd.room_detail_id, r.room_name, h.hotel_kor
