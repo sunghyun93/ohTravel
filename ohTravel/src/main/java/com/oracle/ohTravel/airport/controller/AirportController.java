@@ -287,7 +287,8 @@ public class AirportController {
 	}
 	
 	@PostMapping("/airplaneInsertReservation")
-	public ModelAndView airInsertReserve(Integer count,String go_airplane_name,String come_airplane_name,String seat_position,Integer go_schedule_id,Integer come_schedule_id,Air_ReservationDTO air_ReservationDTO,PeopleInfo peopleInfo,Air_FlightSchDTO air_FlightSchDTO,Reservation_Seat reservation_Seat,PaymentDTO paymentDTO,Air_ScheduleDTO air_ScheduleDTO,HttpSession session) throws Exception {
+	@ResponseBody
+	public int airInsertReserve(Integer count,String go_airplane_name,String come_airplane_name,String seat_position,Integer go_schedule_id,Integer come_schedule_id,Air_ReservationDTO air_ReservationDTO,PeopleInfo peopleInfo,Air_FlightSchDTO air_FlightSchDTO,Reservation_Seat reservation_Seat,PaymentDTO paymentDTO,Air_ScheduleDTO air_ScheduleDTO,HttpSession session) throws Exception {
 		System.out.println("peopleInfo="+peopleInfo);
 		System.out.println("go_airplane_name="+go_airplane_name);
 		System.out.println("come_airplane_name="+come_airplane_name);
@@ -314,7 +315,11 @@ public class AirportController {
 	    
 		Map<String,Object> map = new HashMap<String, Object>();
 		
+		
+		Integer reservation_id = reservationList.getReservation_id();
+		
 		map.put("reservation_id",reservationList.getReservation_id());
+		map.put("reservation_date",reservationList.getReservation_date());
 		map.put("air_FlightSchDTO",air_FlightSchDTO);
 		map.put("reservation_Seat",reservation_Seat);
 		map.put("peopleInfo",peopleInfo);
@@ -361,7 +366,21 @@ public class AirportController {
 		
 		
 		
-		return mav;
+		return reservation_id;
 	}
+	
+	@PostMapping("/reservationComplete")
+	public String  reservationComplete(Integer reservation_id,HttpSession session, Model model) {
+		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+		
+		Air_ReservationDTO air_ReservationDTO = scheduleService.selectCompleteReservationId(reservation_id);
+		
+		model.addAttribute("air_ReservationDTO",air_ReservationDTO);
+		model.addAttribute("mem_id",memberDTO.getMem_id());
+		
+		return "airport/orderComplete";
+	}
+	
 	
 }

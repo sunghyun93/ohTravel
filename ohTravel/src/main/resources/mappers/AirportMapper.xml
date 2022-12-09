@@ -195,7 +195,9 @@
 		insert into payment(mem_id,reservation_id,payment_method) values (#{mem_id},#{reservation_id},'card')
 	</insert>
 	
-	
+	<select id="reservationDetails" parameterType="int" resultType="Air_ReservationDTO">
+		select * from reservation where reservation_id = #{reservation_id}
+	</select>
 	
 	
 	

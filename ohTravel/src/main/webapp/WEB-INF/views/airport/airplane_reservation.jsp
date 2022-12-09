@@ -287,6 +287,14 @@
         </div><!-- pkRv_contents -->
     </div><!-- pkRv_container -->
 </form>
+
+<!-- 결제  Reservation_id를 가져가기 위한 hidden form -->
+<form id="airplaneResultForm">
+	<input type="hidden" name="reservation_id" value="">
+</form>
+
+
+
     <script>
         $(function() {
             // 유효성 검사 통과 체크용
@@ -605,7 +613,15 @@
                                //msg1 += '구매자 이름 :' + rsp.buyer_name;
                                //msg += '카드 승인번호 : ' + rsp.apply_num;
                                //msg1 += '구매자'+ rsp.buyer_name + '님의';
+                               alert(data);
                                alert('구매자 님의 결제가 완료되었습니다.');
+                               
+                            
+                               $('#airplaneResultForm').attr('action', '/airport/reservationComplete');
+                               $('#airplaneResultForm').attr('method', 'POST');
+                               $('#airplaneResultForm input[name="reservation_id"]').val(data);
+                               $('#airplaneResultForm').submit();
+                                
                              },
                              error: function(err){
                                 var msg2 = '결제에 실패하였습니다.';

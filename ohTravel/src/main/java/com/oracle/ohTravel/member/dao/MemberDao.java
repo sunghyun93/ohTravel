@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -24,7 +25,7 @@ public interface MemberDao {
 	public List<TicketReservationDTO> myPageReservTicket(TicketReservationDTO ticketReservationDTO);
 
 	// 항공 예약 내역
-	public List<AirReservationDTO> myPageReservAir(AirReservationDTO airReservationDTO);
+	public List<AirReservationDetail> myPageReserveAirLine(Map<String, Object> map);
 
 	// 호텔 예약 내역
 	public List<HotelReservationDTO> myPageReservHotel(HotelReservationDTO hotelReservationDTO);
@@ -72,6 +73,8 @@ public interface MemberDao {
 
 	// 호텔 리뷰 목록
 	public List<ReviewDTO> mypageReviewHotel(ReviewDTO reviewDTO);
+
+	
 
 }
 

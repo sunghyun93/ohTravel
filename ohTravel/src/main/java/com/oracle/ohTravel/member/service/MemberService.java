@@ -1,9 +1,11 @@
 package com.oracle.ohTravel.member.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.manager.model.CouponDTO;
-import com.oracle.ohTravel.member.model.AirReservationDTO;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -22,7 +24,7 @@ public interface MemberService {
 	public List<HotelReservationDTO> myPageReservHotel(HotelReservationDTO hotelReservationDTO);
 	
 	// 항공 예약 내역
-	public List<AirReservationDTO> myPageReservAir(AirReservationDTO airReservationDTO);
+	//public List<AirReservationDTO> myPageReservAir(Air_ReservationDTO air_ReservationDTO);
 
 	// 티켓 예약 내역
 	public List<TicketReservationDTO> myPageReservTicket(TicketReservationDTO ticketReservationDTO);
@@ -59,5 +61,8 @@ public interface MemberService {
 
 	// 호텔 리뷰 목록
 	public List<ReviewDTO> myPageReviewHotel(ReviewDTO reviewDTO);
+
+	//항공예약내역
+	public List<AirReservationDetail> myPageReservAir(Map<String, Object> map);
 	
 }
