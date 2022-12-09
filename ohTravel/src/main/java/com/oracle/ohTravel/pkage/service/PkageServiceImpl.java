@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oracle.ohTravel.airport.dao.ScheduleDAO;
-import com.oracle.ohTravel.manager.dto.PaymentDTO;
+import com.oracle.ohTravel.manager.model.PaymentDTO;
 import com.oracle.ohTravel.member.dao.MemberDao;
 import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 import com.oracle.ohTravel.pkage.dao.PkageDao;

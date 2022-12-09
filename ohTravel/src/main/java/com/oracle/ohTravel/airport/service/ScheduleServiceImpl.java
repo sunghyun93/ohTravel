@@ -186,6 +186,19 @@ public class ScheduleServiceImpl implements ScheduleService{
 		return insertCnt;
 	}
 
+	@Override
+	public Air_ReservationDTO selectCompleteReservationId(Integer reservation_id) {
+	
+		Air_ReservationDTO air_ReservationDTO = null;
+		try {
+			air_ReservationDTO = scheduleDAO.selectReservationDetail(reservation_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return air_ReservationDTO;
+	}
+
 	
 
 	

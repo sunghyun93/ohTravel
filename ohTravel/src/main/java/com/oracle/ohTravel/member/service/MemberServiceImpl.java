@@ -1,6 +1,7 @@
 package com.oracle.ohTravel.member.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.dao.MemberDao;
 import com.oracle.ohTravel.member.domain.Member;
-import com.oracle.ohTravel.member.model.AirReservationDTO;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -54,10 +55,9 @@ public class MemberServiceImpl implements MemberService{
 
 	// 항공 예약 내역 조회
 	@Override
-	public List<AirReservationDTO> myPageReservAir(AirReservationDTO airReservationDTO) {
-		log.info("MemberServiceImpl MemberServiceImpl Start..");
-		List<AirReservationDTO> airReservList = memberDao.myPageReservAir(airReservationDTO);
-		return airReservList;
+	public List<AirReservationDetail> myPageReservAir(Map<String, Object> map) {
+		List<AirReservationDetail> airReserveList = memberDao.myPageReserveAirLine(map);
+		return airReserveList;
 	}
 	
 	// 티켓 예약 내역 조회
@@ -159,6 +159,7 @@ public class MemberServiceImpl implements MemberService{
 		return hotelReviewList;
 	}
 
+
 	// 티켓 리뷰 목록
 	@Override
 	public List<ReviewDTO> myPageReviewTicket(ReviewDTO reviewDTO) {
@@ -193,6 +194,7 @@ public class MemberServiceImpl implements MemberService{
 		System.out.println("MemberServiceImpl totalReviewTicket total -> " + total);
 		return total;
 	}
+
 
 	
 }

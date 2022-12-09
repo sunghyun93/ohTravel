@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<<<<<<< HEAD
+<%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>         
+=======
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+>>>>>>> branch 'main' of https://github.com/sunghyun93/ohTravel.git
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,21 +77,41 @@
 					                </colgroup>
 					                <thead>
 					                    <tr>
-					                        <th>예약일/예약코드</th>
-					                        <th>상품명</th>
-					                        <th>결제 금액</th>
-					                        <th>인원</th>
+					                        <th>예약일</th>
+					                        <th>예매번호</th>
+					                        <th>좌석등급</th>
+					                        <th>항공편명</th>
+					                        <th>출발공항</th>
+					                        <th>도착공항</th>
+					                        <th>예매가격</th>
 					                        <th>출발일</th>
 					                    </tr>
 					                </thead>
 					                <tbody>
-					                    <tr>
+					                <c:if test="${airReservList != null}">
+					                <c:forEach var="reserve" items="${airReservList}">
+					                	<tr>
+					                		<td><fmt:formatDate value="${reserve.reservation_date}" pattern="yy-MM-dd"/></td>
+					                		<td>${reserve.reservation_id }</td>
+					                		<td>${reserve.seat_position }</td>
+					                		<td>${reserve.airplane_name }</td>
+					                		<td>${reserve.start_airport_name }</td>
+					                		<td>${reserve.end_airport_name }</td>
+					                		<td>${reserve.reservation_price }</td>
+					                		<td><fmt:formatDate value="${reserve.start_time}" pattern="yy-MM-dd"/></td>
+					                	</tr>
+					                </c:forEach>
+					                 </c:if>
+					                 <!--예약내역이 없으면  -->
+					                 <c:if test="${airReservList == null}">
+					                	 <tr>
 					                        <td colspan="5">
 					                            <div class="data_no">
 					                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
 					                            </div>
 					                        </td>
 					                    </tr>
+					                 </c:if>
 					                </tbody>
 					            </table>
 					        </div>	<!-- tbl -->

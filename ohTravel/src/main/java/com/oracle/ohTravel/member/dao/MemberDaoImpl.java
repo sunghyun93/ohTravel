@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -60,13 +61,12 @@ public class MemberDaoImpl implements MemberDao {
 		return ticketReservList;
 	}
 
-	// 항공 예약 내역
+	//항공 예약 내역
 	@Override
-	public List<AirReservationDTO> myPageReservAir(AirReservationDTO airReservationDTO) {
-		log.info("MemberDaoImpl myPageReservTicket Start..");
-		List<AirReservationDTO> airReservList = sqlSession.selectList("airReservList", airReservationDTO);
+	public List<AirReservationDetail> myPageReserveAirLine(Map<String, Object> map) {
 		
-		System.out.println("MemberDaoImpl myPageReservAir airReservList.size() -> " + airReservList.size());
+		List<AirReservationDetail> airReservList = sqlSession.selectList("airReservList",map);
+		System.out.println("MemberDaoImpl myPageReserveAirLine airReservList.size() -> "+ airReservList.size());
 		return airReservList;
 	}
 
@@ -219,6 +219,8 @@ public class MemberDaoImpl implements MemberDao {
 		System.out.println("MemberDaoImpl mypageReviewHotel hotelReviewList.size() -> " + hotelReviewList.size());
 		return hotelReviewList;
 	}
+	
+	
 
 	// 티켓 리뷰 목록
 	@Override
