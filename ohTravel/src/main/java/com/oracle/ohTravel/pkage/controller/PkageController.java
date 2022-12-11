@@ -241,6 +241,7 @@ public class PkageController {
 			// 멤버 (등급 까지 들고가기)
 			memberDTO = memberService.selectMemberWithGrade(mem_id);
 			
+			// 멤버가 사용할 수 있는 쿠폰 
 			List<CouponDTO> couponList = memberService.selectMemberWithCoupon(mem_id);
 			log.info("couponList = " + couponList);
 			memberDTO.setCouponList(couponList);
@@ -266,6 +267,7 @@ public class PkageController {
 		return "pkage/package_reservation";
 	}
 	
+//	예약하기 메서드
 	@PostMapping("/reserve")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> reserve(PkgReserveEle pkgReserveEle,  Model model, HttpSession session) {

@@ -421,17 +421,19 @@
                                     </div>
                                     <%-- 처음엔 회원 등급을 뺀 가격 ( 쿠폰 적용 X 인 가격 ) --%>
                                     <strong class="price" data-realPrice="${priceWithGd }"><fmt:formatNumber value="${priceWithGd }" pattern="#,###"/><span>원</span></strong>
+                                    <%-- 마일리지 부분(마일리지 적용률은 회원 등급의 할인율로 적용 --%>
                                     <div class="mileage_save">
                                     	<p>OhTravel 마일리지 
                                     		<em class="mileage">
                                     			<fmt:formatNumber value="${mile }" pattern="#,###"/>
                                     		</em> 
-                                   		적립예정</p>
+                                   		적립(${memberDTO.membership_discount }%)예정</p>
                                     </div>
                                 </div>
 
                                 <div class="info_area">
                                 	<p class="mem_grade">회원등급에 따른 할인가격 : <fmt:formatNumber value="${pkgReserve.totalPay*memberDTO.membership_discount/100 }" pattern="#,###"/><span>원</span></p>
+                                	<p class="mem_grade info">회원등급:${memberDTO.membership_name }, 할인율: ${memberDTO.membership_discount }%</p>
                                 	<p class="mem_coupon">쿠폰 적용에 따른 할인가격 : <span class="cp_discount"></span><span>원</span></p>
                                 </div>
                             </div>

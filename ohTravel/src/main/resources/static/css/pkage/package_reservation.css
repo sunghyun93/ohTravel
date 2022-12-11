@@ -417,6 +417,13 @@ span.form_holder:last-child {
     color: #0e1c35;
     text-align: right;
 }
+.info_area .mem_grade.info {
+	display: block;
+    margin-top: 10px;
+    font-size: 9px;
+    color: #0e1c35;
+    text-align: right;
+}
 /* 쿠폰 부분 */
 .coupon_list {
 	margin-top : 10px;
