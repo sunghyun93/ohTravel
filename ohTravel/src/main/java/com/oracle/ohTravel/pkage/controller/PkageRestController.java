@@ -13,7 +13,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,6 +75,70 @@ public class PkageRestController {
 		} else {
 			log.info("PkageRestController loginCheck() end");
 			return new ResponseEntity<String>("LOGIN_NO", HttpStatus.OK);
+		}
+	}
+	
+	// 찜 하기
+	@PostMapping("/basket/{pkage_id}")
+	public ResponseEntity<String> insertBasket(@PathVariable String pkage_id, HttpSession session) {
+		log.info("PkageRestController basket() start");
+		boolean loginCheck = session.getAttribute("member") == null; 
+
+		// 로그인 되어 있지 않으면 로그인 유도
+		if(loginCheck) {
+			return new ResponseEntity<String>("LOGIN_NO", HttpStatus.OK);
+		}
+		
+		String mem_id = ((MemberDTO)session.getAttribute("member")).getMem_id();
+		log.info("pkage_id = " + pkage_id);
+		log.info("mem_id = " + mem_id);
+		
+		try {
+			Map<String, String> map = new HashMap<>();
+			map.put("pkage_id", pkage_id);
+			map.put("mem_id", mem_id);
+			int rowCnt = pkageService.insertBasket(map);
+			
+			if(rowCnt != 1) {
+				throw new Exception("Insert Error");
+			}
+			
+			return new ResponseEntity<String>("INSERT_OK", HttpStatus.OK);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("INSERT_ERR", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	// 찜 해제 하기
+	@DeleteMapping("/basket/{pkage_id}")
+	public ResponseEntity<String> deleteBasket(@PathVariable String pkage_id, HttpSession session) {
+		log.info("PkageRestController basket() start");
+		boolean loginCheck = session.getAttribute("member") == null; 
+
+		// 로그인 되어 있지 않으면 로그인 유도
+		if(loginCheck) {
+			return new ResponseEntity<String>("LOGIN_NO", HttpStatus.OK);
+		}
+		
+		String mem_id = ((MemberDTO)session.getAttribute("member")).getMem_id();
+		log.info("pkage_id = " + pkage_id);
+		log.info("mem_id = " + mem_id);
+		
+		try {
+			Map<String, String> map = new HashMap<>();
+			map.put("pkage_id", pkage_id);
+			map.put("mem_id", mem_id);
+			int rowCnt = pkageService.deleteBasket(map);
+			
+			if(rowCnt != 1) {
+				throw new Exception("Delete Error");
+			}
+			
+			return new ResponseEntity<String>("DEL_OK", HttpStatus.OK);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("DEL_ERR", HttpStatus.BAD_REQUEST);
 		}
 	}
 	

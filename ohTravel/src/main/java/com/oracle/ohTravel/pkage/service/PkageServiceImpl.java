@@ -239,4 +239,23 @@ public class PkageServiceImpl implements PkageService {
 		log.info("PkageServiceImpl selectPkgReservByMem_id() end...");
 		return pkage_rsDTOList;
 	}
+	
+//	pkage 찜 하기
+	@Override
+	public int insertBasket(Map<String, String> map) throws Exception {
+		log.info("PkageServiceImpl insertBasket() start...");
+		int rowCnt = pkageDao.insertBasket(map);
+		log.info("PkageServiceImpl insertBasket() end...");
+		return rowCnt;
+	}
+	
+//	pkage 찜 해제
+	@Override
+	public int deleteBasket(Map<String, String> map) throws Exception {
+		log.info("PkageServiceImpl insertBasket() start...");
+		int rowCnt = pkageDao.deleteBasket(map);
+		log.info("PkageServiceImpl insertBasket() end...");
+		return rowCnt;
+	}
+	
 }

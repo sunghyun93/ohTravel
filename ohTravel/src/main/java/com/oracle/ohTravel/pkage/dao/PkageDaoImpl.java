@@ -169,4 +169,22 @@ public class PkageDaoImpl implements PkageDao {
 		log.info("PkageDaoImpl selectPkgReservByMem_id() end...");
 		return pkage_rsDTOList;
 	}
+	
+//	pkage 찜 하기
+	@Override
+	public int insertBasket(Map<String, String> map) throws Exception {
+		log.info("PkageDaoImpl insertBasket() start...");
+		int rowCnt = session.insert(namespace+"insertBasket", map);
+		log.info("PkageDaoImpl insertBasket() end...");
+		return rowCnt;
+	}
+	
+//	pkage 찜 해제하기
+	@Override
+	public int deleteBasket(Map<String, String> map) throws Exception {
+		log.info("PkageDaoImpl insertBasket() start...");
+		int rowCnt = session.delete(namespace+"deleteBasket", map);
+		log.info("PkageDaoImpl insertBasket() end...");
+		return rowCnt;
+	}
 }

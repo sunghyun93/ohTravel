@@ -21,4 +21,6 @@ public interface PkageService {
 	Map<String, Object> insertPkgReserveInsertWithAll(Map<String, Object> map) throws Exception;
 	Pkage_rsDTO selectPkgReservById(Integer pkage_rv_id) throws Exception;
 	List<Pkage_rsDTO> selectPkgReservByMem_id(String mem_id) throws Exception;
+	int insertBasket(Map<String, String> map) throws Exception;
+	int deleteBasket(Map<String, String> map) throws Exception;
 }

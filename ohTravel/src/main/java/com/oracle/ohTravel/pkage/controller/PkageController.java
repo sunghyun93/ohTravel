@@ -124,6 +124,8 @@ public class PkageController {
 		// 필터로 인해 넘어온 출발 시간 값을 DB로 전달하기 위해 출발 시간 설정(AM-5~12, PM-12~18)
 		pkgSearch.makeDBtime();
 		log.info("AmtGubun = " + pkgSearch.getAmtGubun());
+		log.info("chk_start_time = " + pkgSearch.getChk_start_time());
+		log.info("chk_start_time = " + pkgSearch.getChk_end_time());
 		
 		try {
 			// 국가 가져오기

@@ -457,8 +457,8 @@
 		left join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
 		left join airline aline on ashe.Air_num = aline.Air_num
 		join ( 	select * from package_schedule
-		where pkage_dt_id = #{pkage_dt_id}
-		order by pkage_sche_day ) ps on pd.pkage_dt_id = ps.pkage_dt_id
+				where pkage_dt_id = #{pkage_dt_id}
+				order by pkage_sche_day ) ps on pd.pkage_dt_id = ps.pkage_dt_id
 		join (	select * from packageSchedule_detail 
 				where pkage_dt_id = ${pkage_dt_id}
 				order by pkage_sche_day, pkage_s_d_order
@@ -557,6 +557,16 @@
 		join package_detail pd on pr.pkage_dt_id = pd.pkage_dt_id
 		where pr.mem_id = #{mem_id};
 	</select>
+	
+	<!-- 찜 하기 -->
+	<insert id="insertBasket" parameterType="map">
+		insert into basket (mem_id, basket_ref_id) values (#{mem_id}, #{pkage_id})
+	</insert>
+	
+	<!-- 찜 해제하기 -->
+	<delete id="deleteBasket" parameterType="map">
+		delete from basket where mem_id = #{mem_id} and basket_ref_id = #{pkage_id}
+	</delete>
 	
 <!--  sql 태그들  -->
 	<!-- 평점을 위한 sql -->
