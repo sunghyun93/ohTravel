@@ -334,7 +334,7 @@
         pfs.*,
         ashe.*,
 		aline.*,
-        pi.pkage_Img_path from package p 
+        pi.pkage_Img_path from (select * from package where city_id = #{toDesti} limit 0, 6) p <!-- 페이징을 위함 -->
 		join city c on p.city_id = c.city_id
 		join country ct on c.country_id = ct.country_id
 		join package_image pi on p.pkage_id = pi.pkage_id
@@ -348,7 +348,7 @@
 			and p.pkage_id = #{pkage_id}
 		</if>
 		<if test="pkage_id == null">
-			and p.city_id = #{toDesti} and pkage_dt_startDay >= #{dates_start_check}
+			and true and pkage_dt_startDay >= #{dates_start_check}
 		</if>
 		<!-- 가격 필터 --> <!-- (max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3) -->
 		<if test='pkgSearch.amtGubun != null'>
@@ -437,6 +437,11 @@
 		join city c on p.city_id = c.city_id
 		join package_image pi on p.pkage_id = pi.pkage_id
 		where p.pkage_id = #{pkage_id}
+	</select>
+	
+	<!-- 단순히 pkage_dt_id 를 받아 1개의 pkg detail을 select -->
+	<select id="selectPkgDetailById3" parameterType="int" resultType="pkage_detailDTO">
+		select * from package_detail where pkage_dt_id = #{pkage_dt_id}
 	</select>
 	
 	<!-- pkage_dt_id 를 받아 해당 패키지 상세와 관련된 것들 select(여행일정 상세테이블은 각 일정 순서에 맞게 select) -->
@@ -541,6 +546,16 @@
 		join package_detail pd on pr.pkage_dt_id = pd.pkage_dt_id
 		join member m on pr.mem_id = m.mem_id
 		where pr.pkage_rv_id = #{pkage_rv_id}
+	</select>
+	
+	<!-- mem_id 를 받아 해당 회원의 예약 목록 가져오기 -->
+	<select id="selectPkgReservByMem_id" parameterType="string" resultMap="selectPkgReservResult">
+		select pr.pkage_rv_id, 
+	 	pd.pkage_dt_startDay, 
+	    pd.pkage_dt_endDay
+		from package_reservation pr
+		join package_detail pd on pr.pkage_dt_id = pd.pkage_dt_id
+		where pr.mem_id = #{mem_id};
 	</select>
 	
 <!--  sql 태그들  -->

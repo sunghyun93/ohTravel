@@ -687,7 +687,7 @@
             
                 // input 태그들 검사
                 // index : 인덱스, item : 각각의 객체
-                $('.input_keyword').each(function(index, item) {
+                 $('.input_keyword').each(function(index, item) {
                     if($(item).val() == '') {
                         $(item).focus();
                         lastCheck = false;
@@ -737,9 +737,16 @@
                 
                 // 유효성 검사 등을 모두 통과 한 뒤  예약 ㄱㄱ (결제가 들어가야됨)
                 if(lastCheck) {
+                	let adultCnt = Number('${pkgReserve.adultCnt }'); // 성인 인원수
+                	let childCnt = Number('${pkgReserve.childCnt }'); // 아동 인원 수
+                	let reservedCnt = adultCnt + childCnt;
+                	alert(reservedCnt);
+                	
                 	// 진짜 들고갈 가격 넣어주기 (쿠폰 까지 적용 된 가격 / 쿠폰이 적용 되지 않으면 서버에서 들고온 가격)
                    	console.log($('.price').attr('data-realPrice'));
-                	let data = {
+                	
+                	// 결제 api 에 줄 데이터 객체
+                	let payData = {
                			name : '${pkage_detailDTO.pkage_dt_name}',
                			amount : $('strong.price').attr('data-realprice'),
                			buyer_email : '${memberDTO.mem_email}',
@@ -747,8 +754,8 @@
                			buyer_tel : '${memberDTO.mem_tel}',
                 	}
                 	
-                	 /* 예약 ajax ㄱㄱ */
-                	// 이미 예약한 상품인지 먼저 검사 
+                	/* 예약을 위한  ajax start  */
+                	// 이미 예약한 상품인지 먼저 검사 ajax
             		$.ajax({
             			url: "/pkageRest/reservedCheck",
             			type: "post",
@@ -758,51 +765,45 @@
             				if(data == 'reserved') {
             					// 예약된 상품이면  alert
             					alert("이미 예약한 상품입니다.");
-            				} else {
-            					// 예약된 상품이 아니면 예약 ajax ㄱㄱ
+            				} else if (data == 'reservedNo'){
+            					// 예약된 상품이 아니면 
+            					// 해당 패키지 상품의 잔여좌석 존재 여부 판단 ajax 
             					$.ajax({
-                                    url: "/pkage/reserve", //가맹점 서버
-                                    method: "POST",
-                                    /* headers: { "Content-Type": "application/text" }, */
-                                    data: $('#reserveForm').serialize(),
-                                    dataType: 'json',
-                                    success: function(data){
-                                       //var msg1 = '결제가 완료되었습니다.';
-                                        //msg1 += '고유ID : ' + rsp.imp_uid;
-                                        //msg1 += '상점 거래ID : ' + rsp.merchant_uid;
-                                        //msg1 += '결제 금액 : ' + rsp.paid_amount;
-                                        //msg1 += '구매자 이름 :' + rsp.buyer_name;
-                                        //msg += '카드 승인번호 : ' + rsp.apply_num;
-                                        //msg1 += '구매자'+ rsp.buyer_name + '님의';
-                                        
-                                        //alert('구매자 '+ rsp.buyer_name + '님의 결제가 완료되었습니다.');
-                                        
-                                        /* 예약 완료 후 결제 완료 form 에 데이터 채워서 예약 완료 페이지로 ㄱㄱ */
-                                        $('#paymentResultForm').attr('action', '/pkage/reserveComplete');
-                                        $('#paymentResultForm').attr('method', 'POST');
-                                        $('#paymentResultForm input[name="pkage_rv_id"]').val(data.pkageReserveEle.pkage_rv_id);
-                                        $('#paymentResultForm').submit();
-                                      },
-                                      error: function(err){
-                                         var msg2 = '결제에 실패하였습니다.';
-                                         alert(msg2);
-                                      }
-                                      
-                                  });
+            						url : '/pkageRest/reservedCntCheck',
+            						type : 'get',
+            						data : {
+            							'pkage_dt_id' : '${pkage_detailDTO.pkage_dt_id}',
+            							'reservedCnt' : reservedCnt
+            						},
+            						dataType : 'text',
+            						success: function(data) {
+            							// impossible 이라면, 예약 가능 인원 수가 0명인 것.
+    		    						if(data == 'impossible') {
+    		    							alert("해당 패키지는 예약 인원이 꽉 차있습니다.");
+    		    						}
+    		    						// no라면, 요청 보낸 인원 수가 예약 가능 인원 수 보다 커서 예약 불가
+    		    						else if(data == 'no') {
+    		    							alert("요청하신 예약 인원은 예약 가능 인원 수를 초과하였습니다.");	
+    		    						} 
+    		    						// yes라면, 요청한 인원 예약 가능한 상태
+    		    						else if(data == 'yes'){
+    		    							// 결제 api 실행 (결제 api success 함수 안에 결제 insert ajax 존재)
+    		    							requestPay(payData);
+    		    							
+    		    						}
+            						},
+            						error: function(err) {
+            							
+            						}
+            					}); // 해당 패키지 상품의 잔여좌석 존재 여부 판단 ajax 
             				}
             			},
             			error: function(err) {
             				console.log(err);
             			}
-            		}) // 이미 예약한 상품인지 먼저 검사 ajax 
-                	
-                	
-                   	//requestPay(data);
-                	/* $('#reserveForm').attr('method', 'post');
-                	$('#reserveForm').attr('action', '/pkage/reserve');
-                	$('#reserveForm').submit(); */
+            		}); // 이미 예약한 상품인지 먼저 검사 ajax 
                 }
-            });
+            }); // $('#nextBtn').on('click', function() {}); 다음 단계 버튼
         }); // $(function() {});
         
         function requestPay(data) {
@@ -861,12 +862,43 @@
                 console.log(rsp);
                  if (rsp.success) {
                    /* 결제 성공 시 서버 테이블들 insert !! */	
+                   // 예약 ajax ㄱㄱ
+					$.ajax({
+	                       url: "/pkage/reserve", //가맹점 서버
+	                       method: "POST",
+	                       // headers: { "Content-Type": "application/text" },
+	                       data: $('#reserveForm').serialize(),
+	                       dataType: 'json',
+	                       success: function(data){
+	                       	
+	                          //var msg1 = '결제가 완료되었습니다.';
+	                           //msg1 += '고유ID : ' + rsp.imp_uid;
+	                           //msg1 += '상점 거래ID : ' + rsp.merchant_uid;
+	                           //msg1 += '결제 금액 : ' + rsp.paid_amount;
+	                           //msg1 += '구매자 이름 :' + rsp.buyer_name;
+	                           //msg += '카드 승인번호 : ' + rsp.apply_num;
+	                           //msg1 += '구매자'+ rsp.buyer_name + '님의';
+	                           
+	                           //alert('구매자 '+ rsp.buyer_name + '님의 결제가 완료되었습니다.');
+	                           
+	                           // 예약 완료 후 결제 완료 form 에 데이터 채워서 예약 완료 페이지로 ㄱㄱ 
+	                           $('#paymentResultForm').attr('action', '/pkage/reserveComplete');
+	                           $('#paymentResultForm').attr('method', 'POST');
+	                           $('#paymentResultForm input[name="pkage_rv_id"]').val(data.pkageReserveEle.pkage_rv_id);
+	                           $('#paymentResultForm').submit();
+	                         },
+	                         error: function(err){
+	                            var msg2 = '결제에 실패하였습니다.';
+	                            alert(msg2);
+	                         }
+	                         
+	                     }); // 예약 ajax
                    
                  } else if(rsp.fail) {
                 	 alert('결제에 실패하였습니다.');
                 	 
                  }
-            })
+            }) // function (rsp)
         };
 
     </script>

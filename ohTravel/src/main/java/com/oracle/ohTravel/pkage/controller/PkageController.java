@@ -250,8 +250,8 @@ public class PkageController {
 			// 회원 등급 적용한 마일리지 가져가기
 			int mile = pkgReserve.getTotalPay() * memberDTO.getMembership_discount() / 100;
 			
-			model.addAttribute("mile", mile);
-			model.addAttribute("priceWithGd", priceWithGd);
+			model.addAttribute("mile", mile);	// 적용할 마일리지
+			model.addAttribute("priceWithGd", priceWithGd); // 회원 등급 적용한 가격 
 			model.addAttribute("pkageDTORM", pkageDTORM);
 			model.addAttribute("pkage_detailDTO", pkage_detailDTO);
 			model.addAttribute("memberDTO", memberDTO);
@@ -382,8 +382,11 @@ public class PkageController {
 		}
 	}
 	
-	// pkg 상품 detail 의 필요 변수들 값 만들기(출발/도착 요일, 일 수, 출발/도착 때 걸린 비행시간, 비행 일정 유무 구분)
+	// pkg 상품 detail 의 필요 변수들 값 만들기(예약 가능 인원 구하기, 출발/도착 요일, 일 수, 출발/도착 때 걸린 비행시간, 비행 일정 유무 구분)
 	private void getMakingDetailByDTO(Pkage_detailDTO tmpDTO) {
+		// 예약 가능 인원 만들어 주기
+		tmpDTO.setPossibleCnt(tmpDTO.getPkage_dt_cnt() - tmpDTO.getPkage_dt_Rcnt());
+		
 		Date start = tmpDTO.getPkage_dt_startDay();
 		Date end = tmpDTO.getPkage_dt_endDay();
 		tmpDTO.setDay(tmpDTO.getDay(start, end));

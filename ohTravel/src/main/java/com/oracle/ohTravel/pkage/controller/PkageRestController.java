@@ -1,5 +1,9 @@
 package com.oracle.ohTravel.pkage.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +82,9 @@ public class PkageRestController {
 		log.info("PkageRestController reservedCheck() start");
 		String mem_id = ((MemberDTO)session.getAttribute("member")).getMem_id();
 		
+		log.info("mem_id = " + mem_id);
+		log.info("pkage_dt_id = " + pkage_dt_id);
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("pkage_dt_id", pkage_dt_id);
 		map.put("mem_id", mem_id);
@@ -90,13 +97,163 @@ public class PkageRestController {
 		}
 		
 		// check가 1이면 이미 예약한 상품
-		if(check == 1) {
+		if(check != null) {
 			log.info("PkageRestController reservedCheck() end");
 			return new ResponseEntity<String>("reserved", HttpStatus.OK);
 		} else {
 			log.info("PkageRestController reservedCheck() end");
-			return new ResponseEntity<String>("no", HttpStatus.OK);
+			return new ResponseEntity<String>("reservedNo", HttpStatus.OK);
 		}
+	}
+	
+	// 사용자가 요청한 예약 인원 수와 해당 패키지 상품의 예약 가능 인원 수 비교하기 위한 메서드
+	@GetMapping("/reservedCntCheck")
+	public ResponseEntity<String> reservedCntCheck(Integer pkage_dt_id, Integer reservedCnt) {
+		log.info("PkageRestController reservedCntCheck() start...");
+		try {
+			Pkage_detailDTO pkage_detailDTO = pkageService.selectPkgDetailById3(pkage_dt_id);
+			// 예약 가능 인원 만들어 주기
+			pkage_detailDTO.setPossibleCnt(pkage_detailDTO.getPkage_dt_cnt() - pkage_detailDTO.getPkage_dt_Rcnt());
+			int possibleCnt = pkage_detailDTO.getPossibleCnt(); // 패키지 상품의 예약 가능 인원
+			
+			log.info("PkageRestController reservedCntCheck() end...");
+//			요청 인원과 관계없이 예약 가능 인원 수가 0 이면 return
+			if(possibleCnt == 0) {
+				return new ResponseEntity<String>("impossible", HttpStatus.OK);
+			}
+			
+//			넘어온 요청 예약 인원 수가 패키지 상품의 예약 가능 인원 수를 초과하면 "no"를 전달
+			if(possibleCnt < reservedCnt) {
+				return new ResponseEntity<String>("no", HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>("yes", HttpStatus.OK);
+			}
+		} catch(Exception e) {
+			return new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	// mem_id와 회원이 선택한 pkage_dt_id를 받아 해당 회원의 예약된 것들 중에 선택한 pkage_dt_id의 날짜와 겹치는 것이 있는지 판단
+	@GetMapping("/duplicateReserve")
+	public ResponseEntity<String> duplicateReserve(String mem_id, Integer pkage_dt_id) {
+		log.info("PkageRestController duplicateReserve() start...");
+		log.info("mem_id = " + mem_id);
+		log.info("pkage_dt_id = " + pkage_dt_id);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("mem_id", mem_id);
+		map.put("pkage_dt_id", pkage_dt_id);
+		
+		try {
+			Pkage_detailDTO pkage_detailDTO = pkageService.selectPkgDetailById3(pkage_dt_id);
+			List<Pkage_rsDTO> pkage_rsDTO = pkageService.selectPkgReservByMem_id(mem_id);
+			
+			// 값이 1 이상이면 겹치는 날짜가 있는 것
+			int duplicate = duplicateReserve(pkage_detailDTO, pkage_rsDTO);
+			log.info("duplicate = " + duplicate);
+			
+			if(duplicate > 0) {
+				return new ResponseEntity<String>("duplicate", HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>("duplicateNo", HttpStatus.OK);
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+//	예약 하려는 패키지 상품의 기간이 현재 예약 중인 것들의 기간에 포함되는지 여부(0:포함 X, 1:포함 O)
+	private int duplicateReserve(Pkage_detailDTO pkage_detailDTO, List<Pkage_rsDTO> pkage_rsDTOList) {
+		int duplicate = 0; // 0 이면 겹치는 날짜 없음, 1이면 겹치는 날짜 있음
+		
+		// 예약하려는 패키지 상품의 시작/종료 날짜
+		Date startDate = pkage_detailDTO.getPkage_dt_startDay();
+		Date endDate = pkage_detailDTO.getPkage_dt_endDay();
+
+		// Date의 시분초 초기화
+		initDate(startDate, endDate);
+		log.info("startLD = " + startDate);
+		log.info("endLD = " + endDate);
+		// 예약 하려는 패키지 상품의 기간 리스트 구하기
+		List<Date> dateList = getDateList(startDate, endDate);
+		
+		// 예약된 것들과 예약하려는 상품의 기간 비교
+		outer: 
+		for(Pkage_rsDTO dto : pkage_rsDTOList) {
+			Date rsStartDate = dto.getPkage_detailDTO().getPkage_dt_startDay();
+			Date rsEndDate = dto.getPkage_detailDTO().getPkage_dt_endDay();
+			
+			// 시분초 초기화
+			initDate(rsStartDate, rsEndDate);
+			
+			log.info("for 문 안의 rsStartDate = " + rsStartDate);
+			log.info("for 문 안의 rsEndDate = " + rsEndDate);
+			
+			// 예약하려는 패키지 기간의 날짜를 하나하나 비교
+			for(Date detailDate : dateList) {
+				// compareTo : 크면(양수), 같으면(0), 작으면(음수)
+				if(detailDate.compareTo(rsStartDate) >= 0 && rsEndDate.compareTo(detailDate) >= 0) {
+					duplicate = 1;
+					break outer;
+				}
+			}
+		}
+
+		return duplicate;
+	}
+	
+//	출발/종료 날짜의 시간 초기화 함수
+	private void initDate(Date d1, Date d2) {
+		d1.setHours(0);
+		d1.setMinutes(0);
+		d1.setSeconds(0);
+		d2.setHours(23);
+		d2.setMinutes(59);
+		d2.setSeconds(59);
+	}
+	
+//	두 날짜 사이의 날짜 리스트 구하기
+	private List<Date> getDateList(Date d1, Date d2) {
+		List<Date> list = new ArrayList<>();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		// Date -> Calendar 변환
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+				
+		c1.setTime(d1);
+		c2.setTime(d2);
+		
+		String startDay = sdf.format(c1.getTime());
+		String endDay = sdf.format(c2.getTime());
+		try {
+			// 당일 치기 일 때를 고려하기 위함.
+			if(startDay.equals(endDay)) {
+				list.add(sdf.parse(startDay));
+			}
+			
+			int i = 0;
+			while(!startDay.equals(endDay)) {
+			
+				if(i == 0) {
+					log.info("getDateList startDay = " + startDay);
+					list.add(sdf.parse(startDay));
+				}
+				c1.add(Calendar.DATE, 1);
+				startDay = sdf.format(c1.getTime());
+				log.info("getDateList startDay = " + startDay);
+				list.add(sdf.parse(startDay));
+				i++;
+				
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		log.info("getDateList list = " + list);
+		return list;
 	}
 	
 	// 테스트용
