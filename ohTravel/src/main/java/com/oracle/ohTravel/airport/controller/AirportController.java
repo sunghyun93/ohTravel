@@ -21,6 +21,7 @@ import com.oracle.ohTravel.airport.model.Air_FlightSchDTO;
 import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.airport.model.Air_Reservation_PiDTO;
 import com.oracle.ohTravel.airport.model.Air_ScheduleDTO;
+import com.oracle.ohTravel.airport.model.PeopleInfo;
 import com.oracle.ohTravel.airport.model.Reservation_Seat;
 import com.oracle.ohTravel.airport.service.ScheduleService;
 import com.oracle.ohTravel.city.model.CityDTO;
@@ -77,7 +78,7 @@ public class AirportController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		log.info("memberDTO = " + memberDTO);
 		
 		
@@ -87,13 +88,36 @@ public class AirportController {
 		List<Air_ScheduleDTO> round_trip_go_schedule_list=null;
 	
 		
+		
 		if(airSearch.getGubun_check()==1) { //편도일때(가는비행기)
 				oneway_schedule_list = scheduleService.searchAirplane(airSearch);
+				
+				for(int i = 0; i<oneway_schedule_list.size(); i++ ) {
+					oneway_schedule_list.get(i).generalCalc();
+					oneway_schedule_list.get(i).businessCalc();
+					oneway_schedule_list.get(i).firstCalc();
+				}
+				
 				mav.addObject("schedule_list",oneway_schedule_list);//편도일때 가는비행기 select
+				
 		}else if(airSearch.getGubun_check()==0) { //왕복일때(오는비행기)
 			
 			 round_trip_come_schedule_list = scheduleService.roundSearchAirplane(airSearch);
+			 
+			 for(int i = 0; i<round_trip_come_schedule_list.size(); i++ ) {
+				 round_trip_come_schedule_list.get(i).generalCalc();
+				 round_trip_come_schedule_list.get(i).businessCalc();
+				 round_trip_come_schedule_list.get(i).firstCalc();
+				}
+			 
 			 round_trip_go_schedule_list = scheduleService.round_GoSearchAriplane(airSearch);
+			 
+			 for(int i = 0; i<round_trip_go_schedule_list.size(); i++ ) {
+				 round_trip_go_schedule_list.get(i).generalCalc();
+				 round_trip_go_schedule_list.get(i).businessCalc();
+				 round_trip_go_schedule_list.get(i).firstCalc();
+				}
+			 
 			 mav.addObject("comeList",round_trip_come_schedule_list); // 왕복일때 오는 비행기 select
 			 mav.addObject("goList",round_trip_go_schedule_list); // 왕복일때 가는 비행기
 		}
@@ -122,7 +146,9 @@ public class AirportController {
 		mav.addObject("start_country_id",airSearch.getStart_country_id());
 		mav.addObject("end_country_id",airSearch.getEnd_country_id());
 		mav.addObject("memberDTO",memberDTO);
-
+//		mav.addObject("general_remaining_seats",air_ScheduleDTO.getGeneral_remaining_seats());
+//		mav.addObject("business_remaining_seats",air_ScheduleDTO.getBusiness_remaining_seats());
+//		mav.addObject("first_remaining_seats",air_ScheduleDTO.getFirst_remaining_seats());
 
 		return mav;
 	}
@@ -143,11 +169,30 @@ public class AirportController {
 		
 		if(airSearch.getGubun_check()==1) { //편도일때(가는비행기)
 				oneway_schedule_list = scheduleService.searchAirplane(airSearch);
+				
+				for(int i = 0; i<oneway_schedule_list.size(); i++ ) {
+					oneway_schedule_list.get(i).generalCalc();
+					oneway_schedule_list.get(i).businessCalc();
+					oneway_schedule_list.get(i).firstCalc();
+				}
 				mav.addObject("schedule_list",oneway_schedule_list);//편도일때 가는비행기 select
 		}else if(airSearch.getGubun_check()==0) { //왕복일때(오는비행기)
 			
 			 round_trip_come_schedule_list = scheduleService.roundSearchAirplane(airSearch);
+			 
+			 for(int i = 0; i<round_trip_come_schedule_list.size(); i++ ) {
+				 round_trip_come_schedule_list.get(i).generalCalc();
+				 round_trip_come_schedule_list.get(i).businessCalc();
+				 round_trip_come_schedule_list.get(i).firstCalc();
+				}
+			 
 			 round_trip_go_schedule_list = scheduleService.round_GoSearchAriplane(airSearch);
+			 
+			 for(int i = 0; i<round_trip_go_schedule_list.size(); i++ ) {
+				 round_trip_go_schedule_list.get(i).generalCalc();
+				 round_trip_go_schedule_list.get(i).businessCalc();
+				 round_trip_go_schedule_list.get(i).firstCalc();
+				}
 			 mav.addObject("comeList",round_trip_come_schedule_list); // 왕복일때 오는 비행기 select
 			 mav.addObject("goList",round_trip_go_schedule_list); // 왕복일때 가는 비행기
 		}
@@ -216,9 +261,9 @@ public class AirportController {
 	
 	
 	@PostMapping("/airplaneReserve")
-	public String airReserve(int go_schedule_id,int come_schedule_id, int count,String total_price, String go_airplane_name,String come_airplane_name,String seat_position,String seat_name,Model model,HttpSession session) {
+	public String airReserve(Integer go_schedule_id,Integer come_schedule_id, Integer count,Integer total_price, String go_airplane_name,String come_airplane_name,String seat_position,String seat_name,Model model,HttpSession session) {
 		
-		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		log.info("memberDTO = " + memberDTO);
 		
 		if(memberDTO == null) {
@@ -242,48 +287,54 @@ public class AirportController {
 	}
 	
 	@PostMapping("/airplaneInsertReservation")
-	public ModelAndView airInsertReserve(String go_airplane_name,String come_airplane_name,String seat_position,int go_schedule_id,int come_schedule_id,Air_ReservationDTO air_ReservationDTO,Air_Reservation_PiDTO air_Reservation_PiDTO,Air_FlightSchDTO air_FlightSchDTO,Reservation_Seat reservation_Seat,PaymentDTO paymentDTO,HttpSession session) throws Exception {
-		System.out.println("air_Reservation_PiDTO="+air_Reservation_PiDTO);
+	@ResponseBody
+	public int airInsertReserve(Integer count,String go_airplane_name,String come_airplane_name,String seat_position,Integer go_schedule_id,Integer come_schedule_id,Air_ReservationDTO air_ReservationDTO,PeopleInfo peopleInfo,Air_FlightSchDTO air_FlightSchDTO,Reservation_Seat reservation_Seat,PaymentDTO paymentDTO,Air_ScheduleDTO air_ScheduleDTO,HttpSession session) throws Exception {
+		System.out.println("peopleInfo="+peopleInfo);
 		System.out.println("go_airplane_name="+go_airplane_name);
 		System.out.println("come_airplane_name="+come_airplane_name);
 		
-		MemberDTO memberDTO = (MemberDTO)session.getAttribute("res");
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		log.info("memberDTO = " + memberDTO);
 		
 		ModelAndView mav = new ModelAndView();
 	    int reservationCnt = scheduleService.insertReservation(air_ReservationDTO);
 	    System.out.println("reservationCtn 갯수?"+reservationCnt);
+	   
+	   
 	    
 	    Air_ReservationDTO reservationList = scheduleService.selectReservationId(air_ReservationDTO.getMem_id());
+	    System.out.println("air_ReservationDTO 예약아이디?"+reservationList.getReservation_id());
+	    System.out.println("air_ReservationDTO 예약날짜?"+reservationList.getReservation_date());
+	   
 		System.out.println("reservationList="+reservationList);
 		
 		
 		
-		//일정이 한국에서 가는비행기인지 or 다시 한국으로 오는 비행기인지 구분하려고
-	    if(go_schedule_id < 645 ) {
-	    	air_FlightSchDTO.setAir_gubun(0);
-	    }else if(go_schedule_id >= 645  ) {
-	    	air_FlightSchDTO.setAir_gubun(1);
-	    }
-		
-	    System.out.println("에어구분 넘버는?"+air_FlightSchDTO.getAir_gubun());
+	
 		
 	    
 		Map<String,Object> map = new HashMap<String, Object>();
 		
+		
+		Integer reservation_id = reservationList.getReservation_id();
+		
 		map.put("reservation_id",reservationList.getReservation_id());
+		map.put("reservation_date",reservationList.getReservation_date());
 		map.put("air_FlightSchDTO",air_FlightSchDTO);
 		map.put("reservation_Seat",reservation_Seat);
-		map.put("air_Reservation_PiDTO",air_Reservation_PiDTO);
+		map.put("peopleInfo",peopleInfo);
 		map.put("go_airplane_name",go_airplane_name);
 		map.put("come_airplane_name",come_airplane_name);
 		map.put("seat_position",seat_position);
 		map.put("go_schedule_id",go_schedule_id);
-		map.put("come_schedule_id",come_schedule_id);
+		if(come_schedule_id != null) {
+			map.put("come_schedule_id",come_schedule_id);
+		}
 		map.put("air_gubun",air_FlightSchDTO.getAir_gubun());
 		map.put("paymentDTO",paymentDTO);
 		map.put("mem_id",memberDTO.getMem_id());
-		
+		map.put("air_ScheduleDTO",air_ScheduleDTO);
+		map.put("count",count);
 		
 		System.out.println("map="+map);
 		
@@ -303,21 +354,33 @@ public class AirportController {
 		
 		
 			
-		mav.setViewName("airport/resultReservation");
+		mav.setViewName("airport/orderComplete");
 		mav.addObject("seat_position", seat_position);
 		mav.addObject("go_schedule_id", go_schedule_id);
 		mav.addObject("come_schedule_id", come_schedule_id);
 		mav.addObject("come_airplane_name", come_airplane_name);
 		mav.addObject("go_airplane_name", go_airplane_name);
-//		mav.addObject("reservationCnt",reservationCnt);
-//		mav.addObject("piCnt",piCnt);
-//		mav.addObject("flightCnt",flightCnt);
-//		mav.addObject("seatCnt",seatCnt);
 		mav.addObject("insertMethod",insertMethod);
 		mav.addObject("reservationCnt",reservationCnt);
+		mav.addObject("reservationList",reservationList);
 		
 		
-		return mav;
+		
+		return reservation_id;
 	}
+	
+	@PostMapping("/reservationComplete")
+	public String  reservationComplete(Integer reservation_id,HttpSession session, Model model) {
+		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+		
+		Air_ReservationDTO air_ReservationDTO = scheduleService.selectCompleteReservationId(reservation_id);
+		
+		model.addAttribute("air_ReservationDTO",air_ReservationDTO);
+		model.addAttribute("mem_id",memberDTO.getMem_id());
+		
+		return "airport/orderComplete";
+	}
+	
 	
 }

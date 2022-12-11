@@ -61,7 +61,6 @@
 				<div class="js_tabs type2 no_division">
 					<div class="panels">
 					    <div class="panel selected">
-					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
@@ -81,15 +80,6 @@
 					                <tbody>
 					                	<!-- 티켓 예약 내역이 하나도 없을 때 -->
 					                    <c:forEach var="ticketReservList" items="${ticketReservList}">
-				                    	<c:if test="${empty ticketReservList}">
-						                    <tr>
-						                        <td colspan="5">
-						                            <div class="data_no">
-						                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
-						                            </div>
-						                        </td>
-						                    </tr>
-						                </c:if>
 					                    <tr>
 					   						<td>${ticketReservList.ticket_order_id}</td>
 					                    	<td>${ticketReservList.ticket_name}</td>
@@ -97,10 +87,33 @@
 					                    	<td>${ticketReservList.ticket_admission_date}</td>
 					                    </tr>
 					                    </c:forEach>
+					                    <c:if test="${ticketReservListSize == 0 }">
+						                    <tr>
+						                        <td colspan="5">
+						                            <div class="data_no">
+						                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
+						                            </div>
+						                        </td>
+						                    </tr>
+					                    </c:if>
 					                </tbody>
 					            </table>
 					        </div>	<!-- tbl -->
 					    </div>	<!-- panel selected -->
+					    <!-- 페이징 -->
+					    <nav aria-label="Page navigation example" style="margin-top: 50px;">
+							<ul class="pagination justify-content-center">
+								<c:if test="${page.startPage > page.pageBlock }">
+									<li class="page-item"><a class="page-link" href="myPageReservTicket?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
+								</c:if>
+								<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+									<li class="page-item"><a class="page-link" href="myPageReservTicket?currentPage=${i}">${i}</a></li>
+								</c:forEach>
+								<c:if test="${page.endPage < page.totalPage }">
+									<li class="page-item"><a class="page-link" href="myPageReservTicket?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
+								</c:if>
+							</ul>
+						</nav>
 					</div>	<!-- panels -->
 				</div>	<!-- js_tabs type2 no_division -->
 			</div>	<!-- contents -->

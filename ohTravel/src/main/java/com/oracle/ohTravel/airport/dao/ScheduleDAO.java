@@ -37,6 +37,14 @@ public interface ScheduleDAO {
 	int comeflightList(Map<String,Object> map) throws Exception;
 
 	int paymentList(Map<String, Object> map) throws Exception;
+
+	int goflightListCalc(Map<String, Object> map) throws Exception;
+
+	int comeflightListCalc(Map<String, Object> map) throws Exception;
+
+	Air_ReservationDTO selectReservationDetail(Integer reservation_id); //예약 정보를 얻어오기위해서
+
+
 	
 
 	

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>         
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +13,7 @@
 </head>
 <body>
 	<div id="container">
-		<div class="inr">
+		<div class="inr"> 
 			<!-- 카테고리 -->
 			<div class="lnb" id="lnb">
 				<div class="inr">
@@ -60,7 +64,6 @@
 				<div class="js_tabs type2 no_division">
 					<div class="panels">
 					    <div class="panel selected">
-					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
@@ -72,25 +75,59 @@
 					                </colgroup>
 					                <thead>
 					                    <tr>
-					                        <th>예약일/예약코드</th>
-					                        <th>상품명</th>
-					                        <th>결제 금액</th>
-					                        <th>인원</th>
+					                        <th>예약일</th>
+					                        <th>예매번호</th>
+					                        <th>좌석등급</th>
+					                        <th>항공편명</th>
+					                        <th>출발공항</th>
+					                        <th>도착공항</th>
+					                        <th>예매가격</th>
 					                        <th>출발일</th>
 					                    </tr>
 					                </thead>
 					                <tbody>
-					                    <tr>
-					                        <td colspan="5">
+					                
+					                <c:forEach var="reserve" items="${airReservList}">
+					                	<tr>
+					                		<td><fmt:formatDate value="${reserve.reservation_date}" pattern="yy-MM-dd"/></td>
+					                		<td>${reserve.reservation_id }</td>
+					                		<td>${reserve.seat_position }</td>
+					                		<td>${reserve.airplane_name }</td>
+					                		<td>${reserve.start_airport_name }</td>
+					                		<td>${reserve.end_airport_name }</td>
+					                		<td>${reserve.reservation_price }</td>
+					                		<td><fmt:formatDate value="${reserve.start_time}" pattern="yy-MM-dd"/></td>
+					                	</tr>
+					                </c:forEach>
+					                 
+					                 <!--예약내역이 없으면  -->
+					                 <c:if test="${airReservListSize == 0}">
+					                	 <tr>
+					                        <td colspan="8">
 					                            <div class="data_no">
 					                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
 					                            </div>
 					                        </td>
 					                    </tr>
+					                 </c:if>
 					                </tbody>
 					            </table>
 					        </div>	<!-- tbl -->
 					    </div>	<!-- panel selected -->
+					    <!-- 페이징 -->
+					    <nav aria-label="Page navigation example" style="margin-top: 50px;">
+							<ul class="pagination justify-content-center">
+								<c:if test="${page.startPage > page.pageBlock }">
+									<li class="page-item"><a class="page-link" href="myPageReservAir?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
+								</c:if>
+								<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+									<li class="page-item"><a class="page-link" href="myPageReservAir?currentPage=${i}">${i}</a></li>
+								</c:forEach>
+								<c:if test="${page.endPage < page.totalPage }">
+									<li class="page-item"><a class="page-link" href="myPageReservAir?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
+								</c:if>
+							</ul>
+						</nav>
 					</div>	<!-- panels -->
 				</div>	<!-- js_tabs type2 no_division -->
 			</div>	<!-- contents -->

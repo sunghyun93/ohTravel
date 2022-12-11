@@ -61,7 +61,6 @@
 				<div class="js_tabs type2 no_division">
 					<div class="panels">
 					    <div class="panel selected">
-					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
@@ -73,33 +72,48 @@
 					                <thead>
 					                    <tr>
 					                        <th>예약번호</th>
-					                        <th>호텔명</th>
+					                        <th>호텔정보</th>
 					                        <th>결제 금액</th>
-					                        <th>사용가능일</th>
+					                        <th>결제일</th>
 					                    </tr>
 					                </thead>
-					                
 					                <tbody>
-					                    <tr>
-					                        <td colspan="5">
-					                            <div class="data_no">
-					                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
-					                            </div>
-					                        </td>
-					                    </tr>
 					                    <c:forEach var="hotelReservList" items="${hotelReservList}">
 					                    <tr>
 					   						<td>${hotelReservList.h_rev_id}</td>
-					                    	<td>${hotelReservList.mem_id}</td>
+					                    	<td>${hotelReservList.hotel_kor}<br>(${hotelReservList.room_name})</td>
 					                    	<td>${hotelReservList.rev_tot_price}</td>
-					                    	<td>${hotelReservList.rev_start}</td>
+					                    	<td>${hotelReservList.rev_date}</td>
 					                    </tr>
 					                    </c:forEach>
+					                    <c:if test="${hotelReservListSize == 0}">
+						                    <tr>
+						                        <td colspan="5">
+						                            <div class="data_no">
+						                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
+						                            </div>
+						                        </td>
+						                    </tr>
+					                    </c:if>
 					                </tbody>
 					                
 					            </table>
 					        </div>	<!-- tbl -->
 					    </div>	<!-- panel selected -->
+					    <!-- 페이징 -->
+					    <nav aria-label="Page navigation example" style="margin-top: 50px;">
+							<ul class="pagination justify-content-center">
+								<c:if test="${page.startPage > page.pageBlock }">
+									<li class="page-item"><a class="page-link" href="myPageReservHotel?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
+								</c:if>
+								<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+									<li class="page-item"><a class="page-link" href="myPageReservHotel?currentPage=${i}">${i}</a></li>
+								</c:forEach>
+								<c:if test="${page.endPage < page.totalPage }">
+									<li class="page-item"><a class="page-link" href="myPageReservHotel?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
+								</c:if>
+							</ul>
+						</nav>
 					</div>	<!-- panels -->
 				</div>	<!-- js_tabs type2 no_division -->
 			</div>	<!-- contents -->

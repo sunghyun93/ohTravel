@@ -61,7 +61,6 @@
 				<div class="js_tabs type2 no_division">
 					<div class="panels">
 					    <div class="panel selected">
-					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
@@ -78,9 +77,17 @@
 					                        <th>사용가능일</th>
 					                    </tr>
 					                </thead>
+					                
 					                <tbody>
 					                    <c:forEach var="packageReservList" items="${packageReservList}">
-					                    <c:if test="${empty packageReservList}">
+					                    <tr>
+					   						<td>${packageReservList.pkage_rv_id}</td>
+					                    	<td>${packageReservList.mem_id}</td>
+					                    	<td>${packageReservList.pkage_rv_tprice}</td>
+					                    	<td>${packageReservList.pkage_rv_date}</td>
+					                    </tr>
+					                    </c:forEach>
+					                    <c:if test="${packageReservListSize == 0}">
 						                    <tr>
 						                        <td colspan="5">
 						                            <div class="data_no">
@@ -89,17 +96,24 @@
 						                        </td>
 						                    </tr>
 						                </c:if>
-					                    <tr>
-					   						<td>${packageReservList.pkage_rv_id}</td>
-					                    	<td>${packageReservList.mem_id}</td>
-					                    	<td>${packageReservList.pkage_rv_tprice}</td>
-					                    	<td>${packageReservList.pkage_rv_date}</td>
-					                    </tr>
-					                    </c:forEach>
 					                </tbody>
 					            </table>
 					        </div>	<!-- tbl -->
 					    </div>	<!-- panel selected -->
+					    <!-- 페이징 -->
+					    <nav aria-label="Page navigation example" style="margin-top: 50px;">
+							<ul class="pagination justify-content-center">
+								<c:if test="${page.startPage > page.pageBlock }">
+									<li class="page-item"><a class="page-link" href="myPageReservPackage?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
+								</c:if>
+								<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+									<li class="page-item"><a class="page-link" href="myPageReservPackage?currentPage=${i}">${i}</a></li>
+								</c:forEach>
+								<c:if test="${page.endPage < page.totalPage }">
+									<li class="page-item"><a class="page-link" href="myPageReservPackage?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
+								</c:if>
+							</ul>
+						</nav>
 					</div>	<!-- panels -->
 				</div>	<!-- js_tabs type2 no_division -->
 			</div>	<!-- contents -->

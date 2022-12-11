@@ -13,4 +13,6 @@ public interface HotelDAO {
 
 	List<RoomDTO> getRoomList(RoomDTO roomDTO);
 
+	RoomDTO getRoomDetail(RoomDTO roomDTO);
+
 }
