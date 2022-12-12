@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +29,10 @@ import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
 import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.country.service.CountryService;
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.manager.model.PaymentDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
+import com.oracle.ohTravel.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +46,7 @@ public class AirportController {
 	private final CityService cityService;
 	private final CountryService countryService;
 	private final ScheduleService scheduleService;
+	private final MemberService memberService;
 	
 	//항공권 검색
 	@RequestMapping(value = "/searchTicket")
@@ -261,15 +265,36 @@ public class AirportController {
 	
 	
 	@PostMapping("/airplaneReserve")
-	public String airReserve(Integer go_schedule_id,Integer come_schedule_id, Integer count,Integer total_price, String go_airplane_name,String come_airplane_name,String seat_position,String seat_name,Model model,HttpSession session) {
+	public String airReserve(Integer go_schedule_id,Integer come_schedule_id, Integer count,Integer total_price, String go_airplane_name,String come_airplane_name,String seat_position,String seat_name,Model model,HttpSession session) throws Exception {
 		
+		// 현재 로그인하고 있는 사용자 정보
 		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		log.info("memberDTO = " + memberDTO);
 		
 		if(memberDTO == null) {
-			return "redirect:/member/loginForm";
+		return "redirect:/member/loginForm";
 			
 		}
+		String mem_id = memberDTO.getMem_id();
+		
+		// 멤버 (등급 까지 들고가기)
+		memberDTO = memberService.selectMemberWithGrade(mem_id);
+		System.out.println("memberDTO="+memberDTO);
+		
+		List<CouponDTO> couponList = memberService.selectMemberWithCoupon(mem_id);
+		System.out.println("couponList="+couponList);
+//		log.info("couponList = " + couponList);
+//		memberDTO.setCouponList(couponList);
+//		
+//		
+//		// 회원 등급 적용한 가격 가져가기
+//		int priceWithGd =  total_price- (total_price*memberDTO.getMembership_discount() / 100);
+//		System.out.println("priceWithGd="+priceWithGd);
+//	
+//		
+//		// 회원 등급 적용한 마일리지 가져가기
+//		int mile =  total_price *  memberDTO.getMembership_discount() / 100;
+//		System.out.println("mile="+mile);
 		
 		model.addAttribute("count", count);
 		model.addAttribute("price", total_price);
@@ -280,6 +305,13 @@ public class AirportController {
 		model.addAttribute("seat_position", seat_position);
 		model.addAttribute("seat_name", seat_name);
 		model.addAttribute("memberDTO", memberDTO);
+		model.addAttribute("mem_id", mem_id);
+		model.addAttribute("couponList", couponList);
+		
+//		model.addAttribute("mile", mile);
+//		model.addAttribute("priceWithGd", priceWithGd);
+//		model.addAttribute("couponList", couponList);
+		
 		System.out.println("price="+total_price);
 		
 		

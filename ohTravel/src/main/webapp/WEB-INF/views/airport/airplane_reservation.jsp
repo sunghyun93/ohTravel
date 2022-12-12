@@ -47,6 +47,61 @@
 .reserve_text{
 	color:white;
 }
+
+.member{
+	color:blue;
+}
+
+.selectcoupon{
+	border: 1px solid green;
+	width: 120px;
+	margin: 0 auto;
+	padding: 5px;
+}
+
+.getcoupon{
+	font-size: 18px;
+}
+
+.modal_wrap {
+        display: none;
+        width: 500px;
+        height: 450px;
+        position: absolute;
+        top: 50%;
+        left: 40%;
+        margin: 0 auto;
+        background:#eee;
+        z-index: 999;
+ }
+.black_bg{
+        display: none;
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 30000px;
+        background-color:rgba(0, 0,0, 0.2);
+        top:0;
+        left: 0;
+        z-index: 1;
+ } 
+ 
+ .modal_close{
+        width: 26px;
+        height: 26px;
+        position: absolute;
+        top: -30px;
+        right: 0;
+ }
+ 
+ .modal_close> span{
+        display: block;
+        width: 100%;
+        height: 100%;
+        background:url(https://img.icons8.com/metro/26/000000/close-window.png);
+        text-indent: -9999px;
+ }   
+
 </style>
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
@@ -170,14 +225,11 @@
                                                         <th>성별</th>
                                                         <td>
                                                             <div class="genderDiv">
-                                                                <span class="genderDiv_radio">
-                                                                    <input type="checkbox" name="air_pi_gen" id="gender1_${count+1}" class="inpt_radio" value="0">
-                                                                    <label for="gender1_${count+1}">남성</label>
-                                                                </span>
-                                                                <span class="genderDiv_radio">
-                                                                    <input type="checkbox" name="air_pi_gen" id="gender2_${count+1}" class="inpt_radio" value="1">
-                                                                    <label for="gender2_${count+1}">여성</label>
-                                                                </span>
+                                                                <select class="select_gender" name="air_pi_gen">
+                                                               		<option value="">성별선택</option>
+                                                                	<option value="0">남자</option>
+                                                                	<option value="1">여자</option>
+                                                                </select>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -271,11 +323,29 @@
                             <div class="pay_area">
                                 <div class="info_area total">
                                     <div class="info">
-                                        <strong class="tit">최종결제금액</strong>
+                                        <strong class="tit">결제금액</strong>
                                         <span>성인 ${count}</span>
                                     </div>
 								 <strong class="price"><fmt:formatNumber value="${count*price}" pattern="#,###"/>원</strong><br>
 								 <input type="hidden" name="reservation_price" value="${count*price }">
+                                </div>
+                                <div class="coupon">
+                    				<div class="black_bg"></div>
+									<div class="modal_wrap">
+									    <div class="modal_close"><span>close</span></div>
+										    <div class="entire">
+											  	<div class="modal_1"><span class="member">${memberDTO.mem_name}</span>을 위한 최대 혜택 쿠폰</div>
+											    	${mem_id }
+											    	${couponList}
+												   <p>쿠폰 사용기간 내에 할인받고 구매하세요.</p>
+												   <p>쿠폰 사용 시 최소구매금액과 최대할인금액을 확인하세요.</p>
+											  	   <p>일부 쿠폰은 조기소진될 수 있습니다.  </p>   
+											        
+									    	</div> <!-- modal_close_country_1 -->
+										</div>
+					    		</div>    <!--모달끝  --> 
+                                	<span class="member">${memberDTO.mem_name}</span> 님을위한 쿠폰이 있어요! <br><br>
+                                		<div class="selectcoupon" id="modal_btn"><span class="getcoupon">쿠폰받기   <img class="img" src="${pageContext.request.contextPath}/airport/img/download.png" width="30px" height="30px"></span></div>
                                 </div>
                             </div>
                             
@@ -295,7 +365,23 @@
 
 
 
-    <script>
+<script>
+	/*쿠폰클릭시 모달창  */
+	function onClick() {
+    	document.querySelector('.modal_wrap').style.display ='block';
+    	document.querySelector('.black_bg').style.display ='block';
+    
+	}
+	
+	function offClick() {
+	    document.querySelector('.modal_wrap').style.display ='none';
+	    document.querySelector('.black_bg').style.display ='none';
+	    
+	}
+	
+	document.getElementById('modal_btn').addEventListener('click', onClick);
+	document.querySelector('.modal_close').addEventListener('click', offClick);
+	
         $(function() {
             // 유효성 검사 통과 체크용
             let validCheck = true;
@@ -481,9 +567,9 @@
             }); // $('.input_keyword').on()
 
             // 성별 체크란 선택 시 만약 error 메세지 있으면 없애는 부분
-            $('.inpt_radio').on('click', function() {
+ 			$('.select_gender').on('checked', function() {
                 $(this).parents('.genderDiv').siblings().remove();
-            })
+            }) 
 
             // 다음 단계 버튼 클릭 시
             $('.reserve').on('click', function() {
@@ -512,20 +598,22 @@
 
                 // 성별 input 태그를 품고 있는 div
                 $('.genderDiv').each(function(index, item) {
-                    // 각 div 에서 성별 input 찾아 다시 반복
-                    $(item).find('.inpt_radio').each(function(index, item2){
-                        // 성별 체크된 것이 있으면 +1
-                        if($(item2).is(':checked')) {
+                    // 각 div 에서 성별 select을 찾아 다시 반복
+                    $(item).find('.select_gender').each(function(index, item2){
+                        // 성별이 selected된 것이 있으면 0 또는 1(남자 또는 여자)면 genIpCnt 증가
+                        if($(item2).find('option:selected').val() == "0" || $(item2).find('option:selected').val() == "1") {
                             genIpCnt++;
+                        	console.log(genIpCnt);
                         }
                     });
 
                     // 체크된 것이 하나도 없으면 에러 메세지 추가 있으면 에러메세지 삭제
                     if(genIpCnt != 1) {
                         if($(item).siblings().length == 0) {
-                            $(item).after('<p class="error_message">성별을 선택해주세요.</p>'); 
+                            /* $(item).after('<p class="error_message">성별을 선택해주세요.</p>');  */
+                            alert("성별을 선택해주세요.");
                         } 
-                        $(item).find('.inpt_radio').focus();
+                        $(item).find('.select_gender').focus();
                         lastCheck = false;
                         genIpCnt=0; // 다른 div 쪽 검사하기 위한 초기화
                         return false;
@@ -534,6 +622,11 @@
                     }
                     genIpCnt=0; // 다른 div 쪽 검사하기 위한 초기화
                 });
+                
+                
+  		
+                
+               
 
                 console.log(lastCheck+"?");
                

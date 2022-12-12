@@ -10,10 +10,14 @@
 <meta charset="UTF-8">
 <title>예약 내역</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/myPage.css">
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
 	<div id="container">
-		<div class="inr"> 
+		<div class="inr">
 			<!-- 카테고리 -->
 			<div class="lnb" id="lnb">
 				<div class="inr">
@@ -64,6 +68,7 @@
 				<div class="js_tabs type2 no_division">
 					<div class="panels">
 					    <div class="panel selected">
+					        <div>${sessionId}</div>
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
@@ -78,7 +83,7 @@
 					                        <th>예약일</th>
 					                        <th>예매번호</th>
 					                        <th>좌석등급</th>
-					                        <th>항공편명</th>
+					                        <th>항공편</th>
 					                        <th>출발공항</th>
 					                        <th>도착공항</th>
 					                        <th>예매가격</th>
@@ -86,7 +91,7 @@
 					                    </tr>
 					                </thead>
 					                <tbody>
-					                
+					                <c:if test="${airReservList != null}">
 					                <c:forEach var="reserve" items="${airReservList}">
 					                	<tr>
 					                		<td><fmt:formatDate value="${reserve.reservation_date}" pattern="yy-MM-dd"/></td>
@@ -99,11 +104,11 @@
 					                		<td><fmt:formatDate value="${reserve.start_time}" pattern="yy-MM-dd"/></td>
 					                	</tr>
 					                </c:forEach>
-					                 
+					                 </c:if>
 					                 <!--예약내역이 없으면  -->
-					                 <c:if test="${airReservListSize == 0}">
+					                 <c:if test="${airReservList == null}">
 					                	 <tr>
-					                        <td colspan="8">
+					                        <td colspan="5">
 					                            <div class="data_no">
 					                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
 					                            </div>

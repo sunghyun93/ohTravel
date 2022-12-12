@@ -943,7 +943,8 @@ prod_list_wrap .htl .btn.line {
          	<input type="hidden" name="start_city_id" value="${start_city_id}">
          	<input type="hidden" name="end_city_id" value="${end_city_id}">
          	<input type="hidden" name="seat_position" value="${seat_position}">
-         	
+       		
+   			
 	         <div class="container">       
 	          <div class="ly_wrap result_wrap">      
                 <div class="inr">
@@ -1159,8 +1160,8 @@ prod_list_wrap .htl .btn.line {
 		             <div class="one_list">
 		             <c:if test="${gubun_check == 0 }">   
 		             <c:forEach var="come" items="${comeList}">
-							<div class="go_airplane" data-schedule="${come.schedule_id }">
-							<input type="hidden" name="come_schedule_id" value="${come.schedule_id }">
+							<div class="go_airplane" data-schedule="${come.schedule_id}">
+							<input type="hidden" name="come_schedule_id" value="${come.schedule_id}">
 								<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${come.air_picture}" width="20px" height="20px">${come.air_name}<br>
 								<span class="airline_num">${come.airplane_name}</span>
 								</div>
@@ -1218,7 +1219,7 @@ prod_list_wrap .htl .btn.line {
 		</div>
 		<div class="reservation_go">
 				<button type="button" class="viewDetail">일정 상세보기</button>
-				<button type="submit" class="reservation_go_btn" onclick="check()"><span>예약하기</span></button>
+				<button type="submit" class="reservation_go_btn" ><span>예약하기</span></button>
 			</div>
 	</div>
 </div>
