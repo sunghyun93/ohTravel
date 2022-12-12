@@ -88,18 +88,14 @@
 	<select id="goAirplane" parameterType="int" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 				where a.schedule_id = #{go_schedule_id}
-		     	and (ap.general_seat - general_res_count) > 0 
-				and (ap.business_seat - business_res_count) > 0 
-				and (ap.first_seat - first_res_count) > 0 
+		     	
 	</select>
 	
 	
 	<select id="comeAirplane" parameterType="int" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 				where a.schedule_id = #{come_schedule_id}
-				and (ap.general_seat - general_res_count) > 0 
-				and (ap.business_seat - business_res_count) > 0 
-				and (ap.first_seat - first_res_count) > 0 
+				
 	</select>
 	
 	

@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<<<<<<< HEAD
 <%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>         
-=======
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
->>>>>>> branch 'main' of https://github.com/sunghyun93/ohTravel.git
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>예약 내역</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/myPage.css">
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
 	<div id="container">
@@ -81,7 +81,7 @@
 					                        <th>예약일</th>
 					                        <th>예매번호</th>
 					                        <th>좌석등급</th>
-					                        <th>항공편명</th>
+					                        <th>항공편</th>
 					                        <th>출발공항</th>
 					                        <th>도착공항</th>
 					                        <th>예매가격</th>
