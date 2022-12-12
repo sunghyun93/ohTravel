@@ -16,10 +16,20 @@
 .paybtn {
 	margin-top: 20px;	
 }
+
+#container .inr {
+
+	min-height: 1000px;
+}
+
+.agreerow{
+
+	padding-bottom:20px;
+}
 </style>
 <body>
 	<div id="container">
-		<div class="inr" style="min-height: 800px">
+		<div class="inr">
 			<div class="contents fontCtrl" id="contents">
 				<div class="text_wrap big">
 					<strong class="tit">예약하기</strong>
@@ -89,7 +99,7 @@
 						                    </td>
 						                    <th>생년월일</th>
 						                    <td>
-						                        <fmt:formatDate value="${sessionBirthday }" pattern="yyyy-MM-dd"/>
+						                       ${sessionBirthday }
 						                    </td>
 						                </tr>
 						                <tr>
@@ -120,16 +130,53 @@
 								</span>
 							</div>
 							<hr>
-							<div>
-								<span class="agree-info">주문동의</span>
-								<table class="tbl-agree" id="agree">
-									<tr>
-										<td class="agree_title" id="ag_title" > <input type="checkbox" name="checkAgree" id="checkAgree" value="주문 내역에 대한 동의" required> <span class="must">[필수]</span> 주문 내역에 대한 동의</td>
+							<div class="tbl">
+								<table class="type2">
+									<tr class="agreerow">
+										<td>예약취소 및 환불정책 안내</td>
+										<td>
+											<label for="checkHTL01">
+												<input type="radio" name="checkHTL" id="checkHTL01" value="Y" class="inpt_checkbox"> 동의합니다.
+											</label>
+											<label for="checkHTL02">
+												<input type="radio" name="checkHTL" id="checkHTL02" value="Y" class="inpt_checkbox"> 동의하지 않습니다.
+											</label>
+										</td>
 									</tr>
-									<tr>
-										<td class="agree_contents" id="ag_ct"> 주문하는 상품, 가격, 배송정보, 할인내역 등을 최종 확인 하였으며, 구매에 동의합니다.<br><br>
-										 (전자상거래법 제 8조 제2항)</td>
+									<tr class="agreerow">
+										<td>호텔 예약 주의사항</td>
+										<td>
+											<label for="checkHTL03">
+												<input type="radio" name="checkHTL2" id="checkHTL03" value="Y" class="inpt_checkbox"> 동의합니다.
+											</label>
+											<label for="checkHTL04">
+												<input type="radio" name="checkHTL2" id="checkHTL04" value="Y" class="inpt_checkbox"> 동의하지 않습니다.
+											</label>
+										</td>
 									</tr>
+									<tr class="agreerow">
+										<td>개인정보 수집 및 이용</td>
+										<td>
+											<label for="checkHTL05">
+												<input type="radio" name="checkHTL3" id="checkHTL05" value="Y" class="inpt_checkbox"> 동의합니다.
+											</label>
+											<label for="checkHTL06">
+												<input type="radio" name="checkHTL3" id="checkHTL06" value="Y" class="inpt_checkbox"> 동의하지 않습니다.
+											</label>
+										</td>
+									</tr>
+									<tr class="agreerow">
+										<td>개인정보 제3자 제공 동의</td>
+										<td>
+											<label for="checkHTL07">
+												<input type="radio" name="checkHTL4" id="checkHTL07" value="Y" class="inpt_checkbox"> 동의합니다.
+											</label>
+											<label for="checkHTL08">
+												<input type="radio" name="checkHTL4" id="checkHTL08" value="Y" class="inpt_checkbox"> 동의하지 않습니다.
+											</label>
+										</td>
+									</tr>
+								
 								</table>
 							
 							</div>
@@ -155,15 +202,6 @@
 							</div> -->
 						
 						</div>
-						
-						
-						
-						<div class="btn_wrap">
-						    <!---->
-						    <span class="btn big pink" style="height: 56px; line-height: 54px;">다음단계</span>
-						</div>
-						
-						
 						
 					</div>	<!-- inr -->
 					<div class="inr right" style="right: auto; left: 0px; width: 306px;">
@@ -208,9 +246,41 @@
 
 <script type="text/javascript">
 
+
+function agreeValid() {
+	
+	if(!$('#checkHTL01').is(':checked')){
+		alert('예약취소 및 환불정책 안내에 대한 동의가 필요합니다.');
+	 	$('#checkHTL01').focus();
+		return false;
+	}
+	
+	if(!$('#checkHTL03').is(':checked')){
+		alert('호텔 예약 주의사항에 대한 동의가 필요합니다.');
+	 	$('#checkHTL01').focus();
+		return false;
+	}
+	
+	if(!$('#checkHTL05').is(':checked')){
+		alert('개인정보 수집 및 이용에 대한 동의가 필요합니다.');
+	 	$('#checkHTL01').focus();
+		return false;
+	}
+	
+	if(!$('#checkHTL07').is(':checked')){
+		alert('개인정보 제3자 제공에 대한 동의가 필요합니다.');
+	 	$('#checkHTL01').focus();
+		return false;
+	}
+	
+}
+
+
+
+
 function requestPay() {
 	
-	if(!valid()) {
+	if(!agreeValid()) {
    		return false;
    	}
 	
