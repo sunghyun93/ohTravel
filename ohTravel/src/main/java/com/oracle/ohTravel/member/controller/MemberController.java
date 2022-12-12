@@ -2,7 +2,9 @@ package com.oracle.ohTravel.member.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,10 +20,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.oracle.ohTravel.member.model.AirReservationDTO;
+import com.oracle.ohTravel.airport.model.Air_FlightSchDTO;
+import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
+import com.oracle.ohTravel.airport.model.Air_ScheduleDTO;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
+import com.oracle.ohTravel.member.model.PagingManager;
+import com.oracle.ohTravel.member.model.ReviewDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 import com.oracle.ohTravel.member.service.MemberService;
 
@@ -60,6 +67,7 @@ public class MemberController {
 			String sessionEmail = member.getMem_email();
 			String sessionTel = member.getMem_tel();
 			Date sessionBirth = (Date) member.getMem_birthday();
+			String sessionPw = member.getMem_password();
 			
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 			String sessionBirthday = simpleDateFormat.format(sessionBirth); 
@@ -70,6 +78,7 @@ public class MemberController {
 			session.setAttribute("sessionEmail", sessionEmail);
 			session.setAttribute("sessionTel", sessionTel);
 			session.setAttribute("sessionBirthday", sessionBirthday);
+			session.setAttribute("sessionPw", sessionPw);
 			
 			System.out.println("MemberController login member -> " + member);
 			System.out.println("MemberController login sessionId -> " + sessionId);
@@ -188,11 +197,12 @@ public class MemberController {
 			return "member/findPasswordResult";
 			
 		} else {
+			session.setAttribute("sessionId", member.getMem_id());
 			model.addAttribute("member", member);
 			model.addAttribute("check", 0);
 			model.addAttribute("id", member.getMem_id());
 			session.setAttribute("pw", member.getMem_password());
-			return "member/modifyPassword";
+			return "redirect:/member/modifyPassword2";
 		}
 	}
 	
@@ -206,11 +216,12 @@ public class MemberController {
 		return "member/myPageMain";
 	}
 	
-	// 패키지 예약 내역 페이지 이동
+	// 패키지 예약 내역 조회 
 	@RequestMapping(value = "/myPageReservPackage")
-	public String myPageReservPackage(PackageReservationDTO packageReservationDTO, Model model, HttpServletRequest request) {
+	public String myPageReservPackage(PackageReservationDTO packageReservationDTO, Model model, String currentPage, HttpServletRequest request) {
 		log.info("MemberController myPageReservPackage start..");
 		HttpSession session = request.getSession();
+		
 		// 로그인 안 했을 때 로그인 페이지로 이동
 		if (session.getAttribute("member")==null) {
 			return "member/loginForm";
@@ -220,57 +231,94 @@ public class MemberController {
 		String sessionId = member.getMem_id();
 		System.out.println("MemberController myPageReservPackage sessionId -> " + sessionId );
 		
-		// 페이징 나중에
-		
-		// 호텔 예약 내역
+		// 페이징
 		packageReservationDTO.setMem_id(sessionId);
+		int total = memberService.totalReservPackage(packageReservationDTO);
+		System.out.println("MemberController myPageReviewPackage total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		packageReservationDTO.setStart(page.getStart());
+		packageReservationDTO.setEnd(page.getEnd());
+		System.out.println("MemberController myPageReservPackage page.getStart() -> " + page.getStart());
+		System.out.println("MemberController myPageReservPackage page.getEnd() -> " + page.getEnd());
+		
+
+		// 패키지 예약 내역
 		List<PackageReservationDTO> packageReservList = memberService.myPageReservPackage(packageReservationDTO);
+		int packageReservListSize = packageReservList.size();
 		model.addAttribute("packageReservList", packageReservList);
+		model.addAttribute("packageReservListSize", packageReservListSize);
+		model.addAttribute("page", page);
 		System.out.println("MemberController packageReservList.size() -> " + packageReservList.size());
 		
 		return "member/myPageReservPackage";
 	}
 	
-	// 호텔 예약 내역 페이지 이동
+	// 호텔 예약 내역 조회
 	@RequestMapping(value = "/myPageReservHotel")
-	public String myPageReservHotel(HotelReservationDTO hotelReservationDTO, Model model, HttpServletRequest request) {
+	public String myPageReservHotel(HotelReservationDTO hotelReservationDTO, Model model, String currentPage, HttpServletRequest request) {
 		log.info("MemberController myPageReservHotel start..");
 		HttpSession session = request.getSession();
-		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+
 		// session에 로그인 된 아이디 정보
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String sessionId = member.getMem_id();
 		System.out.println("MemberController myPageReservHotel sessionId -> " + sessionId );
 		
 		// 페이징 나중에
+		hotelReservationDTO.setMem_id(sessionId);
+		int total = memberService.totalReservHotel(hotelReservationDTO);
+		System.out.println("MemberController myPageReviewPackage total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		hotelReservationDTO.setStart(page.getStart());
+		hotelReservationDTO.setEnd(page.getEnd());
+		System.out.println("MemberController myPageReservHotel page.getStart() -> " + page.getStart());
+		System.out.println("MemberController myPageReservHotel page.getEnd() -> " + page.getEnd());
 		
 		// 호텔 예약 내역
-		hotelReservationDTO.setMem_id(sessionId);
 		List<HotelReservationDTO> hotelReservList = memberService.myPageReservHotel(hotelReservationDTO);
+		int hotelReservListSize = hotelReservList.size();
 		model.addAttribute("hotelReservList", hotelReservList);
+		model.addAttribute("hotelReservListSize", hotelReservListSize);
 		System.out.println("MemberController hotelReservList.size() -> " + hotelReservList.size());
 		
 		return "member/myPageReservHotel";
 	}
 	
-	// 항공 예약 내역 페이지 이동 페이지 이동
+	// 항공 예약 내역 조회
 	@RequestMapping(value = "/myPageReservAir")
-	public String myPageReservAir(AirReservationDTO airReservationDTO, Model model, HttpServletRequest request) {
+	public String myPageReservAir(Air_ReservationDTO air_ReservationDTO,Air_FlightSchDTO air_FlightSchDTO,Air_ScheduleDTO air_ScheduleDTO,Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservAir start..");
 		HttpSession session = request.getSession();
-		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		// session에 로그인 된 아이디 정보
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String sessionId = member.getMem_id();
 		System.out.println("MemberController myPageReservAir sessionId -> " + sessionId );
 		
 		// 페이징 나중에
+		air_ReservationDTO.setMem_id(sessionId);
+
 		
+		// 항공 예약 내역
+		air_ReservationDTO.setMem_id(sessionId);
+		Map<String,Object> map = new HashMap<>();
+		map.put("air_ReservationDTO",air_ReservationDTO);
+		map.put("air_FlightSchDTO",air_FlightSchDTO);
+		map.put("air_ScheduleDTO",air_ScheduleDTO);
 		
-		// 호텔 예약 내역
-		airReservationDTO.setMem_id(sessionId);
-		List<AirReservationDTO> airReservList = memberService.myPageReservAir(airReservationDTO);
+		List<AirReservationDetail> airReservList = memberService.myPageReservAir(map);
+		int airReservListSize = airReservList.size();
+		
+
 		model.addAttribute("airReservList", airReservList);
+		model.addAttribute("airReservListSize", airReservListSize);
 		System.out.println("MemberController airReservList.size() -> " + airReservList.size());
 		
 		return "member/myPageReservAir";
@@ -278,22 +326,34 @@ public class MemberController {
 	
 	// 티켓 예약 내역 조회
 	@RequestMapping(value = "/myPageReservTicket")
-	public String myPageReservTicket(TicketReservationDTO ticketReservationDTO, Model model, HttpServletRequest request) {
+	public String myPageReservTicket(TicketReservationDTO ticketReservationDTO, Model model, String currentPage, HttpServletRequest request) {
 		log.info("MemberController myPageReservTicket start..");
 		HttpSession session = request.getSession();
-		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		// session에 로그인 된 정보
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String sessionId = member.getMem_id();
 		System.out.println("MemberController myPageReservTicket sessionId -> " + sessionId);
 		
 		// 페이징 나중에
+		ticketReservationDTO.setMem_id(sessionId);
+		int total = memberService.totalReservTicket(ticketReservationDTO);
+		System.out.println("MemberController myPageReservTicket total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		ticketReservationDTO.setStart(page.getStart());
+		ticketReservationDTO.setEnd(page.getEnd());
+		System.out.println("MemberController myPageReservTicket page.getStart() -> " + page.getStart());
+		System.out.println("MemberController myPageReservTicket page.getEnd() -> " + page.getEnd());
 		
 		// 티켓 예약 내역
 		// ticketReservationDTO에 mem_id를 세션에 로그인 된 id값으로 설정
-		ticketReservationDTO.setMem_id(sessionId);
 		List<TicketReservationDTO> ticketReservList = memberService.myPageReservTicket(ticketReservationDTO);
+		int ticketReservListSize = ticketReservList.size();
 		model.addAttribute("ticketReservList", ticketReservList);
+		model.addAttribute("ticketReservListSize", ticketReservListSize);
 		System.out.println("MemberController ticketReservList.size() -> " + ticketReservList.size());
 		
 		return "member/myPageReservTicket";
@@ -348,20 +408,119 @@ public class MemberController {
 	}
 	
 	// My 상품평 (패키지) 페이지 이동
-	@GetMapping(value = "/myPageReviewPackage")
-	public String goMyPageReviewPackage() {
+	@RequestMapping(value = "/myPageReviewPackage")
+	public String myPageReviewPackage(ReviewDTO reviewDTO, Model model, String currentPage, HttpServletRequest request) {
+		log.info("MemberController myPageReviewPackage start..");
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		
+		
+		
+		System.out.println("MemberController myPageReviewPackage sessionId -> " + sessionId);
+		System.out.println("MemberController myPageReviewPackage reviewDTO -> " + reviewDTO.getMem_id());
+		System.out.println("MemberController myPageReviewPackage reviewDTO -> " + reviewDTO.getPk());
+		
+		// 페이징
+		reviewDTO.setMem_id(sessionId);
+		int total = memberService.totalReviewPackage(reviewDTO);
+		System.out.println("MemberController myPageReviewPackage total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		reviewDTO.setStart(page.getStart());
+		reviewDTO.setEnd(page.getEnd());
+		System.out.println("MemberController myPageReviewPackage page.getStart() -> " + page.getStart());
+		System.out.println("MemberController myPageReviewPackage page.getEnd() -> " + page.getEnd());
+		
+		// 패키지 리뷰 목록
+		List<ReviewDTO> packageReviewList = memberService.myPageReviewPackage(reviewDTO);
+		int packageReviewListSize = packageReviewList.size();
+		
+		model.addAttribute("packageReviewList", packageReviewList);
+		model.addAttribute("packageReviewListSize", packageReviewListSize);
+		model.addAttribute("page", page);
+		System.out.println("MemberController packgeReviewList.size() -> " + packageReviewList.size());
+		
 		return "member/myPageReviewPackage";
 	}
 	
 	// My 상품평 (호텔) 페이지 이동
-	@GetMapping(value = "/myPageReviewHotel")
-	public String goMyPageReviewHotel() {
+	@RequestMapping(value = "/myPageReviewHotel")
+	public String myPageReviewHotel(ReviewDTO reviewDTO, Model model, String currentPage, HttpServletRequest request) {
+		log.info("MemberController myPageReviewHotel start..");
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		System.out.println("MemberController myPageReviewHotel sessionId -> " + sessionId);
+		
+		// 페이징 나중에
+		reviewDTO.setMem_id(sessionId);
+		int total = memberService.totalReviewHotel(reviewDTO);
+		System.out.println("MemberController myPageReviewHotel total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		reviewDTO.setStart(page.getStart());
+		reviewDTO.setEnd(page.getEnd());
+		System.out.println("MemberController myPageReviewHotel page.getStart() -> " + page.getStart());
+		System.out.println("MemberController myPageReviewHotel page.getEnd() -> " + page.getEnd());
+		
+		// 호텔 리뷰 목록
+		List<ReviewDTO> hotelReviewList = memberService.myPageReviewHotel(reviewDTO);
+		int hotelReviewListSize = hotelReviewList.size();
+		model.addAttribute("hotelReviewList", hotelReviewList);
+		model.addAttribute("hotelReviewListSize", hotelReviewListSize);
+		model.addAttribute("page", page);
+		System.out.println("MemberController hotelReviewList.size() -> " + hotelReviewList.size());
+		
 		return "member/myPageReviewHotel";
 	}
 	
 	// My 상품평 (티켓) 페이지 이동
-	@GetMapping(value = "/myPageReviewTicket")
-	public String goMyPageReviewTicket() {
+	@RequestMapping(value = "/myPageReviewTicket")
+	public String goMyPageReviewTicket(ReviewDTO reviewDTO, Model model, String currentPage, HttpServletRequest request) {
+		log.info("MemberController goMyPageReviewTicket start..");
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		System.out.println("MemberController goMyPageReviewTicket sessionId -> " + sessionId);
+		
+		// 페이징 나중에
+		reviewDTO.setMem_id(sessionId);
+		int total = memberService.totalReviewTicket(reviewDTO);
+		System.out.println("MemberController totalReviewTicket total -> " + total);
+		PagingManager page = new PagingManager(total, currentPage);
+		reviewDTO.setStart(page.getStart());
+		reviewDTO.setEnd(page.getEnd());
+		System.out.println("MemberController totalReviewTicket page.getStart() -> " + page.getStart());
+		System.out.println("MemberController totalReviewTicket page.getEnd() -> " + page.getEnd());
+		
+		// 티켓 리뷰 목록
+		List<ReviewDTO> ticketReviewList = memberService.myPageReviewTicket(reviewDTO);
+		int ticketReviewListSize = ticketReviewList.size();
+		model.addAttribute("ticketReviewList", ticketReviewList);
+		model.addAttribute("ticketReviewListSize", ticketReviewListSize);
+		model.addAttribute("page", page);
+		System.out.println("MemberController ticketReviewList.size() -> " + ticketReviewList.size());
+		
 		return "member/myPageReviewTicket";
 	}
 	
@@ -379,60 +538,85 @@ public class MemberController {
 	
 	// 개인 정보 수정
 	@PostMapping(value = "/updateMember")
-	public String updateMember(MemberDTO memberDTO, HttpServletRequest request) {
+	public String updateMember(MemberDTO memberDTO, HttpServletRequest request, HttpSession session) {
 		log.info("MemberController updateMember start..");
-		
-		HttpSession session = request.getSession();
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		// HttpSession session = request.getSession();
 		
 		memberService.updateMember(memberDTO);
 		
-		session.invalidate();
-		
-		return "redirect:/";
+		return "redirect:/member/myPageReservPackage";
 	}
 	
-	// 비밀번호 변경 페이지 이동
+	// 비밀번호 변경 페이지1 이동
 	@GetMapping(value = "/modifyPassword")
 	public String goModifyPassword() {
 		return "member/modifyPassword";
 	}
 	
-	
-	
-	// 비밀번호 변경
-	@PostMapping(value = "/updatePassword")
-	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) {
-		log.info("MemberController updatePassword start..");
+	// 비밀번호 확인
+	@PostMapping(value = "/checkPassword")
+	public String checkPassword(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+		log.info("MemberController checkPassword start..");
 		
+		// 로그인 정보 가져오기
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		// session에 저장된 로그인된 아이디의 비밀번호
 		String sessionPw = member.getMem_password();
-		System.out.println("MemberController updatePassword sessionPw -> "  + sessionPw);
-		
+		System.out.println("MemberController checkPassword sessionPw -> "  + sessionPw);
 		
 		// 비밀번호 확인을 위해 새로 입력한 비밀번호
-		String testPw = memberDTO.getMem_password();
-		System.out.println("MemberController updatePassword testPw -> " + testPw);
-		
-		String newPw = null;
-		
-		if(!(sessionPw.equals(testPw))) {
+		String ckPw = memberDTO.getMem_password();
+		System.out.println("MemberController checkPassword ckPw -> " + ckPw);
+	
+		if(!(sessionPw.equals(ckPw))) {
 			rttr.addFlashAttribute("msg", false);
-			return "redirect:/member/updatePassword";
+			return "redirect:/member/modifyPassword";
 		} else {
-			member.setMem_password(testPw);
-			memberService.updatePassword(member);
-			session.invalidate();
-			System.out.println("MemberController updatePassword after..");
-			return "redirect:/";
+			System.out.println("MemberController checkPassword after..");
+			return "redirect:/member/modifyPassword2";
 		}
 	}
 	
+	// 비밀번호 변경
+	@PostMapping(value = "/updatePassword")
+	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request, HttpSession session) {
+		log.info("MemberController updatePassword start..");
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		
+		memberService.updatePassword(memberDTO);
+		
+		return "redirect:/member/myPageReservPackage";
+	}
+	
+	
+	// 비밀번호 변경 페이지2 이동
+	@GetMapping(value = "/modifyPassword2")
+	public String goModifyPassword2() {
+		return "member/modifyPassword2";
+	}
+	
+	
+	
 	// 회원 탈퇴 페이지 이동
 	@GetMapping(value = "/deleteMember")
-	public String goDeleteMember() {
+	public String goDeleteMember(HttpSession session) {
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		return "member/deleteMember";
 	}
 	
@@ -443,6 +627,11 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
 		
 		// session에 저장된 로그인된 아이디의 비밀번호
 		String sessionPw = member.getMem_password();

@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
+import com.oracle.ohTravel.member.model.ReviewDTO;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 
@@ -59,13 +61,12 @@ public class MemberDaoImpl implements MemberDao {
 		return ticketReservList;
 	}
 
-	// 항공 예약 내역
+	//항공 예약 내역
 	@Override
-	public List<AirReservationDTO> myPageReservAir(AirReservationDTO airReservationDTO) {
-		log.info("MemberDaoImpl myPageReservTicket Start..");
-		List<AirReservationDTO> airReservList = sqlSession.selectList("airReservList", airReservationDTO);
+	public List<AirReservationDetail> myPageReserveAirLine(Map<String, Object> map) {
 		
-		System.out.println("MemberDaoImpl myPageReservAir airReservList.size() -> " + airReservList.size());
+		List<AirReservationDetail> airReservList = sqlSession.selectList("airReservList",map);
+		System.out.println("MemberDaoImpl myPageReserveAirLine airReservList.size() -> "+ airReservList.size());
 		return airReservList;
 	}
 
@@ -109,15 +110,6 @@ public class MemberDaoImpl implements MemberDao {
 		return result;
 	}
 
-	// 비밀번호 변경
-	@Override
-	public int updatePassword(MemberDTO memberDTO) {
-		log.info("MemberDaoImpl updatePassword start..");
-		
-		int result = sqlSession.update("updatePassword", memberDTO);
-		
-		return result;
-	}
 	
 	// 아이디 중복 체크
 	@Override
@@ -151,31 +143,6 @@ public class MemberDaoImpl implements MemberDao {
 		return member;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// 회원 select (등급 까지 포함)
 	@Override
 	public MemberDTO selectMemberWithGrade(String mem_id) throws Exception {
@@ -222,6 +189,103 @@ public class MemberDaoImpl implements MemberDao {
 		log.info("MemberDaoImpl updateMemCouponUsed() end...");
 		return rowCnt;
 	}
+
+	// 비밀번호 변경
+	@Override
+	public int updatePassword(MemberDTO memberDTO) {
+		log.info("MemberDaoImpl updatePassword start..");
+		
+		int result = sqlSession.update("updatePassword", memberDTO);
+		
+		return result;
+	}
+
+	// 패키지 리뷰 목록
+	@Override
+	public List<ReviewDTO> mypageReviewPackage(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl mypageReviewPackage Start..");
+		List<ReviewDTO> packageReviewList = sqlSession.selectList("packageReviewList", reviewDTO);
+		
+		System.out.println("MemberDaoImpl mypageReviewPackage packageReviewList.size() -> " + packageReviewList.size());
+		return packageReviewList;
+	}
+
+	// 호텔 리뷰 목록
+	@Override
+	public List<ReviewDTO> mypageReviewHotel(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl mypageReviewHotel Start..");
+		List<ReviewDTO> hotelReviewList = sqlSession.selectList("hotelReviewList", reviewDTO);
+		
+		System.out.println("MemberDaoImpl mypageReviewHotel hotelReviewList.size() -> " + hotelReviewList.size());
+		return hotelReviewList;
+	}
+	
+	
+
+	// 티켓 리뷰 목록
+	@Override
+	public List<ReviewDTO> myPageReviewTicket(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl myPageReviewTicket Start..");
+		List<ReviewDTO> ticketReviewList = sqlSession.selectList("ticketReviewList", reviewDTO);
+		
+		System.out.println("MemberDaoImpl myPageReviewTicket ticketReviewList.size() -> " + ticketReviewList.size());
+		return ticketReviewList;
+	}
+
+	// 패키지 리뷰 총 개수
+	@Override
+	public int totalReviewPackage(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl totalReviewPackage start..");
+		int total = sqlSession.selectOne("totalReviewPackage", reviewDTO);
+		System.out.println("MemberDaoImpl totalReviewPackage total -> " + total);
+		return total;
+	}
+
+	// 호텔 리뷰 총 개수
+	@Override
+	public int totalReviewHotel(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl totalReviewHotel start..");
+		int total = sqlSession.selectOne("totalReviewHotel", reviewDTO);
+		System.out.println("MemberDaoImpl totalReviewHotel total -> " + total);
+		return total;
+	}
+
+	// 티켓 리뷰 총 개수
+	@Override
+	public int totalReviewTicket(ReviewDTO reviewDTO) {
+		log.info("MemberDaoImpl totalReviewTicket start..");
+		int total = sqlSession.selectOne("totalReviewTicket", reviewDTO);
+		System.out.println("MemberDaoImpl totalReviewTicket total -> " + total);
+		return total;
+	}
+
+	// 패키지 예약 총 개수
+	@Override
+	public int totalReservPackage(PackageReservationDTO packageReservationDTO) {
+		log.info("MemberDaoImpl totalReservPackage start..");
+		int total = sqlSession.selectOne("totalReservPacakage", packageReservationDTO);
+		System.out.println("MemberDaoImpl totalReservPackage total -> " + total);
+		return total;
+	}
+
+	// 호텔 예약 총 개수
+	@Override
+	public int totalReservHotel(HotelReservationDTO hotelReservationDTO) {
+		log.info("MemberDaoImpl totalReservHotel start..");
+		int total = sqlSession.selectOne("totalReservHotel", hotelReservationDTO);
+		System.out.println("MemberDaoImpl totalReservHotel total -> " + total);
+		return total;
+	}
+
+	// 티켓 예약 총 개수
+	@Override
+	public int totalReservTicket(TicketReservationDTO ticketReservationDTO) {
+		log.info("MemberDaoImpl totalReservTicket start..");
+		int total = sqlSession.selectOne("totalReservTicket", ticketReservationDTO);
+		System.out.println("MemberDaoImpl totalReservTicket total -> " + total);
+		return total;
+	}
+
 
 	
 }

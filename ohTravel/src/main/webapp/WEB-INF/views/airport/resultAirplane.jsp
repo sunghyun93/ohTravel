@@ -919,7 +919,9 @@ prod_list_wrap .htl .btn.line {
 	color:white;
 	font-weight: bold;
 }
-
+.reservation_cant{
+	color: red;
+}
 
 </style>
 </head>
@@ -1051,9 +1053,25 @@ prod_list_wrap .htl .btn.line {
 									<span class="time"><fmt:formatDate pattern="HH:mm" value="${schedule.end_time}"/></span><br>
 									<span class="airport">${schedule.end_airport_name}</span>
 								</div>
-								<div class="reservation_check">
-									 예약가능<br>
-									<span>잔여5석</span>
+								<div class="reservation_check">								
+ 								<c:if test ="${seat_position == 'C' && schedule.general_remaining_seats > 0} ">
+									<span>예약가능<br>잔여${schedule.general_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'C' && schedule.general_remaining_seats == 0} ">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && schedule.business_remaining_seats > 0}">
+									<span>예약가능<br>잔여${schedule.business_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && schedule.business_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'A' && schedule.first_remaining_seats > 0}">
+									<span>예약가능<br>잔여${schedule.first_remaining_seats}석</span>
+ 								</c:if>	
+ 								<c:if test ="${seat_position == 'A' && schedule.first_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>		
 								</div>
 								<div class="price">
 									<c:if test="${seat_position == 'C'}">
@@ -1093,8 +1111,24 @@ prod_list_wrap .htl .btn.line {
 									<span class="airport">${go.end_airport_name}</span>
 								</div>
 								<div class="reservation_check">
-									 예약가능<br>
-									<span>잔여5석</span>
+								<c:if test ="${seat_position == 'C' && go.general_remaining_seats > 0}">
+									<span>예약가능<br>잔여${go.general_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'C' && go.general_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && go.business_remaining_seats > 0}">
+									<span>예약가능<br>잔여${go.business_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && go.business_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'A' && go.first_remaining_seats > 0}">
+									<span>예약가능<br>잔여${go.first_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'A' && go.first_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>	
 								</div>
 								<div class="price">
 									<c:if test="${seat_position == 'C'}">
@@ -1147,8 +1181,24 @@ prod_list_wrap .htl .btn.line {
 									<span class="airport">${come.end_airport_name}</span>
 								</div>
 								<div class="reservation_check">
-									 예약가능<br>
-									<span>잔여5석</span>
+								<c:if test ="${seat_position == 'C' && come.general_remaining_seats > 0}">
+									<span>예약가능<br>잔여${come.general_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'C' && come.general_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br> 남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && come.business_remaining_seats > 0}">
+									<span class="reservation_cant">예약가능<br>잔여${come.business_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && come.business_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'A' && come.first_remaining_seats > 0}">
+									<span>예약가능<br>잔여${come.first_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'A' && come.first_remaining_seats == 0}">
+									<span class="reservation_cant">예약가능<br>남은좌석 0석</span>
+ 								</c:if>		
 								</div>
 								<div class="price">
 									<c:if test="${seat_position == 'C'}">
@@ -1167,7 +1217,7 @@ prod_list_wrap .htl .btn.line {
 			</div>     
 		</div>
 		<div class="reservation_go">
-				<button type="button">일정 상세보기</button>
+				<button type="button" class="viewDetail">일정 상세보기</button>
 				<button type="submit" class="reservation_go_btn" onclick="check()"><span>예약하기</span></button>
 			</div>
 	</div>
@@ -1358,7 +1408,21 @@ prod_list_wrap .htl .btn.line {
 	  	  }else return true;
 	}
   	 
-   
+  /*  //일정 상세보기 모달창 open
+   function detailOn() {
+	    document.querySelector('.modal_wrap').style.display ='block';
+	    document.querySelector('.black_bg').style.display ='block';
+	    
+	}
+	
+	function detailOff() {
+	    document.querySelector('.modal_wrap').style.display ='none';
+	    document.querySelector('.black_bg').style.display ='none';
+	    
+	}
+	
+	document.getElementById('modal_btn').addEventListener('click', detailOn);
+	document.querySelector('.modal_close').addEventListener('click', detailOff); */
 	
 </script>			
 </body>

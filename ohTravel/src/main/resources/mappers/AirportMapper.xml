@@ -8,6 +8,15 @@
 	<select id="airplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 		where sa.city_id = #{start_city_id} and ea.city_id = #{end_city_id} and a.start_time like concat('%',#{start_date2},'%')
+        <if test='seat_position =="C"'>
+        	 and (ap.general_seat - general_res_count) > 0 
+        </if>
+        <if test='seat_position =="B"'>
+        	 and (ap.business_seat - business_res_count) > 0 
+        </if>
+        <if test='seat_position =="A"'>
+        	 and (ap.first_seat - first_res_count) > 0 
+        </if>
 		<choose>
 			<when test="order == 1">
 				order by a.start_time asc
@@ -25,6 +34,15 @@
  	<select id="round_goairplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 		where sa.city_id = #{start_city_id} and ea.city_id = #{end_city_id} and a.start_time like concat('%',#{start_date1},'%')
+		<if test='seat_position =="C"'>
+        	 and (ap.general_seat - general_res_count) > 0 
+        </if>
+        <if test='seat_position =="B"'>
+        	 and (ap.business_seat - business_res_count) > 0 
+        </if>
+        <if test='seat_position =="A"'>
+        	 and (ap.first_seat - first_res_count) > 0 
+        </if>
 		<choose>
 			<when test="order == 1">
 				order by a.start_time asc
@@ -43,6 +61,15 @@
  	<select id="round_airplaneList" parameterType="AirSearch" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 		where sa.city_id = #{end_city_id} and ea.city_id = #{start_city_id} and a.start_time like concat('%',#{end_date},'%')
+		<if test='seat_position =="C"'>
+        	 and (ap.general_seat - general_res_count) > 0 
+        </if>
+        <if test='seat_position =="B"'>
+        	 and (ap.business_seat - business_res_count) > 0 
+        </if>
+        <if test='seat_position =="A"'>
+        	 and (ap.first_seat - first_res_count) > 0 
+        </if>
 		<choose>
 			<when test="order==1">
 				order by a.start_time asc
@@ -61,19 +88,25 @@
 	<select id="goAirplane" parameterType="int" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 				where a.schedule_id = #{go_schedule_id}
+		     	and (ap.general_seat - general_res_count) > 0 
+				and (ap.business_seat - business_res_count) > 0 
+				and (ap.first_seat - first_res_count) > 0 
 	</select>
 	
 	
 	<select id="comeAirplane" parameterType="int" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 				where a.schedule_id = #{come_schedule_id}
+				and (ap.general_seat - general_res_count) > 0 
+				and (ap.business_seat - business_res_count) > 0 
+				and (ap.first_seat - first_res_count) > 0 
 	</select>
 	
 	
 	<!--비행기 select sql 재활용  -->
 	<sql id="trip">
 		SELECT al.air_picture,a.air_num,al.air_name, a.airplane_name, a.start_time,sa.country_id,sa.city_id as start_city_id,a.start_airport_name,a.end_time,ea.country_id,ea.city_id as end_city_id,a.end_airport_name,
-			ap.general_seat,ap.business_seat,ap.first_seat,a.schedule_price,a.schedule_id
+			ap.general_seat,ap.business_seat,ap.first_seat,a.schedule_price,a.schedule_id,a.general_res_count,a.business_res_count,a.first_res_count
 			from air_schedule a
 			join airline al on a.air_num = al.air_num
 			join airplane ap on a.airplane_name = ap.airplane_name
@@ -93,20 +126,20 @@
 
 	
 	<!-- 예약테이블 insert -->
-	<insert id="pplList" parameterType="Map">
+	<insert id="peoplelList" parameterType="Map">
 		insert into air_reservation_pi 
 		(reservation_id,air_pi_name,air_pi_birth,air_pi_gen,air_pi_lname,air_pi_fname,air_pi_tel,air_pi_email,air_passport) 
 		values
-		<foreach collection="air_Reservation_PiDTO" item="item" separator=" , ">
+		<foreach collection="pplList" item="item" separator=" , ">
 			(#{reservation_id},
-			#{item.air_Reservation_PiDTO.air_pi_name},
-			#{item.air_Reservation_PiDTO.air_pi_birth},
-			#{item.air_Reservation_PiDTO.air_pi_gen},
-			#{item.air_Reservation_PiDTO.air_pi_lname},
-			#{item.air_Reservation_PiDTO.air_pi_fname},
-			#{item.air_Reservation_PiDTO.air_pi_tel},
-			#{item.air_Reservation_PiDTO.air_pi_email},
-			#{item.air_Reservation_PiDTO.air_passport})
+			#{item.air_pi_name},
+			#{item.air_pi_birth},
+			#{item.air_pi_gen},
+			#{item.air_pi_lname},
+			#{item.air_pi_fname},
+			#{item.air_pi_tel},
+			#{item.air_pi_email},
+			#{item.air_passport})
 		</foreach>
 	</insert>	
 		<!-- 예약테이블 insert -->
@@ -116,7 +149,37 @@
 	
 	<insert id="comeSeatList" parameterType="Map">
 		insert into reservation_seat (reservation_id,airplane_name,seat_position,seated_status) values (#{reservation_id},#{come_airplane_name},#{seat_position},1)
-	</insert>	
+	</insert>
+	
+	<!-- 가는비행기 예약자수 update -->
+	<update id="goflightCalc" parameterType="Map">
+		update air_schedule set 
+		<if test='seat_position == "C"'>
+			general_res_count = general_res_count + ${count}
+		</if>
+		<if test='seat_position == "B"'>
+			business_res_count = business_res_count + ${count}
+		</if>
+		<if test='seat_position == "A"'>
+			first_res_count = first_res_count + ${count}
+		</if>
+		where schedule_id = #{go_schedule_id}
+	</update>
+	
+	<!-- 오는비행기 예약자수 insert -->
+	<update id="comeflightCalc" parameterType="Map">
+		update air_schedule set 
+		<if test='seat_position == "C"'>
+			general_res_count = general_res_count + ${count}
+		</if>
+		<if test='seat_position == "B"'>
+			business_res_count = business_res_count + ${count}
+		</if>
+		<if test='seat_position == "A"'>
+			first_res_count = first_res_count + ${count}
+		</if>
+		where schedule_id = #{come_schedule_id}
+	</update>	
 		
 	<insert id="goflightList" parameterType="Map">
 			insert into air_flightSche (schedule_id,reservation_id,air_gubun) values (#{go_schedule_id},#{reservation_id},#{air_gubun})
@@ -131,6 +194,11 @@
 	<insert id="paymentList" parameterType="Map">
 		insert into payment(mem_id,reservation_id,payment_method) values (#{mem_id},#{reservation_id},'card')
 	</insert>
+	
+	<select id="reservationDetails" parameterType="int" resultType="Air_ReservationDTO">
+		select * from reservation where reservation_id = #{reservation_id}
+	</select>
+	
 	
 	
 	

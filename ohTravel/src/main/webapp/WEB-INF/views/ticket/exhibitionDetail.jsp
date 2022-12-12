@@ -714,7 +714,7 @@
 	    opacity: 0;
 	}
 	
-	/* 예약하기 (빨간 배경) 부분 */
+	/* 예약하기 부분 */
 	.product-detail-view .btn-order-group {
 	    opacity: 1;
 	    position: absolute;
@@ -855,7 +855,10 @@
 	
 </style>
 <body>
+
 	<div class="container" style="height:auto;">
+		
+		
 		<div class="info" style="width: 1250px; height: 770px;">
 			<!-- 왼쪽 티켓 이미지 -->
 			<div class="ticketImg" style="width: 750px; height: 770px; border: 1px solid #808080; float:left; translate: 0px;">
@@ -868,10 +871,11 @@
 					<div class="product-info" style="padding: 40px 40px 60px; height: 770px;">
 						<div class="product-title" style="width: 350px; float: right; translate: -30px 90px;">
 							<p class="city" style="font-size: 18px; color: #666; font-weight: 700;">${ticketDetail.city_name}</p>
-							<h2 style="font-weight: 700">${ticketDetail.ticket_name }</h2>
+							<!-- 제목 -->
+							<input class="ticket_name" type="text" style="font-weight: 700; font-size:24px; border:none;" name="ticket_name" value="${ticketDetail.ticket_name }" readonly>
 							<div class="price-wrap">
 								<div class="price" style="margin: 18px 0 0; font-size: 16px;">
-									<span class="dc" style="font-size: 32px; color: #f06c5e; font-weight: 700; margin-right: 15px;">${ticketDetail.ticket_child_price}원</span>
+									<input type="text" class="dc" style="font-size: 32px; color: #f06c5e; font-weight: 700; margin-right: 15px; width: 160px; border:none;" name="ticket_child_price" value="${ticketDetail.ticket_child_price}" readonly>원~
 								</div>
 							</div>
 							<!-- 찜 버튼 -->
@@ -910,8 +914,8 @@
 									<div class="title" style="font-weight: 700; font-size: 24px; margin:0 0 27px;">꼭 읽어보세요!</div>
 									<div class="dot-list" style="margin: 9px 0; line-height: 1.6;">
 										<ul>
-											<li style="position: relative; margin: 0; color: #666; padding-left: 10px;"><i class="bi bi-check"></i> 판매기간 : ~${ticketDetail.ticket_due_date}</li>
-											<li style="position: relative; margin: 0; color: #666; padding-left: 10px;"><i class="bi bi-check"></i> 유효기간 : ~${ticketDetail.ticket_due_date}</li>
+											<li style="position: relative; margin: 0; color: #666; padding-left: 10px;"><i class="bi bi-check"></i> 판매기간 : ~<fmt:formatDate value="${ticketDetail.ticket_due_date}" pattern="yyyy-MM-dd"/></li>
+											<li style="position: relative; margin: 0; color: #666; padding-left: 10px;"><i class="bi bi-check"></i> 유효기간 : ~<fmt:formatDate value="${ticketDetail.ticket_due_date}" pattern="yyyy-MM-dd"/></li>
 										</ul>
 									</div>
 								</div>
@@ -932,7 +936,8 @@
                                 	<!-- ticket_admission_date -->
                                		<div class="date">
 										<div class="date_start" style="translate: 0 20px;">
-											<input type="date" name="dates_start_check" id="adDate" class="dates_start_check" onchange="input()">
+											<input type="date" name="adDate" id="adDate" class="adDate" onchange="getDate()" value='2022-12-20' min="2022-12-20" max="2022-12-31">
+											<!-- <input type="date" name="adDate" id="adDate" class="adDate" onchange="input()"> -->
 										</div>
 									</div>
                             </div>
@@ -1125,9 +1130,9 @@
                                             <span class="price">${ticketDetail.ticket_adult_price }원</span>
                                         </p>
                                         <span class="num_count_group">
-                                            <button class="btn_decrement down"></button>
+                                            <button type="button" class="btn_decrement down"></button>
                                             <span class="inpt_counter adultCnt">0</span>
-                                            <button class="btn_increment up"></button>
+                                            <button type="button" class="btn_increment up"></button>
                                         </span>
                                     </li>
                                     <li>
@@ -1136,9 +1141,9 @@
                                             <span class="price">${ticketDetail.ticket_child_price }원</span>
                                         </p>
                                         <span class="num_count_group">
-                                            <button class="btn_decrement down"></button>
+                                            <button type="button" class="btn_decrement down"></button>
                                             <span class="inpt_counter childCnt"></span>
-                                            <button class="btn_increment up"></button>
+                                            <button type="button" class="btn_increment up"></button>
                                         </span>
                                     </li>
                                 </ul>
@@ -1149,13 +1154,13 @@
                                 <div class="total_pay_price">
                                     <div class="row final">
                                         <p class="tit">총 금액</p>
-                                        <p class="con"></em></p>
+                                        <p class="con"></p>
                                     </div>
                                 </div>
                                 <hr class="pkg">
                                 <div class="cont_unit foot">
                                     <div class="btn_wrap">
-                                        <button class="btn-rv" style="width: 250px;" onclick="location.href='exhPayment'">예약</button>
+                                        <button type="button" id="reserveBtn" class="btn-rv" style="width: 250px;" value="예약하기" onclick="goReserve()">예약</button>
                                     </div>
                                 </div>
                             </div>
@@ -1164,127 +1169,175 @@
                 </div> <!-- prod_detail -->
 	</div>
 
+	<form action="/ticket/exhPayment" name="ReserveForm" method="post">
+		<input type="hidden" name="ticket_name" value="">
+		<input type="hidden" name="totalPay" value="">
+		<input type="hidden" name="adultCnt" value="">
+		<input type="hidden" name="childCnt" value="">
+		<input type="hidden" name="adDate" value="">
+	</form>
+
+
+	<div style="">
+	    <form id="ticketReserveForm" name="ticketReserveForm">
+	    </form>
+    </div>
+
 	<script>
-		$(function() {
-		    /* 인원 수 버튼 증감 및 총 금액 부분의 합계 script 부분 */
+	$(function() {
+	    /* 인원 수 버튼 증감 및 총 금액 부분의 합계 script 부분 */
 
-		    // 어른 / 아동 인원수
-		    let adultCnt = $(".adultCnt");
-		    let childCnt = $(".childCnt");
+	    // 어른 / 아동 인원수
+	    let adultCnt = $(".adultCnt");
+	    let childCnt = $(".childCnt");
 
-		    // 업 버튼 / 다운 버튼
-		    let up = $(".up");
-		    let down = $(".down");
+	    // 업 버튼 / 다운 버튼
+	    let up = $(".up");
+	    let down = $(".down");
 
-		    // 성인 가격 / 아동 가격 (서버에서 받아와야 함 - 우선 하드코딩)
-		    let adultPrice = ${ticketDetail.ticket_adult_price};
-		    let childPrice = ${ticketDetail.ticket_child_price};
+	    // 성인 가격 / 아동 가격 (서버에서 받아와야 함)
+	    let adultPrice = ${ticketDetail.ticket_adult_price};
+	    let childPrice = ${ticketDetail.ticket_child_price};
 
-		    // 총 금액 (기본적으로 성인이 1명 선택되어있기 때문에 시작하자마자 성인 가격을 대입함)
-		    let totalPrice = adultPrice;
-		    // 총 금액 객체
-		    let totalPay = $(".con");
+	    // 총 금액 (기본적으로 성인이 1명 선택되어있기 때문에 시작하자마자 성인 가격을 대입함)
+	    let totalPrice = adultPrice;
+	    // 총 금액 객체
+	    let totalPay = $(".con");
 
-		    // 인원 수 기본 설정
-		    adultCnt.text("1");
-		    childCnt.text("0");
+	    // 인원 수 기본 설정
+	    adultCnt.text("1");
+	    childCnt.text("0");
 
-		    // 총 금액 기본 설정 (서버에서 받아와야 함 - 우선 하드코딩)
-		    totalPay.html(adultPrice + "<em>원</em>");
+	    // 총 금액 기본 설정 (서버에서 받아와야 함 - 우선 하드코딩)
+	    totalPay.html(adultPrice + "<em>원</em>");
 
-		    up.on("click", function () {
-		        // 누른 버튼 구분 (up / down)
-		        let isUp = $(this).hasClass("up");
+	    up.on("click", function () {
+	        // 누른 버튼 구분 (up / down)
+	        let isUp = $(this).hasClass("up");
 
-		        // 클릭 했을 때의 클릭한 부분의 인원 수 (siblings() 를 사용해봄)
-		        let cnt = Number($(this).siblings("span").text());
-		        console.log(cnt);
+	        // 클릭 했을 때의 클릭한 부분의 인원 수 (siblings() 를 사용해봄)
+	        let cnt = Number($(this).siblings("span").text());
+	        console.log(cnt);
 
-		        // 클릭 했을 때의 전체 인원 수 (패키지 상세 인원 제한을 위한 변수)
-		        let totalCnt = Number(adultCnt.text()) + Number(childCnt.text());
+	        // 클릭 했을 때의 전체 인원 수 (패키지 상세 인원 제한을 위한 변수)
+	        let totalCnt = Number(adultCnt.text()) + Number(childCnt.text());
 
-		        // 클릭 했을 때 성인 / 아동 구분
-		        let isAdult = $(this).siblings("span").hasClass("adultCnt");
-		        console.log(isAdult);
+	        // 클릭 했을 때 성인 / 아동 구분
+	        let isAdult = $(this).siblings("span").hasClass("adultCnt");
+	        console.log(isAdult);
 
-		        // 성인 / 아동 , up / down 구분
-		        if (isAdult && !isUp) {
-		            console.log("성인 down");
-		        } else if (isAdult && isUp) {
-		            console.log("성인 up");
-		            // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
-		            if (totalCnt >= 10) {
-		                return;
-		            } else {
-		                cnt += 1;
-		                adultCnt.text(cnt);
+	        // 성인 / 아동 , up / down 구분
+	        if (isAdult && !isUp) {
+	            console.log("성인 down");
+	        } else if (isAdult && isUp) {
+	            console.log("성인 up");
+	            // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
+	            if (totalCnt >= 10) {
+	                return;
+	            } else {
+	                cnt += 1;
+	                adultCnt.text(cnt);
 
-		                // 총 금액 설정
-		                totalPrice += adultPrice;
-		            }
-		        } else if (!isAdult && !isUp) {
-		            console.log("아동 down");
-		        } else if (!isAdult && isUp) {
-		            console.log("아동 up");
-		            // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
-		            if (totalCnt >= 10) {
-		                return;
-		            } else {
-		                cnt += 1;
-		                childCnt.text(cnt);
+	                // 총 금액 설정
+	                totalPrice += adultPrice;
+	            }
+	        } else if (!isAdult && !isUp) {
+	            console.log("아동 down");
+	        } else if (!isAdult && isUp) {
+	            console.log("아동 up");
+	            // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
+	            if (totalCnt >= 10) {
+	                return;
+	            } else {
+	                cnt += 1;
+	                childCnt.text(cnt);
 
-		                // 총 금액 설정
-		                totalPrice += childPrice;
-		            }
-		        }
+	                // 총 금액 설정
+	                totalPrice += childPrice;
+	            }
+	        }
 
-		        // 총 금액 부분에 내용 삽입
-		        totalPay.html(totalPrice + "<em>원</em>");
-		    });
+	        // 총 금액 부분에 내용 삽입
+	        totalPay.html(totalPrice + "<em>원</em>");
+	    });
 
-		    down.on("click", function () {
-		        // 누른 버튼 구분 (up / down)
-		        let isUp = $(this).hasClass("up");
+	    down.on("click", function () {
+	        // 누른 버튼 구분 (up / down)
+	        let isUp = $(this).hasClass("up");
 
-		        // 클릭 했을 때의 인원 수
-		        let cnt = $(this).siblings("span").text();
-		        console.log(cnt);
+	        // 클릭 했을 때의 인원 수
+	        let cnt = $(this).siblings("span").text();
+	        console.log(cnt);
 
-		        // 클릭 했을 때 성인 / 아동 구분
-		        let isAdult = $(this).siblings("span").hasClass("adultCnt");
-		        console.log(isAdult);
+	        // 클릭 했을 때 성인 / 아동 구분
+	        let isAdult = $(this).siblings("span").hasClass("adultCnt");
+	        console.log(isAdult);
 
-		        // 성인 / 아동 , up / down 구분
-		        if (isAdult && !isUp) {
-		            console.log("성인 down");
-		            if (cnt <= 1) {
-		                return;
-		            } else {
-		                cnt -= 1;
-		                adultCnt.text(cnt);
+	        // 성인 / 아동 , up / down 구분
+	        if (isAdult && !isUp) {
+	            console.log("성인 down");
+	            if (cnt <= 1) {
+	                return;
+	            } else {
+	                cnt -= 1;
+	                adultCnt.text(cnt);
 
-		                // 총 금액 설정
-		                totalPrice -= adultPrice;
-		            }
-		        } else if (isAdult && isUp) {
-		            console.log("성인 up");
-		        } else if (!isAdult && !isUp) {
-		            console.log("아동 down");
-		            if (cnt <= 0) {
-		                return;
-		            } else {
-		                cnt -= 1;
-		                childCnt.text(cnt);
+	                // 총 금액 설정
+	                totalPrice -= adultPrice;
+	            }
+	        } else if (isAdult && isUp) {
+	            console.log("성인 up");
+	        } else if (!isAdult && !isUp) {
+	            console.log("아동 down");
+	            if (cnt <= 0) {
+	                return;
+	            } else {
+	                cnt -= 1;
+	                childCnt.text(cnt);
 
-		                // 총 금액 설정
-		                totalPrice -= childPrice;
-		            }
-		        } else if (!isAdult && isUp) {
-		            console.log("아동 up");
-		        }
+	                // 총 금액 설정
+	                totalPrice -= childPrice;
+	            }
+	        } else if (!isAdult && isUp) {
+	            console.log("아동 up");
+	        }
 
-		        totalPay.html(totalPrice + "<em>원</em>");
-		    });
+	        totalPay.html(totalPrice + "<em>원</em>");
+	    });
+		    
+         /* 예약 버튼 부분 */
+/*          $('#reserveBtn').on('click', function() {
+         	// 로그인 확인
+         	$.ajax({
+         		url : '/ticketRest/loginCheck',
+         		type : 'get',
+         		dataType : 'text',
+         		success : function(data) {
+         			console.log(data);
+         			let aCnt = adultCnt.text();
+     				let cCnt = childCnt.text();
+     				
+         			if(data == 'LOGIN_OK') { */
+         				/* form 에 보낼 데이터와 함께 input 태그 추가해주고 서버로 전송 */
+/*          				makeForm($('#ticketReserveForm'), aCnt, cCnt);
+         				
+         				$('#ticketReserveForm').attr('action', '/ticket/exhPayment');
+         				$('#ticketReserveForm').attr('method', 'post');
+         				$('#ticketReserveForm').submit();
+         			}
+         			else {
+         				alert("로그인 하고 예약해주세요.");
+         				location.href = "/member/loginForm";
+         			}
+         		}, 
+         		error : function(err) {
+         			console.log(err)
+         			alert("error")
+         		}
+         	})
+         	
+         }); */
+		    
 			
 			/* 찜 버튼 하트 아이콘 클릭  */
 			var i = 0;
@@ -1300,36 +1353,34 @@
 
 			});
 		});
-
-
-		////////////// 상품 사용일자 선택 ////////////////////////////
-		$(function() {
-			$('.ticket_admission_date').hide();
-
-			$('.oneway').click(function() {
-				$('.date_start, .date_end').hide();
-				$('.ticket_admission_date').show();
-			});
-
-			$('.round_trip').click(function() {
-				$('.date_start, .date_end').show();
-				$('.ticket_admission_date').hide();
-			});
-		});
-
-		/* 리뷰 부분 */
-		//별 그리기 함수
-		function drawStar() {
-			let width = $('#starRate').val();
-			document.querySelector('.star span').style.width = (width * 10) + '%'
-		}
-		 	
-		/* 날짜 값 받아오기 */
-		function input() {
-			const ticket_admission_date = document.querySelector("#adDate").value;
-			console.log(ticket_admission_date);
-		}
+	
+	/* 값(입장권명, 성인 인원, 아동 인원, 총 금액, 사용일) 들고 예약 페이지로 이동 */
+	function goReserve() {
 		
-	</script>
+			let adultCnt = $(".adultCnt").html();
+			let childCnt = $(".childCnt").html();
+		    let adDate = $("#adDate").val();
+	
+		    // 성인 가격 / 아동 가격
+		    let adultPrice = ${ticketDetail.ticket_adult_price};
+		    let childPrice = ${ticketDetail.ticket_child_price};
+	
+		    let totalPay =  parseInt((adultPrice * parseInt(adultCnt)) + (childPrice * parseInt(childCnt)));
+		    console.log("totalPay : " + totalPay)
+			
+			let ticket_name = "${ticketDetail.ticket_name }"
+		
+			console.log("adultCnt->"+adultCnt);
+			
+			$('input[name=ticket_name]').attr('value', ticket_name);
+			$('input[name=totalPay]').attr('value', totalPay);
+			$('input[name=adultCnt]').attr('value', adultCnt);
+			$('input[name=childCnt]').attr('value', childCnt);
+			$('input[name=adDate]').attr('value', adDate);
+			
+			ReserveForm.submit();
+	} 	
+    </script>
+    <script src="/js/pkage/review.js"></script>
 </body>
 </html>

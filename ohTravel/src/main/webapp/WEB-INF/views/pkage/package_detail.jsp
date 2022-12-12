@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_detail.css">
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-<title>Package</title>
+<title>${pkageDTORM.pkage_detailDTO.pkage_dt_name }</title>
 </head>
 <body>
 <div id="pk_container">
@@ -137,9 +137,9 @@
                                 <dt>여행도시</dt>
                                 <dd>${pkageDTORM.cityDTO.city_name }</dd>
                                 <dt>예약현황</dt>
-                                <dd class="state"><%-- 패키지 인원 / 예약 인원 / 최소 인원 --%>
+                                <dd class="state"><%-- 예약 인원 / 예약 가능 인원 / 최소 인원 --%>
                                     <span class="info">예약 : ${pkageDTORM.pkage_detailDTO.pkage_dt_Rcnt }명</span>
-                                    <span class="info" id="possibleCnt" data-possibleCnt="${pkageDTORM.pkage_detailDTO.pkage_dt_cnt - pkageDTORM.pkage_detailDTO.pkage_dt_Rcnt }">
+                                    <span class="info" id="possibleCnt" data-possibleCnt="${pkageDTORM.pkage_detailDTO.possibleCnt }">
                                                                                  잔여좌석 : ${pkageDTORM.pkage_detailDTO.pkage_dt_cnt - pkageDTORM.pkage_detailDTO.pkage_dt_Rcnt }석 (최소출발 : ${pkageDTORM.pkage_detailDTO.pkage_dt_Mcnt }명)
                                     </span>
                                 </dd>
@@ -550,7 +550,7 @@
     </div>
         
     <script>
-    	let possibleCnt = Number($('#possibleCnt').attr('data-possibleCnt')); /* 예약 가능 인원  */
+    	let possibleCnt = Number('${pkageDTORM.pkage_detailDTO.possibleCnt }'); /* 예약 가능 인원  */
     	alert("${sessionScope.member.mem_id}")
         $(function() {
         	/* 페이지 읽고 바로 리뷰 리스트 뿌려주기 */
@@ -567,8 +567,8 @@
             let down = $('.down');
 
                 // 성인 가격 / 아동 가격 (서버에서 받아와야 함 - 우선 하드코딩)
-            let adultPrice = Number($('.Aprice').attr("data-Aprice"));
-            let childPrice = Number($('.Cprice').attr("data-Cprice"));
+            let adultPrice = Number('${pkageDTORM.pkage_detailDTO.pkage_dt_Aprice }');
+            let childPrice = Number('${pkageDTORM.pkage_detailDTO.pkage_dt_Cprice }');
 
                 // 총 금액 (기본적으로 성인이 1명 선택되어있기 때문에 시작하자마자 성인 가격을 대입함)
             let totalPrice = adultPrice;
@@ -594,7 +594,7 @@
 
                 // 클릭 했을 때의 전체 인원 수 (패키지 상세 인원 제한을 위한 변수)
                 let totalCnt = Number(adultCnt.text()) + Number(childCnt.text());
-
+                
                 // 클릭 했을 때 성인 / 아동 구분
                 let isAdult = $(this).siblings('span').hasClass('adultCnt');
                 console.log(isAdult);
@@ -684,8 +684,15 @@
                 totalPay.html(totalPriceWithCurrency+'<em>원</em>');
             });
             
+           
+            
             /* 예약 버튼 부분 */
-            $('#reservBtn').on('click', function() {
+            $('#reservBtn').on('click', function() { 	 
+            	/* 예약 버튼을 눌렀을 때 요청 인원 수 */
+            	let aCnt = adultCnt.text();
+				let cCnt = childCnt.text();
+				let reservedCnt = Number(aCnt) + Number(cCnt);
+				
             	// 로그인 확인
             	$.ajax({
             		url : '/pkageRest/loginCheck',
@@ -693,13 +700,10 @@
             		dataType : 'text',
             		success : function(data) {
             			console.log(data);
-            			let aCnt = adultCnt.text();
-        				let cCnt = childCnt.text();
-        				
-        				/* 로그인 여부  */
+            			
+        				/* 로그인 여부 O */
             			if(data == 'LOGIN_OK') {
-            				/* 로그인이 되어 있으면 */
-            				/* 로그인 된 사용자가 이미 예약한 상품인지 check */
+            				// 로그인 된 사용자가 이미 예약한 상품인지 check ajax
             				$.ajax({
             					url : '/pkageRest/reservedCheck',
             					type : 'post',
@@ -710,38 +714,89 @@
             					success : function(data) {
             						/* 이미 예약한 상품이라면 */
             						if(data == 'reserved') {
-            							alert("이미 예약한 상품입니다.")
-            						} else {
-            							/* 해당 패키지 상품의 잔여좌석이 없을 경우 alert 창 띄워주기 */
-                        				if(possibleCnt == '0') {
-                        					alert("모든 예약이 꽉 차있습니다.")
-                        				} else {
-                        					/* form 에 보낼 데이터와 함께 input 태그 추가해주고 서버로 전송 */
-                            				makeForm($('#pkgReserveForm'), aCnt, cCnt)
-                            				$('#pkgReserveForm').attr('action', '/pkage/reservation');
-                            				$('#pkgReserveForm').attr('method', 'get');
-                            				$('#pkgReserveForm').submit();
-                        				}
+            							alert("이미 예약한 상품입니다.");
+            						} else if(data == 'reservedNo'){
+            						/* 이미 예약한 상품이 아니라면  */
+            							// 이미 해당 날짜 기간에 예약된 상품이 있는지 여부
+            							$.ajax({
+            								url : '/pkageRest/duplicateReserve',
+            								type : 'get',
+            								data : {
+            									'mem_id' : '${sessionScope.member.mem_id}',
+            									'pkage_dt_id' : '${pkageDTORM.pkage_detailDTO.pkage_dt_id}'
+            								},
+            								dataType : 'text',
+            								success : function(data) {
+            									let doReserve = false;
+            									// 현재 예약된 것들과 날짜가 겹치는 것이 있다면
+            									if(data == 'duplicate') {
+            										if(confirm("현재 예약된 것들 중 날짜가 겹치는 상품입니다.\n그래도 예약하시겠습니까?")) {
+            											doReserve = true;
+            										}
+            									}
+            									// 날짜 겹치는 것 없음
+            									else if(data == 'duplicateNo') {
+            										doReserve = true;
+            									}
+            									
+            									// 해당 패키지 상품의 잔여좌석 존재 여부 판단 ajax 
+            									if(doReserve) {
+            										$.ajax({
+                        		    					url : '/pkageRest/reservedCntCheck',
+                        		    					type : 'get',
+                        		    					data : {
+                        		    						'pkage_dt_id' : '${pkageDTORM.pkage_detailDTO.pkage_dt_id}',
+                        		    						'reservedCnt' : reservedCnt
+                        		    					},
+                        		    					dataType : 'text',
+                        		    					success : function(data) {
+                        		    						// impossible 이라면, 예약 가능 인원 수가 0명인 것.
+                        		    						if(data == 'impossible') {
+                        		    							alert("해당 패키지는 예약 인원이 꽉 차있습니다.");
+                        		    						}
+                        		    						// no라면, 요청 보낸 인원 수가 예약 가능 인원 수 보다 커서 예약 불가
+                        		    						else if(data == 'no') {
+                        		    							alert("요청하신 예약 인원은 예약 가능 인원 수를 초과하였습니다.");	
+                        		    						} 
+                        		    						// yes라면, 요청한 인원 예약 가능한 상태
+                        		    						else if(data == 'yes'){
+                        		    							/* form 에 보낼 데이터와 함께 input 태그 추가해주고 서버로 전송 */
+                        		                				makeForm($('#pkgReserveForm'), aCnt, cCnt)
+                        		                				$('#pkgReserveForm').attr('action', '/pkage/reservation');
+                        		                				$('#pkgReserveForm').attr('method', 'get');
+                        		                				$('#pkgReserveForm').submit();
+                        		    						}
+                        		    					},
+                        		    					error : function(err) {
+                        		    						console.log(err);
+                        		    					}
+                        		    					
+                        		    				});// 해당 패키지 상품의 잔여좌석 존재 여부 판단 ajax
+            									}
+            								},
+            								error : function(err) {
+            									console.log(err);
+            								}
+            							}); // 이미 해당 날짜 기간에 예약된 상품이 있는지 여부
             						}
             					},
             					error : function(err) {
             						console.log(err);
             					}
-            					
-            				});
+            				}); // 로그인 된 사용자가 이미 예약한 상품인지 check ajax
             			}
-        				/* 로그인 여부 */
-            			else {
-            				alert("로그인 하고 예약해주세요.");
+        				/* 로그인 여부 X */
+            			else if(data == 'LOGIN_NO') {
+            				alert("로그인 후 예약해주세요.");
             				location.href="/member/loginForm";
             			}
             		}, /* success */
             		error : function(err) {
             			console.log(err)
             		} /* error */
-            	})
-            	
-            });
+            	});// $.ajax
+            		    	
+            }); /* 예약 버튼 부분 */
 
             /* 여행일정 / 호텔 / 상품평 tab 및 내용 class 부여 부분 */
             let ulTagLi = $('#ulTag>li'); // li 태그

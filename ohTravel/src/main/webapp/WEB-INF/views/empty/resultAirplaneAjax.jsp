@@ -2,8 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
+<style>
+.reservation_cant{
+	color: red;
+}
+</style>
 <head>
 <body>
                 <!-- 패키지 상세 상품 부분 -->
@@ -38,6 +44,7 @@
 		             <c:if test="${gubun_check == 1}">  
 		             <c:forEach var="schedule" items="${schedule_list}">
 							<div class="go_airplane">
+							<input type="hidden" name="go_schedule_id" value="${schedule.schedule_id }">
 								<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${schedule.air_picture}" width="20px" height="20px">${schedule.air_name}<br>
 								<span class="airline_num">${schedule.airplane_name}</span>
 								</div>
@@ -58,8 +65,24 @@
 									<span class="airport">${schedule.end_airport_name}</span>
 								</div>
 								<div class="reservation_check">
-									 예약가능<br>
-									<span>잔여5석</span>
+									<c:if test ="${seat_position == 'C' && schedule.general_remaining_seats > 0} ">
+									<span>예약가능<br>잔여${schedule.general_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'C' && schedule.general_remaining_seats == 0} ">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && schedule.business_remaining_seats > 0}">
+									<span>예약가능<br>잔여${schedule.business_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && schedule.business_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'A' && schedule.first_remaining_seats > 0}">
+									<span>예약가능<br>잔여${schedule.first_remaining_seats}석</span>
+ 								</c:if>	
+ 								<c:if test ="${seat_position == 'A' && schedule.first_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>
 								</div>
 								<div class="price">
 									<c:if test="${seat_position == 'C'}">
@@ -78,6 +101,7 @@
 				<c:if test="${gubun_check == 0}">  
 		             <c:forEach var="go" items="${goList}">
 							<div class="go_airplane">
+							<input type="hidden" name="go_schedule_id" value="${go.schedule_id }">
 								<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${go.air_picture}" width="20px" height="20px">${go.air_name}<br>
 								<span class="airline_num">${go.airplane_name}</span>
 								</div>
@@ -98,8 +122,24 @@
 									<span class="airport">${go.end_airport_name}</span>
 								</div>
 								<div class="reservation_check">
-									 예약가능<br>
-									<span>잔여5석</span>
+									<c:if test ="${seat_position == 'C' && go.general_remaining_seats > 0}">
+									<span>예약가능<br>잔여${go.general_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'C' && go.general_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && go.business_remaining_seats > 0}">
+									<span>예약가능<br>잔여${go.business_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && go.business_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'A' && go.first_remaining_seats > 0}">
+									<span>예약가능<br>잔여${go.first_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'A' && go.first_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>	
 								</div>
 								<div class="price">
 									<c:if test="${seat_position == 'C'}">
@@ -131,6 +171,7 @@
 		             <c:if test="${gubun_check == 0 }">   
 		             <c:forEach var="come" items="${comeList}">
 							<div class="go_airplane">
+							<input type="hidden" name="come_schedule_id" value="${come.schedule_id }">
 								<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${come.air_picture}" width="20px" height="20px">${come.air_name}<br>
 								<span class="airline_num">${come.airplane_name}</span>
 								</div>
@@ -151,8 +192,24 @@
 									<span class="airport">${come.end_airport_name}</span>
 								</div>
 								<div class="reservation_check">
-									 예약가능<br>
-									<span>잔여5석</span>
+									<c:if test ="${seat_position == 'C' && come.general_remaining_seats > 0}">
+									<span>예약가능<br>잔여${come.general_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'C' && come.general_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br> 남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && come.business_remaining_seats > 0}">
+									<span class="reservation_cant">예약가능<br>잔여${come.business_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'B' && come.business_remaining_seats == 0}">
+									<span class="reservation_cant">예약불가능<br>남은좌석 0석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'A' && come.first_remaining_seats > 0}">
+									<span>예약가능<br>잔여${come.first_remaining_seats}석</span>
+ 								</c:if>
+ 								<c:if test ="${seat_position == 'A' && come.first_remaining_seats == 0}">
+									<span class="reservation_cant">예약가능<br>남은좌석 0석</span>
+ 								</c:if>		
 								</div>
 								<div class="price">
 									<c:if test="${seat_position == 'C'}">

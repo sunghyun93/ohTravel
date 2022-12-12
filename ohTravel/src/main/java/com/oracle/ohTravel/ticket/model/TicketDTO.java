@@ -32,4 +32,10 @@ public class TicketDTO {
 	private String pageNum;
 	private int start;
 	private int end;
+	
+	// 예약 전 페이지용
+	private int totalPay;
+	private int adultCnt;
+	private int childCnt;
+	private String adDate;
 }

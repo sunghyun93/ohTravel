@@ -110,6 +110,15 @@ public class PkageServiceImpl implements PkageService {
 		return pkage_detailDTO;
 	}
 	
+//	단순히 pkage_dt_id 를 받아 package_detail 만을 select
+	@Override
+	public Pkage_detailDTO selectPkgDetailById3(Integer pkage_dt_id) throws Exception {
+		log.info("PkageServiceImpl selectPkgDetailById2() start...");
+		Pkage_detailDTO pkage_detailDTO = pkageDao.selectPkgDetailById3(pkage_dt_id);
+		log.info("PkageServiceImpl selectPkgDetailById2() end...");
+		return pkage_detailDTO;
+	}
+	
 //	사용자가 이미 예약한 상품인지 확인
 	@Override
 	public Integer selectPkgDetailReservCheck(Map<String, Object> map) throws Exception {
@@ -122,7 +131,8 @@ public class PkageServiceImpl implements PkageService {
 //	패키지 예약 관련 insert 및 update
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int insertPkgReserveInsertWithAll(Map<String, Object> map) throws Exception {
+	public Map<String, Object> insertPkgReserveInsertWithAll(Map<String, Object> map) throws Exception {
+		log.info("PkageServiceImpl selectPkgDetailReservCheck() start...");
 		int rowCnt = 0;
 	// 패키지 예약 insert
 		rowCnt = pkageDao.insertPkgReserve((Pkage_rsDTO)map.get("pkage_rsDTO"));
@@ -137,8 +147,10 @@ public class PkageServiceImpl implements PkageService {
 		List<Pkage_rs_piDTO> pkage_rs_piDTOList = new ArrayList<>(); // 한번에 insert 할 list 만들기
 		
 		PkgReserveEle pkageReserveEle = (PkgReserveEle)map.get("pkgReserveEle");
+		pkageReserveEle.setPkage_rv_id(pkage_rv_id); // 결제 완료 페이지로 전달하기 위해 예약 번호 저장
 		int totalCnt = pkageReserveEle.getPkage_pi_name().size(); // 넣어야 할 여행자 인원 수
 		log.info("totalCnt = "+totalCnt);
+		
 		
 		// 인원 수 만큼 Pkage_rs_piDTO 만들어서 list에 추가 
 		for(int i = 0; i < totalCnt; i++) {
@@ -197,7 +209,53 @@ public class PkageServiceImpl implements PkageService {
 		}
 		
 	// 결제 정보 insert
+		Map<String, Object> paymentMap = new HashMap<>();
+		paymentMap.put("mem_id", mem_id);
+		paymentMap.put("pkage_rv_id", pkage_rv_id);
+		rowCnt = pkageDao.insertPayment(paymentMap);
 
+//		Controller 로 전달할 데이터가 담긴 map 반환
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("pkageReserveEle", pkageReserveEle);
+		resultMap.put("rowCnt", rowCnt);
+		
+		return resultMap;
+	}
+	
+//	결제 후 예약 완료 페이지에 보여줄 데이터 select
+	@Override
+	public Pkage_rsDTO selectPkgReservById(Integer pkage_rv_id) throws Exception {
+		log.info("PkageServiceImpl selectPkgReservById() start...");
+		Pkage_rsDTO pkage_rsDTO = pkageDao.selectPkgReservById(pkage_rv_id);
+		log.info("PkageServiceImpl selectPkgReservById() end...");
+		return pkage_rsDTO;
+	}
+	
+//	mem_id 를 받아 해당 회원의 예약 목록 가져오기
+	@Override
+	public List<Pkage_rsDTO> selectPkgReservByMem_id(String mem_id) throws Exception {
+		log.info("PkageServiceImpl selectPkgReservByMem_id() start...");
+		List<Pkage_rsDTO> pkage_rsDTOList = pkageDao.selectPkgReservByMem_id(mem_id);
+		log.info("PkageServiceImpl selectPkgReservByMem_id() end...");
+		return pkage_rsDTOList;
+	}
+	
+//	pkage 찜 하기
+	@Override
+	public int insertBasket(Map<String, String> map) throws Exception {
+		log.info("PkageServiceImpl insertBasket() start...");
+		int rowCnt = pkageDao.insertBasket(map);
+		log.info("PkageServiceImpl insertBasket() end...");
 		return rowCnt;
 	}
+	
+//	pkage 찜 해제
+	@Override
+	public int deleteBasket(Map<String, String> map) throws Exception {
+		log.info("PkageServiceImpl insertBasket() start...");
+		int rowCnt = pkageDao.deleteBasket(map);
+		log.info("PkageServiceImpl insertBasket() end...");
+		return rowCnt;
+	}
+	
 }

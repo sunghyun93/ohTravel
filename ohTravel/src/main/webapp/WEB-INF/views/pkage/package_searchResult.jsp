@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>패키지 검색</title>
 <!-- google fonts icon -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_detail.css">
@@ -175,10 +175,10 @@
 		                                    <button class="btn-like">
 		                                    <%-- 로그인한 회원이 찜을 한 패키지인지 여부 --%>
 		                                    <c:if test="${pkageDTORm.basket_id eq null }">
-		                                    	<span class="btn-like-span material-symbols-outlined-empty">favorite</span>
+		                                    	<span class="btn-like-span material-symbols-outlined-empty" data-id="${pkageDTORm.pkage_id }">favorite</span>
 		                                    </c:if>
 	                                        <c:if test="${pkageDTORm.basket_id ne null }">
-	                                        	<span class="btn-like-span material-symbols-outlined-filled">favorite</span>
+	                                        	<span class="btn-like-span material-symbols-outlined-filled" data-id="${pkageDTORm.pkage_id }">favorite</span>
 	                                        </c:if>
 	                                        </button>
                                         </div>
@@ -420,23 +420,54 @@ $(function() {
 	});
 
 	/* 찜 하트 변경 script 부분 (구글 font-icons 활용) */
-	/* 찜이 되어있으면 꽉찬 하트, 안되어있으면 빈 하트로 초기화 시켜주는 로직 완성시켜야함 !! */
+	/* 찜이 되어있으면 꽉찬 하트, 안되어있으면 빈 하트로 초기화 시켜주는 로직은 위쪽에서 JSTL 태그로 처리함  */
 	/* $('.btn-like-span').addClass("material-symbols-outlined-empty"); */
 
 
     $('.btn-like').on('click', function() {
     	let likeSpan = $(this).children('.btn-like-span');
-    	/* 빈하트로 변경 */
+    	let pkage_id = likeSpan.attr("data-id");
+    	
+    	console.log(pkage_id);
+    	/* 빈하트로 변경 - 찜 해제 */
         if(likeSpan.hasClass('material-symbols-outlined-filled')) {
-            $(this).children('.btn-like-span').removeClass("material-symbols-outlined-filled");
-            $(this).children('.btn-like-span').addClass("material-symbols-outlined-empty");
-
+        	// 찜 해제 ajax
+        	$.ajax({
+        		url:'/pkageRest/basket/'+pkage_id,
+        		type: 'DELETE',
+        		dataType: 'text',
+        		success: function(data) {
+        			if(data == 'LOGIN_NO') {
+        				alert("로그인 후 찜을 해제할 수 있습니다.");
+        			} else if(data == 'DEL_OK') {
+        				alert("선택하신 패키지의 찜이 해제되었습니다.");
+        				
+        				likeSpan.removeClass("material-symbols-outlined-filled");
+        				likeSpan.addClass("material-symbols-outlined-empty");
+        			}
+        		},
+        		error: function(err) { console.log(err) }
+        	});// 찜 해제 ajax
         } 
-        /* 꽉 찬 하트로 변경 */
+        /* 꽉 찬 하트로 변경 - 찜 하기 */
         else {
-        	$(this).children('.btn-like-span').removeClass("material-symbols-outlined-empty");
-        	$(this).children('.btn-like-span').addClass("material-symbols-outlined-filled");
-
+        	// 찜 하기 ajax
+        	$.ajax({
+        		url:'/pkageRest/basket/'+pkage_id,
+        		type: 'POST',
+        		dataType: 'text',
+        		success: function(data) {
+        			if(data == 'LOGIN_NO') {
+        				alert("로그인 후 찜을 할 수 있습니다.");
+        			} else if(data == 'INSERT_OK') {
+        				alert("선택하신 패키지가 찜되었습니다.");
+        				
+        				likeSpan.removeClass("material-symbols-outlined-empty");
+        				likeSpan.addClass("material-symbols-outlined-filled");
+        			}
+        		},
+        		error: function(err) { console.log(err) }
+        	});// 찜 하기 ajax
         }
     }); 
 

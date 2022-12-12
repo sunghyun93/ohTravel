@@ -106,16 +106,16 @@
 								    </tbody>
 								</table>
 							</div>	<!-- tbl -->
+							<div style="color: red; margin-top: 20px;">
+								<c:if test="${msg == false}">
+									비밀번호가 맞지 않습니다.
+								</c:if>
+							</div>
 							<div class="btn_wrap">
 	  							<a href="${pageContext.request.contextPath}/member/myPageMain" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
 	  							<button type="submit" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">회원탈퇴</button>
 	  						</div>
 						</form>
-						<div>
-							<c:if test="${msg == false}">
-								비밀번호가 맞지 않습니다.
-							</c:if>
-						</div>
 					</div>	<!-- inr -->
 				</div>	<!-- ly_wrap pay_info -->
 			</div>

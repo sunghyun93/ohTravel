@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -10,9 +11,6 @@
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 </head>
 <script>
-	$(function() {
-		alert('text');
-	})
 
 	window.onload = function () {
 		const checkAll = document.getElementById('chkAll');
@@ -432,20 +430,6 @@ col {
 	<div id="container">
 		<div class="inr" style="min-height: 250vh;">
 			<div class="contents fontCtrl" id="contents">
-				<div class="text_wrap big">
-					<strong class="tit">예약하기</strong>
-					<div class="right_cont">
-						<div class="step_wrap">
-							<ol class="step">
-								<li class="on"><span class="num num1 step_txt">예약정보확인</span></li>
-								<li class=""><span class="num num2 step_txt">옵션정보/약관결제</span></li>
-								<li class=""><span class="num num3 step_txt">결제완료</span></li>
-							</ol>
-						</div>
-						<!-- step_wrap -->
-					</div>
-					<!-- right_cont -->
-				</div>
 				<!-- text_wrap -->
 				<div class="ly_wrap pay_info">
 					<div class="inr">
@@ -463,16 +447,15 @@ col {
 								<tbody>
 									<tr>
 										<th>이름</th>
-										<td><input type="text" value="${mem_name}"> ${mem_name}</td>
+										<td><input type="text" placeholder="${sessionName }" style="width:174px; height:29px;" readonly></td>
 									</tr>
 									<tr>
 										<th>이메일</th>
-										<td><input type="text" value="sample@sample.com">
-											${mem_email}</td>
+										<td><input type="email" placeholder="${sessionEmail }" readonly></td>
 									</tr>
 									<tr>
 										<th>휴대전화 번호</th>
-										<td><input type="text" value="01012345678">${mem_tel}</td>
+										<td><input type="tel" placeholder="${sessionTel}" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" readonly></td>
 									</tr>
 								</tbody>
 							</table>
@@ -486,29 +469,22 @@ col {
 						<!-- text_wrap -->
 
 						<div class="product-detail"
-							style="height: 300px; background: #F7F7F7;">
+							style="height: 212px; background: #F7F7F7;">
 							<div class="product-info" style="margin-bottom: 25px;">
-								<p class="product-title"
-									style="font-weight: 700; font-size: 16px;">[부산 해운대] 낭만적인
-									관광열차 블루라인파크 해변열차, 스카이캡슐</p>
+								<p class="product-title" style="font-weight: 700; font-size: 16px;"></p>
 							</div>
 							<div class="product-type">
 								<div class="item">
-									<strong style="font-weight: 700;">상품타입</strong>
-									<p>해운대 해변열차</p>
+									<strong style="font-weight: 700;">상품명</strong>
+									<div>${ticket_name}</div>
 								</div>
 								<div class="item">
 									<strong style="font-weight: 700;">사용일</strong>
-									<div>2022년 11월 30일</div>
+									<div>${adDate }</div>
 								</div>
 								<div class="item">
-									<strong style="font-weight: 700;">상품타입 수량</strong>
-									<div class="option-contents">
-										<p>
-											<span>당일 1회권(1인)</span> <span style="margin-left: 10px;">x
-												1</span>
-										</p>
-									</div>
+									<strong style="font-weight: 700;">인원 옵션</strong>
+									<div>성인 ${adultCnt} / 아동 ${childCnt}</div>
 								</div>
 								<ul class="cancel-notice">
 									<li>사용일 기준 1일 전까지 무료 취소 가능</li>
@@ -699,16 +675,15 @@ col {
 								<div class="info_area total">
 									<div class="info">
 										<strong class="tit">최종 결제 금액</strong>
-										<span>성인 2</span>
-										<span class="divider_dot">아동 0</span>
+										<span>성인 ${adultCnt}</span>
+										<span class="divider_dot">아동 ${childCnt }</span>
 									</div>
 									<div class="mileage_save"></div>
 									<!-- mileage_save -->
-									<strong class="price">121,037<span>원</span></strong>
+									<strong class="price">${totalPay }<span>원</span></strong>
 									<div class="mileage_save">
 										<p>
-											마일리지 적립, 결제 <strong style="color: #f06c5e;">불가 상품</strong>
-											입니다.
+											마일리지 적립, 결제 <strong style="color: #f06c5e;">불가 상품</strong>입니다.
 										</p>
 									</div>
 									<!-- mileage_save -->
@@ -716,7 +691,7 @@ col {
 								<!-- info_area total -->
 								<div class="info_area">
 									<div class="info">
-										<strong class="tit">총 상품 금액</strong> <span>121,037원</span>
+										<strong class="tit">총 상품 금액</strong> <span>${totalPay }원</span>
 									</div>
 								</div>
 								<!-- info_area -->

@@ -51,5 +51,11 @@ public class SearchServiceImplementation implements SearchService {
 		return filteredHotelList;
 	}
 
+	@Override
+	public int insertFavorite(PkageDTO pkageDTO) {
+		int result = sd.insertFavorite(pkageDTO);
+		return result;
+	}
+
 	
 }
