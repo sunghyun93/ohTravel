@@ -80,11 +80,20 @@ public class PkageDaoImpl implements PkageDao {
 		return dto;
 	}
 	
+//	단순히 pkage_dt_id 를 받아 package_detail 만을 select
+	@Override
+	public Pkage_detailDTO selectPkgDetailById3(Integer pkage_dt_id) throws Exception {
+		log.info("PkageDaoImpl selectPkgDetailById3() start...");
+		Pkage_detailDTO pkage_detailDTO = session.selectOne(namespace+"selectPkgDetailById3", pkage_dt_id);
+		log.info("PkageDaoImpl selectPkgDetailById3() end...");
+		return pkage_detailDTO;
+	}
+	
 //	사용자가 이미 예약한 상품인지 확인
 	@Override
 	public Integer selectPkgDetailReservCheck(Map<String, Object> map) throws Exception {
 		log.info("PkageDaoImpl selectPkgDetailReservCheck() start...");
-		int check = session.selectOne(namespace+"selectPkgDetailReservCheck", map);
+		Integer check = session.selectOne(namespace+"selectPkgDetailReservCheck", map);
 		log.info("PkageDaoImpl selectPkgDetailReservCheck() end...");
 		return check;
 	}
@@ -150,5 +159,32 @@ public class PkageDaoImpl implements PkageDao {
 		Pkage_rsDTO pkage_rsDTO = session.selectOne(namespace+"selectPkgReservById", pkage_rv_id);
 		log.info("PkageDaoImpl selectPkgReservById() end...");
 		return pkage_rsDTO;
+	}
+	
+//	mem_id 를 받아 해당 회원의 예약 목록 가져오기
+	@Override
+	public List<Pkage_rsDTO> selectPkgReservByMem_id(String mem_id) throws Exception {
+		log.info("PkageDaoImpl selectPkgReservByMem_id() start...");
+		List<Pkage_rsDTO> pkage_rsDTOList = session.selectList(namespace+"selectPkgReservByMem_id", mem_id);
+		log.info("PkageDaoImpl selectPkgReservByMem_id() end...");
+		return pkage_rsDTOList;
+	}
+	
+//	pkage 찜 하기
+	@Override
+	public int insertBasket(Map<String, String> map) throws Exception {
+		log.info("PkageDaoImpl insertBasket() start...");
+		int rowCnt = session.insert(namespace+"insertBasket", map);
+		log.info("PkageDaoImpl insertBasket() end...");
+		return rowCnt;
+	}
+	
+//	pkage 찜 해제하기
+	@Override
+	public int deleteBasket(Map<String, String> map) throws Exception {
+		log.info("PkageDaoImpl insertBasket() start...");
+		int rowCnt = session.delete(namespace+"deleteBasket", map);
+		log.info("PkageDaoImpl insertBasket() end...");
+		return rowCnt;
 	}
 }

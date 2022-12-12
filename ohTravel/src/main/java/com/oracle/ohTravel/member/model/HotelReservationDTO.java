@@ -16,4 +16,12 @@ public class HotelReservationDTO {
 	private int rev_per;
 	private Date rev_date;
 	private int rev_tot_price;
+	
+	private String room_name;
+	private String hotel_kor;
+	
+	private String pageNum;  
+	private int start;
+	private int end;
+	
 }

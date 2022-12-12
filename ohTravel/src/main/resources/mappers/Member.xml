@@ -89,7 +89,16 @@
 	
 	<!-- 티켓 예약 내역 조회 -->
 	<select id="ticketReservList" resultType="TicketReservationDTO" parameterType="TicketReservationDTO">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (
 		SELECT * FROM ticket_reservation WHERE mem_id = #{mem_id}
+		) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	
+	<!-- 티켓 예약 총 개수 -->
+	<select id="totalReservTicket" resultType="int" parameterType="TicketReservationDTO">
+		SELECT count(*) FROM ticket_reservation WHERE mem_id = #{mem_id}
 	</select>
 	
 	<!-- 항공 예약 내역 조회 -->
@@ -99,14 +108,38 @@
 			join air_schedule ash on  ash.schedule_id = af.schedule_id;	
 	</select>
 	
+	<!-- 항공 예약 총 개수 -->
+	<select id="totalReservAir" resultType="int" parameterType="AirReservationDTO">
+	
+	</select>
+	
 	<!-- 호텔 예약 내역 조회 -->
 	<select id="hotelReservList" resultType="HotelReservationDTO" parameterType="HotelReservationDTO">
-		SELECT * FROM hotel_reservation WHERE mem_id = #{mem_id}
+		SELECT hr.*, rd.room_detail_id, r.room_name, h.hotel_kor
+				FROM hotel_reservation hr
+				LEFT JOIN room_detail rd ON hr.room_detail_id = rd.room_detail_id
+				LEFT JOIN room r ON r.room_id = rd.room_detail_id
+				LEFT JOIN hotel h ON h.hotel_id = r.hotel_id
+				WHERE hr.mem_id = #{mem_id}
+	</select>
+	
+	<!-- 호텔 예약 총 개수 -->
+	<select id="totalReservHotel" resultType="int" parameterType="HotelReservationDTO">
+		SELECT count(*) FROM hotel_reservation WHERE mem_id = #{mem_id}
 	</select>
 	
 	<!-- 패키지 예약 내역 조회 -->
 	<select id="packageReservList" resultType="PackageReservationDTO" parameterType="PackageReservationDTO">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (
 		SELECT * FROM package_reservation WHERE mem_id = #{mem_id}
+		) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	
+	<!-- 패키지 예약 총 개수 -->
+	<select id="totalReservPacakage" resultType="int" parameterType="PackageReservationDTO">
+		SELECT count(*) FROM package_reservation WHERE mem_id = #{mem_id}
 	</select>
 	
 	<!-- 패키지 리뷰 조회 -->

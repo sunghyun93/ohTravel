@@ -16,4 +16,8 @@ public class AirReservationDTO {
 	private Date Reservation_date;
 	private int Reservation_price;
 	private int Passport_num;
+	
+	private String pageNum;  
+	private int start;
+	private int end;
 }

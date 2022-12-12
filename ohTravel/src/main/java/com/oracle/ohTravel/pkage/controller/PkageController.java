@@ -124,6 +124,8 @@ public class PkageController {
 		// 필터로 인해 넘어온 출발 시간 값을 DB로 전달하기 위해 출발 시간 설정(AM-5~12, PM-12~18)
 		pkgSearch.makeDBtime();
 		log.info("AmtGubun = " + pkgSearch.getAmtGubun());
+		log.info("chk_start_time = " + pkgSearch.getChk_start_time());
+		log.info("chk_start_time = " + pkgSearch.getChk_end_time());
 		
 		try {
 			// 국가 가져오기
@@ -239,6 +241,7 @@ public class PkageController {
 			// 멤버 (등급 까지 들고가기)
 			memberDTO = memberService.selectMemberWithGrade(mem_id);
 			
+			// 멤버가 사용할 수 있는 쿠폰 
 			List<CouponDTO> couponList = memberService.selectMemberWithCoupon(mem_id);
 			log.info("couponList = " + couponList);
 			memberDTO.setCouponList(couponList);
@@ -250,8 +253,8 @@ public class PkageController {
 			// 회원 등급 적용한 마일리지 가져가기
 			int mile = pkgReserve.getTotalPay() * memberDTO.getMembership_discount() / 100;
 			
-			model.addAttribute("mile", mile);
-			model.addAttribute("priceWithGd", priceWithGd);
+			model.addAttribute("mile", mile);	// 적용할 마일리지
+			model.addAttribute("priceWithGd", priceWithGd); // 회원 등급 적용한 가격 
 			model.addAttribute("pkageDTORM", pkageDTORM);
 			model.addAttribute("pkage_detailDTO", pkage_detailDTO);
 			model.addAttribute("memberDTO", memberDTO);
@@ -264,6 +267,7 @@ public class PkageController {
 		return "pkage/package_reservation";
 	}
 	
+//	예약하기 메서드
 	@PostMapping("/reserve")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> reserve(PkgReserveEle pkgReserveEle,  Model model, HttpSession session) {
@@ -382,8 +386,11 @@ public class PkageController {
 		}
 	}
 	
-	// pkg 상품 detail 의 필요 변수들 값 만들기(출발/도착 요일, 일 수, 출발/도착 때 걸린 비행시간, 비행 일정 유무 구분)
+	// pkg 상품 detail 의 필요 변수들 값 만들기(예약 가능 인원 구하기, 출발/도착 요일, 일 수, 출발/도착 때 걸린 비행시간, 비행 일정 유무 구분)
 	private void getMakingDetailByDTO(Pkage_detailDTO tmpDTO) {
+		// 예약 가능 인원 만들어 주기
+		tmpDTO.setPossibleCnt(tmpDTO.getPkage_dt_cnt() - tmpDTO.getPkage_dt_Rcnt());
+		
 		Date start = tmpDTO.getPkage_dt_startDay();
 		Date end = tmpDTO.getPkage_dt_endDay();
 		tmpDTO.setDay(tmpDTO.getDay(start, end));
