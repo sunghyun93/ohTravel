@@ -473,12 +473,12 @@
     .modal_wrap3{
         display: none;
         width: 500px;
-        height: 550px;
+        height: 350px;
         position: absolute;
-        top: 145%;
-        left: 60%;
+        top: 120%;
+        left: 53%;
         margin: -250px 0 0 -250px;
-        background:#eee;
+        background:#f9f9ff;
         z-index: 999;
         text-align: center;
     }

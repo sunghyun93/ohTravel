@@ -32,31 +32,49 @@
 	
 	
  	<select id="roomList" resultType="Room">
-		SELECT * , count(room_date) as canRevDateCnt
+		SELECT 	r.room_id
+				, r.room_type
+			 	, sum(rd.room_price) as room_price
+			 	, r.room_name
+			 	, count(room_date) as canRevDateCnt
 		FROM room r
 		LEFT OUTER JOIN (
 		               SELECT * , count(room_detail_id) as cnt
 		               FROM room_detail
 		               WHERE room_rev = 'Y'
-		               AND room_date BETWEEN #{startDate} AND #{endDate}
+		               AND room_date BETWEEN #{startDate} AND date_sub(#{endDate}, INTERVAL 1 DAY)
 		               group by room_id, room_date
 		            ) rd
 		ON r.room_id = rd.room_id
 		WHERE r.hotel_id = #{hotel_id}
+		AND r.room_per >= #{numberOfPeople}
 		AND cnt >= 1
 		GROUP BY r.room_id
-		HAVING canRevDateCnt = #{calDate}+1
+		HAVING canRevDateCnt = #{calDate}
 	</select>
 	
 	<select id="roomDetailList" resultType="Room">
-		SELECT rd.*, r.*, h.hotel_kor, h.hotel_eng
-		FROM room_detail rd
-		LEFT JOIN room r ON r.room_id = rd.room_id
-		LEFT JOIN hotel h ON h.hotel_id = r.hotel_id
+		SELECT 	
+				h.hotel_kor
+                , r.room_name
+			 	, sum(rd.room_price) as room_price
+			 	, count(room_date) as canRevDateCnt
+		FROM hotel h
+		LEFT OUTER JOIN room r
+        ON h.hotel_id = r.hotel_id
+		LEFT OUTER JOIN (
+		               SELECT * , count(room_detail_id) as cnt
+		               FROM room_detail
+		               WHERE room_rev = 'Y'
+		               AND room_date BETWEEN #{startDate} AND date_sub(#{endDate}, INTERVAL 1 DAY)
+		               group by room_id, room_date
+		            ) rd
+		ON r.room_id = rd.room_id
 		WHERE r.room_id = #{room_id}
-		AND rd.room_date BETWEEN #{startDate} AND #{endDate}
-		AND rd.room_rev = "Y"
+		AND r.room_per >= #{numberOfPeople}
+		AND cnt >= 1
 		GROUP BY r.room_id
+		HAVING canRevDateCnt = #{calDate}
 	</select>
 <!-- <insert id="">
 		
