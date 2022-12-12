@@ -207,7 +207,7 @@
 	</div> <!-- hotel_container 끝 -->
 <script type="text/javascript">
 ////////////////////////출발지역 또는 도착지역 모달창 클릭시 모달실행///////////////////////
-function onClick() {
+/* function onClick() {
     document.querySelector('.modal_wrap').style.display ='block';
     document.querySelector('.black_bg').style.display ='block';
     
@@ -221,10 +221,10 @@ function offClick() {
 }
 
 document.getElementById('modal_btn').addEventListener('click', onClick);
-document.querySelector('.modal_close').addEventListener('click', offClick);
+document.querySelector('.modal_close').addEventListener('click', offClick); */
 //////////////////////////////////////////////////////////////////////////
 
-$(function() {
+/* $(function() {
 	// 국가를 눌렀을 때 해당 국가에 대한 도시들 가져오는 ajax
 	$('.country_li').on('click', function() {
 		// 클릭했을 때의 국가 ID
@@ -281,13 +281,9 @@ $(function() {
 		}
 
 	});
-})
+}) */
 	
 
-
-</script>
-</body>
-</html>
 
 </script>
 </body>

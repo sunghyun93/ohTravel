@@ -3,6 +3,7 @@ package com.oracle.ohTravel.hotel.dao;
 import java.util.List;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
+import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
 import com.oracle.ohTravel.hotel.model.RoomDTO;
 
 public interface HotelDAO {
@@ -14,5 +15,7 @@ public interface HotelDAO {
 	List<RoomDTO> getRoomList(RoomDTO roomDTO);
 
 	RoomDTO getRoomDetail(RoomDTO roomDTO);
+
+	String reserveHotel(HotelReservationDTO hotelRDTO);
 
 }
