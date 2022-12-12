@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.oracle.ohTravel.airport.dao.ScheduleDAO;
-import com.oracle.ohTravel.manager.model.PaymentDTO;
 import com.oracle.ohTravel.member.dao.MemberDao;
 import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 import com.oracle.ohTravel.pkage.dao.PkageDao;
@@ -108,6 +106,15 @@ public class PkageServiceImpl implements PkageService {
 		// package_detail 가져오기(여행일정, 비행일정, 호텔)
 		Pkage_detailDTO pkage_detailDTO = pkageDao.selectPkgDetailById2(pkage_dt_id);
 		
+		log.info("PkageServiceImpl selectPkgDetailById2() end...");
+		return pkage_detailDTO;
+	}
+	
+//	단순히 pkage_dt_id 를 받아 package_detail 만을 select
+	@Override
+	public Pkage_detailDTO selectPkgDetailById3(Integer pkage_dt_id) throws Exception {
+		log.info("PkageServiceImpl selectPkgDetailById2() start...");
+		Pkage_detailDTO pkage_detailDTO = pkageDao.selectPkgDetailById3(pkage_dt_id);
 		log.info("PkageServiceImpl selectPkgDetailById2() end...");
 		return pkage_detailDTO;
 	}
@@ -215,6 +222,7 @@ public class PkageServiceImpl implements PkageService {
 		return resultMap;
 	}
 	
+//	결제 후 예약 완료 페이지에 보여줄 데이터 select
 	@Override
 	public Pkage_rsDTO selectPkgReservById(Integer pkage_rv_id) throws Exception {
 		log.info("PkageServiceImpl selectPkgReservById() start...");
@@ -222,4 +230,32 @@ public class PkageServiceImpl implements PkageService {
 		log.info("PkageServiceImpl selectPkgReservById() end...");
 		return pkage_rsDTO;
 	}
+	
+//	mem_id 를 받아 해당 회원의 예약 목록 가져오기
+	@Override
+	public List<Pkage_rsDTO> selectPkgReservByMem_id(String mem_id) throws Exception {
+		log.info("PkageServiceImpl selectPkgReservByMem_id() start...");
+		List<Pkage_rsDTO> pkage_rsDTOList = pkageDao.selectPkgReservByMem_id(mem_id);
+		log.info("PkageServiceImpl selectPkgReservByMem_id() end...");
+		return pkage_rsDTOList;
+	}
+	
+//	pkage 찜 하기
+	@Override
+	public int insertBasket(Map<String, String> map) throws Exception {
+		log.info("PkageServiceImpl insertBasket() start...");
+		int rowCnt = pkageDao.insertBasket(map);
+		log.info("PkageServiceImpl insertBasket() end...");
+		return rowCnt;
+	}
+	
+//	pkage 찜 해제
+	@Override
+	public int deleteBasket(Map<String, String> map) throws Exception {
+		log.info("PkageServiceImpl insertBasket() start...");
+		int rowCnt = pkageDao.deleteBasket(map);
+		log.info("PkageServiceImpl insertBasket() end...");
+		return rowCnt;
+	}
+	
 }
