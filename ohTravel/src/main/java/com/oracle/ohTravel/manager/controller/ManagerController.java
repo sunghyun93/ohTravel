@@ -2,19 +2,14 @@ package com.oracle.ohTravel.manager.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
 
-import org.springframework.boot.autoconfigure.web.ServerProperties.Tomcat.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.manager.model.ManageAirportDTO;
@@ -36,7 +30,6 @@ import com.oracle.ohTravel.manager.model.NoticeDTO;
 import com.oracle.ohTravel.manager.model.PagingManager;
 import com.oracle.ohTravel.manager.service.ManageHotelService;
 import com.oracle.ohTravel.manager.service.ManagerService;
-import com.oracle.ohTravel.ticket.model.TicketDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -764,6 +757,7 @@ public class ManagerController {
 		model.addAttribute("countryList", countryList);
 		model.addAttribute("cityList", cityList);
 		model.addAttribute("hotelDetail", hotelDetail);
+		model.addAttribute("hotel_id", hotelDetail.get(0).getHotel_id());
 		System.out.println("currentPage->"+currentPage);
 		model.addAttribute("currentPage", currentPage);
 		return "manager/manageHotelDetail";
@@ -809,9 +803,9 @@ public class ManagerController {
 			System.out.println("file1 없어용~");
 			System.out.println("2"+hotel.getHotel_id());
 			hotel.setH_img_path(hotelService.getHotelDetail(hotel).get(0).getH_img_path());
-			System.out.println("empty getAir_picture"+hotel.getH_img_path());
+			System.out.println("empty getH_img_path"+hotel.getH_img_path());
 		}
-		
+		System.out.println("hotel img path ->"+hotel.getH_img_path());
 		int result = hotelService.updateHotel(hotel);
 		System.out.println("update result ->"+ result);
 		return "forward:manageHotel";
@@ -916,7 +910,174 @@ public class ManagerController {
 		System.out.println("delete hotel result - >"+result);
 		return result;
 	}
+	//상품관리 -> 숙박상품관리 -> 호텔상세 -> 객실보기
+	@RequestMapping(value = "manageRoom")
+	public String manageRoom(ManageHotelDTO hotel,String hotel_id,String currentPage, Model model) {
+		List<ManageHotelDTO> roomList = hotelService.getRoomList(hotel);
+		model.addAttribute("roomList", roomList);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("hotel_id", hotel_id);
 		
+		return "manager/manageRoom";
+	}
+	//상품관리 -> 숙박상품관리 -> 호텔상세 -> 객실보기 -> 객실별 detail정보 가져오는 Ajax
+	@ResponseBody
+	@PostMapping(value = "getRoomDetail")
+	public Map<String, Object> getRoomDetail(ManageHotelDTO hotel,String currentPage, Model model){
+		Map<String, Object> mapRoomDetail = new HashMap<String, Object>();
+		int total = hotelService.totalroomDetail(hotel);
+		PagingManager page = new PagingManager(total, currentPage);
+		hotel.setStart(page.getStart());
+		hotel.setEnd(page.getEnd());
+		
+		List<ManageHotelDTO> roomDetail = hotelService.getRoomDetail(hotel);
+		
+		mapRoomDetail.put("roomDetail", roomDetail);
+		mapRoomDetail.put("currentPage", currentPage);
+		mapRoomDetail.put("page", page);
+		mapRoomDetail.put("total", total);
+
+		System.out.println("roomDetail.size->"+roomDetail.size());
+		return mapRoomDetail;
+	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실별 detail정보 페이징처리 Ajax
+	@ResponseBody
+	@RequestMapping(value = "pagingDetail")
+	public Map<String, Object> pagingDetail(ManageHotelDTO hotel, String currentPage){
+		Map<String, Object> mapRoomDetail = new HashMap<String, Object>();
+		int total = hotelService.totalroomDetail(hotel);
+		PagingManager page = new PagingManager(total, currentPage);
+		hotel.setStart(page.getStart());
+		hotel.setEnd(page.getEnd());
+		List<ManageHotelDTO> roomDetail = hotelService.getRoomDetail(hotel);
+		mapRoomDetail.put("roomDetail", roomDetail);
+		mapRoomDetail.put("currentPage", currentPage);
+		mapRoomDetail.put("page", page);
+		mapRoomDetail.put("total", total);
+		return mapRoomDetail;
+	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실별 detail정보 이미지 파일 수정 Ajax
+	@ResponseBody
+	@PostMapping(value = "updateRoomImg")
+	public int updateRoomImg(ManageHotelDTO hotel,@RequestParam("file1") MultipartFile file1,HttpServletRequest request) {
+		int result = 0;
+		System.out.println("room_id ->"+hotel.getRoom_id());
+		System.out.println("r_img_id ->"+hotel.getR_img_id());
+		String path = request.getServletContext().getRealPath("/img/hotel/");
+		if(!file1.isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			String fileName= file1.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file1.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file1.transferTo(saveFile);
+				System.out.println("와?");
+				System.out.println("path->"+path);
+				System.out.println("uuid->"+uuid);
+				System.out.println("fileName->"+fileName);
+				hotel.setR_img_path("/img/hotel/"+uuFileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(file1.isEmpty()) {
+			System.out.println("file1 없어용~");
+			System.out.println("2"+hotel.getHotel_id());
+			hotel.setR_img_path(hotelService.getHotelDetail(hotel).get(0).getR_img_path());
+			System.out.println("empty getAir_picture"+hotel.getR_img_path());
+		}
+		if(hotel.getR_img_id()==0) {
+			result = hotelService.insertRoomImg(hotel);
+		}else {
+			result = hotelService.updateRoomImg(hotel);
+		}
+		
+		
+		return result;
+	}
+	@ResponseBody
+	@PostMapping(value = "updateDetailRoom")
+	public int updateDetailRoom(ManageHotelDTO hotel) {
+		int result = hotelService.updateDetailRoom(hotel);
+		return result;
+	}
+	@ResponseBody
+	@PostMapping(value = "deleteDetailRoom")
+	public int deleteDetailRoom(ManageHotelDTO hotel) {
+		int result = hotelService.deleteDetailRoom(hotel);
+		return result;
+	}
+	@ResponseBody
+	@PostMapping(value = "deleteRoom")
+	public int deleteRoom(ManageHotelDTO hotel) {
+		System.out.println("deleteRoom room_id->"+hotel.getRoom_id());
+		int result = hotelService.deleteRoom(hotel);
+		return result;
+	}
+	
+	@RequestMapping(value = "insertRoomForm")
+	public String insertRoomForm(ManageHotelDTO hotel,String currentPage,Model model) {
+		System.out.println("insertRoomForm hotel_id ->"+hotel.getHotel_id());
+		model.addAttribute("hotel_id", hotel.getHotel_id());
+		model.addAttribute("currentPage", currentPage);
+		return "manager/insertRoomForm";
+	}
+	@ResponseBody
+	@PostMapping(value = "insertRoom")
+	public int insertRoom(ManageHotelDTO hotel,@RequestParam("file1") MultipartFile file1,HttpServletRequest request) {
+		String path = request.getServletContext().getRealPath("/img/hotel/");
+		if(!file1.isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			String fileName= file1.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file1.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file1.transferTo(saveFile);
+				System.out.println("와?");
+				System.out.println("path->"+path);
+				System.out.println("uuid->"+uuid);
+				System.out.println("fileName->"+fileName);
+				hotel.setR_img_path("/img/hotel/"+uuFileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(file1.isEmpty()) {
+			System.out.println("file1 없어용~");
+			System.out.println("2"+hotel.getHotel_id());
+			hotel.setR_img_path(hotelService.getHotelDetail(hotel).get(0).getR_img_path());
+			System.out.println("empty getAir_picture"+hotel.getR_img_path());
+		}
+		System.out.println("insertRoom hotel_id ->"+hotel.getHotel_id());
+		System.out.println("insertRoom room_type ->"+hotel.getRoom_type());
+		System.out.println("insertRoom room_name ->"+hotel.getRoom_name());
+		System.out.println("insertRoom room_per ->"+hotel.getRoom_per());
+		int r_img_id = hotelService.getInsertRoom_id();
+		hotel.setR_img_id(r_img_id);
+		System.out.println("insertRoom room_id ->"+hotel.getR_img_id());
+		int room_detail_id = hotelService.getInsertRoom_detail_id();
+		hotel.setRoom_detail_id(room_detail_id);
+		System.out.println("insertRoom room_detail_id ->"+hotel.getRoom_detail_id());
+		int result = hotelService.insertRoom(hotel);
+		return result;
+	}
+	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////아래 입장권관련//////////////////////////////////////////////////////

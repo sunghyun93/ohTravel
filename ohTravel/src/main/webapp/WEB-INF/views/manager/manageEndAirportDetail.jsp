@@ -114,7 +114,7 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">도착공항 상세</h1>
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-				<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageAttraction?currentPage=${currentPage}'" value="돌아가기">
+				<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageEndAirport'" value="돌아가기">
 			</div>
 			<c:forEach var="endAirportDetail" items="${endAirportDetail }">
 				<table border="1" class="table table-striped">

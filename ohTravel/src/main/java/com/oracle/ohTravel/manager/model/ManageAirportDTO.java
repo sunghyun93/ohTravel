@@ -1,13 +1,14 @@
 package com.oracle.ohTravel.manager.model;
 
-import java.sql.Timestamp;
-
 import lombok.Data;
 
 @Data
 public class ManageAirportDTO {
 	//일정(auto_increment)
 	private int schedule_id;
+	private int general_res_count;
+	private int business_res_count;
+	private int first_res_count;
 	//항공사 정보
 	private int air_num;
 	private int air_code;
