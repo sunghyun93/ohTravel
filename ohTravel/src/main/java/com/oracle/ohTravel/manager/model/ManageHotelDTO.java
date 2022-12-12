@@ -17,8 +17,7 @@ public class ManageHotelDTO {
 	private String hotel_type;
 	private int hotel_grade;
 	private String hotel_tel;
-	private double hotel_score;
-	private int hotel_rv_num;
+	private int room_cnt;
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm", timezone = "Asia/Seoul")
 	private String checkin;
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm", timezone = "Asia/Seoul")

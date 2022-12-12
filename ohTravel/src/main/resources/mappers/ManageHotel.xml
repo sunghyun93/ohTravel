@@ -18,13 +18,13 @@
 		UPDATE hotel_option SET hotel_exist = #{hotel_exist} WHERE option_id=#{option_id}
 	</update>
 	<update id="updateHotel" parameterType="HotelDTO">
-		UPDATE hotel h, hotel_image hi SET h.city_id=#{city_id},h.hotel_kor=#{hotel_kor},h.hotel_eng=#{hotel_eng},h.hotel_loc=#{hotel_loc},h.hotel_type=#{hotel_type},h.hotel_grade=#{hotel_grade},h.hotel_score=#{hotel_score},h.hotel_tel=#{hotel_tel},h.hotel_rv_num=#{hotel_rv_num},h.checkin=#{checkin},checkout=#{checkout},hi.h_img_path=#{h_img_path} WHERE h.hotel_id=#{hotel_id} AND hi.hotel_id=#{hotel_id}
+		UPDATE hotel h, hotel_image hi SET h.city_id=#{city_id},h.hotel_kor=#{hotel_kor},h.hotel_eng=#{hotel_eng},h.hotel_loc=#{hotel_loc},h.hotel_type=#{hotel_type},h.hotel_grade=#{hotel_grade},h.hotel_tel=#{hotel_tel},h.room_cnt=#{room_cnt},h.checkin=#{checkin},checkout=#{checkout},hi.h_img_path=#{h_img_path} WHERE h.hotel_id=#{hotel_id} AND hi.hotel_id=#{hotel_id}
 	</update>
 	<insert id="insertHotel" parameterType="HotelDTO">
 		<selectKey resultType="String" keyProperty="hotel_id" order="BEFORE">
 			select concat('ht',ifnull(max(right(hotel_id,6))+1,#{city_id}001)) from hotel WHERE hotel_id like concat('%',#{city_id},'%');
 		</selectKey>
-		INSERT INTO hotel values(#{hotel_id},#{city_id},#{hotel_kor},#{hotel_eng},#{hotel_loc},#{hotel_type},#{hotel_grade},0.00,#{hotel_tel},#{hotel_rv_num},#{checkin},#{checkout});
+		INSERT INTO hotel values(#{hotel_id},#{city_id},#{hotel_kor},#{hotel_eng},#{hotel_loc},#{hotel_type},#{hotel_grade},#{hotel_tel},#{room_cnt},#{checkin},#{checkout});
 		INSERT INTO hotel_image VALUES(null,#{hotel_id},#{h_img_path});
 		INSERT INTO hotel_option VALUES(null, #{hotel_id},'wifi','부대',#{wifi});
 		INSERT INTO hotel_option VALUES(null, #{hotel_id},'흡연가능','부대',#{smoke});
@@ -45,5 +45,46 @@
 	<delete id="deleteHotel" parameterType="HotelDTO">
 		DELETE h,hi,ho FROM hotel h INNER JOIN hotel_image hi ON h.hotel_id = hi.hotel_id INNER JOIN hotel_option ho ON h.hotel_id=ho.hotel_id WHERE h.hotel_id=#{hotel_id}
 	</delete>
-
+	<select id="getRoomList" parameterType="HotelDTO" resultType="HotelDTO">
+		SELECT r.*,h.hotel_kor FROM room r, hotel h WHERE r.hotel_id=h.hotel_id AND r.hotel_id=#{hotel_id};
+	</select>
+	<select id="getRoomDetail" parameterType="HotelDTO" resultType="HotelDTO">
+		<![CDATA[
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT r.*,ri.r_img_id,ri.r_img_path,rd.room_detail_id,rd.room_date,rd.room_price,rd.room_rev FROM room r inner join room_detail rd on r.room_id=rd.room_id left join room_image ri on r.room_id=ri.room_id WHERE r.room_id=#{room_id}) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	<select id="getRoomDetailTotal" parameterType="HotelDTO" resultType="int">
+		SELECT count(*) FROM room r inner join room_detail rd on r.room_id=rd.room_id left join room_image ri on r.room_id=ri.room_id WHERE r.room_id=#{room_id}
+	</select>
+	<update id="updateRoomImg" parameterType="HotelDTO">
+		UPDATE room_image SET r_img_path=#{r_img_path} WHERE r_img_id=#{r_img_id}
+	</update>
+	<insert id="insertRoomImg" parameterType="HotelDTO">
+		INSERT INTO room_image VALUES(null,#{room_id},#{r_img_path})
+	</insert>
+	<update id="updateDetailRoom" parameterType="HotelDTO">
+		UPDATE room_detail SET room_price=#{room_price},room_rev=#{room_rev} WHERE room_detail_id=#{room_detail_id}
+	</update>
+	<delete id="deleteDetailRoom" parameterType="HotelDTO">
+		DELETE FROM room_detail WHERE room_detail_id=#{room_detail_id}
+	</delete>
+	<delete id="deleteRoom" parameterType="HotelDTO">
+		DELETE FROM room_detail WHERE room_id=#{room_id};
+		DELETE FROM room_image WHERE room_id=#{room_id};
+		DELETE FROM room WHERE room_id=#{room_id};
+	</delete>
+	<select id="getInsertRoom_id" resultType="Integer">
+		SELECT ifnull(max(ri.r_img_id),0)+1 from room_image ri
+	</select>
+	<insert id="insertRoom" parameterType="HotelDTO">
+		<selectKey resultType="int" keyProperty="room_id" order="BEFORE">
+			SELECT ifnull(max(r.room_id),0)+1 AS room_id FROM room r;
+		</selectKey>
+		INSERT INTO room(room_id,hotel_id,room_type,room_per,room_name) VALUES(#{room_id},#{hotel_id},#{room_type},#{room_per},#{room_name});
+		INSERT INTO room_image(r_img_id,room_id,r_img_path) VALUES(#{r_img_id},#{room_id},#{r_img_path});
+		INSERT INTO room_detail(room_detail_id,room_id,room_date,room_price,room_rev) VALUES(#{room_detail_id},#{room_id},#{room_date},#{room_price},#{room_rev});
+	</insert>
+	<select id="getInsertRoom_dt_id" resultType="int">
+		SELECT ifnull(max(rd.room_detail_id),0)+1 FROM room_detail rd
+	</select>
 </mapper>

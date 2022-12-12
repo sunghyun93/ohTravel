@@ -81,34 +81,40 @@
 				</div>
 				<c:forEach var="ticketDetail" items="${ticketDetail }">
 					<table border="1" class="table table-striped">
-						<thead>
 						<tr>
 							<th>입장권번호</th>
-							<th>입장권이름</th>
-							<th>입장권위치</th>
-							<th>성인가격</th>
-							<th>아이가격</th>
+							<td><input type="text" class="form-control" name="ticket_id" value="${ticketDetail.ticket_id }" readonly="readonly"></td>
 						</tr>
-						</thead>
-						<tbody>
 						<tr>
-							<td><input type="text" name="ticket_id" value="${ticketDetail.ticket_id }" readonly="readonly"></td>
-							<td><input type="text" name="ticket_name" value="${ticketDetail.ticket_name }" required="required"></td>
-							<td><input type="text" name="ticket_location" value="${ticketDetail.ticket_location }" required="required"></td>
-							<td><input type="number" name="ticket_adult_price" value="${ticketDetail.ticket_adult_price }" required="required"></td>
-							<td><input type="number" name="ticket_child_price" value="${ticketDetail.ticket_child_price }"></td>
+							<th>입장권이름</th>
+							<td><input type="text" class="form-control" name="ticket_name" value="${ticketDetail.ticket_name }" required="required"></td>
+						</tr>
+						<tr>
+							<th>입장권위치</th>
+							<td><input type="text" class="form-control" name="ticket_location" value="${ticketDetail.ticket_location }" required="required"></td>
+						</tr>
+						<tr>
+							<th>성인가격</th>
+							<td><input type="number" class="form-control" name="ticket_adult_price" value="${ticketDetail.ticket_adult_price }" required="required"></td>
+						</tr>
+						<tr>
+							<th>아이가격</th>
+							<td><input type="number" class="form-control" name="ticket_child_price" value="${ticketDetail.ticket_child_price }"></td>
 						</tr>
 						<tr>
 							<th>평점</th>
-							<th>입장권유효기간</th>
-							<th>입장권판매갯수</th>
-							<th>국가명</th>
-							<th>도시명</th>
+							<td><input type="text" class="form-control" name="ticket_score" value="${ticketDetail.ticket_score }"></td>
 						</tr>
 						<tr>
-							<td><input type="text" name="ticket_score" value="${ticketDetail.ticket_score }"></td>
-							<td><input type="datetime" name="ticket_due_date" value="${ticketDetail.ticket_due_date }"></td>
+							<th>입장권유효기간</th>
+							<td><input type="datetime-local" class="form-control" name="ticket_due_date" value="${ticketDetail.ticket_due_date }"></td>
+						</tr>
+						<tr>
+							<th>입장권판매갯수</th>
 							<td><input type="number" min="0" max="100000" name="ticket_sales_cnt" value="${ticketDetail.ticket_sales_cnt }" ></td>
+						</tr>
+						<tr>
+							<th>국가명</th>
 							<td>
 								<select name="country_id" onchange="getCountry_id()" class="country_id" required="required">
 									<c:forEach var="countryList" items="${countryList }">
@@ -123,6 +129,9 @@
 									</c:forEach>
 								</select>
 							</td>
+						</tr>
+						<tr>
+							<th>도시명</th>
 							<td class="city_td">
 								<select class="city_id" id="city_ids" name="city_id" required="required">
 									<c:forEach var="cityList" items="${cityList }">
@@ -138,7 +147,6 @@
 								</select>
 							</td>
 						</tr>
-						</tbody>
 					</table>
 					<div style="flex: 2">
 						<input type="button" onclick="moveForm('update')" class="genric-btn info elb" value="입장권수정">
