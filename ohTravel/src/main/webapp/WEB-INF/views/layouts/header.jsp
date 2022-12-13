@@ -39,10 +39,15 @@
                             <div class="header-info-right f-right">
                                 <ul class="header-social">
                                 	<li><a href="${pageContext.request.contextPath }/manager/managerMain">관리자페이지</a>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                   <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                    <c:if test="${member == null}">
+                                    	<li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
+                                    	<li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
+                                    </c:if>
+                                    <c:if test="${member != null}">
+                                    	<li><a href="${pageContext.request.contextPath}/member/logout">LOGOUT</a></li>
+                                    	<li><a href="${pageContext.request.contextPath}/member/memberForm" style="display:none;">회원가입</a></li>
+                                    </c:if>
+                                	<li><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -87,16 +92,6 @@
                                                     <li><a href="${pageContext.request.contextPath}/ticket/exhibitionDetail">입장권 상세 페이지</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">예약내역 확인</a></li>
-                                            <c:if test="${member == null}">
-                                            	<li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
-                                            	<li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
-                                            </c:if>
-                                            <c:if test="${member != null}">
-                                            	<li><a href="${pageContext.request.contextPath}/member/logout">LOGOUT</a></li>
-                                            	<li><a href="${pageContext.request.contextPath}/member/memberForm" style="display:none;">회원가입</a></li>
-                                            </c:if>
-                                        	<li><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></li>
                                         </ul>
                                     </nav>
                                 </div>

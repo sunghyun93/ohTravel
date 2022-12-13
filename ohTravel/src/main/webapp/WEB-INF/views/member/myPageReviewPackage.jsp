@@ -70,7 +70,7 @@
 					                </colgroup>
 					                <thead>
 					                    <tr>
-					                        <th>글번호</th>
+					                        <th>리뷰 ID</th>
 					                        <th>상품명</th>
 					                        <th>리뷰</th>
 					                        <th>작성일자</th>

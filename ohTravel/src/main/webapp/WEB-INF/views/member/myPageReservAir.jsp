@@ -106,9 +106,9 @@
 					                </c:forEach>
 					                 </c:if>
 					                 <!--예약내역이 없으면  -->
-					                 <c:if test="${airReservList == null}">
+					                 <c:if test="${airReservListSize == 0}">
 					                	 <tr>
-					                        <td colspan="5">
+					                        <td colspan="8">
 					                            <div class="data_no">
 					                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
 					                            </div>

@@ -77,7 +77,6 @@
 					                        <th>사용가능일</th>
 					                    </tr>
 					                </thead>
-					                
 					                <tbody>
 					                    <c:forEach var="packageReservList" items="${packageReservList}">
 					                    <tr>
@@ -115,6 +114,19 @@
 							</ul>
 						</nav>
 					</div>	<!-- panels -->
+					<nav aria-label="Page navigation example" style="margin-top: 50px;">
+						<ul class="pagination justify-content-center">
+							<c:if test="${page.startPage > page.pageBlock }">
+								<li class="page-item"><a class="page-link" href="myPageReservPackage?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
+							</c:if>
+							<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+								<li class="page-item"><a class="page-link" href="myPageReservPackage?currentPage=${i}">${i}</a></li>
+							</c:forEach>
+							<c:if test="${page.endPage < page.totalPage }">
+								<li class="page-item"><a class="page-link" href="myPageReservPackage?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
+							</c:if>
+						</ul>
+					</nav>
 				</div>	<!-- js_tabs type2 no_division -->
 			</div>	<!-- contents -->
 		</div>
