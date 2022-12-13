@@ -36,30 +36,31 @@
 		let country_id = $('.country_id').val();
 		let city_id = $('#city_ids').val();
 		
-		if(Start_Airport_name == null || Start_Airport_name ==""){
+		if(start_airport_name == null ||start_airport_name ==""){
 			alert("공항명이 입력되지 않았습니다");
 			$('#Start_Airport_name').focus();
-		}else if(city_ids == null ||city_ids ==0){
-			alert("도시가 선택되지 않았습니다");
-			
-		}else{
-			$.ajax({
-				url : 'insertStartAirport',
-				method : 'POST',
-				data : {'start_airport_name' : start_airport_name,
-						'country_id' : country_id,
-						'city_id' : city_id},
-				success : function(data){
-					if(data == 1){
-						alert("추가가 성공되었습니다")	;
-						location.href='manageStartAirport';
-					}else{
-						alert("문제가 있습니다");
-					}
-					
-				}
-			})
+			return false;
 		}
+		if(city_id == null ||city_id ==''){
+			alert("도시가 선택되지 않았습니다");
+			return false;
+		}
+		$.ajax({
+			url : 'insertStartAirport',
+			method : 'POST',
+			data : {'start_airport_name' : start_airport_name,
+					'country_id' : country_id,
+					'city_id' : city_id},
+			success : function(data){
+				if(data == 1){
+					alert("추가가 성공되었습니다")	;
+					location.href='manageStartAirport';
+				}else{
+					alert("문제가 있습니다");
+				}
+				
+			}
+		})
 	}
 </script>
 </head>
