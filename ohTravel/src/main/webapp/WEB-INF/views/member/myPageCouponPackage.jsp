@@ -68,14 +68,14 @@
 					                    </tr>
 					                </thead>
 					                <tbody>
-					                    <c:forEach var="couponList" items="${couponList}">
+					                    <c:forEach var="memCouponList" items="${memCouponList}">
 					                    <tr>
-					   						<td>${couponList.coupon_id}</td>
-					                    	<td>${couponList.coupon_name}</td>
-					                    	<td>${couponList.coupon_limit_date}</td>
+					   						<td>${memCouponList.coupon_id}</td>
+					                    	<td>${memCouponList.coupon_name}</td>
+					                    	<td>${memCouponList.coupon_limit_date}</td>
 					                    </tr>
 					                    </c:forEach>
-					                    <c:if test="${couponListSize == 0 }">
+					                    <c:if test="${memCouponListSize == 0 }">
 					                    	<tr>
 						                        <td colspan="3">
 						                            <div class="data_no">

@@ -252,8 +252,8 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO) {
 		log.info("MemberServiceImpl myPageCoupon start..");
-		List<CouponDTO> couponList = memberDao.myPageCoupon(couponDTO);
-		return couponList;
+		List<CouponDTO> memCouponList = memberDao.myPageCoupon(couponDTO);
+		return memCouponList;
 	}
 
 
