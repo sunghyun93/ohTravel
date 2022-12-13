@@ -114,7 +114,7 @@ public class PkageController {
 		log.info("toURL="+toURL);
 		log.info("queryString="+pkgSearch.getQueryString());
 		
-		if(pkgSearch.getOrder() == null) pkgSearch.setOrder(1);; // 초기값 세팅
+		if(pkgSearch.getOrder() == null) pkgSearch.setOrder(1); // 초기값 세팅
 		
 		// 찜한 상품인지 알기 위한 로그인한 회원의 ID 가져오기
 		String mem_id = (String)session.getAttribute("sessionId");
@@ -125,7 +125,7 @@ public class PkageController {
 		pkgSearch.makeDBtime();
 		log.info("AmtGubun = " + pkgSearch.getAmtGubun());
 		log.info("chk_start_time = " + pkgSearch.getChk_start_time());
-		log.info("chk_start_time = " + pkgSearch.getChk_end_time());
+		log.info("chk_end_time = " + pkgSearch.getChk_end_time());
 		
 		try {
 			// 국가 가져오기
@@ -340,12 +340,16 @@ public class PkageController {
 		for(PkageDTORM pkageDTORM : list) {
 			ArrayList<Integer> priceBox = new ArrayList<>(); // 가격을 정렬을 위한 변수
 //			ArrayList<Long> daysBox = new ArrayList<>();
-			long[] days = new long[2];	// 최소/최대(전체 상품 디테일들 중 최소 기간과 최대기간) 일 수를 저장할 변수
-			pkageDTORM.setDays(days);
+			
+			// 최소/최대(전체 상품 디테일들 중 최소 기간과 최대기간) 일 수를 저장할 변수
+			pkageDTORM.setDaysList(new ArrayList<Long>());
 			
 			List<Pkage_detailDTO> detailDTOList = pkageDTORM.getPkage_detailDTOList();
 			
+			// 패키지 마다 패키지 상세 개수 값 넣어주기 
 			int size = detailDTOList.size();
+			pkageDTORM.setPkage_detailDTOListCnt(size);
+			
 			int i = 0;
 			for(Pkage_detailDTO pkage_detailDTO: detailDTOList) {
 				// 각 패키지 상세의 성인가격 채우기 
@@ -367,7 +371,7 @@ public class PkageController {
 
 				// 패키지 종합 일 수에 넣어주기 (최소/최대 일 수 구하기 위함)
 				if(i == 0 || i == size-1) {
-					pkageDTORM.getDays()[i]=day;
+					pkageDTORM.getDaysList().add(day);
 				}
 				i++;
 			}
@@ -376,8 +380,8 @@ public class PkageController {
 			pkageDTORM.setPkgDetailCnt(detailDTOList.size());
 			
 			// 일수 정렬 
-//			Collections.sort(pkageDTORM.getDays());
-			Arrays.sort(pkageDTORM.getDays());
+			Collections.sort(pkageDTORM.getDaysList());
+			log.info("daysList = " + pkageDTORM.getDaysList());
 
 			// 정렬 후 1번째, 마지막 가격 넣기
 			Collections.sort(priceBox);
