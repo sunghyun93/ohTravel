@@ -66,6 +66,7 @@
 		
 		<!-- ticket -->
 		<typeAlias type="com.oracle.ohTravel.ticket.model.TicketDTO" alias="TicketDTO"/>
+		<typeAlias type="com.oracle.ohTravel.ticket.model.TicketReservation" alias="TicketReservation"/>
 		
 		<!-- Member -->
 		<typeAlias type="com.oracle.ohTravel.member.model.MemberDTO" alias="MemberDTO"/>

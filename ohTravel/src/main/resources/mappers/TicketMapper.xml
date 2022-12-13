@@ -31,17 +31,36 @@
 		WHERE td.ticket_id = #{ticket_id}
 	</select>
 
-	<!-- 입장권 예약 insert 문 -->
-<!-- 	<insert id="ticketReserve" parameterType="Ticket_rsDTO">
-		SELECT ticket_name
-		FROM ticket_detail
-		WHERE ticket_name = '${ticket_name}';
-	
+	<!-- 입장권 예약 (ticket_reservation) insert 문 -->
+	<!-- 티켓 이름 값으로 티켓 id 가져오고 -->
+	<!-- com.oracle.ohTravel.ticket.model.TicketReservation java.lang.String -->
+     <insert id="realReserve" parameterType="TicketReservation">
 		INSERT INTO ticket_reservation
+		(ticket_id, mem_id, ticket_name, ticket_puchase_date, ticket_admission_date, ticket_adult_per, titicket_idcket_child_per, ticket_total_price)
 		VALUES
-		((SELECT IFNULL(MAX(#{ticket_order_id} + 1, 1) FROM ticket_reservation tr), #{ticket_id}, #{mem_id}, #{ticket_name}, now(),
-		 #{ticket_admission_date}, #{ticket_adult_per}, #{ticket_child_per}, #{ticket_total_price});
-	</insert> -->
+		(#{ticket_id}, #{mem_id}, #{ticket_name}, now(),
+		 #{ticket_admission_date, jdbcType=VARCHAR}, #{ticket_adult_per}, #{titicket_idcket_child_per}, #{ticket_total_price})
+	</insert>
+		
+		
+		
+		 
+	<!-- (SELECT IFNULL(MAX(#{ticket_order_id} + 1, 1) FROM ticket_reservation tr) -->
+	
+	<!-- 결제  insert -->
+ 	<insert id="insertPayment" parameterType="Map">
+		insert into payment(mem_id, ticket_order_id, ticket_id, payment_method) values (#{mem_id},#{ticket_order_id},#{ticket_id},'card')
+	</insert>
+	
+	<!-- 찜 하기 -->
+	<insert id="insertBasket" parameterType="map">
+		insert into basket (mem_id, basket_ref_id) values (#{mem_id}, #{ticket_id})
+	</insert>
+	
+	<!-- 찜 해제하기 -->
+	<delete id="deleteBasket" parameterType="map">
+		delete from basket where mem_id = #{mem_id} and basket_ref_id = #{ticket_id}
+	</delete>
 	
 </mapper>
 	
