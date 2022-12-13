@@ -39,7 +39,7 @@
 		if(end_airport_name == null || end_airport_name ==""){
 			alert("공항명이 입력되지 않았습니다");
 			$('#end_airport_name').focus();
-		}else if(city_ids == null ||city_ids ==0){
+		}else if(city_id == null ||city_id ==""){
 			alert("도시가 선택되지 않았습니다");
 		}else{
 			$.ajax({

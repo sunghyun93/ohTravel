@@ -25,8 +25,24 @@
 </style>
 <script type="text/javascript">
 	function moveForm(str){
-		var form = document.getElementById('form');
-		var message ="";
+		let form = document.getElementById('form');
+		let ticket_adult_price = $('#ticket_adult_price').val();
+		let ticket_child_price = $('#ticket_child_price').val();
+		let ticket_sales_cnt = $('#ticket_sales_cnt').val();
+		console.log(ticket_adult_price);
+		if(ticket_adult_price==null||ticket_adult_price==''){
+			alert("성인 가격에 숫자가 아닌게 들어있습니다");
+			return false;
+		}
+		if(ticket_child_price==null||ticket_child_price==''){
+			alert("아이 가격에 숫자가 아닌게 들어있습니다");
+			return false;
+		}
+		if(ticket_sales_cnt==null||ticket_sales_cnt==''){
+			alert("입장권 판매갯수에 숫자가 아닌게 들어있습니다");
+			return false;
+		}
+		let message ="";
 		if(str =='update'){
 			console.log(str);
 			form.action="updateTicket";
@@ -66,6 +82,11 @@
 			}
 		});
 	}
+	$(document).ready(function(){
+		let room_date = $('#ticket_due_date');
+		room_date.attr("min",new Date().toISOString().substring(0, 10));
+		room_date.val(new Date().toISOString().substring(0, 10));
+	})
 
 </script>
 
@@ -95,23 +116,19 @@
 						</tr>
 						<tr>
 							<th>성인가격</th>
-							<td><input type="number" class="form-control" name="ticket_adult_price" value="${ticketDetail.ticket_adult_price }" required="required"></td>
+							<td><input type="number" class="form-control" id="ticket_adult_price" name="ticket_adult_price" value="${ticketDetail.ticket_adult_price }" required="required"></td>
 						</tr>
 						<tr>
 							<th>아이가격</th>
-							<td><input type="number" class="form-control" name="ticket_child_price" value="${ticketDetail.ticket_child_price }"></td>
-						</tr>
-						<tr>
-							<th>평점</th>
-							<td><input type="text" class="form-control" name="ticket_score" value="${ticketDetail.ticket_score }"></td>
+							<td><input type="number" class="form-control" id="ticket_child_price" name="ticket_child_price" value="${ticketDetail.ticket_child_price }"></td>
 						</tr>
 						<tr>
 							<th>입장권유효기간</th>
-							<td><input type="datetime-local" class="form-control" name="ticket_due_date" value="${ticketDetail.ticket_due_date }"></td>
+							<td><input type="date" class="form-control" id="ticket_due_date" name="ticket_due_date" value="${ticketDetail.ticket_due_date }"></td>
 						</tr>
 						<tr>
 							<th>입장권판매갯수</th>
-							<td><input type="number" min="0" max="100000" name="ticket_sales_cnt" value="${ticketDetail.ticket_sales_cnt }" ></td>
+							<td><input type="number" min="0" max="100000" id="ticket_sales_cnt" name="ticket_sales_cnt" value="${ticketDetail.ticket_sales_cnt }" ></td>
 						</tr>
 						<tr>
 							<th>국가명</th>
