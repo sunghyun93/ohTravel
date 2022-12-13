@@ -7,12 +7,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
+import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
 import com.oracle.ohTravel.hotel.model.RoomDTO;
 import com.oracle.ohTravel.hotel.service.HotelService;
 import com.oracle.ohTravel.member.model.MemberDTO;
@@ -31,5 +33,8 @@ public class HotelRestController {
 		return hs.getRoomList(roomDTO);
 	}
 	
-
+	@PostMapping(value = "/reserve")
+	public String reserveHotel(HotelReservationDTO hotelRDTO) {
+		return hs.reserveHotel(hotelRDTO);
+	}
 }
