@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.oracle.ohTravel.manager.model.CouponDTO;
+import com.oracle.ohTravel.member.model.CouponDTO;
 import com.oracle.ohTravel.member.dao.MemberDao;
 import com.oracle.ohTravel.member.domain.Member;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
@@ -247,6 +247,15 @@ public class MemberServiceImpl implements MemberService{
 		List<BasketDTO> ticketLikeList = memberDao.myPageLikeTicket(basketDTO);
 		return ticketLikeList;
 	}
+
+	// 쿠폰 내역
+	@Override
+	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO) {
+		log.info("MemberServiceImpl myPageCoupon start..");
+		List<CouponDTO> couponList = memberDao.myPageCoupon(couponDTO);
+		return couponList;
+	}
+
 
 
 

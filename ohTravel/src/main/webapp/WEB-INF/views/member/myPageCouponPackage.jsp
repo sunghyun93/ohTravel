@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,14 +50,48 @@
 				<div class="text_wrap big fix">
 					<strong class="tit">쿠폰함</strong>
 				</div>	<!-- text_wrap big fix -->
-				<div class="js_tabs type1 v-tabs nojq">
-				    <ul class="tabs">
-				        <li class="selected fx-cobrand-pkg" style="width: 25%;"><a href="${pageContext.request.contextPath}/member/myPageCouponPackage">패키지</a></li>
-				        <li class="fx-cobrand-htl" style="width: 25%;"><a href="${pageContext.request.contextPath}/member/myPageCouponHotel">호텔</a></li>
-				        <li class="fx-cobrand-wt" style="width: 25%;"><a href="${pageContext.request.contextPath}/member/myPageCouponAir">항공</a></li>
-				        <li class="fx-cobrand-fnd" style="width: 25%;"><a href="${pageContext.request.contextPath}/member/myPageCouponTicket">투어/입장권</a></li>
-				    </ul>
-				</div>	<!-- js_tabs type1 v-tabs nojq -->
+				<div class="js_tabs type2 no_division">
+					<div class="panels">
+					    <div class="panel selected">
+					        <div class="tbl">
+					            <table class="board_type">
+					                <colgroup>
+					                    <col style="width: 20%;" />
+					                    <col style="width: 40%;" />
+					                    <col style="width: 40%;" />
+					                </colgroup>
+					                <thead>
+					                    <tr>
+					                        <th>쿠폰 ID</th>
+					                        <th>쿠폰명</th>
+					                        <th>사용가능일</th>
+					                    </tr>
+					                </thead>
+					                <tbody>
+					                    <c:forEach var="couponList" items="${couponList}">
+					                    <tr>
+					   						<td>${couponList.coupon_id}</td>
+					                    	<td>${couponList.coupon_name}</td>
+					                    	<td>${couponList.coupon_limit_date}</td>
+					                    </tr>
+					                    </c:forEach>
+					                    <c:if test="${couponListSize == 0 }">
+					                    	<tr>
+						                        <td colspan="3">
+						                            <div class="data_no">
+						                                <div class="cont"><strong>쿠폰 내역이 없습니다.</strong></div>
+						                            </div>
+						                        </td>
+						                    </tr>
+					                    </c:if>
+					                </tbody>
+					            </table>
+					        </div>	<!-- tbl -->
+					    </div>	<!-- panel selected -->
+					    <!-- 페이징 -->
+					    
+					</div>	<!-- panels -->
+				</div>	<!-- js_tabs type2 no_division -->
 			</div>	<!-- contents -->
 		</div>
 	</div>
