@@ -19,4 +19,9 @@ public class HotelReservationDTO {
 	private int calDate;
 	private int canRevDateCnt;
 	
+	//
+	private int intervalDay;
+	private int room_id;
+	private int numberOfPeople;
+	
 }

@@ -81,9 +81,35 @@
 		SELECT ms.membership_name, mms.mem_mile
 		FROM mem_membership mms 
 		LEFT JOIN membership ms on ms.membership_id = mms.membership_id
-		WHERE mms.mem_id = #{memberId};
+		WHERE mms.mem_id = #{mem_id};
 	</select>
 	
+	<update id="updateReserveStat">
+	
+		<selectKey keyColumn="room_detail_id" order="BEFORE" keyProperty="room_detail_id" resultType="int">
+			SELECT 	MIN(room_detail_id) as room_detail_id
+			FROM 	room_detail
+			WHERE 	room_id = #{room_id}
+			AND 	room_date = date_add(#{startDate}, INTERVAL #{intervalDay} day)
+			AND 	room_rev = 'Y'
+		</selectKey>
+		
+		UPDATE 	room_detail
+		SET 	room_rev = 'N'
+		WHERE 	room_detail_id = #{room_detail_id}
+		
+	</update>
+	
+	<insert id="insertReserveInfo" useGeneratedKeys="true" keyProperty="h_rev_id">
+		INSERT INTO hotel_reservation (mem_id, room_detail_id, rev_stat, rev_per, rev_date, rev_tot_price) 
+		VALUES (#{mem_id}, #{room_detail_id}, '결제완료', #{numberOfPeople }, now(), #{rev_tot_price});
+	
+	</insert>
+	
+	<insert id="insertHotelPayment">
+		INSERT INTO payment (mem_id, h_rev_id, payment_method) VALUES (#{mem_id}, #{h_rev_id}, 'card');
+	
+	</insert>
 	
 <!-- <insert id="">
 		
