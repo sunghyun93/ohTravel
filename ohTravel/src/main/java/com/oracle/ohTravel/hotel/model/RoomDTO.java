@@ -29,4 +29,10 @@ public class RoomDTO {
 	private int numberOfChild;
 	private int numberOfAdult;
 	
+	//멤버십 관련
+	private String mem_id;
+	private int membership_id;
+	private int mem_mile;
+	private String memberId;
+	
 }

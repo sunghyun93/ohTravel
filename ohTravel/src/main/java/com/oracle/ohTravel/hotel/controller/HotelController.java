@@ -75,7 +75,7 @@ public class HotelController {
 		model.addAttribute("numberOfChild", roomDTO.getNumberOfChild());
 		model.addAttribute("numberOfAdult", roomDTO.getNumberOfAdult());
 		model.addAttribute("roomDetail", hs.getRoomDetail(roomDTO));
-		
+		//model.addAttribute("membership", hs.getMembershipInfo(roomDTO));
 		
 		return "hotel/hotelPayment";
 	}
