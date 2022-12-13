@@ -52,7 +52,7 @@
 			alert(air_num);
 			$.ajax({
 				url : 'deleteAirline',
-				method : POST,
+				method : 'POST',
 				data : {'air_num' : air_num},
 				success : function(data){
 					if(data == 1){
@@ -91,7 +91,7 @@
 						</tr>
 						<tr>
 							<th>항공사코드</th>
-							<td><input type="text" class="form-control" name="air_code" value="${airlineDetail.air_code }"></td>
+							<td><input type="text" class="form-control-plaintext" name="air_code" value="${airlineDetail.air_code }" readonly="readonly"></td>
 						</tr>
 						<tr>
 							<th>항공사명</th>

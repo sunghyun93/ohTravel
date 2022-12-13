@@ -211,7 +211,7 @@
 					    <div class="js_acc multi filter_wrap">
 					        <div class="pay_area">
 					            <div class="info_area total">
-					                <div class="info"><strong class="tit">최종 결제 금액</strong> <span>성인 2</span> <span class="divider_dot">아동 0</span></div>
+					                <div class="info"><strong class="tit">최종 결제 금액</strong> <span>성인 ${numberOfAdult }</span> <span class="divider_dot">아동 ${numberOfChild }</span></div>
 					                <div class="mileage_save">
 					                    <p class="txt">
 					                        (JPY 12,376)
@@ -221,7 +221,7 @@
 					                <strong class="price">${commaPrice }<span>원</span></strong>
 					                <div class="mileage_save">
 					                    <p class="txt">
-					                        * 적용환율 JPY=9.78 (2022.11.25)기준
+					                        	현재 ${sessionName } 님의 회원등급 : 
 					                    </p>
 					                    <p>
 					                        	Oh! Travel 마일리지
@@ -245,6 +245,18 @@
 </body>
 
 <script type="text/javascript">
+
+
+function isLogined () {
+	// 로그인 체크 -> 그대로 진행
+	// 로그인이 안 되어 있으면 -> return false;
+	let mem_id = '${member.mem_id }'
+	if(!mem_id) {
+		return false;
+	} else {
+		return true;
+	}
+}
 
 
 function agreeValid() {
@@ -279,6 +291,10 @@ function agreeValid() {
 
 
 function requestPay() {
+	
+	if(!isLogined()){
+		return false;
+	}
 	
 	if(!agreeValid()) {
    		return false;

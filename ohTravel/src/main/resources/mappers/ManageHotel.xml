@@ -43,7 +43,7 @@
 		SELECT count(*) FROM hotel
 	</select>
 	<delete id="deleteHotel" parameterType="HotelDTO">
-		DELETE h,hi,ho FROM hotel h INNER JOIN hotel_image hi ON h.hotel_id = hi.hotel_id INNER JOIN hotel_option ho ON h.hotel_id=ho.hotel_id WHERE h.hotel_id=#{hotel_id}
+		DELETE h,hi,ho,r,ri,rd FROM hotel h inner join hotel_image hi on h.hotel_id=hi.hotel_id inner join hotel_option ho on h.hotel_id=ho.hotel_id inner join room r on h.hotel_id=r.hotel_id inner join room_image ri on r.room_id=ri.room_id inner join room_detail rd on r.room_id=rd.room_id where h.hotel_id=#{hotel_id}
 	</delete>
 	<select id="getRoomList" parameterType="HotelDTO" resultType="HotelDTO">
 		SELECT r.*,h.hotel_kor FROM room r, hotel h WHERE r.hotel_id=h.hotel_id AND r.hotel_id=#{hotel_id};
@@ -87,4 +87,8 @@
 	<select id="getInsertRoom_dt_id" resultType="int">
 		SELECT ifnull(max(rd.room_detail_id),0)+1 FROM room_detail rd
 	</select>
+	<insert id="insertRoomDetail" parameterType="HotelDTO">
+		INSERT INTO room_detail(room_detail_id,room_id,room_date,room_price,room_rev) VALUES(#{room_detail_id},#{room_id},#{room_date},#{room_price},'N');
+	</insert>
+
 </mapper>

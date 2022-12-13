@@ -20,6 +20,7 @@
 </head>
 <body>
 	<div class="container" style="min-height: 700px;">
+	
 		<div class="wrapper big">
 			<div class="mt-4 button-wrap">
 				<a href="managePackage" class="genric-btn primary ela">패키지 상품 관리</a>
@@ -60,6 +61,7 @@
 				<table class="table table-striped mt-3 big room_detail_img"></table>
 				<div id="image_rep_container"></div>
 				<div class="col-lg-12 col-sm-12 text-lg-end text-center insertDetail"></div>
+				<div class="col-lg-12 col-sm-12 text-lg-end text-center insertDetailForm"></div>
 				<table class="table table-striped mt-3 room_detail"></table>
 			</div>
 			
@@ -91,14 +93,14 @@
 									.append("</td></tr><tbody></table>")
 									.append("<button class='genric-btn info mt-3' id=btn_img_update' onclick='update_img("+data.roomDetail[0].room_id+","+data.roomDetail[0].r_img_id+")'>객실이미지 수정</button>");
 				$('.insertDetail').empty();
-				$('.insertDetail').append("<button class='btn btn-primary mb-3 mr-2' onclick='moveDetailInsert("+data.roomDetail[0].room_id+")'>객실상세 추가</button>");
+				$('.insertDetail').append("<button class='btn btn-primary mb-3 mr-2' onclick='moveDetailInsert("+data.roomDetail[0].room_id+",\""+data.roomDetail[0].room_type+"\")'>객실상세 추가</button>");
 				$('.room_detail').empty();
 				$('.room_detail').append("<thead><tr><th>룸타입</th><th>객실상세ID</th><th>날짜</th><th>가격</th><th>예약현황</th><th>비고</th></tr></thead>");
 				$.each(data.roomDetail, function(index,item){
 					console.log(index);
-					$('.room_detail').append("<tr><td>"+item.room_type+"</td>"+
-											"<td>"+item.room_detail_id+"</td>"+
-											"<td>"+item.room_date+"</td>"+
+					$('.room_detail').append("<tr><td><input type='text' readonly='readonly' name='room_type' class='form-control-plaintext' value='"+item.room_type+"'></td>"+
+											"<td><input type='text' readonly='readonly' name='room_detail_id' class='form-control-plaintext' value='"+item.room_detail_id+"'></td>"+
+											"<td><input type='date' readonly='readonly' name='room_date' class='form-control-plaintext' value='"+item.room_date+"'></td>"+
 											"<td><input type='number' name='room_price' id='room_price"+index+"' value='"+item.room_price+"'></td>"+
 											"<td><span id='sp_room_rev"+index+"'>"+item.room_rev+"</span><select name='room_rev' id='room_rev"+index+"'><option value='Y'>Y</option><option value='N'>N</option></select></td>"+
 											"<td><input class='genric-btn danger radius elb mr-3' type='button' onclick='deleteDetailRoom("+index+","+item.room_detail_id+")' value='삭제하기'><input class='genric-btn info radius elb' type='button' onclick='updateDetailRoom("+index+","+item.room_detail_id+")' value='수정하기'></td></tr>"+
@@ -141,9 +143,9 @@
 				$('.room_detail').empty();
 				$('.room_detail').append("<thead><tr><th>룸타입</th><th>객실상세ID</th><th>날짜</th><th>가격</th><th>예약현황</th><th>비고</th></tr></thead>");
 				$.each(data.roomDetail, function(index,item){
-					$('.room_detail').append("<tr><td>"+item.room_type+"</td>"+
-											"<td>"+item.room_detail_id+"</td>"+
-											"<td>"+item.room_date+"</td>"+
+					$('.room_detail').append("<tr><td><input type='text' readonly='readonly' name='room_type' class='form-control-plaintext' value='"+item.room_type+"'></td>"+
+											"<td><input type='text' readonly='readonly' name='room_detail_id' class='form-control-plaintext' value='"+item.room_detail_id+"'></td>"+
+											"<td><input type='date' readonly='readonly' name='room_date' class='form-control-plaintext' value='"+item.room_date+"'></td>"+
 											"<td><input type='number' name='room_price' id='room_price"+index+"' value='"+item.room_price+"'></td>"+
 											"<td><span id='sp_room_rev"+index+"'>"+item.room_rev+"</span><select name='room_rev' id='room_rev"+index+"'><option value='Y'>Y</option><option value='N'>N</option></select></td>"+
 											"<td><input class='genric-btn danger radius elb mr-3' type='button' onclick='deleteDetailRoom("+index+","+item.room_detail_id+")' value='삭제하기'><input class='genric-btn info radius elb' type='button' onclick='updateDetailRoom("+index+","+item.room_detail_id+")' value='수정하기'></td>"+
@@ -257,10 +259,32 @@
 	
 	
 	
-	function moveDetailInsert(str){
-		let room_id = str;
-		console.log(str);
-		location.href="insertDetailRoomForm?room_id="+room_id;
+	function moveDetailInsert(str1,str2){
+		$('.insertDetailForm').empty();
+		let room_id = str1;
+		let room_type = str2;
+		console.log("room_type ->"+room_type);
+		console.log("room_id ->"+room_id);
+		$.ajax({
+			url : 'getNextRoom_detail_id',
+			success : function(data){
+				console.log(data);
+				$('.insertDetailForm').append("<table class='table table-striped mt-3'><thead><tr><th>룸타입</th><th>객실상세ID</th><th>날짜</th><th>가격</th><th>비고</th></tr></thead>"+
+						"<tr><td><input type='text' readonly='readonly' id='room_type_input' name='room_type' class='form-control-plaintext' value='"+room_type+"'></td>"+
+						"<td><input type='text'readonly='readonly' id='room_detail_id_input' class='form-control-plaintext' value='"+data+"'></td>"+
+						"<td><input type='date' name='room_date' id='room_date_input'></td>"+
+						"<td><input type='number' name='room_price' id='room_price_input'></td>"+
+						"<td><input type='button' onclick='insertRoomDetail()' class='genric-btn info mt-3' value='객실상세 추가하기'><input type='hidden' id='room_id_input' value='"+room_id+"'></td>"+
+						"</tr></table>");
+				chkDate();
+			}
+		})	
+	}
+	
+	function chkDate(){
+		let room_date = $('#room_date_input');
+		room_date.attr("min",new Date().toISOString().substring(0, 10));
+		room_date.val(new Date().toISOString().substring(0, 10));
 	}
 	
 		
@@ -287,6 +311,38 @@
                 console.log(data);
             }
         });
+	}
+	
+	function insertRoomDetail(){
+		let room_type = $('#room_type_input').val();
+		let room_detail_id = $('#room_detail_id_input').val();
+		let room_date = $('#room_date_input').val();
+		let room_price = $('#room_price_input').val();
+		let room_id = $('#room_id_input').val();
+		console.log(room_type);
+		console.log(room_detail_id);
+		console.log(room_date);
+		console.log(room_price);
+		console.log(room_id);
+		if(room_price ==null||room_price ==''){
+			alert("가격에 문자가 입력되었거나 비어있습니다 입력해주세요");
+			return false;
+		}
+		$.ajax({
+			url : 'insertRoomDetail',
+			method : 'POST',
+			data : {'room_type' : room_type,
+					'room_detail_id' : room_detail_id,
+					'room_date' : room_date,
+					'room_price' : room_price,
+					'room_id' : room_id},
+			success : function(data){
+				if(data>0){
+					alert('추가가완료되었습니다');
+					location.reload();
+				}
+			}
+		})
 	}
 	
 	function rep(event) {

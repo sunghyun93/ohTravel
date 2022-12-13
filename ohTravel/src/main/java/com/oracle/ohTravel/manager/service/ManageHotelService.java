@@ -43,5 +43,8 @@ public interface ManageHotelService {
 	int getInsertRoom_id();
 
 	int getInsertRoom_detail_id();
+
+	int insertRoomDetail(ManageHotelDTO hotel);
+
 	
 }

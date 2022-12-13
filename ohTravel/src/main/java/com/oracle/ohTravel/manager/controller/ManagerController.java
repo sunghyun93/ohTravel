@@ -213,6 +213,10 @@ public class ManagerController {
 		return "manager/managePackageDetailOne";
 	}
 	
+	
+	
+	
+	
 	//상품관리 -> 패키지 관광지 관리
 	@RequestMapping(value = "manageAttraction")
 	public String manageAttraction(ManagePackageDTO pk,String currentPage, Model model) {
@@ -906,6 +910,7 @@ public class ManagerController {
 	@ResponseBody
 	@PostMapping(value = "deleteHotel")
 	public int deleteHotel(ManageHotelDTO hotel){
+		
 		int result = hotelService.deleteHotel(hotel);
 		System.out.println("delete hotel result - >"+result);
 		return result;
@@ -1003,18 +1008,21 @@ public class ManagerController {
 		
 		return result;
 	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실상세 수정 Ajax
 	@ResponseBody
 	@PostMapping(value = "updateDetailRoom")
 	public int updateDetailRoom(ManageHotelDTO hotel) {
 		int result = hotelService.updateDetailRoom(hotel);
 		return result;
 	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실상세 섹제 Ajax
 	@ResponseBody
 	@PostMapping(value = "deleteDetailRoom")
 	public int deleteDetailRoom(ManageHotelDTO hotel) {
 		int result = hotelService.deleteDetailRoom(hotel);
 		return result;
 	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실삭제 Ajax
 	@ResponseBody
 	@PostMapping(value = "deleteRoom")
 	public int deleteRoom(ManageHotelDTO hotel) {
@@ -1022,7 +1030,7 @@ public class ManagerController {
 		int result = hotelService.deleteRoom(hotel);
 		return result;
 	}
-	
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실추가 폼으로 이동
 	@RequestMapping(value = "insertRoomForm")
 	public String insertRoomForm(ManageHotelDTO hotel,String currentPage,Model model) {
 		System.out.println("insertRoomForm hotel_id ->"+hotel.getHotel_id());
@@ -1030,6 +1038,7 @@ public class ManagerController {
 		model.addAttribute("currentPage", currentPage);
 		return "manager/insertRoomForm";
 	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실 추가 실행 Ajax
 	@ResponseBody
 	@PostMapping(value = "insertRoom")
 	public int insertRoom(ManageHotelDTO hotel,@RequestParam("file1") MultipartFile file1,HttpServletRequest request) {
@@ -1077,6 +1086,23 @@ public class ManagerController {
 		int result = hotelService.insertRoom(hotel);
 		return result;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getNextRoom_detail_id")
+	public int getNextRoom_detail_id() {
+		int result = hotelService.getInsertRoom_detail_id();
+		return result;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "insertRoomDetail")
+	public int insertRoomDetail(ManageHotelDTO hotel) {
+		int result = hotelService.insertRoomDetail(hotel);
+		return result;
+	}
+	
+	
+	
 	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////

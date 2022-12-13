@@ -2,7 +2,6 @@ package com.oracle.ohTravel.manager.model;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import lombok.Data;
 
@@ -13,8 +12,7 @@ public class ManageTicketDTO {
 	private int city_id;
 	private int ticket_sales_cnt;
 	private String ticket_location;
-	private BigDecimal ticket_score;
-	private Timestamp ticket_due_date;
+	private Date ticket_due_date;
 	private int ticket_adult_price;
 	private int ticket_child_price;
 	

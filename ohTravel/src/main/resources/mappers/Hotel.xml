@@ -76,6 +76,15 @@
 		GROUP BY r.room_id
 		HAVING canRevDateCnt = #{calDate}
 	</select>
+	
+	<select id="membershipInfo" resultType="Room">
+		SELECT ms.membership_name, mms.mem_mile
+		FROM mem_membership mms 
+		LEFT JOIN membership ms on ms.membership_id = mms.membership_id
+		WHERE mms.mem_id = #{memberId};
+	</select>
+	
+	
 <!-- <insert id="">
 		
 		<selectKey keyColumn="next_id" keyProperty="hotelID" order="BEFORE" res
