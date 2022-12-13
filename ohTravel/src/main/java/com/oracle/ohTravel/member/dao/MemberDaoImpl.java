@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
+import com.oracle.ohTravel.member.model.BasketDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -284,6 +285,33 @@ public class MemberDaoImpl implements MemberDao {
 		int total = sqlSession.selectOne("totalReservTicket", ticketReservationDTO);
 		System.out.println("MemberDaoImpl totalReservTicket total -> " + total);
 		return total;
+	}
+
+	// 패키지 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikePackage(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl myPageLikePackage start..");
+		List<BasketDTO> packageLikeList = sqlSession.selectList("packageLikeList", basketDTO);
+		System.out.println("MemberDaoImpl myPageLikePackage packageLikeList.size() -> " + packageLikeList.size());
+		return packageLikeList;
+	}
+
+	// 호텔 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikeHotel(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl myPageLikeHotel start..");
+		List<BasketDTO> hotelLikeList = sqlSession.selectList("hotelLikeList", basketDTO);
+		System.out.println("MemberDaoImpl myPageLikeHotel hotelLikeList.size() -> " + hotelLikeList.size());
+		return hotelLikeList;
+	}
+
+	// 티켓 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikeTicket(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl myPageLikeTicket start..");
+		List<BasketDTO> ticketLikeList = sqlSession.selectList("ticketLikeList", basketDTO);
+		System.out.println("MemberDaoImpl myPageLikeTicket ticketLikeList.size() -> " + ticketLikeList.size());
+		return ticketLikeList;
 	}
 
 
