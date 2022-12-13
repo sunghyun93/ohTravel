@@ -18,4 +18,6 @@ public interface HotelDAO {
 
 	String reserveHotel(HotelReservationDTO hotelRDTO);
 
+	String getMembershipInfo(RoomDTO roomDTO);
+
 }

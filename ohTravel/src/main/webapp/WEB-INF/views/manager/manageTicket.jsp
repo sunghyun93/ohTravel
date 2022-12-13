@@ -62,7 +62,6 @@
 						<th>입장권명</th>
 						<th>누적판매갯수</th>
 						<th>위치</th>
-						<th>평점</th>
 						<th>사용기한일</th>
 						<th>성인가격</th>
 						<th>아동가격</th>
@@ -75,7 +74,6 @@
 						<td class="content">${ticketList.ticket_name}</td>
 						<td>${ticketList.ticket_sales_cnt}</td>
 						<td class="content">${ticketList.ticket_location}</td>
-						<td>${ticketList.ticket_score}</td>
 						<td>${ticketList.ticket_due_date}</td>
 						<td>${ticketList.ticket_adult_price}</td>
 						<td>${ticketList.ticket_child_price}</td>

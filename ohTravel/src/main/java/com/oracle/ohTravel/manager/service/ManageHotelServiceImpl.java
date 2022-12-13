@@ -128,4 +128,12 @@ public class ManageHotelServiceImpl implements ManageHotelService{
 		int result = dao.insertRoom_dt_id();
 		return result;
 	}
+
+	@Override
+	public int insertRoomDetail(ManageHotelDTO hotel) {
+		int result = dao.insertRoomDetail(hotel);
+		return result;
+	}
+
+	
 }

@@ -42,6 +42,11 @@ public class HotelDAOImpl implements HotelDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String getMembershipInfo(RoomDTO roomDTO) {
+		return session.selectOne("membershipInfo", roomDTO);
+	}
 	
 	
 }

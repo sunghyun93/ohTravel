@@ -129,4 +129,11 @@ public class ManageHotelDAOImpl implements ManageHotelDAO{
 		int result = session.selectOne("getInsertRoom_dt_id");
 		return result;
 	}
+
+	@Override
+	public int insertRoomDetail(ManageHotelDTO hotel) {
+		int result = session.insert("insertRoomDetail", hotel);
+		return result;
+	}
+
 }
