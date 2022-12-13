@@ -478,11 +478,11 @@ public class MemberController {
 		
 		couponDTO.setMem_id(sessionId);
 		
-		List<CouponDTO> couponList = memberService.myPageCoupon(couponDTO);
-		int couponListSize = couponList.size();
-		model.addAttribute("couponList", couponList);
-		model.addAttribute("couponListSize", couponListSize);
-		System.out.println("MemberController myPageCoupon couponListSize -> " + couponListSize);
+		List<CouponDTO> memCouponList = memberService.myPageCoupon(couponDTO);
+		int memCouponListSize = memCouponList.size();
+		model.addAttribute("memCouponList", memCouponList);
+		model.addAttribute("memCouponListSize", memCouponListSize);
+		System.out.println("MemberController myPageCoupon memCouponListSize -> " + memCouponListSize);
 		
 		return "member/myPageCouponPackage";
 	}

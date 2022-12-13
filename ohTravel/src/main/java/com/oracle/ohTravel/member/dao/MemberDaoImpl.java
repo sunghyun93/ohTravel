@@ -318,9 +318,9 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO) {
 		log.info("MemberDaoImpl myPageCoupon start..");
-		List<CouponDTO> couponList = sqlSession.selectList("selectMemberWithCoupon", couponDTO);
-		System.out.println("MemberDaoImpl myPageCoupon couponList.size() -> " + couponList.size());
-		return couponList;
+		List<CouponDTO> memCouponList = sqlSession.selectList("selectMemberWithCoupon", couponDTO);
+		System.out.println("MemberDaoImpl myPageCoupon memCouponList.size() -> " + memCouponList.size());
+		return memCouponList;
 	}
 
 
