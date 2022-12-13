@@ -56,7 +56,7 @@
 		</collection>
 	</resultMap>
 	
-	<!-- 상품 상세 resultMap -->
+	<!-- 패키지 상세 resultMap -->
 	<resultMap id="selectPkgDetailResult" type="pkage_detailDTO">
 		<id property="pkage_dt_id" column="pkage_dt_id"/>
 		<result property="pkage_id" column="pkage_id"/>
@@ -370,7 +370,7 @@
 				</when>
 			</choose>
 		</if>
-		<if test='pkgSearch.chk_term != null'> <!-- 여행 기간 - 두 날짜의 차이 (day) -->
+		<if test='pkgSearch.chk_term != null'> <!-- 여행 기간 - 두 날짜의 차이 (day), DAY 는 단위를 뜻함, TIMESTAMPDIFF(단위, 날짜1, 날짜2);-->
 			and TIMESTAMPDIFF(DAY, date(pd.pkage_dt_startDay), date(pd.pkage_dt_endDay))+1 = #{pkgSearch.chk_term}
 		</if>
 		<if test='pkgSearch.chk_time != null'> <!-- 출발 시간 - date의 시간만 비교 -->

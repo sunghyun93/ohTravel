@@ -113,6 +113,7 @@
                             	${pkgSearch.country } 패키지 ${pkgCnt }개
                         </span>
                         <div class="right_cont">
+                        <%-- 검색한 패키지가 있을 경우에만 정렬 ul 출력 --%>
                         	<c:if test="${pkgCnt > 0 }">
 	                            <ul class="list_sort">
 	                                <li class="orderli1"><a href="/pkage/searchResult${pkgSearch.getQueryString(1) }" data-order="1">구매순</a></li>
@@ -131,6 +132,7 @@
                         	<c:forEach var="pkageDTORm" items="${pkageDTORmlist }" varStatus="status">
 	                            <li>
 	                                <div class="inr img">
+	                                	<%-- 패키지 이미지 --%>
 	                                    <img src="${pkageDTORm.pkage_imageDTOList[0].pkage_img_path }" alt="">
 	                                </div>
 	
@@ -145,27 +147,23 @@
 	                                        <span class="icn pos">${pkageDTORm.cityDTO.countryDTO.country_name }, ${pkageDTORm.cityDTO.city_name }</span>
 	                                    </p>
 	                                    <p class="item_text">
-	                                    <!-- 패키지에 존재하는 상세 일수(최소/최대) -->
+	                                    <!-- 패키지에 존재하는 상세들의 최소 및 최대 일 수 -->
 	                                        <span class="icn cal">여행기간 
-	                                        <c:if test="${pkageDTORm.days[0] == pkageDTORm.days[1]}">
-											${pkageDTORm.days[0] }
-											</c:if>
-											<c:if test="${pkageDTORm.days[0] ne 0}">
-												<c:if test="${pkageDTORm.days[0] != pkageDTORm.days[1]}">
-												${pkageDTORm.days[0] }~${pkageDTORm.days[1] }
-												</c:if>
-											</c:if>
-											<!-- 여행기간 필터를 눌렀을 때는 최소 기간이 없음. 따라서 무조건 pkageDTORm.days[0]가 0(기본값)이 나옴  -->
-											<c:if test="${pkageDTORm.days[0] eq 0}">
-											${pkageDTORm.days[1] }
-											</c:if>
+	                                        	<%-- 패키지 상세의 최소 / 최대 일 수가 담겨있는 리스트 --%>
+		                                        <c:forEach var="days" items="${pkageDTORm.daysList }" varStatus="status">
+		                                        	<%-- 패키지 상세의 개수가 1개 밖에 없다면 ~ 는 출력 안됨. 2개 이상일 경우에만 리스트 내용물의 개수가 2개가 됨. --%>
+		                                        	<c:if test="${status.index == 1 }">~</c:if>  
+		                                        	${days }	
+		                                        </c:forEach>
 	                                                                                          일</span>
 	                                    </p>
+	                                    <%-- 평점, 리뷰 개수 --%>
 	                                    <div class="item_group">
 	                                        <span class="icn star">${pkageDTORm.pkage_score }</span>
 	                                        <span class="icn balloon">${pkageDTORm.reviewCnt }</span>
 	                                    </div>
 	                                    <div class="price_group">
+	                                    	<%-- 패키지 상세 중 최소 가격 --%>
 	                                        <strong class="price">
 	                                            ${pkageDTORm.minPrice }
 	                                            <span>원~</span>
@@ -190,23 +188,28 @@
 	                                <!-- 상품 상세 (실제 상품 부분) -->
 	                                <div class="sub_list_wrap" style="display: none;">
 	                                    <div class="cont_unit">
+	                                    	<%-- 패키지 상세 개수 --%>
 	                                        <div class="option_wrap result">
 	                                            <span class="count">총 ${pkageDTORm.pkgDetailCnt }개</span>
 	                                        </div>
 	                                        <div class="prod_list_wrap">
 	                                            <ul class="type">
 	                                            	<c:forEach var="pkgDetail" items="${pkageDTORm.pkage_detailDTOList }">
+	                                            		<%-- 패키지 ID / 패키지 상세 ID --%>
 		                                                <li data-pkgId="${pkageDTORm.pkage_id }" data-pkgDetailId="${pkgDetail.pkage_dt_id }">
 		                                                    <div class="inr">
+		                                                    	<%-- 패키지 상세 테마 --%>
 		                                                        <div class="tag_group">
 		                                                            <span class="attr">${pkgDetail.pkage_dt_thema }</span> 
 		                                                        </div>
+		                                                        <%-- 패키지 상세 이름 --%>
 		                                                        <strong class="item_title eps3">${pkgDetail.pkage_dt_name }
+		                                                        	<%-- 현재 로그인한 회원이 예약한 상품인지 여부 --%>
 		                                                        	<c:if test="${pkgDetail.pkage_rv_id ne null}"><span class="reserved">내가 예약한 상품</span></c:if>
 		                                                        </strong>
 		                                                        
 		                                                        <p class="item_text">
-		                                                        	<!-- 해외일 때만 항공정보 불러오기 -->
+		                                                        	<!-- 항공 일정이 있을 때만 항공정보 불러오기 -->
 		                                                       		<c:if test="${not empty pkgDetail.pkage_flightScheDTOList[1]}">
 			                                                            <span class="air_name">
 			                                                                <span class="air_img">
@@ -222,7 +225,7 @@
 			                                                            </span>
 		                                                            </c:if>
 		                                                            <!-- 패키지 인원 - 패키지 예약인원 -->
-		                                                            <span>잔여 ${pkgDetail.pkage_dt_cnt-pkgDetail.pkage_dt_Rcnt }석</span>
+		                                                            <span>잔여 ${pkgDetail.pkage_dt_cnt - pkgDetail.pkage_dt_Rcnt }석</span>
 		                                                            <c:if test="${pkgDetail.pkage_dt_cnt-pkgDetail.pkage_dt_Rcnt == '0' }"><span class="reserv_impossible">예약불가</span></c:if>
 		                                                        </p>
 		                                                        <p class="item_text air_info">
@@ -236,9 +239,11 @@
 			                                                            	<fmt:formatDate value="${pkgDetail.pkage_dt_endDay }" pattern="yyyy.MM.dd HH:mm"/>
 			                                                            	<span>(${pkgDetail.endYoil })</span>
 			                                                            </span>
+			                                                        <%-- ?박 ?일 --%>
 		                                                            <span class="info">${pkgDetail.day-1 }박${pkgDetail.day }일</span>
 		                                                        </p>
 		                                                        <p class="item_text note">
+		                                                        	<%-- 호텔 숙박은 무조건 있기 때문에 그냥 하드코딩함 --%>
 		                                                            <span class="info">호텔 숙박,</span>
 		                                                            <span class="info">
 		                                                            	<c:if test="${pkgDetail.pkage_dt_Gname ne null}">가이드 있음</c:if>
@@ -304,7 +309,7 @@
     </div> <!-- pk_container -->
 
 <script>
-// url 만드는 함수 
+<%-- url 만드는 함수 - 사용 안함.. (자바단에서 쿼리스트링 만드는 걸로 바꿈) --%>
 function makeURL(order) {
 	/* 패키지를 클릭해서 검색결과가 나올 때와, 검색해서 검색결과가 나올때를 구분해주기 위함..(패키지 클릭 시는 pkage_id가 딸려옴) */
 	let pkage_id = '${pkgSearch.pkage_id}';
@@ -331,6 +336,7 @@ let chk_term = '${pkgSearch.chk_term}'
 let chk_time = '${pkgSearch.chk_time}'
 
 $(function() {
+	<%-- 필터 input 들을 돌면서 선택되었던 필터에  checked 부여 --%>
 	$('.inpt_checkbox').each(function(index, item) {
 		let value = $(item).attr('value')
 		
@@ -356,6 +362,7 @@ $(function() {
 	    }
 	});    
 
+	<%-- 사용 안됨.. 자바단에서 선택한 order 가져와서 class 부여하는 걸로 바꿈 --%>
 	/* 정렬 li 눌렀을 때 on 클래스 부여 및 해제 */
 	let liOn = $('.list_sort li');
 	$(liOn).on('click', function(e) {
@@ -368,11 +375,11 @@ $(function() {
 	    }  */
 		
 	    let url = makeURL(order);
-	    /* let url = ${toURL}; */
-	  	/* aTag.attr('href', url);  */
+	    // let url = ${toURL}; 
+	  	// aTag.attr('href', url);
 	})
 	
-	/* 필터 label 을 눌렀을 때 */
+	/* 필터 input 태그를 눌렀을 때 */
 	$('.inpt_checkbox').on('click', function() {
 		let inputName = $(this).attr('name'); // input 태그의 name
 		
@@ -388,16 +395,19 @@ $(function() {
 		});
 		
 		let tmp = "";
-		// checked 된 것들 가져오기
+		// 필터 input 들 중 checked 된 것들 가져오기
 		$('.inpt_checkbox').each(function(index, item) {
 			if($(item).prop('checked')) {
 				let name = $(item).attr('name');
 				let value = $(item).attr('value');
 				
 				let arr = [];
-				// 가격 value 값 나눠서 보내기 ( 두 값을 보내야 하는 것(가격,시간)과 하나의 값(기간)만 보내야 하는 것들을 나눠서 처리)
+				// 가격 필터 value 값 나눠서 보내기 ( 두 값을 보내야 하는 것(가격,시간)과 하나의 값(기간)만 보내야 하는 것들을 나눠서 처리)
+				// 가격 필터 value 에는 | 값이 들어 있음
 				if(value.includes('|') == true) {
-					arr = value.split('|');
+					<%-- |400, 400| 처럼 값을 | 을 기준으로 1개만 놔도 | 기준으로 나누기 때문에 arr의 길이가 2가 된다. --%>
+					arr = value.split('|'); 
+					console.log("length="+arr.length);
 					
 					for(let i = 0 ; i < arr.length; i++) {
 						if(i == 0) {
@@ -425,11 +435,11 @@ $(function() {
 
 
     $('.btn-like').on('click', function() {
-    	let likeSpan = $(this).children('.btn-like-span');
-    	let pkage_id = likeSpan.attr("data-id");
+    	let likeSpan = $(this).children('.btn-like-span'); <%-- favorite span 태그 --%>
+    	let pkage_id = likeSpan.attr("data-id"); <%-- 클릭한 span 태그의 패키지 ID 값 --%>
     	
     	console.log(pkage_id);
-    	/* 빈하트로 변경 - 찜 해제 */
+    	/* 빈 하트로 변경 - 찜 해제 */
         if(likeSpan.hasClass('material-symbols-outlined-filled')) {
         	// 찜 해제 ajax
         	$.ajax({
@@ -474,11 +484,11 @@ $(function() {
 	/* 상품상세보기 버튼 눌렀을 때 */
 	let detailAtag = $('.btn.arrow');
 	$(detailAtag).on('click', function(e) {
-	    e.preventDefault();
+	    e.preventDefault(); <%-- a 태그 이벤트 막기 --%>
 	
 	    // 버튼을 감싸고 있는 부모 div 의 형제인 상품 상세 박스
 	    let detailProdBox = $(this).parents('.inr.right').siblings('.sub_list_wrap')
-	    $(detailProdBox).toggle();
+	    $(detailProdBox).toggle(); <%-- show() & hide() --%>
 	});
 
 	/* 상세일정보기 버튼 눌렀을 때 (진짜 상품으로 가는 버튼) */
