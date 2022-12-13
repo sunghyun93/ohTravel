@@ -80,7 +80,7 @@
 					                    <c:forEach var="ticketReviewList" items="${ticketReviewList}">
 					                    <tr>
 					   						<td>${ticketReviewList.rv_id}</td>
-					                    	<td>${ticketReviewList.rv_real_id}</td>
+					                    	<td>${ticketReviewList.ticket_name}</td>
 					                    	<td>${ticketReviewList.rv_contents}</td>
 					                    	<td>${ticketReviewList.rv_date}</td>
 					                    </tr>

@@ -25,6 +25,7 @@ import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.airport.model.Air_ScheduleDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.BasketDTO;
+import com.oracle.ohTravel.member.model.CouponDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -379,7 +380,6 @@ public class MemberController {
 		System.out.println("MemberController myPageLikePackage basketDTO -> " + basketDTO.getMem_id() );
 		System.out.println("MemberController myPageLikePackage basketDTO -> " + basketDTO.getBasket_id() );
 
-		// 페이징은 나중에
 		basketDTO.setMem_id(sessionId);
 		
 		// 패키지 찜 내역
@@ -411,7 +411,6 @@ public class MemberController {
 		System.out.println("MemberController myPageLikeHotel basketDTO -> " + basketDTO.getMem_id() );
 		System.out.println("MemberController myPageLikeHotel basketDTO -> " + basketDTO.getBasket_id() );
 
-		// 페이징은 나중에
 		basketDTO.setMem_id(sessionId);
 		
 		// 호텔 찜 내역
@@ -456,28 +455,36 @@ public class MemberController {
 		return "member/myPageLikeTicket";
 	}
 	
-	// 쿠폰함(패키지) 페이지 이동
-	@GetMapping(value = "/myPageCouponPackage")
-	public String goMyPageCouponPackage() {
+	// 찜 삭제
+	@RequestMapping(value = "/deleteLike")
+	public String deleteLike() {
+		
+		return "";
+	}
+	
+	// 쿠폰함
+	@RequestMapping(value = "/myPageCouponPackage")
+	public String myPageCoupon(CouponDTO couponDTO, Model model, String currentPage, HttpServletRequest request) {
+		log.info("MemberController myPageCoupon start..");
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		
+		couponDTO.setMem_id(sessionId);
+		
+		List<CouponDTO> couponList = memberService.myPageCoupon(couponDTO);
+		int couponListSize = couponList.size();
+		model.addAttribute("couponList", couponList);
+		model.addAttribute("couponListSize", couponListSize);
+		System.out.println("MemberController myPageCoupon couponListSize -> " + couponListSize);
+		
 		return "member/myPageCouponPackage";
-	}
-	
-	// 쿠폰함(호텔) 페이지 이동
-	@GetMapping(value = "/myPageCouponHotel")
-	public String goMyPageCouponHotel() {
-		return "member/myPageCouponHotel";
-	}
-	
-	// 쿠폰함(항공) 페이지 이동
-	@GetMapping(value = "/myPageCouponAir")
-	public String goMyPageCouponAir() {
-		return "member/myPageCouponAir";
-	}
-	
-	// 쿠폰함(티켓) 페이지 이동
-	@GetMapping(value = "/myPageCouponTicket")
-	public String goMyPageCouponTicket() {
-		return "member/myPageCouponTicket";
 	}
 	
 	// 자주 찾는 질문 페이지 이동

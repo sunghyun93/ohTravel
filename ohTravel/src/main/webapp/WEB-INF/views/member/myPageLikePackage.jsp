@@ -64,20 +64,22 @@
 					            <table class="board_type">
 					                <colgroup>
 					                    <col style="width: 40%;" />
-					                    <col style="width: 60%;" />
+					                    <col style="width: 50%;" />
+					                    <col style="width: 10%;" />
 					                </colgroup>
 					                <thead>
 					                    <tr>
 					                        <th>상품 ID</th>
-					                        <th>상품명</th>
+					                        <th>패키지명</th>
+					                        <th></th>
 					                    </tr>
 					                </thead>
 					                <tbody>
 					                    <c:forEach var="packageLikeList" items="${packageLikeList}">
 					                    <tr>
 					   						<td>${packageLikeList.basket_ref_id}</td>
-					   						<!-- 패키지명으로 바꿔야함 -->
-					                    	<td>${packageLikeList.mem_id}</td>
+					                    	<td>${packageLikeList.pkage_name}</td>
+					                    	<td><a href="">삭제</a></td>
 					                    </tr>
 					                    </c:forEach>
 					                    <c:if test="${packageLikeListSize == 0 }">
