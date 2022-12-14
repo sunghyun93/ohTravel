@@ -87,6 +87,7 @@
 					                        <th>출발공항</th>
 					                        <th>도착공항</th>
 					                        <th>예매가격</th>
+					                        <th>비행가격</th>
 					                        <th>출발일</th>
 					                    </tr>
 					                </thead>
@@ -101,6 +102,7 @@
 					                		<td>${reserve.start_airport_name }</td>
 					                		<td>${reserve.end_airport_name }</td>
 					                		<td>${reserve.reservation_price }</td>
+					                		<th>${reserve.schedule_price }</th>
 					                		<td><fmt:formatDate value="${reserve.start_time}" pattern="yy-MM-dd"/></td>
 					                	</tr>
 					                </c:forEach>

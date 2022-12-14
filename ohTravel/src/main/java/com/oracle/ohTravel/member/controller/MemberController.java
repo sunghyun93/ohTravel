@@ -290,7 +290,7 @@ public class MemberController {
 	
 	// 항공 예약 내역 조회
 	@RequestMapping(value = "/myPageReservAir")
-	public String myPageReservAir(Air_ReservationDTO air_ReservationDTO,Air_FlightSchDTO air_FlightSchDTO,Air_ScheduleDTO air_ScheduleDTO,Model model, HttpServletRequest request) {
+	public String myPageReservAir(Air_ReservationDTO air_ReservationDTO,Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservAir start..");
 		HttpSession session = request.getSession();
 		// 로그인 안 했을 때 로그인 페이지로 이동
@@ -308,12 +308,10 @@ public class MemberController {
 		
 		// 항공 예약 내역
 		air_ReservationDTO.setMem_id(sessionId);
-		Map<String,Object> map = new HashMap<>();
-		map.put("air_ReservationDTO",air_ReservationDTO);
-		map.put("air_FlightSchDTO",air_FlightSchDTO);
-		map.put("air_ScheduleDTO",air_ScheduleDTO);
+		String mem_id = air_ReservationDTO.getMem_id();
+	
 		
-		List<AirReservationDetail> airReservList = memberService.myPageReservAir(map);
+		List<AirReservationDetail> airReservList = memberService.myPageReservAir(mem_id);
 		int airReservListSize = airReservList.size();
 		
 
