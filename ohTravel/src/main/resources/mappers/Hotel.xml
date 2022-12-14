@@ -6,7 +6,7 @@
 
 	<select id="hotelList" resultType="Hotel">
 		SELECT hotel_id, city_id, hotel_kor, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_tel, room_cnt, checkin, checkout, 
-			(	SELECT 	FORMAT( IFNULL ( AVG(r.rv_rating) , 0 ), 1)
+			(	SELECT 	FORMAT( avg(IFNULL (rv_rating, 0)), 1 )
 				FROM 	review r
 				WHERE 	r.rv_real_id = h.hotel_id 	) hotel_score
 		FROM hotel h 
@@ -19,17 +19,6 @@
 		LEFT JOIN hotel h on r.hotel_id = h.hotel_id 
 		WHERE h.hotel_id= #{hotel_id}
 	</select>
-	
-	
-<!-- 	<select id="roomList" resultType="Room">
-		SELECT r.room_id, r.room_type, r.room_name, rd.room_price, r.hotel_id, rd.room_date, rd.room_detail_id
-		FROM room r
-		LEFT JOIN room_detail rd ON r.room_id = rd.room_id
-		WHERE r.hotel_id = #{hotel_id}
-		AND rd.room_rev = 'Y'
-		AND rd.room_date = #{startDate}
-	</select>  -->
-	
 	
  	<select id="roomList" resultType="Room">
 		SELECT 	r.room_id
@@ -78,7 +67,7 @@
 	</select>
 	
 	<select id="membershipInfo" resultType="Room">
-		SELECT ms.membership_name, mms.mem_mile
+		SELECT ms.membership_name, mms.mem_mile, ms.membership_discount
 		FROM mem_membership mms 
 		LEFT JOIN membership ms on ms.membership_id = mms.membership_id
 		WHERE mms.mem_id = #{mem_id};
@@ -111,14 +100,11 @@
 	
 	</insert>
 	
-<!-- <insert id="">
-		
-		<selectKey keyColumn="next_id" keyProperty="hotelID" order="BEFORE" res
-			select max(hotel_id)+1 as next_idultType="int">
-			from hotel
-			where hotel_id like '%'+#{city_id}+'%'
-		</selectKey>
-		
-		insert into hotel(hotel_id) values (#{hotelID})
-	</insert> -->
+	<update id="updateMemberMile">
+		UPDATE 	mem_membership 
+		SET 	mem_mile = mem_mile + #{mile}
+		WHERE	mem_id = #{mem_id}
+	</update>
+	
+
 </mapper>

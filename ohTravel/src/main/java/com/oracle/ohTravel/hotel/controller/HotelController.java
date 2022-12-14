@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
+import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
 import com.oracle.ohTravel.hotel.model.RoomDTO;
 import com.oracle.ohTravel.hotel.service.HotelService;
 import com.oracle.ohTravel.member.model.MemberDTO;
@@ -70,6 +71,7 @@ public class HotelController {
 		}
 
 		String mem_id = memberDTO.getMem_id();
+		roomDTO.setMem_id(mem_id);
 		
 		model.addAttribute("startDate", roomDTO.getStartDate());
 		model.addAttribute("endDate", roomDTO.getEndDate());
@@ -78,10 +80,17 @@ public class HotelController {
 		model.addAttribute("numberOfAdult", roomDTO.getNumberOfAdult());
 		model.addAttribute("room_id", roomDTO.getRoom_id());
 		model.addAttribute("roomDetail", hs.getRoomDetail(roomDTO));
-		model.addAttribute("membership", hs.getMembershipInfo(mem_id));
+		model.addAttribute("membership", hs.getMembershipInfo(roomDTO));
 		
 		return "hotel/hotelPayment";
 	}
 	
+	@GetMapping(value = "/reserveComplete")
+	public String goHotelReserveComplete (HotelReservationDTO hotelRDTO, Model model) {
+		
+	
+	return "hotel/hotelReserveComplete";
+	
+	}
 	
 }

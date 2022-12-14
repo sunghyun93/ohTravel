@@ -16,14 +16,14 @@ public interface HotelDAO {
 
 	RoomDTO getRoomDetail(RoomDTO roomDTO);
 
-	String reserveHotel(HotelReservationDTO hotelRDTO);
-
-	String getMembershipInfo(String mem_id);
+	RoomDTO getMembershipInfo(RoomDTO roomDTO);
 
 	void updateReserveStat(HotelReservationDTO hotelRDTO);
 
 	void insertReserveInfo(HotelReservationDTO hotelRDTO);
 
 	void insertPayment(HotelReservationDTO hotelRDTO);
+
+	void updatemile(HotelReservationDTO hotelRDTO);
 
 }

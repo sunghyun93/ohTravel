@@ -43,13 +43,17 @@ public class HotelServiceImpl implements HotelService {
 		try {
 			
 			for(int i = 0; i < hotelRDTO.getCalDate(); i++) {
-				 hotelRDTO.setIntervalDay(i);
+				 // ${startDate}에서 ${endDate}까지 하루씩 증가하기 위함
+				hotelRDTO.setIntervalDay(i);
+				// 예약하면서 해당 방의 예약 상태를 N으로 만듦
 				 hd.updateReserveStat(hotelRDTO); 
-				 //insert hotel_reservation 
+				//insert hotel_reservation
 				 hd.insertReserveInfo(hotelRDTO);
-				 //inset payment 
+				//insert payment 
 				 hd.insertPayment(hotelRDTO);
 			 }
+			
+			hd.updatemile(hotelRDTO);
 			
 			
 		} catch (Exception e) {
@@ -61,8 +65,8 @@ public class HotelServiceImpl implements HotelService {
 	}
 
 	@Override
-	public String getMembershipInfo(String mem_id) {
-		return hd.getMembershipInfo(mem_id);
+	public RoomDTO getMembershipInfo(RoomDTO roomDTO) {
+		return hd.getMembershipInfo(roomDTO);
 	}
 
 }
