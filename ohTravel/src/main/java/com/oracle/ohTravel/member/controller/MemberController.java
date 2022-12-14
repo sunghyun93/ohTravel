@@ -25,7 +25,7 @@ import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.airport.model.Air_ScheduleDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.BasketDTO;
-import com.oracle.ohTravel.member.model.CouponDTO;
+import com.oracle.ohTravel.member.model.MemCouponDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -533,7 +533,7 @@ public class MemberController {
 	
 	// 쿠폰함
 	@RequestMapping(value = "/myPageCouponPackage")
-	public String myPageCoupon(CouponDTO couponDTO, Model model, String currentPage, HttpServletRequest request) {
+	public String myPageCoupon(MemCouponDTO couponDTO, Model model, String currentPage, HttpServletRequest request) {
 		log.info("MemberController myPageCoupon start..");
 		HttpSession session = request.getSession();
 		
@@ -547,7 +547,7 @@ public class MemberController {
 		
 		couponDTO.setMem_id(sessionId);
 		
-		List<CouponDTO> memCouponList = memberService.myPageCoupon(couponDTO);
+		List<MemCouponDTO> memCouponList = memberService.myPageCoupon(couponDTO);
 		int memCouponListSize = memCouponList.size();
 		model.addAttribute("memCouponList", memCouponList);
 		model.addAttribute("memCouponListSize", memCouponListSize);

@@ -7,10 +7,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.BasketDTO;
-import com.oracle.ohTravel.member.model.CouponDTO;
+import com.oracle.ohTravel.member.model.MemCouponDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -316,9 +317,9 @@ public class MemberDaoImpl implements MemberDao {
 
 	// 쿠폰 내역
 	@Override
-	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO) {
+	public List<MemCouponDTO> myPageCoupon(MemCouponDTO couponDTO) {
 		log.info("MemberDaoImpl myPageCoupon start..");
-		List<CouponDTO> memCouponList = sqlSession.selectList("selectMemberWithCoupon", couponDTO);
+		List<MemCouponDTO> memCouponList = sqlSession.selectList("selectMemberWithCoupon", couponDTO);
 		System.out.println("MemberDaoImpl myPageCoupon memCouponList.size() -> " + memCouponList.size());
 		return memCouponList;
 	}

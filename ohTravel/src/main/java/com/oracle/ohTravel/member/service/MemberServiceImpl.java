@@ -6,7 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.oracle.ohTravel.member.model.CouponDTO;
+import com.oracle.ohTravel.member.model.MemCouponDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.dao.MemberDao;
 import com.oracle.ohTravel.member.domain.Member;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
@@ -250,9 +251,9 @@ public class MemberServiceImpl implements MemberService{
 
 	// 쿠폰 내역
 	@Override
-	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO) {
+	public List<MemCouponDTO> myPageCoupon(MemCouponDTO couponDTO) {
 		log.info("MemberServiceImpl myPageCoupon start..");
-		List<CouponDTO> memCouponList = memberDao.myPageCoupon(couponDTO);
+		List<MemCouponDTO> memCouponList = memberDao.myPageCoupon(couponDTO);
 		return memCouponList;
 	}
 
