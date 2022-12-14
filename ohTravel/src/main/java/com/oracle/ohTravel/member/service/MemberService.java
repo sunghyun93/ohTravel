@@ -65,7 +65,7 @@ public interface MemberService {
 
 
 	//항공예약내역
-	public List<AirReservationDetail> myPageReservAir(Map<String, Object> map);
+	public List<AirReservationDetail> myPageReservAir(String mem_id);
 
 	// 티켓 리뷰 목록
 	public List<ReviewDTO> myPageReviewTicket(ReviewDTO reviewDTO);

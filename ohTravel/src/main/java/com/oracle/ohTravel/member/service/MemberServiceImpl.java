@@ -56,8 +56,8 @@ public class MemberServiceImpl implements MemberService{
 
 	// 항공 예약 내역 조회
 	@Override
-	public List<AirReservationDetail> myPageReservAir(Map<String, Object> map) {
-		List<AirReservationDetail> airReserveList = memberDao.myPageReserveAirLine(map);
+	public List<AirReservationDetail> myPageReservAir(String mem_id) {
+		List<AirReservationDetail> airReserveList = memberDao.myPageReserveAirLine(mem_id);
 		return airReserveList;
 	}
 	

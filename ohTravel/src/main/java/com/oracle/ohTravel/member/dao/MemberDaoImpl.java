@@ -64,9 +64,9 @@ public class MemberDaoImpl implements MemberDao {
 
 	//항공 예약 내역
 	@Override
-	public List<AirReservationDetail> myPageReserveAirLine(Map<String, Object> map) {
+	public List<AirReservationDetail> myPageReserveAirLine(String mem_id) {
 		
-		List<AirReservationDetail> airReservList = sqlSession.selectList("airReservList",map);
+		List<AirReservationDetail> airReservList = sqlSession.selectList("airReservList",mem_id);
 		System.out.println("MemberDaoImpl myPageReserveAirLine airReservList.size() -> "+ airReservList.size());
 		return airReservList;
 	}
