@@ -272,26 +272,29 @@
                     </div> <!-- prod_list_wrap -->      
 
                     <!-- 페이지 네비게이션 부분 -->
-                    <!-- <div class="paginate_wrap">
+                    <div class="paginate_wrap">
                         <div class="paginate">
                             <div>
-                                <a href="#none" class="direction prev">이전</a>
+                            	<c:if test="${ph.showPrev }">
+                                	<a href="/pkage/searchResult${pkgSearch.getQueryString(ph.beginPage-1, 10) }" class="direction prev">이전</a>
+                                </c:if>
                                 <span>
-                                    <strong>11</strong>
-                                    <a href="#none">12</a>
-                                    <a href="#none">13</a>
-                                    <a href="#none">14</a>
-                                    <a href="#none">15</a>
-                                    <a href="#none">16</a>
-                                    <a href="#none">17</a>
-                                    <a href="#none">18</a>
-                                    <a href="#none">19</a>
-                                    <a href="#none">20</a>
+                                    <c:forEach var="i" begin="${ph.beginPage }" end="${ph.endPage }">
+                                    	<c:if test="${i == pkgSearch.page }">
+                                    		<a href="/pkage/searchResult${pkgSearch.getQueryString(i, 10) }"><strong>${i }</strong></a>
+                                    	</c:if>
+                                    	<c:if test="${i != pkgSearch.page }">
+                                    		<a href="/pkage/searchResult${pkgSearch.getQueryString(i, 10) }">${i }</a>
+                                    	</c:if>
+                                    	
+                                    </c:forEach>
                                 </span>
-                                <a href="#none" class="direction next">다음</a>
+                                <c:if test="${ph.showNext }">
+                                	<a href="/pkage/searchResult${pkgSearch.getQueryString(ph.endPage+1, 10) }" class="direction next">다음</a>
+                                </c:if>
                             </div>
                         </div>
-                    </div> paginate_wrap -->
+                    </div><!-- paginate_wrap -->
 				</c:if>
 				
 				<c:if test="${pkgCnt == 0 }">

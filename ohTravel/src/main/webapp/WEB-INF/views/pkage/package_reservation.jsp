@@ -664,8 +664,8 @@
             $('#cp_list').on('change', function() {
             	console.log($(this).val());
             	/* 쿠폰 할인 가격 표시 쪽에 쿠폰에 따른 할인 가격 넣어주기 */
-            	$('.cp_discount').text('');
-            	let selectCpPrice = Number($(this).val())
+            	$('.cp_discount').text(''); <%-- 이미 있는 가격 초기화 - 쿠폰을 선택할 때마다 해당 쿠폰의 discount 가격을 넣어줘야함. --%>
+            	let selectCpPrice = Number($(this).val()) <%-- 선택한 쿠폰 가격 --%>
             	$('.cp_discount').text(selectCpPrice.toLocaleString('ko-KR'));
             	
             	$('.price').text('');
