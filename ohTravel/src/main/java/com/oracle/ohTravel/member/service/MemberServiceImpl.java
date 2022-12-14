@@ -256,6 +256,29 @@ public class MemberServiceImpl implements MemberService{
 		return memCouponList;
 	}
 
+	// 패키지 찜 삭제
+	@Override
+	public int deleteLikePackage(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl deleteLikePackage start..");
+		int result = memberDao.deleteLikePackage(basketDTO);
+		return result;
+	}
+
+	// 호텔 찜 삭제
+	@Override
+	public int deleteLikeHotel(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl deleteLikeHotel start..");
+		int result = memberDao.deleteLikeHotel(basketDTO);
+		return result;
+	}
+
+	@Override
+	public int deleteLikeTicket(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl deleteLikeTicket start..");
+		int result = memberDao.deleteLikeTicket(basketDTO);
+		return result;
+	}
+
 
 
 

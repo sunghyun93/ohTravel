@@ -323,6 +323,30 @@ public class MemberDaoImpl implements MemberDao {
 		return memCouponList;
 	}
 
+	// 패키지 찜 삭제
+	@Override
+	public int deleteLikePackage(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl deleteLikePackage start..");
+		int result = sqlSession.delete("deleteLike", basketDTO);
+		return result;
+	}
+
+	// 호텔 찜 삭제
+	@Override
+	public int deleteLikeHotel(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl deleteLikeHotel start..");
+		int result = sqlSession.delete("deleteLike", basketDTO);
+		return result;
+	}
+
+	// 티켓 찜 삭제
+	@Override
+	public int deleteLikeTicket(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl deleteLikeTicket start..");
+		int result = sqlSession.delete("deleteLike", basketDTO);
+		return result;
+	}
+
 
 	
 }

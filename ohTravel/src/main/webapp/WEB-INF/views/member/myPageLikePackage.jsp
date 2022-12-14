@@ -79,12 +79,12 @@
 					                    <tr>
 					   						<td>${packageLikeList.basket_ref_id}</td>
 					                    	<td>${packageLikeList.pkage_name}</td>
-					                    	<td><a href="">삭제</a></td>
+					                    	<td><a href="${pageContext.request.contextPath}/member/deleteLikePackage?basket_ref_id=${packageLikeList.basket_ref_id}">삭제</a></td>
 					                    </tr>
 					                    </c:forEach>
 					                    <c:if test="${packageLikeListSize == 0 }">
 					                    	<tr>
-						                        <td colspan="2">
+						                        <td colspan="3">
 						                            <div class="data_no">
 						                                <div class="cont"><strong>찜 내역이 없습니다.</strong></div>
 						                            </div>
