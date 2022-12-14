@@ -18,6 +18,6 @@ public interface HotelService {
 
 	String reserveHotel(HotelReservationDTO hotelRDTO);
 
-	String getMembershipInfo(String mem_id);
+	RoomDTO getMembershipInfo(RoomDTO roomDTO);
 
 }

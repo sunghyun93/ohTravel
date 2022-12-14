@@ -122,10 +122,7 @@
 								<span class="right_cont">
 									<span class="form_holder check">
 										모든 약관에 동의합니다.
-										<div class="primary-radio">
-											<input type="checkbox" id="confirm-radio" class="confirm-radio">
-											<label for="confirm-radio" class="label_checkbox"></label>
-										</div>
+										<input type="radio" id="allChkRadio" class="allChkRadio">
 									</span>
 								</span>
 							</div>
@@ -180,26 +177,6 @@
 								</table>
 							
 							</div>
-							
-					<!-- 		<div class="js_acc clearfix line">
-								<div class="inr">
-									<div class="holder active">
-										<span class="option">
-											"예약 취소 및 환불정책 안내"
-											<span class="opt">(필수)</span>
-										</span>
-										<div class="right-cont">
-											<span class="form_holder radio">
-												<input type="radio" name="checkHTL" id="checkHTL01" value="Y" class="inpt_checkbox">
-												<label for="checkHTL01" class="label_checkbox">
-													동의합니다
-												</label>
- 												
-											</span>
-										</div>	
-									</div>
-								</div>
-							</div> -->
 						
 						</div>
 						
@@ -213,24 +190,26 @@
 					            <div class="info_area total">
 					                <div class="info"><strong class="tit">최종 결제 금액</strong> <span>성인 ${numberOfAdult }</span> <span class="divider_dot">아동 ${numberOfChild }</span></div>
 					                <div class="mileage_save">
-					                    <p class="txt">
-					                        (JPY 12,376)
-					                    </p>
 					                </div>	<!-- mileage_save -->
 					                <fmt:formatNumber type="number" maxFractionDigits="3" value="${roomDetail.room_price}" var="commaPrice"/>
 					                <strong class="price">${commaPrice }<span>원</span></strong>
 					                <div class="mileage_save">
 					                    <p class="txt">
-					                        	현재 ${sessionName } 님의 회원등급 : 
+					                        	현재 ${sessionName } 님의 회원등급 : ${membership.membership_name }
+					                    </p>
+					                     <p class="txt">
+					                        	현재 ${sessionName } 님의 누적 마일리지: ${membership.mem_mile }
 					                    </p>
 					                    <p>
 					                        	Oh! Travel 마일리지
-					                        <em>121<span class="icn mileage em"></span></em>적립
+					                         <fmt:parseNumber type="number" var="mile" value="${roomDetail.room_price * membership.membership_discount * 0.01}" integerOnly="true"/>
+					                        <em> ${mile } <span class="icn mileage em"></span></em>적립
 					                    </p>
 					                </div>	<!-- mileage_save -->
 					            </div>	<!	-- info_area total -->
 					            <div class="info_area">
-					                <div class="info"><strong class="tit">총 상품 금액</strong> <span>${commaPrice }원</span></div>
+					            	<fmt:formatNumber type="number" maxFractionDigits="3" value="${roomDetail.room_price - mile}" var="realDiscountPrice"/>
+					                <div class="info"><strong class="tit">총 상품 금액</strong> <span>${realDiscountPrice }원</span></div>
 					            </div>	<!-- info_area -->
 					        </div>	<!-- pay_area -->
 					          <div class="paybtn">
@@ -244,9 +223,8 @@
 	</div>	<!-- container -->
 </body>
 
+<script src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript">
-
-
 function isLogined () {
 	// 로그인 체크 -> 그대로 진행
 	// 로그인이 안 되어 있으면 -> return false;
@@ -285,22 +263,21 @@ function agreeValid() {
 		return false;
 	}
 	
+	return true;
+	
 }
-
-
 
 
 function requestPay() {
 	
-	/* if(!isLogined()){
+	if(!isLogined()){
 		return false;
 	}
 	
 	if(!agreeValid()) {
    		return false;
-   	} */
+   	}  
 	
-	//let buyer = '${sessionName}'
 	
 	let sendData = {
 		calDate : ${calDate }
@@ -308,25 +285,69 @@ function requestPay() {
 		, endDate : '${endDate }'
 		, room_id : ${room_id}
 		, mem_id : '${sessionId }'
-		, rev_tot_price : ${roomDetail.room_price }
+		, rev_tot_price : ${roomDetail.room_price - mile}
 		, numberOfPeople : ${numberOfAdult } + ${numberOfChild}
-	};
+		, mile : ${mile }
+	}
 	
 	console.log(sendData)
-	
-	$.ajax({
-		
-		url: "${pageContext.request.contextPath}/hotel/reserve",
-		data: sendData,
-		dataType: 'json',
-		type: 'post',
-		success: function (result) {
-			console.log(result)
-		}
-		
-		
-	});
     
+	//var IMP = window.IMP; // 생략가능
+	IMP.init('imp71553354');
+	// 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+	// i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
+	IMP.request_pay({
+	    //pg: 'inicis', // version 1.1.0부터 지원.
+	    pg: 'html5_inicis',
+	   
+	    pay_method: 'card',
+	  
+	    merchant_uid: 'merchant_' + new Date().getTime(),
+	
+	    name: '${roomDetail.room_name}',
+	    //결제창에서 보여질 이름
+	    amount: 100,
+	    //가격
+	    buyer_email: '${sessionMail}',
+	    buyer_name: '${sessionName}', //구매자 이름
+	    buyer_tel: '${sessionTel}',
+	    buyer_addr: '',
+	    buyer_postcode: '',
+	   
+	}, function (rsp) {
+	    console.log(rsp);
+	     if (rsp.success) {
+	       $.ajax({
+	          url: "${pageContext.request.contextPath}/hotel/reserve", //가맹점 서버
+	            method: "POST",
+	            /*headers: { "Content-Type": "application/text" },*/
+	            data: sendData,
+	            dataType: 'text',
+	            success: function(data){
+	               //var msg1 = '결제가 완료되었습니다.';
+	                //msg1 += '고유ID : ' + rsp.imp_uid;
+	                //msg1 += '상점 거래ID : ' + rsp.merchant_uid;
+	                //msg1 += '결제 금액 : ' + rsp.paid_amount;
+	                //msg1 += '구매자 이름 :' + rsp.buyer_name;
+	                //msg += '카드 승인번호 : ' + rsp.apply_num;
+	                //msg1 += '구매자'+ rsp.buyer_name + '님의';
+	                alert('구매자 '+ rsp.buyer_name + '님의 예약이 완료되었습니다.');
+	                location.href="${pageContext.request.contextPath}/hotel/reserveComplete";
+	              },
+	              error: function(err){
+	            	 console.error(err)
+	                 var msg2 = '결제에 실패하였습니다.';
+	                 alert(msg2);
+	              }
+	              
+	          });
+	     } else if(rsp.fail) {
+	        alert('결제에 실패하였습니다.');
+	        
+	     }
+	})
+	
+	
 };
 
 
