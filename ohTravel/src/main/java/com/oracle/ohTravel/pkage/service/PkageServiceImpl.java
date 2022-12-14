@@ -67,6 +67,15 @@ public class PkageServiceImpl implements PkageService {
 		return list;
 	}
 	
+//	패키지 검색시 pkg 개수 select
+	@Override
+	public int selectPkgWithDetailAndFlightCnt(Map<String, Object> map) throws Exception {
+		log.info("PkageServiceImpl selectPkgWithDetailAndFlightCnt start...");
+		int rowCnt = pkageDao.selectPkgWithDetailAndFlightCnt(map);
+		log.info("PkageServiceImpl selectPkgWithDetailAndFlightCnt end...");
+		return rowCnt;
+	}
+	
 //	pkage_id 에 맞는 패키지 select(도시와 이미지까지), review 개수 select, package_detail select
 	@Override
 	public PkageDTORM selectPkgDetailWithSchedule(Map<String, Object> map) throws Exception {

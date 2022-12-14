@@ -1,7 +1,6 @@
 package com.oracle.ohTravel.pkage.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,6 +30,7 @@ import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.service.MemberService;
 import com.oracle.ohTravel.pkage.model.MaxPriceHighOrderComp;
 import com.oracle.ohTravel.pkage.model.MinPriceHighOrderComp;
+import com.oracle.ohTravel.pkage.model.PageHandler;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
@@ -144,9 +144,14 @@ public class PkageController {
 			map.put("pkgSearch", pkgSearch);	// 가격, 여행기간, 출발시간을 위해 전달
 			
 			List<PkageDTORM> pkageDTORmlist = pkageService.selectPkgWithDetailAndFlight(map);
-			// 관련 pkg 개수
-			int pkgCnt = pkageDTORmlist.size();
 			// 리뷰 개수는 service 단에서 가져옴
+			
+			// 관련 pkg 개수
+			int pkgCnt = pkageService.selectPkgWithDetailAndFlightCnt(map);
+			log.info("pkgCnt = " + pkgCnt);
+			
+			// 페이징 (PkgSearch, totalCnt, naviSize)
+			PageHandler ph = new PageHandler(pkgSearch, pkgCnt, 10);
 			
 			// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수 구하기
 			getMakingDetailByList(pkageDTORmlist);
@@ -160,11 +165,14 @@ public class PkageController {
 				Collections.sort(pkageDTORmlist, new MaxPriceHighOrderComp());
 			}
 			
+			log.info("pkageDTORmlist = " + pkageDTORmlist);
+			
 			model.addAttribute("toURL", toURL);
 			model.addAttribute("pkgCnt", pkgCnt);
 			model.addAttribute("orderli", pkgSearch.getOrder());
 			model.addAttribute("pkgSearch", pkgSearch);
 			model.addAttribute("pkageDTORmlist", pkageDTORmlist);
+			model.addAttribute("ph", ph);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -372,6 +380,10 @@ public class PkageController {
 				// 패키지 종합 일 수에 넣어주기 (최소/최대 일 수 구하기 위함)
 				if(i == 0 || i == size-1) {
 					pkageDTORM.getDaysList().add(day);
+					// 똑같은 일 수인 패키지 상품이 있다면 1개만 넣기 - ex)view 단에서 2일 ~ 2일이라고 표시하지 않기 위함
+					if(pkageDTORM.getDaysList().size() == 2 && pkageDTORM.getDaysList().get(0) == pkageDTORM.getDaysList().get(1)) {
+						pkageDTORM.getDaysList().remove(1);
+					}
 				}
 				i++;
 			}
