@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 	function getCountry_id(){
 		var country_id = $('.country_id').val();
@@ -54,7 +55,14 @@
 		document.querySelector("div#image_detail_container").appendChild(img);
 		};
 	reader.readAsDataURL(event.target.files[0]);
-	}
+	};
+	
+	
+	$(document).ready(function(){
+		let room_date = $('#ticket_due_date');
+		room_date.attr("min",new Date().toISOString().substring(0, 10));
+		room_date.val(new Date().toISOString().substring(0, 10));
+	})
 </script>
 </head>
 <body>
@@ -82,6 +90,10 @@
 		<div class="mb-3">
 			<label for="ticket_location" class="form-label">입장권 위치</label>
 			<input type="text" class="form-control" id="ticket_location" name="ticket_location" required="required" placeholder="입장권 위치를 입력하세요">
+		</div>
+		<div class="mb-3">
+			<label for="ticket_due_date" class="form-label">입장권 유효기간</label>
+			<input type="date" class="form-control" id="ticket_due_date" name="ticket_due_date" required="required">
 		</div>
 		<div class="mb-3">
 			<label for="ticket_adult_price" class="form-label">어른가격</label>

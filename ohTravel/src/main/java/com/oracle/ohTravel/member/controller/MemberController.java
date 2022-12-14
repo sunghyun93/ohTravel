@@ -25,6 +25,8 @@ import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.airport.model.Air_ScheduleDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
+import com.oracle.ohTravel.member.model.BasketDTO;
+import com.oracle.ohTravel.member.model.CouponDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
 import com.oracle.ohTravel.member.model.PagingManager;

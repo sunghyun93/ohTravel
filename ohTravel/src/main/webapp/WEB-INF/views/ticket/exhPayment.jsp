@@ -6,45 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/member/myPage.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/myPage.css">
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
-</head>
-<script>
 
-	window.onload = function () {
-		const checkAll = document.getElementById('chkAll');
-		const chks = document.querySelectorAll('.chk');  
-		const chkBoxLength = chks.length;
-		 
-		checkAll.addEventListener('click', function(event) {
-		    if(event.target.checked)  {
-		        chks.forEach(function(value){
-		        value.checked = true;
-		    })
-		    }else {
-		       chks.forEach(function(value){
-		       value.checked = false;
-		    })
-		 }
-		  });
-		for (chk of chks){
-		    chk.addEventListener('click', function() {
-		        let count = 0;
-		        chks.forEach(function(value){
-		            if(value.checked == true){
-		                count++;
-		            }
-		        })
-		        if(count !== chkBoxLength){
-		            checkAll.checked = false;
-		        }else{
-		            checkAll.checked = true;
-		        }
-		      })
-		}
-	}
-</script>
+<!-- jQuery --> 
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> 
+<!-- iamport.payment.js --> 
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<script src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+</head>
 <style>
 /* required (빨간색) */
 .table-row .required:after {
@@ -426,6 +396,7 @@ col {
 	display: table-column;
 }
 </style>
+
 <body>
 	<div id="container">
 		<div class="inr" style="min-height: 250vh;">
@@ -455,7 +426,7 @@ col {
 									</tr>
 									<tr>
 										<th>휴대전화 번호</th>
-										<td><input type="tel" placeholder="${sessionTel}" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" readonly></td>
+										<td><input type="tel" placeholder="${sessionTel}" readonly></td>
 									</tr>
 								</tbody>
 							</table>
@@ -468,8 +439,7 @@ col {
 						</div>
 						<!-- text_wrap -->
 
-						<div class="product-detail"
-							style="height: 212px; background: #F7F7F7;">
+						<div class="product-detail" style="height: 212px; background: #F7F7F7;">
 							<div class="product-info" style="margin-bottom: 25px;">
 								<p class="product-title" style="font-weight: 700; font-size: 16px;"></p>
 							</div>
@@ -498,10 +468,9 @@ col {
 							<div class="sale-content">
 								<div class="inner" style="position: relative; padding: 20px 0;">
 									<div class="coupon-list">
-										<button type="button"
-											class="el-button btn-select-coupon el-button--primary el-button--small">
+										<!-- <button type="button" class="el-button btn-select-coupon el-button--primary el-button--small">
 											<span>할인 쿠폰 선택</span>
-										</button>
+										</button> -->
 										<div class="list" style="width: 50%;">
 											<!-- 쿠폰 목록 -->
 											<!-- 쿠폰이 있으면 목록 보여주고 -->
@@ -612,9 +581,9 @@ col {
 									<!-- 오른쪽 : 개인정보 제 3자 제공 -->
 									<div class="box" style="display: inline-block; translate: 0 -310px; height: 532px;">
 										<div class="item">
-											<label role="checkbox" class="el-checkbox"> <span
-												aria-checked="mixed" class="el-checkbox__input"> <input
-													type="checkbox" name="chk" class="el-checkbox__original">
+											<label role="checkbox" class="el-checkbox">
+											<span aria-checked="mixed" class="el-checkbox__input">
+												<input type="checkbox" name="chk" class="el-checkbox__original">
 											</span> <span class="el-checkbox__label"> <span>개인정보 제 3자 제공 <span class="require">(필수)</span>
 												</span>
 											</span>
@@ -624,7 +593,7 @@ col {
 										<div class="detail-wrap" style="padding: 20px 20px 20px 20px;" style="height: 446.78px;">
 											<div class="detail">
 												<p style="margin-bottom: 15px; padding: 0 10px 10px 15px;">고객님께서는
-													아래 내용에 대하여 동의를 거부하실 수 있으며, 거부 시 상품 배송(예약), 고객상담이 제한됩니다</p>
+													아래 내용에 대하여 동의를 거부하실 수 있으며, 거부 시 상품 배송(예약), 고객상담이 제한됩니다.</p>
 												<table class="table-row repeat">
 													<colgroup style="display: table-column-group;">
 														<col>
@@ -633,7 +602,7 @@ col {
 													<tbody>
 														<tr>
 															<th style="width: 120px;">제공 받는자</th>
-															<td>제주모바일</td>
+															<td>ohTravel</td>
 														</tr>
 														<tr>
 															<th>목적</th>
@@ -659,8 +628,7 @@ col {
 						<!-- text_wrap -->
 
 						<div class="btn_wrap">
-							<!---->
-							<span class="btn big pink" style="height: 56px; line-height: 54px; translate: 0 -300px;">결제하기</span>
+							<button id="iamportPayment" type="button" class="btn big pink btn-rsv" style="height: 56px; line-height: 54px; translate: 0 -300px;" onclick="realReserveFunc();">결제하기 </button>
 						</div>
 					</div>
 					<!-- inr -->
@@ -679,7 +647,7 @@ col {
 										<span class="divider_dot">아동 ${childCnt }</span>
 									</div>
 									<div class="mileage_save"></div>
-									<!-- mileage_save -->
+									<!-- mileage_ave -->
 									<strong class="price">${totalPay }<span>원</span></strong>
 									<div class="mileage_save">
 										<p>
@@ -691,7 +659,7 @@ col {
 								<!-- info_area total -->
 								<div class="info_area">
 									<div class="info">
-										<strong class="tit">총 상품 금액</strong> <span>${totalPay }원</span>
+										<strong class="tit">총 상품 금액</strong> <span>${totalPay}원</span>
 									</div>
 								</div>
 								<!-- info_area -->
@@ -709,6 +677,125 @@ col {
 		<!-- inr -->
 	</div>
 	<!-- container -->
+<!-- </form> -->
+
+	
+	<!-- 찐예약 -->
+ 	<form action="/ticket/realReserve" name="realReserveForm" method="post" onclick="return realReserveFunc()">
+		<input type="hidden" name="ticket_id"   value="">
+		<input type="hidden" name="mem_id"      value="">	
+		<input type="hidden" name="ticket_name" value="">
+		
+		<input type="hidden" name="ticket_admission_date" 	  value="">
+		
+		<input type="hidden" name="ticket_adult_per" 		  value="">
+		<input type="hidden" name="titicket_idcket_child_per" value="">
+		<input type="hidden" name="ticket_total_price"    	  value="">
+	</form>
+	
+	
+	<script>
+		// 사용일 받아오기 위한 자바스크립트 날짜 포맷 함수 (yyyy-mm-dd)
+		function dateFormat(date) {
+			let dateFormat2 = date.getFullYear() +
+				'-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+				'-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
+			return dateFormat2;
+		}
+		
+		var ticket_admission_date =  dateFormat(new Date('${adDate}'));		// 사용일 (=입장일)
+		console.log(ticket_admission_date);
+
+		
+		// 1) 예약 DB에 저장
+		// 2) 결제
+		
+		function realReserveFunc(){
+			
+			//가져가야 할 값 : 티켓코드, 회원 ID, 사용일, 성인 인원, 아동 인원, 총 금액
+			let ticket_id			  = '${ticket_id}';
+			let mem_id				  = '${sessionId}';
+			let ticket_name 		  = '${ticket_name}';
+			
+			let ticket_adult_per 	  	  = ${adultCnt};	// 성인 인원 수
+			let titicket_idcket_child_per = ${childCnt};	// 아동 인원 수
+			let ticket_total_price 	  	  = ${totalPay};
+
+			$('input[name=ticket_id]').attr('value', ticket_id);
+			$('input[name=mem_id]').attr('value', mem_id);
+			$('input[name=ticket_name]').attr('value', ticket_name);
+			$('input[name=ticket_admission_date]').attr('value', ticket_admission_date);
+			$('input[name=ticket_adult_per]').attr('value', ticket_adult_per);
+			$('input[name=titicket_idcket_child_per]').attr('value', titicket_idcket_child_per);
+			$('input[name=ticket_total_price]').attr('value', ticket_total_price);
+			
+			realReserveForm.submit();
+		};
+		
+		
+		/* 모두 동의 코드인데... 안 됨.... *^^*/
+		function allAgree() {
+			const checkAll = document.getElementById('chkAll');
+			const chks = document.querySelectorAll('.chk');  
+			const chkBoxLength = chks.length;
+			 
+			checkAll.addEventListener('click', function(event) {
+			    if(event.target.checked)  {
+			        chks.forEach(function(value){
+			        value.checked = true;
+			    })
+			    }else {
+			       chks.forEach(function(value){
+			       value.checked = false;
+			    })
+			 }
+			  });
+			for (chk of chks){
+			    chk.addEventListener('click', function() {
+			        let count = 0;
+			        chks.forEach(function(value){
+			            if(value.checked == true){
+			                count++;
+			            }
+			        })
+			        if(count !== chkBoxLength){
+			            checkAll.checked = false;
+			        }else{
+			            checkAll.checked = true;
+			        }
+			      })
+			}
+		}
+		
+		/* 결제 API */
+		//문서가 준비되면 제일 먼저 실행
+		$(document).ready(function(){ 
+			$("#iamportPayment").click(function(){ 
+		    	payment(); //버튼 클릭하면 호출 
+		    }); 
+		})
+		
+		// 버튼 클릭 시 실행
+		function payment(data) {
+		    IMP.init('imp38780064');//아임포트 관리자 콘솔에서 확인한 '가맹점 식별코드' 입력
+		    IMP.request_pay({// param
+		        pg: "kakaopay.TC0ONETIME", //pg사명 or pg사명.CID (잘못 입력할 경우, 기본 PG사가 띄워짐)
+		        pay_method: "card", //지불 방법
+		        merchant_uid: "iamport_test_id", //가맹점 주문번호 (아임포트를 사용하는 가맹점에서 중복되지 않은 임의의 문자열을 입력)
+		        name: '${ticket_name}', //결제창에 노출될 상품명
+		        amount: ${totalPay}, //금액
+		        buyer_email : "testiamport@naver.com", 
+		        buyer_name : "홍길동",
+		        buyer_tel : "01012341234"
+		    }, function (rsp) { // callback
+		        if (rsp.success) {
+		            alert("완료 -> imp_uid : "+rsp.imp_uid+" / merchant_uid(orderKey) : " +rsp.merchant_uid);
+		        } else {
+		            alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg + ")");
+		        }
+		    });
+		}
+	</script>
 
 </body>
 </html>

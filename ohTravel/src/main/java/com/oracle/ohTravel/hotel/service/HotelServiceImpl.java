@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.oracle.ohTravel.hotel.dao.HotelDAO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
+import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
 import com.oracle.ohTravel.hotel.model.RoomDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,34 @@ public class HotelServiceImpl implements HotelService {
 	@Override
 	public RoomDTO getRoomDetail(RoomDTO roomDTO) {
 		return hd.getRoomDetail(roomDTO);
+	}
+
+	@Override
+	public String reserveHotel(HotelReservationDTO hotelRDTO) {
+		
+		try {
+			
+			for(int i = 0; i < hotelRDTO.getCalDate(); i++) {
+				 hotelRDTO.setIntervalDay(i);
+				 hd.updateReserveStat(hotelRDTO); 
+				 //insert hotel_reservation 
+				 hd.insertReserveInfo(hotelRDTO);
+				 //inset payment 
+				 hd.insertPayment(hotelRDTO);
+			 }
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "FAILED";
+		}
+		 
+		return "SUCCESS";
+	}
+
+	@Override
+	public String getMembershipInfo(String mem_id) {
+		return hd.getMembershipInfo(mem_id);
 	}
 
 }

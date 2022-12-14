@@ -44,4 +44,7 @@ public interface ManageHotelDAO {
 
 	int insertRoom_dt_id();
 
+	int insertRoomDetail(ManageHotelDTO hotel);
+
+
 }

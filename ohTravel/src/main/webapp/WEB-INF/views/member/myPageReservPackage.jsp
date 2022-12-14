@@ -77,7 +77,6 @@
 					                        <th>사용가능일</th>
 					                    </tr>
 					                </thead>
-					                
 					                <tbody>
 					                    <c:forEach var="packageReservList" items="${packageReservList}">
 					                    <tr>
