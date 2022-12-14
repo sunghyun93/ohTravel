@@ -29,13 +29,13 @@
 		var message ="";
 		if(str =='update'){
 			console.log(str);
-			form.action="updateAttraction";
+			form.action="updatePackage";
 			form.submit();
 		}else if(str=='delete'){
 			console.log(str);
 			message = confirm("정말로 삭제하시겠습니까?");
 			if (message) {
-				form.action="deleteAttraction";
+				form.action="deletePackage";
 				form.submit();
 			} else {
 				alert("삭제되지 않았습니다");
@@ -73,7 +73,7 @@
 <body>
 	<div class="container" style="min-height: 700px;">
 		<div class="wrapper big">
-			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">관광지 상세</h1>
+			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">패키지 상세</h1>
 			<form method="post" id="form" enctype="multipart/form-data">
 				<div class="row">
 				<div class="col-lg-12 col-sm-12 text-lg-end text-center">
@@ -139,10 +139,10 @@
 						</tr>
 					</table>
 					<div style="flex: 2">
-						<input type="button" onclick="moveForm('update')" class="genric-btn info elb" value="관광지수정">
+						<input type="button" onclick="moveForm('update')" class="genric-btn info elb" value="패키지 상세 수정">
 					</div>
 					<div>
-						<input type="button" onclick="moveForm('delete')" class="genric-btn danger radius elb" value="관광지삭제">
+						<input type="button" onclick="moveForm('delete')" class="genric-btn danger radius elb" value="패키지 상세 삭제">
 					</div>
 					</c:forEach>
 				</div>

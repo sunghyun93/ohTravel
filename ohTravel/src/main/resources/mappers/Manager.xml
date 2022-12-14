@@ -72,6 +72,12 @@
 	<insert id="insertNotice" parameterType="Notice">
 		INSERT INTO notice(notice_title, notice_content, notice_writer, notice_write_date) values(#{notice_title},#{notice_content},#{notice_writer},current_timestamp())
 	</insert>
+	<update id="updateNoticeCount" parameterType="Notice">
+		UPDATE notice SET notice_count=notice_count+1 WHERE notice_id = #{notice_id}
+	</update>
+	
+	
+	
 	<!-- ===================================================================================================================== -->
 	<!-- 패키지관련 -->
 	<select id="totalPackage" resultType="int">
@@ -110,8 +116,8 @@
 		UPDATE attraction a, attraction_image ai SET a.city_id=#{city_id},a.attr_name=#{attr_name},a.attr_ename=#{attr_ename},a.attr_info=#{attr_info},ai.attr_Img_path=#{attr_Img_path} WHERE a.attr_id=#{attr_id} AND ai.attr_id=#{attr_id} AND ai.attr_Img_code=#{attr_Img_code};
 	</update>
 	<delete id="deleteAttraction" parameterType="Package">
-		DELETE FROM attraction WHERE attr_id=#{attr_id};
 		DELETE FROM attraction_image WHERE attr_id=#{attr_id};
+		DELETE FROM attraction WHERE attr_id=#{attr_id};
 	</delete>
 	<insert id="insertPackage" parameterType="Package">
 		INSERT INTO package_detail(pkage_id,pkage_dt_name,pkage_dt_thema,pkage_dt_Aprice,pkage_dt_Cprice,pkage_dt_cnt,pkage_dt_Mcnt,pkage_dt_Rcnt,pkage_dt_Gname,pkage_dt_meet,pkage_dt_meetDate, pkage_dt_startDay, pkage_dt_endDay)
@@ -349,4 +355,30 @@
 	<insert id="insertCoupon" parameterType="Coupon">
 		INSERT INTO coupon(coupon_name,coupon_discount,coupon_date,coupon_quantity) values(#{coupon_name},#{coupon_discount},current_timestamp(),#{coupon_quantity})
 	</insert>
+	
+	<select id="getMemberCouponList" parameterType="String" resultType="Coupon">
+		SELECT c.*, IFNULL((SELECT 1 FROM mem_coupon WHERE mem_id=#{session_id} and coupon_id = c.coupon_id),0) as mem_coupon_null FROM coupon c;
+	</select>
+	<insert id="insertMemberCoupon" parameterType="Coupon">
+		INSERT INTO mem_coupon VALUES(#{mem_id},#{coupon_id},now(),0,DATE_ADD(NOW(), INTERVAL 30 DAY))
+	</insert>
+	
+	<!-- ===================================================================================================================== -->
+	<!-- 예약 관련 -->
+	
+	<select id="getTicketResList" resultType="TicketReservationDTO">
+		SELECT ticket_order_id,ticket_id,mem_id,ticket_name,ticket_admission_date,ticket_adult_per,ticket_child_per,ticket_total_price,date_add(ticket_puchase_date, INTERVAL 9 HOUR) as ticket_puchase_date FROM ticket_reservation order by ticket_order_id desc
+	</select>
+	<select id="getHotelResList" resultType="HotelDTO">
+		SELECT hr.h_rev_id,hr.mem_id,hr.rev_per,hr.rev_date,hr.rev_tot_price,r.room_name,h.hotel_kor,h.hotel_id FROM hotel_reservation hr left join room_detail rd on hr.room_detail_id=rd.room_detail_id left join room r on rd.room_id = r.room_id left join hotel h on r.hotel_id=h.hotel_id order by h_rev_id desc
+	</select>
+	<select id="getPackageResList" resultType="Package">
+		SELECT pr.pkage_rv_id,pr.mem_id,pr.pkage_rv_acnt,pr.pkage_rv_ccnt,pr.pkage_rv_tprice,pr.pkage_rv_date,pd.pkage_dt_name FROM package_reservation pr left join package_detail pd on pr.pkage_dt_id=pd.pkage_dt_id;
+	</select>
+	<select id="getPackageResPiList" resultType="Package">
+		SELECT * FROM package_reservation_pi WHERE pkage_rv_id=#{pkage_rv_id};
+	</select>
+	
+	
+	
 </mapper>

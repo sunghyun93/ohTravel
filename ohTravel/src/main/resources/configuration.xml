@@ -10,7 +10,7 @@
 		<!-- city -->
 		<typeAlias type="com.oracle.ohTravel.city.model.CityDTO" alias="CityDTO"/>
 	
-		<typeAlias type="com.oracle.ohTravel.manager.model.MemberDTO" alias="Member"/>
+		<typeAlias type="com.oracle.ohTravel.manager.model.ManageMemberDTO" alias="Member"/>
 		<typeAlias type="com.oracle.ohTravel.manager.model.MembershipDTO" alias="Membership"/>
 		<typeAlias type="com.oracle.ohTravel.manager.model.NoticeDTO" alias="Notice"/>
 		<typeAlias type="com.oracle.ohTravel.manager.model.CouponDTO" alias="Coupon"/>
