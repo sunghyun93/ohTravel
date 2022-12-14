@@ -17,6 +17,10 @@ public class ReviewDTO {
 	private String ht = "ht";
 	private String ti = "ti";
 	
+	private String hotel_kor;
+	private String pkage_name;
+	private String ticket_name;
+	
 	private String pageNum;  
 	private int start;
 	private int end;

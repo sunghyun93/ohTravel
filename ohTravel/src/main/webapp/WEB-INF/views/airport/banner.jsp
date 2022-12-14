@@ -184,6 +184,12 @@ jQuery(function(){
     <div class="c1_banner">
    		<img class="c1_bannerimg" id="c1_bannerimg4" src="${pageContext.request.contextPath}/airport/img/banners/main_background4.jpg" alt="">
    </div>
+   <div class="c1_banner">
+   		<img class="c1_bannerimg" id="c1_bannerimg4" src="${pageContext.request.contextPath}/airport/img/banners/japan3.jpg" alt="">
+   </div>
+   <div class="c1_banner">
+   		<img class="c1_bannerimg" id="c1_bannerimg4" src="${pageContext.request.contextPath}/airport/img/banners/last_banner.jpg" alt="">
+   </div>
 </div>
 </body>
 </html>

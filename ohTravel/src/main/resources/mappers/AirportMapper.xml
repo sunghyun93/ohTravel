@@ -27,6 +27,20 @@
 			<when test="order == 3">
 				order by a.schedule_price asc
 			</when>
+			<when test="order == 4">
+				a.schedule_price between 0 and 400000 order by a.start_time asc
+			</when>
+			<when test="order == 5">
+				a.schedule_price between 400000 and 600000 order by a.start_time asc
+			</when>
+			<when test="order == 6">
+				a.schedule_price between 600000 and 800000 order by a.start_time asc
+			</when>
+			<when test="order == 7">
+				<![CDATA[
+					a.schedule_price  800000 order by a.start_time asc
+				]]>
+			</when>
 		</choose>
 	</select>
 	
@@ -53,6 +67,27 @@
 			<when test="order == 3">
 				order by a.schedule_price asc
 			</when>
+			<when test="order == 4">
+			and	a.schedule_price between 0 and 400000 order by a.schedule_price asc
+			</when>
+			<when test="order == 5">
+			and	a.schedule_price between 400000 and 600000 order by a.schedule_price asc
+			</when>
+			<when test="order == 6">
+			and	a.schedule_price between 600000 and 800000 order by a.schedule_price asc
+			</when>
+			<when test="order == 7">
+				<![CDATA[
+				and	a.schedule_price >= 800000 order by a.start_time asc
+				]]>
+			</when>
+			<when test="order == 8">
+			and (hour(a.start_time) between '5' and '12')
+			</when>
+			<when test="order == 9">
+			and (hour(a.start_time) between '12' and '18')
+			</when>
+
 		</choose>
 	</select>
 	
@@ -79,6 +114,26 @@
 			</when>
 			<when test="order==3">
 				order by a.schedule_price asc
+			</when>
+			<when test="order == 4">
+			and	a.schedule_price between 0 and 400000 order by a.schedule_price asc
+			</when>
+			<when test="order == 5">
+			and	a.schedule_price between 400000 and 600000 order by a.schedule_price asc
+			</when>
+			<when test="order == 6">
+			and	a.schedule_price between 600000 and 800000 order by a.schedule_price asc
+			</when>
+			<when test="order == 7">
+				<![CDATA[
+				and	a.schedule_price >= 800000 order by a.start_time asc
+				]]>
+			</when>
+			<when test="order == 8">
+			and (hour(a.start_time) between '5' and '12')
+			</when>
+			<when test="order == 9">
+			and (hour(a.start_time) between '12' and '18')
 			</when>
 		</choose>
 	</select>

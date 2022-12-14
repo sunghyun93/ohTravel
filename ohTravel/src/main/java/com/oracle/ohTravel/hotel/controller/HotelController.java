@@ -68,14 +68,17 @@ public class HotelController {
 		if(memberDTO == null) {
 			return "redirect:/member/loginForm";
 		}
+
+		String mem_id = memberDTO.getMem_id();
 		
 		model.addAttribute("startDate", roomDTO.getStartDate());
 		model.addAttribute("endDate", roomDTO.getEndDate());
 		model.addAttribute("calDate", roomDTO.getCalDate());
 		model.addAttribute("numberOfChild", roomDTO.getNumberOfChild());
 		model.addAttribute("numberOfAdult", roomDTO.getNumberOfAdult());
+		model.addAttribute("room_id", roomDTO.getRoom_id());
 		model.addAttribute("roomDetail", hs.getRoomDetail(roomDTO));
-		
+		model.addAttribute("membership", hs.getMembershipInfo(mem_id));
 		
 		return "hotel/hotelPayment";
 	}

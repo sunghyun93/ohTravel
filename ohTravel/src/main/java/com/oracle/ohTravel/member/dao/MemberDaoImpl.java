@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
+import com.oracle.ohTravel.member.model.BasketDTO;
+import com.oracle.ohTravel.member.model.MemCouponDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -63,9 +65,9 @@ public class MemberDaoImpl implements MemberDao {
 
 	//항공 예약 내역
 	@Override
-	public List<AirReservationDetail> myPageReserveAirLine(Map<String, Object> map) {
+	public List<AirReservationDetail> myPageReserveAirLine(String mem_id) {
 		
-		List<AirReservationDetail> airReservList = sqlSession.selectList("airReservList",map);
+		List<AirReservationDetail> airReservList = sqlSession.selectList("airReservList",mem_id);
 		System.out.println("MemberDaoImpl myPageReserveAirLine airReservList.size() -> "+ airReservList.size());
 		return airReservList;
 	}
@@ -284,6 +286,66 @@ public class MemberDaoImpl implements MemberDao {
 		int total = sqlSession.selectOne("totalReservTicket", ticketReservationDTO);
 		System.out.println("MemberDaoImpl totalReservTicket total -> " + total);
 		return total;
+	}
+
+	// 패키지 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikePackage(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl myPageLikePackage start..");
+		List<BasketDTO> packageLikeList = sqlSession.selectList("packageLikeList", basketDTO);
+		System.out.println("MemberDaoImpl myPageLikePackage packageLikeList.size() -> " + packageLikeList.size());
+		return packageLikeList;
+	}
+
+	// 호텔 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikeHotel(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl myPageLikeHotel start..");
+		List<BasketDTO> hotelLikeList = sqlSession.selectList("hotelLikeList", basketDTO);
+		System.out.println("MemberDaoImpl myPageLikeHotel hotelLikeList.size() -> " + hotelLikeList.size());
+		return hotelLikeList;
+	}
+
+	// 티켓 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikeTicket(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl myPageLikeTicket start..");
+		List<BasketDTO> ticketLikeList = sqlSession.selectList("ticketLikeList", basketDTO);
+		System.out.println("MemberDaoImpl myPageLikeTicket ticketLikeList.size() -> " + ticketLikeList.size());
+		return ticketLikeList;
+	}
+
+	// 쿠폰 내역
+	@Override
+	public List<MemCouponDTO> myPageCoupon(MemCouponDTO couponDTO) {
+		log.info("MemberDaoImpl myPageCoupon start..");
+		List<MemCouponDTO> memCouponList = sqlSession.selectList("selectMemberWithCoupon", couponDTO);
+		System.out.println("MemberDaoImpl myPageCoupon memCouponList.size() -> " + memCouponList.size());
+		return memCouponList;
+	}
+
+	// 패키지 찜 삭제
+	@Override
+	public int deleteLikePackage(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl deleteLikePackage start..");
+		int result = sqlSession.delete("deleteLike", basketDTO);
+		return result;
+	}
+
+	// 호텔 찜 삭제
+	@Override
+	public int deleteLikeHotel(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl deleteLikeHotel start..");
+		int result = sqlSession.delete("deleteLike", basketDTO);
+		return result;
+	}
+
+	// 티켓 찜 삭제
+	@Override
+	public int deleteLikeTicket(BasketDTO basketDTO) {
+		log.info("MemberDaoImpl deleteLikeTicket start..");
+		int result = sqlSession.delete("deleteLike", basketDTO);
+		return result;
 	}
 
 

@@ -18,4 +18,12 @@ public interface HotelDAO {
 
 	String reserveHotel(HotelReservationDTO hotelRDTO);
 
+	String getMembershipInfo(String mem_id);
+
+	void updateReserveStat(HotelReservationDTO hotelRDTO);
+
+	void insertReserveInfo(HotelReservationDTO hotelRDTO);
+
+	void insertPayment(HotelReservationDTO hotelRDTO);
+
 }

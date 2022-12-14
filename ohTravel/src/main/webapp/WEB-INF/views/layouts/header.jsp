@@ -45,10 +45,15 @@
                                 	<c:if test="${member == null }">
                                 		<li><a href="${pageContext.request.contextPath }/manager/goCoupon">쿠폰다운로드</a>
                                 	</c:if>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                   <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                    <c:if test="${member == null}">
+                                    	<li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
+                                    	<li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
+                                    </c:if>
+                                    <c:if test="${member != null}">
+                                    	<li><a href="${pageContext.request.contextPath}/member/logout">LOGOUT</a></li>
+                                    	<li><a href="${pageContext.request.contextPath}/member/memberForm" style="display:none;">회원가입</a></li>
+                                    </c:if>
+                                	<li><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></li>
                                 </ul>
                             </div>
                         </div>

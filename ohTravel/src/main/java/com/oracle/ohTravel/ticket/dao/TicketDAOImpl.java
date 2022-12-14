@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.ticket.model.TicketDTO;
+import com.oracle.ohTravel.ticket.model.TicketReservation;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +17,6 @@ public class TicketDAOImpl implements TicketDAO {
 	/* MyBatis DB 연동 */
 	private final SqlSession session;
 
-	
 	@Override
 	public int totalTicket() {
 		int totTicketCnt = 0;
@@ -54,11 +54,19 @@ public class TicketDAOImpl implements TicketDAO {
 		
 		return ticketDTO;
 	}
-	
-	// 입장권 예약
 
-
-	
+	// 입장권 찐예약
+	@Override
+	public void reserveExhibition(TicketReservation trDTO) {
+		System.out.println("~~ TicketDAOImpl reserveTicket ~~");
+		
+		try {
+			session.insert("realReserve", trDTO);
+			session.commit();
+		} catch (Exception e) {
+			System.out.println("TicketDAOImpl reserve Exception" + e.getMessage());
+		}
+	}
 	
 	
 }

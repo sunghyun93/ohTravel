@@ -39,7 +39,30 @@ public class HotelServiceImpl implements HotelService {
 
 	@Override
 	public String reserveHotel(HotelReservationDTO hotelRDTO) {
-		return hd.reserveHotel(hotelRDTO);
+		
+		try {
+			
+			for(int i = 0; i < hotelRDTO.getCalDate(); i++) {
+				 hotelRDTO.setIntervalDay(i);
+				 hd.updateReserveStat(hotelRDTO); 
+				 //insert hotel_reservation 
+				 hd.insertReserveInfo(hotelRDTO);
+				 //inset payment 
+				 hd.insertPayment(hotelRDTO);
+			 }
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "FAILED";
+		}
+		 
+		return "SUCCESS";
+	}
+
+	@Override
+	public String getMembershipInfo(String mem_id) {
+		return hd.getMembershipInfo(mem_id);
 	}
 
 }

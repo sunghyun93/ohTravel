@@ -147,7 +147,7 @@
 						    <li>비밀번호 변경시 우측 보안등급을 참고하여 안전한 비밀번호를 변경하시기 바랍니다.</li>
 						</ul>
 						<div class="btn_wrap">
-  							<a href="${pageContext.request.contextPath}/member/myPageMain" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
+  							<a href="${pageContext.request.contextPath}/member/myPagePrivacy" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
   							<input type="button" id="update_button" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;" value="비밀번호 변경">
   						</div>
   						</form>

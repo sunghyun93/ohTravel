@@ -14,4 +14,14 @@ public class HotelReservationDTO {
 	private Date rev_date;
 	private int rev_tot_price;
 	
+	private String startDate;
+	private String endDate;
+	private int calDate;
+	private int canRevDateCnt;
+	
+	//
+	private int intervalDay;
+	private int room_id;
+	private int numberOfPeople;
+	
 }

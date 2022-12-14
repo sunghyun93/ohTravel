@@ -87,6 +87,7 @@
 					                        <th>출발공항</th>
 					                        <th>도착공항</th>
 					                        <th>예매가격</th>
+					                        <th>비행가격</th>
 					                        <th>출발일</th>
 					                    </tr>
 					                </thead>
@@ -101,14 +102,15 @@
 					                		<td>${reserve.start_airport_name }</td>
 					                		<td>${reserve.end_airport_name }</td>
 					                		<td>${reserve.reservation_price }</td>
+					                		<th>${reserve.schedule_price }</th>
 					                		<td><fmt:formatDate value="${reserve.start_time}" pattern="yy-MM-dd"/></td>
 					                	</tr>
 					                </c:forEach>
 					                 </c:if>
 					                 <!--예약내역이 없으면  -->
-					                 <c:if test="${airReservList == null}">
+					                 <c:if test="${airReservListSize == 0}">
 					                	 <tr>
-					                        <td colspan="5">
+					                        <td colspan="8">
 					                            <div class="data_no">
 					                                <div class="cont"><strong>예약내역이 없습니다.</strong></div>
 					                            </div>
@@ -120,19 +122,6 @@
 					        </div>	<!-- tbl -->
 					    </div>	<!-- panel selected -->
 					    <!-- 페이징 -->
-					    <nav aria-label="Page navigation example" style="margin-top: 50px;">
-							<ul class="pagination justify-content-center">
-								<c:if test="${page.startPage > page.pageBlock }">
-									<li class="page-item"><a class="page-link" href="myPageReservAir?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
-								</c:if>
-								<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-									<li class="page-item"><a class="page-link" href="myPageReservAir?currentPage=${i}">${i}</a></li>
-								</c:forEach>
-								<c:if test="${page.endPage < page.totalPage }">
-									<li class="page-item"><a class="page-link" href="myPageReservAir?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
-								</c:if>
-							</ul>
-						</nav>
 					</div>	<!-- panels -->
 				</div>	<!-- js_tabs type2 no_division -->
 			</div>	<!-- contents -->
