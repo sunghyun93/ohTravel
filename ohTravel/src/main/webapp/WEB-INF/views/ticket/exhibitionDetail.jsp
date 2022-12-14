@@ -854,7 +854,13 @@
 	
 	.dot-list>p, .dot-list li {
 	    line-height: 1.6;
-	}	
+	}
+	
+	.ticket_name {
+		min-height: 5rem;
+		overflow-y: hidden;
+		resize: non;
+	}
 	
 </style>
 <body>
@@ -870,10 +876,10 @@
 			<div class="infoFlex" style="width: 450px; height: 770px; border: 1px solid #808080; float:right; translate: -55px;">
 				<div id="productInfoWrap">
 					<div class="product-info" style="padding: 40px 40px 60px; height: 770px;">
-						<div class="product-title" style="width: 350px; float: right; translate: -30px 90px;">
+						<div class="product-title" style="width: 350px; height:660px; float: right; translate: -30px 20px;">
 							<p class="city" style="font-size: 18px; color: #666; font-weight: 700;">${ticketDetail.city_name}</p>
 							<!-- 제목 -->
-							<input class="ticket_name" type="text" style="font-weight: 700; font-size:24px; border:none; width: 370px;" name="ticket_name" value="${ticketDetail.ticket_name }" readonly>
+							<textarea class="ticket_name" style="font-weight: 700; font-size:24px; border:none; width: 370px; height:110px; word-break:normal; resize:none;" cols="5" name="ticket_name" placeholder="${ticketDetail.ticket_name }" readonly></textarea>
 							<div class="price-wrap">
 								<div class="price" style="margin: 18px 0 0; font-size: 16px;">
 									<input type="text" class="dc" style="font-size: 32px; color: #f06c5e; font-weight: 700; width: 99px; border:none;" name="ticket_child_price" value="${ticketDetail.ticket_child_price}" readonly>

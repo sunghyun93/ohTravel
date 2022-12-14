@@ -8,6 +8,12 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/myPage.css">
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+
+<!-- jQuery --> 
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> 
+<!-- iamport.payment.js --> 
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<script src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <style>
 /* required (빨간색) */
@@ -392,19 +398,6 @@ col {
 </style>
 
 <body>
-<%-- 	<form action="/ticket/realReserve" method="post">
-			<input type="hidden" name="ticket_id"   value="${ticket_id}">
-			<input type="hidden" name="mem_id"      value="${sessionId}">	
-			<input type="hidden" name="ticket_name" value="${ticket_name}">
-			
-			<input type="hidden" name="ticket_puchase_date"   value="">
-			<input type="hidden" name="ticket_admission_date" value="">
-			
-			<input type="hidden" name="ticket_adult_per" 		  value="${adultCnt}">
-			<input type="hidden" name="titicket_idcket_child_per" value="${childCnt}">
-			<input type="hidden" name="ticket_total_price"    value="${totalPay}"> --%>
-	
-	
 	<div id="container">
 		<div class="inr" style="min-height: 250vh;">
 			<div class="contents fontCtrl" id="contents">
@@ -588,9 +581,9 @@ col {
 									<!-- 오른쪽 : 개인정보 제 3자 제공 -->
 									<div class="box" style="display: inline-block; translate: 0 -310px; height: 532px;">
 										<div class="item">
-											<label role="checkbox" class="el-checkbox"> <span
-												aria-checked="mixed" class="el-checkbox__input"> <input
-													type="checkbox" name="chk" class="el-checkbox__original">
+											<label role="checkbox" class="el-checkbox">
+											<span aria-checked="mixed" class="el-checkbox__input">
+												<input type="checkbox" name="chk" class="el-checkbox__original">
 											</span> <span class="el-checkbox__label"> <span>개인정보 제 3자 제공 <span class="require">(필수)</span>
 												</span>
 											</span>
@@ -635,9 +628,7 @@ col {
 						<!-- text_wrap -->
 
 						<div class="btn_wrap">
-							<button type="button" class="btn big pink btn-rsv" style="height: 56px; line-height: 54px; translate: 0 -300px;" onclick="realReserveFunc()">결제하기 </button> -->
-							<!-- <input type="button" id="btnComp" class="btn big pink btn-rsv" style="height: 56px; line-height: 54px; translate: 0 -300px;" value="결제하기"></button> -->
-							<!-- <input type="submit" id="btnComp" class="btn big pink btn-rsv" style="height: 56px; line-height: 54px; translate: 0 -300px;" value="결제하기 OK"> -->
+							<button id="iamportPayment" type="button" class="btn big pink btn-rsv" style="height: 56px; line-height: 54px; translate: 0 -300px;" onclick="realReserveFunc();">결제하기 </button>
 						</div>
 					</div>
 					<!-- inr -->
@@ -695,7 +686,7 @@ col {
 		<input type="hidden" name="mem_id"      value="">	
 		<input type="hidden" name="ticket_name" value="">
 		
-		<input type="hidden" name="ticket_admission_date" value="">
+		<input type="hidden" name="ticket_admission_date" 	  value="">
 		
 		<input type="hidden" name="ticket_adult_per" 		  value="">
 		<input type="hidden" name="titicket_idcket_child_per" value="">
@@ -703,7 +694,8 @@ col {
 	</form>
 	
 	
-		<script>
+	<script>
+		// 사용일 받아오기 위한 자바스크립트 날짜 포맷 함수 (yyyy-mm-dd)
 		function dateFormat(date) {
 			let dateFormat2 = date.getFullYear() +
 				'-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
@@ -711,9 +703,7 @@ col {
 			return dateFormat2;
 		}
 		
-		
 		var ticket_admission_date =  dateFormat(new Date('${adDate}'));		// 사용일 (=입장일)
-		
 		console.log(ticket_admission_date);
 
 		
@@ -722,23 +712,14 @@ col {
 		
 		function realReserveFunc(){
 			
-			 //가져가야 할 값 : 티켓코드, (회원 ID - 세션), 사용일, 성인 인원, 아동 인원, 총 금액
-			let mem_id				  = '${sessionId}';
+			//가져가야 할 값 : 티켓코드, 회원 ID, 사용일, 성인 인원, 아동 인원, 총 금액
 			let ticket_id			  = '${ticket_id}';
+			let mem_id				  = '${sessionId}';
 			let ticket_name 		  = '${ticket_name}';
-			//let ticket_puchase_date  = new Date();		// 구매일
-			//let ticket_admission_date = new Date('${adDate}');		// 사용일
 			
-			let ticket_adult_per 	  = ${adultCnt};		// 성인 인원 수
+			let ticket_adult_per 	  	  = ${adultCnt};	// 성인 인원 수
 			let titicket_idcket_child_per = ${childCnt};	// 아동 인원 수
-			let ticket_total_price 	  = ${totalPay};
-			
-			
-			
-			alert("mem_id-> " + mem_id);
-			console.log("✔ ticket_id -> " + ticket_id);
-			console.log("✔ mem_id -> " + mem_id);
-			console.log("✔ ticket_name -> " + ticket_name);
+			let ticket_total_price 	  	  = ${totalPay};
 
 			$('input[name=ticket_id]').attr('value', ticket_id);
 			$('input[name=mem_id]').attr('value', mem_id);
@@ -748,7 +729,6 @@ col {
 			$('input[name=titicket_idcket_child_per]').attr('value', titicket_idcket_child_per);
 			$('input[name=ticket_total_price]').attr('value', ticket_total_price);
 			
-			//return true;
 			realReserveForm.submit();
 		};
 		
@@ -788,7 +768,33 @@ col {
 		}
 		
 		/* 결제 API */
+		//문서가 준비되면 제일 먼저 실행
+		$(document).ready(function(){ 
+			$("#iamportPayment").click(function(){ 
+		    	payment(); //버튼 클릭하면 호출 
+		    }); 
+		})
 		
+		// 버튼 클릭 시 실행
+		function payment(data) {
+		    IMP.init('imp38780064');//아임포트 관리자 콘솔에서 확인한 '가맹점 식별코드' 입력
+		    IMP.request_pay({// param
+		        pg: "kakaopay.TC0ONETIME", //pg사명 or pg사명.CID (잘못 입력할 경우, 기본 PG사가 띄워짐)
+		        pay_method: "card", //지불 방법
+		        merchant_uid: "iamport_test_id", //가맹점 주문번호 (아임포트를 사용하는 가맹점에서 중복되지 않은 임의의 문자열을 입력)
+		        name: '${ticket_name}', //결제창에 노출될 상품명
+		        amount: ${totalPay}, //금액
+		        buyer_email : "testiamport@naver.com", 
+		        buyer_name : "홍길동",
+		        buyer_tel : "01012341234"
+		    }, function (rsp) { // callback
+		        if (rsp.success) {
+		            alert("완료 -> imp_uid : "+rsp.imp_uid+" / merchant_uid(orderKey) : " +rsp.merchant_uid);
+		        } else {
+		            alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg + ")");
+		        }
+		    });
+		}
 	</script>
 
 </body>
