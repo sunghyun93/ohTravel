@@ -76,6 +76,7 @@
 		<typeAlias type="com.oracle.ohTravel.member.model.UpdateMileGradeDTO" alias="UpdateMileGradeDTO"/>
 		<typeAlias type="com.oracle.ohTravel.member.model.ReviewDTO" alias="ReviewDTO"/>
 		<typeAlias type="com.oracle.ohTravel.member.model.BasketDTO" alias="BasketDTO"/>
+		<typeAlias type="com.oracle.ohTravel.member.model.CouponDTO" alias="CouponDTO"/>
 		<typeAlias type="com.oracle.ohTravel.member.model.AirReservationDetail" alias="AirReservationDetail"/>
 		
 

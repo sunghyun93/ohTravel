@@ -80,12 +80,12 @@
 					                    <tr>
 					   						<td>${hotelLikeList.basket_ref_id}</td>
 					                    	<td>${hotelLikeList.hotel_kor}</td>
-					                    	<td><a href="">삭제</a></td>
+					                    	<td><a href="${pageContext.request.contextPath}/member/deleteLikeHotel?basket_ref_id=${hotelLikeList.basket_ref_id}">삭제</a></td>
 					                    </tr>
 					                    </c:forEach>
 					                    <c:if test="${hotelLikeListSize == 0 }">
 					                    	<tr>
-						                        <td colspan="2">
+						                        <td colspan="3">
 						                            <div class="data_no">
 						                                <div class="cont"><strong>찜 내역이 없습니다.</strong></div>
 						                            </div>

@@ -100,6 +100,15 @@ public interface MemberService {
 	// 쿠폰 내역
 	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO);
 
+	// 패키지 찜 삭제
+	public int deleteLikePackage(BasketDTO basketDTO);
+
+	// 호텔 찜 삭제
+	public int deleteLikeHotel(BasketDTO basketDTO);
+
+	// 티켓 찜 삭제
+	public int deleteLikeTicket(BasketDTO basketDTO);
+
 
 
 

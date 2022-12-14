@@ -206,6 +206,13 @@
 		AND b.basket_ref_id = t.ticket_id
 	</select>
 	
+	<delete id="deleteLike">
+		DELETE FROM basket
+		WHERE mem_id = #{mem_id}
+		AND basket_ref_id = #{basket_ref_id}
+	</delete>
+	
+	
 	
 	
 	

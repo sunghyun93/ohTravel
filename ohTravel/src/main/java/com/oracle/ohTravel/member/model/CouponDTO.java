@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class CouponDTO {
+	// mem_coupon
 	private String mem_id;
 	private int coupon_id;
 	private Timestamp coupon_down;

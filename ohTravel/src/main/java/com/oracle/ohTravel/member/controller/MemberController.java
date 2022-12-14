@@ -377,8 +377,7 @@ public class MemberController {
 		String sessionId = member.getMem_id();
 		
 		System.out.println("MemberController myPageLikePackage sessionId -> " + sessionId );
-		System.out.println("MemberController myPageLikePackage basketDTO -> " + basketDTO.getMem_id() );
-		System.out.println("MemberController myPageLikePackage basketDTO -> " + basketDTO.getBasket_id() );
+		
 
 		basketDTO.setMem_id(sessionId);
 		
@@ -387,6 +386,9 @@ public class MemberController {
 		int packageLikeListSize = packageLikeList.size();
 		model.addAttribute("packageLikeList", packageLikeList);
 		model.addAttribute("packageLikeListSize", packageLikeListSize);
+		System.out.println("MemberController myPageLikePackage basketDTO.getMem_id() -> " + basketDTO.getMem_id() );
+		System.out.println("MemberController myPageLikePackage basketDTO.getBasket_id() -> " + basketDTO.getBasket_id() );
+		System.out.println("MemberController myPageLikePackage basketDTO.getBasket_ref_id() -> " + basketDTO.getBasket_ref_id() );
 		System.out.println("MemberController packageLikeList packageLikeListSize -> " + packageLikeListSize);
 		
 		return "member/myPageLikePackage";
@@ -447,19 +449,84 @@ public class MemberController {
 		
 		// 티켓 찜 내역
 		List<BasketDTO> ticketLikeList = memberService.myPageLikeTicket(basketDTO);
-		int ticketLikeListSeize = ticketLikeList.size();
+		int ticketLikeListSize = ticketLikeList.size();
 		model.addAttribute("ticketLikeList", ticketLikeList);
-		model.addAttribute("ticketLikeListSize", ticketLikeListSeize);
-		System.out.println("MemberController myPageLikeTicket ticketLikeListSeize -> " + ticketLikeListSeize);
+		model.addAttribute("ticketLikeListSize", ticketLikeListSize);
+		System.out.println("MemberController myPageLikeTicket ticketLikeListSize -> " + ticketLikeListSize);
 		
 		return "member/myPageLikeTicket";
 	}
 	
-	// 찜 삭제
-	@RequestMapping(value = "/deleteLike")
-	public String deleteLike() {
+	// 패키지 찜 삭제
+	@RequestMapping(value = "/deleteLikePackage")
+	public String deleteLikePackage(BasketDTO basketDTO, HttpServletRequest request) {
+		log.info("MemberController deleteLikePackage start..");
+		System.out.println("MemberController deleteLikePackage basketDTO.getBasket_ref_id() ->" + basketDTO.getBasket_ref_id());
+		HttpSession session = request.getSession();
 		
-		return "";
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		
+		basketDTO.setMem_id(sessionId);
+		
+		int result = memberService.deleteLikePackage(basketDTO);
+		System.out.println("MemberController deleteLikePackage result -> " + result);
+		
+		return "redirect:/member/myPageLikePackage";
+	}
+	
+	// 호텔 찜 삭제
+	@RequestMapping(value = "/deleteLikeHotel")
+	public String deleteLikeHotel(BasketDTO basketDTO, HttpServletRequest request) {
+		log.info("MemberController deleteLikeHotel start..");
+		System.out.println("MemberController deleteLikeHotel basketDTO.getBasket_ref_id() ->" + basketDTO.getBasket_ref_id());
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		
+		basketDTO.setMem_id(sessionId);
+		
+		int result = memberService.deleteLikeHotel(basketDTO);
+		System.out.println("MemberController deleteLikeHotel result -> " + result);
+		
+		return "redirect:/member/myPageLikeHotel";
+	}
+	
+	// 티켓 찜 삭제
+	@RequestMapping(value = "/deleteLikeTicket")
+	public String deleteLikeTicket(BasketDTO basketDTO, HttpServletRequest request) {
+		log.info("MemberController deleteLikeTicket start..");
+		System.out.println("MemberController deleteLikeTicket basketDTO.getBasket_ref_id() ->" + basketDTO.getBasket_ref_id());
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		
+		basketDTO.setMem_id(sessionId);
+		
+		int result = memberService.deleteLikeTicket(basketDTO);
+		System.out.println("MemberController deleteLikeTicket result -> " + result);
+		
+		return "redirect:/member/myPageLikeTicket";
 	}
 	
 	// 쿠폰함
