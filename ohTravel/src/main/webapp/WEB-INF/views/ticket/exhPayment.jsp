@@ -6,45 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/member/myPage.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/member/myPage.css">
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 </head>
-<script>
-
-	window.onload = function () {
-		const checkAll = document.getElementById('chkAll');
-		const chks = document.querySelectorAll('.chk');  
-		const chkBoxLength = chks.length;
-		 
-		checkAll.addEventListener('click', function(event) {
-		    if(event.target.checked)  {
-		        chks.forEach(function(value){
-		        value.checked = true;
-		    })
-		    }else {
-		       chks.forEach(function(value){
-		       value.checked = false;
-		    })
-		 }
-		  });
-		for (chk of chks){
-		    chk.addEventListener('click', function() {
-		        let count = 0;
-		        chks.forEach(function(value){
-		            if(value.checked == true){
-		                count++;
-		            }
-		        })
-		        if(count !== chkBoxLength){
-		            checkAll.checked = false;
-		        }else{
-		            checkAll.checked = true;
-		        }
-		      })
-		}
-	}
-</script>
 <style>
 /* required (빨간색) */
 .table-row .required:after {
@@ -426,7 +390,21 @@ col {
 	display: table-column;
 }
 </style>
+
 <body>
+<%-- 	<form action="/ticket/realReserve" method="post">
+			<input type="hidden" name="ticket_id"   value="${ticket_id}">
+			<input type="hidden" name="mem_id"      value="${sessionId}">	
+			<input type="hidden" name="ticket_name" value="${ticket_name}">
+			
+			<input type="hidden" name="ticket_puchase_date"   value="">
+			<input type="hidden" name="ticket_admission_date" value="">
+			
+			<input type="hidden" name="ticket_adult_per" 		  value="${adultCnt}">
+			<input type="hidden" name="titicket_idcket_child_per" value="${childCnt}">
+			<input type="hidden" name="ticket_total_price"    value="${totalPay}"> --%>
+	
+	
 	<div id="container">
 		<div class="inr" style="min-height: 250vh;">
 			<div class="contents fontCtrl" id="contents">
@@ -455,7 +433,7 @@ col {
 									</tr>
 									<tr>
 										<th>휴대전화 번호</th>
-										<td><input type="tel" placeholder="${sessionTel}" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" readonly></td>
+										<td><input type="tel" placeholder="${sessionTel}" readonly></td>
 									</tr>
 								</tbody>
 							</table>
@@ -468,8 +446,7 @@ col {
 						</div>
 						<!-- text_wrap -->
 
-						<div class="product-detail"
-							style="height: 212px; background: #F7F7F7;">
+						<div class="product-detail" style="height: 212px; background: #F7F7F7;">
 							<div class="product-info" style="margin-bottom: 25px;">
 								<p class="product-title" style="font-weight: 700; font-size: 16px;"></p>
 							</div>
@@ -498,10 +475,9 @@ col {
 							<div class="sale-content">
 								<div class="inner" style="position: relative; padding: 20px 0;">
 									<div class="coupon-list">
-										<button type="button"
-											class="el-button btn-select-coupon el-button--primary el-button--small">
+										<!-- <button type="button" class="el-button btn-select-coupon el-button--primary el-button--small">
 											<span>할인 쿠폰 선택</span>
-										</button>
+										</button> -->
 										<div class="list" style="width: 50%;">
 											<!-- 쿠폰 목록 -->
 											<!-- 쿠폰이 있으면 목록 보여주고 -->
@@ -624,7 +600,7 @@ col {
 										<div class="detail-wrap" style="padding: 20px 20px 20px 20px;" style="height: 446.78px;">
 											<div class="detail">
 												<p style="margin-bottom: 15px; padding: 0 10px 10px 15px;">고객님께서는
-													아래 내용에 대하여 동의를 거부하실 수 있으며, 거부 시 상품 배송(예약), 고객상담이 제한됩니다</p>
+													아래 내용에 대하여 동의를 거부하실 수 있으며, 거부 시 상품 배송(예약), 고객상담이 제한됩니다.</p>
 												<table class="table-row repeat">
 													<colgroup style="display: table-column-group;">
 														<col>
@@ -633,7 +609,7 @@ col {
 													<tbody>
 														<tr>
 															<th style="width: 120px;">제공 받는자</th>
-															<td>제주모바일</td>
+															<td>ohTravel</td>
 														</tr>
 														<tr>
 															<th>목적</th>
@@ -659,8 +635,9 @@ col {
 						<!-- text_wrap -->
 
 						<div class="btn_wrap">
-							<!---->
-							<span class="btn big pink" style="height: 56px; line-height: 54px; translate: 0 -300px;">결제하기</span>
+							<button type="button" class="btn big pink btn-rsv" style="height: 56px; line-height: 54px; translate: 0 -300px;" onclick="realReserveFunc()">결제하기 </button> -->
+							<!-- <input type="button" id="btnComp" class="btn big pink btn-rsv" style="height: 56px; line-height: 54px; translate: 0 -300px;" value="결제하기"></button> -->
+							<!-- <input type="submit" id="btnComp" class="btn big pink btn-rsv" style="height: 56px; line-height: 54px; translate: 0 -300px;" value="결제하기 OK"> -->
 						</div>
 					</div>
 					<!-- inr -->
@@ -679,7 +656,7 @@ col {
 										<span class="divider_dot">아동 ${childCnt }</span>
 									</div>
 									<div class="mileage_save"></div>
-									<!-- mileage_save -->
+									<!-- mileage_ave -->
 									<strong class="price">${totalPay }<span>원</span></strong>
 									<div class="mileage_save">
 										<p>
@@ -691,7 +668,7 @@ col {
 								<!-- info_area total -->
 								<div class="info_area">
 									<div class="info">
-										<strong class="tit">총 상품 금액</strong> <span>${totalPay }원</span>
+										<strong class="tit">총 상품 금액</strong> <span>${totalPay}원</span>
 									</div>
 								</div>
 								<!-- info_area -->
@@ -709,6 +686,110 @@ col {
 		<!-- inr -->
 	</div>
 	<!-- container -->
+<!-- </form> -->
+
+	
+	<!-- 찐예약 -->
+ 	<form action="/ticket/realReserve" name="realReserveForm" method="post" onclick="return realReserveFunc()">
+		<input type="hidden" name="ticket_id"   value="">
+		<input type="hidden" name="mem_id"      value="">	
+		<input type="hidden" name="ticket_name" value="">
+		
+		<input type="hidden" name="ticket_admission_date" value="">
+		
+		<input type="hidden" name="ticket_adult_per" 		  value="">
+		<input type="hidden" name="titicket_idcket_child_per" value="">
+		<input type="hidden" name="ticket_total_price"    	  value="">
+	</form>
+	
+	
+		<script>
+		function dateFormat(date) {
+			let dateFormat2 = date.getFullYear() +
+				'-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+				'-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
+			return dateFormat2;
+		}
+		
+		
+		var ticket_admission_date =  dateFormat(new Date('${adDate}'));		// 사용일 (=입장일)
+		
+		console.log(ticket_admission_date);
+
+		
+		// 1) 예약 DB에 저장
+		// 2) 결제
+		
+		function realReserveFunc(){
+			
+			 //가져가야 할 값 : 티켓코드, (회원 ID - 세션), 사용일, 성인 인원, 아동 인원, 총 금액
+			let mem_id				  = '${sessionId}';
+			let ticket_id			  = '${ticket_id}';
+			let ticket_name 		  = '${ticket_name}';
+			//let ticket_puchase_date  = new Date();		// 구매일
+			//let ticket_admission_date = new Date('${adDate}');		// 사용일
+			
+			let ticket_adult_per 	  = ${adultCnt};		// 성인 인원 수
+			let titicket_idcket_child_per = ${childCnt};	// 아동 인원 수
+			let ticket_total_price 	  = ${totalPay};
+			
+			
+			
+			alert("mem_id-> " + mem_id);
+			console.log("✔ ticket_id -> " + ticket_id);
+			console.log("✔ mem_id -> " + mem_id);
+			console.log("✔ ticket_name -> " + ticket_name);
+
+			$('input[name=ticket_id]').attr('value', ticket_id);
+			$('input[name=mem_id]').attr('value', mem_id);
+			$('input[name=ticket_name]').attr('value', ticket_name);
+			$('input[name=ticket_admission_date]').attr('value', ticket_admission_date);
+			$('input[name=ticket_adult_per]').attr('value', ticket_adult_per);
+			$('input[name=titicket_idcket_child_per]').attr('value', titicket_idcket_child_per);
+			$('input[name=ticket_total_price]').attr('value', ticket_total_price);
+			
+			//return true;
+			realReserveForm.submit();
+		};
+		
+		
+		/* 모두 동의 코드인데... 안 됨.... *^^*/
+		function allAgree() {
+			const checkAll = document.getElementById('chkAll');
+			const chks = document.querySelectorAll('.chk');  
+			const chkBoxLength = chks.length;
+			 
+			checkAll.addEventListener('click', function(event) {
+			    if(event.target.checked)  {
+			        chks.forEach(function(value){
+			        value.checked = true;
+			    })
+			    }else {
+			       chks.forEach(function(value){
+			       value.checked = false;
+			    })
+			 }
+			  });
+			for (chk of chks){
+			    chk.addEventListener('click', function() {
+			        let count = 0;
+			        chks.forEach(function(value){
+			            if(value.checked == true){
+			                count++;
+			            }
+			        })
+			        if(count !== chkBoxLength){
+			            checkAll.checked = false;
+			        }else{
+			            checkAll.checked = true;
+			        }
+			      })
+			}
+		}
+		
+		/* 결제 API */
+		
+	</script>
 
 </body>
 </html>

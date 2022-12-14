@@ -2,9 +2,14 @@ package com.oracle.ohTravel.ticket.service;
 
 import java.util.List;
 
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oracle.ohTravel.ticket.model.TicketDTO;
+import com.oracle.ohTravel.ticket.model.TicketReservation;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 public interface TicketService {
@@ -18,5 +23,7 @@ public interface TicketService {
 	TicketDTO getTicketDetail(String ticket_id);
 
 	// 입장권 예약
+	void reserveExhibition(TicketReservation trDTO);
+
 	
 }
