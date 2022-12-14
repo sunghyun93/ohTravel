@@ -62,7 +62,7 @@
 						<div class="text_wrap mid">
 							<strong class="tit">가입정보</strong>
 						</div>	<!-- text_wrap -->
-						<form action="updateMember" method="post" action="updateMember">
+						<form action="updateMember" method="post" id="updateMember">
 							<div class="tbl">
 								<table class="type2">
 								    <colgroup>
@@ -80,23 +80,47 @@
 								        </tr>
 								        <tr>
 								            <th>휴대폰번호</th>
-								            <td><input type="text" id="mem_tel" name="mem_tel" placeholder="휴대폰번호" style="width:500px;" value="${sessionTel}"></td>
+								            <td>
+								            	<input type="text" id="mem_tel" name="mem_tel" placeholder="휴대폰번호" style="width:500px;">
+								           		<p class="error_message" id="tel_error" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
+										        	휴대폰번호를 입력해주세요.
+										        </p>
+												<p class="error_message" id="tel_reg" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
+										        	올바르지 않은 휴대폰번호 형식입니다.
+										        </p>	
+								            </td>
 								        </tr>
 								        <tr>
 								            <th>이메일</th>
-								            <td><input type="text" id="mem_email" name="mem_email" placeholder="이메일" style="width:500px;" value="${sessionEmail }"></td>
+								            <td>
+								            	<input type="text" id="mem_email" name="mem_email" placeholder="이메일" style="width:500px;">
+								            	<p class="error_message" id="email_error" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
+										        	이메일을 입력해주세요.
+										        </p>
+												<p class="error_message" id="mail_input_box_warn" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
+										        	올바르지 않은 이메일 형식입니다.
+										        </p>
+								            </td>
 								        </tr>
 								        <tr>
 								            <th>생년월일</th>
-								            <td><input type="text" id="mem_birthday" name="mem_birthday" placeholder="생년월일" style="width:500px;" value="${sessionBirthday }"></td>
+								            <td>
+								            	<input type="text" id="mem_birthday" name="mem_birthday" placeholder="생년월일" style="width:500px;">
+								            	<p class="error_message" id="birth_error" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
+										        	생년월일을 입력해주세요.
+										        </p>
+												<p class="error_message" id="birth_reg" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
+										        	YYYYMMDD 형식으로 입력해주세요.
+										        </p>
+								            </td>
 								        </tr>
 								        <!-- 필요 시 컬럼 추가 해주세용 -->
 								    </tbody>
 								</table>
 							</div>	<!-- tbl -->
 							<div class="btn_wrap">
-	  							<a href="${pageContext.request.contextPath}/member/myPageMain" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
-	  							<button type="submit" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">수정</button>
+	  							<a href="${pageContext.request.contextPath}/member/myPagePrivacy" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
+	  							<input type="button" id="modify_button" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;" value="수정">
 	  						</div>
 						</form>
 					</div>	
@@ -105,4 +129,87 @@
 		</div>
 	</div>
 </body>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+var mailCheck = false;          // 이메일
+var bdCheck = false;            // 생일
+var telCheck = false;		    // 휴대폰 번호
+
+$(document).ready(function() {
+	// 수정 버튼
+	$("#modify_button").click(function() {
+		var mail = $('#mem_email').val();
+		var birth = $('#mem_birthday').val();
+		var tel = $('#mem_tel').val();
+		
+		/* 이메일 유효성 검사 */
+        if(mail == ""){
+            $('#email_error').css('display','block');
+            mailCheck = false;
+        }else{
+        	if(!mailFormCheck(mail)) {
+            	$('#mail_input_box_warn').css("display", "block");
+            } else {
+            	$('#mail_input_box_warn').css("display", "none");
+            }
+            $('#email_error').css('display', 'none');
+            mailCheck = true;
+        }
+		
+        /* 휴대폰번호 유효성 검사 */
+        if(tel == ""){
+            $('#tel_error').css('display','block');
+            telCheck = false;
+        }else{
+        	if(!tCheck(tel)) {
+            	$('#tel_reg').css("display", "block");
+            } else {
+            	$('#tel_reg').css("display", "none");
+            }
+            $('#tel_error').css('display', 'none');
+            telCheck = true;
+        }
+        
+        /* 생년월일 유효성 검사 */
+        if(birth == ""){
+            $('#birth_error').css('display','block');
+            bdCheck = false;
+        }else{
+        	if(!birthCheck(birth)) {
+            	$('#birth_reg').css("display", "block");
+        	} else {
+            	$('#birth_reg').css("display", "none");
+            }
+            $('#birth_error').css('display', 'none');
+            bdCheck = true;
+        }
+        
+        if(mailCheck && bdCheck && telCheck) {
+        	$("#updateMember").attr("action", "${pageContext.request.contextPath}/member/updateMember")
+        	$("#updateMember").submit();
+        }
+        
+        return false;
+	});
+});
+/* 입력 이메일 형식 유효성 검사 */
+function mailFormCheck(email){
+	var form = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+	return form.test(email);
+}
+/* 생년월일 형식 유효성 검사 */
+function birthCheck(birth) {
+	var form = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+	return form.test(birth);
+}
+
+/* 휴대폰번호 형식 유효성 검사 */
+function tCheck(tel) {
+	var form = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+	return form.test(tel);
+}
+</script>
 </html>

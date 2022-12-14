@@ -548,7 +548,7 @@ public class MemberController {
 		
 		memberService.updateMember(memberDTO);
 		
-		return "redirect:/member/myPageReservPackage";
+		return "redirect:/member/myPagePrivacy";
 	}
 	
 	// 비밀번호 변경 페이지1 이동
