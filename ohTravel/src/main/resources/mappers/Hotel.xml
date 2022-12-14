@@ -105,6 +105,5 @@
 		SET 	mem_mile = mem_mile + #{mile}
 		WHERE	mem_id = #{mem_id}
 	</update>
-	
 
 </mapper>
