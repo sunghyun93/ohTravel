@@ -43,17 +43,13 @@ public class TicketServiceImpl implements TicketService {
 		return ticketDTO;
 	}
 
-	// 입장권 예약
+	// 입장권 찐예약
 	@Override
 	public void reserveExhibition(TicketReservation trDTO) {
 		System.out.println("~~ TicketServiceImpl reserveExhibition Start ~~");
 		
-		//int result = 0;
-		//result =
 		trDTO.setTicket_puchase_date(new Date());
 		td.reserveExhibition(trDTO);
-		
-		//return result;
 	}
 
 

@@ -55,21 +55,17 @@ public class TicketDAOImpl implements TicketDAO {
 		return ticketDTO;
 	}
 
-	// 입장권 예약 (원래 int로 했었는데 void로 시도..)
+	// 입장권 찐예약
 	@Override
 	public void reserveExhibition(TicketReservation trDTO) {
 		System.out.println("~~ TicketDAOImpl reserveTicket ~~");
 		
-		//int result = 0;
-		
 		try {
-			//result =
 			session.insert("realReserve", trDTO);
 			session.commit();
 		} catch (Exception e) {
 			System.out.println("TicketDAOImpl reserve Exception" + e.getMessage());
 		}
-		//return result;
 	}
 	
 	

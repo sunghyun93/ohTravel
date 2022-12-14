@@ -32,9 +32,7 @@
 	</select>
 
 	<!-- 입장권 예약 (ticket_reservation) insert 문 -->
-	<!-- 티켓 이름 값으로 티켓 id 가져오고 -->
-	<!-- com.oracle.ohTravel.ticket.model.TicketReservation java.lang.String -->
-     <insert id="realReserve" parameterType="TicketReservation">
+    <insert id="realReserve" parameterType="TicketReservation">
 		INSERT INTO ticket_reservation
 		(ticket_id, mem_id, ticket_name, ticket_puchase_date, ticket_admission_date, ticket_adult_per, titicket_idcket_child_per, ticket_total_price)
 		VALUES
