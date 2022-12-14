@@ -79,10 +79,10 @@
 					                    <tr>
 					   						<td>${ticketLikeList.basket_ref_id}</td>
 					                    	<td>${ticketLikeList.ticket_name}</td>
-					                    	<td><a href="${pageContext.request.contextPath}/member/deleteLikeHotel?basket_ref_id=${hotelLikeList.basket_ref_id}">삭제</a></td>
+					                    	<td><a href="${pageContext.request.contextPath}/member/deleteLikeHotel?basket_ref_id=${ticketLikeList.basket_ref_id}">삭제</a></td>
 					                    </tr>
 					                    </c:forEach>
-					                    <c:if test="${ticektLikeListSize == 0 }">
+					                    <c:if test="${ticketLikeListSize == 0 }">
 					                    	<tr>
 						                        <td colspan="3">
 						                            <div class="data_no">
