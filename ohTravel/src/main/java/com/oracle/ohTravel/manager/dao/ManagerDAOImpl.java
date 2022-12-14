@@ -7,11 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.manager.model.ManageAirportDTO;
+import com.oracle.ohTravel.manager.model.ManageHotelDTO;
 import com.oracle.ohTravel.manager.model.ManagePackageDTO;
 import com.oracle.ohTravel.manager.model.ManageTicketDTO;
-import com.oracle.ohTravel.manager.model.MemberDTO;
+import com.oracle.ohTravel.manager.model.ManageMemberDTO;
 import com.oracle.ohTravel.manager.model.MembershipDTO;
 import com.oracle.ohTravel.manager.model.NoticeDTO;
+import com.oracle.ohTravel.member.model.TicketReservationDTO;
 
 import lombok.RequiredArgsConstructor;
 @Repository
@@ -26,8 +28,8 @@ public class ManagerDAOImpl implements ManagerDAO {
 	}
 	
 	@Override
-	public List<MemberDTO> getMemberList(MemberDTO member) {
-		List<MemberDTO>memberList = session.selectList("memberList",member);
+	public List<ManageMemberDTO> getMemberList(ManageMemberDTO member) {
+		List<ManageMemberDTO>memberList = session.selectList("memberList",member);
 		return memberList;
 	}
 
@@ -507,5 +509,47 @@ public class ManagerDAOImpl implements ManagerDAO {
 	public int updateAirSchedule(ManageAirportDTO air) {
 		int result = session.update("updateAirSchedule", air);
 		return result;
+	}
+
+	@Override
+	public int updateNoticeCount(NoticeDTO notice) {
+		int result = session.update("updateNoticeCount", notice);
+		return result;
+	}
+
+	@Override
+	public List<CouponDTO> getMemberCouponList(String sessionId) {
+		List<CouponDTO> getMemberCouponList = session.selectList("getMemberCouponList", sessionId);
+		return getMemberCouponList;
+	}
+
+	@Override
+	public int insertMemberCoupon(CouponDTO coupon) {
+		int result = session.insert("insertMemberCoupon", coupon);
+		return result;
+	}
+
+	@Override
+	public List<ManageTicketDTO> getTicketResList() {
+		List<ManageTicketDTO> getTicketResList = session.selectList("getTicketResList");
+		return getTicketResList;
+	}
+
+	@Override
+	public List<ManageHotelDTO> getHotelResList() {
+		List<ManageHotelDTO> getHotelResList = session.selectList("getHotelResList");
+		return getHotelResList;
+	}
+
+	@Override
+	public List<ManagePackageDTO> getPackageResList() {
+		List<ManagePackageDTO> getPackageResList = session.selectList("getPackageResList");
+		return getPackageResList;
+	}
+
+	@Override
+	public List<ManagePackageDTO> getPackageResPiList(ManagePackageDTO pk) {
+		List<ManagePackageDTO> getPackageResPiList = session.selectList("getPackageResPiList", pk);
+		return getPackageResPiList;
 	}
 }
