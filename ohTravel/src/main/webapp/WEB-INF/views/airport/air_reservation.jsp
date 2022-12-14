@@ -704,15 +704,21 @@
 									<strong class="total_price">
 									<c:if test="${seat_name == '일반석'}">
 									<fmt:formatNumber value="${1*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br>
-									 <input type="hidden" value="${count*(1*(go.schedule_price + come.schedule_price))}" name="total_price" class="price_hidden">
+									 <input type="hidden" value="${1*(go.schedule_price + come.schedule_price)}" name="total_price" class="price_hidden">
+									 <input type="hidden" value="${1*go.schedule_price}" name="go_price">
+									  <input type="hidden" value="${1*come.schedule_price}" name="come_price">
 									 </c:if>
 									 <c:if test="${seat_name == '비즈니스석'}">
 									<fmt:formatNumber value="${2*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br> 	
-									 <input type="hidden" value="${count*(2*(go.schedule_price + come.schedule_price))}" name="total_price" class="price_hidden">
+									 <input type="hidden" value="${2*(go.schedule_price + come.schedule_price)}" name="total_price" class="price_hidden">
+									 <input type="hidden" value="${2*go.schedule_price}" name="go_price">
+									 <input type="hidden" value="${2*come.schedule_price}" name="come_price">									 
 									 </c:if>
 									 <c:if test="${seat_name == '일등석'}">
 									<fmt:formatNumber value="${3*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br>
-									<input type="hidden" value="${count*(3*(go.schedule_price + come.schedule_price))}" name="total_price" class="price_hidden">
+									<input type="hidden" value="${3*(go.schedule_price + come.schedule_price)}" name="total_price" class="price_hidden">
+								 	<input type="hidden" value="${3*go.schedule_price}" name="go_price">
+								  	<input type="hidden" value="${3*come.schedule_price}" name="come_price">									 
 									 </c:if>
 					
 									</strong>

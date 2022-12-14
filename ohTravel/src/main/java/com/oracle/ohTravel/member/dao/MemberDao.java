@@ -27,7 +27,7 @@ public interface MemberDao {
 	public List<TicketReservationDTO> myPageReservTicket(TicketReservationDTO ticketReservationDTO);
 
 	// 항공 예약 내역
-	public List<AirReservationDetail> myPageReserveAirLine(Map<String, Object> map);
+	public List<AirReservationDetail> myPageReserveAirLine(String mem_id);
 
 	// 호텔 예약 내역
 	public List<HotelReservationDTO> myPageReservHotel(HotelReservationDTO hotelReservationDTO);

@@ -101,9 +101,7 @@ public class TicketController {
 		System.out.println("== TicketController Start reserveExhibition ==");
 
 		ts.reserveExhibition(trDTO);
-
 		System.out.println(trDTO);
-		//@Value("${ticket_admission_date}")
 		
 		return "ticket/exhReserveSuccess";
 	}
