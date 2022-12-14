@@ -112,9 +112,6 @@
 				<div class="optionComplete">
 					<button type="button" class="genric-btn primary ela" onclick="getRoomList()">객실 검색</button>
 				</div>
-				<div class="reservation">
-					<button class="genric-btn primary ela">예약하기</button>
-				</div>
 			</div>
 		</div>
 		
@@ -127,6 +124,7 @@
 			<input type="hidden" name="numberOfAdult" value="">
 			<input type="hidden" name="numberOfChild" value="">
 			<input type="hidden" name="numberOfPeople" value="">
+			<input type="hidden" name="memberId" value="">
 		</form>
 	
 		<div id="roomAllInfo"> <!-- 선택한 날짜에 해당하는 객실 정보 창 나오는 div -->
@@ -482,7 +480,7 @@ function goReserve(room_id){
 	$('input[name=numberOfAdult]').attr('value',numberOfAdult);
 	$('input[name=numberOfChild]').attr('value',numberOfChild);
 	$('input[name=numberOfPeople]').attr('value',numberOfPeople);
-	
+	$('input[name=memberId]').attr('value','${sessionId}')
 	
 	
 	

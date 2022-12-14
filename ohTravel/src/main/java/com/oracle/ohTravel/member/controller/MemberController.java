@@ -24,6 +24,8 @@ import com.oracle.ohTravel.airport.model.Air_FlightSchDTO;
 import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.airport.model.Air_ScheduleDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
+import com.oracle.ohTravel.member.model.BasketDTO;
+import com.oracle.ohTravel.member.model.CouponDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -268,7 +270,7 @@ public class MemberController {
 		String sessionId = member.getMem_id();
 		System.out.println("MemberController myPageReservHotel sessionId -> " + sessionId );
 		
-		// 페이징 나중에
+		// 페이징 
 		hotelReservationDTO.setMem_id(sessionId);
 		int total = memberService.totalReservHotel(hotelReservationDTO);
 		System.out.println("MemberController myPageReviewPackage total -> " + total);
@@ -290,7 +292,7 @@ public class MemberController {
 	
 	// 항공 예약 내역 조회
 	@RequestMapping(value = "/myPageReservAir")
-	public String myPageReservAir(Air_ReservationDTO air_ReservationDTO,Air_FlightSchDTO air_FlightSchDTO,Air_ScheduleDTO air_ScheduleDTO,Model model, HttpServletRequest request) {
+	public String myPageReservAir(Air_ReservationDTO air_ReservationDTO,Air_FlightSchDTO air_FlightSchDTO,Air_ScheduleDTO air_ScheduleDTO, String currentPage, Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservAir start..");
 		HttpSession session = request.getSession();
 		// 로그인 안 했을 때 로그인 페이지로 이동
@@ -304,10 +306,10 @@ public class MemberController {
 		
 		// 페이징 나중에
 		air_ReservationDTO.setMem_id(sessionId);
-
+		
+		
 		
 		// 항공 예약 내역
-		air_ReservationDTO.setMem_id(sessionId);
 		Map<String,Object> map = new HashMap<>();
 		map.put("air_ReservationDTO",air_ReservationDTO);
 		map.put("air_FlightSchDTO",air_FlightSchDTO);
@@ -319,7 +321,7 @@ public class MemberController {
 
 		model.addAttribute("airReservList", airReservList);
 		model.addAttribute("airReservListSize", airReservListSize);
-		System.out.println("MemberController airReservList.size() -> " + airReservList.size());
+		System.out.println("MemberController airReservListSize -> " + airReservListSize);
 		
 		return "member/myPageReservAir";
 	}
@@ -359,46 +361,130 @@ public class MemberController {
 		return "member/myPageReservTicket";
 	}
 	
-	// 패키지 찜 페이지 이동
-	@GetMapping(value = "/myPageLikePackage")
-	public String goMyPageLikePackage() {
+	// 패키지 찜 
+	@RequestMapping(value = "/myPageLikePackage")
+	public String myPageLikePackage(BasketDTO basketDTO, Model model, String currentPage, HttpServletRequest request) {
+		log.info("MemberController myPageLikePackage start..");
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		
+		System.out.println("MemberController myPageLikePackage sessionId -> " + sessionId );
+		System.out.println("MemberController myPageLikePackage basketDTO -> " + basketDTO.getMem_id() );
+		System.out.println("MemberController myPageLikePackage basketDTO -> " + basketDTO.getBasket_id() );
+
+		basketDTO.setMem_id(sessionId);
+		
+		// 패키지 찜 내역
+		List<BasketDTO> packageLikeList = memberService.myPageLikePackage(basketDTO);
+		int packageLikeListSize = packageLikeList.size();
+		model.addAttribute("packageLikeList", packageLikeList);
+		model.addAttribute("packageLikeListSize", packageLikeListSize);
+		System.out.println("MemberController packageLikeList packageLikeListSize -> " + packageLikeListSize);
+		
 		return "member/myPageLikePackage";
 	}
 	
-	// 호텔 찜 페이지 이동
-	@GetMapping(value = "/myPageLikeHotel")
-	public String goMyPageLikeHotel() {
+	// 호텔 찜 
+	@RequestMapping(value = "/myPageLikeHotel")
+	public String myPageLikeHotel(BasketDTO basketDTO, Model model, String currentPage, HttpServletRequest request) {
+		log.info("MemberController myPageLikeHotel start..");
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		
+		System.out.println("MemberController myPageLikeHotel sessionId -> " + sessionId );
+		System.out.println("MemberController myPageLikeHotel basketDTO -> " + basketDTO.getMem_id() );
+		System.out.println("MemberController myPageLikeHotel basketDTO -> " + basketDTO.getBasket_id() );
+
+		basketDTO.setMem_id(sessionId);
+		
+		// 호텔 찜 내역
+		List<BasketDTO> hotelLikeList = memberService.myPageLikeHotel(basketDTO);
+		int hotelLikeListSize = hotelLikeList.size();
+		model.addAttribute("hotelLikeList", hotelLikeList);
+		model.addAttribute("hotelLikeListSize", hotelLikeListSize);
+		System.out.println("MemberController myPageLikeHotel hotelLikeListSize -> " + hotelLikeListSize);
+		
 		return "member/myPageLikeHotel";
 	}
 	
-	// 티켓 찜 페이지 이동
-	@GetMapping(value = "/myPageLikeTicket")
-	public String goMyPageLikeTicket() {
+	// 티켓 찜 
+	@RequestMapping(value = "/myPageLikeTicket")
+	public String myPageLikeTicket(BasketDTO basketDTO, Model model, String currentPage, HttpServletRequest request) {
+		log.info("MemberController myPageLikeTicket start..");
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		
+		System.out.println("MemberController myPageLikeTicket sessionId -> " + sessionId );
+		System.out.println("MemberController myPageLikeTicket basketDTO -> " + basketDTO.getMem_id() );
+		System.out.println("MemberController myPageLikeTicket basketDTO -> " + basketDTO.getBasket_id() );
+
+		// 페이징은 나중에
+		basketDTO.setMem_id(sessionId);
+		
+		// 티켓 찜 내역
+		List<BasketDTO> ticketLikeList = memberService.myPageLikeTicket(basketDTO);
+		int ticketLikeListSeize = ticketLikeList.size();
+		model.addAttribute("ticketLikeList", ticketLikeList);
+		model.addAttribute("ticketLikeListSize", ticketLikeListSeize);
+		System.out.println("MemberController myPageLikeTicket ticketLikeListSeize -> " + ticketLikeListSeize);
+		
 		return "member/myPageLikeTicket";
 	}
 	
-	// 쿠폰함(패키지) 페이지 이동
-	@GetMapping(value = "/myPageCouponPackage")
-	public String goMyPageCouponPackage() {
+	// 찜 삭제
+	@RequestMapping(value = "/deleteLike")
+	public String deleteLike() {
+		
+		return "";
+	}
+	
+	// 쿠폰함
+	@RequestMapping(value = "/myPageCouponPackage")
+	public String myPageCoupon(CouponDTO couponDTO, Model model, String currentPage, HttpServletRequest request) {
+		log.info("MemberController myPageCoupon start..");
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		
+		couponDTO.setMem_id(sessionId);
+		
+		List<CouponDTO> memCouponList = memberService.myPageCoupon(couponDTO);
+		int memCouponListSize = memCouponList.size();
+		model.addAttribute("memCouponList", memCouponList);
+		model.addAttribute("memCouponListSize", memCouponListSize);
+		System.out.println("MemberController myPageCoupon memCouponListSize -> " + memCouponListSize);
+		
 		return "member/myPageCouponPackage";
-	}
-	
-	// 쿠폰함(호텔) 페이지 이동
-	@GetMapping(value = "/myPageCouponHotel")
-	public String goMyPageCouponHotel() {
-		return "member/myPageCouponHotel";
-	}
-	
-	// 쿠폰함(항공) 페이지 이동
-	@GetMapping(value = "/myPageCouponAir")
-	public String goMyPageCouponAir() {
-		return "member/myPageCouponAir";
-	}
-	
-	// 쿠폰함(티켓) 페이지 이동
-	@GetMapping(value = "/myPageCouponTicket")
-	public String goMyPageCouponTicket() {
-		return "member/myPageCouponTicket";
 	}
 	
 	// 자주 찾는 질문 페이지 이동

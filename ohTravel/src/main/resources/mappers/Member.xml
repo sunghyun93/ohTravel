@@ -145,7 +145,7 @@
 	<!-- 패키지 리뷰 조회 -->
 	<select id="packageReviewList" resultType="ReviewDTO" parameterType="ReviewDTO">
 		<![CDATA[
-		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT * FROM review WHERE rv_real_id LIKE concat('%',#{pk},'%') AND mem_id = #{mem_id}) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT r.*, p.pkage_name FROM review r, package p WHERE rv_real_id LIKE concat('%',#{pk},'%') AND mem_id = #{mem_id} and r.rv_real_id = p.pkage_id) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
 		]]>
 	</select>
 	
@@ -157,7 +157,7 @@
 	<!-- 호텔 리뷰 조회 -->
 	<select id="hotelReviewList" resultType="ReviewDTO" parameterType="ReviewDTO">
 		<![CDATA[
-		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT * FROM review WHERE rv_real_id LIKE concat('%',#{ht},'%') AND mem_id = #{mem_id}) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT r.*, h.hotel_kor FROM review r, hotel h WHERE rv_real_id LIKE concat('%',#{ht},'%') AND mem_id = #{mem_id} and r.rv_real_id = h.hotel_id) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
 		]]>
 	</select>
 	
@@ -169,7 +169,7 @@
 	<!-- 티켓 리뷰 조회 -->
 	<select id="ticketReviewList" resultType="ReviewDTO" parameterType="ReviewDTO">
 		<![CDATA[
-		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT * FROM review WHERE rv_real_id LIKE concat('%',#{ti},'%') AND mem_id = #{mem_id}) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT r.*, t.ticket_name FROM review r, ticket_detail t WHERE rv_real_id LIKE concat('%',#{ti},'%') AND mem_id = #{mem_id} and r.rv_real_id = t.ticket_id) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
 		]]>
 	</select>
 	
@@ -179,8 +179,32 @@
 	</select>
 	
 	
+	<!-- 패키지 찜 내역 조회 -->
+	<select id="packageLikeList" resultType="BasketDTO" parameterType="BasketDTO">
+		SELECT b.*, p.pkage_name
+		FROM basket b, package p
+		WHERE basket_ref_id LIKE concat('%',#{pk},'%') 
+		AND mem_id = #{mem_id}
+		AND b.basket_ref_id = p.pkage_id
+	</select>
 	
+	<!-- 호텔 찜 내역 조회 -->
+	<select id="hotelLikeList" resultType="BasketDTO" parameterType="BasketDTO">
+		SELECT b.*, h.hotel_kor 
+		FROM basket b, hotel h
+		WHERE basket_ref_id LIKE concat('%',#{ht},'%') 
+		AND mem_id = #{mem_id}
+		AND b.basket_ref_id = h.hotel_id
+	</select>
 	
+	<!-- 티켓 찜 내역 조회 -->
+	<select id="ticketLikeList" resultType="BasketDTO" parameterType="BasketDTO">
+		SELECT b.*, t.ticket_name 
+		FROM basket b, ticket_detail t 
+		WHERE basket_ref_id LIKE concat('%',#{ti},'%') 
+		AND mem_id = #{mem_id}
+		AND b.basket_ref_id = t.ticket_id
+	</select>
 	
 	
 	

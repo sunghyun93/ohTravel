@@ -6,10 +6,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.oracle.ohTravel.manager.model.CouponDTO;
+import com.oracle.ohTravel.member.model.CouponDTO;
 import com.oracle.ohTravel.member.dao.MemberDao;
 import com.oracle.ohTravel.member.domain.Member;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
+import com.oracle.ohTravel.member.model.BasketDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -222,6 +223,39 @@ public class MemberServiceImpl implements MemberService{
 		System.out.println("MemberServiceImpl totalReservTicket total -> " + total);
 		return total;
 	}
+
+	// 패키지 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikePackage(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl myPageLikePackage start..");
+		List<BasketDTO> packageLikeList = memberDao.myPageLikePackage(basketDTO);
+		return packageLikeList;
+	}
+
+	// 호텔 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikeHotel(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl myPageLikeHotel start..");
+		List<BasketDTO> hotelLikeList = memberDao.myPageLikeHotel(basketDTO);
+		return hotelLikeList;
+	}
+
+	// 티켓 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikeTicket(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl myPageLikeTicket start..");
+		List<BasketDTO> ticketLikeList = memberDao.myPageLikeTicket(basketDTO);
+		return ticketLikeList;
+	}
+
+	// 쿠폰 내역
+	@Override
+	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO) {
+		log.info("MemberServiceImpl myPageCoupon start..");
+		List<CouponDTO> memCouponList = memberDao.myPageCoupon(couponDTO);
+		return memCouponList;
+	}
+
 
 
 
