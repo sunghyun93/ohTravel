@@ -288,6 +288,7 @@ public class MemberController {
 		int hotelReservListSize = hotelReservList.size();
 		model.addAttribute("hotelReservList", hotelReservList);
 		model.addAttribute("hotelReservListSize", hotelReservListSize);
+		model.addAttribute("page", page);
 		System.out.println("MemberController hotelReservList.size() -> " + hotelReservList.size());
 		
 		return "member/myPageReservHotel";
@@ -357,6 +358,7 @@ public class MemberController {
 		int ticketReservListSize = ticketReservList.size();
 		model.addAttribute("ticketReservList", ticketReservList);
 		model.addAttribute("ticketReservListSize", ticketReservListSize);
+		model.addAttribute("page", page);
 		System.out.println("MemberController ticketReservList.size() -> " + ticketReservList.size());
 		
 		return "member/myPageReservTicket";
