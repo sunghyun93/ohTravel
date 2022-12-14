@@ -115,7 +115,7 @@
 			success : function(data){
 				console.log(data);
 					let str ="";
-					str = "<thead><tr><th>예약번호</th><th>아이디</th><th>좌석등급</th><th>출발도착구분</th><th>예약일자</th><th>결제금액</th><th>일정</th></tr></thead>";
+					str = "<thead><tr><th>예약번호</th><th>아이디</th><th>좌석등급</th><th>출발도착구분</th><th>예약일자</th><th>결제금액</th></tr></thead>";
 				$.each(data, function(index,item){
 					str += "<tr><td>"+item.h_rev_id+"</td><td>"+item.mem_id+"</td>";
 					str += "<td>"+item.rev_per+"</td><td>"+item.rev_date+"</td>";
