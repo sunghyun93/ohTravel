@@ -26,17 +26,14 @@
 	<div class="container" style="min-height: 700px;">
 	<h1>항공사 추가</h1>
 	<hr>
-		<div class="mb-3">
-			<label for="air_code" class="form-label">항공사코드</label>
-			<input type="number" class="form-control" name="air_code" id="air_code" placeholder="항공사코드입력">
-		</div>
+
 		<div class="mb-3">
 			<label for="air_name" class="form-label">항공사명</label>
-			<input type="text" class="form-control" name="air_name" id="air_name" placeholder="항공사명 입력">
+			<input type="text" class="form-control" name="air_name" id="air_name" placeholder="항공사명 입력" required="required">
 		</div>
 		<div class="mb-3">
 			<label for="air_picture" class="form-label">이미지</label>
-			<input type="file" class="form-control" id="air_picture" name="file1" onchange="rep(event)" accept="image/*">
+			<input type="file" class="form-control" id="air_picture" name="file1" onchange="rep(event)" accept="image/*" required="required">
 			<div id="image_rep_container"></div>
 		</div>
 		

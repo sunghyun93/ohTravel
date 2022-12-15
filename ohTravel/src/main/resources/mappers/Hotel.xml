@@ -5,67 +5,107 @@
 <mapper namespace="com.oracle.ohTravel.Hotel">
 
 	<select id="hotelList" resultType="Hotel">
-		SELECT hotel_id, city_id, hotel_kor, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_tel, room_cnt, checkin, checkout, 
-			(	SELECT 	FORMAT( IFNULL ( AVG(r.rv_rating) , 0 ), 1)
+		SELECT h.hotel_id, city_id, hotel_kor, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_tel, room_cnt, checkin, checkout, 
+			(	SELECT 	FORMAT( avg(IFNULL (rv_rating, 0)), 1 )
 				FROM 	review r
-				WHERE 	r.rv_real_id = h.hotel_id 	) hotel_score
+				WHERE 	r.rv_real_id = h.hotel_id 	) hotel_score, hi.h_img_path
 		FROM hotel h 
+		LEFT JOIN hotel_image hi ON hi.hotel_id = h.hotel_id
 	</select>
 	
 	<select id="hotelDetail" resultType="Hotel">
-		SELECT h.hotel_id, h.city_id, h.hotel_kor, h.hotel_eng, h.hotel_loc, h.hotel_grade, h.hotel_tel, h.room_cnt, h.checkin, h.checkout, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price
+		SELECT h.hotel_id, h.city_id, h.hotel_kor, h.hotel_eng, h.hotel_loc, h.hotel_grade, h.hotel_tel, h.room_cnt, h.checkin, h.checkout, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price, hi.h_img_path
 		FROM room r 
 		LEFT JOIN room_detail rd on r.room_id = rd.room_id 
 		LEFT JOIN hotel h on r.hotel_id = h.hotel_id 
+		LEFT JOIN hotel_image hi ON hi.hotel_id = h.hotel_id
 		WHERE h.hotel_id= #{hotel_id}
 	</select>
 	
-	
-<!-- 	<select id="roomList" resultType="Room">
-		SELECT r.room_id, r.room_type, r.room_name, rd.room_price, r.hotel_id, rd.room_date, rd.room_detail_id
-		FROM room r
-		LEFT JOIN room_detail rd ON r.room_id = rd.room_id
-		WHERE r.hotel_id = #{hotel_id}
-		AND rd.room_rev = 'Y'
-		AND rd.room_date = #{startDate}
-	</select>  -->
-	
-	
  	<select id="roomList" resultType="Room">
-		SELECT * , count(room_date) as canRevDateCnt
+		SELECT 	r.room_id
+				, r.room_type
+			 	, sum(rd.room_price) as room_price
+			 	, r.room_name
+			 	, count(room_date) as canRevDateCnt
 		FROM room r
 		LEFT OUTER JOIN (
 		               SELECT * , count(room_detail_id) as cnt
 		               FROM room_detail
 		               WHERE room_rev = 'Y'
-		               AND room_date BETWEEN #{startDate} AND #{endDate}
+		               AND room_date BETWEEN #{startDate} AND date_sub(#{endDate}, INTERVAL 1 DAY)
 		               group by room_id, room_date
 		            ) rd
 		ON r.room_id = rd.room_id
 		WHERE r.hotel_id = #{hotel_id}
+		AND r.room_per >= #{numberOfPeople}
 		AND cnt >= 1
 		GROUP BY r.room_id
-		HAVING canRevDateCnt = #{calDate}+1
+		HAVING canRevDateCnt = #{calDate}
 	</select>
 	
 	<select id="roomDetailList" resultType="Room">
-		SELECT rd.*, r.*, h.hotel_kor, h.hotel_eng
-		FROM room_detail rd
-		LEFT JOIN room r ON r.room_id = rd.room_id
-		LEFT JOIN hotel h ON h.hotel_id = r.hotel_id
+		SELECT 	
+				h.hotel_kor
+                , r.room_name
+			 	, sum(rd.room_price) as room_price
+			 	, count(room_date) as canRevDateCnt
+		FROM hotel h
+		LEFT OUTER JOIN room r
+        ON h.hotel_id = r.hotel_id
+		LEFT OUTER JOIN (
+		               SELECT * , count(room_detail_id) as cnt
+		               FROM room_detail
+		               WHERE room_rev = 'Y'
+		               AND room_date BETWEEN #{startDate} AND date_sub(#{endDate}, INTERVAL 1 DAY)
+		               group by room_id, room_date
+		            ) rd
+		ON r.room_id = rd.room_id
 		WHERE r.room_id = #{room_id}
-		AND rd.room_date BETWEEN #{startDate} AND #{endDate}
-		AND rd.room_rev = "Y"
+		AND r.room_per >= #{numberOfPeople}
+		AND cnt >= 1
 		GROUP BY r.room_id
+		HAVING canRevDateCnt = #{calDate}
 	</select>
-<!-- <insert id="">
-		
-		<selectKey keyColumn="next_id" keyProperty="hotelID" order="BEFORE" res
-			select max(hotel_id)+1 as next_idultType="int">
-			from hotel
-			where hotel_id like '%'+#{city_id}+'%'
+	
+	<select id="membershipInfo" resultType="Room">
+		SELECT ms.membership_name, mms.mem_mile, ms.membership_discount
+		FROM mem_membership mms 
+		LEFT JOIN membership ms on ms.membership_id = mms.membership_id
+		WHERE mms.mem_id = #{mem_id};
+	</select>
+	
+	<update id="updateReserveStat">
+	
+		<selectKey keyColumn="room_detail_id" order="BEFORE" keyProperty="room_detail_id" resultType="int">
+			SELECT 	MIN(room_detail_id) as room_detail_id
+			FROM 	room_detail
+			WHERE 	room_id = #{room_id}
+			AND 	room_date = date_add(#{startDate}, INTERVAL #{intervalDay} day)
+			AND 	room_rev = 'Y'
 		</selectKey>
 		
-		insert into hotel(hotel_id) values (#{hotelID})
-	</insert> -->
+		UPDATE 	room_detail
+		SET 	room_rev = 'N'
+		WHERE 	room_detail_id = #{room_detail_id}
+		
+	</update>
+	
+	<insert id="insertReserveInfo" useGeneratedKeys="true" keyProperty="h_rev_id">
+		INSERT INTO hotel_reservation (mem_id, room_detail_id, rev_stat, rev_per, rev_date, rev_tot_price) 
+		VALUES (#{mem_id}, #{room_detail_id}, '결제완료', #{numberOfPeople }, now(), #{rev_tot_price});
+	
+	</insert>
+	
+	<insert id="insertHotelPayment">
+		INSERT INTO payment (mem_id, h_rev_id, payment_method) VALUES (#{mem_id}, #{h_rev_id}, 'card');
+	
+	</insert>
+	
+	<update id="updateMemberMile">
+		UPDATE 	mem_membership 
+		SET 	mem_mile = mem_mile + #{mile}
+		WHERE	mem_id = #{mem_id}
+	</update>
+
 </mapper>

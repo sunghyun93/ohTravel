@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +29,10 @@ import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
 import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.country.service.CountryService;
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.manager.model.PaymentDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
+import com.oracle.ohTravel.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +46,7 @@ public class AirportController {
 	private final CityService cityService;
 	private final CountryService countryService;
 	private final ScheduleService scheduleService;
+	private final MemberService memberService;
 	
 	//항공권 검색
 	@RequestMapping(value = "/searchTicket")
@@ -155,7 +159,7 @@ public class AirportController {
 	
 	@GetMapping("/searchAirplaneAjax")
 	@ResponseBody
-	public ModelAndView searchAirplaneAjax(String seat_position,int order,AirSearch airSearch) {
+	public ModelAndView searchAirplaneAjax(String seat_position,Integer order,AirSearch airSearch) {
 		
 		System.out.println("searchAirplaneAjax airSearch="+airSearch);
 		System.out.println("searchAirplaneAjax order="+order);
@@ -261,18 +265,45 @@ public class AirportController {
 	
 	
 	@PostMapping("/airplaneReserve")
-	public String airReserve(Integer go_schedule_id,Integer come_schedule_id, Integer count,Integer total_price, String go_airplane_name,String come_airplane_name,String seat_position,String seat_name,Model model,HttpSession session) {
+	public String airReserve(Integer go_schedule_id,Integer come_schedule_id, Integer count,Integer go_price,Integer come_price,Integer total_price, String go_airplane_name,String come_airplane_name,String seat_position,String seat_name,Model model,HttpSession session) throws Exception {
 		
+		// 현재 로그인하고 있는 사용자 정보
 		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		log.info("memberDTO = " + memberDTO);
 		
 		if(memberDTO == null) {
-			return "redirect:/member/loginForm";
+		return "redirect:/member/loginForm";
 			
 		}
+		String mem_id = memberDTO.getMem_id();
+		
+		// 멤버 (등급 까지 들고가기)
+		memberDTO = memberService.selectMemberWithGrade(mem_id);
+		System.out.println("memberDTO="+memberDTO);
+		
+		List<CouponDTO> couponList = memberService.selectMemberWithCoupon(mem_id);
+		System.out.println("couponList="+couponList);
+		log.info("couponList = " + couponList);
+		memberDTO.setCouponList(couponList);
+		
+		
+		// 회원 등급 적용한 가격 가져가기
+		int priceWithGd =  total_price- (total_price*memberDTO.getMembership_discount() / 100);
+		System.out.println("priceWithGd="+priceWithGd);
+	
+		
+		// 회원 등급 적용한 마일리지 가져가기
+		int mile =  total_price *  memberDTO.getMembership_discount() / 100;
+		System.out.println("mile="+mile);
+		
+		System.out.println("가는가격?"+go_price);
+		System.out.println("오는가격?"+come_price);
 		
 		model.addAttribute("count", count);
 		model.addAttribute("price", total_price);
+		model.addAttribute("go_price", go_price);
+		model.addAttribute("come_price", come_price);
+		
 		model.addAttribute("go_schedule_id", go_schedule_id);
 		model.addAttribute("come_schedule_id", come_schedule_id);
 		model.addAttribute("go_airplane_name", go_airplane_name);
@@ -280,6 +311,13 @@ public class AirportController {
 		model.addAttribute("seat_position", seat_position);
 		model.addAttribute("seat_name", seat_name);
 		model.addAttribute("memberDTO", memberDTO);
+		model.addAttribute("mem_id", mem_id);
+		model.addAttribute("couponList", couponList);
+		model.addAttribute("mile", mile);
+		model.addAttribute("priceWithGd", priceWithGd);
+		
+	
+		
 		System.out.println("price="+total_price);
 		
 		
@@ -288,7 +326,7 @@ public class AirportController {
 	
 	@PostMapping("/airplaneInsertReservation")
 	@ResponseBody
-	public int airInsertReserve(Integer count,String go_airplane_name,String come_airplane_name,String seat_position,Integer go_schedule_id,Integer come_schedule_id,Air_ReservationDTO air_ReservationDTO,PeopleInfo peopleInfo,Air_FlightSchDTO air_FlightSchDTO,Reservation_Seat reservation_Seat,PaymentDTO paymentDTO,Air_ScheduleDTO air_ScheduleDTO,HttpSession session) throws Exception {
+	public int airInsertReserve(Integer coupon_id,Integer count,String go_airplane_name,String come_airplane_name,String seat_position,Integer go_schedule_id,Integer come_schedule_id,Air_ReservationDTO air_ReservationDTO,PeopleInfo peopleInfo,Air_FlightSchDTO air_FlightSchDTO,Reservation_Seat reservation_Seat,PaymentDTO paymentDTO,Air_ScheduleDTO air_ScheduleDTO,HttpSession session) throws Exception {
 		System.out.println("peopleInfo="+peopleInfo);
 		System.out.println("go_airplane_name="+go_airplane_name);
 		System.out.println("come_airplane_name="+come_airplane_name);
@@ -335,6 +373,7 @@ public class AirportController {
 		map.put("mem_id",memberDTO.getMem_id());
 		map.put("air_ScheduleDTO",air_ScheduleDTO);
 		map.put("count",count);
+		map.put("coupon_id",coupon_id);
 		
 		System.out.println("map="+map);
 		
@@ -344,7 +383,7 @@ public class AirportController {
 		 System.out.println("insertMethod 갯수?"+insertMethod);
 		 
 		
-		 
+		  
 		
 		 
 //		 int reservationCnt = scheduleService.insertReservation(air_ReservationDTO);
@@ -370,10 +409,10 @@ public class AirportController {
 	}
 	
 	@PostMapping("/reservationComplete")
-	public String  reservationComplete(Integer reservation_id,HttpSession session, Model model) {
+	public String  reservationComplete(Integer coupon_id,Integer reservation_id,HttpSession session, Model model) {
 		
 		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
-		
+
 		Air_ReservationDTO air_ReservationDTO = scheduleService.selectCompleteReservationId(reservation_id);
 		
 		model.addAttribute("air_ReservationDTO",air_ReservationDTO);

@@ -8,6 +8,13 @@
 <title>Oh!Travel - 숙박업체</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/css/hotel/style.css">
 </head>
+<style>
+	.place-img img {
+		width: 300px;
+ 		height: 250px;
+		
+	}
+</style>
 <body>
 	<div class="hotel_container">
 		
@@ -93,11 +100,11 @@
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="${pageContext.request.contextPath }/assets/img/service/services1.jpg" alt="">
+                                <img src="${hotelList.h_img_path }" alt="">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score }Superb</span> </span>
+                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score } Superb</span> </span>
                                     <h3><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
                                     <p class="dolor">$1870 <span>/ Per Person</span></p>
                                 </div>
@@ -207,7 +214,7 @@
 	</div> <!-- hotel_container 끝 -->
 <script type="text/javascript">
 ////////////////////////출발지역 또는 도착지역 모달창 클릭시 모달실행///////////////////////
-function onClick() {
+/* function onClick() {
     document.querySelector('.modal_wrap').style.display ='block';
     document.querySelector('.black_bg').style.display ='block';
     
@@ -221,10 +228,10 @@ function offClick() {
 }
 
 document.getElementById('modal_btn').addEventListener('click', onClick);
-document.querySelector('.modal_close').addEventListener('click', offClick);
+document.querySelector('.modal_close').addEventListener('click', offClick); */
 //////////////////////////////////////////////////////////////////////////
 
-$(function() {
+/* $(function() {
 	// 국가를 눌렀을 때 해당 국가에 대한 도시들 가져오는 ajax
 	$('.country_li').on('click', function() {
 		// 클릭했을 때의 국가 ID
@@ -281,13 +288,9 @@ $(function() {
 		}
 
 	});
-})
+}) */
 	
 
-
-</script>
-</body>
-</html>
 
 </script>
 </body>

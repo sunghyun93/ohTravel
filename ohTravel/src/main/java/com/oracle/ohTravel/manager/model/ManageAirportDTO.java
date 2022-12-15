@@ -1,6 +1,6 @@
 package com.oracle.ohTravel.manager.model;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import lombok.Data;
 
@@ -8,6 +8,9 @@ import lombok.Data;
 public class ManageAirportDTO {
 	//일정(auto_increment)
 	private int schedule_id;
+	private int general_res_count;
+	private int business_res_count;
+	private int first_res_count;
 	//항공사 정보
 	private int air_num;
 	private int air_code;
@@ -47,6 +50,23 @@ public class ManageAirportDTO {
 	//예약좌석
 	private int reservation_id;
 	private int seated_status;
+	
+	//예약용
+	private String mem_id;
+	private Date reservation_date;
+	private int reservation_price;
+	private int air_gubun;
+	private int air_pi_id;
+	private String air_pi_name;
+	private Date air_pi_birth;
+	private int air_pi_gen;
+	private int air_pi_lname;
+	private int air_pi_fname;
+	private int air_pi_tel;
+	private String air_pi_email;
+	private String air_passport;
+	
+	
 	
 	//조회용
 	private String search;   	private String keyword;

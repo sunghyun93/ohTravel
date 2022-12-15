@@ -56,10 +56,9 @@
 			</div> <!-- ht_simple_option 끝 -->
 			
 			<div class="room_info">
-				
 				<div class="rev_option">
 <!-- 					<a href="myModal" class="genric-btn primary ela" data-toggle="modal" data-target="#myModal">날짜 선택</a>
- -->					<button type="button" class="genric-btn primary ela" onclick="getRoomOption()">날짜 선택</button>
+					<button type="button" class="genric-btn primary ela" onclick="getRoomOption()">날짜 선택</button> -->
 					<div class="ppl">
 	
 					<div class="black_bg3"></div>
@@ -67,46 +66,36 @@
 						<div class="modal_close3"><span>close</span></div>
 						<div class="member_count_entire">
 						
-						<span class="ppl_select">인원</span><hr width="460px">
+						<span class="ppl_select">옵션 선택</span><hr width="460px">
 							<ul>
-									<li>
-	                                     <p class="tit">
-	                                            <span class="txt">객실 수 </span>
-	                                     </p>
-	                                        <span class="num_count_group">
-	                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
-	                                            <span class="inpt_counter roomCnt"></span>
-	                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
-	                                       </span>
-	                            	 </li> 
-									<li>
+								<li>
 									<p class="tit">
-	                                            <span class="txt">성인</span><br>
-	                                        </p>
-	                                        <span class="num_count_group">
-	                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
-	                                            <span class="inpt_counter adultCnt"></span>
-	                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
-	                                        </span>
-									</li>
+	                           			<span class="txt">성인</span><br>
+	                               	</p>
+                                  <span class="num_count_group">
+                                      <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+                                      <span class="inpt_counter adultCnt"></span>
+                                      <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+                                  </span>
+								</li>
 								
 									<li>
-	                                     <p class="tit">
+	                                    <p class="tit">
 											<span class="txt">아동</span>
-	                                     </p>
-	                                        <span class="num_count_group">
-	                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
-	                                            <span class="inpt_counter childCnt"></span>
-	                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
-	                                       </span>
-	                           		  </li> 
+	                                    </p>
+                                        <span class="num_count_group">
+                                            <button class="btn_decrement down"><img src="${pageContext.request.contextPath}/airport/img/minus.png"></button>
+                                            <span class="inpt_counter childCnt"></span>
+                                            <button class="btn_increment up"><img src="${pageContext.request.contextPath}/airport/img/plus.png"></button>
+                                       </span>
+                           		  	</li> 
 								</ul>
 							<br><br>
 							<div class="select_complete"><span class="select_complete_text">선택완료</span></div>
 						</div>	
 					</div>
 				</div>
-				</div>
+			</div>
 					
 		<!--티켓 검색부분  -->
 		<div class="searchOption">
@@ -123,9 +112,6 @@
 				<div class="optionComplete">
 					<button type="button" class="genric-btn primary ela" onclick="getRoomList()">객실 검색</button>
 				</div>
-				<div class="reservation">
-					<button class="genric-btn primary ela">예약하기</button>
-				</div>
 			</div>
 		</div>
 		
@@ -135,6 +121,10 @@
 			<input type="hidden" name="endDate" value="">
 			<input type="hidden" name="calDate" value="">
 			<input type="hidden" name="room_id" value="">
+			<input type="hidden" name="numberOfAdult" value="">
+			<input type="hidden" name="numberOfChild" value="">
+			<input type="hidden" name="numberOfPeople" value="">
+			<input type="hidden" name="memberId" value="">
 		</form>
 	
 		<div id="roomAllInfo"> <!-- 선택한 날짜에 해당하는 객실 정보 창 나오는 div -->
@@ -149,7 +139,6 @@
 				<div class="conv_title">숙소 편의시설</div>
 			</div>
 		</div> <!-- ht_option -->
-				
 				
 		<!-- 리뷰 시작 -->
 		<div class="all_review">
@@ -243,21 +232,18 @@ $(function() {
             let adultCnt = $('.adultCnt');
             let childCnt = $('.childCnt');
 
-                // 업 버튼 / 다운 버튼
+            // 업 버튼 / 다운 버튼
             let up = $('.up');
             let down = $('.down');
 
-                // 성인 가격 / 아동 가격 (서버에서 받아와야 함 - 우선 하드코딩)
-            let adultPrice;
-            let childPrice;
-                // 총 금액 
+            // 총 금액 
             let totalPay = $('.con');
 
-                // 인원 수 기본 설정
+            // 인원 수 기본 설정
             adultCnt.text("1");
             childCnt.text("0");
 
-                // 총 금액 기본 설정 (서버에서 받아와야 함 - 우선 하드코딩)
+            // 총 금액 기본 설정 (서버에서 받아와야 함 - 우선 하드코딩)
             //totalPay.html('789,000<em>원</em>');
 
             up.on('click', function() {
@@ -342,16 +328,31 @@ $(function() {
 ///////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////성인과 좌석 선택시 값이 들어아게하는 함수///////////////////////////////
+let numberOfPeople = 1;
+let numberOfAdult = 1;
+let numberOfChild = 0;
 $(function(){
 	 $(".select_complete").click(function(){
-	    	var count = $(".inpt_counter adultCnt").text();
-	    	var count1 = $(".inpt_counter childCnt").text();
-	    	var count2 = $(".inpt_counter roomCnt").text();
-	    	$(".ppl_check_text").text("");
-	    	$(".ppl_check_text").text("성인"+ count+"명 / 아동"+ count1+"명 / 객실"+count2+"수" );
+		 
+	    	let adultCnt = $(".inpt_counter.adultCnt").text();
+	    	let childCnt = $(".inpt_counter.childCnt").text();
+	    	
+	    	numberOfAdult = Number(adultCnt)
+	    	numberOfChild = Number(childCnt)
+	    	numberOfPeople = numberOfAdult + numberOfChild/2;
+	    	
+	    	let check_text = "성인 "+ adultCnt+"명";
+	    	
+	    	if( Number(childCnt) > 0 ) {
+	    		check_text += " / 아동 "+ childCnt+"명";
+	    	}
+	    	
+	    	$(".ppl_check_text").text(check_text);
+	    	
+	    	pplOffClick();
 	    	
 	    });
-});
+});	
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////날짜 /////////////////////////////
@@ -439,9 +440,25 @@ function getRoomOption(){
 	
 }
 
+function isLogined () {
+	// 로그인 체크 -> 그대로 진행
+	// 로그인이 안 되어 있으면 -> return false;
+	let mem_id = '${member.mem_id }'
+	if(!mem_id) {
+		return false;
+	} else {
+		return true;
+	}
+}
 
 function goReserve(room_id){
-	 
+	
+	if(!isLogined()) {
+		alert('로그인 후 예약해주세요.')
+		location.href="${pageContext.request.contextPath }/member/loginForm"
+		return false;
+	}
+	
 	let startDate = $('#dates_start_check').val()
 	let endDate = $('#dates_start_end').val()
 	
@@ -455,30 +472,20 @@ function goReserve(room_id){
 	let calDate = cal / (1000*60*60*24);
 	
 	
-			$('input[name=startDate]').attr('value',startDate);
-			$('input[name=endDate]').attr('value',endDate);
-			$('input[name=calDate]').attr('value',calDate);
-			$('input[name=room_id]').attr('value',room_id);
-			
-			
-			ReserveForm.submit();
+	$('input[name=startDate]').attr('value',startDate);
+	$('input[name=endDate]').attr('value',endDate);
+	$('input[name=calDate]').attr('value',calDate);
+	$('input[name=room_id]').attr('value',room_id);
 	
-/* 	$.ajax({
-		
-		url:"${pageContext.request.contextPath }/hotel/hotelReservation",
-		data: {
-			startDate, endDate, calDate, room_id
-		},
-		type: 'get',
-		success: function(result){
-			
-			console.log(result)
-			//location.href="/hotel/hotelReserve"
-		}
-		
-		
-	});
-	 */
+	$('input[name=numberOfAdult]').attr('value',numberOfAdult);
+	$('input[name=numberOfChild]').attr('value',numberOfChild);
+	$('input[name=numberOfPeople]').attr('value',numberOfPeople);
+	$('input[name=memberId]').attr('value','${sessionId}')
+	
+	
+	
+	ReserveForm.submit();
+
 	
 	
 }
@@ -510,6 +517,7 @@ function getRoomList(){
 			startDate, endDate, calDate,
 			hotel_id : '${hotelDetail.hotel_id}',
 			//인원수
+			numberOfPeople
 	}
 	
 	
@@ -540,28 +548,13 @@ function makeRoomList(data) {
 	console.log(data);
 	console.log(data.length);
 	
-	let arr = [];
-	let str ='';
-	let roomType = '';
+	let typeSet = new Set();
 	
 	for(let j = 0; j < data.length; j++) {
-		
-		roomType = data[j].room_type
-		if(j !== data.length - 1){
-			str += roomType+','
-		}
-		else {
-			str += roomType
-		}
-		
+		typeSet.add(data[j].room_type)
 	}
 	
-	arr = str.split(',')
-	
-	let typeSet = new Set(arr);
 	let typeArr = Array.from(typeSet);
-	
-	console.log('typeSet을array로 변환한 typeArr 입니다 -> ' +typeArr) 
 	
 	
     $('#roomAllInfo').empty(); /*Delete Tag*/
@@ -583,7 +576,7 @@ function makeRoomList(data) {
 		innerHtml +=				           	'<p>'+typeArr[i]+'</p>'
 		innerHtml +=					   	'</div>'
 		innerHtml +=    				'</a>'
-		innerHtml +=    				'<div id="panelBodyHere">'
+		innerHtml +=    				'<div id="room_'+typeArr[i]+'">'
 		innerHtml +=    				'</div>'
 										
 	    innerHtml +=    '</div> <!-- panel-default -->'
@@ -597,9 +590,9 @@ function makeRoomList(data) {
 	$('#roomAllInfo').append(innerHtml);
 	
 	
-	let innerHtmlBody = '';
 	
  	for(let j = 0; j < data.length; j++){
+		let innerHtmlBody = '';
 		
 		innerHtmlBody +=				'<div id="collapse_'+data[j].room_type+'" class="panel-collapse collapse" role="tabpanel">'	
 		innerHtmlBody +=     				'<div class="panel-body">'
@@ -611,7 +604,7 @@ function makeRoomList(data) {
 		innerHtmlBody +=							'<h3>'+data[j].room_name+'</h3>'
 		innerHtmlBody +=						'</div>'
 		innerHtmlBody +=						'<div class="r_price">'
-		innerHtmlBody +=							'<h3>'+data[j].room_price+'</h3>'
+		innerHtmlBody +=							'<h3>'+data[j].room_price.toLocaleString()+'</h3>'
 		innerHtmlBody +=						'</div>'
 		innerHtmlBody +=						'<div class="reservation">'
 		innerHtmlBody +=							'<button type="button" class="genric-btn primary ela" onclick="goReserve('+data[j].room_id+')">예약하기</button>'
@@ -620,9 +613,9 @@ function makeRoomList(data) {
 		innerHtmlBody +=				'</div><!-- panel-body -->'
 		innerHtmlBody +=   	 		 '</div> <!-- #collapse1 -->'
 	    
+			$('#room_'+data[j].room_type).append(innerHtmlBody); 
 		}
  	
-		$('#panelBodyHere').append(innerHtmlBody); 
 
  		
 }

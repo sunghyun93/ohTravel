@@ -42,6 +42,7 @@ public class Pkage_detailDTO {
 	private long timeInStart;	// 출발 때 걸린 비행 시간
 	private long timeInEnd;		// 도착 때 걸린 비행 시간
 	private int flightExist = 0; // 비행 일정이 있는지 구분 , 0:없음, 1:있음(해외 or 제주도)
+	private int possibleCnt;	// 예약 가능 인원
 	
 	// 요일 구하는 함수
 	public String getYoil(Date date) {

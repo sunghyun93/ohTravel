@@ -74,48 +74,65 @@ function changeAirline(){
 		if (text == 'update') {
 			if (air_num == null || air_num == "") {
 				alert('항공사를 선택하세요');
-			} else if (airplane_name == null || airplane_name == "") {
-				alert("항공편명을 선택하세요");
-			} else if (start_airport_name == null || start_airport_name == "") {
-				alert("출발공항을 선택하세요");
-			} else if (end_airport_name == null || end_airport_name == "") {
-				alert("도착공항을 선택하세요");
-			} else if (start_airport_name == end_airport_name) {
-				alert("출발공항과 도착공항은 같을수 없습니다")
-			} else if((result1 - result2)>0){
-				alert("도착날짜는 출발날짜보다 이전일수 없습니다")
-			} else if ((result1 - result2)==0){
-				if((result3 - result4) >= 0){
-					alert("같은날에 도착시간은 출발시간보다 이전일수 없습니다")
-				}
-			} else if (start_time >= end_time) {
-				alert("도착시간은 출발시간과 같거나 출발시간 이전일수 없습니다");
-			} else {
-
-				$.ajax({
-					url : 'updateAirSchedule',
-					data : {
-						'air_num' : air_num,
-						'airplane_name' : airplane_name,
-						'start_airport_name' : start_airport_name,
-						'end_airport_name' : end_airport_name,
-						'start_time' : start_time,
-						'end_time' : end_time,
-						'schedule_id' : schedule_id,
-						'schedule_price' : schedule_price
-					},
-					method : 'POST',
-					success : function(data) {
-						if (data == 1) {
-							alert("수정이 성공되었습니다");
-							location.href = 'manageAir';
-						} else {
-							alert("문제가 있습니다");
-						}
-
-					}
-				})
+				return false;
 			}
+			if (airplane_name == null || airplane_name == "") {
+				alert("항공편명을 선택하세요");
+				return false;
+			}
+			if (start_airport_name == null || start_airport_name == "") {
+				alert("출발공항을 선택하세요");
+				return false;
+			}
+			if (end_airport_name == null || end_airport_name == "") {
+				alert("도착공항을 선택하세요");
+				return false;
+			}
+			if (start_airport_name == end_airport_name) {
+				alert("출발공항과 도착공항은 같을수 없습니다");
+				return false;
+			}
+			if((result1 - result2)>0){
+				alert("도착날짜는 출발날짜보다 이전일수 없습니다");
+				return false;
+			}
+			if ((result1 - result2)==0){
+				if((result3 - result4) >= 0){
+					alert("같은날에 도착시간은 출발시간보다 이전일수 없습니다");
+					return false;
+				}
+			}
+			if (start_time >= end_time) {
+				alert("도착시간은 출발시간과 같거나 출발시간 이전일수 없습니다");
+				return false;
+			}
+			if(schedule_price==null||schedule_price==''){
+				alert("가격이 빈칸이거나 문자열이 있습니다");
+				return false;
+			}
+			$.ajax({
+				url : 'updateAirSchedule',
+				data : {
+					'air_num' : air_num,
+					'airplane_name' : airplane_name,
+					'start_airport_name' : start_airport_name,
+					'end_airport_name' : end_airport_name,
+					'start_time' : start_time,
+					'end_time' : end_time,
+					'schedule_id' : schedule_id,
+					'schedule_price' : schedule_price
+				},
+				method : 'POST',
+				success : function(data) {
+					if (data == 1) {
+						alert("수정이 성공되었습니다");
+						location.href = 'manageAir';
+					} else {
+						alert("문제가 있습니다");
+					}
+
+				}
+			})
 		}else if (text == 'delete') {
 			message = confirm("정말로 삭제하시겠습니까?");
 			if (message) {

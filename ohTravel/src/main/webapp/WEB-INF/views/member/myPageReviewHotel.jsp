@@ -70,7 +70,7 @@
 					                </colgroup>
 					                <thead>
 					                    <tr>
-					                        <th>글번호</th>
+					                        <th>리뷰 ID</th>
 					                        <th>상품명</th>
 					                        <th>리뷰</th>
 					                        <th>작성일자</th>
@@ -80,7 +80,7 @@
 					                    <c:forEach var="hotelReviewList" items="${hotelReviewList}">
 					                    <tr>
 					   						<td>${hotelReviewList.rv_id}</td>
-					                    	<td>${hotelReviewList.rv_real_id}</td>
+					                    	<td>${hotelReviewList.hotel_kor}</td>
 					                    	<td>${hotelReviewList.rv_contents}</td>
 					                    	<td>${hotelReviewList.rv_date}</td>
 					                    </tr>

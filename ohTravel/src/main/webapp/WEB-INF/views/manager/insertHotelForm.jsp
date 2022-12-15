@@ -49,6 +49,18 @@
 		});
 	};
 	
+	
+	function rep(event) {
+		var reader = new FileReader();
+		$("#image_rep_container").empty();
+		reader.onload = function(event) {
+		var img = document.createElement("img");
+		img.setAttribute("src", event.target.result);
+		img.setAttribute("class", "col-lg-6");
+		document.querySelector("div#image_rep_container").appendChild(img);
+		};
+	reader.readAsDataURL(event.target.files[0]);
+	}
 
 </script>
 </head>
@@ -107,8 +119,8 @@
 			<input type="text" class="form-control" name="hotel_tel" id="hotel_tel" placeholder="호텔 대표번호 입력">
 		</div>
 		<div class="mb-3">
-			<label for="hotel_rv_num" class="form-label">호텔 객실수</label>
-			<input type="number" class="form-control" name="hotel_rv_num"  id="hotel_rv_num" value="0" placeholder="호텔 객실수 입력">
+			<label for="room_cnt" class="form-label">호텔 객실수</label>
+			<input type="number" class="form-control" name="room_cnt"  id="room_cnt" value="0" placeholder="호텔 객실수 입력">
 		</div>
 		<div class="mb-3">
 			<label for="checkin" class="form-label">호텔 체크인시간</label>
@@ -148,7 +160,7 @@
 
 		<div class="mb-3">
 			<label for="air_picture" class="form-label">이미지</label>
-			<input type="file" class="form-control" id="air_picture" name="file1" onchange="rep(event)" accept="image/*">
+			<input type="file" class="form-control" id="air_picture" name="file1" onchange="rep(event)" accept="image/*" required="required">
 			<div id="image_rep_container"></div>
 		</div>
 		<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageAir'" value="돌아가기">

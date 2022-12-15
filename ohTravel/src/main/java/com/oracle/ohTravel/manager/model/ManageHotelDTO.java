@@ -17,8 +17,7 @@ public class ManageHotelDTO {
 	private String hotel_type;
 	private int hotel_grade;
 	private String hotel_tel;
-	private double hotel_score;
-	private int hotel_rv_num;
+	private int room_cnt;
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm", timezone = "Asia/Seoul")
 	private String checkin;
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm", timezone = "Asia/Seoul")
@@ -73,6 +72,13 @@ public class ManageHotelDTO {
 	private String[] optionName = {"wifi","흡연가능","레스토랑","주차","쇼핑시설","전기차 충전소","욕실용품","커피 메이커","룸서비스","장애인 편의시설","발코니/테라스","안전금고"};
 	private String[] optionArray;
 	
+	//예약
+	private int h_rev_id;
+	private String mem_id;
+	private String rev_stat;
+	private int rev_per;
+	private Date rev_date;
+	private int rev_tot_price;
 	
 	//조회용
 	private String search;   	private String keyword;

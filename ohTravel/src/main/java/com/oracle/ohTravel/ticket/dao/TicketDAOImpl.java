@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.ticket.model.TicketDTO;
+import com.oracle.ohTravel.ticket.model.TicketReservation;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +18,6 @@ public class TicketDAOImpl implements TicketDAO {
 	/* MyBatis DB 연동 */
 	private final SqlSession session;
 
-	
 	@Override
 	public int totalTicket() {
 		int totTicketCnt = 0;
@@ -54,11 +55,33 @@ public class TicketDAOImpl implements TicketDAO {
 		
 		return ticketDTO;
 	}
-	
-	// 입장권 예약
 
+	// 입장권 찐예약
+	@Override
+	public void reserveExhibition(TicketReservation trDTO) {
+		System.out.println("~~ TicketDAOImpl reserveTicket ~~");
+		
+		try {
+			session.insert("realReserve", trDTO);
+			session.commit();
+		} catch (Exception e) {
+			System.out.println("TicketDAOImpl reserve Exception" + e.getMessage());
+		}
+	}
 
-	
+	@Override
+	public TicketReservation selectReservationDetail(Integer ticket_order_id) {
+		System.out.println("~~ TicketDAOImpl selectReservationDetail ~~");
+		
+		Air_ReservationDTO air_ReservationDTO = session.selectOne("reservationDetails", ticket_order_id);
+		System.out.println("ScheduleDAOImpl selectReservationDetail air_ReservationDTO" + air_ReservationDTO);
+		
+		
+		TicketReservation trDTO = session.selectOne("reservationDetails", ticket_order_id);
+		System.out.println("TicketDAOImpl selectReservationDetail trDTO" + trDTO);
+		
+		return trDTO;
+	}
 	
 	
 }

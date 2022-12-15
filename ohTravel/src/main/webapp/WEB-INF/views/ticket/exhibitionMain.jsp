@@ -601,7 +601,7 @@
 										<h6>
 											<a href="/ticket/exhibitionDetail?ticket_id=${ticketList.ticket_id}" style="height: 40px;"> ${ticketList.ticket_name }</a>
 										</h6>
-										<p class="dolor" style="margin-top: 25px;">${ticketList.ticket_child_price}<em style="font-size:15px;">원</em></p>
+										<p class="dolor" style="margin-top: 25px;">${ticketList.ticket_child_price}<em style="font-size:15px;">원~</em></p>
 										<span><i class="fas fa-star"></i><span>${ticketList.ticket_score }</span> </span>
 									</div>
 									<div class="place-cap-bottom">

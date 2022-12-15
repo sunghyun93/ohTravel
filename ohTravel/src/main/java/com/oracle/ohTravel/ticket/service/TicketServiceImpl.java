@@ -1,11 +1,14 @@
 package com.oracle.ohTravel.ticket.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.ticket.dao.TicketDAO;
 import com.oracle.ohTravel.ticket.model.TicketDTO;
+import com.oracle.ohTravel.ticket.model.TicketReservation;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,6 +42,30 @@ public class TicketServiceImpl implements TicketService {
 		ticketDTO = td.getTicketDetail(ticket_id);
 		
 		return ticketDTO;
+	}
+
+	// 입장권 찐예약
+	@Override
+	public void reserveExhibition(TicketReservation trDTO) {
+		System.out.println("~~ TicketServiceImpl reserveExhibition Start ~~");
+		
+		trDTO.setTicket_puchase_date(new Date());
+		td.reserveExhibition(trDTO);
+	}
+
+
+	@Override
+	public TicketReservation selectCompleteReservationId(Integer ticket_order_id) {
+		System.out.println("~~ TicketServiceImpl selectCompleteReservationId Start ~~");
+		
+		TicketReservation trDTO = null;
+		try {
+			trDTO = td.selectReservationDetail(ticket_order_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return trDTO;
 	}
 
 

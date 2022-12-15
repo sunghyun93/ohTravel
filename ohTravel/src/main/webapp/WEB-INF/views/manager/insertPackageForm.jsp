@@ -51,11 +51,11 @@
 		</div>
 		<div class="mb-3">
 			<label for="pkage_dt_startDay" class="form-label">일정시작날짜</label>
-			<input type="date" class="form-control border-dark" id="pkage_dt_startDay" name="pkage_dt_startDay" placeholder="일정시작날짜를 입력하세요">
+			<input type="datetime-local" class="form-control border-dark" id="pkage_dt_startDay" name="pkage_dt_startDay" placeholder="일정시작날짜를 입력하세요">
 		</div>
 		<div class="mb-3">
 			<label for="pkage_dt_endDay" class="form-label">일정종료날짜</label>
-			<input type="date" class="form-control border-dark" id="pkage_dt_endDay" name="pkage_dt_endDay" placeholder="일정종료날짜를 입력하세요">
+			<input type="datetime-local" class="form-control border-dark" id="pkage_dt_endDay" name="pkage_dt_endDay" placeholder="일정종료날짜를 입력하세요">
 		</div>
 
 		

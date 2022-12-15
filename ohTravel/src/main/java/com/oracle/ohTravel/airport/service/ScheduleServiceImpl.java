@@ -16,6 +16,8 @@ import com.oracle.ohTravel.airport.model.Air_Reservation_PiDTO;
 import com.oracle.ohTravel.airport.model.Air_ScheduleDTO;
 import com.oracle.ohTravel.airport.model.PeopleInfo;
 import com.oracle.ohTravel.airport.model.Reservation_Seat;
+import com.oracle.ohTravel.manager.model.CouponDTO;
+import com.oracle.ohTravel.member.dao.MemberDao;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +27,8 @@ public class ScheduleServiceImpl implements ScheduleService{
 	
 	@Autowired
 	private ScheduleDAO scheduleDAO;
+	@Autowired
+	private MemberDao memberDao;
 	
 	@Override
 	public List<Air_ScheduleDTO> searchAirplane(AirSearch airSeach) {
@@ -170,7 +174,13 @@ public class ScheduleServiceImpl implements ScheduleService{
 				}
 				
 			}
+			   //String mem_id = (String) map.get("mem_id");	
 				
+			
+				//쿠폰사용하면 쿠폰 use 0 에서 1로 올림
+				if(map.get("coupon_id") != null) {
+					memberDao.updateMemCouponUsed(map);
+				}
 				
 				//결제정보
 				insertCnt = scheduleDAO.paymentList(map);

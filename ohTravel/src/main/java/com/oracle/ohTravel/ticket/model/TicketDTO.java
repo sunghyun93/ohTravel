@@ -3,6 +3,8 @@ package com.oracle.ohTravel.ticket.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -13,7 +15,10 @@ public class TicketDTO {
 	private int 		ticket_sales_cnt;
 	private String 		ticket_location;
 	private BigDecimal  ticket_score;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date		ticket_due_date;
+	
 	private int 		ticket_adult_price;
 	private int 		ticket_child_price;
 	
@@ -38,6 +43,10 @@ public class TicketDTO {
 	private int totalPay;
 	private int adultCnt;
 	private int childCnt;
+	
+	
+	// 날짜 우짜지,,,
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String adDate;
 	
 	private int review_cnt;

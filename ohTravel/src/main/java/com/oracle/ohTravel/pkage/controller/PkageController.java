@@ -1,7 +1,6 @@
 package com.oracle.ohTravel.pkage.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,6 +30,7 @@ import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.service.MemberService;
 import com.oracle.ohTravel.pkage.model.MaxPriceHighOrderComp;
 import com.oracle.ohTravel.pkage.model.MinPriceHighOrderComp;
+import com.oracle.ohTravel.pkage.model.PageHandler;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
@@ -114,7 +114,7 @@ public class PkageController {
 		log.info("toURL="+toURL);
 		log.info("queryString="+pkgSearch.getQueryString());
 		
-		if(pkgSearch.getOrder() == null) pkgSearch.setOrder(1);; // 초기값 세팅
+		if(pkgSearch.getOrder() == null) pkgSearch.setOrder(1); // 초기값 세팅
 		
 		// 찜한 상품인지 알기 위한 로그인한 회원의 ID 가져오기
 		String mem_id = (String)session.getAttribute("sessionId");
@@ -124,6 +124,8 @@ public class PkageController {
 		// 필터로 인해 넘어온 출발 시간 값을 DB로 전달하기 위해 출발 시간 설정(AM-5~12, PM-12~18)
 		pkgSearch.makeDBtime();
 		log.info("AmtGubun = " + pkgSearch.getAmtGubun());
+		log.info("chk_start_time = " + pkgSearch.getChk_start_time());
+		log.info("chk_end_time = " + pkgSearch.getChk_end_time());
 		
 		try {
 			// 국가 가져오기
@@ -142,9 +144,14 @@ public class PkageController {
 			map.put("pkgSearch", pkgSearch);	// 가격, 여행기간, 출발시간을 위해 전달
 			
 			List<PkageDTORM> pkageDTORmlist = pkageService.selectPkgWithDetailAndFlight(map);
-			// 관련 pkg 개수
-			int pkgCnt = pkageDTORmlist.size();
 			// 리뷰 개수는 service 단에서 가져옴
+			
+			// 관련 pkg 개수
+			int pkgCnt = pkageService.selectPkgWithDetailAndFlightCnt(map);
+			log.info("pkgCnt = " + pkgCnt);
+			
+			// 페이징 (PkgSearch, totalCnt, naviSize)
+			PageHandler ph = new PageHandler(pkgSearch, pkgCnt, 10);
 			
 			// 패키지에 표시될 최소 가격 & 각 패키지에 포함된 상세 개수 & 요일  & 일수 구하기
 			getMakingDetailByList(pkageDTORmlist);
@@ -158,11 +165,14 @@ public class PkageController {
 				Collections.sort(pkageDTORmlist, new MaxPriceHighOrderComp());
 			}
 			
+			log.info("pkageDTORmlist = " + pkageDTORmlist);
+			
 			model.addAttribute("toURL", toURL);
 			model.addAttribute("pkgCnt", pkgCnt);
 			model.addAttribute("orderli", pkgSearch.getOrder());
 			model.addAttribute("pkgSearch", pkgSearch);
 			model.addAttribute("pkageDTORmlist", pkageDTORmlist);
+			model.addAttribute("ph", ph);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -239,6 +249,7 @@ public class PkageController {
 			// 멤버 (등급 까지 들고가기)
 			memberDTO = memberService.selectMemberWithGrade(mem_id);
 			
+			// 멤버가 사용할 수 있는 쿠폰 
 			List<CouponDTO> couponList = memberService.selectMemberWithCoupon(mem_id);
 			log.info("couponList = " + couponList);
 			memberDTO.setCouponList(couponList);
@@ -250,8 +261,8 @@ public class PkageController {
 			// 회원 등급 적용한 마일리지 가져가기
 			int mile = pkgReserve.getTotalPay() * memberDTO.getMembership_discount() / 100;
 			
-			model.addAttribute("mile", mile);
-			model.addAttribute("priceWithGd", priceWithGd);
+			model.addAttribute("mile", mile);	// 적용할 마일리지
+			model.addAttribute("priceWithGd", priceWithGd); // 회원 등급 적용한 가격 
 			model.addAttribute("pkageDTORM", pkageDTORM);
 			model.addAttribute("pkage_detailDTO", pkage_detailDTO);
 			model.addAttribute("memberDTO", memberDTO);
@@ -264,6 +275,7 @@ public class PkageController {
 		return "pkage/package_reservation";
 	}
 	
+//	예약하기 메서드
 	@PostMapping("/reserve")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> reserve(PkgReserveEle pkgReserveEle,  Model model, HttpSession session) {
@@ -336,12 +348,16 @@ public class PkageController {
 		for(PkageDTORM pkageDTORM : list) {
 			ArrayList<Integer> priceBox = new ArrayList<>(); // 가격을 정렬을 위한 변수
 //			ArrayList<Long> daysBox = new ArrayList<>();
-			long[] days = new long[2];	// 최소/최대(전체 상품 디테일들 중 최소 기간과 최대기간) 일 수를 저장할 변수
-			pkageDTORM.setDays(days);
+			
+			// 최소/최대(전체 상품 디테일들 중 최소 기간과 최대기간) 일 수를 저장할 변수
+			pkageDTORM.setDaysList(new ArrayList<Long>());
 			
 			List<Pkage_detailDTO> detailDTOList = pkageDTORM.getPkage_detailDTOList();
 			
+			// 패키지 마다 패키지 상세 개수 값 넣어주기 
 			int size = detailDTOList.size();
+			pkageDTORM.setPkage_detailDTOListCnt(size);
+			
 			int i = 0;
 			for(Pkage_detailDTO pkage_detailDTO: detailDTOList) {
 				// 각 패키지 상세의 성인가격 채우기 
@@ -363,7 +379,11 @@ public class PkageController {
 
 				// 패키지 종합 일 수에 넣어주기 (최소/최대 일 수 구하기 위함)
 				if(i == 0 || i == size-1) {
-					pkageDTORM.getDays()[i]=day;
+					pkageDTORM.getDaysList().add(day);
+					// 똑같은 일 수인 패키지 상품이 있다면 1개만 넣기 - ex)view 단에서 2일 ~ 2일이라고 표시하지 않기 위함
+					if(pkageDTORM.getDaysList().size() == 2 && pkageDTORM.getDaysList().get(0) == pkageDTORM.getDaysList().get(1)) {
+						pkageDTORM.getDaysList().remove(1);
+					}
 				}
 				i++;
 			}
@@ -372,8 +392,8 @@ public class PkageController {
 			pkageDTORM.setPkgDetailCnt(detailDTOList.size());
 			
 			// 일수 정렬 
-//			Collections.sort(pkageDTORM.getDays());
-			Arrays.sort(pkageDTORM.getDays());
+			Collections.sort(pkageDTORM.getDaysList());
+			log.info("daysList = " + pkageDTORM.getDaysList());
 
 			// 정렬 후 1번째, 마지막 가격 넣기
 			Collections.sort(priceBox);
@@ -382,8 +402,11 @@ public class PkageController {
 		}
 	}
 	
-	// pkg 상품 detail 의 필요 변수들 값 만들기(출발/도착 요일, 일 수, 출발/도착 때 걸린 비행시간, 비행 일정 유무 구분)
+	// pkg 상품 detail 의 필요 변수들 값 만들기(예약 가능 인원 구하기, 출발/도착 요일, 일 수, 출발/도착 때 걸린 비행시간, 비행 일정 유무 구분)
 	private void getMakingDetailByDTO(Pkage_detailDTO tmpDTO) {
+		// 예약 가능 인원 만들어 주기
+		tmpDTO.setPossibleCnt(tmpDTO.getPkage_dt_cnt() - tmpDTO.getPkage_dt_Rcnt());
+		
 		Date start = tmpDTO.getPkage_dt_startDay();
 		Date end = tmpDTO.getPkage_dt_endDay();
 		tmpDTO.setDay(tmpDTO.getDay(start, end));

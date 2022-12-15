@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,6 +87,11 @@ a {
     margin-top: 10px;
     border-radius: 0.3rem;
     top: -6430px;
+}
+/* 상품 별 padding 값 */
+.place-padding {
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 </style>
@@ -235,15 +242,89 @@ a {
         </div>
          <!-- Our Services End -->
         
-         <!-- Favourite Places Start -->
+        <!-- 해외 패키지 3개 -->
+        <div class="favourite-place place-padding">
+            <div class="container">
+                <!-- 타이틀 -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-tittle text-center">
+                            <span>FEATURED ABROAD Packages</span>
+                            <h2>해외 패키지</h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- 해외 패키지 3개 -->
+                <div class="row">
+                    <c:forEach var="abroadPkage" items="${abroadPkageList }">
+	                    <div class="col-xl-4 col-lg-4 col-md-6">
+	                        <div class="single-place mb-30">
+	                            <div class="place-img"> <%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
+	                                <a href="/pkage/searchResult?pkage_id=${abroadPkage.pkage_id }&pkage_gubun=${abroadGubun }&toDesti=${abroadPkage.city_id}&dates_start_check=2022-12-20">
+	                                	<img src="${abroadPkage.pkage_Img_path }" alt="" width="370px" height="246.52px">
+	                                </a>
+	                            </div>
+	                            <div class="place-cap">
+	                                <div class="place-cap-top"><%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
+	                                    <span><i class="fas fa-star"></i><span>${abroadPkage.pkage_score }</span></span>
+	                                    <h6><a href="/pkage/searchResult?pkage_id=${abroadPkage.pkage_id }&pkage_gubun=${abroadGubun }&toDesti=${abroadPkage.city_id}&dates_start_check=2022-12-20">${abroadPkage.pkage_name }</a></h6>
+	                                    <h6>${abroadPkage.pkage_info }</h6>
+	                                    <p class="dolor"><fmt:formatNumber value="${abroadPkage.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
+	                                </div>     
+	                            </div>
+	                        </div>
+	                    </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div> <!-- 해외 패키지 3개 -->
+        
+        <!-- 국내 패키지 3개 -->
+        <div class="favourite-place place-padding">
+            <div class="container">
+                <!-- 타이틀 -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-tittle text-center">
+                            <span>FEATURED DOMESTIC Packages</span>
+                            <h2>국내 패키지</h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- 해외 패키지 3개 -->
+                <div class="row">
+                    <c:forEach var="domesticPkage" items="${domesticPkageList }">
+	                    <div class="col-xl-4 col-lg-4 col-md-6">
+	                        <div class="single-place mb-30">
+	                            <div class="place-img"> <%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
+	                                <a href="/pkage/searchResult?pkage_id=${domesticPkage.pkage_id }&pkage_gubun=${domesticGubun }&toDesti=${domesticPkage.city_id}&dates_start_check=2022-12-20">
+	                                	<img src="${domesticPkage.pkage_Img_path }" alt="" width="370px" height="246.52px">
+	                                </a>
+	                            </div>
+	                            <div class="place-cap">
+	                                <div class="place-cap-top"><%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
+	                                    <span><i class="fas fa-star"></i><span>${domesticPkage.pkage_score }</span></span>
+	                                    <h6><a href="/pkage/searchResult?pkage_id=${domesticPkage.pkage_id }&pkage_gubun=${domesticGubun }&toDesti=${domesticPkage.city_id}&dates_start_check=2022-12-20">${domesticPkage.pkage_name }</a></h6>
+	                                    <h6>${domesticPkage.pkage_info }</h6>
+	                                    <p class="dolor"><fmt:formatNumber value="${domesticPkage.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
+	                                </div>     
+	                            </div>
+	                        </div>
+	                    </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div> <!-- 해외 패키지 3개 -->
+        
+        <!-- 호텔 3개 -->
         <div class="favourite-place place-padding">
             <div class="container">
                 <!-- Section Tittle -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <span>FEATURED TOURS Packages</span>
-                            <h2>Favourite Places</h2>
+                            <span>FEATURED HOTEL</span>
+                            <h2>호텔</h2>
                         </div>
                     </div>
                 </div>
@@ -268,90 +349,28 @@ a {
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services2.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
+                </div>
+            </div>
+        </div>
+        <!-- 호텔 3개 -->
+        
+        <!-- 입장권 3개 -->
+        <div class="favourite-place place-padding">
+            <div class="container">
+                <!-- Section Tittle -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-tittle text-center">
+                            <span>FEATURED TICKETS</span>
+                            <h2>입장권</h2>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="assets/img/service/services3.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services4.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services5.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services6.jpg" alt="">
+                                <img src="assets/img/service/services1.jpg" alt="">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
@@ -371,6 +390,9 @@ a {
                 </div>
             </div>
         </div>
+        <!-- 입장권 3개 -->
+        
+        
         <!-- Favourite Places End -->
         <!-- Video Start Arera -->
         <div class="video-area video-bg pt-200 pb-200"  data-background="assets/img/service/video-bg.jpg">

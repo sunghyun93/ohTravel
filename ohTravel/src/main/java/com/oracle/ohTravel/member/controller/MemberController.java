@@ -25,6 +25,11 @@ import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.airport.model.Air_ScheduleDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
+import com.oracle.ohTravel.member.model.BasketDTO;
+
+import com.oracle.ohTravel.member.model.MemCouponDTO;
+import com.oracle.ohTravel.member.model.HotelReservationDTO;
+
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
 import com.oracle.ohTravel.member.model.PagingManager;
@@ -283,6 +288,7 @@ public class MemberController {
 		int hotelReservListSize = hotelReservList.size();
 		model.addAttribute("hotelReservList", hotelReservList);
 		model.addAttribute("hotelReservListSize", hotelReservListSize);
+		model.addAttribute("page", page);
 		System.out.println("MemberController hotelReservList.size() -> " + hotelReservList.size());
 		
 		return "member/myPageReservHotel";
@@ -290,7 +296,7 @@ public class MemberController {
 	
 	// 항공 예약 내역 조회
 	@RequestMapping(value = "/myPageReservAir")
-	public String myPageReservAir(Air_ReservationDTO air_ReservationDTO,Air_FlightSchDTO air_FlightSchDTO,Air_ScheduleDTO air_ScheduleDTO,Model model, HttpServletRequest request) {
+	public String myPageReservAir(Air_ReservationDTO air_ReservationDTO,Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservAir start..");
 		HttpSession session = request.getSession();
 		// 로그인 안 했을 때 로그인 페이지로 이동
@@ -303,21 +309,20 @@ public class MemberController {
 		System.out.println("MemberController myPageReservAir sessionId -> " + sessionId );
 		
 		// 페이징 나중에
-		airReservationDTO.setMem_id(sessionId);
+		air_ReservationDTO.setMem_id(sessionId);
 
 		
 		// 항공 예약 내역
 		air_ReservationDTO.setMem_id(sessionId);
-		Map<String,Object> map = new HashMap<>();
-		map.put("air_ReservationDTO",air_ReservationDTO);
-		map.put("air_FlightSchDTO",air_FlightSchDTO);
-		map.put("air_ScheduleDTO",air_ScheduleDTO);
+		String mem_id = air_ReservationDTO.getMem_id();
+	
 		
-		List<AirReservationDetail> airReservList = memberService.myPageReservAir(map);
-		
+		List<AirReservationDetail> airReservList = memberService.myPageReservAir(mem_id);
+		int airReservListSize = airReservList.size();
 		
 
 		model.addAttribute("airReservList", airReservList);
+		model.addAttribute("airReservListSize", airReservListSize);
 		System.out.println("MemberController airReservList.size() -> " + airReservList.size());
 		
 		return "member/myPageReservAir";
@@ -353,6 +358,7 @@ public class MemberController {
 		int ticketReservListSize = ticketReservList.size();
 		model.addAttribute("ticketReservList", ticketReservList);
 		model.addAttribute("ticketReservListSize", ticketReservListSize);
+		model.addAttribute("page", page);
 		System.out.println("MemberController ticketReservList.size() -> " + ticketReservList.size());
 		
 		return "member/myPageReservTicket";
@@ -394,10 +400,31 @@ public class MemberController {
 		return "member/myPageCouponAir";
 	}
 	
-	// 쿠폰함(티켓) 페이지 이동
-	@GetMapping(value = "/myPageCouponTicket")
-	public String goMyPageCouponTicket() {
-		return "member/myPageCouponTicket";
+
+	// 쿠폰함
+	@RequestMapping(value = "/myPageCouponPackage")
+	public String myPageCoupon(MemCouponDTO couponDTO, Model model, String currentPage, HttpServletRequest request) {
+		log.info("MemberController myPageCoupon start..");
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		
+		couponDTO.setMem_id(sessionId);
+		
+		List<MemCouponDTO> memCouponList = memberService.myPageCoupon(couponDTO);
+		int memCouponListSize = memCouponList.size();
+		model.addAttribute("memCouponList", memCouponList);
+		model.addAttribute("memCouponListSize", memCouponListSize);
+		System.out.println("MemberController myPageCoupon memCouponListSize -> " + memCouponListSize);
+		
+		return "member/myPageCouponPackage";
+
 	}
 	
 	// 자주 찾는 질문 페이지 이동
@@ -547,7 +574,7 @@ public class MemberController {
 		
 		memberService.updateMember(memberDTO);
 		
-		return "redirect:/member/myPageReservPackage";
+		return "redirect:/member/myPagePrivacy";
 	}
 	
 	// 비밀번호 변경 페이지1 이동

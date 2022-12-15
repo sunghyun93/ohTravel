@@ -87,76 +87,6 @@
 		
 	});
 	
-	/* function updateHotel(){
-		let hotel_id = $('.hotel_id').val();
-		let city_id = $('#city_ids').val();
-		let hotel_kor = $('.hotel_kor').val();
-		let hotel_eng = $('.hotel_eng').val();
-		let hotel_loc = $('.hotel_loc').val();
-		let hotel_type = $('.hotel_type').val();
-		let hotel_grade = $('.hotel_grade').val();
-		let hotel_score = $('.hotel_score').val();
-		let hotel_tel = $('.hotel_tel').val();
-		let hotel_rv_num = $('.hotel_rv_num').val();
-		let checkin = $('.checkin').val();
-		let checkout = $('.checkout').val();
-		let file1 = $('.file1').val();
-		let h_img_path = $('.h_img_path').val();
-		var form = $('#uploadForm')[0];
-		var formData = new FormData();
-		formData.append("file1", form);
-		console.log(formData);
-		
-		console.log('hotel_id ->'+hotel_id);
-		console.log('city_id ->'+city_id);
-		console.log('hotel_kor ->'+hotel_kor);
-		console.log('hotel_eng ->'+hotel_eng);
-		console.log('hotel_loc ->'+hotel_loc);
-		console.log('hotel_type ->'+hotel_type);
-		console.log('hotel_grade ->'+hotel_grade);
-		console.log('hotel_score ->'+hotel_score);
-		console.log('hotel_tel ->'+hotel_tel);
-		console.log('hotel_rv_num ->'+hotel_rv_num);
-		console.log('checkin ->'+checkin);
-		console.log('checkout ->'+checkout);
-		console.log('file1 ->'+file1);
-		console.log('h_img_path ->'+h_img_path);
-		$.ajax({
-			url : 'updateHotel',
-			data : {'hotel_id' : hotel_id,
-					'city_id' : city_id,
-					'hotel_kor' : hotel_kor,
-					'hotel_eng' : hotel_eng,
-					'hotel_loc' : hotel_loc,
-					'hotel_type' : hotel_type,
-					'hotel_grade' : hotel_grade,
-					'hotel_score' : hotel_score,
-					'hotel_tel' : hotel_tel,
-					'hotel_rv_num' : hotel_rv_num,
-					'checkin' : checkin,
-					'checkout' : checkout,
-					formData},
-			type : 'POST',
-			enctype: 'multipart/form-data',
-			processData: false,
-			contentType : false,
-			success : function(data) {
-				if (data == 1) {
-					alert("수정이 성공되었습니다");
-					location.href = 'manageHotel?currentPage=${currentPage}';
-				} else {
-					alert("문제가 있습니다");
-				}
-
-			},
-			error: function (request, status, error) {
-		        console.log("code: " + request.status)
-		        console.log("message: " + request.responseText)
-		        console.log("error: " + error);
-		    }
-		})
-	} */
-	
 	function deleteHotel(){
 		let hotel_id = $('.hotel_id').val();
 		console.log('hotel_id ->'+hotel_id);
@@ -191,7 +121,7 @@
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
 				<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageHotel?currentPage=${currentPage}'" value="돌아가기">
-				<input type="button" class="btn btn-primary mb-2 mr-2" style="float: right;" onclick="location.href='manageHotel?currentPage=${currentPage}'" value="객실보기">
+				<input type="button" class="btn btn-primary mb-2 mr-2" style="float: right;" onclick="location.href='manageRoom?hotel_id=${hotel_id}&currentPage=${currentPage}'" value="객실보기">
 			</div>
 			<c:forEach var="hotelDetail" items="${hotelDetail }">
 				<table border="1" class="table table-striped">
@@ -254,16 +184,12 @@
 						<td><input type="number" min="0" max="5" class="form-control hotel_grade" name="hotel_grade" value="${hotelDetail.hotel_grade }"></td>
 					</tr>
 					<tr>
-						<th>호텔점수</th>
-						<td><input type="text" class="form-control hotel_score" name="hotel_score" value="${hotelDetail.hotel_score }"></td>
-					</tr>
-					<tr>
 						<th>호텔번호</th>
 						<td><input type="text" class="form-control hotel_tel" name="hotel_tel" value="${hotelDetail.hotel_tel }"></td>
 					</tr>
 					<tr>
 						<th>객실수</th>
-						<td><input type="number" min="0" class="form-control hotel_rv_num" name="hotel_rv_num" value="${hotelDetail.hotel_rv_num }"></td>
+						<td><input type="number" min="0" class="form-control hotel_rv_num" name="room_cnt" value="${hotelDetail.room_cnt }"></td>
 					</tr>
 					<tr>
 						<th>체크인시간</th>
@@ -316,7 +242,7 @@
 					<table border="1" class="table table-striped">
 						<thead>
 						<tr>
-							<th>이미지경로</th>
+							<th>호텔 이미지경로</th>
 						</tr>
 						</thead>
 						<tbody>

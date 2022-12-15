@@ -25,4 +25,15 @@ public class RoomDTO {
 	private int room_price;
 	private String room_rev;
 	
+	private double numberOfPeople;
+	private int numberOfChild;
+	private int numberOfAdult;
+	
+	//멤버십 관련
+	private String mem_id;
+	private int membership_id;
+	private String membership_name;
+	private int mem_mile;
+	private int membership_discount;
+	
 }

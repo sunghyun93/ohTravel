@@ -14,6 +14,10 @@ public class Air_ScheduleDTORM {
 	private Date start_time;			// 출발 시간
 	private Date end_time;				// 도착 시간
 	private Integer schedule_price;		// 가격
+	private Integer general_res_count;
+	private Integer business_res_count;
+	private Integer first_res_count;
+	
 	
 	// 항공사
 	private AirlineDTO airlineDTO; 

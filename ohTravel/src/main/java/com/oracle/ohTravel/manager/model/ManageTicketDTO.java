@@ -1,8 +1,9 @@
 package com.oracle.ohTravel.manager.model;
 
-import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -13,8 +14,7 @@ public class ManageTicketDTO {
 	private int city_id;
 	private int ticket_sales_cnt;
 	private String ticket_location;
-	private BigDecimal ticket_score;
-	private Timestamp ticket_due_date;
+	private Date ticket_due_date;
 	private int ticket_adult_price;
 	private int ticket_child_price;
 	
@@ -29,7 +29,24 @@ public class ManageTicketDTO {
 	//도시
 	private String city_name;
 	
+	private Integer ticket_order_id;
+	private String mem_id;
+	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm", timezone = "Asia/Seoul")
+	private LocalDateTime ticket_purchase_date;
+	private Date ticket_admission_date;
 	
+	private Integer ticket_adult_per;
+	private Integer ticket_child_per;
+	private Integer ticket_total_price;
+	
+	
+	
+	public void makeTotalPay(int aPrice, int cPrice) {
+		if(this.ticket_adult_per == null) ticket_adult_per = 0;
+		if(this.ticket_child_per == null) ticket_child_per = 0;
+		
+		this.ticket_total_price = (this.ticket_adult_per * aPrice) + (this.ticket_child_per * cPrice);
+	}
 	//조회용
 	private String search;   	private String keyword;
 	private String pageNum;  

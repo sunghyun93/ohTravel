@@ -12,6 +12,18 @@
 		let general_seat = $('#general_seat').val();
 		let business_seat = $('#business_seat').val();
 		let first_seat = $('#first_seat').val();
+		if(general_seat==null||general_seat==''){
+			alert('일반석 갯수에  숫자가 아닌 문자가 있습니다');
+			return false;
+		}
+		if(business_seat == null|| business_seat==''){
+			alert("비즈니석 갯수에 숫자가 아닌 문자가 있습니다");
+			return false;
+		}
+		if(first_seat == null||first_seat==''){
+			alert("일등석 갯수에 숫자가 아닌 문자가 있습니다");
+			return false;
+		}
 		$.ajax({
 			url : 'insertAirplane',
 			method : 'POST',
@@ -42,15 +54,15 @@
 		</div>
 		<div class="mb-3">
 			<label for="general_seat" class="form-label">일반석 갯수</label>
-			<input type="number" class="form-control" name="general_seat" id="general_seat" placeholder="항공사명 입력">
+			<input type="number" class="form-control" name="general_seat" id="general_seat" placeholder="일반석 갯수 입력">
 		</div>
 		<div class="mb-3">
 			<label for="business_seat" class="form-label">비즈니석 갯수</label>
-			<input type="number" class="form-control" name="business_seat" id="business_seat" placeholder="항공사명 입력">
+			<input type="number" class="form-control" name="business_seat" id="business_seat" placeholder="비즈니스석 갯수 입력">
 		</div>
 		<div class="mb-3">
 			<label for="first_seat" class="form-label">일등석 갯수</label>
-			<input type="number" class="form-control" name="first_seat" id="first_seat" placeholder="항공사명 입력">
+			<input type="number" class="form-control" name="first_seat" id="first_seat" placeholder="일등석 갯수 입력">
 		</div>
 		
 		<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageAirline'" value="돌아가기">
