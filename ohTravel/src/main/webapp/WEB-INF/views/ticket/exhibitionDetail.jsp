@@ -463,7 +463,6 @@
 	    border: none;
 	    border-left: 1px solid #ddd;
 	    border-bottom: 1px solid #ddd;
-	    translate: 0 -35px;
 	}
 	.num_count_group .btn_increment:hover {
 	    cursor: pointer;
