@@ -147,10 +147,11 @@
 				별점 통계가 들어가요
 			</div>
 			
-			<div class="rv_btn">
-				<button class="genric-btn primary ela" data-toggle="modal" onclick="openModal()" data-target="#reviewModal">리뷰 등록</button>
-			</div>
-				
+			<c:if test="${not empty sessionId }">
+				<div class="rv_btn">
+					<button class="genric-btn primary ela" data-toggle="modal" onclick="openModal()" data-target="#reviewModal">리뷰 등록</button>
+				</div>
+			</c:if>	
 			<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
 				<!-- 리뷰 들어갈 위치에 table생성 -->
 				<table id="reviewTable" class="reviewTable"> <!-- id값 변경 X -->
@@ -618,6 +619,42 @@ function makeRoomList(data) {
  	
 
  		
+}
+
+
+//리뷰 조회 -- 랜더링 함수2 (진짜 구조 그려줌)
+function makeRow(datum) {
+	
+	
+	let innerHtml = ''
+
+	innerHtml += '<tr>'
+		innerHtml += '<input type="hidden" class="rv_id" value="'+datum.rv_id +'">'
+		innerHtml += '<td>'
+			innerHtml += '<span class="rv_date">'+datum.rv_date +'</span>'
+		innerHtml += '</td>'
+		innerHtml += '<td>'
+			innerHtml += '<div class="star_img"> <img alt="별점뙇~" src="/img/hotel/star.png"></div>'
+			innerHtml += '<span class="rv_rating">'+datum.rv_rating +'</span>'
+		innerHtml += '</td>'
+		innerHtml += '<td>'
+			innerHtml += '<span class="rv_contents">'+datum.rv_contents +'</span>'
+		innerHtml += '</td>'
+		innerHtml += '<td>'
+			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
+			if(datum.mem_id == '${sessionId}') {	
+				innerHtml += '<button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>'
+			}
+		innerHtml += '</td>'
+		innerHtml += '<td>'
+			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
+			if(datum.mem_id == '${sessionId}') {	
+				innerHtml += '<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'
+			}
+		innerHtml += '</td>'
+	innerHtml += '</tr>'
+	
+	return innerHtml;
 }
 </script>	
 <script src="${pageContext.request.contextPath }/js/review/review.js"></script>
