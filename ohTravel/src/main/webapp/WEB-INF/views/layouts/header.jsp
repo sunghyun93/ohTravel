@@ -94,11 +94,6 @@
                                             </li>
                                             <li><a href="${pageContext.request.contextPath}/ticket/exhibitionMain">입장권</a>
                                             </li>
-                                            <li><a href="#">예약내역 확인</a></li>
-                                            <c:if test="${member == null}">
-                                            	<li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
-                                            	<li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
-                                            </c:if>
                                         </ul>
                                     </nav>
                                 </div>
