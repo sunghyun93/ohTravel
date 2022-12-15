@@ -8,6 +8,8 @@ import com.oracle.ohTravel.hotel.dao.HotelDAO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
 import com.oracle.ohTravel.hotel.model.RoomDTO;
+import com.oracle.ohTravel.member.dao.MemberDao;
+import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class HotelServiceImpl implements HotelService {
 
 	private final HotelDAO hd;
+	private final MemberDao memberDao;
 	
 	@Override
 	public List<HotelDTO> hotelList(HotelDTO hoteldto) {
@@ -55,6 +58,10 @@ public class HotelServiceImpl implements HotelService {
 			
 			hd.updatemile(hotelRDTO);
 			
+			//
+			UpdateMileGradeDTO updateMile = new UpdateMileGradeDTO();
+			updateMile.setMem_id(hotelRDTO.getMem_id());
+			memberDao.updateMemMileGrade(updateMile);
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

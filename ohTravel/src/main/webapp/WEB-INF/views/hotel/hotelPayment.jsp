@@ -122,7 +122,7 @@
 								<span class="right_cont">
 									<span class="form_holder check">
 										모든 약관에 동의합니다.
-										<input type="radio" id="allChkRadio" class="allChkRadio">
+										<input type="checkbox" id="allChk" class="allChk">
 									</span>
 								</span>
 							</div>
@@ -133,10 +133,10 @@
 										<td>예약취소 및 환불정책 안내</td>
 										<td>
 											<label for="checkHTL01">
-												<input type="radio" name="checkHTL" id="checkHTL01" value="Y" class="inpt_checkbox"> 동의합니다.
+												<input type="radio" name="checkHTL" id="checkHTL01" value="Y" class="inpt_checkbox chkY"> 동의합니다.
 											</label>
 											<label for="checkHTL02">
-												<input type="radio" name="checkHTL" id="checkHTL02" value="Y" class="inpt_checkbox"> 동의하지 않습니다.
+												<input type="radio" name="checkHTL" id="checkHTL02" value="N" class="inpt_checkbox chkN"> 동의하지 않습니다.
 											</label>
 										</td>
 									</tr>
@@ -144,10 +144,10 @@
 										<td>호텔 예약 주의사항</td>
 										<td>
 											<label for="checkHTL03">
-												<input type="radio" name="checkHTL2" id="checkHTL03" value="Y" class="inpt_checkbox"> 동의합니다.
+												<input type="radio" name="checkHTL2" id="checkHTL03" value="Y" class="inpt_checkbox chkY"> 동의합니다.
 											</label>
 											<label for="checkHTL04">
-												<input type="radio" name="checkHTL2" id="checkHTL04" value="Y" class="inpt_checkbox"> 동의하지 않습니다.
+												<input type="radio" name="checkHTL2" id="checkHTL04" value="N" class="inpt_checkbox chkN"> 동의하지 않습니다.
 											</label>
 										</td>
 									</tr>
@@ -155,10 +155,10 @@
 										<td>개인정보 수집 및 이용</td>
 										<td>
 											<label for="checkHTL05">
-												<input type="radio" name="checkHTL3" id="checkHTL05" value="Y" class="inpt_checkbox"> 동의합니다.
+												<input type="radio" name="checkHTL3" id="checkHTL05" value="Y" class="inpt_checkbox chkY"> 동의합니다.
 											</label>
 											<label for="checkHTL06">
-												<input type="radio" name="checkHTL3" id="checkHTL06" value="Y" class="inpt_checkbox"> 동의하지 않습니다.
+												<input type="radio" name="checkHTL3" id="checkHTL06" value="N" class="inpt_checkbox chkN"> 동의하지 않습니다.
 											</label>
 										</td>
 									</tr>
@@ -166,10 +166,10 @@
 										<td>개인정보 제3자 제공 동의</td>
 										<td>
 											<label for="checkHTL07">
-												<input type="radio" name="checkHTL4" id="checkHTL07" value="Y" class="inpt_checkbox"> 동의합니다.
+												<input type="radio" name="checkHTL4" id="checkHTL07" value="Y" class="inpt_checkbox chkY"> 동의합니다.
 											</label>
 											<label for="checkHTL08">
-												<input type="radio" name="checkHTL4" id="checkHTL08" value="Y" class="inpt_checkbox"> 동의하지 않습니다.
+												<input type="radio" name="checkHTL4" id="checkHTL08" value="N" class="inpt_checkbox chkN"> 동의하지 않습니다.
 											</label>
 										</td>
 									</tr>
@@ -222,9 +222,34 @@
 		</div>	<!-- inr -->
 	</div>	<!-- container -->
 </body>
-
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
 <script src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript">
+
+$(function() {
+	console.log('ready')
+	initPage();
+})
+
+function initPage() {
+	//페이지 이동시 처음 한번만 실행되면 좋은 함수들
+	//data 가져오는 함수
+	// ~~~.addEventListener('click',function () {})
+	// ~~~.on('click',function(){})
+	//eventListener
+	$('#allChk').click(function (event) {
+		console.log(this.checked)
+		if(this.checked) {
+			$('.chkN').prop('checked',false)
+			$('.chkY').prop('checked',true)
+		} else {
+			$('.chkY').prop('checked',false)
+			$('.chkN').prop('checked',true)
+		}
+	})
+	
+}
+
 function isLogined () {
 	// 로그인 체크 -> 그대로 진행
 	// 로그인이 안 되어 있으면 -> return false;
@@ -235,7 +260,6 @@ function isLogined () {
 		return true;
 	}
 }
-
 
 function agreeValid() {
 	
@@ -331,8 +355,9 @@ function requestPay() {
 	                //msg1 += '구매자 이름 :' + rsp.buyer_name;
 	                //msg += '카드 승인번호 : ' + rsp.apply_num;
 	                //msg1 += '구매자'+ rsp.buyer_name + '님의';
-	                alert('구매자 '+ rsp.buyer_name + '님의 예약이 완료되었습니다.');
-	                location.href="${pageContext.request.contextPath}/hotel/reserveComplete";
+	                if(!alert('구매자 '+ rsp.buyer_name + '님의 예약이 완료되었습니다.')) {
+		                location.href="${pageContext.request.contextPath}/hotel/reserveComplete";
+	                }
 	              },
 	              error: function(err){
 	            	 console.error(err)
