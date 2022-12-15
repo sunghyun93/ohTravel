@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.BasketDTO;
-import com.oracle.ohTravel.member.model.CouponDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -286,6 +286,16 @@ public class MemberDaoImpl implements MemberDao {
 		System.out.println("MemberDaoImpl totalReservTicket total -> " + total);
 		return total;
 	}
+	
+	// 항공 예약 총 개수
+	@Override
+	public int totalReservAir(AirReservationDetail airReservationDetail) {
+		log.info("MemberDaoImpl totalReservAir start..");
+		int total = sqlSession.selectOne("totalReservAir",airReservationDetail);
+		System.out.println("MemberDaoImpl totalReservAir total -> " + total);
+		return total;
+		
+	}
 
 	// 패키지 찜 내역
 	@Override
@@ -346,6 +356,8 @@ public class MemberDaoImpl implements MemberDao {
 		int result = sqlSession.delete("deleteLike", basketDTO);
 		return result;
 	}
+
+	
 
 
 	

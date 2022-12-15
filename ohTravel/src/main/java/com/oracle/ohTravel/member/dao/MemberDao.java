@@ -6,7 +6,7 @@ import java.util.Map;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.BasketDTO;
-import com.oracle.ohTravel.member.model.CouponDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -117,6 +117,8 @@ public interface MemberDao {
 
 	// 티켓 찜 삭제
 	public int deleteLikeTicket(BasketDTO basketDTO);
+
+	public int totalReservAir(AirReservationDetail airReservationDetail);
 
 
 

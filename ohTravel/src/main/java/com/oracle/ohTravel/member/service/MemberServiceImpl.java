@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.oracle.ohTravel.member.model.CouponDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.dao.MemberDao;
 import com.oracle.ohTravel.member.domain.Member;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
@@ -223,6 +223,15 @@ public class MemberServiceImpl implements MemberService{
 		System.out.println("MemberServiceImpl totalReservTicket total -> " + total);
 		return total;
 	}
+	
+	// 항공 예약 총 개수
+	@Override
+	public int totalReserveAir(AirReservationDetail airReservationDetail) {
+		log.info("MemberServiceImpl totalReservAir start..");
+		int total = memberDao.totalReservAir(airReservationDetail);
+		System.out.println("MemberServiceImpl totalReservAir total -> " + total);
+		return total;
+	}
 
 	// 패키지 찜 내역
 	@Override
@@ -278,6 +287,8 @@ public class MemberServiceImpl implements MemberService{
 		int result = memberDao.deleteLikeTicket(basketDTO);
 		return result;
 	}
+
+	
 
 
 

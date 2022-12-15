@@ -292,7 +292,7 @@ public class MemberController {
 	
 	// 항공 예약 내역 조회
 	@RequestMapping(value = "/myPageReservAir")
-	public String myPageReservAir(Air_ReservationDTO air_ReservationDTO,Model model, HttpServletRequest request) {
+	public String myPageReservAir(Air_ReservationDTO air_ReservationDTO,String currentPage,Model model, HttpServletRequest request) {
 		log.info("MemberController myPageReservAir start..");
 		HttpSession session = request.getSession();
 		// 로그인 안 했을 때 로그인 페이지로 이동
@@ -304,9 +304,6 @@ public class MemberController {
 		String sessionId = member.getMem_id();
 		System.out.println("MemberController myPageReservAir sessionId -> " + sessionId );
 		
-		// 페이징 나중에
-		air_ReservationDTO.setMem_id(sessionId);
-
 		
 		// 항공 예약 내역
 		air_ReservationDTO.setMem_id(sessionId);
@@ -316,9 +313,24 @@ public class MemberController {
 		List<AirReservationDetail> airReservList = memberService.myPageReservAir(mem_id);
 		int airReservListSize = airReservList.size();
 		
+		
+		// 페이징 나중에
+		//air_ReservationDTO.setMem_id(sessionId);
+		AirReservationDetail airReservationDetail = new AirReservationDetail();
+		airReservationDetail.setMem_id(sessionId);
+		int total = memberService.totalReserveAir(airReservationDetail);
+		PagingManager page = new PagingManager(total, currentPage);
+		airReservationDetail.setStart(page.getStart());
+		airReservationDetail.setEnd(page.getEnd());
+		System.out.println("MemberController myPageReservAir page.getStart() -> " + page.getStart());
+		System.out.println("MemberController myPageReservAir page.getEnd() -> " + page.getEnd());
+		
+		
+		
 
 		model.addAttribute("airReservList", airReservList);
 		model.addAttribute("airReservListSize", airReservListSize);
+		model.addAttribute("page", page);
 		System.out.println("MemberController airReservList.size() -> " + airReservList.size());
 		
 		return "member/myPageReservAir";
