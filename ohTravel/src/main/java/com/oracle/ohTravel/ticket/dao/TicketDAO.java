@@ -17,5 +17,7 @@ public interface TicketDAO {
 
 	// 입장권 예약
 	void reserveExhibition(TicketReservation trDTO);
+
+	TicketReservation selectReservationDetail(Integer ticket_order_id);
 	
 }
