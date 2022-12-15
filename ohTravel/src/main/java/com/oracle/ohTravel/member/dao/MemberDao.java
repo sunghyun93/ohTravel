@@ -108,7 +108,7 @@ public interface MemberDao {
 	public List<BasketDTO> myPageLikeTicket(BasketDTO basketDTO);
 
 	// 쿠폰 내역
-	public List<MemCouponDTO> myPageCoupon(MemCouponDTO couponDTO);
+	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO);
 
 	// 패키지 찜 삭제
 	public int deleteLikePackage(BasketDTO basketDTO);
@@ -118,6 +118,8 @@ public interface MemberDao {
 
 	// 티켓 찜 삭제
 	public int deleteLikeTicket(BasketDTO basketDTO);
+
+	public int totalReservAir(AirReservationDetail airReservationDetail);
 
 
 

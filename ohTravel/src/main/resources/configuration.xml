@@ -61,8 +61,8 @@
 		<typeAlias type="com.oracle.ohTravel.airport.model.Air_Reservation_PiDTO" alias="Air_Reservation_PiDTO"/>
 		<typeAlias type="com.oracle.ohTravel.airport.model.Air_FlightSchDTO" alias="Air_FlightSchDTO"/>
 		<typeAlias type="com.oracle.ohTravel.airport.model.Reservation_Seat" alias="Reservation_Seat"/>
+		<typeAlias type="com.oracle.ohTravel.airport.model.Air_FlightSchDTO" alias="Air_FlightSchDTO"/>
 		
-
 		
 
 		

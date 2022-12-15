@@ -88,6 +88,9 @@ public interface MemberService {
 
 	// 티켓 예약 총 개수
 	public int totalReservTicket(TicketReservationDTO ticketReservationDTO);
+	
+	// 항공 예약 총 개수
+	public int totalReserveAir(AirReservationDetail airReservationDetail);
 
 	// 패키지 찜 내역
 	public List<BasketDTO> myPageLikePackage(BasketDTO basketDTO);
@@ -99,7 +102,7 @@ public interface MemberService {
 	public List<BasketDTO> myPageLikeTicket(BasketDTO basketDTO);
 
 	// 쿠폰 내역
-	public List<MemCouponDTO> myPageCoupon(MemCouponDTO couponDTO);
+	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO);
 
 	// 패키지 찜 삭제
 	public int deleteLikePackage(BasketDTO basketDTO);
@@ -109,6 +112,10 @@ public interface MemberService {
 
 	// 티켓 찜 삭제
 	public int deleteLikeTicket(BasketDTO basketDTO);
+	
+	
+	
+	
 
 
 

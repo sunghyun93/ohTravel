@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oracle.ohTravel.city.model.CityDTO;
 import com.oracle.ohTravel.city.service.CityService;
+import com.oracle.ohTravel.member.dao.MemberDao;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.pkage.dao.PkageDao;
 import com.oracle.ohTravel.pkage.model.PkageDTORM;
@@ -43,6 +45,8 @@ public class PkageRestController {
 	private PkageService pkageService;
 	@Autowired
 	private PkageDao pkageDao;
+	@Autowired
+	private MemberDao memberDao;
 	
 	// 패키지 검색부분의 나라에 따른 도시 보내는 메서드
 	@PostMapping("/selectCity")
@@ -437,5 +441,12 @@ public class PkageRestController {
 		}
 		
 		return null;
+	}
+	
+	// 항공 예약 결과물 테스트
+	@GetMapping("/test6")
+	public List<AirReservationDetail> test6() {
+		List<AirReservationDetail> a = memberDao.myPageReserveAirLine("test1");
+		return a;
 	}
 }

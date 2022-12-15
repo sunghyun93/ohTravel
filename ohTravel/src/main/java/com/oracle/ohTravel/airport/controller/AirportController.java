@@ -284,7 +284,7 @@ public class AirportController {
 		List<CouponDTO> couponList = memberService.selectMemberWithCoupon(mem_id);
 		System.out.println("couponList="+couponList);
 		log.info("couponList = " + couponList);
-		memberDTO.setCouponList(couponList);
+		//memberDTO.setCouponList(couponList);
 		
 		
 		// 회원 등급 적용한 가격 가져가기
