@@ -1,5 +1,6 @@
 package com.oracle.ohTravel.search.controller;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,8 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oracle.ohTravel.basket.model.BasketDTO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
+import com.oracle.ohTravel.search.model.CategoryDTOVO;
+import com.oracle.ohTravel.search.model.OrderComparator;
 import com.oracle.ohTravel.search.service.SearchService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +40,10 @@ public class SearchRestController {
 		System.out.println("search_word -> " + pkageDTO.getSearch_word());
 		System.out.println("currentPage -> " + currentPage);
 		List<PkageDTO> pkList = ss.filteredPkageList(pkageHM);
+		
+		Collections.sort(pkList, new OrderComparator());
+		System.out.println("pkList="+pkList);
+		
 		System.out.println("필터된 리스트 수 -> " + pkList.size());
 		return pkList;
 	}
@@ -69,19 +77,69 @@ public class SearchRestController {
 		return  hotelResetList;
 	}
 	
-	@GetMapping("/insertFavorite")
-	public String insertFavorite(PkageDTO pkageDTO, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("insertFavorite Controller");
+	// 찜 돼있는 항목들 불러오기
+	@GetMapping("/callLike")
+	public List<BasketDTO> callLikeList(BasketDTO basketDTO, HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String mem_id = (String)session.getAttribute("sessionId");
+		if (mem_id != null) {
+			List<BasketDTO> callLikeList = ss.callLikeList(basketDTO);
+			System.out.println("필터된 리스트 수 -> " + callLikeList.size());
+			return callLikeList;
+		}
+		return null;
+	}
+	
+	// 찜 등록
+	@GetMapping("/insertLike")
+	public int insertLike(CategoryDTOVO categoryDTOVO, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("insertLike Controller");
+		int result = 0;
+		int checkLike = 0;
+		HttpSession session = request.getSession();
+		String mem_id = (String)session.getAttribute("sessionId");
+		categoryDTOVO.setMem_id(mem_id);
+		System.out.println("categoryDTOVO.getMem_id() -> " + categoryDTOVO.getMem_id());
+		if (mem_id == null) {
+			System.out.println("로그인 하고 와");
+			return -1;
+		}
+		try {
+			System.out.println("찜 돼있나 확인");
+			checkLike = ss.selectLike(categoryDTOVO);
+			if (checkLike == 0)
+				System.out.println("찜 insert 실행");
+				result = ss.insertLike(categoryDTOVO);
+				System.out.println("insert 결과 -> " + result);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+
+	// 찜 해제
+	@GetMapping("/removeLike")
+	public int removeLike(CategoryDTOVO categoryDTOVO, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("insertLike Controller");
 		int result = 0;
 		HttpSession session = request.getSession();
-		String mem_id = (String)session.getAttribute("mem_id");
+		String mem_id = (String)session.getAttribute("sessionId");
+		categoryDTOVO.setMem_id(mem_id);
+		System.out.println("categoryDTOVO.getMem_id() -> " + categoryDTOVO.getMem_id());
 		if (mem_id == null) {
-			System.out.println("로그인ㄱㄱ");
-		} else result = ss.insertFavorite(pkageDTO);
-		
-		if (result > 0) System.out.println("찜 등록 완료");
-		return "";
+			System.out.println("로그인 하고 와");
+			return -1;
+		}
+		try {
+			System.out.println("찜 remove 실행");
+			result = ss.removeLike(categoryDTOVO);
+			System.out.println("remove 결과 -> " + result);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
 	}
+	
 }
 
 

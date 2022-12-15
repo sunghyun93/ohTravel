@@ -14,11 +14,16 @@ public class CategoryDTOVO {
 	private List<PkageDTO> pkageList;
 	private List<HotelDTO> hotelList;
 	private List<TicketDTO> ticketList;
+	private PkageDTO pkageDTO;
+	private HotelDTO hotelDTO;
+	private TicketDTO ticketDTO;
 	private int totalPkage;
 	private int totalHotel;
 	private int totalTicket;
 	private Paging paging;
 	private String search_word;
+	private String pkage_id;
+	private String basket_ref_id;
 	
 	private String pageNum;
 	private int start;
@@ -26,4 +31,7 @@ public class CategoryDTOVO {
 	private int min_price;
 	private String check;
 	private String mem_id;
+	private int chk;
+	private int review_cnt;
+	private String radioCheck;
 }

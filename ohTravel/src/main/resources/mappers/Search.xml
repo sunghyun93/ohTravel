@@ -9,7 +9,7 @@
 		FROM (ticket_detail td left join ticket_img ti on td.ticket_id = ti.ticket_id)
 		Where ticket_name LIKe concat('%', #{search_word}, '%')
 		<if test="start != 0">
-			LIMIT #{start}, #{end}
+			LIMIT ${start-1}, #{end}
 		</if>
 	</select> 
 
@@ -27,7 +27,8 @@
 	<!-- 패키지 + 패키지 이미지 + 패키지 디테일 가져오기 -->
 	<select id="yqPkageList" parameterType="PkageDTO" resultType="PkageDTO">
 		SELECT p.pkage_id, city_id, pkage_name, pkage_info, pkage_soldCnt, pi.pkage_Img_path, min_price, pkage_gubun, pkage_dt_thema, 
-		(SELECT    FORMAT( IFNULL ( AVG(r.rv_rating) , 0 ), 1) FROM    review r WHERE    r.rv_real_id = p.pkage_id) pkage_score
+		(SELECT FORMAT( IFNULL ( AVG(r.rv_rating) , 0 ), 1) FROM review r WHERE r.rv_real_id = p.pkage_id) pkage_score,
+		(SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = p.pkage_id) chk
 		FROM package p left join package_image pi on p.pkage_id = pi.pkage_id 
 		left join (select distinct pkage_id,  pkage_dt_thema, min(pkage_dt_Aprice) min_price from package_detail group by pkage_id) as pd on p.pkage_id = pd.pkage_id
 		Where pkage_name LIKe concat('%', #{search_word}, '%')
@@ -67,24 +68,16 @@
 				]]>
 			</if>
 			<if test="filter == 'trvlDayCnt-0'">
-				<![CDATA[
 				 period = 2
-				]]>
 			</if>
 			<if test="filter == 'trvlDayCnt-1'">
-				<![CDATA[
 				 period = 3
-				]]>
 			</if>
 			<if test="filter == 'trvlDayCnt-2'">
-				<![CDATA[
 				 period = 4
-				]]>
 			</if>
 			<if test="filter == 'trvlDayCnt-3'">
-				<![CDATA[
 				 period = 5
-				]]>
 			</if>
 			<if test="filter == 'kind_0'">
 				<![CDATA[
@@ -127,19 +120,13 @@
 				]]>
 			</if>
 			<if test="filter == 'Sorder1'">
-				<![CDATA[
 				ORDER BY pkage_score desc
-				]]>
 			</if>
 			<if test="filter == 'Sorder2'">
-				<![CDATA[
 				ORDER BY min_price desc
-				]]>
 			</if>
 			<if test="filter == 'Sorder3'">
-				<![CDATA[
 				ORDER BY min_price
-				]]>
 			</if>
 		</foreach>
 		<!-- <if test="start != 0">
@@ -172,24 +159,16 @@
 				]]>
 			</if>
 			<if test="filter == 'trvlDayCnt-0'">
-				<![CDATA[
 				 period = 2
-				]]>
 			</if>
 			<if test="filter == 'trvlDayCnt-1'">
-				<![CDATA[
 				 period = 3
-				]]>
 			</if>
 			<if test="filter == 'trvlDayCnt-2'">
-				<![CDATA[
 				 period = 4
-				]]>
 			</if>
 			<if test="filter == 'trvlDayCnt-3'">
-				<![CDATA[
 				 period = 5
-				]]>
 			</if>
 			<if test="filter == 'kind_0'">
 				<![CDATA[
@@ -228,35 +207,83 @@
 			</if>
 		</foreach>
 			<if test="radioCheck == 'buy_order'">
-				<![CDATA[
 				 ORDER BY min_price desc kkkk
-				]]>
 			</if>
 			<if test="radioCheck == 'high_score'">
-				<![CDATA[
 				ORDER BY pkage_score desc
-				]]>
 			</if>
 			<if test="radioCheck == 'row_price'">
-				<![CDATA[
 				ORDER BY min_price desc
-				]]>
 			</if>
 			<if test="radioCheck == 'fastest_go'">
-				<![CDATA[
 				ORDER BY min_price
-				]]>
 			</if>
 		<if test="start != null">
 			LIMIT ${start-1}, #{end}
 		</if>
 	</select>
 
-	<insert id="yqInsertFavorite">
-		insert into basket values(null, #{mem_id}, #{pkage_id})
+	<select id="yqSelectLike" parameterType="CategoryDTOVO" resultType="Integer">
+		select count(*) from basket where mem_id = #{mem_id} AND basket_ref_id = #{basket_ref_id}
+	</select>
+
+	<insert id="yqInsertLike" parameterType="CategoryDTOVO">
+		insert into basket values(null, #{mem_id}, #{basket_ref_id})
 	</insert>
 	
-	<delete id="yqDeleteFavorite">
-		DELETE FROM basket where mem_id = #{mem_id} AND basket_ref_id = #{pkage_id}
+	<delete id="yqRemoveLike" parameterType="CategoryDTOVO">
+		DELETE FROM basket where mem_id = #{mem_id} AND basket_ref_id = #{basket_ref_id}
 	</delete>
+	
+	<select id="yqCallLike" parameterType="BasketDTO" resultType="BasketDTO">
+		select * from basket where mem_id = #{mem_id} AND basket_ref_id = #{basket_ref_id}
+	</select>
+	
+	<select id="yqSearchWord" resultType="Search">
+		select * from search order by search_count desc
+	</select>
+	
+	<insert id="yqInsertNewSWord" parameterType="Search">
+		insert into search values(#{search_word}, 1, sysdate())
+	</insert>
+	
+	<update id="yqUpdateSCount" parameterType="Search">
+		update search set search_count = search_count + 1 where search_word = #{search_word}
+	</update>
+	
+	<select id="yqAutoComplete" parameterType="map" resultType="map">
+		SELECT city_name FROM city Where city_name LIKe concat('%', #{search_word}, '%')
+		union
+		select country_name From country WHERE country_name LIKe concat('%', #{search_word}, '%')
+		union
+		select pkage_name From package WHERE pkage_name LIKe concat('%', #{search_word}, '%')
+		union
+		select hotel_kor from hotel WHERE hotel_kor LIKe concat('%', #{search_word}, '%')
+		union
+		select ticket_name from ticket_detail WHERE ticket_name LIKe concat('%', #{search_word}, '%')
+	</select>
+	
+	<insert id="yqRecentSearchInsert" parameterType="RecentSearchDTO">
+		Insert Into recent_search Values(#{search_word}, #{mem_id}, sysdate())
+	</insert>
+	
+	<update id="yqUpdateRecentSysdate" parameterType="RecentSearchDTO">
+		Update recent_search SET search_time = sysdate() WHERE search_word = #{search_word} AND mem_id = #{mem_id}
+	</update>
+	
+	<select id="yqRecentSearchSelect" parameterType="RecentSearchDTO" resultType="RecentSearchDTO">
+		select search_word, m.mem_id, rs.search_time
+		FROM recent_search rs right join member m on m.mem_id = rs.mem_id
+		WHERE m.mem_id = #{mem_id}
+		ORDER BY search_time desc
+	</select>
+	
+	<select id="yqNormalRecentSearch" resultType="RecentSearchDTO">
+		select search_word from recent_search order by search_time desc
+	</select>
+	
+	<select id="yqCheckLike" parameterType="BasketDTO" resultType="BasketDTO">
+		select ifnull(basket_ref_id, 0) selected_id From basket Where mem_id = #{mem_id}
+	</select>
+	
 </mapper>

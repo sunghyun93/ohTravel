@@ -36,7 +36,12 @@
 		
 		<!-- search -->
 		<typeAlias type="com.oracle.ohTravel.search.model.SearchDTO" alias="Search"/>
-		
+		<typeAlias type="com.oracle.ohTravel.search.model.CategoryDTOVO" alias="CategoryDTOVO"/>
+		<typeAlias type="com.oracle.ohTravel.search.model.RecentSearchDTO" alias="RecentSearchDTO"/>
+
+		<!-- Basket -->		
+		<typeAlias type="com.oracle.ohTravel.basket.model.BasketDTO" alias="BasketDTO"/>
+
 		<!-- review -->
 		<typeAlias type="com.oracle.ohTravel.review.model.ReviewDTO" alias="Review"/>
 		
