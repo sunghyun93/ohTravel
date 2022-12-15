@@ -35,7 +35,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-4" style="min-width: 100px;">
                             <div class="header-info-right f-right">
                                 <ul class="header-social">
                                 	<li><a href="${pageContext.request.contextPath }/manager/managerMain">관리자페이지</a>
@@ -52,8 +52,8 @@
                                     <c:if test="${member != null}">
                                     	<li><a href="${pageContext.request.contextPath}/member/logout">LOGOUT</a></li>
                                     	<li><a href="${pageContext.request.contextPath}/member/memberForm" style="display:none;">회원가입</a></li>
+                                    	<li><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></li>
                                     </c:if>
-                                	<li><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -103,11 +103,6 @@
                                             	<li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
                                             	<li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
                                             </c:if>
-                                            <c:if test="${member != null}">
-                                            	<li><a href="${pageContext.request.contextPath}/member/logout">LOGOUT</a></li>
-                                            	<li><a href="${pageContext.request.contextPath}/member/memberForm" style="display:none;">회원가입</a></li>
-                                            </c:if>
-                                        	<li><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></li>
                                         </ul>
                                     </nav>
                                 </div>
