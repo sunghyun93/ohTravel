@@ -102,7 +102,7 @@ public interface MemberService {
 	public List<BasketDTO> myPageLikeTicket(BasketDTO basketDTO);
 
 	// 쿠폰 내역
-	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO);
+	public List<MemCouponDTO> myPageCoupon(MemCouponDTO couponDTO);
 
 	// 패키지 찜 삭제
 	public int deleteLikePackage(BasketDTO basketDTO);

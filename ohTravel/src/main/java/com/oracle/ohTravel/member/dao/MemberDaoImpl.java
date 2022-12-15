@@ -327,9 +327,9 @@ public class MemberDaoImpl implements MemberDao {
 
 	// 쿠폰 내역
 	@Override
-	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO) {
+	public List<MemCouponDTO> myPageCoupon(MemCouponDTO couponDTO) {
 		log.info("MemberDaoImpl myPageCoupon start..");
-		List<CouponDTO> memCouponList = sqlSession.selectList("selectMemberWithCoupon", couponDTO);
+		List<MemCouponDTO> memCouponList = sqlSession.selectList("selectMemberWithCoupon", couponDTO);
 		System.out.println("MemberDaoImpl myPageCoupon memCouponList.size() -> " + memCouponList.size());
 		return memCouponList;
 	}
