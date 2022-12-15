@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
+import com.oracle.ohTravel.hotel.model.Hotel_imageDTO;
 import com.oracle.ohTravel.hotel.model.RoomDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -71,6 +72,5 @@ public class HotelDAOImpl implements HotelDAO {
 		session.update("updateMemberMile", hotelRDTO);
 		
 	}
-	
 	
 }
