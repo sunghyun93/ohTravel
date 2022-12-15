@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.pkage.service.PkageService;
+import com.oracle.ohTravel.ticket.model.TicketDTO;
+import com.oracle.ohTravel.ticket.service.TicketService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,9 +21,12 @@ import lombok.RequiredArgsConstructor;
 public class HomeController {
 	@Autowired
 	PkageService pkageService;
+	
+	@Autowired
+	TicketService ts;
 
 	@GetMapping(value = "/")
-	public String goHome(Model model) {
+	public String goHome(Model model, TicketDTO ticketDTO) {
 		try {
 			// 해외 패키지 3개
 			// 해외 패키지 상품 판매순 / 평점순 3개 가져오기
@@ -40,12 +45,14 @@ public class HomeController {
 			
 			
 			// 입장권 3개
+			List<TicketDTO> ticketList = ts.ticketList(ticketDTO);
 			
 			
 			model.addAttribute("abroadPkageList", abroadPkageList);
 			model.addAttribute("domesticPkageList", domesticPkageList);
 			model.addAttribute("abroadGubun", 1);
 			model.addAttribute("domesticGubun", 0);
+			model.addAttribute("ticketList", ticketList);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

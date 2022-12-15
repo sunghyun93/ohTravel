@@ -366,27 +366,28 @@ a {
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+               	<div class="row">
+                	<c:forEach var="ticketList" items="${ticketList}" begin="1" end="3">
+	                    <div class="col-xl-4 col-lg-4 col-md-6">
+	                        <div class="single-place mb-30">
+	                            <div class="place-img">
+	                                <img src="${ticketList.ticket_rep_img_path }">
+	                            </div>
+	                            <div class="place-cap">
+	                                <div class="place-cap-top">
+	                                    <span><i class="fas fa-star"></i><span>${ticketList.ticket_score }</span> </span>
+	                                    <h3><a href="/ticket/exhibitionDetail?ticket_id=${ticketList.ticket_id}">${ticketList.ticket_name }</a></h3>
+	                                    <p class="dolor">${ticketList.ticket_child_price}<em style="font-size:15px;">원~</em></p>
+	                                </div>
+	                                <div class="place-cap-bottom">
+	                                    <ul style="translate: 0 -15px;">
+											<li style="width: 200px;"><i class="far fa-clock"></i>~ ${ticketList.ticket_due_date}까지</li>
+										</ul>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </c:forEach>
                 </div>
             </div>
         </div>
