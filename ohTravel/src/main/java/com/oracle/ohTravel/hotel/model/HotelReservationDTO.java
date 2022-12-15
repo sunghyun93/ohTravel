@@ -24,4 +24,5 @@ public class HotelReservationDTO {
 	private int room_id;
 	private int numberOfPeople;
 	private int mile;
+	private int forPaymentPrice;
 }

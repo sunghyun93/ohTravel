@@ -17,6 +17,8 @@ public class RoomDTO {
 	private int calDate;
 	private int canRevDateCnt;
 	
+	private String r_img_path;
+	
 	private String hotel_kor;
 	private String hotel_eng;
 	
