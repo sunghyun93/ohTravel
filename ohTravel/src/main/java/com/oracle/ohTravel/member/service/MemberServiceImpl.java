@@ -273,6 +273,7 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	// 티켓 찜 삭제
 	@Override
 	public int deleteLikeTicket(BasketDTO basketDTO) {
 		log.info("MemberServiceImpl deleteLikeTicket start..");
