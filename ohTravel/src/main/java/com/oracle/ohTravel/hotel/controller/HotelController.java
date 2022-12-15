@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
+import com.oracle.ohTravel.hotel.model.Hotel_imageDTO;
 import com.oracle.ohTravel.hotel.model.RoomDTO;
 import com.oracle.ohTravel.hotel.service.HotelService;
 import com.oracle.ohTravel.member.model.MemberDTO;
@@ -42,7 +43,7 @@ public class HotelController {
 	
 	//호텔 전체 List 조회
 	@GetMapping(value = "/hotelHome")
-	public String goHotelHome(HotelDTO hoteldto, Model model) {
+	public String goHotelHome(HotelDTO hoteldto, Hotel_imageDTO hotel_imageDTO, Model model) {
 		
 		List<HotelDTO> hotelList = hs.hotelList(hoteldto);
 		model.addAttribute("hotelList", hotelList);

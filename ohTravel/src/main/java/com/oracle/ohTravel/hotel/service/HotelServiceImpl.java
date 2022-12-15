@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.oracle.ohTravel.hotel.dao.HotelDAO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
+import com.oracle.ohTravel.hotel.model.Hotel_imageDTO;
 import com.oracle.ohTravel.hotel.model.RoomDTO;
 import com.oracle.ohTravel.member.dao.MemberDao;
 import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
@@ -75,5 +76,6 @@ public class HotelServiceImpl implements HotelService {
 	public RoomDTO getMembershipInfo(RoomDTO roomDTO) {
 		return hd.getMembershipInfo(roomDTO);
 	}
+
 
 }
