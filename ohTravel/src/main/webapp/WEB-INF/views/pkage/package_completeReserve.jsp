@@ -39,7 +39,7 @@
    </div>
    
    <div class="input_a">
-      <input type="button" class="black" value="구매내역 확인">
+      <input type="button" class="black" value="구매내역 확인" onclick="location.href='${pageContext.request.contextPath}'/member/myPageReservPackage">
    </div>
    
 </body>
