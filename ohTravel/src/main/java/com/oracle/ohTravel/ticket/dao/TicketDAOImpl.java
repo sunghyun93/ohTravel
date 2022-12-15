@@ -82,6 +82,12 @@ public class TicketDAOImpl implements TicketDAO {
 		
 		return trDTO;
 	}
+
+	// payment 테이블 insert
+	@Override
+	public void insertPayment(TicketReservation trDTO) {
+		session.insert("insertTicketPayment", trDTO);
+	}
 	
 	
 }

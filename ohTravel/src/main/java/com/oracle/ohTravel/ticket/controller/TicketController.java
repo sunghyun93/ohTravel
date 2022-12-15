@@ -107,7 +107,7 @@ public class TicketController {
 		return "ticket/exhReserveSuccess";
 	}
 	
-	
+	/* 결제 완료 화면 넘어가기용 */
 	@PostMapping("/reservationComplete")
 	public String reservationComplete(TicketReservation trDTO, HttpSession session, Model model) {
 		

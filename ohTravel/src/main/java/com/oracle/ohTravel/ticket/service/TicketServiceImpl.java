@@ -49,8 +49,9 @@ public class TicketServiceImpl implements TicketService {
 	public void reserveExhibition(TicketReservation trDTO) {
 		System.out.println("~~ TicketServiceImpl reserveExhibition Start ~~");
 		
-		trDTO.setTicket_puchase_date(new Date());
-		td.reserveExhibition(trDTO);
+		trDTO.setTicket_puchase_date(new Date());	// 현재 시간날짜가 필요해서 따로 설정
+		td.reserveExhibition(trDTO);				// ticket_reservation 테이블에 INSERT
+		td.insertPayment(trDTO);					// payment 테이블에 INSERT
 	}
 
 
@@ -59,6 +60,7 @@ public class TicketServiceImpl implements TicketService {
 		System.out.println("~~ TicketServiceImpl selectCompleteReservationId Start ~~");
 		
 		TicketReservation trDTO = null;
+		
 		try {
 			trDTO = td.selectReservationDetail(ticket_order_id);
 		} catch (Exception e) {

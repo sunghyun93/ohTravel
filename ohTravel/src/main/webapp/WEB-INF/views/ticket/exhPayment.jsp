@@ -461,29 +461,7 @@ col {
 							</div>
 						</div>
 
-						<!-- 쿠폰 할인  -->
-						<div class="text_wrap mid">
-							<strong class="tit" style="font-weight: 500;">쿠폰 할인</strong>
-							<div class="sale-content">
-								<div class="inner" style="position: relative; padding: 20px 0;">
-									<div class="coupon-list">
-										<!-- <button type="button" class="el-button btn-select-coupon el-button--primary el-button--small">
-											<span>할인 쿠폰 선택</span>
-										</button> -->
-										<div class="list" style="width: 50%;">
-											<!-- 쿠폰 목록 -->
-											<!-- 쿠폰이 있으면 목록 보여주고 -->
-											<!-- 쿠폰이 없으면 적용된 쿠폰이 없습니다. -->
-											<div class="no-item">
-												<strong class="name">적용된 쿠폰이 없습니다.</strong>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 						<!-- text_wrap -->
-
 						<div class="text_wrap mid">
 							<!-- 약관동의 -->
 							<div class="terms-agree" style="margin-top: 80px;">
@@ -688,7 +666,7 @@ col {
 		<input type="hidden" name="ticket_admission_date" 	  value="">
 		
 		<input type="hidden" name="ticket_adult_per" 		  value="">
-		<input type="hidden" name="titicket_idcket_child_per" value="">
+		<input type="hidden" name="ticket_child_per" value="">
 		<input type="hidden" name="ticket_total_price"    	  value="">
 	</form>
 	<form id="ticketResultForm">
@@ -711,17 +689,6 @@ col {
 		var ticket_admission_date =  dateFormat(new Date('${adDate}'));		// 사용일 (=입장일)
 		console.log(ticket_admission_date);
 
-		
-		// 1) 예약 DB에 저장
-		// 2) 결제
-		
-		function realReserveFunc(){
-			
-			
-			realReserveForm.submit();
-		};
-		
-		
 		/* 모두 동의 코드인데... 안 됨.... *^^*/
 		function allAgree() {
 			const checkAll = document.getElementById('chkAll');
@@ -759,13 +726,14 @@ col {
 		/* 결제 API */
 	    function requestPay() {
 			
+			// 예약 DB에 저장 & 결제
 	    	//가져가야 할 값 : 티켓코드, 회원 ID, 사용일, 성인 인원, 아동 인원, 총 금액
 			let ticket_id			  = '${ticket_id}';
 			let mem_id				  = '${sessionId}';
 			let ticket_name 		  = '${ticket_name}';
 			
 			let ticket_adult_per 	  	  = ${adultCnt};	// 성인 인원 수
-			let titicket_idcket_child_per = ${childCnt};	// 아동 인원 수
+			let ticket_child_per = ${childCnt};	// 아동 인원 수
 			let ticket_total_price 	  	  = ${totalPay};
 
 			$('input[name=ticket_id]').attr('value', ticket_id);
@@ -773,7 +741,7 @@ col {
 			$('input[name=ticket_name]').attr('value', ticket_name);
 			$('input[name=ticket_admission_date]').attr('value', ticket_admission_date);
 			$('input[name=ticket_adult_per]').attr('value', ticket_adult_per);
-			$('input[name=titicket_idcket_child_per]').attr('value', titicket_idcket_child_per);
+			$('input[name=ticket_child_per]').attr('value', ticket_child_per);
 			$('input[name=ticket_total_price]').attr('value', ticket_total_price);
 			
             var IMP = window.IMP; // 생략가능
@@ -784,7 +752,7 @@ col {
                 merchant_uid: 'merchant_' + new Date().getTime(),
                 name: '${ticket_name}',
                 //결제창에서 보여질 이름
-                amount: '${totalPay}',
+                amount: 100,
                 //가격
                 buyer_email: 'abcMartek@siot.do',
                 buyer_name: '김성현', //구매자 이름
@@ -795,14 +763,13 @@ col {
                 console.log(rsp);
                  if (rsp.success) {
                 	 $.ajax({
-                         url: "${pageContext.request.contextPath}/ticket/realReserve", //가맹점 서버
-                         	type: "POST",
-                           data: $('#payment').serialize(),
-                           dataType:'text',
-                           success: function(data){
-                               alert(data);
-                               alert('구매자 님의 결제가 완료되었습니다.');
-                               
+                		 url: "${pageContext.request.contextPath}/ticket/realReserve", //가맹점 서버
+                		 type: "POST",
+                		 data: $('#payment').serialize(),
+                         success: function(data){
+                        	 //alert(data);
+                        	 alert('구매자 님의 결제가 완료되었습니다.');
+                             //location.href = "${pageContext.request.contextPath}/ticket/reservationComplete";
                              },
                              error: function(err){
                                 var msg2 = '결제에 실패하였습니다.';
