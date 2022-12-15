@@ -206,7 +206,7 @@
 					                        <em> ${mile } <span class="icn mileage em"></span></em>적립
 					                    </p>
 					                </div>	<!-- mileage_save -->
-					            </div>	<!	-- info_area total -->
+					            </div>	<!-- info_area total -->
 					            <div class="info_area">
 					            	<fmt:formatNumber type="number" maxFractionDigits="3" value="${roomDetail.room_price - mile}" var="realDiscountPrice"/>
 					                <div class="info"><strong class="tit">총 상품 금액</strong> <span>${realDiscountPrice }원</span></div>
@@ -312,6 +312,7 @@ function requestPay() {
 		, rev_tot_price : ${roomDetail.room_price - mile}
 		, numberOfPeople : ${numberOfAdult } + ${numberOfChild}
 		, mile : ${mile }
+		, forPaymentPrice : ${roomDetail.room_price / calDate}
 	}
 	
 	console.log(sendData)
