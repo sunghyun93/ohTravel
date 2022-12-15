@@ -23,5 +23,5 @@ public class HotelReservationDTO {
 	private int intervalDay;
 	private int room_id;
 	private int numberOfPeople;
-	
+	private int mile;
 }

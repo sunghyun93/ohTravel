@@ -39,6 +39,12 @@
                             <div class="header-info-right f-right">
                                 <ul class="header-social">
                                 	<li><a href="${pageContext.request.contextPath }/manager/managerMain">관리자페이지</a>
+                                	<c:if test="${member != null }">
+                                		<li><a onclick="window.open('${pageContext.request.contextPath }/manager/goCoupon','_blank','width=900px,height=850px')" href="#">쿠폰다운로드</a>
+                                	</c:if>
+                                	<c:if test="${member == null }">
+                                		<li><a href="${pageContext.request.contextPath }/manager/goCoupon">쿠폰다운로드</a>
+                                	</c:if>
                                     <c:if test="${member == null}">
                                     	<li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
                                     	<li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
@@ -69,7 +75,7 @@
                                 <div class="main-menu f-right d-none d-lg-block">
                                     <nav>               
                                         <ul id="navigation">                                                                                                                                     
-                                            <li><a href="#">공지사항</a></li>
+                                            <li><a href="${pageContext.request.contextPath }/manager/goNotice">공지사항</a></li>
                                             <li><a href="${pageContext.request.contextPath }/hotel/hotelHome">숙박</a>
                                             	  <ul class="submenu">
                                                     <li><a href="${pageContext.request.contextPath }/blog">블로그 구조 참고</a></li>
@@ -87,7 +93,21 @@
                                                 </ul>
                                             </li>
                                             <li><a href="${pageContext.request.contextPath}/ticket/exhibitionMain">입장권</a>
+                                                <ul class="submenu">
+                                                    <li><a href="${pageContext.request.contextPath}/ticket/exhibitionSearch">입장권 검색 결과</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/ticket/exhibitionDetail">입장권 상세 페이지</a></li>
+                                                </ul>
                                             </li>
+                                            <li><a href="#">예약내역 확인</a></li>
+                                            <c:if test="${member == null}">
+                                            	<li><a href="${pageContext.request.contextPath}/member/loginForm">LOGIN</a></li>
+                                            	<li><a href="${pageContext.request.contextPath}/member/memberForm">회원가입</a></li>
+                                            </c:if>
+                                            <c:if test="${member != null}">
+                                            	<li><a href="${pageContext.request.contextPath}/member/logout">LOGOUT</a></li>
+                                            	<li><a href="${pageContext.request.contextPath}/member/memberForm" style="display:none;">회원가입</a></li>
+                                            </c:if>
+                                        	<li><a href="${pageContext.request.contextPath}/member/myPageReservPackage">마이페이지</a></li>
                                         </ul>
                                     </nav>
                                 </div>

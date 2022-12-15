@@ -51,6 +51,15 @@ public class PkageDaoImpl implements PkageDao {
 		return session.selectList(namespace+"selectPkgWithDetailAndFlight", map);
 	}
 	
+//	패키지 검색시 pkg 개수 select
+	@Override
+	public int selectPkgWithDetailAndFlightCnt(Map<String, Object> map) throws Exception {
+		log.info("PkageDaoImpl selectPkgWithDetailAndFlightCnt start...");
+		int rowCnt = session.selectOne(namespace+"selectPkgWithDetailAndFlightCnt", map);
+		log.info("PkageDaoImpl selectPkgWithDetailAndFlightCnt end...");
+		return rowCnt;
+	}
+	
 //	pkage_id 에 맞는 패키지 select(도시와 이미지까지)
 	@Override
 	public PkageDTORM selectPkgByPkgId(String pkage_id) throws Exception {

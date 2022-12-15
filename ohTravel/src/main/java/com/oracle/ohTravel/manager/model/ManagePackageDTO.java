@@ -1,5 +1,8 @@
 package com.oracle.ohTravel.manager.model;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
@@ -65,6 +68,24 @@ public class ManagePackageDTO {
 	//city
 	private String city_name;
 	
+	//예약용
+	private int pkage_rv_id;
+	private String mem_id;
+	private int pkage_rv_acnt;
+	private int pkage_rv_ccnt;
+	private int pkage_rv_tprice;
+	private LocalDateTime pkage_rv_date;
+	private int pkage_rv_status;
+	
+	//예약인원용
+	private int pkage_pi_id;
+	private String pkage_pi_name;
+	private Date pkage_pi_birth;
+	private int pkage_pi_gen;
+	private String pkage_pi_lname;
+	private String pkage_pi_fname;
+	private String pkage_pi_tel;
+	private String pkage_pi_email;
 	
 	
 	//조회용

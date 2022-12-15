@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
-import com.oracle.ohTravel.member.model.CouponDTO;
+import com.oracle.ohTravel.manager.model.CouponDTO;
+import com.oracle.ohTravel.member.model.MemCouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.BasketDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
@@ -98,7 +99,7 @@ public interface MemberService {
 	public List<BasketDTO> myPageLikeTicket(BasketDTO basketDTO);
 
 	// 쿠폰 내역
-	public List<CouponDTO> myPageCoupon(CouponDTO couponDTO);
+	public List<MemCouponDTO> myPageCoupon(MemCouponDTO couponDTO);
 
 	// 패키지 찜 삭제
 	public int deleteLikePackage(BasketDTO basketDTO);

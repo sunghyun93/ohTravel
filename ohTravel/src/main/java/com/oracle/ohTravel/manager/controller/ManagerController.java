@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,14 +23,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.manager.model.ManageAirportDTO;
 import com.oracle.ohTravel.manager.model.ManageHotelDTO;
+import com.oracle.ohTravel.manager.model.ManageMemberDTO;
 import com.oracle.ohTravel.manager.model.ManagePackageDTO;
 import com.oracle.ohTravel.manager.model.ManageTicketDTO;
-import com.oracle.ohTravel.manager.model.MemberDTO;
 import com.oracle.ohTravel.manager.model.MembershipDTO;
 import com.oracle.ohTravel.manager.model.NoticeDTO;
 import com.oracle.ohTravel.manager.model.PagingManager;
 import com.oracle.ohTravel.manager.service.ManageHotelService;
 import com.oracle.ohTravel.manager.service.ManagerService;
+import com.oracle.ohTravel.member.model.MemberDTO;
+import com.oracle.ohTravel.member.model.TicketReservationDTO;
+import com.oracle.ohTravel.ticket.model.TicketDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,11 +44,20 @@ public class ManagerController {
 	
 	private final ManagerService service;
 	private final ManageHotelService hotelService;
-	
 	//관리자 메인페이지
 	@RequestMapping(value = "managerMain")
-	public String managerMain(){
-		
+	public String managerMain(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		if (session.getAttribute("member")==null) {
+			return "redirect:/member/loginForm";
+		}else {
+			MemberDTO member = (MemberDTO) session.getAttribute("member");
+			String user_id = member.getMem_id();
+			if(!user_id.equals("admin")) {
+				return "redirect:/";
+			}
+			
+		}
 		return "manager/managerMain";
 		
 	}
@@ -54,14 +67,14 @@ public class ManagerController {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//회원관리 ->회원관리
 	@RequestMapping(value = "manageUser")
-	public String manageUser(MemberDTO member, String currentPage ,Model model) {
+	public String manageUser(ManageMemberDTO member, String currentPage ,Model model) {
 		int total = service.totalMember();
 		PagingManager page = new PagingManager(total, currentPage);
 		member.setStart(page.getStart());
 		member.setEnd(page.getEnd());
 		System.out.println("pa-"+page.getStart());
 		System.out.println("pa-"+page.getPageBlock());
-		List<MemberDTO> memberList = service.getMemberList(member);
+		List<ManageMemberDTO> memberList = service.getMemberList(member);
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("page", page);
 		
@@ -1348,6 +1361,42 @@ public class ManagerController {
 		model.addAttribute("deleteNoticeMsg1", result);
 		return "forward:manageNotice";
 	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 메인페이지 공지사항 탭 관련//////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@GetMapping(value = "goNotice")
+	public String goNotice(NoticeDTO notice,String currentPage, Model model) {
+		int total = service.totalNotice();
+		PagingManager page = new PagingManager(total, currentPage);
+		notice.setStart(page.getStart());
+		notice.setEnd(page.getEnd());
+		List<NoticeDTO> noticeList = service.getNoticeList(notice);
+		model.addAttribute("notice", noticeList);
+		model.addAttribute("totalEmp", total);
+		model.addAttribute("page", page);
+		return "manager/goNotice";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "updateNoticeCount")
+	public int updateNoticeCount(NoticeDTO notice) {
+		int result = service.updateNoticeCount(notice);
+		return result;
+	}
+	@GetMapping(value = "goNoticeDetail")
+	public String goNoticeDetail(NoticeDTO notice, String currentPage,Model model) {
+		System.out.println("notice_id->"+notice.getNotice_id());
+		List<NoticeDTO> noticeDetail = service.getNoticeDetail(notice.getNotice_id());
+		model.addAttribute("noticeDetail", noticeDetail);
+		model.addAttribute("currentPage", currentPage);
+		return "manager/goNoticeDetail";
+	}
+	
+	
+	
+	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////아래 매출관련//////////////////////////////////////////////////////
@@ -1416,10 +1465,94 @@ public class ManagerController {
 		model.addAttribute("deleteCouponMsg1", result);
 		return "forward:manageCoupon";
 	}
+	
+	//메인페이지에서 쿠폰다운로드 페이지 열기
+	@RequestMapping(value = "goCoupon")
+	public String goCoupon(MemberDTO memberDTO,HttpServletRequest request,Model model) {
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "redirect:/member/loginForm";
+		}
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		System.out.println("MemberController myPageReservPackage sessionId -> " + sessionId );
+		List<CouponDTO> getMemCouponList = service.getMemberCouponList(sessionId);
+		
+		model.addAttribute("sessionId", sessionId);
+		model.addAttribute("getMemCouponList", getMemCouponList);
+		
+		return "empty/userCouponDown";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "insertMemCoupon")
+	public int insertMemCoupon(CouponDTO coupon) {
+		int result = service.insertMemberCoupon(coupon);
+		return result;
+	}
+	
+	
+	
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 예약 관련//////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	//예약관리
 	@RequestMapping(value = "manageReservation")
 	public String manageReservation() {
 		
 		return "manager/manageReservation";
 	}
+	//예약관리 -> 패키지 리스트 가져오기 Ajax
+//	@RequestMapping(value = "getPackageList")
+//	public List<ManagePackageDTO> getPackageList(){
+//		List<ManagePackageDTO> getPackageList =
+//	}
+	
+	
+	//예약관리 -> 패키지 예약 리스트 가져오기 Ajax
+	@ResponseBody
+	@PostMapping(value = "getPackageResList")
+	public List<ManagePackageDTO> getPackageResList(){
+		List<ManagePackageDTO> getPackageResList = service.getPackageResList();
+		return getPackageResList;
+	}
+	
+	//예약관리 -> 패키지 예약인원 리스트 가져오기 Ajax
+	@ResponseBody
+	@PostMapping(value = "getPackageResPiList")
+	public List<ManagePackageDTO> getPackageResPiList(ManagePackageDTO pk){
+		List<ManagePackageDTO> getPackageResPiList = service.getPackageResPiList(pk);
+		return getPackageResPiList;
+	}
+	
+	//예약관리 -> 숙박 예약 리스트 가져오기 Ajax
+	@ResponseBody
+	@PostMapping(value = "getHotelResList")
+	public List<ManageHotelDTO> getHotelResList(){
+		List<ManageHotelDTO> getHotelResList = service.getHotelResList();
+		return getHotelResList;
+	}
+	
+	//예약관리 -> 티켓 예약 리스트 가져오기 Ajax
+	@ResponseBody
+	@PostMapping(value = "getTicketResList")
+	public List<ManageTicketDTO> getTicketResList(){
+		List<ManageTicketDTO> getTicketResList = service.getTicketResList();
+		return getTicketResList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

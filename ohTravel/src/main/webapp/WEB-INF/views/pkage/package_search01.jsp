@@ -49,12 +49,14 @@
 					    <div class="modal_close_country">
 					    	<div class="modal_close_country_1">
 						        <ul>
+						        <%-- 나라 리스트 --%>
 						        	<c:forEach var="country" items="${countryList }">
 						        		<li><span id="${country.country_id }" class="country_li">${country.country_name }</span></li>
 						        	</c:forEach>
 						        </ul>
 						    </div>
 						    <div class="modal_close_country_2">
+						    	<%-- 도시 리스트 - 나라를 클릭하면 해당 도시의 li 가 만들어져서 들어감 --%>
 						        <ul>
 						        	<li><span></span></li>
 						        	<li><span></span></li>
@@ -190,6 +192,7 @@ $(function() {
 		// 클릭했을 때의 국가 ID
 		let country_id = $(this).attr('id');
 		
+		// 선택한 나라에 따른 도시들 가져오는 ajax
 		$.ajax({
 			url : '/pkageRest/selectCity',
 			type : 'post',
@@ -209,9 +212,10 @@ $(function() {
 			error : function(err) {
 				console.log(err);
 			}
-		});
+		});// 선택한 나라에 따른 도시들 가져오는 ajax
 	});
 	
+	<%-- 동적으로 생성된 li 이기 때문에 $(document).on() 사용 --%>
 	// 국가 선택 후 도시 클릭했을 때 처리
 	$(document).on("click",".city_id",function(){
 		// input 과 hidden 에 값 넣어주기
@@ -227,11 +231,12 @@ $(function() {
 	// 패키지 검색 눌렀을 때 유효성 검사 및 검색으로 넘어가기
 	$('#pkgSearchBtn').on('click', function() {
 		let destiPoint = $('.starting_hidden').val(); // 가고싶은 지역의 id
-		let startPoint = $('select[name="city_name"] option:selected').val(); // 출발지의 id
+		// let startPoint = $('select[name="city_name"] option:selected').val(); // 출발지의 id // 출발지는 인천으로 고정
 		let startDate = $('#dates_start_check').val(); // 출발 날짜
 		
-		console.log(destiPoint+","+startPoint+","+startDate);
+		console.log(destiPoint+","+startDate);
 		
+		// 가고싶은 지역을 선택안했을 때 모달창 켜주기
 		if(destiPoint == '') {
 			alert("가고싶은 지역을 선택해주세요.");
 			// 모달창 켜기

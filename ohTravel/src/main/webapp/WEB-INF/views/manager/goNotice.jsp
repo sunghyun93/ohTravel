@@ -29,33 +29,13 @@
 	white-space: nowrap;
 }
 </style>
-<script type="text/javascript">
-	$(document).ready(function(){
-		var updateMsg1 = '${updateNoticeMsg1}';
-		var deleteMsg1 = '${deleteNoticeMsg1}';
-		console.log(updateMsg1);
-		if(updateMsg1 == 1){
-			alert("수정이 완료되었습니다");
-		}else if(deleteMsg1 ==1){
-			alert("삭제가 완료되었습니다");
-		}
-	});
-</script>
-
 </head>
 <body>
 	
 	<div class="container" style="min-height: 700px;">
 		<div class="wrapper big">
-			<div class="mt-4 button-wrap">
-				<a href="manageBoard" class="genric-btn primary ela">게시판관리</a>
-				<a href="manageNotice" class="genric-btn primary ela">공지사항관리</a>
-			</div>
-			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">공지사항관리</h1>
+			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">공지사항</h1>
 			<div class="row">
-			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertNoticeForm'">공지사항추가</button>
-			</div>
 				<table border="1" class="table table-hover">
 					<thead>
 					<tr>
@@ -69,7 +49,7 @@
 					</thead>
 					<c:forEach var="notice" items="${notice }">
 					<tbody>
-					<tr onclick="location.href='manageNoticeDetail?notice_id=${notice.notice_id }&currentPage=${page.currentPage}'">
+					<tr onclick="goNoticeDetail(${notice.notice_id },${page.currentPage})">
 						<td>${notice.notice_id }</td>
 						<td>${notice.notice_title}</td>
 						<td class="content">${notice.notice_content}</td>
@@ -84,18 +64,35 @@
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 					<c:if test="${page.startPage > page.pageBlock }">
-						<li class="page-item"><a class="page-link" href="manageNotice?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
+						<li class="page-item"><a class="page-link" href="goNotice?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
 					</c:if>
 					<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-						<li class="page-item"><a class="page-link" href="manageNotice?currentPage=${i}">${i}</a></li>
+						<li class="page-item"><a class="page-link" href="goNotice?currentPage=${i}">${i}</a></li>
 					</c:forEach>
 					<c:if test="${page.endPage < page.totalPage }">
 						<a href="manageUser?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
-						<li class="page-item"><a class="page-link" href="manageNotice?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
+						<li class="page-item"><a class="page-link" href="goNotice?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
 					</c:if>
 				</ul>
 			</nav>
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	function goNoticeDetail(str1,str2){
+		notice_id = str1;
+		currentPage = str2;
+		$.ajax({
+			url : 'updateNoticeCount',
+			data : {'notice_id' : notice_id},
+			method : 'POST',
+			success : function(data){
+				if(data >0){
+					alert('조회수 올림');
+					location.href="goNoticeDetail?notice_id="+notice_id+"&currentPage="+currentPage+"";
+				}
+			}
+		})
+	}
+</script>
 </html>
