@@ -5,8 +5,9 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class SearchDTO {
+public class RecentSearchDTO {
 	private String search_word;
-	private int search_count;
+	private String mem_id;
 	private Date search_time;
+	private int search_count;
 }

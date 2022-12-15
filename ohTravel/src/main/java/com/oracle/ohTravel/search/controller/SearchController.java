@@ -1,16 +1,27 @@
 package com.oracle.ohTravel.search.controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oracle.ohTravel.basket.model.BasketDTO;
+import com.oracle.ohTravel.city.model.CityDTO;
+import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.search.model.CategoryDTOVO;
+import com.oracle.ohTravel.search.model.RecentSearchDTO;
+import com.oracle.ohTravel.search.model.SearchDTO;
 import com.oracle.ohTravel.search.service.Paging;
 import com.oracle.ohTravel.search.service.SearchService;
 import com.oracle.ohTravel.ticket.model.TicketDTO;
@@ -24,10 +35,46 @@ public class SearchController {
 	private final SearchService ss;
 	
 	@GetMapping("/search/searchResult")
-	public String searchResult(PkageDTO pkageDTO, HotelDTO hotelDTO, TicketDTO ticketDTO, Model model) {
+	public String searchResult(BasketDTO basketDTO, RecentSearchDTO recentSearchDTO, PkageDTO pkageDTO, HotelDTO hotelDTO, TicketDTO ticketDTO, SearchDTO searchDTO, Model model, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Controller SearchResultPage Start...");
 		model.addAttribute("search_word", pkageDTO.getSearch_word());
-
+		HttpSession session = request.getSession();
+		String mem_id = (String) session.getAttribute("sessionId");
+		recentSearchDTO.setMem_id(mem_id);
+		basketDTO.setMem_id(mem_id);
+		pkageDTO.setMem_id(mem_id);
+		hotelDTO.setMem_id(mem_id);
+		ticketDTO.setMem_id(mem_id);
+		System.out.println("basketDTO.getMem_id() -> " + basketDTO.getMem_id());
+		
+		// 찜한 상태 불러오기
+		if (mem_id != null) {
+			List<BasketDTO> checkLike = ss.checkLike(basketDTO);
+			System.out.println("checkLike -> " + checkLike);
+			model.addAttribute("checkLike",  checkLike);
+		}
+		
+		// 멤버 최근 검색어 등록
+		if (mem_id != null) {
+			int memSearchWord = ss.InsertMemSearchWord(recentSearchDTO);
+			System.out.println("memSearchWord -> " + memSearchWord);
+			int updateResult = ss.updateSysdate(recentSearchDTO);
+			System.out.println("updateResult -> " + updateResult);
+		} else {
+			System.out.println("not 회원이에용");
+			// 검색어 리스트 조회
+			List<SearchDTO> selectSearchList = ss.searchWordList(searchDTO);
+			System.out.println("selectSearchList -> " + selectSearchList);
+			
+			// 신규 검색어 등록
+			int newSearchWord = ss.insertNewSearchWord(searchDTO);
+			System.out.println("newSearchWord -> " + newSearchWord);
+			
+			// 검색한 검색어 search_count up
+			int searchCountUp = ss.updateSearchCount(searchDTO);
+			System.out.println("searchCountUp -> " + searchCountUp);
+		}
+		
 		// 입장권 목록
 		List<TicketDTO> ticketList = ss.getTicketList(ticketDTO);
 		System.out.println("Controller ticketList -> " + ticketList);
@@ -55,11 +102,17 @@ public class SearchController {
 	
 	@GetMapping("/search/searchCategoryAjax")
 	@ResponseBody
-	public CategoryDTOVO searchCategoryAjax(String gubun, HotelDTO hotelDTO, PkageDTO pkageDTO, TicketDTO ticketDTO, 
+	public CategoryDTOVO searchCategoryAjax(CategoryDTOVO categoryDTOVO,  HttpServletRequest request, String gubun, HotelDTO hotelDTO, PkageDTO pkageDTO, TicketDTO ticketDTO, 
 			 String currentPage, String search_word) {
 		System.out.println("Controller searchPkageAjax");
 		System.out.println(pkageDTO.getSearch_word()+", "+gubun);
 		System.out.println("currentPage -> " + currentPage);
+		HttpSession session = request.getSession();
+		String mem_id = (String) session.getAttribute("sessionId");
+		pkageDTO.setMem_id(mem_id);
+		hotelDTO.setMem_id(mem_id);
+		ticketDTO.setMem_id(mem_id);
+		categoryDTOVO.setMem_id(mem_id);
 
 		if (gubun.equals("pkage")) {
 			List<PkageDTO> pkageList = ss.getPkageList(pkageDTO);
@@ -73,11 +126,9 @@ public class SearchController {
 			// 페이지 받아옴
 			List<PkageDTO> pkageList2 = ss.getPkageList(pkageDTO);
 			int totalPkage2 = pkageList2.size();
-//			Paging page2 = new Paging(totalPkage2, currentPage); 
 			System.out.println("totalPkage2 -> " + totalPkage2);
 			System.out.println("pkageDTO.getStart() " + pkageDTO.getStart());
 			System.out.println("pkageDTO.getEnd() " + pkageDTO.getEnd());
-//			System.out.println("page -> " + page2);
 			CategoryDTOVO pkageDTOVO = new CategoryDTOVO();
 			pkageDTOVO.setPkageList(pkageList2);
 			pkageDTOVO.setPaging(page);
@@ -134,7 +185,7 @@ public class SearchController {
 		
 		else {
 			System.out.println("Controller all");
-			CategoryDTOVO categoryDTOVO = new CategoryDTOVO();
+			categoryDTOVO = new CategoryDTOVO();
 			Paging page = new Paging(0, null);
 			categoryDTOVO.setStart(page.getStart());
 			categoryDTOVO.setEnd(page.getEnd());
@@ -152,11 +203,48 @@ public class SearchController {
 			List<TicketDTO> ticketList = ss.getTicketList(ticketDTO);
 			System.out.println("Controller ticketList -> " + ticketList);
 			categoryDTOVO.setTicketList(ticketList);
-
-
 			
 			return categoryDTOVO;
 		}
 	}
 	
+	// 인기 검색어
+	@GetMapping("/popSearchWord")
+	@ResponseBody
+	public List<SearchDTO> popSearchWord(SearchDTO searchDTO) {
+		List<SearchDTO> popSearch = ss.searchWordList(searchDTO);
+		return popSearch;
+	}
+
+	// 최근 검색어
+	@GetMapping("/recentSearchWord")
+	@ResponseBody
+	public List<RecentSearchDTO> recentSearchWord(RecentSearchDTO recentSearchDTO, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Controller recentSearchWord");
+		HttpSession session = request.getSession();
+		String mem_id = (String)session.getAttribute("sessionId");
+		recentSearchDTO.setMem_id(mem_id);
+		if (mem_id != null) {
+			List<RecentSearchDTO> memRecentSearch = ss.recentSearch(recentSearchDTO);
+			return memRecentSearch;
+		} else {
+			// 그냥 공용 최근 검색
+//			List<RecentSearchDTO> normalSearch = ss.normalRecentSearch();
+			return null;
+		}
+	}
+	
+	// 검색어 자동완성
+	@PostMapping(value = "/autoComplete")
+	public @ResponseBody Map<String, Object> autocomplete (@RequestParam Map<String, Object> paramMap, SearchDTO searchDTO, PkageDTO pkageDTO, HotelDTO hotelDTO, TicketDTO ticketDTO, CityDTO cityDTO, CountryDTO countryDTO) throws Exception{
+		System.out.println("Controller autoComplete");
+		paramMap.put("countryDTO", countryDTO);
+		paramMap.put("cityDTO", cityDTO);
+		paramMap.put("pkageDTO", pkageDTO);
+		paramMap.put("hotelDTO", hotelDTO);
+		paramMap.put("ticketDTO", ticketDTO);
+		List<Map<String, Object>> resultList = ss.autoComplete(paramMap);
+		paramMap.put("resultList", resultList);
+		return paramMap;
+	}
 }

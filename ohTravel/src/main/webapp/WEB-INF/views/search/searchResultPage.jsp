@@ -76,9 +76,19 @@
 												<div>
 													<div>
 														<strong>${pkageList.min_price}</strong>
-														<p>원</p>
+														<p>원~</p>
 													</div>
 												</div>
+											</div>
+											<div class='choice'>
+											<c:choose>
+												<c:when test="${pkageList.chk == 0}">
+													<button type='button' class='choice-btn' id="${pkageList.pkage_id}">즐겨찾기</button>
+												</c:when>
+												<c:when test="${pkageList.chk > 0}">
+													<button type='button' class='choice-btn' id="${pkageList.pkage_id}" style="background-position: -458px -26px;">즐겨찾기</button>
+												</c:when>
+											</c:choose>
 											</div>
 											<div class="label"></div>
 											<a href="/pkage/searchResult?toDesti=${pkageList.city_id }&dates_start_check=2022-12-20&pkage_gubun=${pkageList.pkage_gubun}&order=1" class="product_btn"><span>판매상품상세보기</span></a>
@@ -193,21 +203,49 @@
 
 //찜 선택
 $(function() {
-	$('.choice-btn').click(function() {
-		let pkage_id = $(this).attr('id');
-		if($('.choice-btn[id="'+pkage_id+'"]').css("background-position", '-485px -26px')) {
-			$(this).css('background-position', "-458px -26px");
+	$(document).on('click', '.choice-btn', function() {
+		alert('아구찜');
+		let basket_ref_id = $(this).attr('id');
+		if($('.choice-btn[id="'+basket_ref_id+'"]').css("background-position") == '-485px -26px') {
 			
 			$.ajax({
-				url: '/insertFavorite',
-				data: {'pkage_id': pkage_id},
+				url: '/insertLike',
+				data: {'basket_ref_id': basket_ref_id},
 				dataType: 'text',
 				success: function(data) {
-					
+					console.log('찜 data -> ' + data);
+					if (data == 1) {
+						$('.choice-btn[id="'+basket_ref_id+'"]').css('background-position', "-458px -26px");
+						alert('찜 등록 완료');
+					}	
+					if (data == 0) {
+						alert('이미 등록된 상품입니다.');
+						$('.choice-btn[id="'+basket_ref_id+'"]').css('background-position', "-458px -26px");
+					} 
+					if (data == -1) {
+						alert('로그인 후 사용바람');
+					}
 				}
 			});
+			
 		} else {
-			$(this).css('background-position', "-485px -26px");
+			$.ajax({
+				url: '/removeLike',
+				data: {'basket_ref_id': basket_ref_id},
+				dataType: 'text',
+				success: function(data) {
+					console.log('찜 삭제 data -> ' + data);
+					if (data == -1) {
+						alert('로그인 후 사용바람');
+					}	
+					if (data == 0) {
+						alert('삭제 되지 않음...?');
+					} else {
+						alert('찜 삭제 완료');
+						$('.choice-btn[id="'+basket_ref_id+'"]').css("background-position", "-485px -26px");
+					}
+				}
+			});
 		}
 	})	
 })
@@ -254,10 +292,7 @@ function pageList(gubun, currentPage) {
 				data: datas,
 				dataType: 'json',
 				success: function(data) {
-					$('#hotel_hide').hide();
-					$('#ticket_hide').hide();
 					$('.vote_list').empty();
-					
 					if(gubun == 'pkage') {
 						let endPage = data.paging.endPage;
 						let pageCnt = data.paging.pageCnt;
@@ -429,10 +464,10 @@ function pageList(gubun, currentPage) {
 						str += "							<div class='type_2'>";
 						str += "								<span class='air_icon'><img src='https://image.hanatour.com//usr/static/img/airline/BX.png'";
 						str += "									title='' data-src='' alt=''> 에어부산 </span> <span> 잔여석<strong>10</strong></span>";
-						str += "								<span>부산출발</span> <span>가이드동행</span> <span> 쇼핑<strong>1</strong></span>";
+						str += "								<span>부산출발</span> <span>가이드동행</span>";
 						str += "							</div>";
 						str += "							<div class='type_2'>";
-						str += "								<span class='ic_note'>패키지</span> <span>세이브</span> <span>관광+자유</span>";
+						str += "								<span class='ic_note'>패키지</span> <span>"+this.pkage_dt_thema+"</span>";
 						str += "								<span>단체</span>";
 						str += "							</div>";
 						str += "							<div class='type_3'>";
@@ -452,7 +487,12 @@ function pageList(gubun, currentPage) {
 						str += "								</div>";
 						str += "							</div>";
 						str += "							<div class='choice'>";
-						str += "								<button type='button' class='choice-btn' id="+this.pkage_id+">즐겨찾기</button>";
+						if(this.chk == 0) {
+							str += "<button type='button' class='choice-btn' id="+this.pkage_id+">즐겨찾기</button>";
+						}
+						else {
+							str += "<button type='button' class='choice-btn' id="+this.pkage_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+						}
 						str += "							</div>";
 						str += "							<a href='#none' class='product_btn'><span>다른상품 더보기</span></a>";
 						str += "						</div>";
@@ -658,7 +698,12 @@ function pageList(gubun, currentPage) {
 														str += "</div>";
 													str += "</div>";
 													str += "	<div class='choice'>";
-													str += "	<button type='button' class='choice-btn' id="+this.hotel_id+">즐겨찾기</button>";
+													if(this.chk == 0) {
+														str += "<button type='button' class='choice-btn' id="+this.pkage_id+">즐겨찾기</button>";
+													}
+													else {
+														str += "<button type='button' class='choice-btn' id="+this.pkage_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+													}
 													str += "	</div>";
 												str += "</div>";
 											str += "</div>";
@@ -837,8 +882,8 @@ function pageList(gubun, currentPage) {
 										str += "<li class='item01'><a>성급 낮은순</a></li>";
 										str += "<li class='item01'><a>상품평 높은순</a></li>";
 										str += "</ul>";
-									str += "	</div>";
-								str += "	</div>";
+									str += "</div>";
+								str += "</div>";
 							str += "<div>";
 							str += "<div class='prod_list'>";
 								str += "<ul class='list htl eps4'>";
@@ -955,6 +1000,14 @@ function pageList(gubun, currentPage) {
 						str += 									"</div>";
 						str += 								"</div>";
 						str += 							"</div>";
+						str += 							"<div class='choice'>";
+						if(this.chk == 0) {
+							str += "<button type='button' class='choice-btn' id="+this.pkage_id+">즐겨찾기</button>";
+						}
+						else {
+							str += "<button type='button' class='choice-btn' id="+this.pkage_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+						}
+						str += 							"</div>";
 						str += 							"<div class='label'></div>";
 						str += 							"<a href='/pkage/searchResult?toDesti="+this.city_id+"&dates_start_check=2022-12-20&pkage_gubun="+this.pkage_gubun+"&order=1' class='product_btn'><span>판매상품상세보기</span></a>";
 						str += 						"</div>";
@@ -1042,6 +1095,14 @@ function pageList(gubun, currentPage) {
 						str += 									"</div>";
 						str += 								"</div>";
 						str += 							"</div>";
+						str += 							"<div class='choice'>";
+						if(this.chk == 0) {
+							str += "<button type='button' class='choice-btn' id="+this.pkage_id+">즐겨찾기</button>";
+						}
+						else {
+							str += "<button type='button' class='choice-btn' id="+this.pkage_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+						}
+						str += 							"</div>";
 						str += 						"</div>";
 						str += 					"</div>";
 						str += 				"</li>";
@@ -1057,24 +1118,9 @@ function pageList(gubun, currentPage) {
 				}
 			})
 	}
-	
-// Package 정렬(radio) 선택
-/* $(function() {
-	let chk_Val = [];
-	$(document).on("click", ".item_order", function() {
-		if($("input:radio[name=order]").is(":checked")) {
-			alert('radio 가가');
-			chk_Val.push($(this).attr('id'));
-			$("." + $(this).attr('id')).css("color", "purple");
-			console.log(chk_Val);
-		}
-	})
-}) */
 
 // Package 필터 선택
 $(function() {
-
-	
 	$(document).on("click", ".inpt_checkbox", function() {
 		console.log($(this).siblings());
 		let chk_Val = [];
@@ -1122,6 +1168,9 @@ $(function() {
 				str += "										<p>원~</p>";
 				str += "									</div>";
 				str += "								</div>";
+				str += "							</div>";
+				str += "							<div class='choice'>";
+				str += "								<button type='button' class='choice-btn' id="+this.pkage_id+">즐겨찾기</button>";
 				str += "							</div>";
 				str += "							<a href='#none' class='product_btn'><span>다른상품 더보기</span></a>";
 				str += "						</div>";
@@ -1199,7 +1248,6 @@ $(function() {
 					$('.list_result_wrap .pkg').empty();
 					$('.list_result_wrap .pkg').html(toHTML(data));
 					console.log(chk_Val);
-					
 				}
 			});
 		}

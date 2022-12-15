@@ -37,6 +37,7 @@ public class TicketDTO {
 	private String pageNum;
 	private int start;
 	private int end;
+	private String mem_id;
 	
 	// 예약 전 페이지용
 	private int totalPay;
@@ -47,4 +48,10 @@ public class TicketDTO {
 	// 날짜 우짜지,,,
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String adDate;
+	
+	private int review_cnt;
+	private int chk;
+	private String check;
+	private String radioCheck;
+	
 }
