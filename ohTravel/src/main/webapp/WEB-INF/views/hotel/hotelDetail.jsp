@@ -15,7 +15,7 @@
 	<div class="hd_container">
 		<div class="container">
 			<div class="ht_image">
-				<img alt="호텔대표사진" src="${pageContext.request.contextPath }/img/hotel/h_img_test.jpg">
+				<img alt="호텔대표사진" src="${hotelDetail.h_img_path }">
 			</div>
 			<div class="hotel_info">
 				${hotelDetail.hotel_grade }성급<br>
@@ -598,13 +598,13 @@ function makeRoomList(data) {
 		innerHtmlBody +=     				'<div class="panel-body">'
 		innerHtmlBody +=       					'<div class="room_type_detail">'
 		innerHtmlBody +=							'<div class="room_img">'
-		innerHtmlBody +=								'<img alt="room" src="${pageContext.request.contextPath }/img/hotel/room1.jpg">'
+		innerHtmlBody +=								'<img alt="room" src="'+data[j].r_img_path+'">'
 		innerHtmlBody +=							'</div>'
 		innerHtmlBody +=						'<div class="r_name">'
 		innerHtmlBody +=							'<h3>'+data[j].room_name+'</h3>'
 		innerHtmlBody +=						'</div>'
 		innerHtmlBody +=						'<div class="r_price">'
-		innerHtmlBody +=							'<h3>'+data[j].room_price.toLocaleString()+'</h3>'
+		innerHtmlBody +=							'<h3>'+data[j].room_price.toLocaleString()+'원</h3>'
 		innerHtmlBody +=						'</div>'
 		innerHtmlBody +=						'<div class="reservation">'
 		innerHtmlBody +=							'<button type="button" class="genric-btn primary ela" onclick="goReserve('+data[j].room_id+')">예약하기</button>'

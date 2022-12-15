@@ -28,6 +28,7 @@
 			 	, sum(rd.room_price) as room_price
 			 	, r.room_name
 			 	, count(room_date) as canRevDateCnt
+			 	, ri.r_img_path
 		FROM room r
 		LEFT OUTER JOIN (
 		               SELECT * , count(room_detail_id) as cnt
@@ -37,6 +38,8 @@
 		               group by room_id, room_date
 		            ) rd
 		ON r.room_id = rd.room_id
+		LEFT JOIN room_image ri
+		ON ri.room_id = r.room_id
 		WHERE r.hotel_id = #{hotel_id}
 		AND r.room_per >= #{numberOfPeople}
 		AND cnt >= 1
