@@ -727,8 +727,8 @@ public class MemberController {
 	}
 	
 	// 비밀번호 확인
-	@PostMapping(value = "/checkPassword")
-	public String checkPassword(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+	@PostMapping(value = "/checkPassword1")
+	public String checkPassword1(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
 		log.info("MemberController checkPassword start..");
 		
 		// 로그인 정보 가져오기
@@ -752,6 +752,35 @@ public class MemberController {
 		} else {
 			System.out.println("MemberController checkPassword after..");
 			return "redirect:/member/modifyPassword2";
+		}
+	}
+	
+	// 회원 탈퇴 비밀번호 확인
+	@PostMapping(value = "/checkPassword2")
+	public String checkPassword2(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+		log.info("MemberController checkPassword start..");
+		
+		// 로그인 정보 가져오기
+		HttpSession session = request.getSession();
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "member/loginForm";
+		}
+		// session에 저장된 로그인된 아이디의 비밀번호
+		String sessionPw = member.getMem_password();
+		System.out.println("MemberController checkPassword sessionPw -> "  + sessionPw);
+		
+		// 비밀번호 확인을 위해 새로 입력한 비밀번호
+		String ckPw = memberDTO.getMem_password();
+		System.out.println("MemberController checkPassword ckPw -> " + ckPw);
+		
+		if(!(sessionPw.equals(ckPw))) {
+			rttr.addFlashAttribute("msg", false);
+			return "redirect:/member/deleteMember";
+		} else {
+			System.out.println("MemberController checkPassword after..");
+			return "redirect:/member/deleteMember";
 		}
 	}
 	
@@ -812,7 +841,7 @@ public class MemberController {
 		
 		if(!(sessionPw.equals(delPw))) {
 			rttr.addFlashAttribute("msg", false);
-			return "redirect:/member/deleteMember";
+			return "forward:/member/checkPassword2";
 		} else {
 			memberService.deleteMember(member);
 			session.invalidate();
