@@ -108,7 +108,7 @@ public class TicketController {
 	}
 	
 	/* 결제 완료 화면 넘어가기용 */
-	@PostMapping("/reservationComplete")
+	@GetMapping("/reservationComplete")
 	public String reservationComplete(TicketReservation trDTO, HttpSession session, Model model) {
 		
 		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
