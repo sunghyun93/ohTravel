@@ -38,7 +38,9 @@
                         <div class="col-lg-4" style="min-width: 100px;">
                             <div class="header-info-right f-right">
                                 <ul class="header-social">
-                                	<li><a href="${pageContext.request.contextPath }/manager/managerMain">관리자페이지</a>
+                                	<c:if test="${member.mem_id == 'admin' }">
+                                		<li><a href="${pageContext.request.contextPath }/manager/managerMain">관리자페이지</a>
+                                	</c:if>
                                 	<c:if test="${member != null }">
                                 		<li><a onclick="window.open('${pageContext.request.contextPath }/manager/goCoupon','_blank','width=900px,height=850px')" href="#">쿠폰다운로드</a>
                                 	</c:if>
