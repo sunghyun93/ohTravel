@@ -25,5 +25,7 @@ public interface TicketService {
 	// 입장권 찐예약
 	void reserveExhibition(TicketReservation trDTO);
 
+	TicketReservation selectCompleteReservationId(Integer ticket_order_id);
+
 	
 }

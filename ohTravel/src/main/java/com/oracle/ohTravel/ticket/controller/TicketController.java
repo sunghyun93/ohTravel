@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.ticket.model.TicketDTO;
 import com.oracle.ohTravel.ticket.model.TicketReservation;
@@ -105,4 +106,22 @@ public class TicketController {
 		
 		return "ticket/exhReserveSuccess";
 	}
+	
+	
+	@PostMapping("/reservationComplete")
+	public String reservationComplete(TicketReservation trDTO, HttpSession session, Model model) {
+		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+		log.info("memberDTO = " + memberDTO);
+		
+		trDTO = ts.selectCompleteReservationId(trDTO.getTicket_order_id());
+		
+		model.addAttribute("trDTO",trDTO);
+		model.addAttribute("mem_id", memberDTO.getMem_id());
+		
+		return "ticket/exhReserveSuccess";
+	}	
+	
+	
+	
 }
