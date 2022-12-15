@@ -604,7 +604,7 @@ function makeRoomList(data) {
 		innerHtmlBody +=							'<h3>'+data[j].room_name+'</h3>'
 		innerHtmlBody +=						'</div>'
 		innerHtmlBody +=						'<div class="r_price">'
-		innerHtmlBody +=							'<h3>'+data[j].room_price+'</h3>'
+		innerHtmlBody +=							'<h3>'+data[j].room_price.toLocaleString()+'</h3>'
 		innerHtmlBody +=						'</div>'
 		innerHtmlBody +=						'<div class="reservation">'
 		innerHtmlBody +=							'<button type="button" class="genric-btn primary ela" onclick="goReserve('+data[j].room_id+')">예약하기</button>'

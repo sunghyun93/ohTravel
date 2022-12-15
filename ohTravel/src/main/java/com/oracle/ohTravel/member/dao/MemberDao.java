@@ -3,10 +3,11 @@ package com.oracle.ohTravel.member.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.BasketDTO;
-import com.oracle.ohTravel.manager.model.CouponDTO;
+import com.oracle.ohTravel.member.model.MemCouponDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;

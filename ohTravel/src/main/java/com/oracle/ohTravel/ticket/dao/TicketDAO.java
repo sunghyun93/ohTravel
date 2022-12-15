@@ -17,5 +17,10 @@ public interface TicketDAO {
 
 	// 입장권 예약
 	void reserveExhibition(TicketReservation trDTO);
+
+	TicketReservation selectReservationDetail(Integer ticket_order_id);
+
+	// payment 테이블에 결제 내역 저장
+	void insertPayment(TicketReservation trDTO);
 	
 }

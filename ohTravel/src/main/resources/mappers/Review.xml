@@ -24,7 +24,7 @@
 	
 	<select id="selectAvgRating" resultType="Double">
 	
-		SELECT	FORMAT( IFNULL ( AVG(rv_rating), 0 ), 1 ) score
+		SELECT	FORMAT( AVG(IFNULL (rv_rating, 0)), 1 ) score
 		FROM	review 
 		WHERE	rv_real_id = #{rv_real_id}
 	

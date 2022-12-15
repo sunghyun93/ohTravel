@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.manager.model.CouponDTO;
+import com.oracle.ohTravel.member.model.MemCouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.BasketDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;

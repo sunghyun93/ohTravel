@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import com.oracle.ohTravel.hotel.dao.HotelDAO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
+import com.oracle.ohTravel.hotel.model.Hotel_imageDTO;
 import com.oracle.ohTravel.hotel.model.RoomDTO;
+import com.oracle.ohTravel.member.dao.MemberDao;
+import com.oracle.ohTravel.member.model.UpdateMileGradeDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class HotelServiceImpl implements HotelService {
 
 	private final HotelDAO hd;
+	private final MemberDao memberDao;
 	
 	@Override
 	public List<HotelDTO> hotelList(HotelDTO hoteldto) {
@@ -43,14 +47,22 @@ public class HotelServiceImpl implements HotelService {
 		try {
 			
 			for(int i = 0; i < hotelRDTO.getCalDate(); i++) {
-				 hotelRDTO.setIntervalDay(i);
+				 // ${startDate}에서 ${endDate}까지 하루씩 증가하기 위함
+				hotelRDTO.setIntervalDay(i);
+				// 예약하면서 해당 방의 예약 상태를 N으로 만듦
 				 hd.updateReserveStat(hotelRDTO); 
-				 //insert hotel_reservation 
+				//insert hotel_reservation
 				 hd.insertReserveInfo(hotelRDTO);
-				 //inset payment 
+				//insert payment 
 				 hd.insertPayment(hotelRDTO);
 			 }
 			
+			hd.updatemile(hotelRDTO);
+			
+			//
+			UpdateMileGradeDTO updateMile = new UpdateMileGradeDTO();
+			updateMile.setMem_id(hotelRDTO.getMem_id());
+			memberDao.updateMemMileGrade(updateMile);
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -61,8 +73,9 @@ public class HotelServiceImpl implements HotelService {
 	}
 
 	@Override
-	public String getMembershipInfo(String mem_id) {
-		return hd.getMembershipInfo(mem_id);
+	public RoomDTO getMembershipInfo(RoomDTO roomDTO) {
+		return hd.getMembershipInfo(roomDTO);
 	}
+
 
 }

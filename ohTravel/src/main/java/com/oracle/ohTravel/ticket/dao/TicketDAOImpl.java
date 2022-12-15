@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.ticket.model.TicketDTO;
 import com.oracle.ohTravel.ticket.model.TicketReservation;
 
@@ -66,6 +67,26 @@ public class TicketDAOImpl implements TicketDAO {
 		} catch (Exception e) {
 			System.out.println("TicketDAOImpl reserve Exception" + e.getMessage());
 		}
+	}
+
+	@Override
+	public TicketReservation selectReservationDetail(Integer ticket_order_id) {
+		System.out.println("~~ TicketDAOImpl selectReservationDetail ~~");
+		
+		Air_ReservationDTO air_ReservationDTO = session.selectOne("reservationDetails", ticket_order_id);
+		System.out.println("ScheduleDAOImpl selectReservationDetail air_ReservationDTO" + air_ReservationDTO);
+		
+		
+		TicketReservation trDTO = session.selectOne("reservationDetails", ticket_order_id);
+		System.out.println("TicketDAOImpl selectReservationDetail trDTO" + trDTO);
+		
+		return trDTO;
+	}
+
+	// payment 테이블 insert
+	@Override
+	public void insertPayment(TicketReservation trDTO) {
+		session.insert("insertTicketPayment", trDTO);
 	}
 	
 	

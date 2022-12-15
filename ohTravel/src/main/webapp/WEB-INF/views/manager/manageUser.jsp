@@ -44,6 +44,9 @@
 			</div>
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">회원관리</h1>
 			<div class="row">
+			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
+				<input type="button" class="btn btn-primary mb-3" style="float: right;" onclick="location.href='managerMain'" value="돌아가기">
+			</div>
 				<table border="1" class="table table-hover">
 					<thead>
 					<tr>

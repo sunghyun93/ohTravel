@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class CouponDTO {
+public class MemCouponDTO {
 	// mem_coupon
 	private String mem_id;
 	private int coupon_id;

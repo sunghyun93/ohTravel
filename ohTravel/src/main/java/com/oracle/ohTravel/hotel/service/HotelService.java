@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
+import com.oracle.ohTravel.hotel.model.Hotel_imageDTO;
 import com.oracle.ohTravel.hotel.model.RoomDTO;
 
 public interface HotelService {
@@ -18,6 +19,7 @@ public interface HotelService {
 
 	String reserveHotel(HotelReservationDTO hotelRDTO);
 
-	String getMembershipInfo(String mem_id);
+	RoomDTO getMembershipInfo(RoomDTO roomDTO);
+
 
 }

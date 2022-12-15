@@ -18,11 +18,12 @@
 		LEFT JOIN  city ct
 		  ON td.city_id = ct.city_id
 	</select>
+	
 
 	<!-- 입장권 상품 상세 정보 -->
 	<select id="ticketDetail" parameterType="TicketDTO" resultType="TicketDTO" >
 		SELECT distinct td.*, date_format(td.ticket_due_date, '%Y.%m.%d') AS ticket_due_date, td.ticket_adult_price, td.ticket_child_price, ti.ticket_rep_img_path, ti.ticket_detail_img_path, ct.city_name,
-			   (SELECT FORMAT( IFNULL(AVG(r.rv_rating), 0), 1) FROM review r  WHERE r.rv_real_id = td.ticket_id ) AS ticket_score
+			   (SELECT FORMAT( AVG(IFNULL (rv_rating, 0)), 1 ) score FROM review r  WHERE r.rv_real_id = td.ticket_id ) AS ticket_score
 		FROM ticket_detail td
 		LEFT JOIN ticket_img ti
 		  ON td.ticket_id = ti.ticket_id
@@ -34,19 +35,14 @@
 	<!-- 입장권 예약 (ticket_reservation) insert 문 -->
     <insert id="realReserve" parameterType="TicketReservation">
 		INSERT INTO ticket_reservation
-		(ticket_id, mem_id, ticket_name, ticket_puchase_date, ticket_admission_date, ticket_adult_per, titicket_idcket_child_per, ticket_total_price)
+		(ticket_id, mem_id, ticket_name, ticket_puchase_date, ticket_admission_date, ticket_adult_per, ticket_child_per, ticket_total_price)
 		VALUES
 		(#{ticket_id}, #{mem_id}, #{ticket_name}, now(),
-		 #{ticket_admission_date, jdbcType=VARCHAR}, #{ticket_adult_per}, #{titicket_idcket_child_per}, #{ticket_total_price})
+		 #{ticket_admission_date, jdbcType=VARCHAR}, #{ticket_adult_per}, #{ticket_child_per}, #{ticket_total_price})
 	</insert>
-		
-		
-		
-		 
-	<!-- (SELECT IFNULL(MAX(#{ticket_order_id} + 1, 1) FROM ticket_reservation tr) -->
 	
 	<!-- 결제  insert -->
- 	<insert id="insertPayment" parameterType="Map">
+ 	<insert id="insertTicketPayment" parameterType="Map">
 		insert into payment(mem_id, ticket_order_id, ticket_id, payment_method) values (#{mem_id},#{ticket_order_id},#{ticket_id},'card')
 	</insert>
 	
