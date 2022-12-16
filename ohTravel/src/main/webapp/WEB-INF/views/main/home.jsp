@@ -398,24 +398,7 @@ a {
         
         
         <!-- Favourite Places End -->
-        <!-- Video Start Arera -->
-        <div class="video-area video-bg pt-200 pb-200"  data-background="assets/img/service/video-bg.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="video-caption text-center">
-                            <div class="video-icon">
-                                <a class="popup-video" href="https://www.youtube.com/watch?v=1aP-TXUpNoU" tabindex="0"><i class="fas fa-play"></i></a>
-                            </div>
-                            <p class="pera1">Love where you're going in the perfect time</p>
-                            <p class="pera2">Tripo is a World Leading Online</p>
-                            <p class="pera3"> Tour Booking Platform</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Video Start End -->
+       
         <!-- Support Company Start-->
         <div class="support-company-area support-padding fix">
             <div class="container">
@@ -463,114 +446,7 @@ a {
             </div>
         </div>
         <!-- Support Company End-->
-        <!-- Testimonial Start -->
-        <!-- Testimonial Start -->
-        <div class="testimonial-area testimonial-padding" data-background="assets/img/testmonial/testimonial_bg.jpg">
-            <div class="container ">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-11 col-lg-11 col-md-9">
-                        <div class="h1-testimonial-active">
-                            <!-- Single Testimonial -->
-                            <div class="single-testimonial text-center">
-                                <!-- Testimonial Content -->
-                                <div class="testimonial-caption ">
-                                    <div class="testimonial-top-cap">
-                                        <img src="assets/img/icon/testimonial.png" alt="">
-                                        <p>Logisti Group is a representative logistics operator providing full range of ser
-                                            of customs clearance and transportation worl.</p>
-                                    </div>
-                                    <!-- founder -->
-                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                        <div class="founder-img">
-                                            <img src="assets/img/testmonial/Homepage_testi.png" alt="">
-                                        </div>
-                                        <div class="founder-text">
-                                            <span>Jessya Inn</span>
-                                            <p>Co Founder</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Testimonial -->
-                            <div class="single-testimonial text-center">
-                                <!-- Testimonial Content -->
-                                <div class="testimonial-caption ">
-                                    <div class="testimonial-top-cap">
-                                        <img src="assets/img/icon/testimonial.png" alt="">
-                                        <p>Logisti Group is a representative logistics operator providing full range of ser
-                                            of customs clearance and transportation worl.</p>
-                                    </div>
-                                    <!-- founder -->
-                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                        <div class="founder-img">
-                                            <img src="assets/img/testmonial/Homepage_testi.png" alt="">
-                                        </div>
-                                        <div class="founder-text">
-                                            <span>Jessya Inn</span>
-                                            <p>Co Founder</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Testimonial End -->
-        <!-- Blog Area Start -->
-        <div class="home-blog-area section-padding2">
-            <div class="container">
-                <!-- Section Tittle -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-tittle text-center">
-                            <span>Our Recent news</span>
-                            <h2>Tourist Blog</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="home-blog-single mb-30">
-                            <div class="blog-img-cap">
-                                <div class="blog-img">
-                                    <img src="assets/img/blog/home-blog1.jpg" alt="">
-                                </div>
-                                <div class="blog-cap">
-                                    <p> |   Traveling</p>
-                                    <h3><a href="single-blog.html">Tips For Taking A Long-Term Trip With Kids.</a></h3>
-                                    <a href="#" class="more-btn">Read more »</a>
-                                </div>
-                            </div>
-                            <div class="blog-date text-center">
-                                <span>24</span>
-                                <p>Now</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="home-blog-single mb-30">
-                            <div class="blog-img-cap">
-                                <div class="blog-img">
-                                    <img src="assets/img/blog/home-blog2.jpg" alt="">
-                                </div>
-                                <div class="blog-cap">
-                                    <p> |   Traveling</p>
-                                    <h3><a href="single-blog.html">Tips For Taking A Long-Term Trip With Kids.</a></h3>
-                                    <a href="#" class="more-btn">Read more »</a>
-                                </div>
-                            </div>
-                            <div class="blog-date text-center">
-                                <span>24</span>
-                                <p>Now</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Blog Area End -->
+
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

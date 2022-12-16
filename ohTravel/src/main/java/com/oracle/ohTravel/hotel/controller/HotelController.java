@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oracle.ohTravel.basket.model.BasketDTO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
 import com.oracle.ohTravel.hotel.model.Hotel_imageDTO;
@@ -53,7 +54,12 @@ public class HotelController {
 	
 	//호텔 목록에서 호텔 하나를 선택했을때 나올 페이지 (단건 조회)
 	@GetMapping(value = "/hotelDetail")
-	public String goHotelDetail(HotelDTO hotelDTO, Model model) {
+	public String goHotelDetail(HotelDTO hotelDTO, Model model, HttpServletRequest request, HttpSession session) {
+		
+
+		// 찜 여부 판단용
+		String mem_id = (String)session.getAttribute("sessionId");
+		hotelDTO.setMem_id(mem_id);
 		hotelDTO = hs.getHotelDetail(hotelDTO);
 		model.addAttribute("hotelDetail", hotelDTO);
 		model.addAttribute("rv_real_id", hotelDTO.getHotel_id());

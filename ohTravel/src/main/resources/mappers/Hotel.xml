@@ -8,7 +8,7 @@
 		SELECT h.hotel_id, city_id, hotel_kor, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_tel, room_cnt, checkin, checkout, 
 			(	SELECT 	FORMAT( avg(IFNULL (rv_rating, 0)), 1 )
 				FROM 	review r
-		WHERE 	r.rv_real_id = h.hotel_id 	) hotel_score, hi.h_img_path, MIN(rd.room_price) room_min_price
+				WHERE 	r.rv_real_id = h.hotel_id 	) hotel_score, hi.h_img_path, MIN(rd.room_price) room_min_price
 		FROM hotel h
         JOIN room r ON r.hotel_id = h.hotel_id
 		LEFT JOIN room_detail rd ON r.room_id = rd.room_id
@@ -17,7 +17,12 @@
 	</select>
 	
 	<select id="hotelDetail" resultType="Hotel">
-		SELECT h.hotel_id, h.city_id, h.hotel_kor, h.hotel_eng, h.hotel_loc, h.hotel_grade, h.hotel_tel, h.room_cnt, h.checkin, h.checkout, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price, hi.h_img_path
+		SELECT	h.hotel_id, h.city_id, h.hotel_kor, h.hotel_eng, h.hotel_loc, h.hotel_grade, h.hotel_tel, h.room_cnt, h.checkin, 
+				h.checkout, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price, 
+				hi.h_img_path, (	SELECT 	basket_id 
+									FROM 	basket
+									WHERE 	mem_id = #{mem_id} 
+									AND 	basket_ref_id = #{hotel_id}) basket_id
 		FROM room r 
 		LEFT JOIN room_detail rd on r.room_id = rd.room_id 
 		LEFT JOIN hotel h on r.hotel_id = h.hotel_id 
@@ -135,5 +140,12 @@
 	<delete id="deleteHotelBasket">
 		DELETE FROM basket WHERE mem_id = #{mem_id} AND basket_ref_id = #{hotel_id}
 	</delete>
+	
+	<select id="selectHotelBasketChk" resultType="int">
+		SELECT	basket_id, mem_id, basket_ref_id
+		FROM	basket
+		WHERE	mem_id = #{mem_id}
+		AND		basket_ref_id = #{hotel_id}
+	</select>
 
 </mapper>
