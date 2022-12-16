@@ -23,6 +23,8 @@ public class CouponDTO {
 	//회원 쿠폰이 있는지없는지 확인용
 	private int mem_coupon_null;
 	
+
+	
 	//조회용
 	private String search;   	private String keyword;
 	private String pageNum;  

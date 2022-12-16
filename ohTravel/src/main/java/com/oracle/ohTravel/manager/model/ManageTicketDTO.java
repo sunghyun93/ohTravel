@@ -3,6 +3,8 @@ package com.oracle.ohTravel.manager.model;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
@@ -31,10 +33,11 @@ public class ManageTicketDTO {
 	
 	private Integer ticket_order_id;
 	private String mem_id;
-	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm", timezone = "Asia/Seoul")
-	private LocalDateTime ticket_purchase_date;
-	private Date ticket_admission_date;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private String ticket_puchase_date;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date ticket_admission_date;
 	private Integer ticket_adult_per;
 	private Integer ticket_child_per;
 	private Integer ticket_total_price;

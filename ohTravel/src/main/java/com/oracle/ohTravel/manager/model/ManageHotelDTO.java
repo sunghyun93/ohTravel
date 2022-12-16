@@ -77,7 +77,7 @@ public class ManageHotelDTO {
 	private String mem_id;
 	private String rev_stat;
 	private int rev_per;
-	private Date rev_date;
+	private String rev_date;
 	private int rev_tot_price;
 	
 	//조회용
