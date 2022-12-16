@@ -2,6 +2,8 @@ package com.oracle.ohTravel.hotel.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.oracle.ohTravel.hotel.dao.HotelDAO;
@@ -41,22 +43,27 @@ public class HotelServiceImpl implements HotelService {
 		return hd.getRoomDetail(roomDTO);
 	}
 
+	@Transactional
 	@Override
 	public String reserveHotel(HotelReservationDTO hotelRDTO) {
 		
 		try {
 			
+			//insert hotel_reservation
+			hd.insertReserveInfo(hotelRDTO);
+			
+			System.out.println("호텔예약아이디->"+hotelRDTO.getH_rev_id());
 			for(int i = 0; i < hotelRDTO.getCalDate(); i++) {
 				 // ${startDate}에서 ${endDate}까지 하루씩 증가하기 위함
 				hotelRDTO.setIntervalDay(i);
 				// 예약하면서 해당 방의 예약 상태를 N으로 만듦
 				 hd.updateReserveStat(hotelRDTO); 
-				//insert hotel_reservation
-				 hd.insertReserveInfo(hotelRDTO);
-				//insert payment 
-				 hd.insertPayment(hotelRDTO);
+				 hd.insertReserveDetail(hotelRDTO);
 			 }
 			
+			//insert payment 
+			hd.insertPayment(hotelRDTO);
+			 
 			hd.updatemile(hotelRDTO);
 			
 			//

@@ -27,5 +27,7 @@ public interface HotelDAO {
 
 	void updatemile(HotelReservationDTO hotelRDTO);
 
+	void insertReserveDetail(HotelReservationDTO hotelRDTO);
+
 
 }
