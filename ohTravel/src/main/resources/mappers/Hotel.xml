@@ -8,9 +8,12 @@
 		SELECT h.hotel_id, city_id, hotel_kor, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_tel, room_cnt, checkin, checkout, 
 			(	SELECT 	FORMAT( avg(IFNULL (rv_rating, 0)), 1 )
 				FROM 	review r
-				WHERE 	r.rv_real_id = h.hotel_id 	) hotel_score, hi.h_img_path
-		FROM hotel h 
-		LEFT JOIN hotel_image hi ON hi.hotel_id = h.hotel_id
+		WHERE 	r.rv_real_id = h.hotel_id 	) hotel_score, hi.h_img_path, MIN(rd.room_price) room_min_price
+		FROM hotel h
+        JOIN room r ON r.hotel_id = h.hotel_id
+		LEFT JOIN room_detail rd ON r.room_id = rd.room_id
+        LEFT JOIN hotel_image hi ON hi.hotel_id = h.hotel_id
+        GROUP BY h.hotel_id;
 	</select>
 	
 	<select id="hotelDetail" resultType="Hotel">
@@ -78,6 +81,13 @@
 		WHERE mms.mem_id = #{mem_id};
 	</select>
 	
+	
+	<insert id="insertReserveInfo" useGeneratedKeys="true" keyProperty="h_rev_id" keyColumn="h_rev_id">
+		INSERT INTO hotel_reservation (mem_id, rev_stat, rev_per, rev_date, rev_tot_price) 
+		VALUES (#{mem_id}, '결제완료', #{numberOfPeople }, now(), #{rev_tot_price})
+	
+	</insert>
+	
 	<update id="updateReserveStat">
 	
 		<selectKey keyColumn="room_detail_id" order="BEFORE" keyProperty="room_detail_id" resultType="int">
@@ -94,10 +104,9 @@
 		
 	</update>
 	
-	<insert id="insertReserveInfo" useGeneratedKeys="true" keyProperty="h_rev_id">
-		INSERT INTO hotel_reservation (mem_id, room_detail_id, rev_stat, rev_per, rev_date, rev_tot_price) 
-		VALUES (#{mem_id}, #{room_detail_id}, '결제완료', #{numberOfPeople }, now(), #{rev_tot_price});
-	
+	<insert id="insertReserveDetail" >
+		INSERT INTO hotel_reservation_detail (h_rev_id, room_detail_id)
+		VALUES (#{h_rev_id}, #{room_detail_id})
 	</insert>
 	
 	<insert id="insertHotelPayment">

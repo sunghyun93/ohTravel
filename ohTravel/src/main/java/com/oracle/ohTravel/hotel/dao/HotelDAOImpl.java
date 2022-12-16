@@ -72,5 +72,11 @@ public class HotelDAOImpl implements HotelDAO {
 		session.update("updateMemberMile", hotelRDTO);
 		
 	}
+
+	@Override
+	public void insertReserveDetail(HotelReservationDTO hotelRDTO) {
+		session.insert("insertReserveDetail", hotelRDTO);
+		
+	}
 	
 }

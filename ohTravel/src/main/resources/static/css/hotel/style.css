@@ -285,7 +285,18 @@
 }
 
 
+.info_title {
+	
+	font-size: 18px;
+	font-weight: bold;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
 
+.ht_tel {
+	
+	margin-bottom:10px;
+}
 
 /* 모달창 관련 */
 
@@ -815,6 +826,23 @@ button {
   
  /* 리뷰 테이블 관련*/
 
+.h_price {
+	
+	font-size: 17px;
+	font-weight: bold;
+	
+}
+
+
+.review_title h3 {
+	
+	margin-top : 25px;
+	font-size: 23px;
+	font-weight: bold;
+	
+}
+
+
 .reviewTable {
 	
 	margin-top: 20px;
@@ -824,6 +852,8 @@ button {
 
 .reviewTable td {
 	padding-left: 10px;	
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 
 /* 페이지 처리 관련*/

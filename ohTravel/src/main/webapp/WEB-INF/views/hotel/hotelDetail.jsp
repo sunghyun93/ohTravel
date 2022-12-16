@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +44,8 @@
 				</div>
 				
 				<div class="h_price">
-					${hotelDetail.room_min_price }원 ~
+					 <fmt:formatNumber type="number" maxFractionDigits="3" value="${hotelDetail.room_min_price }" var="minRoomPrice"/>
+					${minRoomPrice }원 ~
 				</div>
 			</div> <!-- hotel_info 끝 -->
 			
@@ -142,10 +144,12 @@
 				
 		<!-- 리뷰 시작 -->
 		<div class="all_review">
-			리뷰
-			<div class="rv_stats">
-				별점 통계가 들어가요
+			<div class="review_title"> 
+				<h3>리뷰</h3> 
 			</div>
+			<!-- <div class="rv_stats">
+				별점 통계가 들어가요
+			</div> -->
 			
 			<c:if test="${not empty sessionId }">
 				<div class="rv_btn">
