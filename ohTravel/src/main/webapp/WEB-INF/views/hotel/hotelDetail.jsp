@@ -4,8 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
 <head>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
+
 <meta charset="UTF-8">
 <title>Oh!Travel - 상세정보</title>
 	<link rel="stylesheet" href=" ${pageContext.request.contextPath}/css/hotel/style.css">
@@ -30,6 +33,11 @@
 				${hotelDetail.hotel_loc }<br>
 				<div class="star_img">
 					<img alt="별점" src="${pageContext.request.contextPath }/img/hotel/star.png">
+				</div>
+				
+				<!-- 찜 버튼 -->
+				<div class="btn-group" style="position: absolute; transform: translate(438px, -6px);">
+					<i class="bskt bi-heart" id="heart" style="font-size:2.2rem; color: red; cursor: pointer;"></i>
 				</div>
 				
 				<!-- 평균 별점 ajax 계산되어 들어가는 부분 -->
@@ -357,6 +365,8 @@ $(function(){
 	    	pplOffClick();
 	    	
 	    });
+	 
+		
 });	
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -660,6 +670,52 @@ function makeRow(datum) {
 	
 	return innerHtml;
 }
+
+
+
+$('#heart').click(function(){
+	
+	if("${sessionId}" == ""){
+		if(confirm("로그인한 회원만 찜하기 기능을 이용할 수 있습니다. 로그인 하시겠습니까?")){
+			location.href="${pageContext.request.contextPath }/member/loginForm"
+		} else {
+			return false;
+		}
+	}
+	
+	let hotel_id = "${hotelDetail.hotel_id}";
+	let mem_id = "${sessionId}";
+	
+	$.ajax({
+		
+		url:"${pageContext.request.contextPath }/hotel/heartBasket",
+		data: {hotel_id, mem_id},
+		type: 'post',
+		dataType: 'text',
+		success: function(result){
+			
+			if(result == "INSERT OK!"){
+				$('.bskt').removeClass('bi-heart').addClass('bi-heart-fill')
+				alert("찜 목록에 해당 상품이 담겼습니다.")
+			} else if(result =="DELETE OK!"){
+				$('.bskt').removeClass('bi-heart-fill').addClass('bi-heart')
+				alert("찜 목록에서 해당 상품이 삭제되었습니다.")
+			} 
+			
+			
+		},error : function (err) {
+			console.error(err)
+		}
+		
+		
+	});
+
+	
+})
+
+
+
+
 </script>	
 <script src="${pageContext.request.contextPath }/js/review/review.js"></script>
 </body>

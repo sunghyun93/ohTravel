@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.oracle.ohTravel.basket.model.BasketDTO;
 import com.oracle.ohTravel.hotel.dao.HotelDAO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
@@ -82,6 +83,32 @@ public class HotelServiceImpl implements HotelService {
 	@Override
 	public RoomDTO getMembershipInfo(RoomDTO roomDTO) {
 		return hd.getMembershipInfo(roomDTO);
+	}
+
+	@Override
+	public String heartBasket(HotelDTO hotelDTO) {
+
+		try {
+			
+			if( hd.selectBasket(hotelDTO) == null ) {
+				
+				hd.insertBasket(hotelDTO);
+				
+				return "INSERT OK!";
+				
+			} else {
+
+				hd.deleteBasket(hotelDTO);
+					
+				return "DELETE OK!";
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "FAILED";
+		}
+		
+		
 	}
 
 

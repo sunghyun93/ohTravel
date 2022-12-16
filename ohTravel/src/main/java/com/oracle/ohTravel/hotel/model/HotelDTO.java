@@ -42,4 +42,8 @@ public class HotelDTO {
 	private String check;
 	private String radioCheck;
 	
+	//
+	private int basket_id;
+	private String basket_ref_id;
+	
 }

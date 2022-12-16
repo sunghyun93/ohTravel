@@ -842,6 +842,25 @@ button {
 	
 }
 
+/* 찜 버튼  */
+	.btn_wrap .btn-like {
+	    width: 60px;
+	    height: 56px;
+	    border-radius: 5px;
+	    border-color: #c3c3c3;
+	    box-shadow: none;
+	    color: #0e1c35;
+	}
+	
+	.material-symbols-outlined-empty {
+	    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 10;
+	    font-family: 'Material Symbols Outlined';
+	    line-height: normal;
+	    font-size: 19px;
+	}	
+
+
+
 
 .reviewTable {
 	

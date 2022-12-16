@@ -2,6 +2,7 @@ package com.oracle.ohTravel.hotel.service;
 
 import java.util.List;
 
+import com.oracle.ohTravel.basket.model.BasketDTO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
 import com.oracle.ohTravel.hotel.model.Hotel_imageDTO;
@@ -20,6 +21,8 @@ public interface HotelService {
 	String reserveHotel(HotelReservationDTO hotelRDTO);
 
 	RoomDTO getMembershipInfo(RoomDTO roomDTO);
+
+	String heartBasket(HotelDTO hotelDTO);
 
 
 }
