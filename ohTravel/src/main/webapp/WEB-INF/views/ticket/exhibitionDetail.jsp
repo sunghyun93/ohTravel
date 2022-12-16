@@ -887,7 +887,14 @@
 							</div>
 							<!-- 찜 버튼 -->
  							<div class="btn-group" style="position: absolute; transform: translate(300px, -55px);">
-								<i class="likeBtn bi-heart" id="heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
+							    	 <%-- 로그인한 회원이 찜을 한 상품인지 여부 --%>
+	                                 <c:if test="${ticketDetail.basket_id == 0 }">
+	                                 	<i class="likeBtn bi-heart" id="heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
+	                                 </c:if>
+	                                 
+	                                  <c:if test="${ticketDetail.basket_id != 0 }">
+	                                  	<i class="likeBtn bi-heart-fill" id="heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
+	                                  </c:if>
 							</div>
 							
 							<!-- 별점 -->
@@ -1313,27 +1320,14 @@
 	        totalPay.html(totalPrice + "<em>원</em>");
 	    });
 		    
-		/* 찜 버튼 하트 아이콘 클릭  */
-/*  		var i = 0;
-		$('.bi-heart').click(function() {
-	    	let likeSpan = $(this).children('.btn-like-span'); //favorite span 태그
-	    	let ticket_id = likeSpan.attr("data-id"); //클릭한 span 태그의 패키지 ID 값
-	    	
-			if (i == 0) {
-				$(this).attr('class', 'bi-heart-fill');
-				i++;
-			} else if (i == 1) {
-				$(this).attr('class', 'bi-heart');
-				i--;
-			}
-
-		}); */
 	});
 	
 	
 	/* 찜 하트 변경 script 부분 (구글 font-icons 활용) */
 	$('#heart').click(function(){
-	
+		
+		event.preventDefault();
+		
     	// 로그인 안 되어 있으면
     	if("${sessionId}" == "") {
     		if(confirm("로그인하세요.")) {
@@ -1354,11 +1348,11 @@
        		dataType: 'text',
        		success: function(result) {
        			if(result == 'INSERT OK') {
-       				$('.likeBtn').removeClass('bi-heart').addClass("bi-heart-fill")
+       				$('.likeBtn').removeClass('bi-heart').addClass("bi-heart-fill");
        				alert("찜 목록에 해당 상품이 담겼습니다.");
        				
        			} else if(result == 'DELETE OK') {
-       				$('.likeBtn').removeClass('bi-heart-fill').addClass("bi-heart")
+       				$('.likeBtn').removeClass('bi-heart-fill').addClass("bi-heart");
        				alert("찜 목록에서 해당 상품이 삭제되었습니다.");
        			}
        		},
