@@ -886,8 +886,8 @@
 								</div>
 							</div>
 							<!-- 찜 버튼 -->
-							<div class="btn-group" style="position: absolute; transform: translate(300px, -55px);">
-								<i class="bi-heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
+ 							<div class="btn-group" style="position: absolute; transform: translate(300px, -55px);">
+								<i class="likeBtn bi-heart" id="heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
 							</div>
 							
 							<!-- 별점 -->
@@ -1031,14 +1031,16 @@
                         <div class="cont_unit">
 							<div class="all_review">
 								리뷰
-								<div class="rv_stats">
-									별점 통계가 들어가요
-								</div>
+<!--								<div class="rv_stats">
+ 									별점 통계가 들어가요
+								</div> -->
 								
-								<div class="rv_btn">
-									<button class="genric-btn primary ela" data-toggle="modal" onclick="openModal()" data-target="#reviewModal">리뷰 등록</button>
-								</div>
-									
+								<c:if test="${not empty sessionId }">
+						            <div class="rv_btn">
+						               <button class="genric-btn primary ela" data-toggle="modal" onclick="openModal()" data-target="#reviewModal">리뷰 등록</button>
+						            </div>
+						         </c:if>   
+								
 								<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
 									<!-- 리뷰 들어갈 위치에 table생성 -->
 									<table id="reviewTable" class="reviewTable"> <!-- id값 변경 X -->
@@ -1312,9 +1314,11 @@
 	    });
 		    
 		/* 찜 버튼 하트 아이콘 클릭  */
-		var i = 0;
+/*  		var i = 0;
 		$('.bi-heart').click(function() {
-
+	    	let likeSpan = $(this).children('.btn-like-span'); //favorite span 태그
+	    	let ticket_id = likeSpan.attr("data-id"); //클릭한 span 태그의 패키지 ID 값
+	    	
 			if (i == 0) {
 				$(this).attr('class', 'bi-heart-fill');
 				i++;
@@ -1323,8 +1327,49 @@
 				i--;
 			}
 
-		});
+		}); */
 	});
+	
+	
+	/* 찜 하트 변경 script 부분 (구글 font-icons 활용) */
+	$('#heart').click(function(){
+	
+    	// 로그인 안 되어 있으면
+    	if("${sessionId}" == "") {
+    		if(confirm("로그인하세요.")) {
+    			location.href="${pageContext.request.contextPath}/member/loginForm";
+    		} else {
+	    		return false;
+    		}
+    	}
+    	
+    	let ticket_id = '${ticketDetail.ticket_id}';
+    	let mem_id    = '${sessionId}';
+        	
+       	// 찜 해제 ajax
+       	$.ajax({
+       		url: "${pageContext.request.contextPath}/ticketRest/ticketBasket",
+       		data : {ticket_id, mem_id},
+       		type: 'post',
+       		dataType: 'text',
+       		success: function(result) {
+       			if(result == 'INSERT OK') {
+       				$('.likeBtn').removeClass('bi-heart').addClass("bi-heart-fill")
+       				alert("찜 목록에 해당 상품이 담겼습니다.");
+       				
+       			} else if(result == 'DELETE OK') {
+       				$('.likeBtn').removeClass('bi-heart-fill').addClass("bi-heart")
+       				alert("찜 목록에서 해당 상품이 삭제되었습니다.");
+       			}
+       		},
+       		error: function(err) {
+       			console.log(err)
+    		}
+    	});
+    })
+
+	
+	
 	
 	/* 값(입장권명, 성인 인원, 아동 인원, 총 금액, 사용일) 들고 예약 페이지로 이동 */
 	function goReserve(ticket_id) {
@@ -1353,7 +1398,42 @@
 			$('input[name=ticket_id]').attr('value', ticket_id);
 			
 			ReserveForm.submit();
-	} 	
+	} 
+	
+	//리뷰 조회 -- 랜더링 함수2 (진짜 구조 그려줌)
+	function makeRow(datum) {
+	   
+	   let innerHtml = ''
+
+	   innerHtml += '<tr>'
+	      innerHtml += '<input type="hidden" class="rv_id" value="'+datum.rv_id +'">'
+	      innerHtml += '<td>'
+	         innerHtml += '<span class="rv_date">'+datum.rv_date +'</span>'
+	      innerHtml += '</td>'
+	      innerHtml += '<td>'
+	         innerHtml += '<div class="star_img"> <img alt="별점뙇~" src="/img/hotel/star.png"></div>'
+	         innerHtml += '<span class="rv_rating">'+datum.rv_rating +'</span>'
+	      innerHtml += '</td>'
+	      innerHtml += '<td>'
+	         innerHtml += '<span class="rv_contents">'+datum.rv_contents +'</span>'
+	      innerHtml += '</td>'
+	      innerHtml += '<td>'
+	         // 작성자 = 로그인 정보여야 수정 버튼 활성화 
+	         if(datum.mem_id == '${sessionId}') {   
+	            innerHtml += '<button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>'
+	         }
+	      innerHtml += '</td>'
+	      innerHtml += '<td>'
+	         // 작성자 = 로그인 정보여야 수정 버튼 활성화 
+	         if(datum.mem_id == '${sessionId}') {   
+	            innerHtml += '<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'
+	         }
+	      innerHtml += '</td>'
+	   innerHtml += '</tr>'
+	   
+	   return innerHtml;
+	}
+	
     </script>
     <script src="${pageContext.request.contextPath }/js/review/review.js"></script>
 </body>

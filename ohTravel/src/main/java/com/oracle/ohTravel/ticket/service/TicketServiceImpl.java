@@ -2,6 +2,7 @@ package com.oracle.ohTravel.ticket.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,24 @@ public class TicketServiceImpl implements TicketService {
 		return trDTO;
 	}
 
-
+	// 찜
+	@Override
+	public String ticketBasket(TicketDTO ticketDTO) {
+		
+		try {
+			if(td.selectBasket(ticketDTO) == null) {
+				td.insertBasket(ticketDTO);
+				return "INSERT OK";
+				
+			} else {
+				td.deleteBasket(ticketDTO);
+				return "DELETE OK";
+				
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "FAILED";
+		}
+	}
 
 }

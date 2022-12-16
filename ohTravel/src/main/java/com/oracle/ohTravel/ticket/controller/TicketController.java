@@ -78,6 +78,7 @@ public class TicketController {
 		TicketDTO ticketDTO = ts.getTicketDetail(ticket_id);
 		model.addAttribute("ticketDetail", ticketDTO);
 		model.addAttribute("rv_real_id", ticketDTO.getTicket_id());
+		
 		return "ticket/exhibitionDetail";
 	}
 

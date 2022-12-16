@@ -1,7 +1,9 @@
 package com.oracle.ohTravel.ticket.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.ticket.model.TicketDTO;
 import com.oracle.ohTravel.ticket.model.TicketReservation;
 
@@ -22,5 +24,11 @@ public interface TicketDAO {
 
 	// payment 테이블에 결제 내역 저장
 	void insertPayment(TicketReservation trDTO);
+
+	// 찜  관련
+	TicketDTO selectBasket(TicketDTO ticketDTO);
+	
+	void insertBasket(TicketDTO ticketDTO);			// 찜
+	void deleteBasket(TicketDTO ticketDTO);			// 찜 해제
 	
 }
