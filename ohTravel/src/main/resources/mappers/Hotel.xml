@@ -119,5 +119,21 @@
 		SET 	mem_mile = mem_mile + #{mile}
 		WHERE	mem_id = #{mem_id}
 	</update>
+	
+	<select id="selectHotelBasket" resultType="Hotel">
+		SELECT	basket_id, mem_id, basket_ref_id
+		FROM	basket
+		WHERE	mem_id = #{mem_id}
+		AND		basket_ref_id = #{hotel_id}
+	</select>
+	
+	<insert id="insertHotelBasket">
+		INSERT INTO basket (mem_id, basket_ref_id)
+		VALUES (#{mem_id}, #{hotel_id})
+	</insert>
+	
+	<delete id="deleteHotelBasket">
+		DELETE FROM basket WHERE mem_id = #{mem_id} AND basket_ref_id = #{hotel_id}
+	</delete>
 
 </mapper>

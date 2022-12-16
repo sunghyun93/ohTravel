@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.ohTravel.basket.model.BasketDTO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
 import com.oracle.ohTravel.hotel.model.Hotel_imageDTO;
@@ -47,6 +48,12 @@ public class HotelDAOImpl implements HotelDAO {
 	public RoomDTO getMembershipInfo(RoomDTO roomDTO) {
 		return session.selectOne("membershipInfo", roomDTO);
 	}
+
+	// hotel_reservation 테이블 insert
+	@Override
+	public void insertReserveInfo(HotelReservationDTO hotelRDTO) {
+		session.insert("insertReserveInfo", hotelRDTO);
+	}
 	
 	// 예약하면서 예약 상태 Y -> N으로 변경
 	@Override
@@ -54,29 +61,42 @@ public class HotelDAOImpl implements HotelDAO {
 			session.update("updateReserveStat", hotelRDTO);
 	}
 
-	// hotel_reservation 테이블 insert
+	// hotel_reservation_detail 테이블 insert
 	@Override
-	public void insertReserveInfo(HotelReservationDTO hotelRDTO) {
-		session.insert("insertReserveInfo", hotelRDTO);
+	public void insertReserveDetail(HotelReservationDTO hotelRDTO) {
+		session.insert("insertReserveDetail", hotelRDTO);
+		
 	}
-
+	
 	// payment 테이블 insert
 	@Override
 	public void insertPayment(HotelReservationDTO hotelRDTO) {
 		session.insert("insertHotelPayment", hotelRDTO);
 		
 	}
-
+	
+	// 마일리지 적립
 	@Override
 	public void updatemile(HotelReservationDTO hotelRDTO) {
 		session.update("updateMemberMile", hotelRDTO);
 		
 	}
+	
+	@Override
+	public HotelDTO selectBasket(HotelDTO hotelDTO) {
+		return session.selectOne("selectHotelBasket", hotelDTO);
+		
+	}
 
 	@Override
-	public void insertReserveDetail(HotelReservationDTO hotelRDTO) {
-		session.insert("insertReserveDetail", hotelRDTO);
+	public void insertBasket(HotelDTO hotelDTO) {
+		session.insert("insertHotelBasket", hotelDTO);
 		
+	}
+
+	@Override
+	public void deleteBasket(HotelDTO hotelDTO) {
+		session.delete("deleteHotelBasket", hotelDTO);
 	}
 	
 }
