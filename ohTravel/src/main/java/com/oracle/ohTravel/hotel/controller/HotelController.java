@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oracle.ohTravel.basket.model.BasketDTO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
+import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
+import com.oracle.ohTravel.hotel.model.Hotel_imageDTO;
 import com.oracle.ohTravel.hotel.model.RoomDTO;
 import com.oracle.ohTravel.hotel.service.HotelService;
 import com.oracle.ohTravel.member.model.MemberDTO;
@@ -41,7 +44,7 @@ public class HotelController {
 	
 	//호텔 전체 List 조회
 	@GetMapping(value = "/hotelHome")
-	public String goHotelHome(HotelDTO hoteldto, Model model) {
+	public String goHotelHome(HotelDTO hoteldto, Hotel_imageDTO hotel_imageDTO, Model model) {
 		
 		List<HotelDTO> hotelList = hs.hotelList(hoteldto);
 		model.addAttribute("hotelList", hotelList);
@@ -51,7 +54,12 @@ public class HotelController {
 	
 	//호텔 목록에서 호텔 하나를 선택했을때 나올 페이지 (단건 조회)
 	@GetMapping(value = "/hotelDetail")
-	public String goHotelDetail(HotelDTO hotelDTO, Model model) {
+	public String goHotelDetail(HotelDTO hotelDTO, Model model, HttpServletRequest request, HttpSession session) {
+		
+
+		// 찜 여부 판단용
+		String mem_id = (String)session.getAttribute("sessionId");
+		hotelDTO.setMem_id(mem_id);
 		hotelDTO = hs.getHotelDetail(hotelDTO);
 		model.addAttribute("hotelDetail", hotelDTO);
 		model.addAttribute("rv_real_id", hotelDTO.getHotel_id());
@@ -70,6 +78,7 @@ public class HotelController {
 		}
 
 		String mem_id = memberDTO.getMem_id();
+		roomDTO.setMem_id(mem_id);
 		
 		model.addAttribute("startDate", roomDTO.getStartDate());
 		model.addAttribute("endDate", roomDTO.getEndDate());
@@ -78,10 +87,17 @@ public class HotelController {
 		model.addAttribute("numberOfAdult", roomDTO.getNumberOfAdult());
 		model.addAttribute("room_id", roomDTO.getRoom_id());
 		model.addAttribute("roomDetail", hs.getRoomDetail(roomDTO));
-		model.addAttribute("membership", hs.getMembershipInfo(mem_id));
+		model.addAttribute("membership", hs.getMembershipInfo(roomDTO));
 		
 		return "hotel/hotelPayment";
 	}
 	
+	@GetMapping(value = "/reserveComplete")
+	public String goHotelReserveComplete (HotelReservationDTO hotelRDTO, Model model) {
+		
+	
+	return "hotel/hotelReserveComplete";
+	
+	}
 	
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,13 @@
 <title>Oh!Travel - 숙박업체</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/css/hotel/style.css">
 </head>
+<style>
+	.place-img img {
+		width: 300px;
+ 		height: 250px;
+		
+	}
+</style>
 <body>
 	<div class="hotel_container">
 		
@@ -93,17 +101,17 @@
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="${pageContext.request.contextPath }/assets/img/service/services1.jpg" alt="">
+                                <img src="${hotelList.h_img_path }" alt="">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score }Superb</span> </span>
+                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score } Superb</span> </span>
                                     <h3><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
+                                    <fmt:formatNumber type="number" maxFractionDigits="3" value="${hotelList.room_min_price }" var="minRoomPrice"/>
+                                    <p class="dolor">${minRoomPrice }원~ <span>/ 1박 최저가</span></p>
                                 </div>
                                 <div class="place-cap-bottom">
                                     <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
                                         <li><i class="fas fa-map-marker-alt"></i>${hotelList.hotel_loc }</li>
                                     </ul>
                                 </div>

@@ -23,6 +23,6 @@ public class TicketReservation {
 	private Date     ticket_admission_date;
 	
 	private Integer 	  ticket_adult_per;
-	private Integer 	  titicket_idcket_child_per;	// ERD에서 ticket_child_per로 수정되면 수정할 예정.
+	private Integer 	  ticket_child_per;	// ERD에서 ticket_child_per로 수정되면 수정할 예정.
 	private Integer 	  ticket_total_price;
 }

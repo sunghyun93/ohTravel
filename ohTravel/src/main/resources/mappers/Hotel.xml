@@ -5,31 +5,30 @@
 <mapper namespace="com.oracle.ohTravel.Hotel">
 
 	<select id="hotelList" resultType="Hotel">
-		SELECT hotel_id, city_id, hotel_kor, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_tel, room_cnt, checkin, checkout, 
-			(	SELECT 	FORMAT( IFNULL ( AVG(r.rv_rating) , 0 ), 1)
+		SELECT h.hotel_id, city_id, hotel_kor, hotel_eng, hotel_loc, hotel_type, hotel_grade, hotel_tel, room_cnt, checkin, checkout, 
+			(	SELECT 	FORMAT( avg(IFNULL (rv_rating, 0)), 1 )
 				FROM 	review r
-				WHERE 	r.rv_real_id = h.hotel_id 	) hotel_score
-		FROM hotel h 
+				WHERE 	r.rv_real_id = h.hotel_id 	) hotel_score, hi.h_img_path, MIN(rd.room_price) room_min_price
+		FROM hotel h
+        JOIN room r ON r.hotel_id = h.hotel_id
+		LEFT JOIN room_detail rd ON r.room_id = rd.room_id
+        LEFT JOIN hotel_image hi ON hi.hotel_id = h.hotel_id
+        GROUP BY h.hotel_id;
 	</select>
 	
 	<select id="hotelDetail" resultType="Hotel">
-		SELECT h.hotel_id, h.city_id, h.hotel_kor, h.hotel_eng, h.hotel_loc, h.hotel_grade, h.hotel_tel, h.room_cnt, h.checkin, h.checkout, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price
+		SELECT	h.hotel_id, h.city_id, h.hotel_kor, h.hotel_eng, h.hotel_loc, h.hotel_grade, h.hotel_tel, h.room_cnt, h.checkin, 
+				h.checkout, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price, 
+				hi.h_img_path, (	SELECT 	basket_id 
+									FROM 	basket
+									WHERE 	mem_id = #{mem_id} 
+									AND 	basket_ref_id = #{hotel_id}) basket_id
 		FROM room r 
 		LEFT JOIN room_detail rd on r.room_id = rd.room_id 
 		LEFT JOIN hotel h on r.hotel_id = h.hotel_id 
+		LEFT JOIN hotel_image hi ON hi.hotel_id = h.hotel_id
 		WHERE h.hotel_id= #{hotel_id}
 	</select>
-	
-	
-<!-- 	<select id="roomList" resultType="Room">
-		SELECT r.room_id, r.room_type, r.room_name, rd.room_price, r.hotel_id, rd.room_date, rd.room_detail_id
-		FROM room r
-		LEFT JOIN room_detail rd ON r.room_id = rd.room_id
-		WHERE r.hotel_id = #{hotel_id}
-		AND rd.room_rev = 'Y'
-		AND rd.room_date = #{startDate}
-	</select>  -->
-	
 	
  	<select id="roomList" resultType="Room">
 		SELECT 	r.room_id
@@ -37,6 +36,7 @@
 			 	, sum(rd.room_price) as room_price
 			 	, r.room_name
 			 	, count(room_date) as canRevDateCnt
+			 	, ri.r_img_path
 		FROM room r
 		LEFT OUTER JOIN (
 		               SELECT * , count(room_detail_id) as cnt
@@ -46,6 +46,8 @@
 		               group by room_id, room_date
 		            ) rd
 		ON r.room_id = rd.room_id
+		LEFT JOIN room_image ri
+		ON ri.room_id = r.room_id
 		WHERE r.hotel_id = #{hotel_id}
 		AND r.room_per >= #{numberOfPeople}
 		AND cnt >= 1
@@ -78,11 +80,18 @@
 	</select>
 	
 	<select id="membershipInfo" resultType="Room">
-		SELECT ms.membership_name, mms.mem_mile
+		SELECT ms.membership_name, mms.mem_mile, ms.membership_discount
 		FROM mem_membership mms 
 		LEFT JOIN membership ms on ms.membership_id = mms.membership_id
 		WHERE mms.mem_id = #{mem_id};
 	</select>
+	
+	
+	<insert id="insertReserveInfo" useGeneratedKeys="true" keyProperty="h_rev_id" keyColumn="h_rev_id">
+		INSERT INTO hotel_reservation (mem_id, rev_stat, rev_per, rev_date, rev_tot_price) 
+		VALUES (#{mem_id}, '결제완료', #{numberOfPeople }, now(), #{rev_tot_price})
+	
+	</insert>
 	
 	<update id="updateReserveStat">
 	
@@ -100,10 +109,9 @@
 		
 	</update>
 	
-	<insert id="insertReserveInfo" useGeneratedKeys="true" keyProperty="h_rev_id">
-		INSERT INTO hotel_reservation (mem_id, room_detail_id, rev_stat, rev_per, rev_date, rev_tot_price) 
-		VALUES (#{mem_id}, #{room_detail_id}, '결제완료', #{numberOfPeople }, now(), #{rev_tot_price});
-	
+	<insert id="insertReserveDetail" >
+		INSERT INTO hotel_reservation_detail (h_rev_id, room_detail_id)
+		VALUES (#{h_rev_id}, #{room_detail_id})
 	</insert>
 	
 	<insert id="insertHotelPayment">
@@ -111,14 +119,33 @@
 	
 	</insert>
 	
-<!-- <insert id="">
-		
-		<selectKey keyColumn="next_id" keyProperty="hotelID" order="BEFORE" res
-			select max(hotel_id)+1 as next_idultType="int">
-			from hotel
-			where hotel_id like '%'+#{city_id}+'%'
-		</selectKey>
-		
-		insert into hotel(hotel_id) values (#{hotelID})
-	</insert> -->
+	<update id="updateMemberMile">
+		UPDATE 	mem_membership 
+		SET 	mem_mile = mem_mile + #{mile}
+		WHERE	mem_id = #{mem_id}
+	</update>
+	
+	<select id="selectHotelBasket" resultType="Hotel">
+		SELECT	basket_id, mem_id, basket_ref_id
+		FROM	basket
+		WHERE	mem_id = #{mem_id}
+		AND		basket_ref_id = #{hotel_id}
+	</select>
+	
+	<insert id="insertHotelBasket">
+		INSERT INTO basket (mem_id, basket_ref_id)
+		VALUES (#{mem_id}, #{hotel_id})
+	</insert>
+	
+	<delete id="deleteHotelBasket">
+		DELETE FROM basket WHERE mem_id = #{mem_id} AND basket_ref_id = #{hotel_id}
+	</delete>
+	
+	<select id="selectHotelBasketChk" resultType="int">
+		SELECT	basket_id, mem_id, basket_ref_id
+		FROM	basket
+		WHERE	mem_id = #{mem_id}
+		AND		basket_ref_id = #{hotel_id}
+	</select>
+
 </mapper>

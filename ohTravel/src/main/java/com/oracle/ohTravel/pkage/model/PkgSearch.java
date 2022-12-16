@@ -14,6 +14,11 @@ public class PkgSearch {
 	private String dates_start_check; // 출발날짜
 	private Integer pkage_gubun; 	// 패키지 구분(0:국내, 1:해외)
 	
+	// 페이징
+	private Integer page = 1;		// 현재 페이지
+	private Integer pageSize = 10;	// 페이지당 content 수
+	private Integer offset;			// 가지고 올 content 가 얼마나 떨어져 있는지
+	
 	// 정렬
 	private Integer order;			// 정렬 - 순서
 	
@@ -28,6 +33,11 @@ public class PkgSearch {
 	
 	// 더미 변수
 	private String country;	// 검색결과에 뿌려줄 나라 받는 변수
+	
+//	offset 구하기
+	public Integer getOffset() {
+		return (page-1) * pageSize;
+	}
 	
 //	가격 필터에 대한 구분(최소, 최대, 최소/최대)을 DB에 전달하기 위한 변수에 값을 넣어주는 함수
 	public void makeAmtGubun() {
@@ -50,11 +60,47 @@ public class PkgSearch {
 	}
 	
 //	쿼리스트링을 만드는 함수
+	public String getQueryString(Integer page, Integer pageSize) {
+//		UriComponents 를 만들기 위해 UriComponentsBuilder 가 필요
+		UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
+		
+		builder
+		.queryParam("page", page)
+		.queryParam("pageSize", pageSize)
+		.queryParam("toDesti", toDesti)
+		.queryParam("dates_start_check", dates_start_check)
+		.queryParam("pkage_gubun", pkage_gubun)
+		.queryParam("order", order);
+		
+		if(pkage_id != null) {
+			builder.queryParam("pkage_id", pkage_id);
+		}
+		if(minAmt != null) {
+			builder.queryParam("minAmt", minAmt);
+		}
+		if(maxAmt != null) {
+			builder.queryParam("maxAmt", maxAmt);
+		}
+		if(chk_term != null) {
+			builder.queryParam("chk_term", chk_term);
+		}
+		if(chk_time != null) {
+			builder.queryParam("chk_time", chk_time);
+		}
+
+		UriComponents uriComponents = builder.build();
+		
+		String queryString = uriComponents.toString();
+		return queryString;
+	}
+	
 	public String getQueryString(Integer order) {
 //		UriComponents 를 만들기 위해 UriComponentsBuilder 가 필요
 		UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
 		
 		builder
+		.queryParam("page", page)
+		.queryParam("pageSize", pageSize)
 		.queryParam("toDesti", toDesti)
 		.queryParam("dates_start_check", dates_start_check)
 		.queryParam("pkage_gubun", pkage_gubun)
@@ -88,6 +134,8 @@ public class PkgSearch {
 		UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
 		
 		builder
+		.queryParam("page", page)
+		.queryParam("pageSize", pageSize)
 		.queryParam("toDesti", toDesti)
 		.queryParam("dates_start_check", dates_start_check)
 		.queryParam("pkage_gubun", pkage_gubun)

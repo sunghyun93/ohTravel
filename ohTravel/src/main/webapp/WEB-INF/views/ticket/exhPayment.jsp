@@ -13,7 +13,6 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> 
 <!-- iamport.payment.js --> 
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-<script src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <style>
 /* required (빨간색) */
@@ -399,7 +398,7 @@ col {
 
 <body>
 	<div id="container">
-		<div class="inr" style="min-height: 250vh;">
+		<div class="inr" style="min-height: 70vh;">
 			<div class="contents fontCtrl" id="contents">
 				<!-- text_wrap -->
 				<div class="ly_wrap pay_info">
@@ -462,40 +461,16 @@ col {
 							</div>
 						</div>
 
-						<!-- 쿠폰 할인  -->
-						<div class="text_wrap mid">
-							<strong class="tit" style="font-weight: 500;">쿠폰 할인</strong>
-							<div class="sale-content">
-								<div class="inner" style="position: relative; padding: 20px 0;">
-									<div class="coupon-list">
-										<!-- <button type="button" class="el-button btn-select-coupon el-button--primary el-button--small">
-											<span>할인 쿠폰 선택</span>
-										</button> -->
-										<div class="list" style="width: 50%;">
-											<!-- 쿠폰 목록 -->
-											<!-- 쿠폰이 있으면 목록 보여주고 -->
-											<!-- 쿠폰이 없으면 적용된 쿠폰이 없습니다. -->
-											<div class="no-item">
-												<strong class="name">적용된 쿠폰이 없습니다.</strong>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 						<!-- text_wrap -->
-
-						<div class="text_wrap mid">
+						<%-- <div class="text_wrap mid">
 							<!-- 약관동의 -->
-							<div class="terms-agree" style="margin-top: 80px;">
+							<div class="terms-agree checkbox_group" style="margin-top: 80px;">
 								<div class="payment-agree" style="padding-bottom: 30px;">
-									<label role="checkbox" class="el-checkbox"> <span
-										aria-checked="mixed" class="el-checkbox__input"> <input
-											type="checkbox" name="chkAll" id="chk"
-											class="el-checkbox__original chkAll"
-											value="내용을 모두 확인하였으며 결제에 동의합니다.">
-									</span> <span class="el-checkbox__label">내용을 모두 확인하였으며 결제에
-											동의합니다.</span>
+									<label role="checkbox" class="el-checkbox">
+									<span aria-checked="mixed" class="el-checkbox__input">
+										<input type="checkbox" name="check_all" id="chk" class="el-checkbox__original chkAll" svalue="내용을 모두 확인하였으며 결제에 동의합니다.">
+									</span>
+									<span class="el-checkbox__label">내용을 모두 확인하였으며 결제에 동의합니다.</span>
 									</label>
 								</div>
 
@@ -503,10 +478,9 @@ col {
 								<div class="inner">
 									<div class="box full">
 										<div class="item">
-											<label role="checkbox" class="el-checkbox"> <input
-												type="checkbox" name="chk" class="el-checkbox__original">
-												<span class="el-checkbox__label"> <span>개인정보
-														수집 및 이용 동의 <span class="require" style="color: #e55973;">(필수)</span>
+											<label role="checkbox" class="el-checkbox">
+											<input type="checkbox" name="check_1" class="el-checkbox__original normal">
+												<span class="el-checkbox__label"> <span>개인정보 수집 및 이용 동의 <span class="require" style="color: #e55973;">(필수)</span>
 												</span>
 											</span>
 											</label>
@@ -547,11 +521,9 @@ col {
 									<!-- 왼쪽 : 취소 및 환불정책 -->
 									<div class="box" style="display: inline-block; height:">
 										<div class="item">
-											<label role="checkbox" class="el-checkbox"> <span
-												aria-checked="mixed" class="el-checkbox__input"> <input
-													type="checkbox" name="chk" class="el-checkbox__original">
-											</span> <span class="el-checkbox__label"> <span>취소 및
-														환불정책 <span class="require">(필수)</span>
+											<label role="checkbox" class="el-checkbox"> <span aria-checked="mixed" class="el-checkbox__input">
+											<input type="checkbox" id="check_2" name="chk" class="el-checkbox__original normal">
+											</span> <span class="el-checkbox__label"> <span>취소 및 환불정책 <span class="require">(필수)</span>
 												</span>
 											</span>
 											</label>
@@ -583,7 +555,7 @@ col {
 										<div class="item">
 											<label role="checkbox" class="el-checkbox">
 											<span aria-checked="mixed" class="el-checkbox__input">
-												<input type="checkbox" name="chk" class="el-checkbox__original">
+												<input type="checkbox" id="check_3" name="chk" class="el-checkbox__original normal">
 											</span> <span class="el-checkbox__label"> <span>개인정보 제 3자 제공 <span class="require">(필수)</span>
 												</span>
 											</span>
@@ -624,12 +596,9 @@ col {
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> --%>
 						<!-- text_wrap -->
 
-						<div class="btn_wrap">
-							<button id="iamportPayment" type="button" class="btn big pink btn-rsv" style="height: 56px; line-height: 54px; translate: 0 -300px;" onclick="realReserveFunc();">결제하기 </button>
-						</div>
 					</div>
 					<!-- inr -->
 					<div class="inr right"
@@ -665,6 +634,9 @@ col {
 								<!-- info_area -->
 							</div>
 							<!-- pay_area -->
+							<div class="btn_wrap">
+								<button id="payBtn" type="button" class="btn big pink btn-rsv" style="width:306px; height: 56px; line-height: 54px;">결제하기 </button>
+							</div>
 						</div>
 						<!-- js_acc -->
 					</div>
@@ -677,24 +649,29 @@ col {
 		<!-- inr -->
 	</div>
 	<!-- container -->
-<!-- </form> -->
 
 	
 	<!-- 찐예약 -->
- 	<form action="/ticket/realReserve" name="realReserveForm" method="post" onclick="return realReserveFunc()">
+ 	<form action="/ticket/realReserve" id="payment" method="post">
 		<input type="hidden" name="ticket_id"   value="">
 		<input type="hidden" name="mem_id"      value="">	
 		<input type="hidden" name="ticket_name" value="">
 		
-		<input type="hidden" name="ticket_admission_date" 	  value="">
+		<input type="hidden" name="ticket_admission_date" value="">
 		
-		<input type="hidden" name="ticket_adult_per" 		  value="">
-		<input type="hidden" name="titicket_idcket_child_per" value="">
-		<input type="hidden" name="ticket_total_price"    	  value="">
+		<input type="hidden" name="ticket_adult_per"   value="">
+		<input type="hidden" name="ticket_child_per"   value="">
+		<input type="hidden" name="ticket_total_price" value="">
+	</form>
+	<form id="ticketResultForm">
+		<input type="hidden" name="ticket_order_id" value="">
 	</form>
 	
-	
 	<script>
+		$('#payBtn').click(function() {
+			requestPay();
+		})
+	
 		// 사용일 받아오기 위한 자바스크립트 날짜 포맷 함수 (yyyy-mm-dd)
 		function dateFormat(date) {
 			let dateFormat2 = date.getFullYear() +
@@ -707,18 +684,17 @@ col {
 		console.log(ticket_admission_date);
 
 		
-		// 1) 예약 DB에 저장
-		// 2) 결제
-		
-		function realReserveFunc(){
+		/* 결제 API */
+	    function requestPay() {
 			
-			//가져가야 할 값 : 티켓코드, 회원 ID, 사용일, 성인 인원, 아동 인원, 총 금액
+			// 예약 DB에 저장 & 결제
+	    	//가져가야 할 값 : 티켓코드, 회원 ID, 사용일, 성인 인원, 아동 인원, 총 금액
 			let ticket_id			  = '${ticket_id}';
 			let mem_id				  = '${sessionId}';
 			let ticket_name 		  = '${ticket_name}';
 			
 			let ticket_adult_per 	  	  = ${adultCnt};	// 성인 인원 수
-			let titicket_idcket_child_per = ${childCnt};	// 아동 인원 수
+			let ticket_child_per = ${childCnt};	// 아동 인원 수
 			let ticket_total_price 	  	  = ${totalPay};
 
 			$('input[name=ticket_id]').attr('value', ticket_id);
@@ -726,75 +702,60 @@ col {
 			$('input[name=ticket_name]').attr('value', ticket_name);
 			$('input[name=ticket_admission_date]').attr('value', ticket_admission_date);
 			$('input[name=ticket_adult_per]').attr('value', ticket_adult_per);
-			$('input[name=titicket_idcket_child_per]').attr('value', titicket_idcket_child_per);
+			$('input[name=ticket_child_per]').attr('value', ticket_child_per);
 			$('input[name=ticket_total_price]').attr('value', ticket_total_price);
 			
-			realReserveForm.submit();
-		};
+            var IMP = window.IMP; // 생략가능
+            IMP.init('imp26451542');
+            IMP.request_pay({
+                pg: 'html5_inicis',
+                pay_method: 'card',
+                merchant_uid: 'merchant_' + new Date().getTime(),
+                name: '${ticket_name}',
+                //결제창에서 보여질 이름
+                amount: 100,
+                //가격
+                buyer_email: 'abcMartek@siot.do',
+                buyer_name: '김성현', //구매자 이름
+                buyer_tel: '010-2878-7531',
+                buyer_addr: '서울특별시 강남구 삼성동',
+                buyer_postcode: '123-456',
+            }, function (rsp) {
+                console.log(rsp);
+                 if (rsp.success) {
+                	 $.ajax({
+                		 url: "${pageContext.request.contextPath}/ticket/realReserve", //가맹점 서버
+                		 type: "POST",
+                		 data: $('#payment').serialize(),
+                         success: function(data){
+                        	 //alert(data);
+                        	 alert('구매자 님의 결제가 완료되었습니다.');
+		                     location.href = "${pageContext.request.contextPath}/ticket/reservationComplete";
+                             },
+                             error: function(err){
+                                var msg2 = '결제에 실패하였습니다.';
+                                alert(msg2);
+                             }
+                      })
+            }
+        })
+   }  
 		
-		
-		/* 모두 동의 코드인데... 안 됨.... *^^*/
-		function allAgree() {
-			const checkAll = document.getElementById('chkAll');
-			const chks = document.querySelectorAll('.chk');  
-			const chkBoxLength = chks.length;
-			 
-			checkAll.addEventListener('click', function(event) {
-			    if(event.target.checked)  {
-			        chks.forEach(function(value){
-			        value.checked = true;
-			    })
-			    }else {
-			       chks.forEach(function(value){
-			       value.checked = false;
-			    })
-			 }
-			  });
-			for (chk of chks){
-			    chk.addEventListener('click', function() {
-			        let count = 0;
-			        chks.forEach(function(value){
-			            if(value.checked == true){
-			                count++;
-			            }
-			        })
-			        if(count !== chkBoxLength){
-			            checkAll.checked = false;
-			        }else{
-			            checkAll.checked = true;
-			        }
-			      })
-			}
-		}
-		
-		/* 결제 API */
-		//문서가 준비되면 제일 먼저 실행
-		$(document).ready(function(){ 
-			$("#iamportPayment").click(function(){ 
-		    	payment(); //버튼 클릭하면 호출 
-		    }); 
-		})
-		
-		// 버튼 클릭 시 실행
-		function payment(data) {
-		    IMP.init('imp38780064');//아임포트 관리자 콘솔에서 확인한 '가맹점 식별코드' 입력
-		    IMP.request_pay({// param
-		        pg: "kakaopay.TC0ONETIME", //pg사명 or pg사명.CID (잘못 입력할 경우, 기본 PG사가 띄워짐)
-		        pay_method: "card", //지불 방법
-		        merchant_uid: "iamport_test_id", //가맹점 주문번호 (아임포트를 사용하는 가맹점에서 중복되지 않은 임의의 문자열을 입력)
-		        name: '${ticket_name}', //결제창에 노출될 상품명
-		        amount: ${totalPay}, //금액
-		        buyer_email : "testiamport@naver.com", 
-		        buyer_name : "홍길동",
-		        buyer_tel : "01012341234"
-		    }, function (rsp) { // callback
-		        if (rsp.success) {
-		            alert("완료 -> imp_uid : "+rsp.imp_uid+" / merchant_uid(orderKey) : " +rsp.merchant_uid);
-		        } else {
-		            alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg + ")");
-		        }
-		    });
-		}
+	// 체크박스 전체 선택
+	$(".checkbox_group").on("click", "#check_all", function () {
+	    $(this).parents(".checkbox_group").find('input').prop("checked", $(this).is(":checked"));
+	});
+	
+	// 체크박스 개별 선택
+	$(".checkbox_group").on("click", ".normal", function() {
+	    var is_checked = true;
+	
+	    $(".checkbox_group .normal").each(function(){
+	        is_checked = is_checked && $(this).is(":checked");
+	    });
+	
+	    $("#check_all").prop("checked", is_checked);
+	});
 	</script>
 
 </body>
