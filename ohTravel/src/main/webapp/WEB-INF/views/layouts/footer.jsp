@@ -16,7 +16,7 @@
                          <div class="single-footer-caption mb-30">
                               <!-- logo -->
                              <div class="footer-logo">
-                                 <a href="index.html"><img src="${pageContext.request.contextPath }/assets/img/logo/logo2_footer.png" alt=""></a>
+                                 <a href="index.html"><img src="${pageContext.request.contextPath}/assets/img/logo/ohLogo.png" alt=""></a>
                              </div>
                              <div class="footer-tittle">
                                  <div class="footer-pera">
@@ -75,15 +75,6 @@
   Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                     </div>
-                 </div>
-                  <div class="col-xl-5 col-lg-5 col-md-5">
-                        <!-- social -->
-                        <div class="footer-social f-right">
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-behance"></i></a>
-                            <a href="#"><i class="fas fa-globe"></i></a>
-                        </div>
                  </div>
              </div>
             </div>

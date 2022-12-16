@@ -98,5 +98,6 @@ public class HotelDAOImpl implements HotelDAO {
 	public void deleteBasket(HotelDTO hotelDTO) {
 		session.delete("deleteHotelBasket", hotelDTO);
 	}
-	
+
+
 }

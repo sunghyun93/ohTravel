@@ -34,12 +34,18 @@
 				<div class="star_img">
 					<img alt="별점" src="${pageContext.request.contextPath }/img/hotel/star.png">
 				</div>
-				
+
 				<!-- 찜 버튼 -->
-				<div class="btn-group" style="position: absolute; transform: translate(438px, -6px);">
-					<i class="bskt bi-heart" id="heart" style="font-size:2.2rem; color: red; cursor: pointer;"></i>
-				</div>
 				
+					<div class="btn-group" style="position: absolute; transform: translate(438px, -6px);">
+						<c:if test="${hotelDetail.basket_id == 0}">
+							<i class="bskt bi-heart" id="heart" style="font-size:2.2rem; color: red; cursor: pointer;"></i>
+						</c:if>
+						<c:if test="${hotelDetail.basket_id != 0 }">
+							<i class="bskt bi-heart-fill" id="heart" style="font-size:2.2rem; color: red; cursor: pointer;"></i>
+						</c:if>
+					</div>
+
 				<!-- 평균 별점 ajax 계산되어 들어가는 부분 -->
 				<div class="star_scr" id="star_scr">
 					
@@ -159,7 +165,7 @@
 				별점 통계가 들어가요
 			</div> -->
 			
-			<c:if test="${not empty sessionId }">
+			<c:if test="${member.mem_id ne null }">
 				<div class="rv_btn">
 					<button class="genric-btn primary ela" data-toggle="modal" onclick="openModal()" data-target="#reviewModal">리뷰 등록</button>
 				</div>
@@ -337,6 +343,7 @@ $(function() {
                     console.log('아동 up');
                 }
             });
+
         });
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -656,13 +663,13 @@ function makeRow(datum) {
 		innerHtml += '</td>'
 		innerHtml += '<td>'
 			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
-			if(datum.mem_id == '${sessionId}') {	
+			if(datum.mem_id == '${member.mem_id }') {	
 				innerHtml += '<button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>'
 			}
 		innerHtml += '</td>'
 		innerHtml += '<td>'
 			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
-			if(datum.mem_id == '${sessionId}') {	
+			if(datum.mem_id == '${member.mem_id }') {	
 				innerHtml += '<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'
 			}
 		innerHtml += '</td>'
@@ -675,7 +682,7 @@ function makeRow(datum) {
 
 $('#heart').click(function(){
 	
-	if("${sessionId}" == ""){
+	if("${member.mem_id }" == ""){
 		if(confirm("로그인한 회원만 찜하기 기능을 이용할 수 있습니다. 로그인 하시겠습니까?")){
 			location.href="${pageContext.request.contextPath }/member/loginForm"
 		} else {
@@ -684,7 +691,7 @@ $('#heart').click(function(){
 	}
 	
 	let hotel_id = "${hotelDetail.hotel_id}";
-	let mem_id = "${sessionId}";
+	let mem_id = '${member.mem_id }';
 	
 	$.ajax({
 		
@@ -712,8 +719,6 @@ $('#heart').click(function(){
 
 	
 })
-
-
 
 
 </script>	
