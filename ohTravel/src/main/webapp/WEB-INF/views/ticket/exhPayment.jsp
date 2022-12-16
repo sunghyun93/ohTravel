@@ -398,7 +398,7 @@ col {
 
 <body>
 	<div id="container">
-		<div class="inr" style="min-height: 250vh;">
+		<div class="inr" style="min-height: 70vh;">
 			<div class="contents fontCtrl" id="contents">
 				<!-- text_wrap -->
 				<div class="ly_wrap pay_info">
@@ -462,7 +462,7 @@ col {
 						</div>
 
 						<!-- text_wrap -->
-						<div class="text_wrap mid">
+						<%-- <div class="text_wrap mid">
 							<!-- 약관동의 -->
 							<div class="terms-agree checkbox_group" style="margin-top: 80px;">
 								<div class="payment-agree" style="padding-bottom: 30px;">
@@ -596,12 +596,9 @@ col {
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> --%>
 						<!-- text_wrap -->
 
-						<div class="btn_wrap">
-							<button id="payBtn" type="button" class="btn big pink btn-rsv" style="height: 56px; line-height: 54px; translate: 0 -300px;">결제하기 </button>
-						</div>
 					</div>
 					<!-- inr -->
 					<div class="inr right"
@@ -637,6 +634,9 @@ col {
 								<!-- info_area -->
 							</div>
 							<!-- pay_area -->
+							<div class="btn_wrap">
+								<button id="payBtn" type="button" class="btn big pink btn-rsv" style="width:306px; height: 56px; line-height: 54px;">결제하기 </button>
+							</div>
 						</div>
 						<!-- js_acc -->
 					</div>
