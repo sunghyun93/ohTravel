@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -23,6 +25,12 @@ public class Pkage_detailDTO {
 	private Date pkage_dt_startDay;		// 일정시작날짜
 	private Date pkage_dt_endDay;		// 일정정료날짜
 	private Integer pkage_rv_id;		// 로그인한 회원이 예약한 상품인지 여부(예약하지 않았으면 null)
+	
+	// update 시 사용할 날짜들
+	private String pkage_dt_meetDate1;		// 사전미팅날짜
+	private String pkage_dt_startDay1;		// 일정시작날짜
+	private String pkage_dt_endDay1;		// 일정정료날짜
+	
 	
 	// package_flightSche 비행일정
 	private List<Pkage_flightScheDTO> pkage_flightScheDTOList;

@@ -15,4 +15,12 @@ public class Pkage_schedulDTO {
 	
 	// packageSchedule_detail 여행일정_관광지
 	private List<Pkage_sche_detailDTO> pkage_s_dDTOList;
+	
+	// insert 데이터 받기 위한 변수들
+	private List<String> pkage_sche_dayList;
+	private List<String> pkage_dt_idList;
+	private List<String> pkage_sche_transList;
+	private List<String> pkage_sche_bList;
+	private List<String> pkage_sche_lList;
+	private List<String> pkage_sche_dList;
 }
