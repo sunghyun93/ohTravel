@@ -147,5 +147,86 @@
 		WHERE	mem_id = #{mem_id}
 		AND		basket_ref_id = #{hotel_id}
 	</select>
+	
+	<select id="selectHotelSearchResult" resultType="Hotel">
+		SELECT * 
+		FROM (  SELECT 	h.hotel_id
+						, h.hotel_kor
+						, h.hotel_type
+						, h.hotel_grade
+						, count(sr.room_id) ricnt
+						, sr.room_min_price
+						, hi.h_img_path
+						, (
+							SELECT 	city_name 
+							FROM 	city 
+							WHERE 	city_id = #{city_id}
+						) AS city_name
+        				, (
+	        				SELECT 	country_name 
+	        				FROM 	city ci 
+	        				JOIN 	country co 
+	        				ON 		ci.country_id = co.country_id 
+	        				WHERE 	ci.city_id = #{city_id}
+						) AS country_name 
+						, (	
+							SELECT 	FORMAT( avg(IFNULL (rv_rating, 0)), 1 )
+							FROM 	review r
+							WHERE 	r.rv_real_id = h.hotel_id 	
+						) AS hotel_score
+						, (
+							SELECT 	count(r.rv_id)
+							FROM 	review r
+							WHERE 	r.rv_real_id = h.hotel_id 
+						) AS review_cnt
+						, (
+							SELECT hotel_option
+							FROM	hotel_option
+							WHERE hotel_id = h.hotel_id
+							AND		hotel_exist = 'Y'
+							AND hotel_option = #{hotel_option }
+						) AS hotel_option
+				FROM 	hotel h 
+				LEFT JOIN hotel_image hi
+				ON h.hotel_id = hi.hotel_id
+				JOIN (
+						SELECT r.hotel_id, r.room_id, min(rd.room_price) room_min_price, count(rd.room_date) rdcnt
+						FROM room r
+						LEFT JOIN room_detail rd
+						ON r.room_id = rd.room_id
+						WHERE rd.room_date BETWEEN #{startDate} AND date_sub(#{endDate}, INTERVAL 1 DAY) 
+						AND rd.room_rev = 'Y'
+						GROUP BY rd.room_id, rd.room_date
+						HAVING rdcnt >= 1
+				) sr
+				ON h.hotel_id = sr.hotel_id
+				WHERE h.city_id = #{city_id}
+				GROUP BY sr.room_id
+				HAVING ricnt = #{calDate}
+		) sh
+		WHERE 1=1
+		<if test="hotel_type != null and !hotel_type.equals('')">
+			AND sh.hotel_type = #{hotel_type}
+		</if>
+		
+		<if test="hotel_score != null">
+			AND sh.hotel_score >= #{hotel_score}
+		</if>
+		
+		<if test="hotel_grade != null">
+			AND sh.hotel_grade = #{hotel_grade}
+		</if>
+		
+		<if test="hotel_option != null and !hotel_option.equals('')">
+			AND sh.hotel_option = #{hotel_option}
+		</if>
+		
+		GROUP BY sh.hotel_id
+		
+		<if test="min_price != null">
+			HAVING sh.room_min_price BETWEEN #{min_price} AND #{min_price} + 40000
+		</if>
+	
+	</select>
 
 </mapper>

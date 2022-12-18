@@ -99,5 +99,10 @@ public class HotelDAOImpl implements HotelDAO {
 		session.delete("deleteHotelBasket", hotelDTO);
 	}
 
+	@Override
+	public List<HotelDTO> getHotelSearchResult(HotelDTO hotelDTO) {
+		return session.selectList("selectHotelSearchResult", hotelDTO);
+	}
+
 
 }

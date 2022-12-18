@@ -15,7 +15,7 @@
 }
 
 .paybtn {
-	margin-top: 20px;	
+	text-align: right;
 }
 
 #container .inr {
@@ -27,6 +27,30 @@
 
 	padding-bottom:20px;
 }
+
+.mem_coupon{
+
+	font-size: 13px;
+	text-align: right;
+	margin-bottom: 0px;
+}
+
+.hotelPaymentBox {
+	margin-top: 25px;
+    border-top: none;
+}
+
+.hotelPaymentBtn {
+	margin-left: 70px;
+}
+
+.pay_info .info_area .info {
+	margin-bottom: 7px;
+}
+
+.txt {
+	margin-bottom: 4px;
+}
 </style>
 <body>
 	<div id="container">
@@ -34,15 +58,7 @@
 			<div class="contents fontCtrl" id="contents">
 				<div class="text_wrap big">
 					<strong class="tit">예약하기</strong>
-					<div class="right_cont">
-						<div class="step_wrap">
-						    <ol class="step">
-						        <li class="on"><span class="num num1 step_txt">예약정보확인</span></li>
-						        <li class=""><span class="num num2 step_txt">옵션정보/약관결제</span></li>
-						        <li class=""><span class="num num3 step_txt">결제완료</span></li>
-						    </ol>
-						</div>	<!-- step_wrap -->
-					</div>	<!-- right_cont -->
+					
 				</div>	<!-- text_wrap -->
 				<div class="ly_wrap pay_info">
 					<div class="inr">
@@ -186,48 +202,56 @@
 					    <div class="text_wrap mid">
 					    	<strong class="tit">결제 정보</strong>
 					    </div>	<!-- text_wrap -->
-					    <div class="js_acc multi filter_wrap">
+					    <div class="hotelPaymentBox">
 					        <div class="pay_area">
 					            <div class="info_area total">
 					                <div class="info"><strong class="tit">최종 결제 금액</strong> <span>성인 ${numberOfAdult }</span> <span class="divider_dot">아동 ${numberOfChild }</span></div>
 					                <div class="mileage_save">
 					                </div>	<!-- mileage_save -->
+					                <fmt:parseNumber type="number" var="mile" value="${roomDetail.room_price * membership.membership_discount * 0.01}" integerOnly="true"/>
 					                <fmt:formatNumber type="number" maxFractionDigits="3" value="${roomDetail.room_price}" var="commaPrice"/>
-					                <strong class="price">${commaPrice }<span>원</span></strong>
+					                <fmt:formatNumber type="number" maxFractionDigits="3" value="${mile}" var="milePoint"/>
+					                <fmt:formatNumber type="number" maxFractionDigits="3" value="${roomDetail.room_price - mile}" var="realDiscountPrice"/>
+					                <fmt:formatNumber type="number" maxFractionDigits="3" value="${membership.mem_mile }" var="memberMile"/>
+					                <div class="info"><strong class="price" id="realDiscountPrice" >${realDiscountPrice }<span>원</span></strong></div>
 					                <div class="mileage_save">
 					                    <p class="txt">
 					                        	현재 ${sessionName } 님의 회원등급 : ${membership.membership_name }
 					                    </p>
 					                     <p class="txt">
-					                        	현재 ${sessionName } 님의 누적 마일리지: ${membership.mem_mile }
+					                        	현재 ${sessionName } 님의 누적 마일리지: ${memberMile }
 					                    </p>
 					                    <p>
 					                        	Oh! Travel 마일리지
-					                         <fmt:parseNumber type="number" var="mile" value="${roomDetail.room_price * membership.membership_discount * 0.01}" integerOnly="true"/>
-					                        <em> ${mile } <span class="icn mileage em"></span></em>적립
+					                       
+					                        <em> ${milePoint } <span class="icn mileage em"></span></em>적립
 					                    </p>
 					                </div>	<!-- mileage_save -->
 					            </div>	<!-- info_area total -->
 					            <div class="info_area">
-					            	<fmt:formatNumber type="number" maxFractionDigits="3" value="${roomDetail.room_price - mile}" var="realDiscountPrice"/>
-					                <div class="info"><strong class="tit">총 상품 금액</strong> <span id="realDiscountPrice">${realDiscountPrice }원</span></div>
+					                <div class="info"><strong class="price">기존 상품 금액</strong> <span id="orgPrice">${commaPrice }원</span></div>
+					                <p class="mem_coupon">회원 등급에 따른 할인가격 : <span class="milePrice">${milePoint }</span><span>원</span></p>
 					                <p class="mem_coupon">쿠폰 적용에 따른 할인가격 : <span class="cp_discount">0</span><span>원</span></p>
 					            </div>	<!-- info_area -->
 					        </div>	<!-- pay_area -->
 					        
 					        <div class="coupon_list">
-	                        	<div class="cp_name">쿠폰</div> 
+					        	<div class="cp_name"></div> <br><br>
 	                        	<select id="cp_list" name="cp_list">
 	                        		<option value="0">${couponList[0] == null ? '쿠폰 없음' : '쿠폰 적용' }</option>
 	                        		<c:forEach var="coupon" items="${couponList }">
 	                        			<option value="${coupon.coupon_discount }" data-cpId="${coupon.coupon_id }">${coupon.coupon_name }</option>
 	                        		</c:forEach>
 	                        	</select>
+					        		
+					        	<div class="paybtn">
+					        		<button type="button" class="hotelPaymentBtn genric-btn primary e-large" onclick="requestPay()">결제하기</button>
+					        	</div>
+					        	
+	                        	
 	                        </div>
-					        
-					          <div class="paybtn">
-					            	<button type="button" class="genric-btn primary e-large" onclick="requestPay()">결제하기</button>
-					            </div>
+					        <br><br>
+					          
 					    </div>	<!-- js_acc -->
 					</div>	<!-- inr right -->
 				</div>	<!-- ly_wrap -->

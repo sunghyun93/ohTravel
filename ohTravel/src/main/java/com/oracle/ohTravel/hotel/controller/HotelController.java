@@ -25,6 +25,8 @@ import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.service.MemberService;
 import com.oracle.ohTravel.pkage.service.PkageService;
+import com.oracle.ohTravel.review.model.ReviewDTO;
+import com.oracle.ohTravel.review.service.ReviewService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,7 @@ public class HotelController {
 	private final HotelService hs;
 	private final MemberService ms;
 	private final CountryService countryService;
+	private final ReviewService rs;
 	
 	// [숙박] 카테고리 선택 시의 화면
 	@GetMapping(value = "/hotelmain")
@@ -60,15 +63,17 @@ public class HotelController {
 	
 	//호텔 목록에서 호텔 하나를 선택했을때 나올 페이지 (단건 조회)
 	@GetMapping(value = "/hotelDetail")
-	public String goHotelDetail(HotelDTO hotelDTO, Model model, HttpServletRequest request, HttpSession session) {
+	public String goHotelDetail(HotelDTO hotelDTO, ReviewDTO reviewDTO, Model model, HttpServletRequest request, HttpSession session) {
 		
-
+		reviewDTO.setRv_real_id(hotelDTO.getHotel_id());
+		int totalReviewCnt = rs.totalReviewCnt(reviewDTO.getRv_real_id());
 		// 찜 여부 판단용
 		String mem_id = (String)session.getAttribute("sessionId");
 		hotelDTO.setMem_id(mem_id);
 		hotelDTO = hs.getHotelDetail(hotelDTO);
 		model.addAttribute("hotelDetail", hotelDTO);
 		model.addAttribute("rv_real_id", hotelDTO.getHotel_id());
+		model.addAttribute("totalReviewCnt", totalReviewCnt);
 		return "hotel/hotelDetail";
 	}
 	
@@ -103,8 +108,18 @@ public class HotelController {
 	public String goHotelReserveComplete (HotelReservationDTO hotelRDTO, Model model) {
 		
 	
-	return "hotel/hotelReserveComplete";
+		return "hotel/hotelReserveComplete";
 	
+	}
+	
+	
+	@PostMapping(value = "/hotelSearch")
+	public String goHotelSearch (HotelDTO hotelDTO, Model model) {
+		
+		model.addAttribute("hotelDTO",hotelDTO);
+		model.addAttribute("hotelSearchResult", hs.getHotelSearchResult(hotelDTO));
+		
+		return "hotel/hotelSearchResult";
 	}
 	
 }

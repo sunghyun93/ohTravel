@@ -31,13 +31,14 @@
 			<div class="oneway"></div>
 		</div>	
 		
-		<form id="hotelSearchForm" action="" method="POST">
+		<form id="hotelSearchForm" action="${pageContext.request.contextPath }/hotel/hotelSearch" method="POST">
 			<div class="start_end">
 				<div>
 					<input style="text-align: center;" type="text" id="modal_btn" class="starting" 
 					data-toggle="modal" data-target="#exampleModalCenter" 
 					placeholder="지역을 선택해주세요." readonly>
-					<input type="hidden" name="toDesti" value="" class="starting_hidden">
+					<input type="hidden" name="city_id" value="" class="starting_hidden">
+					<input type="hidden" name="calDate" value="" class="calDate">
 					<div class="black_bg"></div>
 					 
 					<div class="modal_wrap">
@@ -54,7 +55,10 @@
 							    </div>
 							    
 							    <div class="modal_close_country_2">
-							        <ul></ul>
+							        <ul>
+							        	<li><span></span></li>
+							        	<li><span></span></li>
+							        </ul>
 							    </div>     
 						        
 						    </div> <!-- modal_close_country_1 -->
@@ -64,11 +68,11 @@
 				</div>
 				
 				<div class="date_start">
-					<input type="date" name="dates_start_check" value="2022-12-20" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27">
+					<input type="date" name="startDate" value="2022-12-20" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27">
 				</div>
 				
 				<div class="date_end">
-					<input type="date" name="dates_start_end" value="2022-12-21"  id="dates_start_end" class="dates_start_end" min="2022-12-20" max="2022-12-27">
+					<input type="date" name="endDate" value="2022-12-21"  id="dates_start_end" class="dates_start_end" min="2022-12-20" max="2022-12-27">
 				</div>
 				
 				<div class="search">
@@ -280,7 +284,20 @@ $(function() {
 			// 모달창 켜기
 			onClick();
 		} else {
-			//$('#hotelSearchForm').submit();
+			let startDate = $('#dates_start_check').val()
+			let endDate = $('#dates_start_end').val()
+			
+			let startDate_arr = startDate.split("-");
+			let endDate_arr = endDate.split("-");
+			
+			let stDate = new Date(startDate_arr[0], startDate_arr[1], startDate_arr[2]);
+			let edDate = new Date(endDate_arr[0], endDate_arr[1], endDate_arr[2]);
+			
+			let cal = edDate.getTime() - stDate.getTime();
+			let calDate = cal / (1000*60*60*24);
+			
+			$('.calDate').val(calDate);
+			$('#hotelSearchForm').submit();
 		}
 
 	});

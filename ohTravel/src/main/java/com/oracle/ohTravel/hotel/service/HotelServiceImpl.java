@@ -121,5 +121,10 @@ public class HotelServiceImpl implements HotelService {
 		
 	}
 
+	@Override
+	public List<HotelDTO> getHotelSearchResult(HotelDTO hotelDTO) {
+		return hd.getHotelSearchResult(hotelDTO);
+	}
+
 
 }
