@@ -150,6 +150,11 @@
     align-content: center;
     justify-content: space-between;
 }
+
+.mile{
+ color:red;
+ font-size: 10px;
+}
 </style>
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
@@ -229,10 +234,7 @@
                             </table>
                         </div><!-- tbl -->
 
-                        <!-- 인원정보 -->
-                        <div class="text_wrap mid">
-                            <strong class="tit">인원정보</strong>
-                        </div>
+                       
 
 
                         <!-- 여행자 정보 부분 -->
@@ -385,6 +387,7 @@
                                 			<div class="selectcoupon"><span class="getcoupon" id="modal_btn">쿠폰적용   <img class="img" src="${pageContext.request.contextPath}/airport/img/download.png" width="30px" height="30px"></span></div><div class="coupon_non">쿠폰해제❌</div>
                                  		</div>
                                  </c:if>
+                                 <span class="mile">*항공권은 마일리지 적립이 불가능한 상품입니다.</span><br>
                                  <div class="real_price">
                                  	<strong class="to_price">총결제금액</strong><br>
                                  		<span class="big_real_price"></span>
