@@ -29,6 +29,7 @@ public class HotelDTO {
 	private LocalTime checkout;
 	private Double hotel_score;
 	private String hotel_option;
+	private String option_gubun;
 	
 	private String h_img_path;
 	private String room_name;

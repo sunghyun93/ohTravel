@@ -26,6 +26,8 @@ public interface HotelService {
 
 	List<HotelDTO> getHotelSearchResult(HotelDTO hotelDTO);
 
+	List<HotelDTO> getHotelDetailOptions(HotelDTO hotelDTO);
+
 
 
 }

@@ -30,6 +30,13 @@
 		WHERE h.hotel_id= #{hotel_id}
 	</select>
 	
+	<select id="selectHotelDetailOptions" resultType="Hotel">
+		SELECT 	hotel_option, option_gubun
+		FROM	hotel_option
+		WHERE 	hotel_id = #{hotel_id}
+		AND		hotel_exist = 'Y'
+	</select>
+	
  	<select id="roomList" resultType="Room">
 		SELECT 	r.room_id
 				, r.room_type

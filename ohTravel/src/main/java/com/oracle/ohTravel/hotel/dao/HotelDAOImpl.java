@@ -104,5 +104,10 @@ public class HotelDAOImpl implements HotelDAO {
 		return session.selectList("selectHotelSearchResult", hotelDTO);
 	}
 
+	@Override
+	public List<HotelDTO> getHotelDetailOptions(HotelDTO hotelDTO) {
+		return session.selectList("selectHotelDetailOptions",hotelDTO);
+	}
+
 
 }

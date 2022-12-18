@@ -98,7 +98,7 @@
               	 <div class="row">
               	 
                     <!-- 상품에 따라 반복되어야할 부분 -->
-                    <c:forEach var="hotelList" items="${hotelList }" begin="0" end="3">
+                    <c:forEach var="hotelList" items="${hotelList }" begin="0" end="7">
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
@@ -155,64 +155,6 @@
         <!-- Favourite Places End -->
 			</div>
 		</div><!-- recommend 끝 -->
-		<div class="theme_rec">
-			<div class="item_title">
-				<h3>여행 테마 추천</h3>
-			</div>
-			<div class="favourite-place">
-            	<div class="container">
-					<div class="row">
-						<div class="col-xl-3 col-lg-3 col-md-6">
-						 	<div class="single-place mb-30">
-						 		<div class="circle_theme">
-						 		
-						 		</div>
-						 	</div>
-						 </div>
-						 <div class="col-xl-3 col-lg-3 col-md-6">
-						 	<div class="single-place mb-30">
-						 		<div class="circle_theme">
-						 		
-						 		</div>
-						 	</div>
-						 </div>
-						 <div class="col-xl-3 col-lg-3 col-md-6">
-						 	<div class="single-place mb-30">
-						 		<div class="circle_theme">
-						 		
-						 		</div>
-						 	</div>
-						 </div>
-						 <div class="col-xl-3 col-lg-3 col-md-6">
-							 	<div class="single-place mb-30">
-							 		<div class="circle_theme">
-							 		
-							 		</div>
-							 	</div>
-						 </div>
-				 	</div>
-			 	</div>
-			 </div>
-		</div><!-- theme_rec 끝 -->
-		
-		<div class="conn_coupon"> <!-- 1행 4열 -->
-			<div class="item_title">
-				<h3>쿠폰</h3>
-			</div>
-			<div class="favourite-place">
-            	<div class="container">
-					<div class="row">
-						<div class="col-12">
-						 	<div class="single-place mb-30">
-						 		<div class="coupon_banner">
-						 			<div class="will_delete">쿠폰 정보를 알려주고 클릭 시 쿠폰 확인 페이지로 이동할 예정</div>
-						 		</div>
-						 	</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div> <!-- hotel_container 끝 -->
 	
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 

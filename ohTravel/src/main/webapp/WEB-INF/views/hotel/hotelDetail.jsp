@@ -162,9 +162,23 @@
 		<div class="ht_option">
 			<div class="add_opt">
 				<div class="add_title">숙소 부대시설</div>
+				<div class="add_contents">
+				<c:forEach items="${hotelDetailOptions }" var="option">
+					<c:if test="${option.option_gubun eq '부대'}">
+						<span>${option.hotel_option }</span>
+					</c:if>
+				</c:forEach>
+				</div>
 			</div>
 			<div class="conv_opt">
 				<div class="conv_title">숙소 편의시설</div>
+				<div class="conv_contents">
+					<c:forEach items="${hotelDetailOptions }" var="option">
+						<c:if test="${option.option_gubun eq '편의'}">
+							<span>${option.hotel_option }</span>
+						</c:if>
+					</c:forEach>
+				</div>
 			</div>
 		</div> <!-- ht_option -->
 				
