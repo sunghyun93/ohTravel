@@ -2,6 +2,7 @@ package com.oracle.ohTravel.hotel.dao;
 
 import java.util.List;
 
+import com.oracle.ohTravel.basket.model.BasketDTO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.hotel.model.HotelReservationDTO;
 import com.oracle.ohTravel.hotel.model.Hotel_imageDTO;
@@ -26,6 +27,14 @@ public interface HotelDAO {
 	void insertPayment(HotelReservationDTO hotelRDTO);
 
 	void updatemile(HotelReservationDTO hotelRDTO);
+
+	void insertReserveDetail(HotelReservationDTO hotelRDTO);
+
+	HotelDTO selectBasket(HotelDTO hotelDTO);
+
+	void insertBasket(HotelDTO hotelDTO);
+
+	void deleteBasket(HotelDTO hotelDTO);
 
 
 }

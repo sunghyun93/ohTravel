@@ -160,12 +160,25 @@
 	
 	<!-- 호텔 예약 내역 조회 -->
 	<select id="hotelReservList" resultType="HotelReservationDTO" parameterType="HotelReservationDTO">
-		SELECT hr.*, rd.room_detail_id, r.room_name, h.hotel_kor
+		<!-- SELECT hr.*, rd.room_detail_id, r.room_name, h.hotel_kor
 				FROM hotel_reservation hr
 				LEFT JOIN room_detail rd ON hr.room_detail_id = rd.room_detail_id
-				LEFT JOIN room r ON r.room_id = rd.room_detail_id
+				LEFT JOIN room r ON r.room_id = rd.room_id
 				LEFT JOIN hotel h ON h.hotel_id = r.hotel_id
-				WHERE hr.mem_id = #{mem_id}
+				WHERE hr.mem_id = #{mem_id} -->
+				
+		SELECT hr.mem_id, hr.rev_stat, hr.rev_per, hr.rev_date, hr.rev_tot_price, r.room_name, h.hotel_kor, hr.h_rev_id, 
+				(SELECT min(rd.room_date) date
+				 FROM	hotel_reservation_detail hrd
+		         LEFT JOIN room_detail rd ON rd.room_detail_id = hrd.room_detail_id
+		         ) revstartdate
+		FROM hotel_reservation hr
+		JOIN hotel_reservation_detail hrd ON hr.h_rev_id = hrd.h_rev_id
+		LEFT JOIN room_detail rd ON hrd.room_detail_id = rd.room_detail_id
+		LEFT JOIN room r ON r.room_id = rd.room_id
+		LEFT JOIN hotel h ON h.hotel_id = r.hotel_id
+		WHERE hr.mem_id = #{mem_id}
+		GROUP BY hr.h_rev_id;
 	</select>
 	
 	<!-- 호텔 예약 총 개수 -->

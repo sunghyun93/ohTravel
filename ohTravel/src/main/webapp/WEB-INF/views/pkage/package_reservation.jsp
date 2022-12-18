@@ -742,7 +742,7 @@
                 	let adultCnt = Number('${pkgReserve.adultCnt }'); // 성인 인원수
                 	let childCnt = Number('${pkgReserve.childCnt }'); // 아동 인원 수
                 	let reservedCnt = adultCnt + childCnt;
-                	alert(reservedCnt);
+                	// alert(reservedCnt);
                 	
                 	// 진짜 들고갈 가격 넣어주기 (쿠폰 까지 적용 된 가격 / 쿠폰이 적용 되지 않으면 서버에서 들고온 가격)
                    	console.log($('.price').attr('data-realPrice'));
@@ -756,55 +756,75 @@
                			buyer_tel : '${memberDTO.mem_tel}',
                 	}
                 	
-                	/* 예약을 위한  ajax start  */
-                	// 이미 예약한 상품인지 먼저 검사 ajax
-            		$.ajax({
-            			url: "/pkageRest/reservedCheck",
-            			type: "post",
-            			data : { "pkage_dt_id" : "${pkage_detailDTO.pkage_dt_id}" },
-            			dataType : 'text',
-            			success: function(data) {
-            				if(data == 'reserved') {
-            					// 예약된 상품이면  alert
-            					alert("이미 예약한 상품입니다.");
-            				} else if (data == 'reservedNo'){
-            					// 예약된 상품이 아니면 
-            					// 해당 패키지 상품의 잔여좌석 존재 여부 판단 ajax 
-            					$.ajax({
-            						url : '/pkageRest/reservedCntCheck',
-            						type : 'get',
-            						data : {
-            							'pkage_dt_id' : '${pkage_detailDTO.pkage_dt_id}',
-            							'reservedCnt' : reservedCnt
-            						},
-            						dataType : 'text',
-            						success: function(data) {
-            							// impossible 이라면, 예약 가능 인원 수가 0명인 것.
-    		    						if(data == 'impossible') {
-    		    							alert("해당 패키지는 예약 인원이 꽉 차있습니다.");
-    		    						}
-    		    						// no라면, 요청 보낸 인원 수가 예약 가능 인원 수 보다 커서 예약 불가
-    		    						else if(data == 'no') {
-    		    							alert("요청하신 예약 인원은 예약 가능 인원 수를 초과하였습니다.");	
-    		    						} 
-    		    						// yes라면, 요청한 인원 예약 가능한 상태
-    		    						else if(data == 'yes'){
-    		    							// 결제 api 실행 (결제 api success 함수 안에 결제 insert ajax 존재)
-    		    							requestPay(payData);
-    		    							
-    		    						}
-            						},
-            						error: function(err) {
-            							
-            						}
-            					}); // 해당 패키지 상품의 잔여좌석 존재 여부 판단 ajax 
-            				}
-            			},
-            			error: function(err) {
-            				console.log(err);
-            			}
-            		}); // 이미 예약한 상품인지 먼저 검사 ajax 
-                }
+                	// 로그인 확인
+                	$.ajax({
+                		url : '/pkageRest/loginCheck',
+                		type : 'get',
+                		dataType : 'text',
+                		success : function(data) {
+                			console.log(data);
+                			
+            				/* 로그인 여부 O */
+                			if(data == 'LOGIN_OK') {
+                				/* 예약을 위한  ajax start  */
+                            	// 이미 예약한 상품인지 먼저 검사 ajax
+                        		$.ajax({
+                        			url: "/pkageRest/reservedCheck",
+                        			type: "post",
+                        			data : { "pkage_dt_id" : "${pkage_detailDTO.pkage_dt_id}" },
+                        			dataType : 'text',
+                        			success: function(data) {
+                        				if(data == 'reserved') {
+                        					// 예약된 상품이면  alert
+                        					alert("이미 예약한 상품입니다.");
+                        				} else if (data == 'reservedNo'){
+                        					// 예약된 상품이 아니면 
+                        					// 해당 패키지 상품의 잔여좌석 존재 여부 판단 ajax 
+                        					$.ajax({
+                        						url : '/pkageRest/reservedCntCheck',
+                        						type : 'get',
+                        						data : {
+                        							'pkage_dt_id' : '${pkage_detailDTO.pkage_dt_id}',
+                        							'reservedCnt' : reservedCnt
+                        						},
+                        						dataType : 'text',
+                        						success: function(data) {
+                        							// impossible 이라면, 예약 가능 인원 수가 0명인 것.
+                		    						if(data == 'impossible') {
+                		    							alert("해당 패키지는 예약 인원이 꽉 차있습니다.");
+                		    						}
+                		    						// no라면, 요청 보낸 인원 수가 예약 가능 인원 수 보다 커서 예약 불가
+                		    						else if(data == 'no') {
+                		    							alert("요청하신 예약 인원은 예약 가능 인원 수를 초과하였습니다.");	
+                		    						} 
+                		    						// yes라면, 요청한 인원 예약 가능한 상태
+                		    						else if(data == 'yes'){
+                		    							// 결제 api 실행 (결제 api success 함수 안에 결제 insert ajax 존재)
+                		    							requestPay(payData);
+                		    							
+                		    						}
+                        						},
+                        						error: function(err) {
+                        							
+                        						}
+                        					}); // 해당 패키지 상품의 잔여좌석 존재 여부 판단 ajax 
+                        				}
+                        			},
+                        			error: function(err) {
+                        				console.log(err);
+                        			}
+                        		}); // 이미 예약한 상품인지 먼저 검사 ajax 
+                			}/* 로그인 여부 X */
+                			else if(data == 'LOGIN_NO') {
+                				alert("로그인 후 예약해주세요.");
+                				location.href="/member/loginForm";
+                			} // 로그인 X
+                		}, /* success */
+                		error : function(err) {
+                			console.log(err)
+                		} /* error */
+                	});// 로그인 확인 $.ajax
+                }// if(lastCheck) 유효성 검사
             }); // $('#nextBtn').on('click', function() {}); 다음 단계 버튼
         }); // $(function() {});
         

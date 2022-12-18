@@ -78,6 +78,7 @@ public class TicketController {
 		TicketDTO ticketDTO = ts.getTicketDetail(ticket_id);
 		model.addAttribute("ticketDetail", ticketDTO);
 		model.addAttribute("rv_real_id", ticketDTO.getTicket_id());
+		
 		return "ticket/exhibitionDetail";
 	}
 
@@ -108,7 +109,7 @@ public class TicketController {
 	}
 	
 	/* 결제 완료 화면 넘어가기용 */
-	@PostMapping("/reservationComplete")
+	@GetMapping("/reservationComplete")
 	public String reservationComplete(TicketReservation trDTO, HttpSession session, Model model) {
 		
 		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");

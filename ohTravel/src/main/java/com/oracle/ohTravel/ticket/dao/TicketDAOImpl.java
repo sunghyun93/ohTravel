@@ -1,6 +1,7 @@
 package com.oracle.ohTravel.ticket.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -10,14 +11,16 @@ import com.oracle.ohTravel.ticket.model.TicketDTO;
 import com.oracle.ohTravel.ticket.model.TicketReservation;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class TicketDAOImpl implements TicketDAO {
 	
 	/* MyBatis DB 연동 */
 	private final SqlSession session;
-
+	
 	@Override
 	public int totalTicket() {
 		int totTicketCnt = 0;
@@ -88,6 +91,23 @@ public class TicketDAOImpl implements TicketDAO {
 	public void insertPayment(TicketReservation trDTO) {
 		session.insert("insertTicketPayment", trDTO);
 	}
+
 	
+	@Override
+	public TicketDTO selectBasket(TicketDTO ticketDTO) {
+		return session.selectOne("selectTicketBasket", ticketDTO);
+	}
 	
+	// 찜 등록
+	@Override
+	public void insertBasket(TicketDTO ticketDTO) {
+		session.insert("insertTicketBasket", ticketDTO);
+	}
+
+	// 찜 해제
+	@Override
+	public void deleteBasket(TicketDTO ticketDTO) {
+		session.delete("deleteTicketBasket", ticketDTO);
+	}
+
 }

@@ -53,15 +53,15 @@ public class ManageAirportDTO {
 	
 	//예약용
 	private String mem_id;
-	private Date reservation_date;
+	private String reservation_date;
 	private int reservation_price;
 	private int air_gubun;
 	private int air_pi_id;
 	private String air_pi_name;
 	private Date air_pi_birth;
 	private int air_pi_gen;
-	private int air_pi_lname;
-	private int air_pi_fname;
+	private String air_pi_lname;
+	private String air_pi_fname;
 	private int air_pi_tel;
 	private String air_pi_email;
 	private String air_passport;

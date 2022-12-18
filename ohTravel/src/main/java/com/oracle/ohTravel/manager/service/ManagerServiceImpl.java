@@ -523,4 +523,92 @@ public class ManagerServiceImpl implements ManagerService {
 		List<ManagePackageDTO> getPackageResPiList = dao.getPackageResPiList(pk);
 		return getPackageResPiList;
 	}
+
+	@Override
+	public List<ManageAirportDTO> getAirResList() {
+		List<ManageAirportDTO> getAirResList = dao.getAirResList();
+		return getAirResList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirResPiList(ManageAirportDTO air) {
+		List<ManageAirportDTO> getAirResPiList = dao.getAirResPiList(air);
+		return getAirResPiList;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirResScheduleList(ManageAirportDTO air) {
+		List<ManageAirportDTO> getAirResScheduleList = dao.getAirResScheduleList(air);
+		return getAirResScheduleList;
+	}
+
+	@Override
+	public int getPackageTotalSale() {
+		int getPackageTotalSale = dao.getPackageTotalSale();
+		return getPackageTotalSale;
+	}
+
+	@Override
+	public List<ManagePackageDTO> getPackageMonth() {
+		List<ManagePackageDTO> getPackageMonth = dao.getPackageMonth();
+		return getPackageMonth;
+	}
+	@Override
+	public List<ManagePackageDTO> getPackageDay(String month) {
+		List<ManagePackageDTO> getPackageDay = dao.getPackageDay(month);
+		return getPackageDay;
+	}
+
+	@Override
+	public int getAirTotalSale() {
+		int getAirTotalSale = dao.getAirTotalSale();
+		return getAirTotalSale;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirMonth() {
+		List<ManageAirportDTO> getAirMonth = dao.getAirMonth();
+		return getAirMonth;
+	}
+
+	@Override
+	public List<ManageAirportDTO> getAirDay(String month) {
+		List<ManageAirportDTO> getAirDay = dao.getAirDay(month);
+		return getAirDay;
+	}
+	
+	@Override
+	public int getTicketTotalSale() {
+		int getTicketTotalSale = dao.getTicketTotalSale();
+		return getTicketTotalSale;
+	}
+	
+	@Override
+	public List<ManageTicketDTO> getTicketMonth() {
+		List<ManageTicketDTO> getTicketMonth = dao.getTicketMonth();
+		return getTicketMonth;
+	}
+
+	@Override
+	public List<ManageTicketDTO> getTicketDay(String month) {
+		List<ManageTicketDTO> getTicketDay = dao.getTicketDay(month);
+		return getTicketDay;
+	}
+	
+	@Override
+	public int getHotelTotalSale() {
+		int getHotelTotalSale = dao.getHotelTotalSale();
+		return getHotelTotalSale;
+	}
+	@Override
+	public List<ManageHotelDTO> getHotelMonth() {
+		List<ManageHotelDTO> getHotelMonth = dao.getHotelMonth();
+		return getHotelMonth;
+	}
+
+	@Override
+	public List<ManageHotelDTO> getHotelDay(String month) {
+		List<ManageHotelDTO> getHotelDay = dao.getHotelDay(month);
+		return getHotelDay;
+	}
 }

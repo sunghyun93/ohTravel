@@ -398,7 +398,7 @@ col {
 
 <body>
 	<div id="container">
-		<div class="inr" style="min-height: 250vh;">
+		<div class="inr" style="min-height: 70vh;">
 			<div class="contents fontCtrl" id="contents">
 				<!-- text_wrap -->
 				<div class="ly_wrap pay_info">
@@ -462,17 +462,15 @@ col {
 						</div>
 
 						<!-- text_wrap -->
-						<div class="text_wrap mid">
+						<%-- <div class="text_wrap mid">
 							<!-- 약관동의 -->
-							<div class="terms-agree" style="margin-top: 80px;">
+							<div class="terms-agree checkbox_group" style="margin-top: 80px;">
 								<div class="payment-agree" style="padding-bottom: 30px;">
-									<label role="checkbox" class="el-checkbox"> <span
-										aria-checked="mixed" class="el-checkbox__input"> <input
-											type="checkbox" name="chkAll" id="chk"
-											class="el-checkbox__original chkAll"
-											value="내용을 모두 확인하였으며 결제에 동의합니다.">
-									</span> <span class="el-checkbox__label">내용을 모두 확인하였으며 결제에
-											동의합니다.</span>
+									<label role="checkbox" class="el-checkbox">
+									<span aria-checked="mixed" class="el-checkbox__input">
+										<input type="checkbox" name="check_all" id="chk" class="el-checkbox__original chkAll" svalue="내용을 모두 확인하였으며 결제에 동의합니다.">
+									</span>
+									<span class="el-checkbox__label">내용을 모두 확인하였으며 결제에 동의합니다.</span>
 									</label>
 								</div>
 
@@ -480,10 +478,9 @@ col {
 								<div class="inner">
 									<div class="box full">
 										<div class="item">
-											<label role="checkbox" class="el-checkbox"> <input
-												type="checkbox" name="chk" class="el-checkbox__original">
-												<span class="el-checkbox__label"> <span>개인정보
-														수집 및 이용 동의 <span class="require" style="color: #e55973;">(필수)</span>
+											<label role="checkbox" class="el-checkbox">
+											<input type="checkbox" name="check_1" class="el-checkbox__original normal">
+												<span class="el-checkbox__label"> <span>개인정보 수집 및 이용 동의 <span class="require" style="color: #e55973;">(필수)</span>
 												</span>
 											</span>
 											</label>
@@ -524,11 +521,9 @@ col {
 									<!-- 왼쪽 : 취소 및 환불정책 -->
 									<div class="box" style="display: inline-block; height:">
 										<div class="item">
-											<label role="checkbox" class="el-checkbox"> <span
-												aria-checked="mixed" class="el-checkbox__input"> <input
-													type="checkbox" name="chk" class="el-checkbox__original">
-											</span> <span class="el-checkbox__label"> <span>취소 및
-														환불정책 <span class="require">(필수)</span>
+											<label role="checkbox" class="el-checkbox"> <span aria-checked="mixed" class="el-checkbox__input">
+											<input type="checkbox" id="check_2" name="chk" class="el-checkbox__original normal">
+											</span> <span class="el-checkbox__label"> <span>취소 및 환불정책 <span class="require">(필수)</span>
 												</span>
 											</span>
 											</label>
@@ -560,7 +555,7 @@ col {
 										<div class="item">
 											<label role="checkbox" class="el-checkbox">
 											<span aria-checked="mixed" class="el-checkbox__input">
-												<input type="checkbox" name="chk" class="el-checkbox__original">
+												<input type="checkbox" id="check_3" name="chk" class="el-checkbox__original normal">
 											</span> <span class="el-checkbox__label"> <span>개인정보 제 3자 제공 <span class="require">(필수)</span>
 												</span>
 											</span>
@@ -601,12 +596,9 @@ col {
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> --%>
 						<!-- text_wrap -->
 
-						<div class="btn_wrap">
-							<button id="payBtn" type="button" class="btn big pink btn-rsv" style="height: 56px; line-height: 54px; translate: 0 -300px;">결제하기 </button>
-						</div>
 					</div>
 					<!-- inr -->
 					<div class="inr right"
@@ -642,6 +634,9 @@ col {
 								<!-- info_area -->
 							</div>
 							<!-- pay_area -->
+							<div class="btn_wrap">
+								<button id="payBtn" type="button" class="btn big pink btn-rsv" style="width:306px; height: 56px; line-height: 54px;">결제하기 </button>
+							</div>
 						</div>
 						<!-- js_acc -->
 					</div>
@@ -654,20 +649,19 @@ col {
 		<!-- inr -->
 	</div>
 	<!-- container -->
-<!-- </form> -->
 
 	
 	<!-- 찐예약 -->
- 	<form action="/ticket/realReserve" id="payment" name="realReserveForm" method="post">
+ 	<form action="/ticket/realReserve" id="payment" method="post">
 		<input type="hidden" name="ticket_id"   value="">
 		<input type="hidden" name="mem_id"      value="">	
 		<input type="hidden" name="ticket_name" value="">
 		
-		<input type="hidden" name="ticket_admission_date" 	  value="">
+		<input type="hidden" name="ticket_admission_date" value="">
 		
-		<input type="hidden" name="ticket_adult_per" 		  value="">
-		<input type="hidden" name="ticket_child_per" value="">
-		<input type="hidden" name="ticket_total_price"    	  value="">
+		<input type="hidden" name="ticket_adult_per"   value="">
+		<input type="hidden" name="ticket_child_per"   value="">
+		<input type="hidden" name="ticket_total_price" value="">
 	</form>
 	<form id="ticketResultForm">
 		<input type="hidden" name="ticket_order_id" value="">
@@ -689,39 +683,6 @@ col {
 		var ticket_admission_date =  dateFormat(new Date('${adDate}'));		// 사용일 (=입장일)
 		console.log(ticket_admission_date);
 
-		/* 모두 동의 코드인데... 안 됨.... *^^*/
-		function allAgree() {
-			const checkAll = document.getElementById('chkAll');
-			const chks = document.querySelectorAll('.chk');  
-			const chkBoxLength = chks.length;
-			 
-			checkAll.addEventListener('click', function(event) {
-			    if(event.target.checked)  {
-			        chks.forEach(function(value){
-			        value.checked = true;
-			    })
-			    }else {
-			       chks.forEach(function(value){
-			       value.checked = false;
-			    })
-			 }
-			  });
-			for (chk of chks){
-			    chk.addEventListener('click', function() {
-			        let count = 0;
-			        chks.forEach(function(value){
-			            if(value.checked == true){
-			                count++;
-			            }
-			        })
-			        if(count !== chkBoxLength){
-			            checkAll.checked = false;
-			        }else{
-			            checkAll.checked = true;
-			        }
-			      })
-			}
-		}
 		
 		/* 결제 API */
 	    function requestPay() {
@@ -769,7 +730,7 @@ col {
                          success: function(data){
                         	 //alert(data);
                         	 alert('구매자 님의 결제가 완료되었습니다.');
-                             //location.href = "${pageContext.request.contextPath}/ticket/reservationComplete";
+		                     location.href = "${pageContext.request.contextPath}/ticket/reservationComplete";
                              },
                              error: function(err){
                                 var msg2 = '결제에 실패하였습니다.';
@@ -779,6 +740,22 @@ col {
             }
         })
    }  
+		
+	// 체크박스 전체 선택
+	$(".checkbox_group").on("click", "#check_all", function () {
+	    $(this).parents(".checkbox_group").find('input').prop("checked", $(this).is(":checked"));
+	});
+	
+	// 체크박스 개별 선택
+	$(".checkbox_group").on("click", ".normal", function() {
+	    var is_checked = true;
+	
+	    $(".checkbox_group .normal").each(function(){
+	        is_checked = is_checked && $(this).is(":checked");
+	    });
+	
+	    $("#check_all").prop("checked", is_checked);
+	});
 	</script>
 
 </body>

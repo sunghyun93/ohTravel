@@ -190,6 +190,36 @@ public interface ManagerService {
 
 	List<ManagePackageDTO> getPackageResPiList(ManagePackageDTO pk);
 
+	List<ManageAirportDTO> getAirResList();
+
+	List<ManageAirportDTO> getAirResPiList(ManageAirportDTO air);
+
+	List<ManageAirportDTO> getAirResScheduleList(ManageAirportDTO air);
+
+	int getPackageTotalSale();
+
+	List<ManagePackageDTO> getPackageMonth();
+
+	List<ManagePackageDTO> getPackageDay(String month);
+
+	int getAirTotalSale();
+
+	List<ManageAirportDTO> getAirMonth();
+
+	List<ManageAirportDTO> getAirDay(String month);
+
+	int getTicketTotalSale();
+
+	List<ManageTicketDTO> getTicketMonth();
+
+	List<ManageTicketDTO> getTicketDay(String month);
+
+	int getHotelTotalSale();
+
+	List<ManageHotelDTO> getHotelMonth();
+
+	List<ManageHotelDTO> getHotelDay(String month);
+
 
 	
 

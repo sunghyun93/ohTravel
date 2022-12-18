@@ -74,7 +74,7 @@ public class ManagePackageDTO {
 	private int pkage_rv_acnt;
 	private int pkage_rv_ccnt;
 	private int pkage_rv_tprice;
-	private LocalDateTime pkage_rv_date;
+	private String pkage_rv_date;
 	private int pkage_rv_status;
 	
 	//예약인원용

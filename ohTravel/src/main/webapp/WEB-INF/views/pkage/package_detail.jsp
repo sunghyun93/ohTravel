@@ -551,7 +551,7 @@
         
     <script>
     	let possibleCnt = Number('${pkageDTORM.pkage_detailDTO.possibleCnt }'); /* 예약 가능 인원  */
-    	alert("${sessionScope.member.mem_id}")
+    	// alert("${sessionScope.member.mem_id}")
         $(function() {
         	/* 페이지 읽고 바로 리뷰 리스트 뿌려주기 */
         	getReviewList();
@@ -784,17 +784,17 @@
             						console.log(err);
             					}
             				}); // 로그인 된 사용자가 이미 예약한 상품인지 check ajax
-            			}
+            			} // 로그인 OK
         				/* 로그인 여부 X */
             			else if(data == 'LOGIN_NO') {
             				alert("로그인 후 예약해주세요.");
             				location.href="/member/loginForm";
-            			}
+            			} // 로그인 X
             		}, /* success */
             		error : function(err) {
             			console.log(err)
             		} /* error */
-            	});// $.ajax
+            	});// 로그인 확인 $.ajax
             		    	
             }); /* 예약 버튼 부분 */
 

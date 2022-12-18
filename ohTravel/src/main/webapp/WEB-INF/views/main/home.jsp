@@ -329,26 +329,29 @@ a {
                     </div>
                 </div>
                 <div class="row">
+                	<c:forEach var="hotelList" items="${hotelList }" begin="0" end="2">
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="assets/img/service/services1.jpg" alt="">
+                                <img src="${hotelList.h_img_path }" alt="">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
+                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score } Superb</span> </span>
+                                    <h6><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
                                     <p class="dolor">$1870 <span>/ Per Person</span></p>
                                 </div>
                                 <div class="place-cap-bottom">
                                     <ul>
                                         <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
+                                        <li><i class="fas fa-map-marker-alt"></i>${hotelList.hotel_loc }</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+                   </c:forEach>
+                    <!-- 상품에 따라 반복되어야할 부분 끝 -->
                 </div>
             </div>
         </div>
@@ -366,27 +369,28 @@ a {
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+               	<div class="row">
+                	<c:forEach var="ticketList" items="${ticketList}" begin="0" end="2">
+	                    <div class="col-xl-4 col-lg-4 col-md-6">
+	                        <div class="single-place mb-30">
+	                            <div class="place-img">
+	                                <img src="${ticketList.ticket_rep_img_path }">
+	                            </div>
+	                            <div class="place-cap">
+	                                <div class="place-cap-top">
+	                                    <span><i class="fas fa-star"></i><span>${ticketList.ticket_score }</span> </span>
+	                                    <h6><a href="/ticket/exhibitionDetail?ticket_id=${ticketList.ticket_id}">${ticketList.ticket_name }</a></h6>
+	                                    <p class="dolor">${ticketList.ticket_child_price}<em style="font-size:15px;">원~</em></p>
+	                                </div>
+	                                <div class="place-cap-bottom">
+	                                    <ul style="translate: 0 -15px;">
+											<li style="width: 200px;"><i class="far fa-clock"></i>~ ${ticketList.ticket_due_date}까지</li>
+										</ul>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </c:forEach>
                 </div>
             </div>
         </div>
@@ -394,24 +398,7 @@ a {
         
         
         <!-- Favourite Places End -->
-        <!-- Video Start Arera -->
-        <div class="video-area video-bg pt-200 pb-200"  data-background="assets/img/service/video-bg.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="video-caption text-center">
-                            <div class="video-icon">
-                                <a class="popup-video" href="https://www.youtube.com/watch?v=1aP-TXUpNoU" tabindex="0"><i class="fas fa-play"></i></a>
-                            </div>
-                            <p class="pera1">Love where you're going in the perfect time</p>
-                            <p class="pera2">Tripo is a World Leading Online</p>
-                            <p class="pera3"> Tour Booking Platform</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Video Start End -->
+       
         <!-- Support Company Start-->
         <div class="support-company-area support-padding fix">
             <div class="container">
@@ -459,114 +446,7 @@ a {
             </div>
         </div>
         <!-- Support Company End-->
-        <!-- Testimonial Start -->
-        <!-- Testimonial Start -->
-        <div class="testimonial-area testimonial-padding" data-background="assets/img/testmonial/testimonial_bg.jpg">
-            <div class="container ">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-11 col-lg-11 col-md-9">
-                        <div class="h1-testimonial-active">
-                            <!-- Single Testimonial -->
-                            <div class="single-testimonial text-center">
-                                <!-- Testimonial Content -->
-                                <div class="testimonial-caption ">
-                                    <div class="testimonial-top-cap">
-                                        <img src="assets/img/icon/testimonial.png" alt="">
-                                        <p>Logisti Group is a representative logistics operator providing full range of ser
-                                            of customs clearance and transportation worl.</p>
-                                    </div>
-                                    <!-- founder -->
-                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                        <div class="founder-img">
-                                            <img src="assets/img/testmonial/Homepage_testi.png" alt="">
-                                        </div>
-                                        <div class="founder-text">
-                                            <span>Jessya Inn</span>
-                                            <p>Co Founder</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Testimonial -->
-                            <div class="single-testimonial text-center">
-                                <!-- Testimonial Content -->
-                                <div class="testimonial-caption ">
-                                    <div class="testimonial-top-cap">
-                                        <img src="assets/img/icon/testimonial.png" alt="">
-                                        <p>Logisti Group is a representative logistics operator providing full range of ser
-                                            of customs clearance and transportation worl.</p>
-                                    </div>
-                                    <!-- founder -->
-                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                        <div class="founder-img">
-                                            <img src="assets/img/testmonial/Homepage_testi.png" alt="">
-                                        </div>
-                                        <div class="founder-text">
-                                            <span>Jessya Inn</span>
-                                            <p>Co Founder</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Testimonial End -->
-        <!-- Blog Area Start -->
-        <div class="home-blog-area section-padding2">
-            <div class="container">
-                <!-- Section Tittle -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-tittle text-center">
-                            <span>Our Recent news</span>
-                            <h2>Tourist Blog</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="home-blog-single mb-30">
-                            <div class="blog-img-cap">
-                                <div class="blog-img">
-                                    <img src="assets/img/blog/home-blog1.jpg" alt="">
-                                </div>
-                                <div class="blog-cap">
-                                    <p> |   Traveling</p>
-                                    <h3><a href="single-blog.html">Tips For Taking A Long-Term Trip With Kids.</a></h3>
-                                    <a href="#" class="more-btn">Read more »</a>
-                                </div>
-                            </div>
-                            <div class="blog-date text-center">
-                                <span>24</span>
-                                <p>Now</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="home-blog-single mb-30">
-                            <div class="blog-img-cap">
-                                <div class="blog-img">
-                                    <img src="assets/img/blog/home-blog2.jpg" alt="">
-                                </div>
-                                <div class="blog-cap">
-                                    <p> |   Traveling</p>
-                                    <h3><a href="single-blog.html">Tips For Taking A Long-Term Trip With Kids.</a></h3>
-                                    <a href="#" class="more-btn">Read more »</a>
-                                </div>
-                            </div>
-                            <div class="blog-date text-center">
-                                <span>24</span>
-                                <p>Now</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Blog Area End -->
+
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
