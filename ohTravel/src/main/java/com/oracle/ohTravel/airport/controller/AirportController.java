@@ -1,6 +1,9 @@
 package com.oracle.ohTravel.airport.controller;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +34,7 @@ import com.oracle.ohTravel.country.model.CountryDTO;
 import com.oracle.ohTravel.country.service.CountryService;
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.manager.model.PaymentDTO;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.service.MemberService;
 
@@ -80,10 +84,22 @@ public class AirportController {
 	@GetMapping("/searchAirplane")
 	public ModelAndView searchAirplane(AirSearch airSearch,HttpServletRequest request,HttpSession session) {
 		
-		ModelAndView mav = new ModelAndView();
 		
-		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
-		log.info("memberDTO = " + memberDTO);
+				// 현재 로그인하고 있는 사용자 정보
+				MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+				log.info("memberDTO = " + memberDTO);
+				String toURL = request.getRequestURI();
+				//toURL을 받을때는 &를 몰라서 맨앞에 있는것만 받는데 %26으로 보내고 받을때 replaceAll로 %26을 &로 변환하면 잘받아진다....(성대씨대박!)
+				toURL = toURL+"?gubun_check="+airSearch.getGubun_check()+"%26order="+airSearch.getOrder()+"%26start_country_id="+airSearch.getStart_country_id()+"%26start_city_name="+airSearch.getStart_city_name()+"%26start_city_id="+airSearch.getStart_city_id()+"%26start_city_name="+airSearch.getStart_city_name()+"%26end_country_id="+airSearch.getEnd_country_id()+"%26end_city_id="+airSearch.getEnd_city_id()+"%26start_date1="+airSearch.getStart_date1()+"%26end_date="+airSearch.getEnd_date()+"%26start_date2="+airSearch.getStart_date2()+"%26seat_name="+airSearch.getSeat_name()+"%26seat_position="+airSearch.getSeat_position()+"%26count="+airSearch.getCount();
+				System.out.println("toURL====?"+toURL);
+				
+				ModelAndView mav = new ModelAndView();
+//				
+//				if(memberDTO == null) {
+//					mav.setViewName("redirect:/member/loginForm?toURL="+toURL);
+//					return mav;
+//				}
+		
 		
 		
 		
@@ -150,6 +166,7 @@ public class AirportController {
 		mav.addObject("start_country_id",airSearch.getStart_country_id());
 		mav.addObject("end_country_id",airSearch.getEnd_country_id());
 		mav.addObject("memberDTO",memberDTO);
+		mav.addObject("toURL",toURL);
 //		mav.addObject("general_remaining_seats",air_ScheduleDTO.getGeneral_remaining_seats());
 //		mav.addObject("business_remaining_seats",air_ScheduleDTO.getBusiness_remaining_seats());
 //		mav.addObject("first_remaining_seats",air_ScheduleDTO.getFirst_remaining_seats());
@@ -218,13 +235,22 @@ public class AirportController {
 		return mav;
 	}
 	
-	@PostMapping("/reservationAirplaneAgreeCheck")
+	@GetMapping("/reservationAirplaneAgreeCheck")
 	@ResponseBody
-	public ModelAndView airplaneReservationAgreeCheck(Integer count,Integer go_schedule_id,Integer come_schedule_id,String seat_position,String seat_name,Integer gubun_check,Integer start_city_id,Integer end_city_id) {
+	public ModelAndView airplaneReservationAgreeCheck(String toURL,Integer count,Integer go_schedule_id,Integer come_schedule_id,String seat_position,String seat_name,Integer gubun_check,Integer start_city_id,Integer end_city_id,HttpServletRequest request,HttpSession session) {
 		
 		
 		
+		// 현재 로그인하고 있는 사용자 정보
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+		log.info("memberDTO = " + memberDTO);
+
 		ModelAndView mav = new ModelAndView();
+		
+		if(memberDTO == null) {
+			mav.setViewName("redirect:/member/loginForm?toURL="+toURL);
+			return mav;
+		}
 		
 		System.out.println("airplaneReservation count="+count);
 		System.out.println("airplaneReservation go_schedule_id="+go_schedule_id);
@@ -259,6 +285,7 @@ public class AirportController {
 		mav.addObject("end_city_id",end_city_id);
 		
 		
+		
 		return mav;
 		
 	}
@@ -271,10 +298,15 @@ public class AirportController {
 		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		log.info("memberDTO = " + memberDTO);
 		
+	
+		
 		if(memberDTO == null) {
-		return "redirect:/member/loginForm";
+			return "redirect:/member/loginForm";
 			
 		}
+		  
+		
+		
 		String mem_id = memberDTO.getMem_id();
 		
 		// 멤버 (등급 까지 들고가기)
@@ -421,5 +453,46 @@ public class AirportController {
 		return "airport/orderComplete";
 	}
 	
+	//회원정보 수정하려고
+	@GetMapping("/airInfoModify")
+	public String airInfoModify(Integer reservation_id,Model model) {
+		
+		System.out.println("예매번호는?"+reservation_id);
+		if(reservation_id != null) {
+			List<Air_Reservation_PiDTO> air_Reservation_PiList = scheduleService.selectReservation(reservation_id);
+			model.addAttribute("air_Reservation_PiList",air_Reservation_PiList);
+			model.addAttribute("reservation_id",reservation_id);
+		}
+		
+		
+		
+		
+		
+		
+		return "airport/air_info_modify";
+	}
+
+	//회원정보 진짜 update
+	@GetMapping("/airInfoModifyComplete")
+	@ResponseBody
+	public void airInfoModifyComplete(Integer reservation_id,String air_pi_name,Date air_pi_birth,Integer air_pi_gen,String air_pi_lname,String air_pi_fname,String air_pi_email,Integer air_pi_tel,String air_passport,Model model) {
+		Air_Reservation_PiDTO air_Reservation_PiDTO = new Air_Reservation_PiDTO();
+		
+		air_Reservation_PiDTO.setAir_pi_name(air_pi_name); //이름 수정
+		air_Reservation_PiDTO.setAir_pi_birth(air_pi_birth); // 생년월일 수정
+		air_Reservation_PiDTO.setAir_pi_gen(air_pi_gen); // 성별 수정
+		air_Reservation_PiDTO.setAir_pi_lname(air_pi_lname); // 영문 성 수정
+		air_Reservation_PiDTO.setAir_pi_fname(air_pi_fname); // 영문 이름 수정
+		air_Reservation_PiDTO.setAir_pi_email(air_pi_email); // 이메일 수정
+		air_Reservation_PiDTO.setAir_pi_tel(air_pi_tel); // 휴대폰 번호 수정
+		air_Reservation_PiDTO.setAir_passport(air_passport); // 여권 번호 수정
+		System.out.println("수정한 인원정보 ID는?"+air_Reservation_PiDTO.getAir_pi_id());
+		
+		List<Air_Reservation_PiDTO> air_Reservation_PiList = scheduleService.updatePeopleInfo(air_Reservation_PiDTO);
+		
+		model.addAttribute("air_Reservation_PiList",air_Reservation_PiList);
+		model.addAttribute("reservation_id",reservation_id);
+		
+	}
 	
 }

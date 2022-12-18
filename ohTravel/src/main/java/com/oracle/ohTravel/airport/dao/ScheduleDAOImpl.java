@@ -222,6 +222,20 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		return air_ReservationDTO;
 	}
 
+	@Override
+	public List<Air_Reservation_PiDTO> selectReservationPPl(Integer reservation_id) {
+		 List<Air_Reservation_PiDTO> air_Reservation_PiList = session.selectList(namespace+"air_Reservation_PiList",reservation_id);
+		
+		return air_Reservation_PiList;
+	}
+
+	@Override
+	public List<Air_Reservation_PiDTO> selectReservationPPl(Air_Reservation_PiDTO air_Reservation_PiDTO) {
+		 List<Air_Reservation_PiDTO> air_Reservation_PiList2 = session.selectList(namespace+"air_Reservation_PiList_Modify",air_Reservation_PiDTO);
+			
+			return air_Reservation_PiList2;
+	}
+
 	
 
 }

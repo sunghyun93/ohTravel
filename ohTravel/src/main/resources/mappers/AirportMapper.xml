@@ -250,8 +250,23 @@
 		select * from reservation where reservation_id = #{reservation_id}
 	</select>
 	
+	<!-- 회원정보 select -->
+	<select id="air_Reservation_PiList" parameterType="int" resultType="Air_Reservation_PiDTO">
+		select * from air_reservation_pi where reservation_id = #{reservation_id}
+	</select>
 	
 	
-	
+	<update id="air_Reservation_PiList_Modify" parameterType="Air_Reservation_PiDTO">
+		update air_reservation_pi set air_pi_name = #{Air_Reservation_PiDTO.air_pi_name},
+									  air_pi_birth = #{Air_Reservation_PiDTO.air_pi_birth},
+									  air_pi_gen = #{Air_Reservation_PiDTO.air_pi_gen},
+									  air_pi_lname = #{Air_Reservation_PiDTO.air_pi_lname},
+									  air_pi_fname = #{Air_Reservation_PiDTO.air_pi_fname},
+									  air_pi_email = #{Air_Reservation_PiDTO.air_pi_email},
+									  air_pi_tel = #{Air_Reservation_PiDTO.air_pi_tel},
+									  air_passport = #{Air_Reservation_PiDTO.air_passport}
+			where reservation_id = #{reservation_id}					  
+									  
+	</update>
 	
 </mapper>

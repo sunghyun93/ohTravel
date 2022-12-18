@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -50,13 +51,18 @@ public class MemberController {
 
 	// 로그인 페이지 이동
 	@GetMapping(value = "/loginForm")
-	public String goLoginForm() {
+	public String goLoginForm(@RequestParam(defaultValue = "") String toURL,Model model) {
+	    //toURL을 받을때 &를 인식을 못해서 %26로 보내줘서 &로 바꿔야함...
+		toURL.replaceAll("%26", "&");
+		model.addAttribute("toURL", toURL);
+		System.out.println("toURL너는뭐냐?"+toURL);
+		
 		return "member/loginForm";
 	}
 	
 	// 로그인
 	@PostMapping("/login")
-	public String login(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr) {
+	public String login(MemberDTO memberDTO, HttpServletRequest request, RedirectAttributes rttr,String toURL) {
 		log.info("MemberController login Start..");
 		
 		HttpSession session = request.getSession();
@@ -91,7 +97,12 @@ public class MemberController {
 			System.out.println("MemberController login sessionEmail -> " + sessionEmail);
 			System.out.println("MemberController login sessionTel -> " + sessionTel);
 			System.out.println("MemberController login sessionBirthday -> " + sessionBirthday);
-			return "redirect:/";
+			if(toURL == null || toURL.equals("")) {
+				toURL = "/";
+			}
+			
+			return "redirect:"+toURL;
+			
 		} else {
 			session.setAttribute("member", null);
 			// 로그인 안 된 상태 저장

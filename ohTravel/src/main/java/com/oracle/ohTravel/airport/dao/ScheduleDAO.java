@@ -44,6 +44,10 @@ public interface ScheduleDAO {
 
 	Air_ReservationDTO selectReservationDetail(Integer reservation_id); //예약 정보를 얻어오기위해서
 
+	List<Air_Reservation_PiDTO> selectReservationPPl(Integer reservation_id); //예약된 사람 정보 언기위해
+
+	List<Air_Reservation_PiDTO> selectReservationPPl(Air_Reservation_PiDTO air_Reservation_PiDTO); // 예약된 사람 정보 수정
+
 
 	
 
