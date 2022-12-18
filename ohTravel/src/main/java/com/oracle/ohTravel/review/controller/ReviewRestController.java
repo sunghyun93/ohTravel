@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +61,13 @@ public class ReviewRestController {
 	
 	//리뷰 등록
 	@PostMapping(value = "/writeReview")
-	public String writeReview(Review review) {
+	public String writeReview(Review review, HttpSession session) {
+		String mem_id = (String)session.getAttribute("sessionId");
+		if(mem_id == null || mem_id == "") {
+			return "FAILED";
+		}
+		
+		review.setMem_id(mem_id);
 		return rs.writeReview(review);
 	}
 	

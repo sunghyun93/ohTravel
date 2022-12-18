@@ -24,6 +24,10 @@ public interface HotelService {
 
 	String heartBasket(HotelDTO hotelDTO);
 
+	List<HotelDTO> getHotelSearchResult(HotelDTO hotelDTO);
+
+	List<HotelDTO> getHotelDetailOptions(HotelDTO hotelDTO);
+
 
 
 }

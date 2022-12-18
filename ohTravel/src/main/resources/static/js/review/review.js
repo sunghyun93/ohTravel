@@ -155,7 +155,6 @@ function writeReview(){
 	
 	let sendData = {
 		//TODO:나중에 세션?에 있는 정보로 읽어와야함
-		mem_id: 'test1',
 		rv_rating: ($('#starRate').val())/2, // starRate에서 10에 해당하는 값이 별점 5점이기 때문에 /2
 		rv_contents: $('#review-text').val(),
 		rv_real_id
