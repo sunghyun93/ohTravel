@@ -304,8 +304,8 @@ a {
 	                            <div class="place-cap">
 	                                <div class="place-cap-top"><%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
 	                                    <span><i class="fas fa-star"></i><span>${domesticPkage.pkage_score }</span></span>
-	                                    <h6><a href="/pkage/searchResult?pkage_id=${domesticPkage.pkage_id }&pkage_gubun=${domesticGubun }&toDesti=${domesticPkage.city_id}&dates_start_check=2022-12-20">${domesticPkage.pkage_name }</a></h6>
-	                                    <h6>${domesticPkage.pkage_info }</h6>
+	                                    <h6 style="height:38.38px;"><a href="/pkage/searchResult?pkage_id=${domesticPkage.pkage_id }&pkage_gubun=${domesticGubun }&toDesti=${domesticPkage.city_id}&dates_start_check=2022-12-20">${domesticPkage.pkage_name }</a></h6>
+	                                    <h6 style="height:57.54px;">${domesticPkage.pkage_info }</h6>
 	                                    <p class="dolor"><fmt:formatNumber value="${domesticPkage.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
 	                                </div>     
 	                            </div>
