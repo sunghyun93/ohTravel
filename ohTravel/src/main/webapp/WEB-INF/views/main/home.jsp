@@ -268,7 +268,7 @@ a {
 	                                <div class="place-cap-top"><%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
 	                                    <span><i class="fas fa-star"></i><span>${abroadPkage.pkage_score }</span></span>
 	                                    <h6><a href="/pkage/searchResult?pkage_id=${abroadPkage.pkage_id }&pkage_gubun=${abroadGubun }&toDesti=${abroadPkage.city_id}&dates_start_check=2022-12-20">${abroadPkage.pkage_name }</a></h6>
-	                                    <h6>${abroadPkage.pkage_info }</h6>
+	                                    <h6 style="height:57.54px;">${abroadPkage.pkage_info }</h6>
 	                                    <p class="dolor"><fmt:formatNumber value="${abroadPkage.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
 	                                </div>     
 	                            </div>
@@ -333,18 +333,18 @@ a {
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="${hotelList.h_img_path }" alt="">
+                                <img src="${hotelList.h_img_path }" alt="" style="height:213.38px;">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
                                     <span><i class="fas fa-star"></i><span>${hotelList.hotel_score } Superb</span> </span>
-                                    <h6><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
+                                    <h6 style="height:38.38px;"><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
                                     <p class="dolor">$1870 <span>/ Per Person</span></p>
                                 </div>
                                 <div class="place-cap-bottom">
                                     <ul>
                                         <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>${hotelList.hotel_loc }</li>
+                                        <li style="height:47.96px;"><i class="fas fa-map-marker-alt"></i>${hotelList.hotel_loc }</li>
                                     </ul>
                                 </div>
                             </div>
@@ -379,7 +379,7 @@ a {
 	                            <div class="place-cap">
 	                                <div class="place-cap-top">
 	                                    <span><i class="fas fa-star"></i><span>${ticketList.ticket_score }</span> </span>
-	                                    <h6><a href="/ticket/exhibitionDetail?ticket_id=${ticketList.ticket_id}">${ticketList.ticket_name }</a></h6>
+	                                    <h6 style="height:40px;"><a href="/ticket/exhibitionDetail?ticket_id=${ticketList.ticket_id}">${ticketList.ticket_name }</a></h6>
 	                                    <p class="dolor">${ticketList.ticket_child_price}<em style="font-size:15px;">원~</em></p>
 	                                </div>
 	                                <div class="place-cap-bottom">
