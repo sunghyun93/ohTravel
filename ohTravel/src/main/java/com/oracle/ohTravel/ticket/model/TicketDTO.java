@@ -56,6 +56,6 @@ public class TicketDTO {
 	private String radioCheck;
 	
 	// 찜용
-	private Integer basket_id;		// 로그인한 회원이 찜한 상품인지 여부 (찜 안 했으면 null)
-	
+	private int    basket_id;		// 로그인한 회원이 찜한 상품인지 여부 (찜 안 했으면 null)
+	private String basket_ref_id;
 }
