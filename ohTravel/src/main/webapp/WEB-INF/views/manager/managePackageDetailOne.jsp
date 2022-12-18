@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,18 +25,22 @@
 }
 </style>
 <script type="text/javascript">
+	// 수정 혹은 실패 메세지
+	let msg = '${msg}';
+	if(msg == 'MOD_ERR') alert("수정 실패");
+
 	function moveForm(str){
 		var form = document.getElementById('form');
 		var message ="";
 		if(str =='update'){
 			console.log(str);
-			form.action="updatePackage";
+			form.action="/manager/updatePackage";
 			form.submit();
 		}else if(str=='delete'){
 			console.log(str);
-			message = confirm("정말로 삭제하시겠습니까?");
+			message = confirm("관련된 내용이 모두 삭제됩니다.\n정말로 삭제하시겠습니까?");
 			if (message) {
-				form.action="deletePackage";
+				form.action="/manager/deletePackage";
 				form.submit();
 			} else {
 				alert("삭제되지 않았습니다");
@@ -73,69 +78,70 @@
 <body>
 	<div class="container" style="min-height: 700px;">
 		<div class="wrapper big">
-			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">패키지 상세</h1>
-			<form method="post" id="form" enctype="multipart/form-data">
+			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">패키지 상세 및 관련 내용</h1>
+			<form method="post" id="form">
+				<%-- 전에 있었던 페이지 --%>
+				<input type="hidden" name="currentPage" value="${currentPage}">
 				<div class="row">
 				<div class="col-lg-12 col-sm-12 text-lg-end text-center">
 					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='managePackageDetail?pkage_id=${pkage_id}&currentPage=${currentPage}'" value="돌아가기">
 				</div>
-				<c:forEach var="packageDetailOne" items="${packageDetailOne }">
 					<table border="1" class="table table-striped">
 						<tr>
 							<th>패키지상세ID</th>
-							<td><input type="text" class="form-control-plaintext" name="pkage_dt_id" value="${packageDetailOne.pkage_dt_id }" readonly="readonly"></td>
+							<td><input type="text" class="form-control-plaintext" name="pkage_dt_id" value="${pkage_detailDTO.pkage_dt_id }" readonly="readonly"></td>
 						</tr>
 						<tr>
 							<th>패키지ID</th>
-							<td><input type="text" class="form-control-plaintext" name="pkage_id" value="${packageDetailOne.pkage_id }" readonly="readonly"></td>
+							<td><input type="text" class="form-control-plaintext" name="pkage_id" value="${pkage_detailDTO.pkage_id }" readonly="readonly"></td>
 						</tr>
 						<tr>
 							<th>패키지상세명</th>
-							<td><input type="text" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_name }"></td>
+							<td><input type="text" class="form-control" name="pkage_dt_name" value="${pkage_detailDTO.pkage_dt_name }"></td>
 						</tr>
 						<tr>
 							<th>테마</th>
-							<td><input type="text" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_thema }"></td>
+							<td><input type="text" class="form-control" name="pkage_dt_thema" value="${pkage_detailDTO.pkage_dt_thema }"></td>
 						</tr>
 						<tr>
 							<th>으른가격</th>
-							<td><input type="text" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_Aprice }"></td>
+							<td><input type="text" class="form-control" name="pkage_dt_Aprice" value="${pkage_detailDTO.pkage_dt_Aprice }"></td>
 						</tr>
 						<tr>
 							<th>아동가격</th>
-							<td><input type="text" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_Cprice }"></td>
+							<td><input type="text" class="form-control" name="pkage_dt_Cprice" value="${pkage_detailDTO.pkage_dt_Cprice }"></td>
 						</tr>
 						<tr>
 							<th>총인원</th>
-							<td><input type="text" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_cnt }"></td>
+							<td><input type="text" class="form-control" name="pkage_dt_cnt" value="${pkage_detailDTO.pkage_dt_cnt }"></td>
 						</tr>
 						<tr>
 							<th>최소인원</th>
-							<td><input type="text" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_Mcnt }"></td>
+							<td><input type="text" class="form-control" name="pkage_dt_Mcnt" value="${pkage_detailDTO.pkage_dt_Mcnt }"></td>
 						</tr>
 						<tr>
 							<th>예약인원</th>
-							<td><input type="text" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_Rcnt }"></td>
+							<td><input type="text" class="form-control" name="pkage_dt_Rcnt" value="${pkage_detailDTO.pkage_dt_Rcnt }"></td>
 						</tr>
 						<tr>
 							<th>가이드명</th>
-							<td><input type="text" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_Gname }"></td>
+							<td><input type="text" class="form-control" name="pkage_dt_Gname" value="${pkage_detailDTO.pkage_dt_Gname }"></td>
 						</tr>
 						<tr>
 							<th>미팅장소</th>
-							<td><input type="text" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_meet }"></td>
+							<td><input type="text" class="form-control" name="pkage_dt_meet" value="${pkage_detailDTO.pkage_dt_meet }"></td>
 						</tr>
 						<tr>
 							<th>미팅날짜</th>
-							<td><input type="datetime-local" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_meetDate }"></td>
+							<td><input type="datetime-local" class="form-control" name="pkage_dt_meetDate1" value="<fmt:formatDate value="${pkage_detailDTO.pkage_dt_meetDate }" pattern="yyyy-MM-dd hh:mm"/>"></td>
 						</tr>
 						<tr>
 							<th>출발날짜</th>
-							<td><input type="datetime-local" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_startDay }"></td>
+							<td><input type="datetime-local" class="form-control" name="pkage_dt_startDay1" value="<fmt:formatDate value="${pkage_detailDTO.pkage_dt_startDay }" pattern="yyyy-MM-dd hh:mm"/>"></td>
 						</tr>
 						<tr>
 							<th>도착날짜</th>
-							<td><input type="datetime-local" class="form-control" name="pkage_dt_name" value="${packageDetailOne.pkage_dt_endDay }"></td>
+							<td><input type="datetime-local" class="form-control" name="pkage_dt_endDay1" value="<fmt:formatDate value="${pkage_detailDTO.pkage_dt_endDay }" pattern="yyyy-MM-dd hh:mm"/>"></td>
 						</tr>
 					</table>
 					<div style="flex: 2">
@@ -144,9 +150,36 @@
 					<div>
 						<input type="button" onclick="moveForm('delete')" class="genric-btn danger radius elb" value="패키지 상세 삭제">
 					</div>
-					</c:forEach>
 				</div>
 			</form>
+			
+			<!-- 비행 일정 -->
+			<div>
+				<form method="post" id="pkgFlightScheform">
+				
+				</form>
+			</div>
+			
+			<!-- 여행일정 -->
+			<div>
+				<form method="post" id="pkgScheduleform">
+				
+				</form>
+			</div>
+			
+			<!-- 여행일정_관광지 -->
+			<div>
+				<form method="post" id="pkgScheduleDetailform">
+				
+				</form>
+			</div>
+			
+			<!-- 패키지 숙박 -->
+			<div>
+				<form method="post" id="pkgHotelform">
+					
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

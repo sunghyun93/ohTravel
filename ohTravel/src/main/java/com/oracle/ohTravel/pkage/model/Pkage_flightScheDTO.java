@@ -1,7 +1,7 @@
 package com.oracle.ohTravel.pkage.model;
 
-import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import com.oracle.ohTravel.airport.model.Air_ScheduleDTORM;
 
@@ -19,6 +19,14 @@ public class Pkage_flightScheDTO {
 	// 더미 변수
 	private long flightHour;
 	private long flightMinute;
+	
+	// insert 시 데이터 받는 변수
+	private List<Integer> pkage_dt_idL;
+	private Integer startSchedule_id;	// 시작 일정 ID
+	private Integer endSchedule_id;		// 종료 일정 ID
+	private List<Integer> pkage_gubunL;
+	private String updateStartDate;		// 업데이트할 시작 시간
+	private String updateEndDate;		// 업데이트할 종료 시간
 	
 	// 비행 시간 구하는 함수 (시, 분)
 	public void getTime() {

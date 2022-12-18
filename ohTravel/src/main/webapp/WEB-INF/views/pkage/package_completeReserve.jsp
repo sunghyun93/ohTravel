@@ -18,7 +18,7 @@
       <h1>예매완료</h1><hr>
       <div class="buycomp">
          <img alt="buycheck" src="${pageContext.request.contextPath}/assets/img/logo/ohLogo2.png" width="80px"><br><br>
-         <div class="buy_1">예매가 완료되었습니다.</div><br><br>
+         <div class="buy_1">예약가 완료되었습니다.</div><br><br>
          <div class="buy_2">oh!Travel을 이용해주셔서 감사합니다.</div><br><br>
       </div>
          <div class="notice">
@@ -39,7 +39,7 @@
    </div>
    
    <div class="input_a">
-      <input type="button" class="black" value="구매내역 확인" onclick="location.href='${pageContext.request.contextPath}'/member/myPageReservPackage">
+      <a href="/member/myPageReservPackage"><button type="button" class="black">구매내역 확인</button></a>
    </div>
    
 </body>

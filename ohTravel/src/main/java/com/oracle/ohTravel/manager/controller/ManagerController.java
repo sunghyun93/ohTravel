@@ -34,8 +34,7 @@ import com.oracle.ohTravel.manager.model.PagingManager;
 import com.oracle.ohTravel.manager.service.ManageHotelService;
 import com.oracle.ohTravel.manager.service.ManagerService;
 import com.oracle.ohTravel.member.model.MemberDTO;
-import com.oracle.ohTravel.member.model.TicketReservationDTO;
-import com.oracle.ohTravel.ticket.model.TicketDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -202,12 +201,12 @@ public class ManagerController {
 	}
 	//상품관리 ->패키지 상세 추가하기 form으로 이동
 	@RequestMapping(value = "insertPackageForm")
-	public String insertPackageForm(ManagePackageDTO pk, Model model) {
+	public String insertPackageForm(Pkage_detailDTO pk, Model model) {
 		model.addAttribute("pk", pk);
 		return "manager/insertPackageForm";
 	}
 	//상품관리 ->패키지 상세 추가하기
-	@PostMapping(value = "insertPackage")
+	@PostMapping(value = "insertPackage1")
 	public String insertPackage(ManagePackageDTO pk, Model model) {
 		System.out.println("meet ->"+pk.getPkage_dt_meetDate());
 		System.out.println("start ->"+pk.getPkage_dt_startDay());
@@ -219,7 +218,7 @@ public class ManagerController {
 	}
 	
 	//상품관리 -> 패키지 한개 상세보기
-	@RequestMapping(value = "managePackageDetailOne")
+	@RequestMapping(value = "managePackageDetailOne1")
 	public String managePackageDetailOne(ManagePackageDTO pk,String currentPage, String pkage_id, Model model) {
 		List<ManagePackageDTO> packageDetailOne = service.getPackageDetailOne(pk);
 		model.addAttribute("packageDetailOne", packageDetailOne);
