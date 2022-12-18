@@ -1,6 +1,8 @@
 package com.oracle.ohTravel.hotel.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -71,6 +73,14 @@ public class HotelServiceImpl implements HotelService {
 			UpdateMileGradeDTO updateMile = new UpdateMileGradeDTO();
 			updateMile.setMem_id(hotelRDTO.getMem_id());
 			memberDao.updateMemMileGrade(updateMile);
+			
+			// 쿠폰 사용 시 쿠폰 사용내역 update
+			if(hotelRDTO.getCoupon_id() != null) {
+				Map<String, Object> couponMap = new HashMap<>();
+				couponMap.put("mem_id", hotelRDTO.getMem_id());
+				couponMap.put("coupon_id", hotelRDTO.getCoupon_id());
+				memberDao.updateMemCouponUsed(couponMap);
+			}
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
