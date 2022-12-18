@@ -1,33 +1,23 @@
 package com.oracle.ohTravel.ticket.controller;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.ticket.model.TicketDTO;
 import com.oracle.ohTravel.ticket.model.TicketReservation;
-import com.oracle.ohTravel.ticket.service.Paging;
 import com.oracle.ohTravel.ticket.service.TicketService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -72,12 +62,19 @@ public class TicketController {
 	
 	// 입장권 상세정보
 	@GetMapping(value = "/exhibitionDetail")
-	public String goExhibitionDetail(String ticket_id, Model model) {
+	public String goExhibitionDetail(String ticket_id, Model model, HttpServletRequest request, HttpSession session) {
 		System.out.println("== TicketController Start exhibitionDetail ==");
 		
+		// 찜 여부 판단용
+		String mem_id = (String)session.getAttribute("sessionId");
 		TicketDTO ticketDTO = ts.getTicketDetail(ticket_id);
+		ticketDTO.setMem_id(mem_id);
+		
 		model.addAttribute("ticketDetail", ticketDTO);
-		model.addAttribute("rv_real_id", ticketDTO.getTicket_id());
+		model.addAttribute("rv_real_id", ticketDTO.getTicket_id());	// 리뷰
+		
+		
+		System.out.println("ticketDTO -> " + ticketDTO);
 		
 		return "ticket/exhibitionDetail";
 	}
