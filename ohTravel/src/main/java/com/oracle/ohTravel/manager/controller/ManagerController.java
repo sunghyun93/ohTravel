@@ -2,6 +2,8 @@ package com.oracle.ohTravel.manager.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -1216,6 +1218,7 @@ public class ManagerController {
 	//상품관리 -> 입장권 수정하기
 	@PostMapping(value = "updateTicket")
 	public String updateTicket(ManageTicketDTO ticket,@RequestParam(value = "file1") MultipartFile file1,@RequestParam(value = "file2")MultipartFile file2, Model model, HttpServletRequest request) {
+		System.out.println("updateTicket due date - >"+ticket.getTicket_due_date());
 		System.out.println("file1.getOriginalFilename() ->"+file1.getOriginalFilename());
 		System.out.println("file2.getOriginalFilename() ->"+file2.getOriginalFilename());
 		String path = request.getServletContext().getRealPath("/img/ticket/");
@@ -1407,6 +1410,199 @@ public class ManagerController {
 		return "manager/manageSales";
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "getPackageTotalSale")
+	public int getPackageTotalSale() {
+		int getPackageTotalSale = service.getPackageTotalSale();
+		return getPackageTotalSale;
+	}
+	@ResponseBody
+	@PostMapping(value = "changePackageChart")
+	public Map<String, Object> changePackageChart(String str, String month){
+		Map<String, Object> item = new HashMap<String, Object>();
+		
+		if(str.equals("packageMonth")) {
+			item.clear();
+			List<ManagePackageDTO> getPackageMonth = service.getPackageMonth();
+			String[] date = new String[getPackageMonth.size()];
+			int[] tprice = new int[getPackageMonth.size()];
+			System.out.println(getPackageMonth.size());
+			
+			for(int i=0; i<getPackageMonth.size(); i++) {
+				date[i] = getPackageMonth.get(i).getPkage_rv_date();
+				tprice[i] = getPackageMonth.get(i).getPkage_rv_tprice();
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}else if(str.equals("packageDay")) {
+			item.clear();
+			List<ManagePackageDTO> getPackageDay = service.getPackageDay(month);
+			System.out.println("month->"+month);
+			String[] date = new String[getPackageDay.size()];
+			int[] tprice = new int[getPackageDay.size()];
+			System.out.println(getPackageDay.size());
+			
+			for(int i=0; i<getPackageDay.size(); i++) {
+				date[i] = getPackageDay.get(i).getPkage_rv_date();
+				tprice[i] = getPackageDay.get(i).getPkage_rv_tprice();
+				System.out.println("date ->"+date[i]);
+				System.out.println("tprice ->"+tprice[i]);
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}
+		System.out.println("오냐?");
+		return item;
+	}
+	
+	////////////////////////////////////////항권공 매출관련////////////////////////////////////////
+	@ResponseBody
+	@PostMapping(value = "getAirTotalSale")
+	public int getAirTotalSale() {
+		int getAirTotalSale = service.getAirTotalSale();
+		return getAirTotalSale;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "changeAirChart")
+	public Map<String, Object> changeAirChart(String str, String month){
+		Map<String, Object> item = new HashMap<String, Object>();
+		
+		if(str.equals("airMonth")) {
+			item.clear();
+			List<ManageAirportDTO> getAirMonth = service.getAirMonth();
+			String[] date = new String[getAirMonth.size()];
+			int[] tprice = new int[getAirMonth.size()];
+			System.out.println(getAirMonth.size());
+			
+			for(int i=0; i<getAirMonth.size(); i++) {
+				date[i] = getAirMonth.get(i).getReservation_date();
+				tprice[i] = getAirMonth.get(i).getReservation_price();
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}else if(str.equals("airDay")) {
+			item.clear();
+			List<ManageAirportDTO> getAirDay = service.getAirDay(month);
+			System.out.println("month->"+month);
+			String[] date = new String[getAirDay.size()];
+			int[] tprice = new int[getAirDay.size()];
+			System.out.println(getAirDay.size());
+			
+			for(int i=0; i<getAirDay.size(); i++) {
+				date[i] = getAirDay.get(i).getReservation_date();
+				tprice[i] = getAirDay.get(i).getReservation_price();
+				System.out.println("date ->"+date[i]);
+				System.out.println("tprice ->"+tprice[i]);
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}
+		System.out.println("오냐?");
+		return item;
+	}
+	
+	////////////////////////////////////////숙박 매출관련////////////////////////////////////////
+	
+	@ResponseBody
+	@PostMapping(value = "getHotelTotalSale")
+	public int getHotelTotalSale() {
+		int getHotelTotalSale = service.getHotelTotalSale();
+		return getHotelTotalSale;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "changeHotelChart")
+	public Map<String, Object> changeHotelChart(String str, String month){
+		Map<String, Object> item = new HashMap<String, Object>();
+		
+		if(str.equals("hotelMonth")) {
+			item.clear();
+			List<ManageHotelDTO> getHotelMonth = service.getHotelMonth();
+			String[] date = new String[getHotelMonth.size()];
+			int[] tprice = new int[getHotelMonth.size()];
+			System.out.println(getHotelMonth.size());
+			
+			for(int i=0; i<getHotelMonth.size(); i++) {
+				date[i] = getHotelMonth.get(i).getRev_date();
+				tprice[i] = getHotelMonth.get(i).getRev_tot_price();
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}else if(str.equals("hotelDay")) {
+			item.clear();
+			List<ManageHotelDTO> getHotelDay = service.getHotelDay(month);
+			System.out.println("month->"+month);
+			String[] date = new String[getHotelDay.size()];
+			int[] tprice = new int[getHotelDay.size()];
+			System.out.println(getHotelDay.size());
+			
+			for(int i=0; i<getHotelDay.size(); i++) {
+				date[i] = getHotelDay.get(i).getRev_date();
+				tprice[i] = getHotelDay.get(i).getRev_tot_price();
+				System.out.println("date ->"+date[i]); 
+				System.out.println("tprice ->"+tprice[i]);
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}
+		System.out.println("오냐?");
+		return item;
+	}
+	
+	
+	////////////////////////////////////////입장권 매출관련////////////////////////////////////////
+	@ResponseBody
+	@PostMapping(value = "getTicketTotalSale")
+	public int getTicketTotalSale() {
+		int getTicketTotalSale = service.getTicketTotalSale();
+		return getTicketTotalSale;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "changeTicketChart")
+	public Map<String, Object> changeTicketChart(String str, String month){
+		Map<String, Object> item = new HashMap<String, Object>();
+		
+		if(str.equals("ticketMonth")) {
+			item.clear();
+			List<ManageTicketDTO> getTicketMonth = service.getTicketMonth();
+			String[] date = new String[getTicketMonth.size()];
+			int[] tprice = new int[getTicketMonth.size()];
+			System.out.println(getTicketMonth.size());
+			
+			for(int i=0; i<getTicketMonth.size(); i++) {
+				date[i] = getTicketMonth.get(i).getTicket_puchase_date();
+				tprice[i] = getTicketMonth.get(i).getTicket_total_price();
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}else if(str.equals("ticketDay")) {
+			item.clear();
+			List<ManageTicketDTO> getTicketMonth = service.getTicketDay(month);
+			System.out.println("month->"+month);
+			String[] date = new String[getTicketMonth.size()];
+			int[] tprice = new int[getTicketMonth.size()];
+			System.out.println(getTicketMonth.size());
+			
+			for(int i=0; i<getTicketMonth.size(); i++) {
+				date[i] = getTicketMonth.get(i).getTicket_puchase_date();
+				tprice[i] = getTicketMonth.get(i).getTicket_total_price();
+				System.out.println("date ->"+date[i]);
+				System.out.println("tprice ->"+tprice[i]);
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}
+		System.out.println("오냐?");
+		return item;
+	}
+	
+	
+	
+	
+	
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////아래 쿠폰관련//////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1529,6 +1725,30 @@ public class ManagerController {
 		List<ManagePackageDTO> getPackageResPiList = service.getPackageResPiList(pk);
 		return getPackageResPiList;
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "getAirResList")
+	public List<ManageAirportDTO> getAirResList(){
+		List<ManageAirportDTO> getAirResList = service.getAirResList();
+		return getAirResList;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "getAirResPiList")
+	public List<ManageAirportDTO> getAirResPiList(ManageAirportDTO air){
+		List<ManageAirportDTO> getAirResPiList = service.getAirResPiList(air);
+		return getAirResPiList;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "getAirResScheduleList")
+	public List<ManageAirportDTO> getAirResScheduleList(ManageAirportDTO air){
+		System.out.println("ㅇㅇ"+air.getReservation_id());
+		List<ManageAirportDTO> getAirResScheduleList = service.getAirResScheduleList(air);
+		return getAirResScheduleList;
+	}
+	
+	
 	
 	//예약관리 -> 숙박 예약 리스트 가져오기 Ajax
 	@ResponseBody

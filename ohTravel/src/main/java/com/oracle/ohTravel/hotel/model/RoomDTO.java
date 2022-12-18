@@ -17,6 +17,8 @@ public class RoomDTO {
 	private int calDate;
 	private int canRevDateCnt;
 	
+	private String r_img_path;
+	
 	private String hotel_kor;
 	private String hotel_eng;
 	
@@ -32,7 +34,8 @@ public class RoomDTO {
 	//멤버십 관련
 	private String mem_id;
 	private int membership_id;
+	private String membership_name;
 	private int mem_mile;
-	private String memberId;
+	private int membership_discount;
 	
 }

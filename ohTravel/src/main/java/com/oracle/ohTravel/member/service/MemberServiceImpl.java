@@ -224,6 +224,15 @@ public class MemberServiceImpl implements MemberService{
 		System.out.println("MemberServiceImpl totalReservTicket total -> " + total);
 		return total;
 	}
+	
+	// 항공 예약 총 개수
+	@Override
+	public int totalReserveAir(AirReservationDetail airReservationDetail) {
+		log.info("MemberServiceImpl totalReservAir start..");
+		int total = memberDao.totalReservAir(airReservationDetail);
+		System.out.println("MemberServiceImpl totalReservAir total -> " + total);
+		return total;
+	}
 
 	// 패키지 찜 내역
 	@Override
@@ -279,6 +288,8 @@ public class MemberServiceImpl implements MemberService{
 		int result = memberDao.deleteLikeTicket(basketDTO);
 		return result;
 	}
+
+	
 
 
 

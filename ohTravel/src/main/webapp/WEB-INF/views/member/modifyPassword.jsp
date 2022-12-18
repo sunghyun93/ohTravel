@@ -98,7 +98,7 @@
 						<div class="text_wrap mid">
 							<strong class="tit">가입정보</strong>
 						</div>	<!-- text_wrap -->
-						<form name="checkPassword" method="post" action="checkPassword">
+						<form name="checkPassword1" method="post" action="checkPassword1">
 							<div class="tbl">
 								<table class="type2">
 								    <colgroup>

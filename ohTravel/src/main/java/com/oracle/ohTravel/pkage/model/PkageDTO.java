@@ -32,6 +32,6 @@ public class PkageDTO {
 	private String check;
 	private String mem_id;
 	private String radioCheck;
-	
+	private int chk;
 	private int review_cnt;
 }

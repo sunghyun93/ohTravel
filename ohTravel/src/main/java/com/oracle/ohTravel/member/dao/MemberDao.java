@@ -119,6 +119,8 @@ public interface MemberDao {
 	// 티켓 찜 삭제
 	public int deleteLikeTicket(BasketDTO basketDTO);
 
+	public int totalReservAir(AirReservationDetail airReservationDetail);
+
 
 
 }

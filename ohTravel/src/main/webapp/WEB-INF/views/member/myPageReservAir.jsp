@@ -83,27 +83,48 @@
 					                        <th>예약일</th>
 					                        <th>예매번호</th>
 					                        <th>좌석등급</th>
+					                        <th>예매가격</th>
 					                        <th>항공편</th>
 					                        <th>출발공항</th>
-					                        <th>도착공항</th>
-					                        <th>예매가격</th>
-					                        <th>비행가격</th>
+					                        <th>도착공항</th>		                        
 					                        <th>출발일</th>
 					                    </tr>
 					                </thead>
 					                <tbody>
 					                <c:if test="${airReservList != null}">
 					                <c:forEach var="reserve" items="${airReservList}">
+					                <ul></ul>
 					                	<tr>
 					                		<td><fmt:formatDate value="${reserve.reservation_date}" pattern="yy-MM-dd"/></td>
 					                		<td>${reserve.reservation_id }</td>
 					                		<td>${reserve.seat_position }</td>
-					                		<td>${reserve.airplane_name }</td>
-					                		<td>${reserve.start_airport_name }</td>
-					                		<td>${reserve.end_airport_name }</td>
 					                		<td>${reserve.reservation_price }</td>
-					                		<th>${reserve.schedule_price }</th>
-					                		<td><fmt:formatDate value="${reserve.start_time}" pattern="yy-MM-dd"/></td>
+					            
+					                			<td><table class="little_table">
+					                		<c:forEach items="${reserve.air_flightSchDTO }" var="flight">
+					                			<tr><td>${flight.air_ScheduleDTORM.airplane_name }</td></tr>     			
+					                		</c:forEach>
+					                			</table></td>
+					                				<td><table class="little_table">
+					                		<c:forEach items="${reserve.air_flightSchDTO }" var="flight">
+					                			<tr><td>${flight.air_ScheduleDTORM.start_airport_name }</td></tr>     			
+					                		</c:forEach>
+					                			</table></td>
+					                				<td><table class="little_table">
+					                		<c:forEach items="${reserve.air_flightSchDTO }" var="flight">
+					                			<tr><td>${flight.air_ScheduleDTORM.end_airport_name }</td></tr>     			
+					                		</c:forEach>
+					                			</table></td>
+					                				<td><table class="little_table">
+					                		<c:forEach items="${reserve.air_flightSchDTO }" var="flight">
+					                			<tr><td><fmt:formatDate value="${flight.air_ScheduleDTORM.start_time }" pattern="yy-MM-dd"/></td></tr>     			
+					                		</c:forEach>
+					                			</table></td>
+					                		
+					                		
+					                			
+					                		
+					                		<%-- <td><fmt:formatDate value="${reserve.air_flightSchDTO.air_ScheduleDTORM.start_time }" pattern="yy-MM-dd"/></td>		 --%>
 					                	</tr>
 					                </c:forEach>
 					                 </c:if>

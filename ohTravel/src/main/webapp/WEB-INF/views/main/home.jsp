@@ -2,19 +2,20 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Oh!Travel - Main</title>
 <style type="text/css">
+
 .search_modal {
-  border: 1px solid black;
-  display: inline-flex;
   width: 100%;
   padding: 0;
-  flex-wrap: wrap;
   position: relative;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .search_head {
@@ -23,10 +24,6 @@
   border-bottom: 2px solid black;
   padding: 10px 0;
   padding: 11px 20px;
-}
-
-.wrap {
-	width: 50%;
 }
 
 .modal-backdrop.show {
@@ -39,16 +36,57 @@
 	position: relative;
 	float: left;
     width: 640px;
-	padding-left: 40px;
+	margin-left: 30px;
+    top: -45px;
+}
+
+.modal-footer {
+    padding: 5px 10px;
 }
 
 .modal-dialog {
-    max-width: none;
+	max-width: none;
 }
 
 .right_contents {
-	float: right;
-	border-left: 2px solid black;
+	width: 250px;
+}
+
+.list_searchWord {
+    margin: 0;
+    padding: 20px 10px 10px 10px;
+}
+
+.list_searchWord li .num {
+    display: inline-block;
+    width: 25px;
+    text-align: left;
+    color: #111;
+}
+
+.list_searchWord li {
+    width: calc(100% - 18px);
+    min-height: 26px;
+    padding: 0 18px 0 0;
+    overflow: hidden;
+}
+
+ol.list_searchWord li:nth-child(-n+3):nth-child(n+1) .num {
+    color: #5e2bb8;
+}
+
+a {
+	color: black;
+}
+
+#ui-id-1 {
+	background-color: white;
+    width: 546px;
+    border: 1px solid black;
+    z-index: 100;
+    margin-top: 10px;
+    border-radius: 0.3rem;
+    top: -6430px;
 }
 /* 상품 별 padding 값 */
 .place-padding {
@@ -57,6 +95,7 @@
 }
 
 </style>
+
 <!-- 이 페이지에 참고하는 부트스트랩의 index 코드가 전부 있습니다 -->
 </head>
 <body>
@@ -104,12 +143,6 @@
 							aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
 									<div class="modal-body">
 					
 										<div class="search_modal">
@@ -126,19 +159,30 @@
 											</div> -->
 											<div class="wrap right_contents">
 												<div class="popular_search_top search_head">
-													<span>인기검색어</span> <span>2022.12.05기준</span>
+													<strong>최근검색어</strong>
 												</div>
-												<div class="popular_search_word">
-													<ol>
-														<li><a class="tit">일본</a></li>
-														<li><a class="tit">캘리포니아</a></li>
-														<li><a class="tit">다낭</a></li>
-														<li><a class="tit">괌</a></li>
-														<li><a class="tit">오사카</a></li>
-													</ol>
+												<form action="/recentSearchWord">
+													<div class="recent_search_word">
+
+													</div>
+												</form>
+											</div>
+											<div class="wrap right_contents">
+												<div class="popular_search_top search_head">
+													<strong>인기검색어</strong>
 												</div>
+												<form action="/popSearchWord">
+													<div class="popular_search_word">
+
+													</div>
+												</form>
 											</div>
 										</div>
+										<div class="modal-footer">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
 									</div>
 								</div>
 							</div>
@@ -285,26 +329,29 @@
                     </div>
                 </div>
                 <div class="row">
+                	<c:forEach var="hotelList" items="${hotelList }" begin="0" end="2">
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="assets/img/service/services1.jpg" alt="">
+                                <img src="${hotelList.h_img_path }" alt="">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
+                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score } Superb</span> </span>
+                                    <h6><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
                                     <p class="dolor">$1870 <span>/ Per Person</span></p>
                                 </div>
                                 <div class="place-cap-bottom">
                                     <ul>
                                         <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
+                                        <li><i class="fas fa-map-marker-alt"></i>${hotelList.hotel_loc }</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+                   </c:forEach>
+                    <!-- 상품에 따라 반복되어야할 부분 끝 -->
                 </div>
             </div>
         </div>
@@ -322,27 +369,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services1.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+               	<div class="row">
+                	<c:forEach var="ticketList" items="${ticketList}" begin="0" end="2">
+	                    <div class="col-xl-4 col-lg-4 col-md-6">
+	                        <div class="single-place mb-30">
+	                            <div class="place-img">
+	                                <img src="${ticketList.ticket_rep_img_path }">
+	                            </div>
+	                            <div class="place-cap">
+	                                <div class="place-cap-top">
+	                                    <span><i class="fas fa-star"></i><span>${ticketList.ticket_score }</span> </span>
+	                                    <h6><a href="/ticket/exhibitionDetail?ticket_id=${ticketList.ticket_id}">${ticketList.ticket_name }</a></h6>
+	                                    <p class="dolor">${ticketList.ticket_child_price}<em style="font-size:15px;">원~</em></p>
+	                                </div>
+	                                <div class="place-cap-bottom">
+	                                    <ul style="translate: 0 -15px;">
+											<li style="width: 200px;"><i class="far fa-clock"></i>~ ${ticketList.ticket_due_date}까지</li>
+										</ul>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </c:forEach>
                 </div>
             </div>
         </div>
@@ -350,24 +398,7 @@
         
         
         <!-- Favourite Places End -->
-        <!-- Video Start Arera -->
-        <div class="video-area video-bg pt-200 pb-200"  data-background="assets/img/service/video-bg.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="video-caption text-center">
-                            <div class="video-icon">
-                                <a class="popup-video" href="https://www.youtube.com/watch?v=1aP-TXUpNoU" tabindex="0"><i class="fas fa-play"></i></a>
-                            </div>
-                            <p class="pera1">Love where you're going in the perfect time</p>
-                            <p class="pera2">Tripo is a World Leading Online</p>
-                            <p class="pera3"> Tour Booking Platform</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Video Start End -->
+       
         <!-- Support Company Start-->
         <div class="support-company-area support-padding fix">
             <div class="container">
@@ -415,130 +446,99 @@
             </div>
         </div>
         <!-- Support Company End-->
-        <!-- Testimonial Start -->
-        <!-- Testimonial Start -->
-        <div class="testimonial-area testimonial-padding" data-background="assets/img/testmonial/testimonial_bg.jpg">
-            <div class="container ">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-11 col-lg-11 col-md-9">
-                        <div class="h1-testimonial-active">
-                            <!-- Single Testimonial -->
-                            <div class="single-testimonial text-center">
-                                <!-- Testimonial Content -->
-                                <div class="testimonial-caption ">
-                                    <div class="testimonial-top-cap">
-                                        <img src="assets/img/icon/testimonial.png" alt="">
-                                        <p>Logisti Group is a representative logistics operator providing full range of ser
-                                            of customs clearance and transportation worl.</p>
-                                    </div>
-                                    <!-- founder -->
-                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                        <div class="founder-img">
-                                            <img src="assets/img/testmonial/Homepage_testi.png" alt="">
-                                        </div>
-                                        <div class="founder-text">
-                                            <span>Jessya Inn</span>
-                                            <p>Co Founder</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Testimonial -->
-                            <div class="single-testimonial text-center">
-                                <!-- Testimonial Content -->
-                                <div class="testimonial-caption ">
-                                    <div class="testimonial-top-cap">
-                                        <img src="assets/img/icon/testimonial.png" alt="">
-                                        <p>Logisti Group is a representative logistics operator providing full range of ser
-                                            of customs clearance and transportation worl.</p>
-                                    </div>
-                                    <!-- founder -->
-                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                        <div class="founder-img">
-                                            <img src="assets/img/testmonial/Homepage_testi.png" alt="">
-                                        </div>
-                                        <div class="founder-text">
-                                            <span>Jessya Inn</span>
-                                            <p>Co Founder</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Testimonial End -->
-        <!-- Blog Area Start -->
-        <div class="home-blog-area section-padding2">
-            <div class="container">
-                <!-- Section Tittle -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-tittle text-center">
-                            <span>Our Recent news</span>
-                            <h2>Tourist Blog</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="home-blog-single mb-30">
-                            <div class="blog-img-cap">
-                                <div class="blog-img">
-                                    <img src="assets/img/blog/home-blog1.jpg" alt="">
-                                </div>
-                                <div class="blog-cap">
-                                    <p> |   Traveling</p>
-                                    <h3><a href="single-blog.html">Tips For Taking A Long-Term Trip With Kids.</a></h3>
-                                    <a href="#" class="more-btn">Read more »</a>
-                                </div>
-                            </div>
-                            <div class="blog-date text-center">
-                                <span>24</span>
-                                <p>Now</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="home-blog-single mb-30">
-                            <div class="blog-img-cap">
-                                <div class="blog-img">
-                                    <img src="assets/img/blog/home-blog2.jpg" alt="">
-                                </div>
-                                <div class="blog-cap">
-                                    <p> |   Traveling</p>
-                                    <h3><a href="single-blog.html">Tips For Taking A Long-Term Trip With Kids.</a></h3>
-                                    <a href="#" class="more-btn">Read more »</a>
-                                </div>
-                            </div>
-                            <div class="blog-date text-center">
-                                <span>24</span>
-                                <p>Now</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Blog Area End -->
+
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 
-// 검색 모달창
-$(document).ready(function() {
-    $("#input_search").click(function() {
-        $("#exampleModal").modal("show");
-    });
-
-    $("#close_modal").click(function() {
-        $("#exampleModal").modal("hide");
-    });
-});
+	// 검색 모달창
+	$(document).ready(function() {
+	    $('.input-form').click(function() {
+	        $("#exampleModal").modal("show");
+	        sli = "<ol class='list_searchWord type'>";
+	        rli = "<ul class='list_searchWord type'>";
+	        $.ajax({
+	        	url: '/recentSearchWord',
+	        	dataType: 'json',
+	        	success: function(datas) {
+					$('.recent_search_word').empty();
+					$(datas).each(function(index) {
+						if (index < 10) {
+							rli += "<li><a href='/search/searchResult?search_word="+this.search_word+"' class='tit'>"+this.search_word+"</li>";
+						} else return false;
+					});
+					rli += "</ul>";
+					$('.recent_search_word').append(rli);
+					$(this).focus();
+	        	}
+	        });
+	        
+	        $.ajax({
+	        	url: '/popSearchWord',
+	        	dataType: 'json',
+	        	success: function(data) {
+					$('.popular_search_word').empty();
+					$(data).each(function(index) {
+						if (index < 10) {
+							index = index + 1;
+							sli += "<li><span class='num'>"+index+"</span><a href='/search/searchResult?search_word="+this.search_word+"' class='tit'>"+this.search_word+"</li>";
+						} else return false;
+					});
+					sli += "</ol>";
+					$('.popular_search_word').append(sli);
+					$(this).focus();
+	        	}
+	        });
+	        
+	    });
+	
+	    $("#close_modal").click(function() {
+	        $("#exampleModal").modal("hide");
+	    });
+	});
+	
+	// 검색 자동완성
+	$('#input_search').autocomplete({
+		source : function(request, response) { //source: 입력시 보일 목록
+		     $.ajax({
+		           url : "/autoComplete"   
+		         , type : "POST"
+		         , dataType: "JSON"
+		         , data : {"search_word": request.term}	// 검색 키워드
+		         , success : function(data){ 	// 성공
+		        	 console.log('data -> ' + data);
+		             response(
+		                 $.map(data.resultList, function(item) {
+		                     console.log('item.search_word -> ' + item.search_word);
+		                	 console.log('city_name -> ' + item.city_name);
+		                     return {
+		                    	     label : item.city_name    	// 목록에 표시되는 값
+		                           , "search_word" : item.SEARCH_WORD 		// 선택 시 input창에 표시되는 값
+		                     };
+		                 })
+		             );    //response
+		         }
+		         ,error : function(){ //실패
+		             alert("오류가 발생했습니다.");
+		         }
+		     });
+		}
+		,focus : function(event, ui) { // 방향키로 자동완성단어 선택 가능하게 만들어줌	
+				return false;
+		}
+		,minLength: 1// 최소 글자수
+		,autoFocus : true // true == 첫 번째 항목에 자동으로 초점이 맞춰짐
+		,delay: 100	//autocomplete 딜레이 시간(ms)
+		,select : function(evt, ui) { 
+	      	// 아이템 선택시 실행 ui.item 이 선택된 항목을 나타내는 객체, lavel/value/idx를 가짐
+				console.log(ui.item.label);
+				console.log(ui.item.idx);
+		 }
+	});
 </script>
 </html>
