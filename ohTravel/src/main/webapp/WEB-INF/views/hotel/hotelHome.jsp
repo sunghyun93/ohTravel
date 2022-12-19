@@ -38,6 +38,22 @@
 		background-image: url("${pageContext.request.contextPath }/img/hotel/hotelBanner3.jpg");
 		background-size: 100% 600px;
 	}
+	
+	.place-cap{
+		    height: 320px;
+	}
+	
+	.place-cap-top{
+		height:180px;
+	}
+	
+	.favourite-place{
+		margin-bottom:90px;
+	}
+	
+	.hotelItems{
+		margin-bottom:25px;
+	}
 </style>
 <body>
 <div class="hotel_container">
@@ -120,7 +136,7 @@
               	 
                     <!-- 상품에 따라 반복되어야할 부분 -->
                     <c:forEach var="hotelList" items="${hotelList }" begin="0" end="7">
-                    <div class="col-xl-3 col-lg-3 col-md-6">
+                    <div class="hotelItems col-xl-3 col-lg-3 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
                                 <img src="${hotelList.h_img_path }" alt="">
