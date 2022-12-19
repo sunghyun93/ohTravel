@@ -273,8 +273,8 @@
 				$('.insertDetailForm').append("<table class='table table-striped mt-3'><thead><tr><th>룸타입</th><th>객실상세ID</th><th>날짜</th><th>가격</th><th>비고</th></tr></thead>"+
 						"<tr><td><input type='text' readonly='readonly' id='room_type_input' name='room_type' class='form-control-plaintext' value='"+room_type+"'></td>"+
 						"<td><input type='text'readonly='readonly' id='room_detail_id_input' class='form-control-plaintext' value='"+data+"'></td>"+
-						"<td><input type='date' name='room_date' id='room_date_input'></td>"+
-						"<td><input type='number' name='room_price' id='room_price_input'></td>"+
+						"<td><input type='date' class='form-control' name='room_date' id='room_date_input'></td>"+
+						"<td><input type='number' class='form-control' name='room_price' id='room_price_input'></td>"+
 						"<td><input type='button' onclick='insertRoomDetail()' class='genric-btn info mt-3' value='객실상세 추가하기'><input type='hidden' id='room_id_input' value='"+room_id+"'></td>"+
 						"</tr></table>");
 				chkDate();

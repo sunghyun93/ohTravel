@@ -2,8 +2,6 @@ package com.oracle.ohTravel.manager.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -303,6 +301,7 @@ public class ManagerController {
 		return "forward:manageAttraction";
 	}
 	
+	//상품관리 -> 패키지 관광지 삭제
 	@PostMapping(value = "deleteAttraction")
 	public String deleteAttraction(ManagePackageDTO pk, Model model) {
 		int result = service.deleteAttraction(pk);
@@ -1101,6 +1100,7 @@ public class ManagerController {
 		return result;
 	}
 	
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실상세 추가 버튼 누를시 실행 Ajax
 	@ResponseBody
 	@RequestMapping(value = "getNextRoom_detail_id")
 	public int getNextRoom_detail_id() {
@@ -1108,6 +1108,7 @@ public class ManagerController {
 		return result;
 	}
 	
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실상세에 추가 내용쓰고 추가버튼 누를시 실행 Ajax
 	@ResponseBody
 	@PostMapping(value = "insertRoomDetail")
 	public int insertRoomDetail(ManageHotelDTO hotel) {
@@ -1292,13 +1293,7 @@ public class ManagerController {
 		model.addAttribute("deleteTicketMsg1", result);
 		return "forward:manageTicket";
 	}
-	
-	//게시판관리 -> 리뷰관리
-	@RequestMapping(value = "manageBoard")
-	public String manageBoard() {
-		
-		return "manager/manageBoard";
-	}
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////아래 게시판관련//////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1368,7 +1363,7 @@ public class ManagerController {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////아래 메인페이지 공지사항 탭 관련//////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+	//메인페이지에서 공지사항 보는 탭으로 가기
 	@GetMapping(value = "goNotice")
 	public String goNotice(NoticeDTO notice,String currentPage, Model model) {
 		int total = service.totalNotice();
@@ -1382,12 +1377,14 @@ public class ManagerController {
 		return "manager/goNotice";
 	}
 	
+	//메인페이지에서 공지사항 조회시 조회수 올리는 메소드
 	@ResponseBody
 	@PostMapping(value = "updateNoticeCount")
 	public int updateNoticeCount(NoticeDTO notice) {
 		int result = service.updateNoticeCount(notice);
 		return result;
 	}
+	//메인페이지에서 공지사항 조회 -> 공지사항 자세히보기
 	@GetMapping(value = "goNoticeDetail")
 	public String goNoticeDetail(NoticeDTO notice, String currentPage,Model model) {
 		System.out.println("notice_id->"+notice.getNotice_id());
@@ -1411,12 +1408,15 @@ public class ManagerController {
 		return "manager/manageSales";
 	}
 	
+	//매출관리 -> 페키지 총매출 보기누를시 실행 Ajax
 	@ResponseBody
 	@PostMapping(value = "getPackageTotalSale")
 	public int getPackageTotalSale() {
 		int getPackageTotalSale = service.getPackageTotalSale();
 		return getPackageTotalSale;
 	}
+	
+	//매출관리 -> 페키지 월매출/일매출 보기누를시 실행 Ajax
 	@ResponseBody
 	@PostMapping(value = "changePackageChart")
 	public Map<String, Object> changePackageChart(String str, String month){
@@ -1457,6 +1457,7 @@ public class ManagerController {
 	}
 	
 	////////////////////////////////////////항권공 매출관련////////////////////////////////////////
+	//매출관리 -> 항공권 총매출 보기누를시 실행 Ajax
 	@ResponseBody
 	@PostMapping(value = "getAirTotalSale")
 	public int getAirTotalSale() {
@@ -1464,6 +1465,7 @@ public class ManagerController {
 		return getAirTotalSale;
 	}
 	
+	//매출관리 -> 항공권 월매출/일매출 보기누를시 실행 Ajax
 	@ResponseBody
 	@PostMapping(value = "changeAirChart")
 	public Map<String, Object> changeAirChart(String str, String month){
@@ -1504,14 +1506,14 @@ public class ManagerController {
 	}
 	
 	////////////////////////////////////////숙박 매출관련////////////////////////////////////////
-	
+	//매출관리 -> 숙박 총매출 보기누를시 실행 Ajax
 	@ResponseBody
 	@PostMapping(value = "getHotelTotalSale")
 	public int getHotelTotalSale() {
 		int getHotelTotalSale = service.getHotelTotalSale();
 		return getHotelTotalSale;
 	}
-	
+	//매출관리 -> 숙박 월매출/일매출 보기누를시 실행 Ajax
 	@ResponseBody
 	@PostMapping(value = "changeHotelChart")
 	public Map<String, Object> changeHotelChart(String str, String month){
@@ -1553,13 +1555,14 @@ public class ManagerController {
 	
 	
 	////////////////////////////////////////입장권 매출관련////////////////////////////////////////
+	//매출관리 -> 입장권 총매출 보기누를시 실행 Ajax
 	@ResponseBody
 	@PostMapping(value = "getTicketTotalSale")
 	public int getTicketTotalSale() {
 		int getTicketTotalSale = service.getTicketTotalSale();
 		return getTicketTotalSale;
 	}
-	
+	//매출관리 -> 입장권 월매출/일매출 보기누를시 실행 Ajax
 	@ResponseBody
 	@PostMapping(value = "changeTicketChart")
 	public Map<String, Object> changeTicketChart(String str, String month){
@@ -1683,6 +1686,7 @@ public class ManagerController {
 		return "empty/userCouponDown";
 	}
 	
+	//메인페이지에서 쿠폰다운로드하면 맴버쿠폰테이블에 저장되면서 쿠폰 갯수 줄여주는 Ajax
 	@ResponseBody
 	@PostMapping(value = "insertMemCoupon")
 	public int insertMemCoupon(CouponDTO coupon) {
@@ -1704,12 +1708,7 @@ public class ManagerController {
 		
 		return "manager/manageReservation";
 	}
-	//예약관리 -> 패키지 리스트 가져오기 Ajax
-//	@RequestMapping(value = "getPackageList")
-//	public List<ManagePackageDTO> getPackageList(){
-//		List<ManagePackageDTO> getPackageList =
-//	}
-	
+
 	
 	//예약관리 -> 패키지 예약 리스트 가져오기 Ajax
 	@ResponseBody
@@ -1726,21 +1725,21 @@ public class ManagerController {
 		List<ManagePackageDTO> getPackageResPiList = service.getPackageResPiList(pk);
 		return getPackageResPiList;
 	}
-	
+	//예약관리 -> 항공권 예약 리스트 가져오기 Ajax
 	@ResponseBody
 	@PostMapping(value = "getAirResList")
 	public List<ManageAirportDTO> getAirResList(){
 		List<ManageAirportDTO> getAirResList = service.getAirResList();
 		return getAirResList;
 	}
-	
+	//예약관리 -> 항공권 예약인원 리스트 가져오기 Ajax
 	@ResponseBody
 	@PostMapping(value = "getAirResPiList")
 	public List<ManageAirportDTO> getAirResPiList(ManageAirportDTO air){
 		List<ManageAirportDTO> getAirResPiList = service.getAirResPiList(air);
 		return getAirResPiList;
 	}
-	
+	//예약관리 -> 패키지 예약스케줄 리스트 가져오기 Ajax
 	@ResponseBody
 	@PostMapping(value = "getAirResScheduleList")
 	public List<ManageAirportDTO> getAirResScheduleList(ManageAirportDTO air){
@@ -1765,16 +1764,12 @@ public class ManagerController {
 	public Map<String, Object> getTicketResList(ManageTicketDTO ticket, String currentPage){
 		Map<String, Object> mapTicketRes = new HashMap<String, Object>();
 		
-		
-		
 		int total = service.totalTicketRes(ticket);
 		PagingManager page = new PagingManager(total, currentPage);
 		ticket.setStart(page.getStart());
 		ticket.setEnd(page.getEnd());
 
-		
 		List<ManageTicketDTO> ticketRes = service.getTicketResPage(ticket);
-		
 		mapTicketRes.put("ticketRes", ticketRes);
 		mapTicketRes.put("currentPage", currentPage);
 		mapTicketRes.put("page", page);
@@ -1784,7 +1779,7 @@ public class ManagerController {
 		return mapTicketRes;
 	}
 	
-	
+	//예약관리 -> 티켓예약 리스트 페이징 처리
 	@ResponseBody
 	@RequestMapping(value = "pagingTicketRes")
 	public Map<String, Object> pagingTicketRes(ManageTicketDTO ticket, String currentPage){
@@ -1800,11 +1795,6 @@ public class ManagerController {
 		mapRoomDetail.put("total", total);
 		return mapRoomDetail;
 	}
-	
-	
-	
-	
-	
 	
 	
 }

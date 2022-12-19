@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,6 +41,7 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">쿠폰관리</h1>
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
+				<input type="button" class="btn btn-primary mb-3 ml-2" style="float: right;" onclick="location.href='managerMain'" value="메인으로">
 				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertCouponForm'">쿠폰추가</button>
 			</div>
 				<table border="1" class="table table-hover">
@@ -58,7 +60,7 @@
 						<td>${coupon.coupon_id }</td>
 						<td>${coupon.coupon_name }</td>
 						<td>${coupon.coupon_discount }</td>
-						<td>${coupon.coupon_date }</td>
+						<td><fmt:formatDate pattern="YYYY-MM-dd HH:mm:ss" value="${coupon.coupon_date }"/></td>
 						<td>${coupon.coupon_quantity }</td>
 					</tr>
 					</c:forEach>

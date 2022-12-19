@@ -15,7 +15,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="hero-cap text-center">
-                            <h2>Admin Page</h2>
+                            <h2>관리자 페이지</h2>
                         </div>
                     </div>
                 </div>
@@ -51,12 +51,12 @@
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                        <div class="single-services text-center mb-30" onclick="location.href='manageBoard'" style="cursor: pointer">
+                        <div class="single-services text-center mb-30" onclick="location.href='manageNotice'" style="cursor: pointer">
                             <div class="services-ion">
                                 <span class="flaticon-experience"></span>
                             </div>
                             <div class="services-cap">
-                                <h5>게시판/공지관리<br>ManageBoard</h5>
+                                <h5>공지사항관리<br>ManageBoard</h5>
                             </div>
                         </div>
                     </div>
