@@ -376,10 +376,10 @@
                                         <strong class="tit">결제금액</strong>
                                         <span>성인 ${count}</span>
                                     </div>
-								 <strong class="price"><fmt:formatNumber value="${count*price}" pattern="#,###"/>원</strong><br>
-								 <input type="hidden" name="reservation_price" class="reservation_price" value="${count*price }">
-                                 <input type="hidden" name="go_price"  value="${count*go_price }">
-                                  <input type="hidden" name="come_price" value="${count*come_price }">
+								 <strong class="price"><fmt:formatNumber value="${price}" pattern="#,###"/>원</strong><br>
+								 <input type="hidden" name="reservation_price" class="reservation_price" value="${price }">
+                                 <input type="hidden" name="go_price"  value="${go_price }">
+                                  <input type="hidden" name="come_price" value="${come_price }">
                                 </div>
                                 <c:if test="${couponList != null}">
                                 <span class="member"><strong>${memberDTO.mem_name}</strong></span> 님을위한 쿠폰이 있어요! <br><br>
