@@ -398,7 +398,7 @@ col {
 
 <body>
 	<div id="container">
-		<div class="inr" style="min-height: 70vh;">
+		<div class="inr" style="min-height: 70vh; height: 170vh;">
 			<div class="contents fontCtrl" id="contents">
 				<!-- text_wrap -->
 				<div class="ly_wrap pay_info">
@@ -462,24 +462,24 @@ col {
 						</div>
 
 						<!-- text_wrap -->
-						<%-- <div class="text_wrap mid">
+						<div class="text_wrap mid" style="height:250vh;">
 							<!-- 약관동의 -->
-							<div class="terms-agree checkbox_group" style="margin-top: 80px;">
+							<div class="terms-agree checkbox_group" style="margin-top: 80px; height:250vh;">
 								<div class="payment-agree" style="padding-bottom: 30px;">
-									<label role="checkbox" class="el-checkbox">
+									<label role="checkbox" class="el-checkbox" for="agree_all">
 									<span aria-checked="mixed" class="el-checkbox__input">
-										<input type="checkbox" name="check_all" id="chk" class="el-checkbox__original chkAll" svalue="내용을 모두 확인하였으며 결제에 동의합니다.">
+										<input type="checkbox" name="agree_all" id="agree_all" class="el-checkbox__original" value="내용을 모두 확인하였으며 결제에 동의합니다.">
 									</span>
 									<span class="el-checkbox__label">내용을 모두 확인하였으며 결제에 동의합니다.</span>
 									</label>
 								</div>
 
 								<!-- 개인정보 수집 및 이용 동의 -->
-								<div class="inner">
+								<div class="inner" style="height:250vh;">
 									<div class="box full">
 										<div class="item">
-											<label role="checkbox" class="el-checkbox">
-											<input type="checkbox" name="check_1" class="el-checkbox__original normal">
+											<label role="checkbox" class="el-checkbox" for="agree">
+											<input type="checkbox" name="agree" value="1" id="checkHTL01" class="el-checkbox__original">
 												<span class="el-checkbox__label"> <span>개인정보 수집 및 이용 동의 <span class="require" style="color: #e55973;">(필수)</span>
 												</span>
 											</span>
@@ -518,11 +518,11 @@ col {
 										</div>
 									</div>
 
-									<!-- 왼쪽 : 취소 및 환불정책 -->
+									<!-- 왼쪽 : 취소 및 환불정책 (2) -->
 									<div class="box" style="display: inline-block; height:">
 										<div class="item">
-											<label role="checkbox" class="el-checkbox"> <span aria-checked="mixed" class="el-checkbox__input">
-											<input type="checkbox" id="check_2" name="chk" class="el-checkbox__original normal">
+											<label role="checkbox" class="el-checkbox" for="agree"> <span aria-checked="mixed" class="el-checkbox__input">
+											<input type="checkbox" name="agree" value="2" id="checkHTL02" class="el-checkbox__original normal">
 											</span> <span class="el-checkbox__label"> <span>취소 및 환불정책 <span class="require">(필수)</span>
 												</span>
 											</span>
@@ -550,12 +550,12 @@ col {
 										</div>
 									</div>
 
-									<!-- 오른쪽 : 개인정보 제 3자 제공 -->
+									<!-- 오른쪽 : 개인정보 제 3자 제공 (3) -->
 									<div class="box" style="display: inline-block; translate: 0 -310px; height: 532px;">
 										<div class="item">
-											<label role="checkbox" class="el-checkbox">
+											<label role="checkbox" class="el-checkbox" for="agree">
 											<span aria-checked="mixed" class="el-checkbox__input">
-												<input type="checkbox" id="check_3" name="chk" class="el-checkbox__original normal">
+												<input type="checkbox" name="agree" value="3" id="checkHTL03" class="el-checkbox__original normal">
 											</span> <span class="el-checkbox__label"> <span>개인정보 제 3자 제공 <span class="require">(필수)</span>
 												</span>
 											</span>
@@ -582,7 +582,7 @@ col {
 														</tr>
 														<tr>
 															<th>항목</th>
-															<td>예약자 : 이름 , 이메일, 휴대전화번호 <br> 여행자 : -
+															<td>예약자 : 이름 , 이메일, 휴대전화번호 <br> 여행자 : me
 															</td>
 														</tr>
 														<tr>
@@ -596,7 +596,7 @@ col {
 									</div>
 								</div>
 							</div>
-						</div> --%>
+						</div>
 						<!-- text_wrap -->
 
 					</div>
@@ -668,7 +668,26 @@ col {
 	</form>
 	
 	<script>
+	
+		function isLogined () {
+			// 로그인 체크 -> 그대로 진행
+			// 로그인이 안 되어 있으면 -> return false;
+			let mem_id = '${member.mem_id }'
+			if(!mem_id) {
+				return false;
+			} else {
+				return true;
+			}
+		}	
+	
 		$('#payBtn').click(function() {
+			if(!isLogined()) {
+				return false;
+			}
+			
+			if(!agreeValid()) {
+				return false;s
+			}
 			requestPay();
 		})
 	
@@ -740,22 +759,42 @@ col {
             }
         })
    }  
+	// agree_all
+	
+	// 동의 모두선택 / 해제
+     const agreeChkAll = document.querySelector('input[name=agree_all]');
+        agreeChkAll.addEventListener('change', (e) => {
+        let agreeChk = document.querySelectorAll('input[name=agree]');
+        
+        for(let i = 0; i < agreeChk.length; i++){
+          agreeChk[i].checked = e.target.checked;
+        }
+    });
+	
+	// 체크박스 유효성 검사
+	function agreeValid() {
 		
-	// 체크박스 전체 선택
-	$(".checkbox_group").on("click", "#check_all", function () {
-	    $(this).parents(".checkbox_group").find('input').prop("checked", $(this).is(":checked"));
-	});
-	
-	// 체크박스 개별 선택
-	$(".checkbox_group").on("click", ".normal", function() {
-	    var is_checked = true;
-	
-	    $(".checkbox_group .normal").each(function(){
-	        is_checked = is_checked && $(this).is(":checked");
-	    });
-	
-	    $("#check_all").prop("checked", is_checked);
-	});
+		if(!$('#checkHTL01').is(':checked')){
+			alert('예약취소 및 환불정책 안내에 대한 동의가 필요합니다.');
+		 	$('#checkHTL01').focus();
+			return false;
+		}
+		
+		if(!$('#checkHTL02').is(':checked')){
+			alert('예약취소 및 환불정책 안내에 대한 동의가 필요합니다.');
+		 	$('#checkHTL01').focus();
+			return false;
+		}
+		
+		if(!$('#checkHTL03').is(':checked')){
+			alert('호텔 예약 주의사항에 대한 동의가 필요합니다.');
+		 	$('#checkHTL01').focus();
+			return false;
+		}
+		
+		return true;
+		
+	}
 	</script>
 
 </body>
