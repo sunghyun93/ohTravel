@@ -1174,6 +1174,7 @@ public class ManagerController {
 	//상품관리 -> 입장권 추가요
 	@PostMapping(value = "insertTicket")
 	public String insertTicket(ManageTicketDTO ticket, List<MultipartFile> file1,Model model, HttpServletRequest request){
+		System.out.println("due_date ->"+ticket.getTicket_due_date());
 		String path = request.getServletContext().getRealPath("/img/ticket/");
 		
 		System.out.println("realpath->"+path);

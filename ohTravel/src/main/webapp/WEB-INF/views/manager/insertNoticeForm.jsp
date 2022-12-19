@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 </head>
 <body>
 	<form action="insertNotice" method="post">
@@ -21,12 +22,13 @@
 		</div>
 		<div class="mb-3">
 			<label for="notice_writer" class="form-label">작성자</label>
-			<input type="text" class="form-control" id="notice_writer" name="notice_writer" required="required" placeholder="작성자를 입력하세요 나중에 로그인 계정으로 바꿀것">
+			<input type="text" class="form-control" id="notice_writer"  value="${sessionScope.member.mem_id }" readonly="readonly" name="notice_writer" required="required" placeholder="작성자를 입력하세요 나중에 로그인 계정으로 바꿀것">
 		</div>
 		
 		<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="window.history.go(-1)" value="돌아가기">
 		<button type="submit" class="btn btn-primary">추가하기</button>
 	</div>
 	</form>
+	
 </body>
 </html>

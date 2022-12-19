@@ -56,7 +56,7 @@
 				<div class="row">
 				<c:forEach var="detail" items="${membershipDetail }">
 				<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageMembership'" value="돌아가기">
+					<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageMemberShip'" value="돌아가기">
 				</div>
 					<table border="1" class="table table-striped">
 						<tr>
