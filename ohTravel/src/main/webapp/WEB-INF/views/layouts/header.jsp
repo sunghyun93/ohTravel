@@ -28,10 +28,10 @@
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-8">
                             <div class="header-info-left">
-                                <ul>                          
-                                    <li>needhelp@gotrip.com</li>
-                                    <li>666 569 025077</li>
-                                    <li>broklyn street new york</li>
+                                <ul>          
+                                	<li>Oh!Travel 문의</li>                
+                                    <li>needhelp@ohtravel.com</li>
+                                    <li>1577-1234</li>
                                 </ul>
                             </div>
                         </div>

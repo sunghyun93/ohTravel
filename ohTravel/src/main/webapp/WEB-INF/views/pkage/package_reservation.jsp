@@ -817,7 +817,7 @@
                 			}/* 로그인 여부 X */
                 			else if(data == 'LOGIN_NO') {
                 				alert("로그인 후 예약해주세요.");
-                				location.href="/member/loginForm";
+                				location.href="/member/loginForm?toURL=${redirectURL}";
                 			} // 로그인 X
                 		}, /* success */
                 		error : function(err) {

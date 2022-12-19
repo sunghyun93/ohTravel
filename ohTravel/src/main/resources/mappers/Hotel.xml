@@ -235,5 +235,19 @@
 		</if>
 	
 	</select>
+	
+	<select id="selectHotelRecList" resultType="Hotel">
+		SELECT h.hotel_kor, hi.h_img_path, (	
+											SELECT 	FORMAT( avg(IFNULL (rv_rating, 0)), 1 )
+											FROM 	review r
+											WHERE 	r.rv_real_id = h.hotel_id 	
+											) AS hotel_score
+											, h.hotel_id
+		FROM hotel h
+		LEFT JOIN hotel_image hi ON h.hotel_id = hi.hotel_id
+		WHERE h.city_id = #{city_id}
+		AND h.hotel_id not in(#{hotel_id});
+	
+	</select>
 
 </mapper>

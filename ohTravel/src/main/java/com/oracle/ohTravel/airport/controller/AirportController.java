@@ -462,6 +462,7 @@ public class AirportController {
 			List<Air_Reservation_PiDTO> air_Reservation_PiList = scheduleService.selectReservation(reservation_id);
 			model.addAttribute("air_Reservation_PiList",air_Reservation_PiList);
 			model.addAttribute("reservation_id",reservation_id);
+			System.out.println("air_Reservation_PiList는?"+air_Reservation_PiList);
 		}
 		
 		
@@ -475,9 +476,11 @@ public class AirportController {
 	//회원정보 진짜 update
 	@GetMapping("/airInfoModifyComplete")
 	@ResponseBody
-	public void airInfoModifyComplete(Integer reservation_id,String air_pi_name,Date air_pi_birth,Integer air_pi_gen,String air_pi_lname,String air_pi_fname,String air_pi_email,Integer air_pi_tel,String air_passport,Model model) {
+	public void airInfoModifyComplete(Integer air_pi_id,Integer reservation_id,String air_pi_name,Date air_pi_birth,Integer air_pi_gen,String air_pi_lname,String air_pi_fname,String air_pi_email,Integer air_pi_tel,String air_passport,Model model) {
 		Air_Reservation_PiDTO air_Reservation_PiDTO = new Air_Reservation_PiDTO();
 		
+		air_Reservation_PiDTO.setReservation_id(reservation_id); //예약아이디 수정
+		air_Reservation_PiDTO.setAir_pi_id(air_pi_id); //인원 아이디 수정
 		air_Reservation_PiDTO.setAir_pi_name(air_pi_name); //이름 수정
 		air_Reservation_PiDTO.setAir_pi_birth(air_pi_birth); // 생년월일 수정
 		air_Reservation_PiDTO.setAir_pi_gen(air_pi_gen); // 성별 수정
@@ -487,6 +490,7 @@ public class AirportController {
 		air_Reservation_PiDTO.setAir_pi_tel(air_pi_tel); // 휴대폰 번호 수정
 		air_Reservation_PiDTO.setAir_passport(air_passport); // 여권 번호 수정
 		System.out.println("수정한 인원정보 ID는?"+air_Reservation_PiDTO.getAir_pi_id());
+		System.out.println("air_Reservation_PiDTO는????"+air_Reservation_PiDTO);
 		
 		List<Air_Reservation_PiDTO> air_Reservation_PiList = scheduleService.updatePeopleInfo(air_Reservation_PiDTO);
 		

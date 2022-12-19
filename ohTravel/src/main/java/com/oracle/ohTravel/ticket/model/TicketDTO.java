@@ -44,8 +44,6 @@ public class TicketDTO {
 	private int adultCnt;
 	private int childCnt;
 	
-	
-	// 날짜 우짜지,,,
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String adDate;
 	
@@ -56,6 +54,6 @@ public class TicketDTO {
 	private String radioCheck;
 	
 	// 찜용
-	private int    basket_id;		// 로그인한 회원이 찜한 상품인지 여부 (찜 안 했으면 null)
+	private int    basket_id;		// 로그인한 회원이 찜한 상품인지 여부
 	private String basket_ref_id;
 }

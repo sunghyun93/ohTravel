@@ -593,7 +593,7 @@
 						<div class="col-xl-4 col-lg-4 col-md-6" style="height: 500px; margin-bottom: 70px;">
 							<div class="single-place mb-30">
 								<div class="place-img">
-									<img src="${ticketList.ticket_rep_img_path }">
+									<img src="${ticketList.ticket_rep_img_path }" style="height: 272.6px;">
 								</div>
 								<div class="place-cap">
 									<div class="place-cap-top">

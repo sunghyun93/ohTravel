@@ -78,7 +78,7 @@
 			<div class="ht_simple_option">
 				<div class="info_title">숙소정보</div>
 				<div class="ht_loc">주소 : ${hotelDetail.hotel_loc }</div>
-				<div class="chkTime">체크인 : ${hotelDetail.checkin } 체크아웃 시간 : ${hotelDetail.checkout }</div>
+				<div class="chkTime">체크인 : ${hotelDetail.checkin }  /  체크아웃 시간 : ${hotelDetail.checkout }</div>
 				<div class="room_cnt">객실 수 : ${hotelDetail.room_cnt }</div>
 				<div class="ht_tel">전화번호 : ${hotelDetail.hotel_tel }</div>
 			</div> <!-- ht_simple_option 끝 -->
@@ -161,21 +161,21 @@
 	
 		<div class="ht_option">
 			<div class="add_opt">
-				<div class="add_title">숙소 부대시설</div>
+				<div class="add_title info_title">숙소 부대시설</div>
 				<div class="add_contents">
 				<c:forEach items="${hotelDetailOptions }" var="option">
 					<c:if test="${option.option_gubun eq '부대'}">
-						<span>${option.hotel_option }</span>
+						<span class="roundedOption">${option.hotel_option }</span>
 					</c:if>
 				</c:forEach>
 				</div>
 			</div>
 			<div class="conv_opt">
-				<div class="conv_title">숙소 편의시설</div>
+				<div class="conv_title info_title">숙소 편의시설</div>
 				<div class="conv_contents">
 					<c:forEach items="${hotelDetailOptions }" var="option">
 						<c:if test="${option.option_gubun eq '편의'}">
-							<span>${option.hotel_option }</span>
+							<span class="roundedOption">${option.hotel_option }</span>
 						</c:if>
 					</c:forEach>
 				</div>
@@ -212,8 +212,18 @@
 		</div> <!-- all_review (리뷰 끝)-->
 		
 		<div class="ht_rec">
-			같은 지역의 다른 호텔 추천해주기
-		
+			<div class="htRec info_title">이 호텔은 어떠세요?</div>
+			<c:forEach items="${hotelRecList }" var="recommend">
+				<div class="recHotelInfo">
+					<img alt="추천호텔사진" src="${recommend.h_img_path }">
+					<div class="namdAndScore">
+						<div class="recScore"> 
+							<i class="fas fa-star" style='color : #ffa800'><span style='color : black'>${recommend.hotel_score }</span></i>
+						</div>
+						<div class="recName"><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${recommend.hotel_id}">${recommend.hotel_kor }</a></div>
+					</div>
+				</div>
+			</c:forEach>
 		</div>
 		</div> <!-- room_info 끝 -->
 	</div> <!-- 부트스트랩 container끝 -->

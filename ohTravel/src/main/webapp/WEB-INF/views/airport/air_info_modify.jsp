@@ -21,7 +21,8 @@
 .modifyBtn{
  width: 180px;
  height: 60px;
- margin-left: 1400px;
+ margin-left: 900px;
+ margin-top: 30px;
  margin-bottom: 30px;
  background-color: #7F00FF;
  color: white;
@@ -41,6 +42,7 @@
 
                         <!-- 여행자 정보 부분 table -->
                         <c:forEach var="ppl"  items="${air_Reservation_PiList}">
+                        <input type="hidden" value="${ppl.air_pi_id }" name="air_pi_id">
                         <div class="js_tabs type1 v-tabs alone">
                             <div class="panels personChk">
                                 <div id="tabConTrvlP" class="panel selected">
@@ -111,17 +113,17 @@
                                     </div>
                                 </div><!-- tabConTrvlP -->
                             </div><!-- panels -->
+                             <button type="button" class="modifyBtn">수정완료</button>
                         </div><!-- js_tabs type1 v-tabs alone, 여행자 정보 부분 table  -->
+                        
                       </c:forEach>
                      </div>
                      </form> 
-                      <button type="button" class="modifyBtn">수정완료</button>
-<script src="https://code.jquery.com/jquery-3.6.1.js"></script>                      
- <script>
+                     
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+<script src="/js/pkage/regExp.js"></script>                      
+<script>
 
- 
- 
-	
         $(function() {
             // 유효성 검사 통과 체크용
             let validCheck = true;
@@ -311,7 +313,7 @@
                 $(this).parents('.genderDiv').siblings().remove();
             }) 
 
-            // 다음 단계 버튼 클릭 시
+            // 수정 단계 버튼 클릭 시
             $('.modifyBtn').on('click', function() {
                 // 유효성 검사를 통과하면 계속 true 인 상태임.
                 let lastCheck = true;
@@ -369,11 +371,15 @@
   	        }else {
   	        	$('.option_check').text("여자");
   	        }
+            
+  	      console.log(lastCheck+"?");
      
           });
             
       }); 
         
+      
+
        $(document).on('click','.modifyBtn' ,function() { 
         $.ajax({
     		url: '${pageContext.request.contextPath}/airport/airInfoModifyComplete',
@@ -390,7 +396,7 @@
 			}
     	});  
     }); 
-
+  
         
  </script>        
 </body>

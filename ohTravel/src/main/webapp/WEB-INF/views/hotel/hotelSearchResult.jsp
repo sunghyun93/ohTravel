@@ -15,6 +15,9 @@
 	    z-index: 2 !important;
 	}
 
+	.ly_wrap {
+		margin-bottom:80px;
+	}
 </style>
 </head>
 <body>
@@ -161,7 +164,7 @@
 	                                            </div>
 	                                            <div class="txt_info">
 	                                                <div class="tit eps2">
-	                                                    <strong>${searchResult.hotel_kor}</strong>
+	                                                    <a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${searchResult.hotel_id}"><strong>${searchResult.hotel_kor}</strong></a>
 	                                                </div>
 	                                                <div class="type_1">
 	                                                    <span>хёез</span> <span>${searchResult.hotel_grade}</span>

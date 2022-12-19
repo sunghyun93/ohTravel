@@ -17,7 +17,7 @@ public interface TicketService {
 	List<TicketDTO> ticketList(TicketDTO ticketdto);
 	
 	// 입장권 상세 정보
-	TicketDTO getTicketDetail(String ticket_id);
+	TicketDTO getTicketDetail(TicketDTO ticketDTO);
 
 	// 입장권 찐예약
 	void reserveExhibition(TicketReservation trDTO);

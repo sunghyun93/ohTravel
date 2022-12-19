@@ -48,27 +48,28 @@
 											<div class="group_area">
 												<div class="label02">예약가능</div>
 											</div>
-											<img
-												src="${pkageList.pkage_Img_path}"
-												title="" data-src="" alt="">
+											<img src="${pkageList.pkage_Img_path}" title="" data-src="" alt="">
 										</div>
 										<div class="txt_info" style="width: 720px;">
 											<div class="tit eps2">
 												<strong>${pkageList.pkage_name}</strong>
 											</div>
 											<div class="type_1">
-												<span>3박 4일</span> 
-												<span> 12.30.금 12:05 ~ 01.02.월 19:10 </span>
+												<span>${pkageList.period}일</span> 
+												<span> <fmt:formatDate value="${pkageList.pkage_dt_startday}" pattern="MM.dd.E hh:mm"/> ~ <fmt:formatDate value="${pkageList.pkage_dt_endday}" pattern="MM.dd.E hh:mm"/> </span>
+											</div>
+											<div class='type_2'>
+												<span class='air_icon'>${pkageList.air_name} </span>
+												<span>${pkageList.start_airport_name}출발</span>
 											</div>
 											<div class="type_2">
-												<span class="ic_note">패키지</span> <span>스탠다드</span> <span>관광</span>
-												<span>단체</span>
+												<span class='ic_note'>${pkageList.pkage_dt_thema}</span>
 											</div>
 											<div class="type_3">
-												<span class="ic_location">치토세,삿포로,오타루,죠잔케이,도야,노보리베츠,치토세</span>
+												<span class="ic_location">${pkageList.country_name}, ${pkageList.city_name}</span>
 											</div>
 											<div class="rating">
-												<strong>${pkageList.pkage_score}</strong> <span>(20)</span>
+												<strong>${pkageList.pkage_score}</strong> <span>(${pkageList.review_cnt})</span>
 											</div>
 										</div>
 										<div class="price_info">
@@ -91,7 +92,7 @@
 											</c:choose>
 											</div>
 											<div class="label"></div>
-											<a href="/pkage/searchResult?toDesti=${pkageList.city_id }&dates_start_check=2022-12-20&pkage_gubun=${pkageList.pkage_gubun}&order=1" class="product_btn"><span>판매상품상세보기</span></a>
+											<a href="/pkage/searchResult?toDesti=${pkageList.city_id }&dates_start_check=2022-12-20&pkage_gubun=${pkageList.pkage_gubun}&order=1" class="product_btn"><span>다른상품 더보기</span></a>
 										</div>
 									</div>
 								</li>
@@ -103,7 +104,7 @@
 					<!-- 호텔 리스트 -->
 					<div class="ly_wrap list_result_wrap" id="hotel_hide">
 						<div class="result_title">
-							<strong >호텔<em>(${hotelListCount})</em></strong> <a href="#none"> 호텔 더보기 </a>
+							<strong >호텔<em>(${hotelListCount})</em></strong> <a href="/"> 호텔 더보기 </a>
 						</div>
 						<div class="js_tabs list_result_tab">
 							<ul class="tabs"></ul>
@@ -125,19 +126,29 @@
 												<strong>${hotelList.hotel_kor}</strong>
 											</div>
 											<div class="type_1">
-												<span>호텔</span> <span>3.5성급</span>
+												<span>호텔</span> <span>${hotelList.hotel_grade}성급</span>
 											</div>
 											<div class="type_2">
-												<span>일본</span> <span>가루이자와 ,Karuizawa </span>
+												<span>${hotelList.country_name}</span> <span>${hotelList.city_name} </span>
 											</div>
 											<div class="rating">
-												<strong>${hotelList.hotel_score}</strong> <span>(53)</span>
+												<strong>${hotelList.hotel_score}</strong> <span>(${hotelList.review_cnt})</span>
 											</div>
 											<div class="price">
 												<div>
 													<div>
 														<strong>${hotelList.room_min_price}</strong>
 														<p>원~</p>
+														<div class='choice'>
+														<c:choose>
+															<c:when test="${hotelList.chk == 0}">
+																<button type='button' class='choice-btn' id="${hotelList.hotel_id}">즐겨찾기</button>
+															</c:when>
+															<c:when test="${hotelList.chk > 0}">
+																<button type='button' class='choice-btn' id="${hotelList.hotel_id}" style="background-position: -458px -26px;">즐겨찾기</button>
+															</c:when>
+														</c:choose>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -175,13 +186,23 @@
 												<span>입장권/패스</span>
 											</div>
 											<div class="type_2">
-												<span>오사카</span>
+												<span>${ticketList.country_name}</span><span>${ticketList.city_name }</span>
 											</div>
 											<div class="price">
 												<div>
 													<div>
 														<strong>${ticketList.ticket_adult_price}</strong>
 														<p>원</p>
+														<div class='choice'>
+														<c:choose>
+															<c:when test="${ticketList.chk == 0}">
+																<button type='button' class='choice-btn' id="${ticketList.ticket_id}">즐겨찾기</button>
+															</c:when>
+															<c:when test="${ticketList.chk > 0}">
+																<button type='button' class='choice-btn' id="${ticketList.ticket_id}" style="background-position: -458px -26px;">즐겨찾기</button>
+															</c:when>
+														</c:choose>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -204,10 +225,8 @@
 //찜 선택
 $(function() {
 	$(document).on('click', '.choice-btn', function() {
-		alert('아구찜');
 		let basket_ref_id = $(this).attr('id');
 		if($('.choice-btn[id="'+basket_ref_id+'"]').css("background-position") == '-485px -26px') {
-			
 			$.ajax({
 				url: '/insertLike',
 				data: {'basket_ref_id': basket_ref_id},
@@ -249,6 +268,13 @@ $(function() {
 		}
 	})	
 })
+
+// 날짜 formatDate
+function getFullYmdStr(){
+    //년월일시분초 문자열 생성
+    var d = new Date();
+    return (d.getMonth()+1) + "." + d.getDate() + "." + '일월화수목금토'.charAt(d.getUTCDay()) + ' ' + d.getHours() + ":" + d.getMinutes();
+}
 
 // 카테고리 선택
 $(function() {
@@ -338,35 +364,7 @@ function pageList(gubun, currentPage) {
 						str += 						"<label for='adtMinAmt-2' class='label_checkbox adtMinAmt-2'> 51~70만원 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str +=						"<input type='checkbox' id='adtMinAmt-3' class='inpt_checkbox'>"; 
-						str +=						"<label for='adtMinAmt-3' class='label_checkbox adtMinAmt-3'> 71만원~2000만원 </label></span>";
-						str += 				"</div>";
-						str += 			"</div>";
-						str += 		"</div>";
-						str += 		"<div class='inr'>";
-						str += 			"<a href='#filter-12' class='header active'>출발 도시</a>";
-						str += 			"<div id='filter-12' class='iew active' style='display: block;'>";
-						str += 				"<div class='form_wrap'>";
-						str += 					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-0' class='inpt_checkbox'>";
-						str += 						"<label for='depCityCds-0' class='label_checkbox'> 인천 </label></span>";
-						str += 					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-1' class='inpt_checkbox'>";
-						str += 						"<label for='depCityCds-1' class='label_checkbox'> 부산 </label></span>";
-						str += 					"<span class='form_holder text'>";
-						str +=						"<input type='checkbox' id='depCityCds-2' class='inpt_checkbox'>";
-						str += 						"<label for='depCityCds-2' class='label_checkbox'> 대구 </label></span>";
-						str += 					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-3' class='inpt_checkbox'>";
-						str +=						"<label for='depCityCds-3' class='label_checkbox'> 김포시 </label></span>";
-						str += 					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-4' class='inpt_checkbox'>";
-						str += 						"<label for='depCityCds-4' class='label_checkbox'> 제주시 </label></span>";
-						str +=					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-5' class='inpt_checkbox'>";
-						str += 						"<label for='depCityCds-5' class='label_checkbox'> 양양군 </label></span>";
-						str += 					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-6' class='inpt_checkbox'>"; 
-						str += 						"<label for='depCityCds-6' class='label_checkbox'> 무안군 </label></span>";
+						str +=						"<label for='adtMinAmt-3' class='label_checkbox adtMinAmt-3'> 71만원~200만원 </label></span>";
 						str += 				"</div>";
 						str += 			"</div>";
 						str += 		"</div>";
@@ -376,13 +374,13 @@ function pageList(gubun, currentPage) {
 						str += 				"<div class='form_wrap'>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depTms-0' class='inpt_checkbox'>";
-						str += 						"<label for='depTms-0' class='label_checkbox'> 05~12시 </label></span>";
+						str += 						"<label for='depTms-0' class='label_checkbox depTms-0'> 05~12시 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depTms-1' class='inpt_checkbox'>";
-						str += 						"<label for='depTms-1' class='label_checkbox'> 12~18시 </label></span>";
+						str += 						"<label for='depTms-1' class='label_checkbox depTms-1'> 12~18시 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depTms-2' class='inpt_checkbox'>"; 
-						str += 						"<label for='depTms-2' class='label_checkbox'> 18~24시 </label></span>";
+						str += 						"<label for='depTms-2' class='label_checkbox depTms-2'> 18~24시 </label></span>";
 						str += 				"</div>";
 						str += 			"</div>";
 						str += 		"</div>";
@@ -395,7 +393,7 @@ function pageList(gubun, currentPage) {
 						str += 						"<label for='depAirCds-0' class='label_checkbox depAirCds-0'> 대한항공 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-1' class='inpt_checkbox'>";
-						str += 						"<label for='depAirCds-1' class='label_checkbox depAirCds-1'> 베트남 항공 </label></span>";
+						str += 						"<label for='depAirCds-1' class='label_checkbox depAirCds-1'> 동방항공 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-2' class='inpt_checkbox'>";
 						str += 						"<label for='depAirCds-2' class='label_checkbox depAirCds-2'> 아시아나항공 </label></span>";
@@ -404,19 +402,25 @@ function pageList(gubun, currentPage) {
 						str += 						"<label for='depAirCds-3' class='label_checkbox depAirCds-3'> 에어부산 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-4' class='inpt_checkbox'>";
-						str += 						"<label for='depAirCds-4' class='label_checkbox depAirCds-4'> 에어프레미아 </label></span>";
+						str += 						"<label for='depAirCds-4' class='label_checkbox depAirCds-4'> 에어차이나 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-5' class='inpt_checkbox'>";
 						str += 						"<label for='depAirCds-5' class='label_checkbox depAirCds-5'> 에어서울 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-6' class='inpt_checkbox'>";
-						str += 						"<label for='depAirCds-6' class='label_checkbox depAirCds-6'> 전일본공수 </label></span>";
+						str += 						"<label for='depAirCds-6' class='label_checkbox depAirCds-6'> 일본항공 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-7' class='inpt_checkbox'>";
-						str += 						"<label for='depAirCds-7' class='label_checkbox depAirCds-7'> 제주항공 </label></span>";
+						str += 						"<label for='depAirCds-7' class='label_checkbox depAirCds-7'> 전일본공수항공 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-8' class='inpt_checkbox'>";
-						str += 						"<label for='depAirCds-8' class='label_checkbox depAirCds-8'> 진에어 </label></span>";
+						str += 						"<label for='depAirCds-8' class='label_checkbox depAirCds-8'> 제주항공 </label></span>";
+						str += 					"<span class='form_holder text'>";
+						str += 						"<input type='checkbox' id='depAirCds-9' class='inpt_checkbox'>";
+						str += 						"<label for='depAirCds-9' class='label_checkbox depAirCds-9'> 진에어 </label></span>";
+						str += 					"<span class='form_holder text'>";
+						str += 						"<input type='checkbox' id='depAirCds-10' class='inpt_checkbox'>";
+						str += 						"<label for='depAirCds-10' class='label_checkbox depAirCds-10'> 타이항공 </label></span>";
 						str += "				</div>";
 						str += "			</div>";
 						str += "		</div>";
@@ -434,11 +438,11 @@ function pageList(gubun, currentPage) {
 						str += "					<input type='radio' class='item_order inpt_checkbox' name='order' id='high_score'>";
 						str += "					<label for='high_score' class='inpt_checkbox high_score'> 평점순 </label></span></li>";
 						str += "				<li class='item01'>";
-						str += "					<input type='radio' class='item_order inpt_checkbox' name='order' id='row_price'>";
-						str += "					<label for='row_price' class='inpt_checkbox row_price'>낮은  가격순</label></span></li>";
+						str += "					<input type='radio' class='item_order inpt_checkbox' name='order' id='high_price'>";
+						str += "					<label for='high_price' class='inpt_checkbox high_price'>높은  가격순</label></span></li>";
 						str += "				<li class='item01'>";
-						str += "	 				<input type='radio' class='item_order inpt_checkbox' name='order' id='fastest_go'>";
-						str += "					<label for='fastest_go' class='inpt_checkbox fastest_go'>출발시간 빠른순</label></span></li>";
+						str += "	 				<input type='radio' class='item_order inpt_checkbox' name='order' id='row_price'>";
+						str += "					<label for='row_price' class='inpt_checkbox row_price'>낮은 가격순</label></span></li>";
 						str += "			</ul>";
 						str += "		</div>";
 						str += "	</div>";
@@ -459,19 +463,17 @@ function pageList(gubun, currentPage) {
 						str += "								<strong>"+this.pkage_name+"</strong>";
 						str += "							</div>";
 						str += "							<div class='type_1'>";
-						str += "								<span>2박 3일</span> <span> 12.14.수 08:05 ~ 12.16.금 13:30</span>";
+						str += "								<span>"+this.period+"일</span> <span> "+new Date(this.pkage_dt_startday).toLocaleString()+" ~ "+new Date(this.pkage_dt_endday).toLocaleString()+"</span>";
 						str += "							</div>";
 						str += "							<div class='type_2'>";
-						str += "								<span class='air_icon'><img src='https://image.hanatour.com//usr/static/img/airline/BX.png'";
-						str += "									title='' data-src='' alt=''> 에어부산 </span> <span> 잔여석<strong>10</strong></span>";
-						str += "								<span>부산출발</span> <span>가이드동행</span>";
+						str += "								<span class='air_icon'>"+this.air_name+" </span>";
+						str += "								<span>"+this.start_airport_name+"출발</span>";
 						str += "							</div>";
 						str += "							<div class='type_2'>";
-						str += "								<span class='ic_note'>패키지</span> <span>"+this.pkage_dt_thema+"</span>";
-						str += "								<span>단체</span>";
+						str += "								<span class='ic_note'>"+this.pkage_dt_thema+"</span>";
 						str += "							</div>";
 						str += "							<div class='type_3'>";
-						str += "								<span class='ic_location'>도쿄(동경)</span>";
+						str += "								<span class='ic_location'>"+this.city_name+"</span>";
 						str += "							</div>";
 						str += "							<div class='rating'>";
 						str += "								<strong>"+this.pkage_score+"</strong> <span>("+this.review_cnt+")</span>";
@@ -487,14 +489,14 @@ function pageList(gubun, currentPage) {
 						str += "								</div>";
 						str += "							</div>";
 						str += "							<div class='choice'>";
-						if(this.chk == 0) {
-							str += "<button type='button' class='choice-btn' id="+this.pkage_id+">즐겨찾기</button>";
-						}
-						else {
-							str += "<button type='button' class='choice-btn' id="+this.pkage_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
-						}
+															if(this.chk == 0) {
+						str += "								<button type='button' class='choice-btn' id="+this.pkage_id+">즐겨찾기</button>";
+															}
+															else {
+						str += 									"<button type='button' class='choice-btn' id="+this.pkage_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+															}
 						str += "							</div>";
-						str += "							<a href='#none' class='product_btn'><span>다른상품 더보기</span></a>";
+						str += "							<a href='/pkage/searchResult?toDesti="+this.city_id+"&dates_start_check=2022-12-20&pkage_gubun="+this.pkage_gubun+"&order=1' class='product_btn'><span>다른상품 더보기</span></a>";
 						str += "						</div>";
 						str += "					</div>";
 						str += "				</li>";
@@ -600,22 +602,6 @@ function pageList(gubun, currentPage) {
 										str += "</div>";
 									str += "</div>";
 								str += "<div class='inr'>";
-								str += "<a href='#filter-4' class='header active'>지역</a>";
-									str += "<div id='filter-4' class='view active' style='display: block;'>";
-									str += "<div class='form_wrap'>";
-										str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='city-0' class='inpt_checkbox'>";
-											str += "<label for='city-0' class='label_checkbox'> 일본 도쿄 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='city-1' class='inpt_checkbox'>";
-												str += "<label for='city-1' class='label_checkbox'> 일본 도쿄  </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='city-2' class='inpt_checkbox'>";
-												str += "<label for='city-2' class='label_checkbox'> 일본 도쿄  </label></span>";
-												str += "</div>";
-										str += "</div>";
-									str += "</div>";
-								str += "<div class='inr'>";
 								str += "<a href='#filter-6' class='header active'>숙소 부대시설</a>";
 									str += "<div id='filter-6' class='view active' style='display: block;'>";
 									str += "<div class='form_wrap'>";
@@ -657,14 +643,21 @@ function pageList(gubun, currentPage) {
 							str += "<span class='count'><em>"+data.totalHotel+"</em>개</span>";
 								str += "<div class='right_cont'>";
 									str += "<ul class='list_sort'>";
-										str += "<li class='item01'><a>가격 높은순</a></li>";
-										str += "<li class='item01'><a>가격 낮은순</a></li>";
-										str += "<li class='item01'><a>성급 높은순</a></li>";
-										str += "<li class='item01'><a>성급 낮은순</a></li>";
-										str += "<li class='item01'><a>상품평 높은순</a></li>";
-										str += "</ul>";
-									str += "	</div>";
-								str += "	</div>";
+										str += "<li class='item01'>";
+											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='buy_order'>";
+											str += "<label for='buy_order' class='inpt_checkbox buy_order'> 구매순 </label></span></li>";
+										str += "<li class='item01'>";
+											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='high_score'>";
+											str += "<label for='high_score' class='inpt_checkbox high_score'> 평점순 </label></span></li>";
+										str += "<li class='item01'>";
+											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='high_price'>";
+											str += "<label for='high_price' class='inpt_checkbox high_price'>높은  가격순</label></span></li>";
+										str += "<li class='item01'>";
+											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='row_price'>";
+											str += "<label for='row_price' class='inpt_checkbox row_price'>낮은 가격순</label></span></li>";
+									str += "</ul>";
+								str += "</div>";
+							str += "</div>";
 							str += "<div>";
 							str += "<div class='prod_list'>";
 								str += "<ul class='list htl eps4'>";
@@ -681,30 +674,30 @@ function pageList(gubun, currentPage) {
 													str += "<strong>"+this.hotel_kor+"</strong>";
 														str += "</div>";
 													str += "<div class='type_1'>";
-													str += "<span>호텔</span> <span>3.5성급</span>";
+													str += "<span>호텔</span> <span>"+this.hotel_grade+"성급</span>";
 														str += "</div>";
 													str += "<div class='type_2'>";
-													str += "<span>일본</span> <span>"+this.city_name+"</span>";
+													str += "<span>"+this.country_name+"</span> <span>"+this.city_name+"</span>";
 														str += "</div>";
 													str += "<div class='rating'>";
-													str += "<strong>"+this.hotel_score+"</strong> <span>(리뷰수)</span>";
+													str += "<strong>"+this.hotel_score+"</strong> <span>("+this.review_cnt+")</span>";
 														str += "</div>";
 													str += "<div class='price'>";
 														str += "<div>";
 															str += "<div>";
 																str += "<strong>"+this.room_min_price+"</strong>";
 																	str += "<p>원~</p>";
+																	str += "<div class='choice'>";
+																	if(this.chk == 0) {
+																		str += "<button type='button' class='choice-btn' id="+this.hotel_id+">즐겨찾기</button>";
+																	}
+																	else {
+																		str += "<button type='button' class='choice-btn' id="+this.hotel_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+																	}
+																	str += "</div>";
 															str += "</div>";
 														str += "</div>";
 													str += "</div>";
-													str += "	<div class='choice'>";
-													if(this.chk == 0) {
-														str += "<button type='button' class='choice-btn' id="+this.pkage_id+">즐겨찾기</button>";
-													}
-													else {
-														str += "<button type='button' class='choice-btn' id="+this.pkage_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
-													}
-													str += "	</div>";
 												str += "</div>";
 											str += "</div>";
 										str += "</li>";
@@ -714,31 +707,20 @@ function pageList(gubun, currentPage) {
 								str += "<div class='paginate_wrap'>";
 								str += "<div class='paginate type2'>";
 									str += "<div>";
-										str += "<a href='#none' class='direction prevend' style='display: none;'>처음</a>";
-										str += "<a href='#none' class='direction prev' style='display: none;'>이전</a>";
-										str += "<span><strong>1</strong><a href='#none'>2</a>";
-										str += "<a href='#none'>3</a><a href='#none'>4</a><a href='#none'>5</a>";
-										str += "<a href='#none'>6</a><a href='#none'>7</a><a href='#none'>8</a>";
-										str += "<a href='#none'>9</a></span> <a href='#none' class='direction next' style='display: none;'>다음</a>"; 
-										str += "<a href='#none' class='direction nextend' style='display: none;'>끝</a>";
-												str += "</div>";
-										str += "</div>";
+										console.log('endPage -> '+data.paging.endPage);
+										if(data.paging.startPage > data.paging.pageBlock) {
+											str += "<input class='prevPage' type='button' value='[이전]'>";
+										}
+										for(let i = data.paging.startPage; i <= data.paging.endPage; i++) {
+											str += "<input class='pageNum curPage page-item' type='button' value="+i+">";
+										}
+										if(data.paging.endPage < data.paging.totalPage) {
+											str += "<input class='nextPage' type='button' value='[다음]'>";
+										}
 									str += "</div>";
-									if(startPage > pageBlock) {
-										// str += "<a href='search/searchResultHotel?search_word="+data.search_word+"&currentPage="+startPage - pageBlock+" class='direction prev'>[이전]</a>";
-										str += "<input class='prevPage' type='button' value='[이전]'>";
-									}
-									for(startPage; startPage <= endPage; startPage++) {
-										// str += "<a href='search/searchResultHotel?search_word="+data.search_word+"&currentPage="+startPage+" class='direction prev'>"+startPage+"</a>";
-										str += "<input class='pageNum curPage page-item' type='button' value="+startPage+">";
-									}
-									if(endPage < totalPage) {
-										// str += "<a href='search/searchResultHotel?search_word="+data.search_word+"&currentPage="+startPage + pageBlock+" class='direction next'>[다음]</a>";
-										str += "<input class='nextPage' type='button' value='[다음]'>";
-									}
-									str += 		"</div>";
-									str += 	"</div>";
-									str += "</div>";
+								str += "</div>";
+							str += 	"</div>";
+						str += "</div>";
 					}
 					
 					if(gubun == 'ticket') {
@@ -752,72 +734,6 @@ function pageList(gubun, currentPage) {
 						str += "<div class='inr filter'>";
 						str += "<strong class='tit'>필터</strong>";
 							str += "<div class='js_acc multi filter_wrap'>";
-							str += "<div class='inr'>";
-								str += "<a href='#filter-1' class='header active'>숙소 종류</a>";
-									str += "<div id='filter-1' class='view active' style='display: block;'>";
-									str += "<div class='form_wrap'>";
-										str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-0' class='inpt_checkbox'>"; 
-												str += "<label for='kind-0' class='label_checkbox'> 호텔 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-1' class='inpt_checkbox'>"; 
-												str += "<label for='kind-1' class='label_checkbox'> 레지던스 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-2' class='inpt_checkbox'>"; 
-												str += "<label for='kind-2' class='label_checkbox'> 료칸 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-3' class='inpt_checkbox'>"; 
-												str += "<label for='kind-3' class='label_checkbox'> 호스텔/백팩커스 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-4' class='inpt_checkbox'>"; 
-												str += "<label for='kind-4' class='label_checkbox'> 기타 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-5' class='inpt_checkbox'>"; 
-												str += "<label for='kind-5' class='label_checkbox'> 온천호텔 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-6' class='inpt_checkbox'>"; 
-												str += "<label for='kind-6' class='label_checkbox'> 펜션 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-7' class='inpt_checkbox'>";
-												str += "<label for='kind-7' class='label_checkbox'> 리조트 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-8' class='inpt_checkbox'>";
-												str += "<label for='kind-8' class='label_checkbox'> 산장/롯지 </label></span>";
-												str += "</div>";
-										str += "</div>";
-									str += "</div>";
-								str += "<div class='inr'>";
-								str += "<a href='#filter-2' class='header active'>숙소 평점</a>";
-									str += "<div id='filter-2' class='view active' style='display: block;'>";
-									str += "<div class='form_wrap'>";
-										str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='score-0' class='inpt_checkbox'>"; 
-												str += "<label for='score-0' class='label_checkbox'> 양호(3+) </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='score-1' class='inpt_checkbox'>"; 
-												str += "<label for='score-1' class='label_checkbox'> 양호(3+) </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='score-2' class='inpt_checkbox'>"; 
-												str += "<label for='score-2' class='label_checkbox'> 양호(3+) </label></span>";
-												str += "</div>";
-										str += "</div>";
-									str += "</div>";
-								str += "<div class='inr'>";
-								str += "<a href='#filter-3' class='header active'>숙소 등급</a>";
-									str += "<div id='filter-3' class='view active' style='display: block;'>";
-									str += "<div class='form_wrap'>";
-										str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='class-0' class='inpt_checkbox'>"; 
-												str += "<label for='class-0' class='label_checkbox'> 1성급 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='class-1' class='inpt_checkbox'>"; 
-												str += "<label for='class-1' class='label_checkbox'> 1성급  </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='class-2' class='inpt_checkbox'>"; 
-												str += "<label for='class-2' class='label_checkbox'> 1성급  </label></span>";
-												str += "</div>";
-										str += "</div>";
-									str += "</div>";
 								str += "<div class='inr'>";
 								str += "<a href='#filter-4' class='header active'>지역</a>";
 									str += "<div id='filter-4' class='view active' style='display: block;'>";
@@ -831,22 +747,6 @@ function pageList(gubun, currentPage) {
 												str += "<span class='form_holder text'>";
 											str += "<input type='checkbox' id='city-2' class='inpt_checkbox'>";
 												str += "<label for='city-2' class='label_checkbox'> 일본 도쿄  </label></span>";
-												str += "</div>";
-										str += "</div>";
-									str += "</div>";
-								str += "<div class='inr'>";
-								str += "<a href='#filter-6' class='header active'>숙소 부대시설</a>";
-									str += "<div id='filter-6' class='view active' style='display: block;'>";
-									str += "<div class='form_wrap'>";
-										str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='othFacili-0' class='inpt_checkbox'>";
-												str += "<label for='othFacili-0' class='label_checkbox'> 흡연구역(지정) </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='othFacili-1' class='inpt_checkbox'>";
-												str += "<label for='othFacili-1' class='label_checkbox'> 아침식사가능(유료)  </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='othFacili-2' class='inpt_checkbox'>";
-												str += "<label for='othFacili-2' class='label_checkbox'> 주차장(무료)  </label></span>";
 												str += "</div>";
 										str += "</div>";
 									str += "</div>";
@@ -876,14 +776,21 @@ function pageList(gubun, currentPage) {
 							str += "<span class='count'><em>"+data.totalHotel+"</em>개</span>";
 								str += "<div class='right_cont'>";
 									str += "<ul class='list_sort'>";
-										str += "<li class='item01'><a>가격 높은순</a></li>";
-										str += "<li class='item01'><a>가격 낮은순</a></li>";
-										str += "<li class='item01'><a>성급 높은순</a></li>";
-										str += "<li class='item01'><a>성급 낮은순</a></li>";
-										str += "<li class='item01'><a>상품평 높은순</a></li>";
-										str += "</ul>";
-									str += "</div>";
+										str += "<li class='item01'>";
+											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='buy_order'>";
+											str += "<label for='buy_order' class='inpt_checkbox buy_order'> 구매순 </label></span></li>";
+										str += "<li class='item01'>";
+											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='high_score'>";
+											str += "<label for='high_score' class='inpt_checkbox high_score'> 평점순 </label></span></li>";
+										str += "<li class='item01'>";
+											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='high_price'>";
+											str += "<label for='high_price' class='inpt_checkbox high_price'>높은  가격순</label></span></li>";
+										str += "<li class='item01'>";
+											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='row_price'>";
+											str += "<label for='row_price' class='inpt_checkbox row_price'>낮은 가격순</label></span></li>";
+									str += "</ul>";
 								str += "</div>";
+							str += "</div>";
 							str += "<div>";
 							str += "<div class='prod_list'>";
 								str += "<ul class='list htl eps4'>";
@@ -900,19 +807,24 @@ function pageList(gubun, currentPage) {
 													str += "<strong>"+this.ticket_name+"</strong>";
 														str += "</div>";
 													str += "<div class='type_1'>";
-													str += "<span>호텔</span> <span>3.5성급</span>";
+													str += "<span>입장권/패스</span>";
 														str += "</div>";
 													str += "<div class='type_2'>";
-													str += "<span>일본</span> <span>"+this.city_name+"</span>";
-														str += "</div>";
-													str += "<div class='rating'>";
-													str += "<strong></strong> <span>(리뷰수)</span>";
+													str += "<span>"+this.country_name+"</span> <span>"+this.city_name+"</span>";
 														str += "</div>";
 													str += "<div class='price'>";
 														str += "<div>";
 															str += "<div>";
 																str += "<strong>"+this.ticket_adult_price+"</strong>";
-																str += "<p>원~</p>";
+																str += "<p>원</p>";
+																str += "<div class='choice'>";
+																if(this.chk == 1) {
+																	str += "<button type='button' class='choice-btn' id="+this.ticket_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+																}
+																else {
+																	str += "<button type='button' class='choice-btn' id="+this.ticket_id+">즐겨찾기</button>";
+																}
+																str += "</div>";
 															str += "</div>";
 														str += "</div>";
 													str += "</div>";
@@ -925,31 +837,22 @@ function pageList(gubun, currentPage) {
 								str += "<div class='paginate_wrap'>";
 								str += "<div class='paginate type2'>";
 									str += "<div>";
-										str += "<a href='#none' class='direction prevend' style='display: none;'>처음</a>";
-										str += "<a href='#none' class='direction prev' style='display: none;'>이전</a>";
-										str += "<span><strong>1</strong><a href='#none'>2</a>";
-										str += "<a href='#none'>3</a><a href='#none'>4</a><a href='#none'>5</a>";
-										str += "<a href='#none'>6</a><a href='#none'>7</a><a href='#none'>8</a>";
-										str += "<a href='#none'>9</a></span> <a href='#none' class='direction next' style='display: none;'>다음</a>"; 
-										str += "<a href='#none' class='direction nextend' style='display: none;'>끝</a>";
-												str += "</div>";
-										str += "</div>";
+										console.log('endPage -> '+data.paging.endPage);
+										if(data.paging.startPage > data.paging.pageBlock) {
+											str += "<input class='prevPage' type='button' value='[이전]'>";
+										}
+										for(let i = data.paging.startPage; i <= data.paging.endPage; i++) {
+											str += "<input class='pageNum curPage page-item' type='button' value="+i+">";
+										}
+										if(data.paging.endPage < data.paging.totalPage) {
+											str += "<input class='nextPage' type='button' value='[다음]'>";
+										}
 									str += "</div>";
-									if(startPage > pageBlock) {
-										// str += "<a href='search/searchResultHotel?search_word="+data.search_word+"&currentPage="+startPage - pageBlock+" class='direction prev'>[이전]</a>";
-										str += "<input class='prevPage' type='button' value='[이전]'>";
-									}
-									for(startPage; startPage <= endPage; startPage++) {
-										// str += "<a href='search/searchResultHotel?search_word="+data.search_word+"&currentPage="+startPage+" class='direction prev'>"+startPage+"</a>";
-										str += "<input class='pageNum curPage page-item' type='button' value="+startPage+">";
-									}
-									if(endPage < totalPage) {
-										// str += "<a href='search/searchResultHotel?search_word="+data.search_word+"&currentPage="+startPage + pageBlock+" class='direction next'>[다음]</a>";
-										str += "<input class='nextPage' type='button' value='[다음]'>";
-									}
-									str += 		"</div>";
-									str += 	"</div>";
-									str += "</div>";
+								str += "</div>";
+							str += "</div>";
+						str += "</div>";
+					str += 	"</div>";
+				str += "</div>";
 					}
 					
 					if(gubun == 'all') {
@@ -977,18 +880,17 @@ function pageList(gubun, currentPage) {
 						str += 								"<strong>"+this.pkage_name+"</strong>";
 						str += 							"</div>";
 						str += 							"<div class='type_1'>";
-						str += 								"<span>3박 4일</span>"; 
-						str += 								"<span> 12.30.금 12:05 ~ 01.02.월 19:10 </span>";
+						str += 								"<span>"+this.period+"일</span>"; 
+						str += 								"<span> "+new Date(this.pkage_dt_startday).toLocaleString()+" ~ "+new Date(this.pkage_dt_endday).toLocaleString()+" </span>";
 						str += 							"</div>";
 						str += 							"<div class='type_2'>";
-						str += 								"<span class='ic_note'>패키지</span> <span>스탠다드</span> <span>관광</span>";
-						str += 								"<span>단체</span>";
+						str += 								"<span class='ic_note'>패키지</span>";
 						str += 							"</div>";
 						str += 							"<div class='type_3'>";
-						str += 								"<span class='ic_location'>치토세,삿포로,오타루,죠잔케이,도야,노보리베츠,치토세</span>";
+						str += 								"<span class='ic_location'>"+this.country_name+", "+this.city_name+"</span>";
 						str += 							"</div>";
 						str += 							"<div class='rating'>";
-						str += 								"<strong>"+this.pkage_score+"</strong> <span>(20)</span>";
+						str += 								"<strong>"+this.pkage_score+"</strong> <span>("+this.review_cnt+")</span>";
 						str += 							"</div>";
 						str += 						"</div>";
 						str += 						"<div class='price_info'>";
@@ -1039,10 +941,10 @@ function pageList(gubun, currentPage) {
 						str += 								"<strong>"+this.hotel_kor+"</strong>";
 						str += 							"</div>";
 						str += 							"<div class='type_1'>";
-						str += 								"<span>호텔</span> <span>3.5성급</span>";
+						str += 								"<span>호텔</span> <span>"+this.hotel_grade+"성급</span>";
 						str += 							"</div>";
 						str += 							"<div class='type_2'>";
-						str += 								"<span>일본</span> <span>"+this.city_name+"</span>";
+						str += 								"<span>"+this.country_name+"</span> <span>"+this.city_name+"</span>";
 						str += 							"</div>";
 						str += 							"<div class='rating'>";
 						str += 								"<strong>"+this.hotel_score+"</strong> <span>(리뷰수)</span>";
@@ -1052,6 +954,14 @@ function pageList(gubun, currentPage) {
 						str += 									"<div>";
 						str += 										"<strong>"+this.room_min_price+"</strong>";
 						str += 										"<p>원~</p>";
+						str += 										"<div class='choice'>";
+						if(this.chk == 0) {
+							str += "<button type='button' class='choice-btn' id="+this.ticket_id+">즐겨찾기</button>";
+						}
+						else {
+							str += "<button type='button' class='choice-btn' id="+this.ticket_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+						}
+						str += 										"</div>";
 						str += 									"</div>";
 						str += 								"</div>";
 						str += 							"</div>";
@@ -1085,23 +995,23 @@ function pageList(gubun, currentPage) {
 						str += 								"<span>입장권/패스</span>";
 						str += 							"</div>";
 						str += 							"<div class='type_2'>";
-						str += 								"<span>오사카</span>";
+						str += 								"<span>"+this.city_name+"</span>";
 						str += 							"</div>";
 						str += 							"<div class='price'>";
 						str += 								"<div>";
 						str += 									"<div>";
 						str += 										"<strong>"+this.ticket_adult_price+"</strong>";
 						str += 										"<p>원</p>";
-						str += 									"</div>";
-						str += 								"</div>";
-						str += 							"</div>";
 						str += 							"<div class='choice'>";
 						if(this.chk == 0) {
-							str += "<button type='button' class='choice-btn' id="+this.pkage_id+">즐겨찾기</button>";
+							str += "<button type='button' class='choice-btn' id="+this.ticket_id+">즐겨찾기</button>";
 						}
 						else {
-							str += "<button type='button' class='choice-btn' id="+this.pkage_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+							str += "<button type='button' class='choice-btn' id="+this.ticket_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
 						}
+						str += 							"</div>";
+						str += 									"</div>";
+						str += 								"</div>";
 						str += 							"</div>";
 						str += 						"</div>";
 						str += 					"</div>";
@@ -1142,19 +1052,17 @@ $(function() {
 				str += "								<strong>"+pkageList.pkage_name+"</strong>";
 				str += "							</div>";
 				str += "							<div class='type_1'>";
-				str += "								<span>2박 3일</span> <span> 12.14.수 08:05 ~ 12.16.금 13:30</span>";
+				str += "								<span>"+pkageList.period+"일</span> <span> "+new Date(this.pkage_dt_startday).toLocaleString()+" ~ "+new Date(this.pkage_dt_endday).toLocaleString()+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
-				str += "								<span class='air_icon'><img src='https://image.hanatour.com//usr/static/img/airline/BX.png'";
-				str += "									title='' data-src='' alt=''> 에어부산 </span> <span> 잔여석<strong>10</strong></span>";
-				str += "								<span>부산출발</span> <span>가이드동행</span> <span> 쇼핑<strong>1</strong></span>";
+				str += "								<span class='air_icon'>"+pkageList.air_name+" </span>";
+				str += "								<span>"+pkageList.start_airport_name+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
-				str += "								<span class='ic_note'>패키지</span> <span>세이브</span> <span>관광+자유</span>";
-				str += "								<span>단체</span>";
+				str += "								<span class='ic_note'>"+pkageList.pkage_dt_thema+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_3'>";
-				str += "								<span class='ic_location'>도쿄(동경)</span>";
+				str += "								<span class='ic_location'>"+pkageList.country_name+", "+pkageList.city_name+"</span>";
 				str += "							</div>";
 				str += "							<div class='rating'>";
 				str += "								<strong>"+pkageList.pkage_score+"</strong> <span>("+pkageList.review_cnt+")</span>";
@@ -1182,7 +1090,12 @@ $(function() {
 	    
 	    $("input:radio[name=order]").each(function() {
 	    	if($(this).is(":checked")) {
+	    		radioCheck = $(this).attr('id');
+	    		// chk_Val.push("empty");
 	    		chk_Val.push($(this).attr('id'));
+	    		$("." + $(this).attr('id')).css("color", "#5e2bb8");
+			} else {
+	    		$("." + $(this).attr('id')).css("color", "#111");
 			}
 		})
 		
@@ -1190,13 +1103,12 @@ $(function() {
 			//if($("input:radio[name=order]").is(":checked")) {
 			if($(this).siblings().hasClass('item_order')) {
 				alert('radio 가가');
-				alert($(this));
 				console.log('this -> ' + $(this));
 				//radioCheck = $(this).attr('id');
 				//chk_Val.push($("input:radio[class=item_order]:checked").attr('id'));
 				chk_Val.push($(this).siblings('input[type="radio"]').attr('id'));
 				$("." + $(this).attr('id')).css("color", "purple");
-				console.log(chk_Val);
+				console.log("chk_Val -> " + chk_Val);
 				//alert('radioCheck -> ' + radioCheck);
 			}
 		//})
@@ -1209,7 +1121,12 @@ $(function() {
 					$("." + $(this).attr('id')).css("color", "purple");
 			});
 		} */
-		if($("input:checkbox[class=inpt_checkbox]").is(":checked")) {
+		if($("input:checkbox[class=inpt_checkbox]").is(":checked") || $("input:radio[name=order]").is(":checked")) {
+			let existChkBox = ''
+			if($("input:checkbox[class=inpt_checkbox]").is(":checked")) {
+				existChkBox = 'exist';
+			}
+			
 			$("input:checkbox[class=inpt_checkbox]:checked").each(function(i) {
 				chk_Val.push($(this).attr('id'));
 					$("." + $(this).attr('id')).css("border-color", "purple");
@@ -1224,14 +1141,13 @@ $(function() {
 			
 			$.ajax({
 				url: "/pkageFilter",
-				data: {'radioCheck1': "buy_order", 'check':  chk_Val, 'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+				data: {'existChkBox' : existChkBox,'radioCheck1': radioCheck, 'check':  chk_Val, 'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
 				dataType: 'json',
 				traditional: true,
 				success: function(data) {
 					console.log(data);
 					$('.list_result_wrap .pkg').empty();
 					$('.list_result_wrap .pkg').html(toHTML(data));
-						
 				}
 			});
 		}
@@ -1277,19 +1193,17 @@ $(function() {
 				str += "								<strong>"+this.pkage_name+"</strong>";
 				str += "							</div>";
 				str += "							<div class='type_1'>";
-				str += "								<span>2박 3일</span> <span> 12.14.수 08:05 ~ 12.16.금 13:30</span>";
+				str += "								<span>"+this.period+"</span> <span> "+new Date(this.pkage_dt_startday).toLocaleString()+" ~ "+new Date(this.pkage_dt_endday).toLocaleString()+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
-				str += "								<span class='air_icon'><img src='https://image.hanatour.com//usr/static/img/airline/BX.png'";
-				str += "									title='' data-src='' alt=''> 에어부산 </span> <span> 잔여석<strong>10</strong></span>";
-				str += "								<span>부산출발</span> <span>가이드동행</span> <span> 쇼핑<strong>1</strong></span>";
+				str += "								<span class='air_icon'>"+this.air_name+" </span>";
+				str += "								<span>"+this.start_airport_name+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
-				str += "								<span class='ic_note'>패키지</span> <span>세이브</span> <span>관광+자유</span>";
-				str += "								<span>단체</span>";
+				str += "								<span class='ic_note'>"+this.pkage_dt_thema+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_3'>";
-				str += "								<span class='ic_location'>도쿄(동경)</span>";
+				str += "								<span class='ic_location'>"+this.country_name+", "+this.city_name+"</span>";
 				str += "							</div>";
 				str += "							<div class='rating'>";
 				str += "								<strong>"+this.pkage_score+"</strong> <span>("+this.review_cnt+")</span>";
