@@ -45,13 +45,11 @@ public class TicketDAOImpl implements TicketDAO {
 
 	// 입장권 상세 정보
 	@Override
-	public TicketDTO getTicketDetail(String ticket_id) {
+	public TicketDTO getTicketDetail(TicketDTO ticketDTO) {
 		System.out.println("~~ TicketDAOImpl getTicketDetail ~~");
 		
-		TicketDTO ticketDTO = new TicketDTO();
-		
 		try {
-			ticketDTO = session.selectOne("ticketDetail", ticket_id);	// xml로 값 가져가기
+			ticketDTO = session.selectOne("ticketDetail", ticketDTO);	// xml로 값 가져가기
 		} catch (Exception e) {
 			System.out.println("TicketDAOImpl getTicketDetail Exception -> " + e.getMessage());
 		}
