@@ -157,10 +157,7 @@
 		</div>
 	</div>
 </body>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script type="text/javascript">
 
 var pwCheck = false;            // 비번
@@ -182,9 +179,10 @@ $(document).ready(function() {
             	$('#pw_reg').css("display", "block");
             } else {
             	$('#pw_reg').css("display", "none");
+            	pwCheck = true;
             }
 			$('#pw_error').css('display', 'none');
-			pwCheck = true;
+			
 		}
         
 		/* 비밀번호 확인 유효성 검사 */
