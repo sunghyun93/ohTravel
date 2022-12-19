@@ -75,6 +75,7 @@ public class HotelController {
 		model.addAttribute("rv_real_id", hotelDTO.getHotel_id());
 		model.addAttribute("totalReviewCnt", totalReviewCnt);
 		model.addAttribute("hotelDetailOptions", hs.getHotelDetailOptions(hotelDTO));
+		model.addAttribute("hotelRecList", hs.getHotelRecList(hotelDTO));
 		return "hotel/hotelDetail";
 	}
 	

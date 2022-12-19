@@ -15,6 +15,9 @@
 	    z-index: 2 !important;
 	}
 
+	.ly_wrap {
+		margin-bottom:80px;
+	}
 </style>
 </head>
 <body>
