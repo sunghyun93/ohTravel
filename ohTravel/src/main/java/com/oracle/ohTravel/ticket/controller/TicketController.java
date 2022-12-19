@@ -122,6 +122,4 @@ public class TicketController {
 		return "ticket/exhReserveSuccess";
 	}	
 	
-	
-	
 }

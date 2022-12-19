@@ -68,13 +68,5 @@
 		WHERE mem_id = #{mem_id} AND basket_ref_id = #{ticket_id}
 	</delete>
 	
-	<select id="selectTicketBasketChk" resultType="int">
-		SELECT basket_id, mem_id, basket_ref_id
-		FROM   basket
-		WHERE  mem_id = #{mem_id}
-		AND    basket_ref_id = #{ticket_id}
-	</select>
-	
-	
 </mapper>
 	
