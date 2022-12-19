@@ -33,15 +33,16 @@
 </head>
 <body>
 <!-- 여행자 정보 부분 -->
-				<form id="info_modify">
-				<input type="hidden" name="reservation_id" value="${reservation_id}">
+				
 					<div class="entire">
                         <div class="text_wrap mid">
                             <strong class="tit">탑승자 정보</strong>
                         </div>
 
                         <!-- 여행자 정보 부분 table -->
-                        <c:forEach var="ppl"  items="${air_Reservation_PiList}">
+                        <c:forEach var="ppl"  items="${air_Reservation_PiList}" varStatus="status">
+                        <form id="info_modify${status.index }">
+						<input type="hidden" name="reservation_id" value="${reservation_id}">
                         <input type="hidden" value="${ppl.air_pi_id }" name="air_pi_id">
                         <div class="js_tabs type1 v-tabs alone">
                             <div class="panels personChk">
@@ -115,10 +116,10 @@
                             </div><!-- panels -->
                              <button type="button" class="modifyBtn">수정완료</button>
                         </div><!-- js_tabs type1 v-tabs alone, 여행자 정보 부분 table  -->
-                        
+                        </form>
                       </c:forEach>
                      </div>
-                     </form> 
+                    
                      
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <script src="/js/pkage/regExp.js"></script>                      
@@ -381,15 +382,22 @@
       
 
        $(document).on('click','.modifyBtn' ,function() { 
+    	 let formId =  $(this).closest('form').attr('id');
+    	 alert(formId);
+    	 let realForm = $('#'+formId);
+    	 let formIdSeri = realForm.serialize();
+    	
+   	  	 
+    	  
         $.ajax({
     		url: '${pageContext.request.contextPath}/airport/airInfoModifyComplete',
 			type: 'get',
-			data: $('#info_modify').serialize(),
+			data: formIdSeri,
 			dataType:'text',
 			success : function(data){
 			
 				alert('탑승객 정보수정이 완료되었습니다.');
-				location.href="${pageContext.request.contextPath}/member/myPageReservAir";
+				
 			},
 			error: function(err){
 				console.log(err);

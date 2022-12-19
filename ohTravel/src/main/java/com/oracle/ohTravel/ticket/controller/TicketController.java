@@ -65,6 +65,16 @@ public class TicketController {
 	public String goExhibitionDetail(TicketDTO ticketDTO, Model model, HttpServletRequest request, HttpSession session) {
 		System.out.println("== TicketController Start exhibitionDetail ==");
 		
+		// 로그인 취소하고 돌아왔을 때 다시 돌아오게(?)
+		String toURL = request.getRequestURI().toString(); // jsp 쪽에서 사용할 toURL
+		String queryString = request.getQueryString();
+		// & -> %26 으로 변환
+		queryString = queryString.replaceAll("&", "%26");
+		String redirectURL = toURL + "?" + queryString; // loginForm 으로 보낼 URL
+		log.info("toURL = "+toURL);
+		log.info("queryString = " + request.getQueryString());
+		log.info("redirectURL = " + redirectURL);
+		
 		
 		// 찜 여부 판단용
 		String mem_id = (String)session.getAttribute("sessionId");
@@ -74,7 +84,7 @@ public class TicketController {
 		
 		model.addAttribute("ticketDetail", ticketDTO);
 		model.addAttribute("rv_real_id", ticketDTO.getTicket_id());	// 리뷰
-		
+		model.addAttribute("redirectURL", redirectURL);
 		
 		System.out.println("ticketDTO -> " + ticketDTO);
 		

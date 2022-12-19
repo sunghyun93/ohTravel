@@ -513,7 +513,7 @@ function goReserve(room_id){
 	
 	if(!isLogined()) {
 		alert('로그인 후 예약해주세요.')
-		location.href="${pageContext.request.contextPath }/member/loginForm"
+		location.href="${pageContext.request.contextPath }/member/loginForm?toURL=${redirectURL }"
 		return false;
 	}
 	
@@ -722,7 +722,7 @@ $('#heart').click(function(){
 	
 	if("${member.mem_id }" == ""){
 		if(confirm("로그인한 회원만 찜하기 기능을 이용할 수 있습니다. 로그인 하시겠습니까?")){
-			location.href="${pageContext.request.contextPath }/member/loginForm"
+			location.href="${pageContext.request.contextPath }/member/loginForm?toURL=${redirectURL }"
 		} else {
 			return false;
 		}

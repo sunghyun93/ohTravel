@@ -214,6 +214,7 @@ public class MemberController {
 			
 		} else {
 			session.setAttribute("sessionId", member.getMem_id());
+			session.setAttribute("member", member);
 			model.addAttribute("member", member);
 			model.addAttribute("check", 0);
 			model.addAttribute("id", member.getMem_id());
@@ -799,7 +800,7 @@ public class MemberController {
 	
 	// 비밀번호 변경
 	@PostMapping(value = "/updatePassword")
-	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request, HttpSession session) {
+	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request, HttpSession session, Model model) {
 		log.info("MemberController updatePassword start..");
 		
 		// 로그인 안 했을 때 로그인 페이지로 이동
@@ -808,8 +809,12 @@ public class MemberController {
 		}
 		
 		memberService.updatePassword(memberDTO);
+		session.invalidate();
 		
-		return "redirect:/member/myPageReservPackage";
+		
+		System.out.println("MemberController updatePassword memberDTO -> " + memberDTO.getMem_password());
+		
+		return "member/loginForm";
 	}
 	
 	

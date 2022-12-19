@@ -115,6 +115,7 @@
 		<result property="business_res_count" column="business_res_count"/>
 		<result property="first_res_count" column="first_res_count"/>
 		
+		<association property="airlineDTO" resultMap="selectAirlineResult"></association>
 		
 	</resultMap>
 	
@@ -134,8 +135,39 @@
 		<result property="reservation_date" column="reservation_date"/>
 		<result property="reservation_price" column="reservation_price"/>
 		
-		<collection property="air_flightSchDTO" resultMap="selectAirFlightScheResult"></collection>
+		<association property="seatDTO" resultMap="selectSeatResult"></association>
 		
+		<collection property="air_flightSchDTO" resultMap="selectAirFlightScheResult"></collection>
+		<collection property="air_Reservation_PiDTO" resultMap="selectAirReservationPiResult"></collection>
+
+	</resultMap>
+	
+	<resultMap type="Air_Reservation_PiDTO" id="selectAirReservationPiResult">
+		<id property="air_pi_id" column="air_pi_id"/>
+		<result property="reservation_id" column="reservation_id"/>
+		<result property="air_pi_name" column="air_pi_name"/>
+		<result property="air_pi_birth" column="air_pi_birth"/>
+		<result property="air_pi_gen" column="air_pi_gen"/>
+		<result property="air_pi_lname" column="air_pi_lname"/>
+		<result property="air_pi_fname" column="air_pi_fname"/>
+		<result property="air_pi_tel" column="air_pi_tel"/>
+		<result property="air_pi_email" column="air_pi_email"/>
+		<result property="air_passport" column="air_passport"/>
+		
+	</resultMap>
+	
+	<resultMap type="AirlineDTO" id="selectAirlineResult">
+		<id property="air_num" column="air_num"/>
+		<result property="air_code" column="air_code"/>
+		<result property="air_name" column="air_name"/>
+		<result property="air_picture" column="air_picture"/>
+	</resultMap>
+	
+	<resultMap type="SeatDTO" id="selectSeatResult">
+		<id property="seat_position" column="seat_position"/>
+		<result property="seat_grade" column="seat_grade"/>
+		<result property="seat_name" column="seat_name"/>
+		<result property="plus_Seat_price" column="plus_Seat_price"/>
 	</resultMap>
 	
 	

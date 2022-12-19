@@ -12,4 +12,5 @@ public class Air_ReservationDTO {
 	private Date reservation_date;
 	private int reservation_price;
 	
+	//private Air_Reservation_PiDTO air_Reservation_PiDTO;
 }

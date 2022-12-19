@@ -28,18 +28,60 @@
 				order by a.schedule_price asc
 			</when>
 			<when test="order == 4">
-				a.schedule_price between 0 and 400000 order by a.start_time asc
+			 <if test='seat_position =="C"'>
+				and	a.schedule_price between 0 and 400000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="B"'>
+				and	(2*a.schedule_price) between 0 and 400000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="A"'>
+				and	(3*a.schedule_price) between 0 and 400000 order by a.schedule_price asc
+			</if>
 			</when>
 			<when test="order == 5">
-				a.schedule_price between 400000 and 600000 order by a.start_time asc
+			<if test='seat_position =="C"'>
+			and	a.schedule_price between 400000 and 600000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="B"'>
+			and	(2*a.schedule_price) between 400000 and 600000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="A"'>
+			and	(3*a.schedule_price) between 400000 and 600000 order by a.schedule_price asc
+			</if>
 			</when>
 			<when test="order == 6">
-				a.schedule_price between 600000 and 800000 order by a.start_time asc
+			<if test='seat_position =="C"'>
+			and	a.schedule_price between 600000 and 800000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="B"'>
+			and	(2*a.schedule_price) between 600000 and 800000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="A"'>
+			and	(3*a.schedule_price) between 600000 and 800000 order by a.schedule_price asc
+			</if>
 			</when>
 			<when test="order == 7">
+			<if test='seat_position =="C"'>
 				<![CDATA[
-					a.schedule_price  800000 order by a.start_time asc
+				and	a.schedule_price >= 800000 order by a.start_time asc
 				]]>
+			</if>
+			<if test='seat_position =="B"'>
+				<![CDATA[
+				and	(2*a.schedule_price) >= 800000 order by a.start_time asc
+				]]>
+			</if>
+			<if test='seat_position =="A"'>
+				<![CDATA[
+				and	(3*a.schedule_price) >= 800000 order by a.start_time asc
+				]]>
+			</if>	
+			</when>
+			<when test="order == 8">
+			and (hour(a.start_time) between '5' and '12')
+			</when>
+			<when test="order == 9">
+			and (hour(a.start_time) between '12' and '18')
 			</when>
 		</choose>
 	</select>
@@ -68,18 +110,54 @@
 				order by a.schedule_price asc
 			</when>
 			<when test="order == 4">
-			and	a.schedule_price between 0 and 400000 order by a.schedule_price asc
+			 <if test='seat_position =="C"'>
+				and	a.schedule_price between 0 and 400000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="B"'>
+				and	(2*a.schedule_price) between 0 and 400000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="A"'>
+				and	(3*a.schedule_price) between 0 and 400000 order by a.schedule_price asc
+			</if>
 			</when>
 			<when test="order == 5">
+			<if test='seat_position =="C"'>
 			and	a.schedule_price between 400000 and 600000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="B"'>
+			and	(2*a.schedule_price) between 400000 and 600000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="A"'>
+			and	(3*a.schedule_price) between 400000 and 600000 order by a.schedule_price asc
+			</if>
 			</when>
 			<when test="order == 6">
+			<if test='seat_position =="C"'>
 			and	a.schedule_price between 600000 and 800000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="B"'>
+			and	(2*a.schedule_price) between 600000 and 800000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="A"'>
+			and	(3*a.schedule_price) between 600000 and 800000 order by a.schedule_price asc
+			</if>
 			</when>
 			<when test="order == 7">
+			<if test='seat_position =="C"'>
 				<![CDATA[
 				and	a.schedule_price >= 800000 order by a.start_time asc
 				]]>
+			</if>
+			<if test='seat_position =="B"'>
+				<![CDATA[
+				and	(2*a.schedule_price) >= 800000 order by a.start_time asc
+				]]>
+			</if>
+			<if test='seat_position =="A"'>
+				<![CDATA[
+				and	(3*a.schedule_price) >= 800000 order by a.start_time asc
+				]]>
+			</if>	
 			</when>
 			<when test="order == 8">
 			and (hour(a.start_time) between '5' and '12')
@@ -116,18 +194,54 @@
 				order by a.schedule_price asc
 			</when>
 			<when test="order == 4">
-			and	a.schedule_price between 0 and 400000 order by a.schedule_price asc
+			 <if test='seat_position =="C"'>
+				and	a.schedule_price between 0 and 400000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="B"'>
+				and	(2*a.schedule_price) between 0 and 400000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="A"'>
+				and	(3*a.schedule_price) between 0 and 400000 order by a.schedule_price asc
+			</if>
 			</when>
 			<when test="order == 5">
+			<if test='seat_position =="C"'>
 			and	a.schedule_price between 400000 and 600000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="B"'>
+			and	(2*a.schedule_price) between 400000 and 600000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="A"'>
+			and	(3*a.schedule_price) between 400000 and 600000 order by a.schedule_price asc
+			</if>
 			</when>
 			<when test="order == 6">
+			<if test='seat_position =="C"'>
 			and	a.schedule_price between 600000 and 800000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="B"'>
+			and	(2*a.schedule_price) between 600000 and 800000 order by a.schedule_price asc
+			</if>
+			<if test='seat_position =="A"'>
+			and	(3*a.schedule_price) between 600000 and 800000 order by a.schedule_price asc
+			</if>
 			</when>
 			<when test="order == 7">
+			<if test='seat_position =="C"'>
 				<![CDATA[
 				and	a.schedule_price >= 800000 order by a.start_time asc
 				]]>
+			</if>
+			<if test='seat_position =="B"'>
+				<![CDATA[
+				and	(2*a.schedule_price) >= 800000 order by a.start_time asc
+				]]>
+			</if>
+			<if test='seat_position =="A"'>
+				<![CDATA[
+				and	(3*a.schedule_price) >= 800000 order by a.start_time asc
+				]]>
+			</if>	
 			</when>
 			<when test="order == 8">
 			and (hour(a.start_time) between '5' and '12')

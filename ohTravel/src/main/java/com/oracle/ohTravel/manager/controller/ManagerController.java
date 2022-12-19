@@ -31,6 +31,7 @@ import com.oracle.ohTravel.manager.model.NoticeDTO;
 import com.oracle.ohTravel.manager.model.PagingManager;
 import com.oracle.ohTravel.manager.service.ManageHotelService;
 import com.oracle.ohTravel.manager.service.ManagerService;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 
@@ -1728,8 +1729,8 @@ public class ManagerController {
 	//예약관리 -> 항공권 예약 리스트 가져오기 Ajax
 	@ResponseBody
 	@PostMapping(value = "getAirResList")
-	public List<ManageAirportDTO> getAirResList(){
-		List<ManageAirportDTO> getAirResList = service.getAirResList();
+	public List<AirReservationDetail> getAirResList(){
+		List<AirReservationDetail> getAirResList = service.getAirResList();
 		return getAirResList;
 	}
 	//예약관리 -> 항공권 예약인원 리스트 가져오기 Ajax
