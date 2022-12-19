@@ -19,7 +19,7 @@ public class ScoreComparator implements Comparator<Object> {
 			pkageDTO2 = (PkageDTO)o2;
 			
 			// 양수 (오름차순) 음수 (내림차순)
-			return (int) ((pkageDTO1.getPkage_score() - pkageDTO2.getPkage_score())*-1);
+			return (int) ((pkageDTO1.getPkage_score()*10 - pkageDTO2.getPkage_score()*10)*-1);
 		}
 		return 0;
 		

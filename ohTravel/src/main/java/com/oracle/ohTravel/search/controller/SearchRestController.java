@@ -51,6 +51,7 @@ public class SearchRestController {
 		if("high_score".equals(radioCheck)) {
 			System.out.println("high_score");
 			Collections.sort(pkList, new ScoreComparator());
+			System.out.println(pkList);
 		}
 		if("high_price".equals(radioCheck)) {
 			System.out.println("high_price");
