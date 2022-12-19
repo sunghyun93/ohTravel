@@ -246,6 +246,27 @@
 	border-bottom : 2px solid black;
 }
 
+
+.withReview, .star_scr, .totalReviewCnt, .star_img{
+	
+	text-align: left;
+	float:left;
+	
+}
+
+.star_scr{
+	
+	margin-left: 5px;
+	margin-right: 10px;
+}
+
+.totalReviewCnt{
+	
+	margin-left: 5px;
+	
+}
+
+
 /* 리뷰 관련 css */
 .all_review {
 	

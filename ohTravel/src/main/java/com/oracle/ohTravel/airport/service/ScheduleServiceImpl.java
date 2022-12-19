@@ -209,6 +209,34 @@ public class ScheduleServiceImpl implements ScheduleService{
 		return air_ReservationDTO;
 	}
 
+	@Override
+	public List<Air_Reservation_PiDTO> selectReservation(Integer reservation_id) {
+		
+		 List<Air_Reservation_PiDTO>  air_Reservation_PiDTO = null;
+		try {
+			air_Reservation_PiDTO = scheduleDAO.selectReservationPPl(reservation_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return air_Reservation_PiDTO;
+	}
+
+	@Override
+	public List<Air_Reservation_PiDTO> updatePeopleInfo(Air_Reservation_PiDTO air_Reservation_PiDTO) {
+		 
+		List<Air_Reservation_PiDTO>  air_Reservation_PiDTO2 = null;
+			try {
+				air_Reservation_PiDTO2 = scheduleDAO.selectReservationPPl(air_Reservation_PiDTO);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return air_Reservation_PiDTO2;
+	}
+		
+	
+
 	
 
 	

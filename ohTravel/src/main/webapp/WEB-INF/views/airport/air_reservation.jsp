@@ -326,6 +326,7 @@
 <input type="hidden" value="${come.airplane_name }" name="come_airplane_name">
 <input type="hidden" value="${seat_position}" name="seat_position">
 <input type="hidden" value="${seat_name}" name="seat_name">
+<input type="hidden" value="${toURL}" name="toURL">
 
 <div class="all">
 	<div class="inr">
@@ -703,22 +704,22 @@
                                 		<div>총 상품금액</div>
 									<strong class="total_price">
 									<c:if test="${seat_name == '일반석'}">
-									<fmt:formatNumber value="${1*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br>
-									 <input type="hidden" value="${1*(go.schedule_price + come.schedule_price)}" name="total_price" class="price_hidden">
-									 <input type="hidden" value="${1*go.schedule_price}" name="go_price">
-									  <input type="hidden" value="${1*come.schedule_price}" name="come_price">
+									<fmt:formatNumber value="${count*1*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br>
+									 <input type="hidden" value="${count*1*(go.schedule_price + come.schedule_price)}" name="total_price" class="price_hidden">
+									 <input type="hidden" value="${count*1*go.schedule_price}" name="go_price">
+									  <input type="hidden" value="${count*1*come.schedule_price}" name="come_price">
 									 </c:if>
 									 <c:if test="${seat_name == '비즈니스석'}">
-									<fmt:formatNumber value="${2*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br> 	
+									<fmt:formatNumber value="${count*2*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br> 	
 									 <input type="hidden" value="${2*(go.schedule_price + come.schedule_price)}" name="total_price" class="price_hidden">
 									 <input type="hidden" value="${2*go.schedule_price}" name="go_price">
 									 <input type="hidden" value="${2*come.schedule_price}" name="come_price">									 
 									 </c:if>
 									 <c:if test="${seat_name == '일등석'}">
-									<fmt:formatNumber value="${3*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br>
-									<input type="hidden" value="${3*(go.schedule_price + come.schedule_price)}" name="total_price" class="price_hidden">
-								 	<input type="hidden" value="${3*go.schedule_price}" name="go_price">
-								  	<input type="hidden" value="${3*come.schedule_price}" name="come_price">									 
+									<fmt:formatNumber value="${count*3*(go.schedule_price + come.schedule_price)}" pattern="#,###"/><span>원</span><br>
+									<input type="hidden" value="${count*3*(go.schedule_price + come.schedule_price)}" name="total_price" class="price_hidden">
+								 	<input type="hidden" value="${count*3*go.schedule_price}" name="go_price">
+								  	<input type="hidden" value="${count*3*come.schedule_price}" name="come_price">									 
 									 </c:if>
 					
 									</strong>

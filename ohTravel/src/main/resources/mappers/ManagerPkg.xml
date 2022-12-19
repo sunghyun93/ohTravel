@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.ohTravel.ManagePkg">
+<!-- 패키지 상세 추가 insert 및 select 문들 -->
+	<!-- 패키지 상세 추가 - 날짜에 1이 붙은 이유 : 불러올 때 값을 받을 때 String으로 받기 편해서 String 으로 받은 것을 가져옴... -->
+	<insert id="insertPackage1" parameterType="Package">
+		INSERT INTO package_detail(pkage_id,pkage_dt_name,pkage_dt_thema,pkage_dt_Aprice,pkage_dt_Cprice,pkage_dt_cnt,pkage_dt_Mcnt,pkage_dt_Rcnt,pkage_dt_Gname,pkage_dt_meet,pkage_dt_meetDate, pkage_dt_startDay, pkage_dt_endDay)
+		VALUES (#{pkage_id}, #{pkage_dt_name}, #{pkage_dt_thema}, #{pkage_dt_Aprice}, #{pkage_dt_Cprice}, #{pkage_dt_cnt}, #{pkage_dt_Mcnt}, 0, #{pkage_dt_Gname}, #{pkage_dt_meet,jdbcType=TIMESTAMP}, #{pkage_dt_meetDate1}, #{pkage_dt_startDay1}, #{pkage_dt_endDay1})
+	</insert>
+
+	<!-- 패키지 상세 추가 후 가장 최근의 pkage_dt_id 가져오기 -->
+	<select id="selectRecentPkageDtId" parameterType="String" resultType="int">
+		SELECT max(pkage_dt_id) FROM package_detail WHERE pkage_id = #{pkage_id}
+	</select>
+	
+	<!-- 패키지 여행 일정 추가 -->
+	<insert id="insertPkgSche" parameterType="map"> 
+		INSERT INTO package_schedule
+		VALUES
+		<foreach collection="pkage_schedulDTOList" item="item" separator=",">
+			(#{item.pkage_dt_id},#{item.pkage_sche_day}, #{item.pkage_sche_trans}, 
+			#{item.pkage_sche_b}, #{item.pkage_sche_l}, #{item.pkage_sche_d})
+		</foreach>
+	</insert>
+	
+	<!-- 패키지 여행일정_관광지 추가 -->
+	<insert id="insertPkgScheDetail" parameterType="map">
+		INSERT INTO packageschedule_detail
+		VALUES	
+		<foreach collection="pkage_sche_detailDTOList" item="item" separator=",">
+			(#{item.pkage_dt_id}, #{item.pkage_sche_day}, #{item.attr_id}, #{item.pkage_s_d_order})
+		</foreach>
+	</insert>
+	
+	<!-- pkage_detail 과 해당 패키지의 도시에 해당하는 관광지 가져오기 -->
+	<select id="selectAttrConnectedPkgDetail" parameterType="string" resultType="attractionDTO">
+		select * from attraction 
+		where city_id = 
+		(select p.city_id from package_detail pd
+		join package p on pd.pkage_id = p.pkage_id
+		where pkage_dt_id = #{pkage_dt_id})
+	</select>
+	
+	<!-- pkage_detail 과 해당하는 도시ID 가져오기 -->
+	<select id="selectCityIdConnectedPkgDetail" parameterType="int" resultType="int">
+		select p.city_id from package_detail pd
+		join package p on pd.pkage_id = p.pkage_id
+		where pkage_dt_id = #{pkage_dt_id}
+	</select>
+	
+	<!-- 패키지 상세 일정과 맞는 날짜의 비행일정 가져오기 (출발 시작/도착 시작은 모조건 인천, 이미 detail 에 등록된 출발, 종료 일정보다 나중 비행일정들만 들고오기)-->
+	<select id="selectAirScheConnectedPkgDetail" parameterType="map" resultType="Air_ScheduleDTORM">
+		select * from Air_Schedule
+		where Start_Airport_name = (select Start_Airport_name 
+									from Start_Airport
+									where city_id = #{start_city_id})
+		and End_Airport_name = (select End_Airport_name
+								from End_Airport
+		                        where city_id = #{end_city_id})
+		and start_time >= (select ${pkage_dt_dayGubun} from package_detail where pkage_dt_id = #{pkage_dt_id})
+		and date(start_time) = date((select ${pkage_dt_dayGubun} from package_detail where pkage_dt_id = #{pkage_dt_id}))
+		order by start_time
+	</select>
+	
+	<!-- 패키지 비행일정 추가   -->
+	<insert id="insertPkgFlightSche" parameterType="map">
+		INSERT INTO package_flightsche
+		VALUES 
+		<foreach collection="pkage_flightScheList" item="item" separator=",">
+			(#{item.pkage_dt_id}, #{item.schedule_id}, #{item.pkage_flight_gubun})
+		</foreach>
+	</insert>
+	
+	<!-- 패키지 상세의 도시에 속하는 호텔들 가져오기 -->
+	<select id="selectHotelConnectedPkgDetail" parameterType="int" resultType="HotelDTORM">
+		select * from hotel
+		where city_id = (select p.city_id from package_detail pd
+						join package p on pd.pkage_id = p.pkage_id
+		                where pd.pkage_dt_id = #{pkage_dt_id}
+		                )
+	</select>
+	
+	<!-- 패키지 호텔 추가 -->
+	<insert id="insertPkgHotel" parameterType="Pkage_hotelDTO">
+		INSERT INTO package_hotel
+		VALUES (#{pkage_dt_id}, #{hotel_id})
+	</insert>
+
+<!-- 패키지 상세 update -->
+	<update id="updatePkgDetail" parameterType="Pkage_detailDTO">
+		UPDATE package_detail
+		SET
+		pkage_dt_name = #{pkage_dt_name},  
+		pkage_dt_thema = #{pkage_dt_thema},
+		pkage_dt_Aprice = #{pkage_dt_Aprice},
+		pkage_dt_Cprice = #{pkage_dt_Cprice},
+		pkage_dt_cnt = #{pkage_dt_cnt},
+		pkage_dt_Mcnt = #{pkage_dt_Mcnt},
+		pkage_dt_Rcnt = #{pkage_dt_Rcnt},
+		pkage_dt_Gname = #{pkage_dt_Gname},
+		pkage_dt_meet = #{pkage_dt_meet},
+		pkage_dt_meetDate = #{pkage_dt_meetDate1},
+		pkage_dt_startDay = #{pkage_dt_startDay1},
+		pkage_dt_endDay = #{pkage_dt_endDay1}
+		WHERE pkage_dt_id = #{pkage_dt_id};
+	</update>
+	
+<!-- 패키지 상세 관련 테이블 모두 delete -->
+	<!-- 패키지 상세 delete -->
+	<delete id="deletePkgDetail" parameterType="int">
+		DELETE 
+		FROM package_detail
+		WHERE pkage_dt_id = #{pkage_dt_id}
+	</delete>
+	
+	<!-- 패키지 여행 일정 delete -->
+	<delete id="deletePkgSche" parameterType="int">
+		DELETE 
+		FROM package_schedule
+		WHERE pkage_dt_id = #{pkage_dt_id}
+	</delete>
+	
+	<!-- 패키지 여행일정_관광지 delete -->
+	<delete id="deletePkgScheDetail" parameterType="int">
+		DELETE 
+		FROM packageSchedule_detail
+		WHERE pkage_dt_id = #{pkage_dt_id}
+	</delete>
+	
+	<!-- 패키지 비행일정 delete -->
+	<delete id="deletePkgFlight" parameterType="int">
+		DELETE 
+		FROM package_flightSche
+		WHERE pkage_dt_id = #{pkage_dt_id}
+	</delete>
+	
+	<!-- 패키지 숙박 delete -->
+	<delete id="deletePkgHotel" parameterType="int">
+		DELETE 
+		FROM package_hotel
+		WHERE pkage_dt_id = #{pkage_dt_id}
+	</delete>
+
+</mapper>

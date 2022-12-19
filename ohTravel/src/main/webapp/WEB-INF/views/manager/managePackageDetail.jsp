@@ -23,22 +23,21 @@
 	white-space: nowrap;
 }
 </style>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
 <script type="text/javascript">
-	$(document).ready(function(){
-		var updateMsg1 = '${updateTicketMsg1}';
-		var deleteMsg1 = '${deleteTicketMsg1}';
-		var insertMsg1 = '${insertTicketMsg1}';
-		console.log(updateMsg1);
-		console.log(deleteMsg1);
-		console.log(updateMsg1);
-		if(updateMsg1 == 1){
-			alert("수정이 완료되었습니다");
-		}else if(deleteMsg1 ==1){
-			alert("삭제가 완료되었습니다");
-		}else if(insertMsg1 ==1){
-			alert("상품이 추가되었습니다");
-		}
-	});
+// 메세지
+let msg = '${msg}'
+
+if(msg == "MOD_OK"){
+	alert("수정이 완료되었습니다");
+}else if(msg == "DEL_OK"){
+	alert("삭제가 완료되었습니다");
+}else if(msg == "DEL_ERR") {
+	alert("삭제에 실패했습니다.\n다시 시도해주세요.");
+}else if(msg == "WRT_OK"){
+	alert("상품이 추가되었습니다");
+}
+
 </script>
 </head>
 <body>
@@ -57,16 +56,22 @@
 				<input type="button" class="btn btn-primary mb-2 mr-2" style="float: right;" onclick="location.href='managePackage?currentPage=${currentPage}'" value="돌아가기">
 			</div>
 				<table border="1" class="table table-hover">
+					<colgroup>
+                        <col style="width:15%">
+                        <col style="width:15%">
+                        <col style="width:15%">
+                        <col style="">
+                    </colgroup>
 					<thead>
 					<tr>
 						<th>패키지상품ID</th>
 						<th>패키지코드</th>
 						<th>도시코드</th>
-						<th>패키지명</th>
-						<th>패키지정보</th>
+						<th>패키지상품명</th>
+                   <%-- <th>패키지정보</th>
 						<th>패키지구분</th>
 						<th>패키지판매갯수</th>
-						<th>패키지점수</th>
+						<th>패키지점수</th> --%>
 					</tr>
 					</thead>
 					<c:forEach var="packageDetail" items="${packageDetail }">
@@ -75,11 +80,11 @@
 						<td>${packageDetail.pkage_dt_id }</td>
 						<td>${packageDetail.pkage_id}</td>
 						<td>${packageDetail.city_id}</td>
-						<td>${packageDetail.pkage_name}</td>
-						<td class="content">${packageDetail.pkage_info}</td>
+						<td>${packageDetail.pkage_dt_name}</td>
+						<%-- <td class="content">${packageDetail.pkage_info}</td>
 						<td>${packageDetail.pkage_gubun}</td>
 						<td>${packageDetail.pkage_soldCnt}</td>
-						<td>${packageDetail.pkage_score}</td>
+						<td>${packageDetail.pkage_score}</td> --%>
 					</tr>
 					</tbody>
 					</c:forEach>

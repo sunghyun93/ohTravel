@@ -24,6 +24,7 @@
 						    </p>
 					</c:if>
 					<form name="login" id="login" method="post" action="login">
+					<input type="hidden" name="toURL" value="${toURL }">
 						<ul class="form_wrap">
 						    <li>
 						        <input type="text" id="mem_id" name="mem_id" title="아이디" placeholder="아이디" class="input_text v-placeholder" />
