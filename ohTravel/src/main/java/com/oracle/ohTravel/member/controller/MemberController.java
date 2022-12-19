@@ -727,6 +727,8 @@ public class MemberController {
 		// HttpSession session = request.getSession();
 		
 		memberService.updateMember(memberDTO);
+		System.out.println("MemberController updateMember memberDTO.getMem_email -> " + memberDTO.getMem_email());
+		session.setAttribute("sessionEmail", memberDTO.getMem_email());
 		
 		return "redirect:/member/myPagePrivacy";
 	}
