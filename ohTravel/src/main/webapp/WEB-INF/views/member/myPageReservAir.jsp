@@ -1119,6 +1119,7 @@ ul.btn_wrap li .btn.icn span:before {
 					                			<td>
 					                			<button type="button" class="repair" id="modal_btn">확인</button>
 					                			<input type="hidden" name="reservation_id" value="${reserve.reservation_id}">
+					                			<%-- <input type="hidden" name="air_pi_id" value="${reserve.air_pi_id}"> --%>
 					                			</td>	     
 					                	</tr>
 					                </c:forEach>							
@@ -1167,7 +1168,8 @@ ul.btn_wrap li .btn.icn span:before {
 <script type="text/javascript">
 
 $('.repair').click(function(){
-	let rv_id = $(this).siblings().val();
+	let rv_id = $(this).siblings().eq(0).val();
+	//let air_pi_id = $(this).siblings().eq(1).val();
 	alert(rv_id);
 	location.href="/airport/airInfoModify?reservation_id="+rv_id;
 });

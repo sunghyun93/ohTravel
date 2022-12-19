@@ -922,7 +922,7 @@ prod_list_wrap .htl .btn.line {
 	font-weight: bold;
 }
 .reservation_cant{
-	color: red;
+	
 }
 
 /*모달창 css  */
