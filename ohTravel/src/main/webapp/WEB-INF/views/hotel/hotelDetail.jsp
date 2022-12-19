@@ -78,7 +78,7 @@
 			<div class="ht_simple_option">
 				<div class="info_title">숙소정보</div>
 				<div class="ht_loc">주소 : ${hotelDetail.hotel_loc }</div>
-				<div class="chkTime">체크인 : ${hotelDetail.checkin } 체크아웃 시간 : ${hotelDetail.checkout }</div>
+				<div class="chkTime">체크인 : ${hotelDetail.checkin }  /  체크아웃 시간 : ${hotelDetail.checkout }</div>
 				<div class="room_cnt">객실 수 : ${hotelDetail.room_cnt }</div>
 				<div class="ht_tel">전화번호 : ${hotelDetail.hotel_tel }</div>
 			</div> <!-- ht_simple_option 끝 -->
@@ -161,7 +161,7 @@
 	
 		<div class="ht_option">
 			<div class="add_opt">
-				<div class="add_title">숙소 부대시설</div>
+				<div class="add_title info_title">숙소 부대시설</div>
 				<div class="add_contents">
 				<c:forEach items="${hotelDetailOptions }" var="option">
 					<c:if test="${option.option_gubun eq '부대'}">
@@ -171,7 +171,7 @@
 				</div>
 			</div>
 			<div class="conv_opt">
-				<div class="conv_title">숙소 편의시설</div>
+				<div class="conv_title info_title">숙소 편의시설</div>
 				<div class="conv_contents">
 					<c:forEach items="${hotelDetailOptions }" var="option">
 						<c:if test="${option.option_gubun eq '편의'}">

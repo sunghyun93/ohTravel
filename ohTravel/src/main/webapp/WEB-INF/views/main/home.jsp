@@ -337,13 +337,13 @@ a {
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score } Superb</span> </span>
+                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score } </span> </span>
                                     <h6 style="height:38.38px;"><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
+                                     <fmt:formatNumber type="number" maxFractionDigits="3" value="${hotelList.room_min_price }" var="minRoomPrice"/>
+                                    <p class="dolor">${minRoomPrice }원 ~ <span>/ 1박기준 최저가</span></p>
                                 </div>
                                 <div class="place-cap-bottom">
                                     <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
                                         <li style="height:47.96px;"><i class="fas fa-map-marker-alt"></i>${hotelList.hotel_loc }</li>
                                     </ul>
                                 </div>
@@ -380,7 +380,8 @@ a {
 	                                <div class="place-cap-top">
 	                                    <span><i class="fas fa-star"></i><span>${ticketList.ticket_score }</span> </span>
 	                                    <h6 style="height:40px;"><a href="/ticket/exhibitionDetail?ticket_id=${ticketList.ticket_id}">${ticketList.ticket_name }</a></h6>
-	                                    <p class="dolor">${ticketList.ticket_child_price}<em style="font-size:15px;">원~</em></p>
+										<fmt:formatNumber type="number" maxFractionDigits="3" value="${ticketList.ticket_child_price }" var="minTicketPrice"/>
+	                                    <p class="dolor">${minTicketPrice}<em style="font-size:15px;">원~</em></p>
 	                                </div>
 	                                <div class="place-cap-bottom">
 	                                    <ul style="translate: 0 -15px;">

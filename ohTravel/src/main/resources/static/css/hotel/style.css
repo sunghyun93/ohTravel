@@ -6,6 +6,7 @@
 	
 	min-height: 430px;
 	background-color: #070B19;
+	margin-bottom:50px;
 	
 }
 
@@ -31,8 +32,8 @@
 
 .item_title {
 	
-	margin-top: 50px;
-	margin-bottom: 50px;
+	margin-top: 80px;
+	margin-bottom: 80px;
 	text-align: center;
 }
 
@@ -179,7 +180,7 @@
 .h_price {
 	
 	display: inline-block;
-	margin-left: 300px;
+	margin-left: 250px;
 }
 
 .r_type_name {
@@ -849,7 +850,7 @@ button {
 
 .h_price {
 	
-	font-size: 17px;
+	font-size: 23px;
 	font-weight: bold;
 	
 }
