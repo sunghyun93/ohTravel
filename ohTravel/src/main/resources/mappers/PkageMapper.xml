@@ -455,10 +455,11 @@
 	<!-- pkage_dt_id 를 받아 해당 패키지 상세와 관련된 것들 select(여행일정 상세테이블은 각 일정 순서에 맞게 select) -->
 	<select id="selectPkgDetailById" parameterType="int" resultMap="selectPkgDetailResult2">
 		select 
-		pd.*, ph.*,h.*,pfs.*,ashe.*,aline.*, ps.*, psd.*, ar.*, arimg.*
+		pd.*, ph.*,h.*, hi.*, pfs.*,ashe.*,aline.*, ps.*, psd.*, ar.*, arimg.*
 		from package_detail pd
 		join package_hotel ph on pd.pkage_dt_id = ph.pkage_dt_id
 		join hotel h on ph.hotel_id = h.hotel_id
+		join hotel_image hi on h.hotel_id = hi.hotel_id
 		left join (	select * from package_flightsche 
 					where pkage_dt_id = ${pkage_dt_id}
 					order by pkage_flight_gubun) pfs on pd.pkage_dt_id = pfs.pkage_dt_id
