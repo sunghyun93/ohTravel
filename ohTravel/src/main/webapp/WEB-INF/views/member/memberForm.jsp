@@ -143,11 +143,8 @@
 		</div>	<!-- inner -->
 	</div>	<!-- container -->
 </body>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
 </head>
+<script src="https://code.jquery.com/jquery-3.4.1.js" ></script>
 <script type="text/javascript">
 
 /* 유효성 검사 통과유무 변수 */
@@ -193,9 +190,10 @@ $(document).ready(function() {
             	$('#pw_reg').css("display", "block");
             } else {
             	$('#pw_reg').css("display", "none");
+            	pwCheck = true;
             }
 			$('#pw_error').css('display', 'none');
-			pwCheck = true;
+			
 		}
 		
 		/* 비밀번호 확인 유효성 검사 */
@@ -216,9 +214,9 @@ $(document).ready(function() {
             	$('#name_reg').css("display", "block");
             } else {
             	$('#name_reg').css("display", "none");
+            	nameCheck = true;
             }
             $('#name_error').css('display', 'none');
-            nameCheck = true;
         }
 		
         /* 이메일 유효성 검사 */
@@ -230,9 +228,10 @@ $(document).ready(function() {
             	$('#mail_input_box_warn').css("display", "block");
             } else {
             	$('#mail_input_box_warn').css("display", "none");
+            	mailCheck = true;
             }
             $('#email_error').css('display', 'none');
-            mailCheck = true;
+            
         }
         
         
@@ -246,9 +245,10 @@ $(document).ready(function() {
             	$('#tel_reg').css("display", "block");
             } else {
             	$('#tel_reg').css("display", "none");
+            	telCheck = true;
             }
             $('#tel_error').css('display', 'none');
-            telCheck = true;
+            
         }
         
         /* 생년월일 유효성 검사 */
@@ -260,10 +260,21 @@ $(document).ready(function() {
             	$('#birth_reg').css("display", "block");
             } else {
             	$('#birth_reg').css("display", "none");
+            	bdCheck = true;
             }
             $('#birth_error').css('display', 'none');
-            bdCheck = true;
+            
         }
+        
+        console.log(idCheck);
+        console.log(idckCheck);
+        console.log(pwCheck);
+        console.log(pwckCheck);
+        console.log(pwckcorCheck);
+        console.log(nameCheck);
+        console.log(mailCheck);
+        console.log(bdCheck);
+        console.log(telCheck);
         
         /* 최종 유효성 검사 */
         if(idCheck && idckCheck && pwCheck && pwckCheck && pwckcorCheck && nameCheck && mailCheck && bdCheck && telCheck) {
