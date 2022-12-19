@@ -110,9 +110,15 @@ public class PkageController {
 		log.info("PkageController searchResult() start...");
 		log.info("pkgSearch="+pkgSearch);
 		
-		String toURL = request.getRequestURL().toString();
-		log.info("toURL="+toURL);
-		log.info("queryString="+pkgSearch.getQueryString());
+		String toURL = request.getRequestURI().toString(); // jsp 쪽에서 사용할 toURL
+		String queryString = request.getQueryString();
+		// & -> %26 으로 변환
+		queryString = queryString.replaceAll("&", "%26");
+		String redirectURL = toURL + "?" + queryString; // loginForm 으로 보낼 URL
+		log.info("toURL = "+toURL);
+		log.info("queryString = " + request.getQueryString());
+		log.info("redirectURL = " + redirectURL);
+		log.info("pkgSearch.getQueryString() = "+pkgSearch.getQueryString());
 		
 		if(pkgSearch.getOrder() == null) pkgSearch.setOrder(1); // 초기값 세팅
 		
@@ -167,7 +173,8 @@ public class PkageController {
 			
 			log.info("pkageDTORmlist = " + pkageDTORmlist);
 			
-			model.addAttribute("toURL", toURL);
+			model.addAttribute("toURL", toURL); // jsp 에서 사용할 URL
+			model.addAttribute("redirectURL", redirectURL); // loginForm 으로 보낼 URL
 			model.addAttribute("pkgCnt", pkgCnt);
 			model.addAttribute("orderli", pkgSearch.getOrder());
 			model.addAttribute("pkgSearch", pkgSearch);
@@ -183,12 +190,21 @@ public class PkageController {
 	
 	// 패키지 상세 상품가져오는 메서드
 	@GetMapping("/detail")
-	public String detail(String pkage_id, Integer pkage_dt_id, Model model) {
+	public String detail(String pkage_id, Integer pkage_dt_id, Model model, HttpServletRequest request) {
 		log.info("PkageController detail() start...");
 //		pkage_id 혹은 pkage_dt_id 중 하나라도 가져오지 않을 경우 처리
 		if(pkage_id == null || pkage_dt_id == null) {
 			return "redirect:/pkage/search/0";
 		}
+		
+		String toURL = request.getRequestURI().toString(); // jsp 쪽에서 사용할 toURL
+		String queryString = request.getQueryString();
+		// & -> %26 으로 변환
+		queryString = queryString.replaceAll("&", "%26");
+		String redirectURL = toURL + "?" + queryString; // loginForm 으로 보낼 URL
+		log.info("toURL = "+toURL);
+		log.info("queryString = " + request.getQueryString());
+		log.info("redirectURL = " + redirectURL);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("pkage_id", pkage_id);
@@ -203,6 +219,7 @@ public class PkageController {
 			// 패키지 상세내의 필요 변수들 채우기
 			getMakingDetailByDTO(tmpDTO);
 			
+			model.addAttribute("redirectURL", redirectURL);
 			model.addAttribute("pkageDTORM", pkageDTORM);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -224,10 +241,20 @@ public class PkageController {
 			return "redirect:"+url;
 		}
 		
+		String toURL = request.getRequestURI().toString(); // jsp 쪽에서 사용할 toURL
+		String queryString = request.getQueryString();
+		// & -> %26 으로 변환
+		queryString = queryString.replaceAll("&", "%26");
+		String redirectURL = toURL + "?" + queryString; // loginForm 으로 보낼 URL
+		log.info("toURL = "+toURL);
+		log.info("queryString = " + request.getQueryString());
+		log.info("redirectURL = " + redirectURL);
+		
 		// 현재 로그인하고 있는 사용자 정보
 		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		log.info("memberDTO = " + memberDTO);
 		
+		// 혹시 모르는 로그인  null 검사 (detail 에서 해줬는데 혹시 몰라서 넣어놓은 것)
 		if(memberDTO == null) {
 			return "redirect:/member/loginForm";
 		}
@@ -261,6 +288,7 @@ public class PkageController {
 			// 회원 등급 적용한 마일리지 가져가기
 			int mile = pkgReserve.getTotalPay() * memberDTO.getMembership_discount() / 100;
 			
+			model.addAttribute("redirectURL", redirectURL);
 			model.addAttribute("mile", mile);	// 적용할 마일리지
 			model.addAttribute("priceWithGd", priceWithGd); // 회원 등급 적용한 가격 
 			model.addAttribute("pkageDTORM", pkageDTORM);
