@@ -72,6 +72,67 @@
 	<insert id="insertNotice" parameterType="Notice">
 		INSERT INTO notice(notice_title, notice_content, notice_writer, notice_write_date) values(#{notice_title},#{notice_content},#{notice_writer},current_timestamp())
 	</insert>
+	<update id="updateNoticeCount" parameterType="Notice">
+		UPDATE notice SET notice_count=notice_count+1 WHERE notice_id = #{notice_id}
+	</update>
+	
+	
+
+
+
+	<!-- ===================================================================================================================== -->
+	<!-- 매출 관련 -->
+	<select id="getPackageTotalSale" resultType="int">
+		SELECT SUM(pkage_rv_tprice) as pkage_rv_tprice from package_reservation
+	</select>
+	<select id="getPackageMonth" resultType="Package">
+		SELECT substring(pkage_rv_date,6,2)as pkage_rv_date,SUM(pkage_rv_tprice) as pkage_rv_tprice from package_reservation group by substring(pkage_rv_date,6,2) order by pkage_rv_date asc;
+	</select>
+	<select id="getPackageDay" parameterType="String" resultType="Package">
+		<![CDATA[
+		SELECT substring(pkage_rv_date,9,2)as pkage_rv_date,SUM(pkage_rv_tprice) as pkage_rv_tprice FROM package_reservation group by pkage_rv_date having substring(pkage_rv_date,6,2)=#{month} order by pkage_rv_date asc;
+		]]>
+	</select>
+	
+	<select id="getAirTotalSale" resultType="int">
+		SELECT SUM(reservation_price) FROM reservation
+	</select>
+	<select id="getAirMonth" resultType="Air">
+		SELECT substring(reservation_date,6,2)as reservation_date,SUM(reservation_price) as reservation_price from reservation group by substring(reservation_date,6,2) order by reservation_date asc
+	</select>
+	<select id="getAirDay" parameterType="String" resultType="Air">
+		<![CDATA[
+		SELECT substring(reservation_date,9,2)as reservation_date,SUM(reservation_price) as reservation_price FROM reservation group by reservation_date having substring(reservation_date,6,2)=#{month} order by reservation_date asc;
+		]]>
+	</select>
+	
+	<select id="getTicketTotalSale" resultType="int">
+		SELECT SUM(ticket_total_price) FROM ticket_reservation
+	</select>
+	
+	<select id="getTicketMonth" resultType="Ticket">
+		SELECT substring(ticket_puchase_date,6,2)as ticket_puchase_date,SUM(ticket_total_price) as ticket_total_price from ticket_reservation group by substring(ticket_puchase_date,6,2) order by ticket_puchase_date asc;
+	</select>
+	<select id="getTicketDay" resultType="Ticket" parameterType="String">
+		SELECT substring(ticket_puchase_date,9,2)as ticket_puchase_date,SUM(ticket_total_price) as ticket_total_price FROM ticket_reservation group by ticket_puchase_date having DATE_FORMAT(ticket_puchase_date,'%m') = #{month} order by ticket_puchase_date asc;
+	</select>
+
+	<select id="getHotelTotalSale" resultType="int">
+		SELECT SUM(rev_tot_price) FROM hotel_reservation
+	</select>
+	<select id="getHotelMonth" resultType="HotelDTO">
+		SELECT substring(rev_date,6,2)as rev_date,SUM(rev_tot_price) as rev_tot_price from hotel_reservation group by substring(rev_date,6,2) order by rev_date asc;
+	</select>
+	<select id="getHotelDay" parameterType="String" resultType="HotelDTO">
+		SELECT substring(rev_date,9,2)as rev_date,SUM(rev_tot_price) as rev_tot_price FROM hotel_reservation group by rev_date having DATE_FORMAT(rev_date,'%m') = #{month} order by rev_date asc;
+	</select>
+
+
+
+
+
+
+
 	<!-- ===================================================================================================================== -->
 	<!-- 패키지관련 -->
 	<select id="totalPackage" resultType="int">
@@ -110,8 +171,8 @@
 		UPDATE attraction a, attraction_image ai SET a.city_id=#{city_id},a.attr_name=#{attr_name},a.attr_ename=#{attr_ename},a.attr_info=#{attr_info},ai.attr_Img_path=#{attr_Img_path} WHERE a.attr_id=#{attr_id} AND ai.attr_id=#{attr_id} AND ai.attr_Img_code=#{attr_Img_code};
 	</update>
 	<delete id="deleteAttraction" parameterType="Package">
-		DELETE FROM attraction WHERE attr_id=#{attr_id};
 		DELETE FROM attraction_image WHERE attr_id=#{attr_id};
+		DELETE FROM attraction WHERE attr_id=#{attr_id};
 	</delete>
 	<insert id="insertPackage" parameterType="Package">
 		INSERT INTO package_detail(pkage_id,pkage_dt_name,pkage_dt_thema,pkage_dt_Aprice,pkage_dt_Cprice,pkage_dt_cnt,pkage_dt_Mcnt,pkage_dt_Rcnt,pkage_dt_Gname,pkage_dt_meet,pkage_dt_meetDate, pkage_dt_startDay, pkage_dt_endDay)
@@ -143,13 +204,13 @@
 		SELECT * FROM airline WHERE air_num=#{air_num}
 	</select>
 	<update id="updateAirline" parameterType="Air">
-		UPDATE airline SET air_code=#{air_code},air_name=#{a ir_name},air_picture=#{air_picture} WHERE air_num=#{air_num}
+		UPDATE airline SET air_name=#{air_name},air_picture=#{air_picture} WHERE air_num=#{air_num}
 	</update>
 	<insert id="insertAirline" parameterType="Air">
 		<selectKey resultType="int" keyProperty="air_num" order="BEFORE">
 			select max(air_num)+100 from airline
 		</selectKey>
-		INSERT INTO airline(air_num,air_code,air_name,air_picture) VALUES(#{air_num},#{air_code},#{air_name},#{air_picture})
+		INSERT INTO airline(air_num,air_code,air_name,air_picture) VALUES(#{air_num},#{air_num}+10,#{air_name},#{air_picture})
 	</insert>
 	<delete id="deleteAirline" parameterType="Air">
 		DELETE FROM airline WHERE air_num=#{air_num}
@@ -303,14 +364,14 @@
 	<select id="getCityListChangeCountry" parameterType="Ticket" resultType="Ticket">
 		SELECT * FROM city WHERE country_id=#{country_id}
 	</select>
-	<update id="updateTicket">
-		UPDATE ticket_detail td, ticket_img ti SET td.city_id=#{city_id},td.ticket_name=#{ticket_name},td.ticket_sales_cnt=#{ticket_sales_cnt},td.ticket_location=#{ticket_location},td.ticket_score=#{ticket_score},td.ticket_due_date=#{ticket_due_date},td.ticket_adult_price=#{ticket_adult_price},td.ticket_child_price=#{ticket_child_price},ti.ticket_rep_img_path=#{ticket_rep_img_path},ti.ticket_detail_img_path=#{ticket_detail_img_path} WHERE td.ticket_id=#{ticket_id} AND ti.ticket_id=#{ticket_id}
+	<update id="updateTicket" parameterType="Ticket">
+		UPDATE ticket_detail td, ticket_img ti SET td.city_id=#{city_id},td.ticket_name=#{ticket_name},td.ticket_sales_cnt=#{ticket_sales_cnt},td.ticket_location=#{ticket_location},td.ticket_due_date=#{ticket_due_date},td.ticket_adult_price=#{ticket_adult_price},td.ticket_child_price=#{ticket_child_price},ti.ticket_rep_img_path=#{ticket_rep_img_path},ti.ticket_detail_img_path=#{ticket_detail_img_path} WHERE td.ticket_id=#{ticket_id} AND ti.ticket_id=#{ticket_id}
 	</update>
 	<insert id="insertTicket" parameterType="Ticket">
 		<selectKey resultType="String" keyProperty="ticket_id" order="BEFORE">
 			select concat('ti',ifnull(max(right(ticket_id,6))+1,#{city_id}001)) from ticket_detail WHERE ticket_id like concat('%',#{city_id},'%');
 		</selectKey>
-		INSERT INTO ticket_detail(ticket_id,city_id,ticket_name,ticket_sales_cnt,ticket_location,ticket_score,ticket_due_date,ticket_adult_price,ticket_child_price) values(#{ticket_id},#{city_id},#{ticket_name},0,#{ticket_location},0.00,CURRENT_TIMESTAMP(),#{ticket_adult_price},#{ticket_child_price});
+		INSERT INTO ticket_detail(ticket_id,city_id,ticket_name,ticket_sales_cnt,ticket_location,ticket_due_date,ticket_adult_price,ticket_child_price) values(#{ticket_id},#{city_id},#{ticket_name},0,#{ticket_location},#{ticket_due_date},#{ticket_adult_price},#{ticket_child_price});
 		INSERT INTO ticket_img(ticket_id,ticket_rep_img_path,ticket_detail_img_path) values(#{ticket_id},#{ticket_rep_img_path},#{ticket_detail_img_path});
 	</insert>
 	<delete id="deleteTicket" parameterType="Ticket">
@@ -349,4 +410,38 @@
 	<insert id="insertCoupon" parameterType="Coupon">
 		INSERT INTO coupon(coupon_name,coupon_discount,coupon_date,coupon_quantity) values(#{coupon_name},#{coupon_discount},current_timestamp(),#{coupon_quantity})
 	</insert>
+	
+	<select id="getMemberCouponList" parameterType="String" resultType="Coupon">
+		SELECT c.*, IFNULL((SELECT 1 FROM mem_coupon WHERE mem_id=#{session_id} and coupon_id = c.coupon_id),0) as mem_coupon_null FROM coupon c;
+	</select>
+	<insert id="insertMemberCoupon" parameterType="Coupon">
+		INSERT INTO mem_coupon VALUES(#{mem_id},#{coupon_id},now(),0,DATE_ADD(NOW(), INTERVAL 30 DAY))
+	</insert>
+	
+	<!-- ===================================================================================================================== -->
+	<!-- 예약 관련 -->
+	
+	<select id="getTicketResList" resultType="TicketReservationDTO">
+		SELECT ticket_order_id,ticket_id,mem_id,ticket_name,ticket_admission_date,ticket_adult_per,ticket_child_per,ticket_total_price,date_add(ticket_puchase_date, INTERVAL 9 HOUR) as ticket_puchase_date FROM ticket_reservation order by ticket_order_id desc
+	</select>
+	<select id="getHotelResList" resultType="HotelDTO">
+		SELECT hr.h_rev_id,hr.mem_id,hr.rev_per,hr.rev_date,hr.rev_tot_price,r.room_name,h.hotel_kor,h.hotel_id FROM hotel_reservation hr left join hotel_reservation_detail hrd on hr.h_rev_id=hrd.h_rev_id join room_detail rd on hrd.room_detail_id=rd.room_detail_id left join room r on rd.room_id = r.room_id left join hotel h on r.hotel_id=h.hotel_id order by h_rev_id desc;
+	</select>
+	<select id="getPackageResList" resultType="Package">
+		SELECT pr.pkage_rv_id,pr.mem_id,pr.pkage_rv_acnt,pr.pkage_rv_ccnt,pr.pkage_rv_tprice,pr.pkage_rv_date,pd.pkage_dt_name FROM package_reservation pr left join package_detail pd on pr.pkage_dt_id=pd.pkage_dt_id;
+	</select>
+	<select id="getPackageResPiList" resultType="Package">
+		SELECT * FROM package_reservation_pi WHERE pkage_rv_id=#{pkage_rv_id};
+	</select>
+	<select id="getAirResList" resultType="Air">
+		SELECT r.reservation_id,r.mem_id,r.reservation_date,r.reservation_price,af.air_gubun, ars.schedule_id,ars.start_time,ars.end_time,line.air_name,sa.start_airport_name,ea.end_airport_name,plane.airplane_name,arp.air_pi_id,arp.air_pi_name,arp.air_pi_birth,arp.air_pi_gen,arp.air_pi_lname,arp.air_pi_fname,arp.air_pi_tel,arp.air_pi_email,arp.air_passport,s.seat_name FROM reservation r left join seat s on r.Seat_position=s.Seat_position left join air_reservation_pi arp on r.Reservation_id=arp.reservation_id left join air_flightSche af on r.Reservation_id=af.reservation_id left join air_schedule ars on af.schedule_id=ars.Schedule_id left join start_airport sa on ars.Start_Airport_name=sa.Start_Airport_name left join end_airport ea on ars.End_Airport_name=ea.End_Airport_name left join airline line on ars.air_num=line.air_num left join airplane plane on ars.Airplane_name=plane.Airplane_name order by r.reservation_id desc;
+	</select>
+	<select id="getAirResPiList" parameterType="Air" resultType="Air">
+		SELECT * FROM air_reservation_pi WHERE reservation_id=#{reservation_id}
+	</select>
+	<select id="getAirResScheduleList" parameterType="Air" resultType="Air">
+		SELECT r.reservation_id,r.mem_id,r.reservation_date,r.reservation_price,af.air_gubun, ars.schedule_id,ars.start_time,ars.end_time,line.air_name,sa.start_airport_name,ea.end_airport_name,plane.airplane_name,arp.air_pi_id,arp.air_pi_name,arp.air_pi_birth,arp.air_pi_gen,arp.air_pi_lname,arp.air_pi_fname,arp.air_pi_tel,arp.air_pi_email,arp.air_passport,s.seat_name FROM reservation r left join seat s on r.Seat_position=s.Seat_position left join air_reservation_pi arp on r.Reservation_id=arp.reservation_id left join air_flightSche af on r.Reservation_id=af.reservation_id left join air_schedule ars on af.schedule_id=ars.Schedule_id left join start_airport sa on ars.Start_Airport_name=sa.Start_Airport_name left join end_airport ea on ars.End_Airport_name=ea.End_Airport_name left join airline line on ars.air_num=line.air_num left join airplane plane on ars.Airplane_name=plane.Airplane_name WHERE r.reservation_id=#{reservation_id}
+	</select>
+	
+	
 </mapper>

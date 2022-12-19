@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,6 +57,48 @@
 				        <li class="selected fx-cobrand-wt" style="width: 33%;"><a href="${pageContext.request.contextPath}/member/myPageLikeTicket">티켓</a></li>
 				    </ul>
 				</div>	<!-- js_tabs type1 v-tabs nojq -->
+				<div class="js_tabs type2 no_division">
+					<div class="panels">
+					    <div class="panel selected">
+					        <div class="tbl">
+					            <table class="board_type">
+					                <colgroup>
+					                    <col style="width: 40%;" />
+					                    <col style="width: 50%;" />
+					                    <col style="width: 10%;" />
+					                </colgroup>
+					                <thead>
+					                    <tr>
+					                        <th>상품 ID</th>
+					                        <th>티켓명</th>
+					                        <th></th>
+					                    </tr>
+					                </thead>
+					                <tbody>
+					                    <c:forEach var="ticketLikeList" items="${ticketLikeList}">
+					                    <tr>
+					   						<td>${ticketLikeList.basket_ref_id}</td>
+					                    	<td>${ticketLikeList.ticket_name}</td>
+					                    	<td><a href="${pageContext.request.contextPath}/member/deleteLikeHotel?basket_ref_id=${ticketLikeList.basket_ref_id}">삭제</a></td>
+					                    </tr>
+					                    </c:forEach>
+					                    <c:if test="${ticketLikeListSize == 0 }">
+					                    	<tr>
+						                        <td colspan="3">
+						                            <div class="data_no">
+						                                <div class="cont"><strong>찜 내역이 없습니다.</strong></div>
+						                            </div>
+						                        </td>
+						                    </tr>
+					                    </c:if>
+					                </tbody>
+					            </table>
+					        </div>	<!-- tbl -->
+					    </div>	<!-- panel selected -->
+					    <!-- 페이징 -->
+					    
+					</div>	<!-- panels -->
+				</div>	<!-- js_tabs type2 no_division -->
 			</div>	<!-- contents -->
 		</div>
 	</div>

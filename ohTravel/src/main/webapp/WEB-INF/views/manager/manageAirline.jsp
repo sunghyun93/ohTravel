@@ -26,7 +26,7 @@
 				<a href="manageHotel" class="genric-btn primary ela">숙박 상품 관리</a>
 				<a href="manageTicket" class="genric-btn primary ela">입장권 상품 관리</a>
 			</div>
-			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">항공권 상품 관리</h1>
+			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">항공사 관리</h1>
 			<div class="row d-flex justify-content-center">
 			<div class="mt-4 button-wrap">
 				<button class="btn btn-primary mb-3 mr-2" onclick="location.href='insertAirlineForm'">항공사 추가</button>

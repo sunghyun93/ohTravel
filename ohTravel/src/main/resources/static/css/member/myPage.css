@@ -155,7 +155,7 @@ span.btn, .btn:disabled {
 #container > .inr {
     width: 1200px;
     margin: 50px auto 0;
-    min-height: 900px;
+    min-height: 1100px;
 }
 
 /* lnb */
@@ -320,15 +320,19 @@ dt, dd {
     display: table;
     width: 100%;
 }
-.tbl table {
+.tbl .board_type {
     width: 100%;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd; 
     border-collapse: separate;
     table-layout: fixed;
     font-size: 15px;
 }
 .tbl table.board_type {
     border-top: 1px solid #999;
+}
+
+.little_table{
+	border-bottom: none;
 }
 .tbl th {
 	background-color: #f7f7f7;

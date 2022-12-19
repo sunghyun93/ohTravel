@@ -2,6 +2,9 @@ package com.oracle.ohTravel.ticket.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -12,19 +15,14 @@ public class TicketReservation {
 	private String		  mem_id;
 	
 	private String 		  ticket_name;
-	private LocalDateTime ticket_purchase_date;
-	private LocalDate     ticket_admission_date;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date		  ticket_puchase_date;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date     ticket_admission_date;
 	
 	private Integer 	  ticket_adult_per;
-	private Integer 	  ticket_child_per;
+	private Integer 	  ticket_child_per;	// ERD에서 ticket_child_per로 수정되면 수정할 예정.
 	private Integer 	  ticket_total_price;
-	
-	
-	
-	public void makeTotalPay(int aPrice, int cPrice) {
-		if(this.ticket_adult_per == null) ticket_adult_per = 0;
-		if(this.ticket_child_per == null) ticket_child_per = 0;
-		
-		this.ticket_total_price = (this.ticket_adult_per * aPrice) + (this.ticket_child_per * cPrice);
-	}
 }

@@ -98,7 +98,7 @@
 						<div class="text_wrap mid">
 							<strong class="tit">가입정보</strong>
 						</div>	<!-- text_wrap -->
-						<form name="checkPassword" method="post" action="checkPassword">
+						<form name="checkPassword1" method="post" action="checkPassword1">
 							<div class="tbl">
 								<table class="type2">
 								    <colgroup>
@@ -124,7 +124,7 @@
 								</c:if>
 							</div>
 							<div class="btn_wrap">
-	 							<a href="${pageContext.request.contextPath}/member/myPageMain" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
+	 							<a href="${pageContext.request.contextPath}/member/myPagePrivacy" class="btn big gray" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">취소</a> 
 	 							<button type="submit" class="btn big pink" style="min-width: 140px; height: 56px; line-height: 54px; font-size: 17px; padding: 0 35px;">확인</button>
 	 						</div>
 						</form>

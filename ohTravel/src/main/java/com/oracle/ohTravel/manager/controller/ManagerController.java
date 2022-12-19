@@ -2,19 +2,17 @@ package com.oracle.ohTravel.manager.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
+import javax.servlet.http.HttpSession;
 
-import org.springframework.boot.autoconfigure.web.ServerProperties.Tomcat.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,20 +21,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.manager.model.ManageAirportDTO;
 import com.oracle.ohTravel.manager.model.ManageHotelDTO;
+import com.oracle.ohTravel.manager.model.ManageMemberDTO;
 import com.oracle.ohTravel.manager.model.ManagePackageDTO;
 import com.oracle.ohTravel.manager.model.ManageTicketDTO;
-import com.oracle.ohTravel.manager.model.MemberDTO;
 import com.oracle.ohTravel.manager.model.MembershipDTO;
 import com.oracle.ohTravel.manager.model.NoticeDTO;
 import com.oracle.ohTravel.manager.model.PagingManager;
 import com.oracle.ohTravel.manager.service.ManageHotelService;
 import com.oracle.ohTravel.manager.service.ManagerService;
-import com.oracle.ohTravel.ticket.model.TicketDTO;
+import com.oracle.ohTravel.member.model.MemberDTO;
+import com.oracle.ohTravel.pkage.model.Pkage_detailDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -47,11 +45,20 @@ public class ManagerController {
 	
 	private final ManagerService service;
 	private final ManageHotelService hotelService;
-	
 	//관리자 메인페이지
 	@RequestMapping(value = "managerMain")
-	public String managerMain(){
-		
+	public String managerMain(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		if (session.getAttribute("member")==null) {
+			return "redirect:/member/loginForm";
+		}else {
+			MemberDTO member = (MemberDTO) session.getAttribute("member");
+			String user_id = member.getMem_id();
+			if(!user_id.equals("admin")) {
+				return "redirect:/";
+			}
+			
+		}
 		return "manager/managerMain";
 		
 	}
@@ -61,14 +68,14 @@ public class ManagerController {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//회원관리 ->회원관리
 	@RequestMapping(value = "manageUser")
-	public String manageUser(MemberDTO member, String currentPage ,Model model) {
+	public String manageUser(ManageMemberDTO member, String currentPage ,Model model) {
 		int total = service.totalMember();
 		PagingManager page = new PagingManager(total, currentPage);
 		member.setStart(page.getStart());
 		member.setEnd(page.getEnd());
 		System.out.println("pa-"+page.getStart());
 		System.out.println("pa-"+page.getPageBlock());
-		List<MemberDTO> memberList = service.getMemberList(member);
+		List<ManageMemberDTO> memberList = service.getMemberList(member);
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("page", page);
 		
@@ -194,12 +201,12 @@ public class ManagerController {
 	}
 	//상품관리 ->패키지 상세 추가하기 form으로 이동
 	@RequestMapping(value = "insertPackageForm")
-	public String insertPackageForm(ManagePackageDTO pk, Model model) {
+	public String insertPackageForm(Pkage_detailDTO pk, Model model) {
 		model.addAttribute("pk", pk);
 		return "manager/insertPackageForm";
 	}
 	//상품관리 ->패키지 상세 추가하기
-	@PostMapping(value = "insertPackage")
+	@PostMapping(value = "insertPackage1")
 	public String insertPackage(ManagePackageDTO pk, Model model) {
 		System.out.println("meet ->"+pk.getPkage_dt_meetDate());
 		System.out.println("start ->"+pk.getPkage_dt_startDay());
@@ -211,7 +218,7 @@ public class ManagerController {
 	}
 	
 	//상품관리 -> 패키지 한개 상세보기
-	@RequestMapping(value = "managePackageDetailOne")
+	@RequestMapping(value = "managePackageDetailOne1")
 	public String managePackageDetailOne(ManagePackageDTO pk,String currentPage, String pkage_id, Model model) {
 		List<ManagePackageDTO> packageDetailOne = service.getPackageDetailOne(pk);
 		model.addAttribute("packageDetailOne", packageDetailOne);
@@ -219,6 +226,10 @@ public class ManagerController {
 		model.addAttribute("currentPage", currentPage);
 		return "manager/managePackageDetailOne";
 	}
+	
+	
+	
+	
 	
 	//상품관리 -> 패키지 관광지 관리
 	@RequestMapping(value = "manageAttraction")
@@ -764,6 +775,7 @@ public class ManagerController {
 		model.addAttribute("countryList", countryList);
 		model.addAttribute("cityList", cityList);
 		model.addAttribute("hotelDetail", hotelDetail);
+		model.addAttribute("hotel_id", hotelDetail.get(0).getHotel_id());
 		System.out.println("currentPage->"+currentPage);
 		model.addAttribute("currentPage", currentPage);
 		return "manager/manageHotelDetail";
@@ -809,9 +821,9 @@ public class ManagerController {
 			System.out.println("file1 없어용~");
 			System.out.println("2"+hotel.getHotel_id());
 			hotel.setH_img_path(hotelService.getHotelDetail(hotel).get(0).getH_img_path());
-			System.out.println("empty getAir_picture"+hotel.getH_img_path());
+			System.out.println("empty getH_img_path"+hotel.getH_img_path());
 		}
-		
+		System.out.println("hotel img path ->"+hotel.getH_img_path());
 		int result = hotelService.updateHotel(hotel);
 		System.out.println("update result ->"+ result);
 		return "forward:manageHotel";
@@ -912,11 +924,200 @@ public class ManagerController {
 	@ResponseBody
 	@PostMapping(value = "deleteHotel")
 	public int deleteHotel(ManageHotelDTO hotel){
+		
 		int result = hotelService.deleteHotel(hotel);
 		System.out.println("delete hotel result - >"+result);
 		return result;
 	}
+	//상품관리 -> 숙박상품관리 -> 호텔상세 -> 객실보기
+	@RequestMapping(value = "manageRoom")
+	public String manageRoom(ManageHotelDTO hotel,String hotel_id,String currentPage, Model model) {
+		List<ManageHotelDTO> roomList = hotelService.getRoomList(hotel);
+		model.addAttribute("roomList", roomList);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("hotel_id", hotel_id);
 		
+		return "manager/manageRoom";
+	}
+	//상품관리 -> 숙박상품관리 -> 호텔상세 -> 객실보기 -> 객실별 detail정보 가져오는 Ajax
+	@ResponseBody
+	@PostMapping(value = "getRoomDetail")
+	public Map<String, Object> getRoomDetail(ManageHotelDTO hotel,String currentPage, Model model){
+		Map<String, Object> mapRoomDetail = new HashMap<String, Object>();
+		int total = hotelService.totalroomDetail(hotel);
+		PagingManager page = new PagingManager(total, currentPage);
+		hotel.setStart(page.getStart());
+		hotel.setEnd(page.getEnd());
+		
+		List<ManageHotelDTO> roomDetail = hotelService.getRoomDetail(hotel);
+		
+		mapRoomDetail.put("roomDetail", roomDetail);
+		mapRoomDetail.put("currentPage", currentPage);
+		mapRoomDetail.put("page", page);
+		mapRoomDetail.put("total", total);
+
+		System.out.println("roomDetail.size->"+roomDetail.size());
+		return mapRoomDetail;
+	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실별 detail정보 페이징처리 Ajax
+	@ResponseBody
+	@RequestMapping(value = "pagingDetail")
+	public Map<String, Object> pagingDetail(ManageHotelDTO hotel, String currentPage){
+		Map<String, Object> mapRoomDetail = new HashMap<String, Object>();
+		int total = hotelService.totalroomDetail(hotel);
+		PagingManager page = new PagingManager(total, currentPage);
+		hotel.setStart(page.getStart());
+		hotel.setEnd(page.getEnd());
+		List<ManageHotelDTO> roomDetail = hotelService.getRoomDetail(hotel);
+		mapRoomDetail.put("roomDetail", roomDetail);
+		mapRoomDetail.put("currentPage", currentPage);
+		mapRoomDetail.put("page", page);
+		mapRoomDetail.put("total", total);
+		return mapRoomDetail;
+	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실별 detail정보 이미지 파일 수정 Ajax
+	@ResponseBody
+	@PostMapping(value = "updateRoomImg")
+	public int updateRoomImg(ManageHotelDTO hotel,@RequestParam("file1") MultipartFile file1,HttpServletRequest request) {
+		int result = 0;
+		System.out.println("room_id ->"+hotel.getRoom_id());
+		System.out.println("r_img_id ->"+hotel.getR_img_id());
+		String path = request.getServletContext().getRealPath("/img/hotel/");
+		if(!file1.isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			String fileName= file1.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file1.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file1.transferTo(saveFile);
+				System.out.println("와?");
+				System.out.println("path->"+path);
+				System.out.println("uuid->"+uuid);
+				System.out.println("fileName->"+fileName);
+				hotel.setR_img_path("/img/hotel/"+uuFileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(file1.isEmpty()) {
+			System.out.println("file1 없어용~");
+			System.out.println("2"+hotel.getHotel_id());
+			hotel.setR_img_path(hotelService.getHotelDetail(hotel).get(0).getR_img_path());
+			System.out.println("empty getAir_picture"+hotel.getR_img_path());
+		}
+		if(hotel.getR_img_id()==0) {
+			result = hotelService.insertRoomImg(hotel);
+		}else {
+			result = hotelService.updateRoomImg(hotel);
+		}
+		
+		
+		return result;
+	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실상세 수정 Ajax
+	@ResponseBody
+	@PostMapping(value = "updateDetailRoom")
+	public int updateDetailRoom(ManageHotelDTO hotel) {
+		int result = hotelService.updateDetailRoom(hotel);
+		return result;
+	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실상세 섹제 Ajax
+	@ResponseBody
+	@PostMapping(value = "deleteDetailRoom")
+	public int deleteDetailRoom(ManageHotelDTO hotel) {
+		int result = hotelService.deleteDetailRoom(hotel);
+		return result;
+	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실삭제 Ajax
+	@ResponseBody
+	@PostMapping(value = "deleteRoom")
+	public int deleteRoom(ManageHotelDTO hotel) {
+		System.out.println("deleteRoom room_id->"+hotel.getRoom_id());
+		int result = hotelService.deleteRoom(hotel);
+		return result;
+	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실추가 폼으로 이동
+	@RequestMapping(value = "insertRoomForm")
+	public String insertRoomForm(ManageHotelDTO hotel,String currentPage,Model model) {
+		System.out.println("insertRoomForm hotel_id ->"+hotel.getHotel_id());
+		model.addAttribute("hotel_id", hotel.getHotel_id());
+		model.addAttribute("currentPage", currentPage);
+		return "manager/insertRoomForm";
+	}
+	//상품관리 -> 숙박상품관리 ->호텔상세 ->객실보기 ->객실 추가 실행 Ajax
+	@ResponseBody
+	@PostMapping(value = "insertRoom")
+	public int insertRoom(ManageHotelDTO hotel,@RequestParam("file1") MultipartFile file1,HttpServletRequest request) {
+		String path = request.getServletContext().getRealPath("/img/hotel/");
+		if(!file1.isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			String fileName= file1.getOriginalFilename();
+			String uuFileName = uuid.toString()+"_"+file1.getOriginalFilename();
+			System.out.println("fileName=->"+fileName);
+			File saveFile = new File(path,uuFileName);
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			System.out.println(saveFile);
+			System.out.println("오냐??");
+			try {
+				file1.transferTo(saveFile);
+				System.out.println("와?");
+				System.out.println("path->"+path);
+				System.out.println("uuid->"+uuid);
+				System.out.println("fileName->"+fileName);
+				hotel.setR_img_path("/img/hotel/"+uuFileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(file1.isEmpty()) {
+			System.out.println("file1 없어용~");
+			System.out.println("2"+hotel.getHotel_id());
+			hotel.setR_img_path(hotelService.getHotelDetail(hotel).get(0).getR_img_path());
+			System.out.println("empty getAir_picture"+hotel.getR_img_path());
+		}
+		System.out.println("insertRoom hotel_id ->"+hotel.getHotel_id());
+		System.out.println("insertRoom room_type ->"+hotel.getRoom_type());
+		System.out.println("insertRoom room_name ->"+hotel.getRoom_name());
+		System.out.println("insertRoom room_per ->"+hotel.getRoom_per());
+		int r_img_id = hotelService.getInsertRoom_id();
+		hotel.setR_img_id(r_img_id);
+		System.out.println("insertRoom room_id ->"+hotel.getR_img_id());
+		int room_detail_id = hotelService.getInsertRoom_detail_id();
+		hotel.setRoom_detail_id(room_detail_id);
+		System.out.println("insertRoom room_detail_id ->"+hotel.getRoom_detail_id());
+		int result = hotelService.insertRoom(hotel);
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getNextRoom_detail_id")
+	public int getNextRoom_detail_id() {
+		int result = hotelService.getInsertRoom_detail_id();
+		return result;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "insertRoomDetail")
+	public int insertRoomDetail(ManageHotelDTO hotel) {
+		int result = hotelService.insertRoomDetail(hotel);
+		return result;
+	}
+	
+	
+	
+	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////아래 입장권관련//////////////////////////////////////////////////////
@@ -972,6 +1173,7 @@ public class ManagerController {
 	//상품관리 -> 입장권 추가요
 	@PostMapping(value = "insertTicket")
 	public String insertTicket(ManageTicketDTO ticket, List<MultipartFile> file1,Model model, HttpServletRequest request){
+		System.out.println("due_date ->"+ticket.getTicket_due_date());
 		String path = request.getServletContext().getRealPath("/img/ticket/");
 		
 		System.out.println("realpath->"+path);
@@ -1017,6 +1219,7 @@ public class ManagerController {
 	//상품관리 -> 입장권 수정하기
 	@PostMapping(value = "updateTicket")
 	public String updateTicket(ManageTicketDTO ticket,@RequestParam(value = "file1") MultipartFile file1,@RequestParam(value = "file2")MultipartFile file2, Model model, HttpServletRequest request) {
+		System.out.println("updateTicket due date - >"+ticket.getTicket_due_date());
 		System.out.println("file1.getOriginalFilename() ->"+file1.getOriginalFilename());
 		System.out.println("file2.getOriginalFilename() ->"+file2.getOriginalFilename());
 		String path = request.getServletContext().getRealPath("/img/ticket/");
@@ -1161,6 +1364,42 @@ public class ManagerController {
 		model.addAttribute("deleteNoticeMsg1", result);
 		return "forward:manageNotice";
 	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 메인페이지 공지사항 탭 관련//////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@GetMapping(value = "goNotice")
+	public String goNotice(NoticeDTO notice,String currentPage, Model model) {
+		int total = service.totalNotice();
+		PagingManager page = new PagingManager(total, currentPage);
+		notice.setStart(page.getStart());
+		notice.setEnd(page.getEnd());
+		List<NoticeDTO> noticeList = service.getNoticeList(notice);
+		model.addAttribute("notice", noticeList);
+		model.addAttribute("totalEmp", total);
+		model.addAttribute("page", page);
+		return "manager/goNotice";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "updateNoticeCount")
+	public int updateNoticeCount(NoticeDTO notice) {
+		int result = service.updateNoticeCount(notice);
+		return result;
+	}
+	@GetMapping(value = "goNoticeDetail")
+	public String goNoticeDetail(NoticeDTO notice, String currentPage,Model model) {
+		System.out.println("notice_id->"+notice.getNotice_id());
+		List<NoticeDTO> noticeDetail = service.getNoticeDetail(notice.getNotice_id());
+		model.addAttribute("noticeDetail", noticeDetail);
+		model.addAttribute("currentPage", currentPage);
+		return "manager/goNoticeDetail";
+	}
+	
+	
+	
+	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////아래 매출관련//////////////////////////////////////////////////////
@@ -1171,6 +1410,199 @@ public class ManagerController {
 		
 		return "manager/manageSales";
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "getPackageTotalSale")
+	public int getPackageTotalSale() {
+		int getPackageTotalSale = service.getPackageTotalSale();
+		return getPackageTotalSale;
+	}
+	@ResponseBody
+	@PostMapping(value = "changePackageChart")
+	public Map<String, Object> changePackageChart(String str, String month){
+		Map<String, Object> item = new HashMap<String, Object>();
+		
+		if(str.equals("packageMonth")) {
+			item.clear();
+			List<ManagePackageDTO> getPackageMonth = service.getPackageMonth();
+			String[] date = new String[getPackageMonth.size()];
+			int[] tprice = new int[getPackageMonth.size()];
+			System.out.println(getPackageMonth.size());
+			
+			for(int i=0; i<getPackageMonth.size(); i++) {
+				date[i] = getPackageMonth.get(i).getPkage_rv_date();
+				tprice[i] = getPackageMonth.get(i).getPkage_rv_tprice();
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}else if(str.equals("packageDay")) {
+			item.clear();
+			List<ManagePackageDTO> getPackageDay = service.getPackageDay(month);
+			System.out.println("month->"+month);
+			String[] date = new String[getPackageDay.size()];
+			int[] tprice = new int[getPackageDay.size()];
+			System.out.println(getPackageDay.size());
+			
+			for(int i=0; i<getPackageDay.size(); i++) {
+				date[i] = getPackageDay.get(i).getPkage_rv_date();
+				tprice[i] = getPackageDay.get(i).getPkage_rv_tprice();
+				System.out.println("date ->"+date[i]);
+				System.out.println("tprice ->"+tprice[i]);
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}
+		System.out.println("오냐?");
+		return item;
+	}
+	
+	////////////////////////////////////////항권공 매출관련////////////////////////////////////////
+	@ResponseBody
+	@PostMapping(value = "getAirTotalSale")
+	public int getAirTotalSale() {
+		int getAirTotalSale = service.getAirTotalSale();
+		return getAirTotalSale;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "changeAirChart")
+	public Map<String, Object> changeAirChart(String str, String month){
+		Map<String, Object> item = new HashMap<String, Object>();
+		
+		if(str.equals("airMonth")) {
+			item.clear();
+			List<ManageAirportDTO> getAirMonth = service.getAirMonth();
+			String[] date = new String[getAirMonth.size()];
+			int[] tprice = new int[getAirMonth.size()];
+			System.out.println(getAirMonth.size());
+			
+			for(int i=0; i<getAirMonth.size(); i++) {
+				date[i] = getAirMonth.get(i).getReservation_date();
+				tprice[i] = getAirMonth.get(i).getReservation_price();
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}else if(str.equals("airDay")) {
+			item.clear();
+			List<ManageAirportDTO> getAirDay = service.getAirDay(month);
+			System.out.println("month->"+month);
+			String[] date = new String[getAirDay.size()];
+			int[] tprice = new int[getAirDay.size()];
+			System.out.println(getAirDay.size());
+			
+			for(int i=0; i<getAirDay.size(); i++) {
+				date[i] = getAirDay.get(i).getReservation_date();
+				tprice[i] = getAirDay.get(i).getReservation_price();
+				System.out.println("date ->"+date[i]);
+				System.out.println("tprice ->"+tprice[i]);
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}
+		System.out.println("오냐?");
+		return item;
+	}
+	
+	////////////////////////////////////////숙박 매출관련////////////////////////////////////////
+	
+	@ResponseBody
+	@PostMapping(value = "getHotelTotalSale")
+	public int getHotelTotalSale() {
+		int getHotelTotalSale = service.getHotelTotalSale();
+		return getHotelTotalSale;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "changeHotelChart")
+	public Map<String, Object> changeHotelChart(String str, String month){
+		Map<String, Object> item = new HashMap<String, Object>();
+		
+		if(str.equals("hotelMonth")) {
+			item.clear();
+			List<ManageHotelDTO> getHotelMonth = service.getHotelMonth();
+			String[] date = new String[getHotelMonth.size()];
+			int[] tprice = new int[getHotelMonth.size()];
+			System.out.println(getHotelMonth.size());
+			
+			for(int i=0; i<getHotelMonth.size(); i++) {
+				date[i] = getHotelMonth.get(i).getRev_date();
+				tprice[i] = getHotelMonth.get(i).getRev_tot_price();
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}else if(str.equals("hotelDay")) {
+			item.clear();
+			List<ManageHotelDTO> getHotelDay = service.getHotelDay(month);
+			System.out.println("month->"+month);
+			String[] date = new String[getHotelDay.size()];
+			int[] tprice = new int[getHotelDay.size()];
+			System.out.println(getHotelDay.size());
+			
+			for(int i=0; i<getHotelDay.size(); i++) {
+				date[i] = getHotelDay.get(i).getRev_date();
+				tprice[i] = getHotelDay.get(i).getRev_tot_price();
+				System.out.println("date ->"+date[i]); 
+				System.out.println("tprice ->"+tprice[i]);
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}
+		System.out.println("오냐?");
+		return item;
+	}
+	
+	
+	////////////////////////////////////////입장권 매출관련////////////////////////////////////////
+	@ResponseBody
+	@PostMapping(value = "getTicketTotalSale")
+	public int getTicketTotalSale() {
+		int getTicketTotalSale = service.getTicketTotalSale();
+		return getTicketTotalSale;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "changeTicketChart")
+	public Map<String, Object> changeTicketChart(String str, String month){
+		Map<String, Object> item = new HashMap<String, Object>();
+		
+		if(str.equals("ticketMonth")) {
+			item.clear();
+			List<ManageTicketDTO> getTicketMonth = service.getTicketMonth();
+			String[] date = new String[getTicketMonth.size()];
+			int[] tprice = new int[getTicketMonth.size()];
+			System.out.println(getTicketMonth.size());
+			
+			for(int i=0; i<getTicketMonth.size(); i++) {
+				date[i] = getTicketMonth.get(i).getTicket_puchase_date();
+				tprice[i] = getTicketMonth.get(i).getTicket_total_price();
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}else if(str.equals("ticketDay")) {
+			item.clear();
+			List<ManageTicketDTO> getTicketMonth = service.getTicketDay(month);
+			System.out.println("month->"+month);
+			String[] date = new String[getTicketMonth.size()];
+			int[] tprice = new int[getTicketMonth.size()];
+			System.out.println(getTicketMonth.size());
+			
+			for(int i=0; i<getTicketMonth.size(); i++) {
+				date[i] = getTicketMonth.get(i).getTicket_puchase_date();
+				tprice[i] = getTicketMonth.get(i).getTicket_total_price();
+				System.out.println("date ->"+date[i]);
+				System.out.println("tprice ->"+tprice[i]);
+			}
+			item.put("date", date);
+			item.put("tprice", tprice);
+		}
+		System.out.println("오냐?");
+		return item;
+	}
+	
+	
+	
+	
+	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////아래 쿠폰관련//////////////////////////////////////////////////////
@@ -1229,10 +1661,118 @@ public class ManagerController {
 		model.addAttribute("deleteCouponMsg1", result);
 		return "forward:manageCoupon";
 	}
+	
+	//메인페이지에서 쿠폰다운로드 페이지 열기
+	@RequestMapping(value = "goCoupon")
+	public String goCoupon(MemberDTO memberDTO,HttpServletRequest request,Model model) {
+		HttpSession session = request.getSession();
+		
+		// 로그인 안 했을 때 로그인 페이지로 이동
+		if (session.getAttribute("member")==null) {
+			return "redirect:/member/loginForm";
+		}
+		// session에 로그인 된 아이디 정보
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String sessionId = member.getMem_id();
+		System.out.println("MemberController myPageReservPackage sessionId -> " + sessionId );
+		List<CouponDTO> getMemCouponList = service.getMemberCouponList(sessionId);
+		
+		model.addAttribute("sessionId", sessionId);
+		model.addAttribute("getMemCouponList", getMemCouponList);
+		
+		return "empty/userCouponDown";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "insertMemCoupon")
+	public int insertMemCoupon(CouponDTO coupon) {
+		int result = service.insertMemberCoupon(coupon);
+		return result;
+	}
+	
+	
+	
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////아래 예약 관련//////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	//예약관리
 	@RequestMapping(value = "manageReservation")
 	public String manageReservation() {
 		
 		return "manager/manageReservation";
 	}
+	//예약관리 -> 패키지 리스트 가져오기 Ajax
+//	@RequestMapping(value = "getPackageList")
+//	public List<ManagePackageDTO> getPackageList(){
+//		List<ManagePackageDTO> getPackageList =
+//	}
+	
+	
+	//예약관리 -> 패키지 예약 리스트 가져오기 Ajax
+	@ResponseBody
+	@PostMapping(value = "getPackageResList")
+	public List<ManagePackageDTO> getPackageResList(){
+		List<ManagePackageDTO> getPackageResList = service.getPackageResList();
+		return getPackageResList;
+	}
+	
+	//예약관리 -> 패키지 예약인원 리스트 가져오기 Ajax
+	@ResponseBody
+	@PostMapping(value = "getPackageResPiList")
+	public List<ManagePackageDTO> getPackageResPiList(ManagePackageDTO pk){
+		List<ManagePackageDTO> getPackageResPiList = service.getPackageResPiList(pk);
+		return getPackageResPiList;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "getAirResList")
+	public List<ManageAirportDTO> getAirResList(){
+		List<ManageAirportDTO> getAirResList = service.getAirResList();
+		return getAirResList;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "getAirResPiList")
+	public List<ManageAirportDTO> getAirResPiList(ManageAirportDTO air){
+		List<ManageAirportDTO> getAirResPiList = service.getAirResPiList(air);
+		return getAirResPiList;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "getAirResScheduleList")
+	public List<ManageAirportDTO> getAirResScheduleList(ManageAirportDTO air){
+		System.out.println("ㅇㅇ"+air.getReservation_id());
+		List<ManageAirportDTO> getAirResScheduleList = service.getAirResScheduleList(air);
+		return getAirResScheduleList;
+	}
+	
+	
+	
+	//예약관리 -> 숙박 예약 리스트 가져오기 Ajax
+	@ResponseBody
+	@PostMapping(value = "getHotelResList")
+	public List<ManageHotelDTO> getHotelResList(){
+		List<ManageHotelDTO> getHotelResList = service.getHotelResList();
+		return getHotelResList;
+	}
+	
+	//예약관리 -> 티켓 예약 리스트 가져오기 Ajax
+	@ResponseBody
+	@PostMapping(value = "getTicketResList")
+	public List<ManageTicketDTO> getTicketResList(){
+		List<ManageTicketDTO> getTicketResList = service.getTicketResList();
+		return getTicketResList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

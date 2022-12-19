@@ -7,4 +7,7 @@ public class Air_FlightSchDTO {
 	private int schedule_id;
 	private int reservation_id;
 	private int air_gubun;
+	
+	private Air_ScheduleDTORM air_ScheduleDTORM;
+	
 }

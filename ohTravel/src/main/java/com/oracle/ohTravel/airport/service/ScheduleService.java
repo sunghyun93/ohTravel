@@ -9,6 +9,7 @@ import com.oracle.ohTravel.airport.model.Air_ReservationDTO;
 import com.oracle.ohTravel.airport.model.Air_Reservation_PiDTO;
 import com.oracle.ohTravel.airport.model.Air_ScheduleDTO;
 import com.oracle.ohTravel.airport.model.Reservation_Seat;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 
 public interface ScheduleService {
 
@@ -29,6 +30,10 @@ public interface ScheduleService {
 	Air_ReservationDTO selectReservationId(String mem_id); //reservation_id 가져오기위해서
 
 	Air_ReservationDTO selectCompleteReservationId(Integer reservation_id); //결제 완료하고 reservation_id와 reservation_date 가져오기위해서
+
+	List<Air_Reservation_PiDTO> selectReservation(Integer reservation_id); //회원정보 가져올려고
+
+	List<Air_Reservation_PiDTO> updatePeopleInfo(Air_Reservation_PiDTO air_Reservation_PiDTO); //회원정보 진짜 수정
 
 	
 

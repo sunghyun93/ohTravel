@@ -32,6 +32,18 @@
 			let general_seat = $('#general_seat').val();
 			let business_seat = $('#business_seat').val();
 			let first_seat = $('#first_seat').val();
+			if(general_seat==null||general_seat==''){
+				alert('일반석 갯수에  숫자가 아닌 문자가 있습니다');
+				return false;
+			}
+			if(business_seat == null|| business_seat==''){
+				alert("비즈니석 갯수에 숫자가 아닌 문자가 있습니다");
+				return false;
+			}
+			if(first_seat == null||first_seat==''){
+				alert("일등석 갯수에 숫자가 아닌 문자가 있습니다");
+				return false;
+			}
 			alert(airplane_name);
 			$.ajax({
 				url : 'updateAirplane',

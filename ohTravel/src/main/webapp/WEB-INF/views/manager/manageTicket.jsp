@@ -23,6 +23,7 @@
 	white-space: nowrap;
 }
 </style>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		var updateMsg1 = '${updateTicketMsg1}';
@@ -62,7 +63,6 @@
 						<th>입장권명</th>
 						<th>누적판매갯수</th>
 						<th>위치</th>
-						<th>평점</th>
 						<th>사용기한일</th>
 						<th>성인가격</th>
 						<th>아동가격</th>
@@ -75,7 +75,6 @@
 						<td class="content">${ticketList.ticket_name}</td>
 						<td>${ticketList.ticket_sales_cnt}</td>
 						<td class="content">${ticketList.ticket_location}</td>
-						<td>${ticketList.ticket_score}</td>
 						<td>${ticketList.ticket_due_date}</td>
 						<td>${ticketList.ticket_adult_price}</td>
 						<td>${ticketList.ticket_child_price}</td>
@@ -87,14 +86,14 @@
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 					<c:if test="${page.startPage > page.pageBlock }">
-						<li class="page-item"><a class="page-link" href="manageUser?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
+						<li class="page-item"><a class="page-link" href="manageTicket?currentPage=${page.startPage-page.pageBlock}">[이전]</a></li>
 					</c:if>
 					<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-						<li class="page-item"><a class="page-link" href="manageUser?currentPage=${i}">${i}</a></li>
+						<li class="page-item"><a class="page-link" href="manageTicket?currentPage=${i}">${i}</a></li>
 					</c:forEach>
 					<c:if test="${page.endPage < page.totalPage }">
 						<a href="manageUser?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
-						<li class="page-item"><a class="page-link" href="manageUser?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
+						<li class="page-item"><a class="page-link" href="manageTicket?currentPage=${page.startPage+page.pageBlock}">[다음]</a></li>
 					</c:if>
 				</ul>
 			</nav>

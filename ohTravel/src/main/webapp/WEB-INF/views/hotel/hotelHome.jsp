@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,78 +9,123 @@
 <title>Oh!Travel - 숙박업체</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/css/hotel/style.css">
 </head>
-<body>
-	<div class="hotel_container">
+<style>
+	.place-img img {
+		width: 300px;
+ 		height: 250px;
 		
-		
-		<div class="main_banner">
-			<div class="title">
-				<h2>여기에 사진이랑 검색옵션이 들어갈 예정</h2>
-			</div>
-		</div> <!-- hotel_banner 끝 -->
-		
-		
-<%-- 	<form id="htSearchForm" action="/hotel/searchResult" method="GET">
-		<input type="hidden" name="hotel_gubun" value="s">
-		<div class="start_end">
-				<!--왕복 모달시작  -->
-			<div>
-				 <input style="text-align: center;" type="text" id="modal_btn" class="starting" data-toggle="modal" data-target="#exampleModalCenter" 
-				 placeholder="" readonly>
-				 <input type="hidden" name="toDesti" value="" class="starting_hidden">	
-				 <div class="black_bg"></div>
-				<div class="modal_wrap">
-				    <div class="modal_close"><span>close</span></div>
-				    <div class="entire">
-					    <span class="select_area">지역을 선택해주세요.</span>
-					    <div class="modal_close_country">
-					    	<div class="modal_close_country_1">
-						        <ul>
-						        	<c:forEach var="country" items="${countryList }">
-						        		<li><span id="${country.country_id }" class="country_li">${country.country_name }</span></li>
-						        	</c:forEach>
-						        </ul>
-						    </div>
-						    <div class="modal_close_country_2">
-						        <ul>
-						        	<li><span></span></li>
-						        	<li><span></span></li>
-						        </ul>
-						    </div>     
-					        
-					    </div> <!-- modal_close_country_1 -->
-					</div>
-				</div>    <!--모달끝  --> 
-			</div>
+	}
+	.modal_wrap {
+		top: 80%;
+   		left: 28%;
+	}
 	
-			<div>
+	.search_field{
+		height: 180px;
+		border: 1px solid black;
+	}
+	
+	.start_end{
+		height: 95px;
+	}
+	
+	.forheight{
+		height : 230px;
+	}
+	
+	.mainBanner{
+		height : 600px;
+		background-image: url("${pageContext.request.contextPath }/img/hotel/hotelBanner3.jpg");
+		background-size: 100% 600px;
+	}
+	
+	.place-cap{
+		    height: 320px;
+	}
+	
+	.place-cap-top{
+		height:180px;
+	}
+	
+	.favourite-place{
+		margin-bottom:90px;
+	}
+	
+	.hotelItems{
+		margin-bottom:25px;
+	}
+</style>
+<body>
+<div class="hotel_container">
 		
+	<div class="mainBanner">
+		<div class="forheight"></div>
+		<!-- 검색Form -->		
+		<div class="search_field">
 		
-			</div>
+			<div class="trip">
+				<div class="round_trip"></div>
+				<div class="oneway"></div>
+			</div>	
 			
-			<div class="date_start">
-				<input type="date" name="dates_start_check" value="2022-12-20" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27">
-			</div>
-			<div class="date_end">
-				<input type="date" name="dates_start_end" value="2022-12-21"  id="dates_start_end" class="dates_start_end" min="2022-12-20" max="2022-12-27">
-			</div>
-			<div class="search">
-				<button type="button" id="pkgSearchBtn" class="pkg_search" >패키지 검색</button>
-			</div>
-		</div><!-- start_end -->
-	</form>
-	<div class="infoDiv"> 공백 </div>
-</div><!-- search_field -->
-		 --%>
-		
-		
-		
-		
+			<form id="hotelSearchForm" action="${pageContext.request.contextPath }/hotel/hotelSearch" method="POST">
+				<div class="start_end">
+					<div>
+						<input style="text-align: center;" type="text" id="modal_btn" class="starting" 
+						data-toggle="modal" data-target="#exampleModalCenter" 
+						placeholder="지역을 선택해주세요." readonly>
+						<input type="hidden" name="city_id" value="" class="starting_hidden">
+						<input type="hidden" name="calDate" value="" class="calDate">
+						<div class="black_bg"></div>
+						 
+						<div class="modal_wrap">
+						    <div class="modal_close"><span>close</span></div>
+						    <div class="entire">
+							    <span class="select_area">지역을 선택해주세요.</span>
+							    <div class="modal_close_country">
+							    	<div class="modal_close_country_1">
+								        <ul>
+								        	<c:forEach var="country" items="${countryList }">
+								        		<li><span id="${country.country_id }" class="country_li">${country.country_name }</span></li>
+								        	</c:forEach>
+								        </ul>
+								    </div>
+								    
+								    <div class="modal_close_country_2">
+								        <ul>
+								        	<li><span></span></li>
+								        	<li><span></span></li>
+								        </ul>
+								    </div>     
+							        
+							    </div> <!-- modal_close_country_1 -->
+							</div>
+						</div>    <!--모달끝  --> 
+						
+					</div>
+					
+					<div class="date_start">
+						<input type="date" name="startDate" value="2022-12-20" id="dates_start_check" class="dates_start_check" min="2022-12-20" max="2022-12-27">
+					</div>
+					
+					<div class="date_end">
+						<input type="date" name="endDate" value="2022-12-21"  id="dates_start_end" class="dates_start_end" min="2022-12-20" max="2022-12-27">
+					</div>
+					
+					<div class="search">
+						<button type="button" id="hotelSearchBtn" class="genric-btn info radius" >호텔 검색</button>
+					</div>
+					
+				</div><!-- start_end -->
+			</form>
+		</div><!-- search_field -->
+	</div>	
+	<!-- 검색Form -->		
 		
 		
 		<div class="recommend">
 			<div class="item_title">
-				<h3>현재 추천상품</h3>
+				<h2><strong>현재 추천상품</strong></h2>
 			</div>
 			<div class="items_rec">
 			<div class="favourite-place">
@@ -89,21 +135,21 @@
               	 <div class="row">
               	 
                     <!-- 상품에 따라 반복되어야할 부분 -->
-                    <c:forEach var="hotelList" items="${hotelList }" begin="0" end="3">
-                    <div class="col-xl-3 col-lg-3 col-md-6">
+                    <c:forEach var="hotelList" items="${hotelList }" begin="0" end="7">
+                    <div class="hotelItems col-xl-3 col-lg-3 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="${pageContext.request.contextPath }/assets/img/service/services1.jpg" alt="">
+                                <img src="${hotelList.h_img_path }" alt="">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score }Superb</span> </span>
+                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score } </span> </span>
                                     <h3><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
+                                    <fmt:formatNumber type="number" maxFractionDigits="3" value="${hotelList.room_min_price }" var="minRoomPrice"/>
+                                    <p class="dolor">${minRoomPrice }원~ <span>/ 1박 최저가</span></p>
                                 </div>
                                 <div class="place-cap-bottom">
                                     <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
                                         <li><i class="fas fa-map-marker-alt"></i>${hotelList.hotel_loc }</li>
                                     </ul>
                                 </div>
@@ -146,65 +192,9 @@
         <!-- Favourite Places End -->
 			</div>
 		</div><!-- recommend 끝 -->
-		<div class="theme_rec">
-			<div class="item_title">
-				<h3>여행 테마 추천</h3>
-			</div>
-			<div class="favourite-place">
-            	<div class="container">
-					<div class="row">
-						<div class="col-xl-3 col-lg-3 col-md-6">
-						 	<div class="single-place mb-30">
-						 		<div class="circle_theme">
-						 		
-						 		</div>
-						 	</div>
-						 </div>
-						 <div class="col-xl-3 col-lg-3 col-md-6">
-						 	<div class="single-place mb-30">
-						 		<div class="circle_theme">
-						 		
-						 		</div>
-						 	</div>
-						 </div>
-						 <div class="col-xl-3 col-lg-3 col-md-6">
-						 	<div class="single-place mb-30">
-						 		<div class="circle_theme">
-						 		
-						 		</div>
-						 	</div>
-						 </div>
-						 <div class="col-xl-3 col-lg-3 col-md-6">
-							 	<div class="single-place mb-30">
-							 		<div class="circle_theme">
-							 		
-							 		</div>
-							 	</div>
-						 </div>
-				 	</div>
-			 	</div>
-			 </div>
-		</div><!-- theme_rec 끝 -->
-		
-		<div class="conn_coupon"> <!-- 1행 4열 -->
-			<div class="item_title">
-				<h3>쿠폰</h3>
-			</div>
-			<div class="favourite-place">
-            	<div class="container">
-					<div class="row">
-						<div class="col-12">
-						 	<div class="single-place mb-30">
-						 		<div class="coupon_banner">
-						 			<div class="will_delete">쿠폰 정보를 알려주고 클릭 시 쿠폰 확인 페이지로 이동할 예정</div>
-						 		</div>
-						 	</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div> <!-- hotel_container 끝 -->
+	
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
 <script type="text/javascript">
 ////////////////////////출발지역 또는 도착지역 모달창 클릭시 모달실행///////////////////////
 function onClick() {
@@ -265,29 +255,35 @@ $(function() {
 
 	
 	// 패키지 검색 눌렀을 때 유효성 검사 및 검색으로 넘어가기
-	$('#pkgSearchBtn').on('click', function() {
+	$('#hotelSearchBtn').on('click', function() {
 		let destiPoint = $('.starting_hidden').val(); // 가고싶은 지역의 id
-		let startPoint = $('select[name="city_name"] option:selected').val(); // 출발지의 id
-		let startDate = $('#dates_start_check').val(); // 출발 날짜
-		
-		console.log(destiPoint+","+startPoint+","+startDate);
 		
 		if(destiPoint == '') {
 			alert("가고싶은 지역을 선택해주세요.");
 			// 모달창 켜기
 			onClick();
 		} else {
-			$('#pkgSearchForm').submit();
+			let startDate = $('#dates_start_check').val()
+			let endDate = $('#dates_start_end').val()
+			
+			let startDate_arr = startDate.split("-");
+			let endDate_arr = endDate.split("-");
+			
+			let stDate = new Date(startDate_arr[0], startDate_arr[1], startDate_arr[2]);
+			let edDate = new Date(endDate_arr[0], endDate_arr[1], endDate_arr[2]);
+			
+			let cal = edDate.getTime() - stDate.getTime();
+			let calDate = cal / (1000*60*60*24);
+			
+			$('.calDate').val(calDate);
+			$('#hotelSearchForm').submit();
 		}
 
 	});
+	
 })
 	
 
-
-</script>
-</body>
-</html>
 
 </script>
 </body>

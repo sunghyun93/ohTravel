@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_searchResult.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_clear.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/data_no.css">
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
@@ -908,6 +909,7 @@ prod_list_wrap .htl .btn.line {
 	background-color: #479DE7;
 	width: 140px;
 	height: 56px;
+	margin-left: 150px;
 	
 }
 
@@ -923,6 +925,98 @@ prod_list_wrap .htl .btn.line {
 	color: red;
 }
 
+/*모달창 css  */
+.modal_wrap {
+        display: none;
+        width: 700px;
+        height: 600px;
+        position: absolute;
+        top: 10%;
+        left: 20%;
+        margin: 0 auto;
+        background:#eee;
+        z-index: 999;
+ }
+.black_bg{
+        display: none;
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 30000px;
+        background-color:rgba(0, 0,0, 0.2);
+        top:0;
+        left: 0;
+        z-index: 1;
+ } 
+ 
+ .modal_close{
+        width: 26px;
+        height: 26px;
+        position: absolute;
+        top: -30px;
+        right: 0;
+ }
+ 
+ .modal_close> span{
+        display: block;
+        width: 100%;
+        height: 100%;
+        background:url(https://img.icons8.com/metro/26/000000/close-window.png);
+        text-indent: -9999px;
+ } 
+ 
+ /*일정상세보기 모달안에 css  */
+ 
+ .js_tabs {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+/* type1 */
+.type1 .tabs>li {
+    display: table;
+    height: 52px;
+    line-height: 52px;
+    border-width: 1px 0 0 1px;
+    border-color: #ddd;
+    border-style: solid;
+    background-color: #fff;
+}
+.type1 .tabs>li:after {
+    height: 1px;
+    background-color: #111;
+}
+.type1 .tabs>li>a {
+    color: #333;
+    font-size: 15px;
+    line-height: 20px;
+    vertical-align: middle;
+}
+.type1 > .tabs>li>a {
+    display: table-cell;
+}
+.type1 .tabs>li.selected {
+    border-color: #111;
+    border-right: 1px solid #111;
+}
+.type1 .tabs>li.selected>a {
+    color: #5e2bb8;
+    background-color: #fff;
+}
+.type1 .tabs>li.selected+li {
+    border-left-color: #fff;
+}
+.type1 .tabs>li.selected:after {
+    background-color: #fff;
+    left: 0;
+    right: 0;
+}
+.type1 .tabs>li:last-child {
+    border-right: 1px solid #ddd;
+}
+.type1 .tabs>li.selected:last-child {
+    border-right: 1px solid #111;
+}
 </style>
 </head>
 <body>
@@ -936,14 +1030,16 @@ prod_list_wrap .htl .btn.line {
 		</ul>
 	</div> -->
 	                <!-- 필터 부분 -->
-	        <form id="searchAirplane" action="/airport/reservationAirplaneAgreeCheck" method="post" onsubmit="return checkId()">
+	        <form id="searchAirplane" action="/airport/reservationAirplaneAgreeCheck" method="get" onsubmit="return checkId()">
 	        <input type="hidden" name="count" value="${count }">
          	<input type="hidden" name="seat_name" value="${seat_name}">
          	<input type="hidden" name="gubun_check" value="${gubun_check}">
          	<input type="hidden" name="start_city_id" value="${start_city_id}">
          	<input type="hidden" name="end_city_id" value="${end_city_id}">
          	<input type="hidden" name="seat_position" value="${seat_position}">
-         	
+         	<input type="hidden" name="toURL" value="${toURL}">
+       		
+   			
 	         <div class="container">       
 	          <div class="ly_wrap result_wrap">      
                 <div class="inr">
@@ -956,23 +1052,23 @@ prod_list_wrap .htl .btn.line {
                                 <div id="adtAmtCdsDiv" class="view" style="display: block;">
                                     <div class="form_wrap">
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds200000|400000" class="inpt_checkbox" value="200000|400000">
-                                            <label for="chk_adtAmtCds200000|400000" class="label_checkbox">0~40만원</label>
+                                            <input type="checkbox" id="chk_adtAmtCds200000|400000" class="inpt_checkbox" value="200000|400000" data-order="4">
+                                            <label for="chk_adtAmtCds200000|400000" class="label_checkbox" >0~40만원</label>
                                         </span>
 
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds400000|600000" class="inpt_checkbox" value="400000|600000">
-                                            <label for="chk_adtAmtCds400000|600000" class="label_checkbox">40~60만원</label>
+                                            <input type="checkbox" id="chk_adtAmtCds400000|600000" class="inpt_checkbox" value="400000|600000" data-order="5">
+                                            <label for="chk_adtAmtCds400000|600000" class="label_checkbox" >40~60만원</label>
                                         </span>
 
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds600000|800000" class="inpt_checkbox" value="600000|800000">
-                                            <label for="chk_adtAmtCds600000|800000" class="label_checkbox">60~80만원</label>
+                                            <input type="checkbox" id="chk_adtAmtCds600000|800000" class="inpt_checkbox" value="600000|800000" data-order="6">
+                                            <label for="chk_adtAmtCds600000|800000" class="label_checkbox" >60~80만원</label>
                                         </span>
 
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_adtAmtCds800000" class="inpt_checkbox" value="800000">
-                                            <label for="chk_adtAmtCds800000" class="label_checkbox">80~만원</label>
+                                            <input type="checkbox" id="chk_adtAmtCds800000" class="inpt_checkbox" value="800000" data-order="7">
+                                            <label for="chk_adtAmtCds800000" class="label_checkbox" >80~만원</label>
                                         </span>
                                     </div>
                                 </div>
@@ -986,12 +1082,12 @@ prod_list_wrap .htl .btn.line {
                                 <div id="depTmsCdsDiv" class="view" style="display: block;">
                                     <div class="form_wrap">
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_depTmsCdsAM2" class="inpt_checkbox" value="AM2"> 
-                                            <label for="chk_depTmsCdsAM2" class="label_checkbox">05시~12시</label>
+                                            <input type="checkbox" id="chk_depTmsCdsAM2" class="inpt_checkbox" value="AM2" data-order="8"> 
+                                            <label for="chk_depTmsCdsAM2" class="label_checkbox" >05시~12시</label>
                                         </span>
                                         <span class="form_holder text">
-                                            <input type="checkbox" id="chk_depTmsCdsPM1" class="inpt_checkbox" value="PM1"> 
-                                            <label for="chk_depTmsCdsPM1" class="label_checkbox">12시~18시</label>
+                                            <input type="checkbox" id="chk_depTmsCdsPM1" class="inpt_checkbox" value="PM1" data-order="9"> 
+                                            <label for="chk_depTmsCdsPM1" class="label_checkbox" >12시~18시</label>
                                         </span>
                                     </div>
                                 </div>
@@ -1014,7 +1110,7 @@ prod_list_wrap .htl .btn.line {
                         
                   
 	                        <div class="text_wrap big">
-									<h5><strong>✈️ 가는 항공편${memberDTO.getMem_id() }</strong></h5>
+									<h5><strong>✈️ 가는 항공편</strong></h5>
 									<c:if test="${not empty start_date1 }">
 										<div class="calendar">${start_date1}
 											<span class="calendar_day1"></span>
@@ -1159,8 +1255,8 @@ prod_list_wrap .htl .btn.line {
 		             <div class="one_list">
 		             <c:if test="${gubun_check == 0 }">   
 		             <c:forEach var="come" items="${comeList}">
-							<div class="go_airplane" data-schedule="${come.schedule_id }">
-							<input type="hidden" name="come_schedule_id" value="${come.schedule_id }">
+							<div class="go_airplane" data-schedule="${come.schedule_id}">
+							<input type="hidden" name="come_schedule_id" value="${come.schedule_id}">
 								<div class="airline"><img class="airline_pic" src="${pageContext.request.contextPath}${come.air_picture}" width="20px" height="20px">${come.air_name}<br>
 								<span class="airline_num">${come.airplane_name}</span>
 								</div>
@@ -1216,10 +1312,35 @@ prod_list_wrap .htl .btn.line {
 				</c:if>	
 			</div>     
 		</div>
+		
+		<!-- 일정상세버튼 클릭시 시작되는 모달 -> 구현할수 있는데 너무 힘들어 노가다...-->
+		<!-- 		<div class="black_bg"></div>
+				<div class="modal_wrap">
+				    <div class="modal_close"><span>close</span></div>
+					   <div class="js_tabs type1 v-tabs nojq">
+				    		<ul class="tabs">
+						        <li class="fx-cobrand-pkg" style="width: 33.3%;">일정정보</li> 
+						        <li class="fx-cobrand-htl" style="width: 33.3%;">요금규정</li>
+						        <li class="selected fx-cobrand-wt" style="width: 33.3%;">이용안내</li>						        
+				    		</ul>
+				    		<div class="schedule_info">
+				    			<div>가는편</div><div>오는편</div>
+					    			<div class="schedule_info_go">
+					    				  <span class="startCity1"></span> 🔜  <span class="endCity1"></span>
+
+					    			</div>
+				    			
+				    		</div>
+					</div>
+				</div> -->
+		
+		
 		<div class="reservation_go">
-				<button type="button" class="viewDetail">일정 상세보기</button>
-				<button type="submit" class="reservation_go_btn" onclick="check()"><span>예약하기</span></button>
-			</div>
+				<!-- <button type="button" class="viewDetail" id="modal_btn">일정 상세보기</button> -->
+				<button type="submit" class="reservation_go_btn" ><span>예약하기</span></button>
+		</div>
+		
+		
 	</div>
 </div>
 </form>  			
@@ -1227,7 +1348,7 @@ prod_list_wrap .htl .btn.line {
 	
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <script type="text/javascript">
-		
+
 		/* 필터 가격 부분 화살표 및 active class 부여 */
         let daylist = $('.header'); // 각 일정의 a태그
         $(daylist).on('click', function(e) {
@@ -1354,6 +1475,8 @@ prod_list_wrap .htl .btn.line {
         }
         
 		
+        // 지금 클릭한 input 태그 외에 태그들 중 checked 된 것이 있으면 해제시키고, 클릭한 것만 check 되게 함.
+		
 		
         $(document).on('click','.search_type' ,function() {
         	let order = $(this).attr('data-order');
@@ -1378,7 +1501,52 @@ prod_list_wrap .htl .btn.line {
 					},
 				dataType:'html',
 				success : function(data){
-					console.log(data);
+					
+					$('#airplaneSearchList').empty();
+					$('#airplaneSearchList').html(data);
+				},
+				error: function(err){
+					console.log(err);
+				}
+        	});  
+        });
+        
+        $(document).on('click','.inpt_checkbox' ,function() {
+        	let order = $(this).attr('data-order');
+        	if($(this).prop('checked')== false){
+        	   order = '';
+        	}
+        	
+        	console.log(order);
+        	//checkbox 한개만 선택가능하게 
+    		$('.inpt_checkbox').not(this).each(function(index, item) {
+    			if($(item).is(':checked')){
+    				$(item).prop('checked',false);
+    			}
+    		});	
+        	
+        	
+        	 $.ajax({
+        		url: '${pageContext.request.contextPath}/airport/searchAirplaneAjax',
+				type: 'get',
+				data: {
+						 'order': order,
+						 'gubun_check' : '${gubun_check}',
+						 'start_country_id' : '${start_country_id}',
+						 'start_city_id' : '${start_city_id}',
+						 'end_country_id' : '${end_country_id}',
+						 'end_city_id' : '${end_city_id}',
+						 'start_date1' : '${start_date1}',
+						 'end_date' : '${end_date}',
+						 'start_date2' : '${start_date2}',
+						 'seat_name' : '${seat_name}',
+						 'seat_position' : '${seat_position}',
+						 'count' : '${count}',
+						 'radio_seat' : '${radio_seat}'
+					},
+				dataType:'html',
+				success : function(data){
+				
 					$('#airplaneSearchList').empty();
 					$('#airplaneSearchList').html(data);
 				},
@@ -1407,22 +1575,10 @@ prod_list_wrap .htl .btn.line {
 	  		  
 	  	  }else return true;
 	}
-  	 
-  /*  //일정 상세보기 모달창 open
-   function detailOn() {
-	    document.querySelector('.modal_wrap').style.display ='block';
-	    document.querySelector('.black_bg').style.display ='block';
-	    
-	}
 	
-	function detailOff() {
-	    document.querySelector('.modal_wrap').style.display ='none';
-	    document.querySelector('.black_bg').style.display ='none';
-	    
-	}
 	
-	document.getElementById('modal_btn').addEventListener('click', detailOn);
-	document.querySelector('.modal_close').addEventListener('click', detailOff); */
+	
+  
 	
 </script>			
 </body>

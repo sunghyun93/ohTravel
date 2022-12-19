@@ -56,7 +56,7 @@
 		</collection>
 	</resultMap>
 	
-	<!-- 상품 상세 resultMap -->
+	<!-- 패키지 상세 resultMap -->
 	<resultMap id="selectPkgDetailResult" type="pkage_detailDTO">
 		<id property="pkage_dt_id" column="pkage_dt_id"/>
 		<result property="pkage_id" column="pkage_id"/>
@@ -319,6 +319,14 @@
 	</select>
 	
 <!-- Dao와 이어지는 select 문들 시작  -->
+	<!-- 패키지 검색시 pkg 개수 select -->
+	<select id="selectPkgWithDetailAndFlightCnt" parameterType="map" resultType="int">
+		select count(*) rowCnt from (select p.pkage_id from (select * from package where city_id = #{toDesti}) p
+		join package_detail pd on p.pkage_id = pd.pkage_id
+		<!-- pkage_id 가 null 이 아닌 경우는 검색을 해서 들어온 것이 아니고, 패키지는 클릭했을 때 해당 패키지에 대한 내용만 가져오기 위함 -->
+		<include refid="selectPkgCondition"></include>
+		group by p.pkage_id) cnt
+	</select>
 
 	<!-- 패키지 검색시 관련 pkg 테이블들의 값 select  -->
 	<select id="selectPkgWithDetailAndFlight" parameterType="map" resultMap="pkageDTO_ResultMap">
@@ -334,7 +342,7 @@
         pfs.*,
         ashe.*,
 		aline.*,
-        pi.pkage_Img_path from package p 
+        pi.pkage_Img_path from (select * from package where city_id = #{toDesti} limit ${pkgSearch.offset}, ${pkgSearch.pageSize}) p <!-- 페이징을 위함 -->
 		join city c on p.city_id = c.city_id
 		join country ct on c.country_id = ct.country_id
 		join package_image pi on p.pkage_id = pi.pkage_id
@@ -345,10 +353,10 @@
 		<!-- pkage_id 가 null 이 아닌 경우는 검색을 해서 들어온 것이 아니고, 패키지는 클릭했을 때 해당 패키지에 대한 내용만 가져오기 위함 -->
 		where True
 		<if test="pkage_id != null">
-			and p.pkage_id = #{pkage_id}
+			and p.pkage_id = #{pkage_id} and pkage_dt_startDay >= #{dates_start_check}
 		</if>
 		<if test="pkage_id == null">
-			and p.city_id = #{toDesti} and pkage_dt_startDay >= #{dates_start_check}
+			and true and pkage_dt_startDay >= #{dates_start_check}
 		</if>
 		<!-- 가격 필터 --> <!-- (max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3) -->
 		<if test='pkgSearch.amtGubun != null'>
@@ -370,7 +378,7 @@
 				</when>
 			</choose>
 		</if>
-		<if test='pkgSearch.chk_term != null'> <!-- 여행 기간 - 두 날짜의 차이 (day) -->
+		<if test='pkgSearch.chk_term != null'> <!-- 여행 기간 - 두 날짜의 차이 (day), DAY 는 단위를 뜻함, TIMESTAMPDIFF(단위, 날짜1, 날짜2);-->
 			and TIMESTAMPDIFF(DAY, date(pd.pkage_dt_startDay), date(pd.pkage_dt_endDay))+1 = #{pkgSearch.chk_term}
 		</if>
 		<if test='pkgSearch.chk_time != null'> <!-- 출발 시간 - date의 시간만 비교 -->
@@ -439,21 +447,27 @@
 		where p.pkage_id = #{pkage_id}
 	</select>
 	
+	<!-- 단순히 pkage_dt_id 를 받아 1개의 pkg detail을 select -->
+	<select id="selectPkgDetailById3" parameterType="int" resultType="pkage_detailDTO">
+		select * from package_detail where pkage_dt_id = #{pkage_dt_id}
+	</select>
+	
 	<!-- pkage_dt_id 를 받아 해당 패키지 상세와 관련된 것들 select(여행일정 상세테이블은 각 일정 순서에 맞게 select) -->
 	<select id="selectPkgDetailById" parameterType="int" resultMap="selectPkgDetailResult2">
 		select 
-		pd.*, ph.*,h.*,pfs.*,ashe.*,aline.*, ps.*, psd.*, ar.*, arimg.*
+		pd.*, ph.*,h.*, hi.*, pfs.*,ashe.*,aline.*, ps.*, psd.*, ar.*, arimg.*
 		from package_detail pd
 		join package_hotel ph on pd.pkage_dt_id = ph.pkage_dt_id
 		join hotel h on ph.hotel_id = h.hotel_id
+		join hotel_image hi on h.hotel_id = hi.hotel_id
 		left join (	select * from package_flightsche 
 					where pkage_dt_id = ${pkage_dt_id}
 					order by pkage_flight_gubun) pfs on pd.pkage_dt_id = pfs.pkage_dt_id
 		left join air_schedule ashe on pfs.Schedule_id = ashe.Schedule_id
 		left join airline aline on ashe.Air_num = aline.Air_num
 		join ( 	select * from package_schedule
-		where pkage_dt_id = #{pkage_dt_id}
-		order by pkage_sche_day ) ps on pd.pkage_dt_id = ps.pkage_dt_id
+				where pkage_dt_id = #{pkage_dt_id}
+				order by pkage_sche_day ) ps on pd.pkage_dt_id = ps.pkage_dt_id
 		join (	select * from packageSchedule_detail 
 				where pkage_dt_id = ${pkage_dt_id}
 				order by pkage_sche_day, pkage_s_d_order
@@ -543,13 +557,77 @@
 		where pr.pkage_rv_id = #{pkage_rv_id}
 	</select>
 	
+	<!-- mem_id 를 받아 해당 회원의 예약 목록 가져오기 -->
+	<select id="selectPkgReservByMem_id" parameterType="string" resultMap="selectPkgReservResult">
+		select pr.pkage_rv_id, 
+	 	pd.pkage_dt_startDay, 
+	    pd.pkage_dt_endDay
+		from package_reservation pr
+		join package_detail pd on pr.pkage_dt_id = pd.pkage_dt_id
+		where pr.mem_id = #{mem_id};
+	</select>
+	
+	<!-- 찜 하기 -->
+	<insert id="insertBasket" parameterType="map">
+		insert into basket (mem_id, basket_ref_id) values (#{mem_id}, #{pkage_id})
+	</insert>
+	
+	<!-- 찜 해제하기 -->
+	<delete id="deleteBasket" parameterType="map">
+		delete from basket where mem_id = #{mem_id} and basket_ref_id = #{pkage_id}
+	</delete>
+	
 <!--  sql 태그들  -->
 	<!-- 평점을 위한 sql -->
 	<sql id="selectPkgColumn">
 		p.pkage_id, p.city_id, p.pkage_name, p.pkage_info, p.pkage_gubun, p.pkage_soldCnt, 
-		 (SELECT	FORMAT( IFNULL ( AVG(rv_rating), 0 ), 1 ) score
+		 (SELECT	FORMAT( AVG(IFNULL (rv_rating, 0 )), 1 ) score
 		FROM	review 
 		WHERE	rv_real_id = p.pkage_id) as pkage_score, 
+	</sql>
+	
+	<!-- pkg 조회시 조건을 위한 sql -->
+	<sql id="selectPkgCondition">
+		where True
+		<if test="pkage_id != null">
+			and p.pkage_id = #{pkage_id} and pkage_dt_startDay >= #{dates_start_check}
+		</if>
+		<if test="pkage_id == null">
+			and true and pkage_dt_startDay >= #{dates_start_check}
+		</if>
+		<!-- 가격 필터 --> <!-- (max만 왔는지 - 1, min만 왔는지- 2, min max 모두 왔는지 - 3) -->
+		<if test='pkgSearch.amtGubun != null'>
+			<choose> 
+				<when test='amtGubun.equals("1")'>
+				<![CDATA[ 
+					And (pd.pkage_dt_Aprice <= ${pkgSearch.maxAmt})
+				]]>
+				</when>
+				<when test='amtGubun.equals("2")'>
+				<![CDATA[ 
+					And (pd.pkage_dt_Aprice >= ${pkgSearch.minAmt})
+				]]>
+				</when>
+				<when test='amtGubun.equals("3")'>
+				<![CDATA[ 
+					And (pd.pkage_dt_Aprice between ${pkgSearch.minAmt} and ${pkgSearch.maxAmt})
+				]]>
+				</when>
+			</choose>
+		</if>
+		<if test='pkgSearch.chk_term != null'> <!-- 여행 기간 - 두 날짜의 차이 (day), DAY 는 단위를 뜻함, TIMESTAMPDIFF(단위, 날짜1, 날짜2);-->
+			and TIMESTAMPDIFF(DAY, date(pd.pkage_dt_startDay), date(pd.pkage_dt_endDay))+1 = #{pkgSearch.chk_term}
+		</if>
+		<if test='pkgSearch.chk_time != null'> <!-- 출발 시간 - date의 시간만 비교 -->
+			<choose>
+				<when test='pkgSearch.chk_time.equals("AM")'>
+					and (hour(pd.pkage_dt_startDay) between '5' and '12')
+				</when>
+				<when test='pkgSearch.chk_time.equals("PM")'>
+					and (hour(pd.pkage_dt_startDay) between '12' and '18')
+				</when>
+			</choose>
+		</if>
 	</sql>
 	
 	

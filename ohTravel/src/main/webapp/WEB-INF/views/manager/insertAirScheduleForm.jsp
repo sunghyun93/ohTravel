@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 	function changeAirline(){
 		let air_num = $('.air_num').val();
@@ -41,6 +42,7 @@
 		let start_time = $('.start_time').val();
 		let end_time = $('.end_time').val();
 		let schedule_price = $('.schedule_price').val();
+		let today = new Date();
 		
 		let result1 = start_time.substring(0,4)+start_time.substring(5,7)+start_time.substring(8,10);
 		let result2 = end_time.substring(0,4)+end_time.substring(5,7)+end_time.substring(8,10);
@@ -50,50 +52,79 @@
 		console.log(result2);
 		console.log(result3);
 		console.log(result4);
-		
+		console.log(today);
 		if (air_num == null || air_num == "") {
 			alert('항공사를 선택하세요');
-		} else if (airplane_name == null || airplane_name == "") {
+			return false;
+		}
+		if (airplane_name == null || airplane_name == "") {
 			alert("항공편명을 선택하세요");
-		} else if (start_airport_name == null || start_airport_name == "") {
+			return false;
+		}
+		if (start_airport_name == null || start_airport_name == "") {
 			alert("출발공항을 선택하세요");
-		} else if (end_airport_name == null || end_airport_name == "") {
+			return false;
+		}
+		if (end_airport_name == null || end_airport_name == "") {
 			alert("도착공항을 선택하세요");
-		} else if (start_airport_name == end_airport_name) {
+			return false;
+		}
+		if (start_airport_name == end_airport_name) {
 			alert("출발공항과 도착공항은 같을수 없습니다")
-		} else if((result1 - result2)>0){
+			return false;
+		}
+		if((result1 - result2)>0){
 			alert("도착날짜는 출발날짜보다 이전일수 없습니다")
-		} else if ((result1 - result2)==0){
+			return false;
+		}
+		if ((result1 - result2)==0){
 			if((result3 - result4) >= 0){
 				alert("같은날에 도착시간은 출발시간보다 이전일수 없습니다")
+				return false;
 			}
-		} else if (start_time >= end_time) {
+		}
+		if (start_time >= end_time) {
 			alert("도착시간은 출발시간과 같거나 출발시간 이전일수 없습니다");
-		} else {
-			$.ajax({
-				url : 'insertAirSchedule',
-				data : {'air_num' : air_num,
-						'airplane_name' : airplane_name,
-						'start_airport_name' : start_airport_name,
-						'end_airport_name' : end_airport_name,
-						'start_time' : start_time,
-						'end_time' : end_time,
-						'schedule_price' : schedule_price},
-				method : 'POST',
-				success : function(data){
-					if(data == 1){
-						alert("추가가 성공되었습니다")	;
-						location.href='manageAir';
-					}else{
-						alert("문제가 있습니다");
-					}
-					
-				}
-			})
-			
+			return false;
+		}
+		if(schedule_price==null||schedule_price==''){
+			alert("가격을 입력해주세요 ");
+			return false;
 		}
 		
+		$.ajax({
+			url : 'insertAirSchedule',
+			data : {'air_num' : air_num,
+					'airplane_name' : airplane_name,
+					'start_airport_name' : start_airport_name,
+					'end_airport_name' : end_airport_name,
+					'start_time' : start_time,
+					'end_time' : end_time,
+					'schedule_price' : schedule_price},
+			method : 'POST',
+			success : function(data){
+				if(data == 1){
+					alert("추가가 성공되었습니다")	;
+					location.href='manageAir';
+				}else{
+					alert("문제가 있습니다");
+				}
+				
+			}
+		})
 	}
+	
+	
+	$(document).ready(function(){
+	    let date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -5);
+	    $('#start_time').attr("value",date);
+	    $('#start_time').attr('min',date);
+	    $('#end_time').attr('value',date);
+	    $('#end_time').attr('min',date);	    
+	})
+	
+	
+	
 </script>
 </head>
 <body>
@@ -140,7 +171,7 @@
 		</div>
 		<div class="mb-3">
 			<label for="schedule_price" class="form-label">가격</label>
-			<input type="number" class="form-control schedule_price" id="schedule_price" name="schedule_price"placeholder="가격을 입력하세요">
+			<input type="number" class="form-control schedule_price" id="schedule_price" required="required" name="schedule_price"placeholder="가격을 입력하세요">
 		</div>
 		<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageAir'" value="돌아가기">
 		<button type="button" class="btn btn-primary" onclick="chk()">추가하기</button>

@@ -118,40 +118,7 @@ function makeReviewTable(data) {
 	targetTable.html(innerHtml);
 }
 
-// 리뷰 조회 -- 랜더링 함수2 (진짜 구조 그려줌)
-function makeRow(datum) {
-	
-	
-	let innerHtml = ''
 
-	innerHtml += '<tr>'
-		innerHtml += '<input type="hidden" class="rv_id" value="'+datum.rv_id +'">'
-		innerHtml += '<td>'
-			innerHtml += '<span class="rv_date">'+datum.rv_date +'</span>'
-		innerHtml += '</td>'
-		innerHtml += '<td>'
-			innerHtml += '<div class="star_img"> <img alt="별점뙇~" src="/img/hotel/star.png"></div>'
-			innerHtml += '<span class="rv_rating">'+datum.rv_rating +'</span>'
-		innerHtml += '</td>'
-		innerHtml += '<td>'
-			innerHtml += '<span class="rv_contents">'+datum.rv_contents +'</span>'
-		innerHtml += '</td>'
-		innerHtml += '<td>'
-			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
-			//if(aaaa) {	
-				innerHtml += '<button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>'
-			//}
-		innerHtml += '</td>'
-		innerHtml += '<td>'
-			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
-			//if(aaaa) {	
-				innerHtml += '<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'
-			//}
-		innerHtml += '</td>'
-	innerHtml += '</tr>'
-	
-	return innerHtml;
-}
 
 
 //[수정] 버튼을 클릭한 해당 행의 review 정보를 모두 가져와야함
@@ -188,7 +155,6 @@ function writeReview(){
 	
 	let sendData = {
 		//TODO:나중에 세션?에 있는 정보로 읽어와야함
-		mem_id: 'test1',
 		rv_rating: ($('#starRate').val())/2, // starRate에서 10에 해당하는 값이 별점 5점이기 때문에 /2
 		rv_contents: $('#review-text').val(),
 		rv_real_id

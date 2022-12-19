@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 	function getCountry_id(){
 		var country_id = $('.country_id').val();
@@ -54,7 +55,14 @@
 		document.querySelector("div#image_detail_container").appendChild(img);
 		};
 	reader.readAsDataURL(event.target.files[0]);
-	}
+	};
+	
+	
+	$(document).ready(function(){
+		let room_date = $('#ticket_due_date');
+		room_date.attr("min",new Date().toISOString().substring(0, 10));
+		console.log($('#ticket_due_date').val())
+	})
 </script>
 </head>
 <body>
@@ -84,6 +92,10 @@
 			<input type="text" class="form-control" id="ticket_location" name="ticket_location" required="required" placeholder="입장권 위치를 입력하세요">
 		</div>
 		<div class="mb-3">
+			<label for="ticket_due_date" class="form-label">입장권 유효기간</label>
+			<input type="date" class="form-control" id="ticket_due_date" name="ticket_due_date" required="required">
+		</div>
+		<div class="mb-3">
 			<label for="ticket_adult_price" class="form-label">어른가격</label>
 			<input type="number" class="form-control" id="ticket_adult_price" name="ticket_adult_price" required="required" placeholder="성인 가격을 입력하세요">
 		</div>
@@ -92,7 +104,7 @@
 			<input type="number" class="form-control" id="ticket_child_price" name="ticket_child_price" required="required" placeholder="아이 가격을 입력하세요">
 		</div>
 		<div class="mb-3">
-			<label for="ticket_rep_img_path" class="form-label">작은 이미지</label>
+			<label for="ticket_rep_img_path" class="form-label">썸네일 이미지</label>
 			<input type="file" class="form-control" id="ticket_rep_img_path" name="file1" required="required" onchange="rep(event)" accept="image/*">
 			<div id="image_rep_container"></div>
 		</div>

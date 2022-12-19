@@ -42,6 +42,7 @@
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
 				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertMembershipForm'">등급추가</button>
+				<input type="button" class="btn btn-primary mb-3 mr-3" style="float: right;" onclick="location.href='managerMain'" value="돌아가기">
 			</div>
 				<table border="1" class="table table-hover">
 					<thead>

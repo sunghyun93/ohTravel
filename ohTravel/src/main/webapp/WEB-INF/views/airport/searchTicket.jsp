@@ -523,7 +523,7 @@ button {
 		     편도
 		</div>
 	</div>
-		<form action="/airport/searchAirplane" method="get">
+		<form action="/airport/searchAirplane" method="get" onsubmit="return chk()">
 		<input type="hidden" value="" name="gubun_check" class="gubun_check">
 		<input type="hidden" value="1" name="order">
 		<div class="start_end">
@@ -643,11 +643,11 @@ button {
 						<p><img src="${pageContext.request.contextPath}/airport/img/caution.png" width="20px" height="15px">  예약 가능 최대 인원은 9명입니다.</p>
 						<div class="select_complete"><span class="select_complete_text">선택완료</span></div>
 					</div>	
-				</div>
+				</div> 
 			</div>
 		
 				<div class="search">
-					<input type="submit" class="air_search" value="항공권 검색">
+					<input type="submit" class="air_search" value="항공권 검색" >
 				</div>
 			</div>
 		</form>	
@@ -1325,13 +1325,47 @@ $(function() {
 	});
 
 });
+	
+var start = $('.start').val();
+var end = $('.ending').val();
+var dates_start_check = $('.dates_start_check').val();
+var dates_start_end = $('.dates_start_end').val();
+var dates_start_oneway = $('.dates_start_oneway').val();
+var ppl_check = $('.ppl_check').val();
+  
+ 
+$(document).on("click",".oneway",function(){
+	chk2();
+});
 
+   
+ function chk() {
+	  
+		if(start == null && end == null && dates_start_check == null && dates_start_end == null && ppl_check == null){
+			 alert('검색에 필요한 조건을 다 입력하세요');
+			 return false;
+		
+		}else return true;
+	
+	
+ }
+ 
+ function chk2() {
+	  
+		if(start == null && end == null && dates_start_oneway == null && ppl_check == null){
+			 alert('검색에 필요한 조건을 다 입력하세요');
+			 return false;
+		
+		}else return true;
+	
+	
+}
 
-
+ 
+ 
 	
 
 </script>
-
 
 
 

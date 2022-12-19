@@ -10,7 +10,7 @@
 		<!-- city -->
 		<typeAlias type="com.oracle.ohTravel.city.model.CityDTO" alias="CityDTO"/>
 	
-		<typeAlias type="com.oracle.ohTravel.manager.model.MemberDTO" alias="Member"/>
+		<typeAlias type="com.oracle.ohTravel.manager.model.ManageMemberDTO" alias="Member"/>
 		<typeAlias type="com.oracle.ohTravel.manager.model.MembershipDTO" alias="Membership"/>
 		<typeAlias type="com.oracle.ohTravel.manager.model.NoticeDTO" alias="Notice"/>
 		<typeAlias type="com.oracle.ohTravel.manager.model.CouponDTO" alias="Coupon"/>
@@ -39,9 +39,6 @@
 		<typeAlias type="com.oracle.ohTravel.search.model.CategoryDTOVO" alias="CategoryDTOVO"/>
 		<typeAlias type="com.oracle.ohTravel.search.model.RecentSearchDTO" alias="RecentSearchDTO"/>
 
-		<!-- Basket -->		
-		<typeAlias type="com.oracle.ohTravel.basket.model.BasketDTO" alias="BasketDTO"/>
-
 		<!-- review -->
 		<typeAlias type="com.oracle.ohTravel.review.model.ReviewDTO" alias="Review"/>
 		
@@ -64,13 +61,14 @@
 		<typeAlias type="com.oracle.ohTravel.airport.model.Air_Reservation_PiDTO" alias="Air_Reservation_PiDTO"/>
 		<typeAlias type="com.oracle.ohTravel.airport.model.Air_FlightSchDTO" alias="Air_FlightSchDTO"/>
 		<typeAlias type="com.oracle.ohTravel.airport.model.Reservation_Seat" alias="Reservation_Seat"/>
+		<typeAlias type="com.oracle.ohTravel.airport.model.Air_FlightSchDTO" alias="Air_FlightSchDTO"/>
 		
-
 		
 
 		
 		<!-- ticket -->
 		<typeAlias type="com.oracle.ohTravel.ticket.model.TicketDTO" alias="TicketDTO"/>
+		<typeAlias type="com.oracle.ohTravel.ticket.model.TicketReservation" alias="TicketReservation"/>
 		
 		<!-- Member -->
 		<typeAlias type="com.oracle.ohTravel.member.model.MemberDTO" alias="MemberDTO"/>
@@ -80,7 +78,10 @@
 		<typeAlias type="com.oracle.ohTravel.member.model.PackageReservationDTO" alias="PackageReservationDTO"/>
 		<typeAlias type="com.oracle.ohTravel.member.model.UpdateMileGradeDTO" alias="UpdateMileGradeDTO"/>
 		<typeAlias type="com.oracle.ohTravel.member.model.ReviewDTO" alias="ReviewDTO"/>
+		<typeAlias type="com.oracle.ohTravel.member.model.BasketDTO" alias="BasketDTO"/>
+		<typeAlias type="com.oracle.ohTravel.member.model.MemCouponDTO" alias="MemCouponDTO"/>
 		<typeAlias type="com.oracle.ohTravel.member.model.AirReservationDetail" alias="AirReservationDetail"/>
+		
 
 		
 	</typeAliases>

@@ -66,7 +66,7 @@
 				success : function(data){
 					if(data == 1){
 						alert("수정이 성공되었습니다")	;
-						location.href='manageStartAirport';
+						location.href='manageEndAirport';
 					}else{
 						alert("문제가 있습니다");
 					}
@@ -78,20 +78,20 @@
 		}
 		
 	}
-	function deletestartAirport(){
+	function deleteEndAirport(){
 		let message ="";
 		message = confirm("정말로 삭제하시겠습니까?");
 		if(message){
 			let end_airport_name = $('#end_airport_name').val();
 			alert(end_airport_name);
 			$.ajax({
-				url : 'deletestartAirport',
+				url : 'deleteEndAirport',
 				method : 'POST',
 				data : {'end_airport_name' : end_airport_name},
 				success : function(data){
 					if(data == 1){
 						alert("삭제가 성공되었습니다")	;
-						location.href='manageStartAirport';
+						location.href='manageEndAirport';
 					}else{
 						alert("문제가 있습니다");
 					}
@@ -114,7 +114,7 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">도착공항 상세</h1>
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
-				<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageAttraction?currentPage=${currentPage}'" value="돌아가기">
+				<input type="button" class="btn btn-primary mb-2" style="float: right;" onclick="location.href='manageEndAirport'" value="돌아가기">
 			</div>
 			<c:forEach var="endAirportDetail" items="${endAirportDetail }">
 				<table border="1" class="table table-striped">

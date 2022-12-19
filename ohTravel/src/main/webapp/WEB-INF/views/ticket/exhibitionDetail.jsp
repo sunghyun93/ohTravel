@@ -7,11 +7,13 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- google fonts icon -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_detail.css">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pkage/package_detail.css">
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/css/hotel/style.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
 </head>
@@ -414,14 +416,14 @@
 	.num_count_group .btn_decrement:after {
 	    display: inline-block;
 	    content: '';
-	    /* background-image: url(icon_minus.png); */
+	    background-image: url(http://localhost:8399/img/pkage/icon/icon_minus.png);
 	    background-repeat: no-repeat;
 	    background-position: 0px 0px;
 	}
 	.num_count_group .btn_increment:after {
 	    display: inline-block;
 	    content: '';
-	    /* background-image: url(icon_plus.png); */
+	    background-image: url(http://localhost:8399/img/pkage/icon/icon_plus.png);
 	    background-repeat: no-repeat;
 	    background-position: 0px 0px;
 	}
@@ -851,14 +853,18 @@
 	
 	.dot-list>p, .dot-list li {
 	    line-height: 1.6;
-	}	
+	}
+	
+	.ticket_name {
+		min-height: 5rem;
+		overflow-y: hidden;
+		resize: non;
+	}
 	
 </style>
 <body>
-
+<input type="hidden" id="rv_real_id" value="${rv_real_id}">
 	<div class="container" style="height:auto;">
-		
-		
 		<div class="info" style="width: 1250px; height: 770px;">
 			<!-- 왼쪽 티켓 이미지 -->
 			<div class="ticketImg" style="width: 750px; height: 770px; border: 1px solid #808080; float:left; translate: 0px;">
@@ -869,23 +875,31 @@
 			<div class="infoFlex" style="width: 450px; height: 770px; border: 1px solid #808080; float:right; translate: -55px;">
 				<div id="productInfoWrap">
 					<div class="product-info" style="padding: 40px 40px 60px; height: 770px;">
-						<div class="product-title" style="width: 350px; float: right; translate: -30px 90px;">
+						<div class="product-title" style="width: 350px; height:660px; float: right; translate: -30px 20px;">
 							<p class="city" style="font-size: 18px; color: #666; font-weight: 700;">${ticketDetail.city_name}</p>
 							<!-- 제목 -->
-							<input class="ticket_name" type="text" style="font-weight: 700; font-size:24px; border:none;" name="ticket_name" value="${ticketDetail.ticket_name }" readonly>
+							<textarea class="ticket_name" style="font-weight: 700; font-size:24px; border:none; width: 370px; height:110px; word-break:normal; resize:none;" cols="5" name="ticket_name" placeholder="${ticketDetail.ticket_name }" readonly></textarea>
 							<div class="price-wrap">
 								<div class="price" style="margin: 18px 0 0; font-size: 16px;">
-									<input type="text" class="dc" style="font-size: 32px; color: #f06c5e; font-weight: 700; margin-right: 15px; width: 160px; border:none;" name="ticket_child_price" value="${ticketDetail.ticket_child_price}" readonly>원~
+									<input type="text" class="dc" style="font-size: 32px; color: #f06c5e; font-weight: 700; width: 99px; border:none;" name="ticket_child_price" value="${ticketDetail.ticket_child_price}" readonly>
+									<span type="text" class="dc" style="font-size: 32px; color: #f06c5e; font-weight: 700; margin-right: 15px; width: 160px; border:none; translate:-20px;" >원~</span>
 								</div>
 							</div>
 							<!-- 찜 버튼 -->
-							<div class="btn-group" style="position: absolute; transform: translate(300px, -55px);">
-								<i class="bi-heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
+ 							<div class="btn-group" style="position: absolute; transform: translate(300px, -55px);">
+							    	 <%-- 로그인한 회원이 찜을 한 상품인지 여부 --%>
+	                                 <c:if test="${ticketDetail.basket_id == 0 }">
+	                                 	<i class="likeBtn bi-heart" id="heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
+	                                 </c:if>
+	                                 
+	                                  <c:if test="${ticketDetail.basket_id != 0 }">
+	                                  	<i class="likeBtn bi-heart-fill" id="heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
+	                                  </c:if>
 							</div>
 							
 							<!-- 별점 -->
 							<div class="rate-wrap">
-								<h4 style="translate: 15px; font-style: italic;">${ticketDetail.ticket_score }</h4>
+								<h4 style="translate: 15px; font-style: italic;" class="star_scr" id="star_scr">${ticketDetail.ticket_score }</h4>
 							</div>
 							
 							<div class="features">
@@ -1020,67 +1034,36 @@
 
                         <hr class="pkg">
                         
-                        <!-- 리뷰 -->
+                        <!-- 리뷰 시작 -->
                         <div class="cont_unit">
 							<div class="all_review">
 								리뷰
-								<div class="rv_stats">
-									별점 통계가 들어가요
-									
-								</div>
+<!--								<div class="rv_stats">
+ 									별점 통계가 들어가요
+								</div> -->
 								
-								<div class="rv_btn">
-									<button class="genric-btn primary ela"  data-toggle="modal" data-target="#reviewModal">리뷰 등록</button>
-								</div>
-									
+								<c:if test="${not empty sessionId }">
+						            <div class="rv_btn">
+						               <button class="genric-btn primary ela" data-toggle="modal" onclick="openModal()" data-target="#reviewModal">리뷰 등록</button>
+						            </div>
+						         </c:if>   
+								
 								<div class="show_review"> <!-- 리뷰 테이블에서 저장된 값 불러오기 -->
-									리뷰가 쌓일거예요
-									
-									<table id="reviewTable">
+									<!-- 리뷰 들어갈 위치에 table생성 -->
+									<table id="reviewTable" class="reviewTable"> <!-- id값 변경 X -->
 										
 									</table>
-									
-									
-								<%-- 	<c:choose>
-										<c:when test="${empty reviewList } ">
-											<table class="empty_review">
-												<tr>
-													<td>
-														등록된 리뷰가 없습니다.
-													</td>
-												</tr>
-											</table>
-										
-										</c:when>
-										
-									
-										<c:when test="${not empty reviewList }">
-											<table>
-												<c:forEach var="reviews" items="${reviewList }">	
-													<tr>
-														<input type="hidden" value="${reviews.rv_sort }">
-														<input type="hidden" value="${reviews.rv_id }">
-														<input type="hidden" value="${reviews.rv_contents }">
-														<input type="hidden" value="${reviews.rv_date}">
-														<input type="hidden" value="${reviews.rv_rating }">
-														<td>
-															<span class="rv_date">${reviews.rv_date }</span>
-														</td>
-														<td>
-															<span class="rv_rating">${reviews.rv_rating }</span>
-														</td>
-														<td>
-															<span class="rv_contents">${reviews.rv_contents }</span>
-														</td>
-													</tr>
-												</c:forEach>
-											</table>
-										</c:when>
-									</c:choose> --%>
-									
 								</div> <!-- show_review -->
-							</div> <!-- all_review -->
+								
+								<nav class="review-pagination blog-pagination justify-content-center d-flex">
+									<!-- 페이징 처리 들어갈 위치 -->
+									 <ul class="pagination" id="reviewPaginationUl">
+									     
+									 </ul>
+								</nav>
+							</div> <!-- all_review (리뷰 끝)-->
 							
+							<!-- 리뷰 모달 (있어야할 위치는 상관없습니다..)-->
 							<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
 									  <div class="modal-dialog modal-dialog-centered" role="document">
 									    <div class="modal-content">
@@ -1160,7 +1143,7 @@
                                 <hr class="pkg">
                                 <div class="cont_unit foot">
                                     <div class="btn_wrap">
-                                        <button type="button" id="reserveBtn" class="btn-rv" style="width: 250px;" value="예약하기" onclick="goReserve()">예약</button>
+                                        <button type="button" class="btn-rv" style="width: 250px;" value="예약하기" onclick="goReserve('${ticketDetail.ticket_id}')">예약하기</button>
                                     </div>
                                 </div>
                             </div>
@@ -1168,21 +1151,53 @@
                     </div><!-- inr right -->
                 </div> <!-- prod_detail -->
 	</div>
-
+	
+	
+	<!-- 리뷰 모달 (있어야할 위치는 상관없습니다..)-->
+	<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+	    
+				<div class="modal-header">
+					<h5 class="modal-title" id="modalLongTitle">리뷰 작성</h5>
+					<button type="button" class="close" data-dismiss="modal" onclick="closeModal()" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			      
+				<div class="modal-body">
+					<span class="star">
+						★★★★★
+						<span>★★★★★</span>
+						<input type="range" oninput="drawStar()" id="starRate" value="1" step="1" min="0" max="10">
+					</span>
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">내용:</label>
+						<textarea class="form-control" id="review-text"></textarea>
+					</div>
+				</div>
+			      
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="registerReview()">리뷰 등록</button>
+					<button type="button" class="btn btn-secondary" onclick="closeModal()" data-dismiss="modal">취소</button>
+				</div>
+				
+			</div> <!-- modal-content -->
+		</div> <!-- modal-dialog-centered -->
+	</div> <!-- 리뷰 모달 끝 -->
+	
+	
+	<!-- 예약 -->
 	<form action="/ticket/exhPayment" name="ReserveForm" method="post">
+		<input type="hidden" name="ticket_id"   value="">
 		<input type="hidden" name="ticket_name" value="">
-		<input type="hidden" name="totalPay" value="">
-		<input type="hidden" name="adultCnt" value="">
-		<input type="hidden" name="childCnt" value="">
-		<input type="hidden" name="adDate" value="">
+		<input type="hidden" name="totalPay"    value="">
+		<input type="hidden" name="adultCnt"    value="">
+		<input type="hidden" name="childCnt"    value="">
+		<input type="hidden" name="adDate"      value="">
 	</form>
 
-
-	<div style="">
-	    <form id="ticketReserveForm" name="ticketReserveForm">
-	    </form>
-    </div>
-
+	
 	<script>
 	$(function() {
 	    /* 인원 수 버튼 증감 및 총 금액 부분의 합계 script 부분 */
@@ -1305,57 +1320,53 @@
 	        totalPay.html(totalPrice + "<em>원</em>");
 	    });
 		    
-         /* 예약 버튼 부분 */
-/*          $('#reserveBtn').on('click', function() {
-         	// 로그인 확인
-         	$.ajax({
-         		url : '/ticketRest/loginCheck',
-         		type : 'get',
-         		dataType : 'text',
-         		success : function(data) {
-         			console.log(data);
-         			let aCnt = adultCnt.text();
-     				let cCnt = childCnt.text();
-     				
-         			if(data == 'LOGIN_OK') { */
-         				/* form 에 보낼 데이터와 함께 input 태그 추가해주고 서버로 전송 */
-/*          				makeForm($('#ticketReserveForm'), aCnt, cCnt);
-         				
-         				$('#ticketReserveForm').attr('action', '/ticket/exhPayment');
-         				$('#ticketReserveForm').attr('method', 'post');
-         				$('#ticketReserveForm').submit();
-         			}
-         			else {
-         				alert("로그인 하고 예약해주세요.");
-         				location.href = "/member/loginForm";
-         			}
-         		}, 
-         		error : function(err) {
-         			console.log(err)
-         			alert("error")
-         		}
-         	})
-         	
-         }); */
-		    
-			
-			/* 찜 버튼 하트 아이콘 클릭  */
-			var i = 0;
-			$('.bi-heart').click(function() {
+	});
+	
+	
+	/* 찜 하트 변경 script 부분 (구글 font-icons 활용) */
+	$('#heart').click(function(){
+		
+		event.preventDefault();
+		
+    	// 로그인 안 되어 있으면
+    	if("${sessionId}" == "") {
+    		if(confirm("로그인하세요.")) {
+    			location.href="${pageContext.request.contextPath}/member/loginForm";
+    		} else {
+	    		return false;
+    		}
+    	}
+    	
+    	let ticket_id = '${ticketDetail.ticket_id}';
+    	let mem_id    = '${sessionId}';
+        	
+       	// 찜 해제 ajax
+       	$.ajax({
+       		url: "${pageContext.request.contextPath}/ticketRest/ticketBasket",
+       		data : {ticket_id, mem_id},
+       		type: 'post',
+       		dataType: 'text',
+       		success: function(result) {
+       			if(result == 'INSERT OK') {
+       				$('.likeBtn').removeClass('bi-heart').addClass("bi-heart-fill");
+       				alert("찜 목록에 해당 상품이 담겼습니다.");
+       				
+       			} else if(result == 'DELETE OK') {
+       				$('.likeBtn').removeClass('bi-heart-fill').addClass("bi-heart");
+       				alert("찜 목록에서 해당 상품이 삭제되었습니다.");
+       			}
+       		},
+       		error: function(err) {
+       			console.log(err)
+    		}
+    	});
+    })
 
-				if (i == 0) {
-					$(this).attr('class', 'bi-heart-fill');
-					i++;
-				} else if (i == 1) {
-					$(this).attr('class', 'bi-heart');
-					i--;
-				}
-
-			});
-		});
+	
+	
 	
 	/* 값(입장권명, 성인 인원, 아동 인원, 총 금액, 사용일) 들고 예약 페이지로 이동 */
-	function goReserve() {
+	function goReserve(ticket_id) {
 		
 			let adultCnt = $(".adultCnt").html();
 			let childCnt = $(".childCnt").html();
@@ -1366,10 +1377,11 @@
 		    let childPrice = ${ticketDetail.ticket_child_price};
 	
 		    let totalPay =  parseInt((adultPrice * parseInt(adultCnt)) + (childPrice * parseInt(childCnt)));
-		    console.log("totalPay : " + totalPay)
-			
+		    
 			let ticket_name = "${ticketDetail.ticket_name }"
-		
+
+			console.log("ticket_id : " + ticket_id)
+		    console.log("totalPay : " + totalPay)
 			console.log("adultCnt->"+adultCnt);
 			
 			$('input[name=ticket_name]').attr('value', ticket_name);
@@ -1377,10 +1389,46 @@
 			$('input[name=adultCnt]').attr('value', adultCnt);
 			$('input[name=childCnt]').attr('value', childCnt);
 			$('input[name=adDate]').attr('value', adDate);
+			$('input[name=ticket_id]').attr('value', ticket_id);
 			
 			ReserveForm.submit();
-	} 	
+	} 
+	
+	//리뷰 조회 -- 랜더링 함수2 (진짜 구조 그려줌)
+	function makeRow(datum) {
+	   
+	   let innerHtml = ''
+
+	   innerHtml += '<tr>'
+	      innerHtml += '<input type="hidden" class="rv_id" value="'+datum.rv_id +'">'
+	      innerHtml += '<td>'
+	         innerHtml += '<span class="rv_date">'+datum.rv_date +'</span>'
+	      innerHtml += '</td>'
+	      innerHtml += '<td>'
+	         innerHtml += '<div class="star_img"> <img alt="별점뙇~" src="/img/hotel/star.png"></div>'
+	         innerHtml += '<span class="rv_rating">'+datum.rv_rating +'</span>'
+	      innerHtml += '</td>'
+	      innerHtml += '<td>'
+	         innerHtml += '<span class="rv_contents">'+datum.rv_contents +'</span>'
+	      innerHtml += '</td>'
+	      innerHtml += '<td>'
+	         // 작성자 = 로그인 정보여야 수정 버튼 활성화 
+	         if(datum.mem_id == '${sessionId}') {   
+	            innerHtml += '<button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>'
+	         }
+	      innerHtml += '</td>'
+	      innerHtml += '<td>'
+	         // 작성자 = 로그인 정보여야 수정 버튼 활성화 
+	         if(datum.mem_id == '${sessionId}') {   
+	            innerHtml += '<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'
+	         }
+	      innerHtml += '</td>'
+	   innerHtml += '</tr>'
+	   
+	   return innerHtml;
+	}
+	
     </script>
-    <script src="/js/pkage/review.js"></script>
+    <script src="${pageContext.request.contextPath }/js/review/review.js"></script>
 </body>
 </html>

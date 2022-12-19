@@ -4,17 +4,19 @@ import java.util.List;
 
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.manager.model.ManageAirportDTO;
+import com.oracle.ohTravel.manager.model.ManageHotelDTO;
 import com.oracle.ohTravel.manager.model.ManagePackageDTO;
 import com.oracle.ohTravel.manager.model.ManageTicketDTO;
-import com.oracle.ohTravel.manager.model.MemberDTO;
+import com.oracle.ohTravel.manager.model.ManageMemberDTO;
 import com.oracle.ohTravel.manager.model.MembershipDTO;
 import com.oracle.ohTravel.manager.model.NoticeDTO;
+import com.oracle.ohTravel.member.model.TicketReservationDTO;
 
 public interface ManagerDAO {
 
 	int totalMember();
 	
-	List<MemberDTO> getMemberList(MemberDTO member);
+	List<ManageMemberDTO> getMemberList(ManageMemberDTO member);
 
 	List<MembershipDTO> getMembershipList();
 
@@ -173,6 +175,50 @@ public interface ManagerDAO {
 	int deleteAirSchedule(ManageAirportDTO air);
 
 	int updateAirSchedule(ManageAirportDTO air);
+
+	int updateNoticeCount(NoticeDTO notice);
+
+	List<CouponDTO> getMemberCouponList(String sessionId);
+
+	int insertMemberCoupon(CouponDTO coupon);
+
+	List<ManageTicketDTO> getTicketResList();
+
+	List<ManageHotelDTO> getHotelResList();
+
+	List<ManagePackageDTO> getPackageResList();
+
+	List<ManagePackageDTO> getPackageResPiList(ManagePackageDTO pk);
+
+	List<ManageAirportDTO> getAirResList();
+
+	List<ManageAirportDTO> getAirResPiList(ManageAirportDTO air);
+
+	List<ManageAirportDTO> getAirResScheduleList(ManageAirportDTO air);
+
+	int getPackageTotalSale();
+
+	List<ManagePackageDTO> getPackageMonth();
+
+	List<ManagePackageDTO> getPackageDay(String month);
+
+	int getAirTotalSale();
+
+	List<ManageAirportDTO> getAirMonth();
+
+	List<ManageAirportDTO> getAirDay(String month);
+
+	int getTicketTotalSale();
+
+	List<ManageTicketDTO> getTicketMonth();
+
+	List<ManageTicketDTO> getTicketDay(String month);
+
+	int getHotelTotalSale();
+
+	List<ManageHotelDTO> getHotelMonth();
+
+	List<ManageHotelDTO> getHotelDay(String month);
 
 
 

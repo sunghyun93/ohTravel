@@ -6,10 +6,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oracle.ohTravel.member.model.MemCouponDTO;
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.dao.MemberDao;
 import com.oracle.ohTravel.member.domain.Member;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
+import com.oracle.ohTravel.member.model.BasketDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -55,8 +57,8 @@ public class MemberServiceImpl implements MemberService{
 
 	// 항공 예약 내역 조회
 	@Override
-	public List<AirReservationDetail> myPageReservAir(Map<String, Object> map) {
-		List<AirReservationDetail> airReserveList = memberDao.myPageReserveAirLine(map);
+	public List<AirReservationDetail> myPageReservAir(String mem_id) {
+		List<AirReservationDetail> airReserveList = memberDao.myPageReserveAirLine(mem_id);
 		return airReserveList;
 	}
 	
@@ -222,6 +224,73 @@ public class MemberServiceImpl implements MemberService{
 		System.out.println("MemberServiceImpl totalReservTicket total -> " + total);
 		return total;
 	}
+	
+	// 항공 예약 총 개수
+	@Override
+	public int totalReserveAir(AirReservationDetail airReservationDetail) {
+		log.info("MemberServiceImpl totalReservAir start..");
+		int total = memberDao.totalReservAir(airReservationDetail);
+		System.out.println("MemberServiceImpl totalReservAir total -> " + total);
+		return total;
+	}
+
+	// 패키지 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikePackage(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl myPageLikePackage start..");
+		List<BasketDTO> packageLikeList = memberDao.myPageLikePackage(basketDTO);
+		return packageLikeList;
+	}
+
+	// 호텔 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikeHotel(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl myPageLikeHotel start..");
+		List<BasketDTO> hotelLikeList = memberDao.myPageLikeHotel(basketDTO);
+		return hotelLikeList;
+	}
+
+	// 티켓 찜 내역
+	@Override
+	public List<BasketDTO> myPageLikeTicket(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl myPageLikeTicket start..");
+		List<BasketDTO> ticketLikeList = memberDao.myPageLikeTicket(basketDTO);
+		return ticketLikeList;
+	}
+
+	// 쿠폰 내역
+	@Override
+	public List<MemCouponDTO> myPageCoupon(MemCouponDTO couponDTO) {
+		log.info("MemberServiceImpl myPageCoupon start..");
+		List<MemCouponDTO> memCouponList = memberDao.myPageCoupon(couponDTO);
+		return memCouponList;
+	}
+
+	// 패키지 찜 삭제
+	@Override
+	public int deleteLikePackage(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl deleteLikePackage start..");
+		int result = memberDao.deleteLikePackage(basketDTO);
+		return result;
+	}
+
+	// 호텔 찜 삭제
+	@Override
+	public int deleteLikeHotel(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl deleteLikeHotel start..");
+		int result = memberDao.deleteLikeHotel(basketDTO);
+		return result;
+	}
+
+	@Override
+	public int deleteLikeTicket(BasketDTO basketDTO) {
+		log.info("MemberServiceImpl deleteLikeTicket start..");
+		int result = memberDao.deleteLikeTicket(basketDTO);
+		return result;
+	}
+
+	
+
 
 
 

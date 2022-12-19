@@ -25,8 +25,24 @@
 </style>
 <script type="text/javascript">
 	function moveForm(str){
-		var form = document.getElementById('form');
-		var message ="";
+		let form = document.getElementById('form');
+		let ticket_adult_price = $('#ticket_adult_price').val();
+		let ticket_child_price = $('#ticket_child_price').val();
+		let ticket_sales_cnt = $('#ticket_sales_cnt').val();
+		console.log(ticket_adult_price);
+		if(ticket_adult_price==null||ticket_adult_price==''){
+			alert("성인 가격에 숫자가 아닌게 들어있습니다");
+			return false;
+		}
+		if(ticket_child_price==null||ticket_child_price==''){
+			alert("아이 가격에 숫자가 아닌게 들어있습니다");
+			return false;
+		}
+		if(ticket_sales_cnt==null||ticket_sales_cnt==''){
+			alert("입장권 판매갯수에 숫자가 아닌게 들어있습니다");
+			return false;
+		}
+		let message ="";
 		if(str =='update'){
 			console.log(str);
 			form.action="updateTicket";
@@ -66,6 +82,10 @@
 			}
 		});
 	}
+	$(document).ready(function(){
+		let room_date = $('#ticket_due_date');
+		room_date.attr("min",new Date().toISOString().substring(0, 10));
+	})
 
 </script>
 
@@ -81,34 +101,36 @@
 				</div>
 				<c:forEach var="ticketDetail" items="${ticketDetail }">
 					<table border="1" class="table table-striped">
-						<thead>
 						<tr>
 							<th>입장권번호</th>
+							<td><input type="text" class="form-control" name="ticket_id" value="${ticketDetail.ticket_id }" readonly="readonly"></td>
+						</tr>
+						<tr>
 							<th>입장권이름</th>
+							<td><input type="text" class="form-control" name="ticket_name" value="${ticketDetail.ticket_name }" required="required"></td>
+						</tr>
+						<tr>
 							<th>입장권위치</th>
+							<td><input type="text" class="form-control" name="ticket_location" value="${ticketDetail.ticket_location }" required="required"></td>
+						</tr>
+						<tr>
 							<th>성인가격</th>
+							<td><input type="number" class="form-control" id="ticket_adult_price" name="ticket_adult_price" value="${ticketDetail.ticket_adult_price }" required="required"></td>
+						</tr>
+						<tr>
 							<th>아이가격</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td><input type="text" name="ticket_id" value="${ticketDetail.ticket_id }" readonly="readonly"></td>
-							<td><input type="text" name="ticket_name" value="${ticketDetail.ticket_name }" required="required"></td>
-							<td><input type="text" name="ticket_location" value="${ticketDetail.ticket_location }" required="required"></td>
-							<td><input type="number" name="ticket_adult_price" value="${ticketDetail.ticket_adult_price }" required="required"></td>
-							<td><input type="number" name="ticket_child_price" value="${ticketDetail.ticket_child_price }"></td>
+							<td><input type="number" class="form-control" id="ticket_child_price" name="ticket_child_price" value="${ticketDetail.ticket_child_price }"></td>
 						</tr>
 						<tr>
-							<th>평점</th>
 							<th>입장권유효기간</th>
-							<th>입장권판매갯수</th>
-							<th>국가명</th>
-							<th>도시명</th>
+							<td><input type="date" class="form-control" id="ticket_due_date" name="ticket_due_date" value="${ticketDetail.ticket_due_date }"></td>
 						</tr>
 						<tr>
-							<td><input type="text" name="ticket_score" value="${ticketDetail.ticket_score }"></td>
-							<td><input type="datetime" name="ticket_due_date" value="${ticketDetail.ticket_due_date }"></td>
-							<td><input type="number" min="0" max="100000" name="ticket_sales_cnt" value="${ticketDetail.ticket_sales_cnt }" ></td>
+							<th>입장권판매갯수</th>
+							<td><input type="number" min="0" max="100000" id="ticket_sales_cnt" name="ticket_sales_cnt" value="${ticketDetail.ticket_sales_cnt }" ></td>
+						</tr>
+						<tr>
+							<th>국가명</th>
 							<td>
 								<select name="country_id" onchange="getCountry_id()" class="country_id" required="required">
 									<c:forEach var="countryList" items="${countryList }">
@@ -123,6 +145,9 @@
 									</c:forEach>
 								</select>
 							</td>
+						</tr>
+						<tr>
+							<th>도시명</th>
 							<td class="city_td">
 								<select class="city_id" id="city_ids" name="city_id" required="required">
 									<c:forEach var="cityList" items="${cityList }">
@@ -138,7 +163,6 @@
 								</select>
 							</td>
 						</tr>
-						</tbody>
 					</table>
 					<div style="flex: 2">
 						<input type="button" onclick="moveForm('update')" class="genric-btn info elb" value="입장권수정">

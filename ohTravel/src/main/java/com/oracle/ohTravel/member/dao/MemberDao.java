@@ -6,6 +6,8 @@ import java.util.Map;
 import com.oracle.ohTravel.manager.model.CouponDTO;
 import com.oracle.ohTravel.member.model.AirReservationDTO;
 import com.oracle.ohTravel.member.model.AirReservationDetail;
+import com.oracle.ohTravel.member.model.BasketDTO;
+import com.oracle.ohTravel.member.model.MemCouponDTO;
 import com.oracle.ohTravel.member.model.HotelReservationDTO;
 import com.oracle.ohTravel.member.model.MemberDTO;
 import com.oracle.ohTravel.member.model.PackageReservationDTO;
@@ -25,7 +27,7 @@ public interface MemberDao {
 	public List<TicketReservationDTO> myPageReservTicket(TicketReservationDTO ticketReservationDTO);
 
 	// 항공 예약 내역
-	public List<AirReservationDetail> myPageReserveAirLine(Map<String, Object> map);
+	public List<AirReservationDetail> myPageReserveAirLine(String mem_id);
 
 	// 호텔 예약 내역
 	public List<HotelReservationDTO> myPageReservHotel(HotelReservationDTO hotelReservationDTO);
@@ -95,6 +97,30 @@ public interface MemberDao {
 
 	// 티켓 예약 총 개수
 	public int totalReservTicket(TicketReservationDTO ticketReservationDTO);
+
+	// 패키지 찜 내역
+	public List<BasketDTO> myPageLikePackage(BasketDTO basketDTO);
+
+	// 호텔 찜 내역
+	public List<BasketDTO> myPageLikeHotel(BasketDTO basketDTO);
+
+	// 티켓 찜 내역
+	public List<BasketDTO> myPageLikeTicket(BasketDTO basketDTO);
+
+	// 쿠폰 내역
+	public List<MemCouponDTO> myPageCoupon(MemCouponDTO couponDTO);
+
+	// 패키지 찜 삭제
+	public int deleteLikePackage(BasketDTO basketDTO);
+
+	// 호텔 찜 삭제
+	public int deleteLikeHotel(BasketDTO basketDTO);
+
+	// 티켓 찜 삭제
+	public int deleteLikeTicket(BasketDTO basketDTO);
+
+	public int totalReservAir(AirReservationDetail airReservationDetail);
+
 
 
 }

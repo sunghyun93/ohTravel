@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,6 +87,11 @@ a {
     margin-top: 10px;
     border-radius: 0.3rem;
     top: -6430px;
+}
+/* 상품 별 padding 값 */
+.place-padding {
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 </style>
@@ -235,161 +242,164 @@ a {
         </div>
          <!-- Our Services End -->
         
-         <!-- Favourite Places Start -->
+        <!-- 해외 패키지 3개 -->
+        <div class="favourite-place place-padding">
+            <div class="container">
+                <!-- 타이틀 -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-tittle text-center">
+                            <span>FEATURED ABROAD Packages</span>
+                            <h2>해외 패키지</h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- 해외 패키지 3개 -->
+                <div class="row">
+                    <c:forEach var="abroadPkage" items="${abroadPkageList }">
+	                    <div class="col-xl-4 col-lg-4 col-md-6">
+	                        <div class="single-place mb-30">
+	                            <div class="place-img"> <%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
+	                                <a href="/pkage/searchResult?pkage_id=${abroadPkage.pkage_id }&pkage_gubun=${abroadGubun }&toDesti=${abroadPkage.city_id}&dates_start_check=2022-12-20">
+	                                	<img src="${abroadPkage.pkage_Img_path }" alt="" width="370px" height="246.52px">
+	                                </a>
+	                            </div>
+	                            <div class="place-cap">
+	                                <div class="place-cap-top"><%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
+	                                    <span><i class="fas fa-star"></i><span>${abroadPkage.pkage_score }</span></span>
+	                                    <h6><a href="/pkage/searchResult?pkage_id=${abroadPkage.pkage_id }&pkage_gubun=${abroadGubun }&toDesti=${abroadPkage.city_id}&dates_start_check=2022-12-20">${abroadPkage.pkage_name }</a></h6>
+	                                    <h6 style="height:57.54px;">${abroadPkage.pkage_info }</h6>
+	                                    <p class="dolor"><fmt:formatNumber value="${abroadPkage.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
+	                                </div>     
+	                            </div>
+	                        </div>
+	                    </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div> <!-- 해외 패키지 3개 -->
+        
+        <!-- 국내 패키지 3개 -->
+        <div class="favourite-place place-padding">
+            <div class="container">
+                <!-- 타이틀 -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-tittle text-center">
+                            <span>FEATURED DOMESTIC Packages</span>
+                            <h2>국내 패키지</h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- 해외 패키지 3개 -->
+                <div class="row">
+                    <c:forEach var="domesticPkage" items="${domesticPkageList }">
+	                    <div class="col-xl-4 col-lg-4 col-md-6">
+	                        <div class="single-place mb-30">
+	                            <div class="place-img"> <%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
+	                                <a href="/pkage/searchResult?pkage_id=${domesticPkage.pkage_id }&pkage_gubun=${domesticGubun }&toDesti=${domesticPkage.city_id}&dates_start_check=2022-12-20">
+	                                	<img src="${domesticPkage.pkage_Img_path }" alt="" width="370px" height="246.52px">
+	                                </a>
+	                            </div>
+	                            <div class="place-cap">
+	                                <div class="place-cap-top"><%-- 날짜는 기간이 정해졌기 때문에 하드코딩함. --%>
+	                                    <span><i class="fas fa-star"></i><span>${domesticPkage.pkage_score }</span></span>
+	                                    <h6 style="height:38.38px;"><a href="/pkage/searchResult?pkage_id=${domesticPkage.pkage_id }&pkage_gubun=${domesticGubun }&toDesti=${domesticPkage.city_id}&dates_start_check=2022-12-20">${domesticPkage.pkage_name }</a></h6>
+	                                    <h6 style="height:57.54px;">${domesticPkage.pkage_info }</h6>
+	                                    <p class="dolor"><fmt:formatNumber value="${domesticPkage.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
+	                                </div>     
+	                            </div>
+	                        </div>
+	                    </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div> <!-- 해외 패키지 3개 -->
+        
+        <!-- 호텔 3개 -->
         <div class="favourite-place place-padding">
             <div class="container">
                 <!-- Section Tittle -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <span>FEATURED TOURS Packages</span>
-                            <h2>Favourite Places</h2>
+                            <span>FEATURED HOTEL</span>
+                            <h2>호텔</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
+                	<c:forEach var="hotelList" items="${hotelList }" begin="0" end="2">
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="single-place mb-30">
                             <div class="place-img">
-                                <img src="assets/img/service/services1.jpg" alt="">
+                                <img src="${hotelList.h_img_path }" alt="" style="height:213.38px;">
                             </div>
                             <div class="place-cap">
                                 <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
+                                    <span><i class="fas fa-star"></i><span>${hotelList.hotel_score } </span> </span>
+                                    <h6 style="height:38.38px;"><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
+                                     <fmt:formatNumber type="number" maxFractionDigits="3" value="${hotelList.room_min_price }" var="minRoomPrice"/>
+                                    <p class="dolor">${minRoomPrice }원 ~ <span>/ 1박기준 최저가</span></p>
                                 </div>
                                 <div class="place-cap-bottom">
                                     <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
+                                        <li style="height:47.96px;"><i class="fas fa-map-marker-alt"></i>${hotelList.hotel_loc }</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services2.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services3.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services4.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services5.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-place mb-30">
-                            <div class="place-img">
-                                <img src="assets/img/service/services6.jpg" alt="">
-                            </div>
-                            <div class="place-cap">
-                                <div class="place-cap-top">
-                                    <span><i class="fas fa-star"></i><span>8.0 Superb</span> </span>
-                                    <h3><a href="#">The Dark Forest Adventure</a></h3>
-                                    <p class="dolor">$1870 <span>/ Per Person</span></p>
-                                </div>
-                                <div class="place-cap-bottom">
-                                    <ul>
-                                        <li><i class="far fa-clock"></i>3 Days</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Los Angeles</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   </c:forEach>
+                    <!-- 상품에 따라 반복되어야할 부분 끝 -->
                 </div>
             </div>
         </div>
-        <!-- Favourite Places End -->
-        <!-- Video Start Arera -->
-        <div class="video-area video-bg pt-200 pb-200"  data-background="assets/img/service/video-bg.jpg">
+        <!-- 호텔 3개 -->
+        
+        <!-- 입장권 3개 -->
+        <div class="favourite-place place-padding">
             <div class="container">
+                <!-- Section Tittle -->
                 <div class="row">
-                    <div class="col-xl-12">
-                        <div class="video-caption text-center">
-                            <div class="video-icon">
-                                <a class="popup-video" href="https://www.youtube.com/watch?v=1aP-TXUpNoU" tabindex="0"><i class="fas fa-play"></i></a>
-                            </div>
-                            <p class="pera1">Love where you're going in the perfect time</p>
-                            <p class="pera2">Tripo is a World Leading Online</p>
-                            <p class="pera3"> Tour Booking Platform</p>
+                    <div class="col-lg-12">
+                        <div class="section-tittle text-center">
+                            <span>FEATURED TICKETS</span>
+                            <h2>입장권</h2>
                         </div>
                     </div>
                 </div>
+               	<div class="row">
+                	<c:forEach var="ticketList" items="${ticketList}" begin="0" end="2">
+	                    <div class="col-xl-4 col-lg-4 col-md-6">
+	                        <div class="single-place mb-30">
+	                            <div class="place-img">
+	                                <img src="${ticketList.ticket_rep_img_path }">
+	                            </div>
+	                            <div class="place-cap">
+	                                <div class="place-cap-top">
+	                                    <span><i class="fas fa-star"></i><span>${ticketList.ticket_score }</span> </span>
+	                                    <h6 style="height:40px;"><a href="/ticket/exhibitionDetail?ticket_id=${ticketList.ticket_id}">${ticketList.ticket_name }</a></h6>
+										<fmt:formatNumber type="number" maxFractionDigits="3" value="${ticketList.ticket_child_price }" var="minTicketPrice"/>
+	                                    <p class="dolor">${minTicketPrice}<em style="font-size:15px;">원~</em></p>
+	                                </div>
+	                                <div class="place-cap-bottom">
+	                                    <ul style="translate: 0 -15px;">
+											<li style="width: 200px;"><i class="far fa-clock"></i>~ ${ticketList.ticket_due_date}까지</li>
+										</ul>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </c:forEach>
+                </div>
             </div>
         </div>
-        <!-- Video Start End -->
+        <!-- 입장권 3개 -->
+        
+        
+        <!-- Favourite Places End -->
+       
         <!-- Support Company Start-->
         <div class="support-company-area support-padding fix">
             <div class="container">
@@ -437,114 +447,7 @@ a {
             </div>
         </div>
         <!-- Support Company End-->
-        <!-- Testimonial Start -->
-        <!-- Testimonial Start -->
-        <div class="testimonial-area testimonial-padding" data-background="assets/img/testmonial/testimonial_bg.jpg">
-            <div class="container ">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-11 col-lg-11 col-md-9">
-                        <div class="h1-testimonial-active">
-                            <!-- Single Testimonial -->
-                            <div class="single-testimonial text-center">
-                                <!-- Testimonial Content -->
-                                <div class="testimonial-caption ">
-                                    <div class="testimonial-top-cap">
-                                        <img src="assets/img/icon/testimonial.png" alt="">
-                                        <p>Logisti Group is a representative logistics operator providing full range of ser
-                                            of customs clearance and transportation worl.</p>
-                                    </div>
-                                    <!-- founder -->
-                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                        <div class="founder-img">
-                                            <img src="assets/img/testmonial/Homepage_testi.png" alt="">
-                                        </div>
-                                        <div class="founder-text">
-                                            <span>Jessya Inn</span>
-                                            <p>Co Founder</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Testimonial -->
-                            <div class="single-testimonial text-center">
-                                <!-- Testimonial Content -->
-                                <div class="testimonial-caption ">
-                                    <div class="testimonial-top-cap">
-                                        <img src="assets/img/icon/testimonial.png" alt="">
-                                        <p>Logisti Group is a representative logistics operator providing full range of ser
-                                            of customs clearance and transportation worl.</p>
-                                    </div>
-                                    <!-- founder -->
-                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                        <div class="founder-img">
-                                            <img src="assets/img/testmonial/Homepage_testi.png" alt="">
-                                        </div>
-                                        <div class="founder-text">
-                                            <span>Jessya Inn</span>
-                                            <p>Co Founder</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Testimonial End -->
-        <!-- Blog Area Start -->
-        <div class="home-blog-area section-padding2">
-            <div class="container">
-                <!-- Section Tittle -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-tittle text-center">
-                            <span>Our Recent news</span>
-                            <h2>Tourist Blog</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="home-blog-single mb-30">
-                            <div class="blog-img-cap">
-                                <div class="blog-img">
-                                    <img src="assets/img/blog/home-blog1.jpg" alt="">
-                                </div>
-                                <div class="blog-cap">
-                                    <p> |   Traveling</p>
-                                    <h3><a href="single-blog.html">Tips For Taking A Long-Term Trip With Kids.</a></h3>
-                                    <a href="#" class="more-btn">Read more »</a>
-                                </div>
-                            </div>
-                            <div class="blog-date text-center">
-                                <span>24</span>
-                                <p>Now</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="home-blog-single mb-30">
-                            <div class="blog-img-cap">
-                                <div class="blog-img">
-                                    <img src="assets/img/blog/home-blog2.jpg" alt="">
-                                </div>
-                                <div class="blog-cap">
-                                    <p> |   Traveling</p>
-                                    <h3><a href="single-blog.html">Tips For Taking A Long-Term Trip With Kids.</a></h3>
-                                    <a href="#" class="more-btn">Read more »</a>
-                                </div>
-                            </div>
-                            <div class="blog-date text-center">
-                                <span>24</span>
-                                <p>Now</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Blog Area End -->
+
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

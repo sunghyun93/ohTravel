@@ -27,6 +27,20 @@
 			<when test="order == 3">
 				order by a.schedule_price asc
 			</when>
+			<when test="order == 4">
+				a.schedule_price between 0 and 400000 order by a.start_time asc
+			</when>
+			<when test="order == 5">
+				a.schedule_price between 400000 and 600000 order by a.start_time asc
+			</when>
+			<when test="order == 6">
+				a.schedule_price between 600000 and 800000 order by a.start_time asc
+			</when>
+			<when test="order == 7">
+				<![CDATA[
+					a.schedule_price  800000 order by a.start_time asc
+				]]>
+			</when>
 		</choose>
 	</select>
 	
@@ -53,6 +67,27 @@
 			<when test="order == 3">
 				order by a.schedule_price asc
 			</when>
+			<when test="order == 4">
+			and	a.schedule_price between 0 and 400000 order by a.schedule_price asc
+			</when>
+			<when test="order == 5">
+			and	a.schedule_price between 400000 and 600000 order by a.schedule_price asc
+			</when>
+			<when test="order == 6">
+			and	a.schedule_price between 600000 and 800000 order by a.schedule_price asc
+			</when>
+			<when test="order == 7">
+				<![CDATA[
+				and	a.schedule_price >= 800000 order by a.start_time asc
+				]]>
+			</when>
+			<when test="order == 8">
+			and (hour(a.start_time) between '5' and '12')
+			</when>
+			<when test="order == 9">
+			and (hour(a.start_time) between '12' and '18')
+			</when>
+
 		</choose>
 	</select>
 	
@@ -80,6 +115,26 @@
 			<when test="order==3">
 				order by a.schedule_price asc
 			</when>
+			<when test="order == 4">
+			and	a.schedule_price between 0 and 400000 order by a.schedule_price asc
+			</when>
+			<when test="order == 5">
+			and	a.schedule_price between 400000 and 600000 order by a.schedule_price asc
+			</when>
+			<when test="order == 6">
+			and	a.schedule_price between 600000 and 800000 order by a.schedule_price asc
+			</when>
+			<when test="order == 7">
+				<![CDATA[
+				and	a.schedule_price >= 800000 order by a.start_time asc
+				]]>
+			</when>
+			<when test="order == 8">
+			and (hour(a.start_time) between '5' and '12')
+			</when>
+			<when test="order == 9">
+			and (hour(a.start_time) between '12' and '18')
+			</when>
 		</choose>
 	</select>
 	
@@ -88,18 +143,14 @@
 	<select id="goAirplane" parameterType="int" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 				where a.schedule_id = #{go_schedule_id}
-		     	and (ap.general_seat - general_res_count) > 0 
-				and (ap.business_seat - business_res_count) > 0 
-				and (ap.first_seat - first_res_count) > 0 
+		     	
 	</select>
 	
 	
 	<select id="comeAirplane" parameterType="int" resultType="Air_ScheduleDTO">
 		<include refid="trip"></include>
 				where a.schedule_id = #{come_schedule_id}
-				and (ap.general_seat - general_res_count) > 0 
-				and (ap.business_seat - business_res_count) > 0 
-				and (ap.first_seat - first_res_count) > 0 
+				
 	</select>
 	
 	
@@ -199,8 +250,23 @@
 		select * from reservation where reservation_id = #{reservation_id}
 	</select>
 	
+	<!-- 회원정보 select -->
+	<select id="air_Reservation_PiList" parameterType="int" resultType="Air_Reservation_PiDTO">
+		select * from air_reservation_pi where reservation_id = #{reservation_id}
+	</select>
 	
 	
-	
+	<update id="air_Reservation_PiList_Modify" parameterType="Air_Reservation_PiDTO">
+		update air_reservation_pi set air_pi_name = #{Air_Reservation_PiDTO.air_pi_name},
+									  air_pi_birth = #{Air_Reservation_PiDTO.air_pi_birth},
+									  air_pi_gen = #{Air_Reservation_PiDTO.air_pi_gen},
+									  air_pi_lname = #{Air_Reservation_PiDTO.air_pi_lname},
+									  air_pi_fname = #{Air_Reservation_PiDTO.air_pi_fname},
+									  air_pi_email = #{Air_Reservation_PiDTO.air_pi_email},
+									  air_pi_tel = #{Air_Reservation_PiDTO.air_pi_tel},
+									  air_passport = #{Air_Reservation_PiDTO.air_passport}
+			where reservation_id = #{reservation_id}					  
+									  
+	</update>
 	
 </mapper>
