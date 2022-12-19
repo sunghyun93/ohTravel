@@ -154,9 +154,10 @@ $(document).ready(function() {
             	$('#mail_input_box_warn').css("display", "block");
             } else {
             	$('#mail_input_box_warn').css("display", "none");
+            	mailCheck = true;
             }
             $('#email_error').css('display', 'none');
-            mailCheck = true;
+           
         }
 		
         /* 휴대폰번호 유효성 검사 */
@@ -168,9 +169,10 @@ $(document).ready(function() {
             	$('#tel_reg').css("display", "block");
             } else {
             	$('#tel_reg').css("display", "none");
+            	 telCheck = true;
             }
             $('#tel_error').css('display', 'none');
-            telCheck = true;
+           
         }
         
         /* 생년월일 유효성 검사 */
@@ -182,15 +184,22 @@ $(document).ready(function() {
             	$('#birth_reg').css("display", "block");
         	} else {
             	$('#birth_reg').css("display", "none");
+            	bdCheck = true;
             }
             $('#birth_error').css('display', 'none');
-            bdCheck = true;
+            
         }
+        
+        console.log(mailCheck);
+        console.log(bdCheck);
+        console.log(telCheck);
         
         if(mailCheck && bdCheck && telCheck) {
         	$("#updateMember").attr("action", "${pageContext.request.contextPath}/member/updateMember")
         	$("#updateMember").submit();
         }
+        
+        
         
         return false;
 	});

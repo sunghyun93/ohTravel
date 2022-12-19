@@ -34,7 +34,7 @@
 				<table border="1" class="table table-hover" id="listTable"></table>
 			</div>
 			<nav aria-label="Page navigation example">
-				<ul class="pagination justify-content-center">
+				<ul class="pagination justify-content-center pagingnav">
 				</ul>
 			</nav>
 		</div>
@@ -112,6 +112,7 @@
 			url : 'getPackageResList',
 			method : 'POST',
 			success : function(data){
+				$('.pagingnav').empty();
 				console.log(data);
 				for(var i=0; i<data.length; i++){
 					var datePer =  data[i].pkage_rv_date;
@@ -138,6 +139,7 @@
 			data : {'pkage_rv_id' : str},
 			method : 'POST',
 			success : function(data){
+				$('.pagingnav').empty();
 				console.log(data);
 				str = "<thead><tr><th>한글성명</th><th>생년월일</th><th>성별</th><th>영문성</th><th>영문이름</th><th>휴대폰번호</th><th>이메일</th></tr></thead>";
 				$.each(data, function(index,item){
@@ -158,6 +160,7 @@
 			url : 'getAirResList',
 			method : 'POST',
 			success : function(data){
+				$('.pagingnav').empty();
 				console.log(data);
 					let str ="";
 					str = "<thead><tr><th>예약번호</th><th>아이디</th><th>좌석등급</th><th>출발도착구분</th><th>예약일자</th><th>결제금액</th></tr></thead>";
@@ -183,6 +186,7 @@
 			data : {'reservation_id' : str},
 			method : 'POST',
 			success : function(data){
+				$('.pagingnav').empty();
 				console.log(data);
 				str = "<thead><tr><th>한글성명</th><th>생년월일</th><th>성별</th><th>영문성</th><th>영문이름</th><th>휴대폰번호</th><th>이메일</th><th>여권번호</th></tr></thead>";
 				$.each(data, function(index,item){
@@ -203,6 +207,7 @@
 			data : {'reservation_id' : str},
 			method : 'POST',
 			success : function(data){
+				$('.pagingnav').empty();
 				console.log(data);
 				str = "<thead><tr><th>항공사</th><th>항공편명</th><th>출발공항</th><th>도착공항</th><th>출발시간</th><th>도착시간</th></tr></thead>";
 				$.each(data, function(index,item){
@@ -223,6 +228,7 @@
 			url : 'getHotelResList',
 			method : 'POST',
 			success : function(data){
+				$('.pagingnav').empty();
 				console.log(data);
 					let str ="";
 					str = "<thead><tr><th>주문번호</th><th>아이디</th><th>인원</th><th>구매날짜</th><th>결제금액</th><th>객실명</th><th>호텔명</th></tr></thead>";
@@ -236,12 +242,17 @@
 			}
 		})
 	}
+	
 	function reservationTicket(){
 		$.ajax({
 			url : 'getTicketResList',
 			method : 'POST',
 			success : function(data){
 				console.log(data);
+				console.log(data.ticketRes);
+				let startPage = parseInt(data.page.startPage);
+				let pageBlock = parseInt(data.page.pageBlock);
+				let endPage = parseInt(data.page.endPage);
 				for(var i=0; i<data.length; i++){
 					var datePer =  data[i].ticket_puchase_date;
 					datePer = datePer.substring(0,5)+datePer.substring(5,8)+datePer.substring(8,10)+" "+datePer.substring(11,14)+datePer.substring(14,17)+datePer.substring(17,19);
@@ -249,17 +260,78 @@
 					data[i].ticket_puchase_date = datePer;
 				}
 					let str ="";
-					str = "<thead><tr><th>주문번호</th><th>티켓코드</th><th>아이디</th><th>입장권명</th><th>주문일자</th><th>사용일</th><th>성인인원</th><th>아동인원</th><th>결제금액</th></tr></thead>";
-				$.each(data, function(index,item){
-					str += "<tr><td>"+item.ticket_order_id+"</td><td><a href='/../ticket/exhibitionDetail?ticket_id="+item.ticket_id+"' style='color:pink'>"+item.ticket_id+"</a></td><td>"+item.mem_id+"</td>";
-					str += "<td>"+item.ticket_name+"</td><td>"+item.ticket_puchase_date+"</td>";
-					str += "<td>"+item.ticket_admission_date+"</td><td>"+item.ticket_adult_per+"</td>";
-					str += "<td>"+item.titicket_idcket_child_per+"</td><td>"+item.ticket_total_price+"</td></tr>"
+					str1 = "<thead><tr><th>주문번호</th><th>티켓코드</th><th>아이디</th><th>입장권명</th><th>주문일자</th><th>사용일</th><th>성인인원</th><th>아동인원</th><th>결제금액</th></tr></thead>";
+				$.each(data.ticketRes, function(index,item){
+					str1 += "<tr><td>"+item.ticket_order_id+"</td><td><a href='/../ticket/exhibitionDetail?ticket_id="+item.ticket_id+"' style='color:pink'>"+item.ticket_id+"</a></td><td>"+item.mem_id+"</td>";
+					str1 += "<td>"+item.ticket_name+"</td><td>"+item.ticket_puchase_date+"</td>";
+					str1 += "<td>"+item.ticket_admission_date+"</td><td>"+item.ticket_adult_per+"</td>";
+					str1 += "<td>"+item.ticket_child_per+"</td><td>"+item.ticket_total_price+"</td></tr>"
 				});
-				document.getElementById('listTable').innerHTML = str;
+				
+				
+				$('.pagingnav').empty();
+				if(startPage>pageBlock){
+					$('.pagingnav').append("<li class='page-item'><a class='page-link' onclick='page("+(startPage-pageBlock)+")'>[이전]</a></li>");
+				}
+				for(var i=data.page.startPage; i<data.page.endPage+1;i++){
+					$('.pagingnav').append("<li class='page-item'><a class='page-link'  onclick='page("+i+")'>"+i+"</a></li>");
+				}
+				if(data.page.endPage<data.page.totalPage){
+					$('.pagingnav').append("<li class='page-item'><a class='page-link' onclick='page("+(startPage+pageBlock)+")'>[다음]</a></li>");
+				}
+				
+				document.getElementById('listTable').innerHTML = str1;
 			}
 		});
 	}
+	
+	
+	function page(curr){
+		let currentPage = curr;
+		console.log(currentPage);
+		
+		$.ajax({
+			url : 'pagingTicketRes',
+			data : {'currentPage' : currentPage},
+			method : 'GET',
+			success : function(data){
+				alert(data);
+				console.log(data);
+				console.log('startPage ->'+data.page.startPage);
+				console.log('pageBlock ->'+data.page.pageBlock);
+				let startPage = parseInt(data.page.startPage);
+				let pageBlock = parseInt(data.page.pageBlock);
+				console.log(startPage+pageBlock);
+				for(var i=0; i<data.length; i++){
+					var datePer =  data[i].ticket_puchase_date;
+					datePer = datePer.substring(0,5)+datePer.substring(5,8)+datePer.substring(8,10)+" "+datePer.substring(11,14)+datePer.substring(14,17)+datePer.substring(17,19);
+					
+					data[i].ticket_puchase_date = datePer;
+				}
+					let str ="";
+					str1 = "<thead><tr><th>주문번호</th><th>티켓코드</th><th>아이디</th><th>입장권명</th><th>주문일자</th><th>사용일</th><th>성인인원</th><th>아동인원</th><th>결제금액</th></tr></thead>";
+				$.each(data.ticketRes, function(index,item){
+					str1 += "<tr><td>"+item.ticket_order_id+"</td><td><a href='/../ticket/exhibitionDetail?ticket_id="+item.ticket_id+"' style='color:pink'>"+item.ticket_id+"</a></td><td>"+item.mem_id+"</td>";
+					str1 += "<td>"+item.ticket_name+"</td><td>"+item.ticket_puchase_date+"</td>";
+					str1 += "<td>"+item.ticket_admission_date+"</td><td>"+item.ticket_adult_per+"</td>";
+					str1 += "<td>"+item.ticket_child_per+"</td><td>"+item.ticket_total_price+"</td></tr>"
+				});
+				$('.pagingnav').empty();
+				if(startPage>pageBlock){
+					$('.pagingnav').append("<li class='page-item'><a class='page-link' onclick='page("+(startPage-pageBlock)+")'>[이전]</a></li>");
+				}
+				for(var i=data.page.startPage; i<data.page.endPage+1;i++){
+					$('.pagingnav').append("<li class='page-item'><a class='page-link' onclick='page("+i+")'>"+i+"</a></li>");
+				}
+				if(data.page.endPage<data.page.totalPage){
+					$('.pagingnav').append("<li class='page-item'><a class='page-link' onclick='page("+(startPage+pageBlock)+")'>[다음]</a></li>");
+				}
+				
+				document.getElementById('listTable').innerHTML = str1;
+			}
+		})
+	}
+	
 	
 	
 </script>

@@ -221,6 +221,10 @@ public interface ManagerService {
 
 	List<ManageHotelDTO> getHotelDay(String month);
 
+	int totalTicketRes(ManageTicketDTO ticket);
+
+	List<ManageTicketDTO> getTicketResPage(ManageTicketDTO ticket);
+
 
 	
 

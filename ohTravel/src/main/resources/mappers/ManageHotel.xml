@@ -88,7 +88,7 @@
 		SELECT ifnull(max(rd.room_detail_id),0)+1 FROM room_detail rd
 	</select>
 	<insert id="insertRoomDetail" parameterType="HotelDTO">
-		INSERT INTO room_detail(room_detail_id,room_id,room_date,room_price,room_rev) VALUES(#{room_detail_id},#{room_id},#{room_date},#{room_price},'N');
+		INSERT INTO room_detail(room_detail_id,room_id,room_date,room_price,room_rev) VALUES(#{room_detail_id},#{room_id},#{room_date},#{room_price},'Y');
 	</insert>
 
 </mapper>

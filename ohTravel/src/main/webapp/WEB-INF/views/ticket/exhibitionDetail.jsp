@@ -1330,7 +1330,7 @@
     	// 로그인 안 되어 있으면
     	if("${member.mem_id}" == "") {
     		if(confirm("로그인하세요.")) {
-    			location.href="${pageContext.request.contextPath}/member/loginForm";
+    			location.href="${pageContext.request.contextPath}/member/loginForm?toURL=${redirectURL }";
     		} else {
 	    		return false;
     		}
@@ -1382,7 +1382,7 @@
 	    	// 로그인 안 되어 있으면
 	    	if(!isLogined()) {
 	    		alert("로그인 후 예약해주세요.")
-	    		location.href = "${pageContext.request.contextPath }/member/loginForm";
+	    		location.href = "${pageContext.request.contextPath }/member/loginForm?toURL=${redirectURL }";
 	    		return false;
 	    	}
 		

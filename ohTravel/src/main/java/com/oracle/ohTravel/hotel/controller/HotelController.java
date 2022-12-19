@@ -65,12 +65,24 @@ public class HotelController {
 	@GetMapping(value = "/hotelDetail")
 	public String goHotelDetail(HotelDTO hotelDTO, ReviewDTO reviewDTO, Model model, HttpServletRequest request, HttpSession session) {
 		
+		String toURL = request.getRequestURI().toString(); // jsp 쪽에서 사용할 toURL
+		String queryString = request.getQueryString();
+		// & -> %26 으로 변환
+		queryString = queryString.replaceAll("&", "%26");
+		String redirectURL = toURL + "?" + queryString; // loginForm 으로 보낼 URL
+		log.info("toURL = "+toURL);
+		log.info("queryString = " + request.getQueryString());
+		log.info("redirectURL = " + redirectURL);
+
+		
 		reviewDTO.setRv_real_id(hotelDTO.getHotel_id());
 		int totalReviewCnt = rs.totalReviewCnt(reviewDTO.getRv_real_id());
 		// 찜 여부 판단용
 		String mem_id = (String)session.getAttribute("sessionId");
 		hotelDTO.setMem_id(mem_id);
 		hotelDTO = hs.getHotelDetail(hotelDTO);
+		model.addAttribute("toURL", toURL); // jsp 에서 사용할 URL
+		model.addAttribute("redirectURL", redirectURL); // loginForm 으로 보낼 URL
 		model.addAttribute("hotelDetail", hotelDTO);
 		model.addAttribute("rv_real_id", hotelDTO.getHotel_id());
 		model.addAttribute("totalReviewCnt", totalReviewCnt);
