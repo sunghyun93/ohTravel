@@ -144,7 +144,7 @@
                             <div class="place-cap">
                                 <div class="place-cap-top">
                                     <span><i class="fas fa-star"></i><span>${hotelList.hotel_score } </span> </span>
-                                    <h3><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
+                                    <h3 style="height: 97.07px;"><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor }</a></h3>
                                     <fmt:formatNumber type="number" maxFractionDigits="3" value="${hotelList.room_min_price }" var="minRoomPrice"/>
                                     <p class="dolor">${minRoomPrice }원~ <span>/ 1박 최저가</span></p>
                                 </div>
