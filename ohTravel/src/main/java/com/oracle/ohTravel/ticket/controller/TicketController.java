@@ -62,13 +62,15 @@ public class TicketController {
 	
 	// 입장권 상세정보
 	@GetMapping(value = "/exhibitionDetail")
-	public String goExhibitionDetail(String ticket_id, Model model, HttpServletRequest request, HttpSession session) {
+	public String goExhibitionDetail(TicketDTO ticketDTO, Model model, HttpServletRequest request, HttpSession session) {
 		System.out.println("== TicketController Start exhibitionDetail ==");
+		
 		
 		// 찜 여부 판단용
 		String mem_id = (String)session.getAttribute("sessionId");
-		TicketDTO ticketDTO = ts.getTicketDetail(ticket_id);
+		
 		ticketDTO.setMem_id(mem_id);
+		ticketDTO = ts.getTicketDetail(ticketDTO);
 		
 		model.addAttribute("ticketDetail", ticketDTO);
 		model.addAttribute("rv_real_id", ticketDTO.getTicket_id());	// 리뷰

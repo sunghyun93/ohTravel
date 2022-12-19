@@ -36,11 +36,10 @@ public class TicketServiceImpl implements TicketService {
 
 	// 입장권 상세 정보
 	@Override
-	public TicketDTO getTicketDetail(String ticket_id) {
+	public TicketDTO getTicketDetail(TicketDTO ticketDTO) {
 		System.out.println("~~ TicketServiceImpl getTicketDetail Start ~~");
 		
-		TicketDTO ticketDTO = new TicketDTO();
-		ticketDTO = td.getTicketDetail(ticket_id);
+		ticketDTO = td.getTicketDetail(ticketDTO);
 		
 		return ticketDTO;
 	}
