@@ -79,11 +79,6 @@
                                         <ul id="navigation">                                                                                                                                     
                                             <li><a href="${pageContext.request.contextPath }/manager/goNotice">공지사항</a></li>
                                             <li><a href="${pageContext.request.contextPath }/hotel/hotelHome">숙박</a>
-                                            	  <ul class="submenu">
-                                                    <li><a href="${pageContext.request.contextPath }/blog">블로그 구조 참고</a></li>
-                                                    <li><a href="${pageContext.request.contextPath }/element">Element</a></li>
-                                                    <li><a href="${pageContext.request.contextPath }/tilesTest">이러지마 타일즈야</a></li>
-                                                </ul>
                                             </li>
                                             <li><a href="${pageContext.request.contextPath}/airport/searchTicket">항공</a>
                                             	  
