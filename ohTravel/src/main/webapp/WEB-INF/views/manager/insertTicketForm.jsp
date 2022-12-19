@@ -61,7 +61,7 @@
 	$(document).ready(function(){
 		let room_date = $('#ticket_due_date');
 		room_date.attr("min",new Date().toISOString().substring(0, 10));
-		room_date.val(new Date().toISOString().substring(0, 10));
+		console.log($('#ticket_due_date').val())
 	})
 </script>
 </head>
@@ -104,7 +104,7 @@
 			<input type="number" class="form-control" id="ticket_child_price" name="ticket_child_price" required="required" placeholder="아이 가격을 입력하세요">
 		</div>
 		<div class="mb-3">
-			<label for="ticket_rep_img_path" class="form-label">작은 이미지</label>
+			<label for="ticket_rep_img_path" class="form-label">썸네일 이미지</label>
 			<input type="file" class="form-control" id="ticket_rep_img_path" name="file1" required="required" onchange="rep(event)" accept="image/*">
 			<div id="image_rep_container"></div>
 		</div>

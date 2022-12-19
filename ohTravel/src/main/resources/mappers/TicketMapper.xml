@@ -4,12 +4,6 @@
 
 <mapper namespace="com.oracle.ohTravel.Ticket">
 
-	<resultMap type="TicketDTO" id="ticketBasketMap">
-		<result property="basket_id" column="basket_id"></result>
-	
-	</resultMap>
-
-
 	<select id="ticketTotal" resultType="int">
 		SELECT COUNT(*) FROM ticket_detail
 	</select>
@@ -27,10 +21,10 @@
 	
 
 	<!-- 입장권 상품 상세 정보 -->
-	<select id="ticketDetail" parameterType="TicketDTO" resultType="TicketDTO" >
+	<select id="ticketDetail" resultType="TicketDTO" >
 		SELECT distinct td.*, date_format(td.ticket_due_date, '%Y.%m.%d') AS ticket_due_date, td.ticket_adult_price, td.ticket_child_price, ti.ticket_rep_img_path, ti.ticket_detail_img_path, ct.city_name,
 			   (SELECT FORMAT( AVG(IFNULL (rv_rating, 0)), 1 ) score FROM review r  WHERE r.rv_real_id = td.ticket_id ) AS ticket_score,	<!-- 평점 -->
-			   (SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = td.ticket_id) as basket_id						<!-- 찜 -->
+			   (SELECT basket_id FROM basket WHERE mem_id = #{mem_id} AND basket_ref_id = #{ticket_id}) AS basket_id						<!-- 찜 -->
 		FROM ticket_detail td
 		LEFT JOIN ticket_img ti
 		  ON td.ticket_id = ti.ticket_id
@@ -63,18 +57,16 @@
 	</select>
 	
 	<!-- 찜 하기 -->
-	<insert id="insertTicketBasket" parameterType="map">
-		INSERT INTO basket (mem_id, basket_ref_id)
+	<insert id="insertTicketBasket">
+		INSERT INTO basket(mem_id, basket_ref_id)
 		VALUES (#{mem_id}, #{ticket_id})
 	</insert>
 	
 	<!-- 찜 해제하기 -->
-	<delete id="deleteTicketBasket" parameterType="map">
+	<delete id="deleteTicketBasket">
 		DELETE FROM basket
 		WHERE mem_id = #{mem_id} AND basket_ref_id = #{ticket_id}
 	</delete>
-	
-	
 	
 </mapper>
 	

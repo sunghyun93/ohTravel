@@ -36,5 +36,11 @@ public interface HotelDAO {
 
 	void deleteBasket(HotelDTO hotelDTO);
 
+	List<HotelDTO> getHotelSearchResult(HotelDTO hotelDTO);
+
+	List<HotelDTO> getHotelDetailOptions(HotelDTO hotelDTO);
+
+	List<HotelDTO> getHotelRecList(HotelDTO hotelDTO);
+
 
 }

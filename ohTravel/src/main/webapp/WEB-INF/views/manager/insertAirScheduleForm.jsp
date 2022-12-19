@@ -42,6 +42,7 @@
 		let start_time = $('.start_time').val();
 		let end_time = $('.end_time').val();
 		let schedule_price = $('.schedule_price').val();
+		let today = new Date();
 		
 		let result1 = start_time.substring(0,4)+start_time.substring(5,7)+start_time.substring(8,10);
 		let result2 = end_time.substring(0,4)+end_time.substring(5,7)+end_time.substring(8,10);
@@ -51,7 +52,7 @@
 		console.log(result2);
 		console.log(result3);
 		console.log(result4);
-		
+		console.log(today);
 		if (air_num == null || air_num == "") {
 			alert('항공사를 선택하세요');
 			return false;

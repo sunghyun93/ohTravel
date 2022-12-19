@@ -20,7 +20,8 @@
                              </div>
                              <div class="footer-tittle">
                                  <div class="footer-pera">
-                                     <p>Lorem iaspsum doldfor sit amvset, consectetur adipisicing cvelit csed do eiusmod tempor incididucvccnt ut labovre.</p>
+                                     <p>Oh!Travel은 소중한 고객 여러분들께 즐거운 여행을 선사하고자 늘 최선을 다하고 있습니다. <br>
+                                     	이용해주셔서 감사합니다. </p>
                                 </div>
                              </div>
                          </div>
@@ -31,10 +32,8 @@
                             <div class="footer-tittle">
                                 <h4>Quick Links</h4>
                                 <ul>
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#"> Offers & Discounts</a></li>
-                                    <li><a href="#"> Get Coupon</a></li>
-                                    <li><a href="#">  Contact Us</a></li>
+                                    <li><a href="${pageContext.request.contextPath }/manager/goNotice">공지사항</a></li>
+                                    <li><a onclick="window.open('${pageContext.request.contextPath }/manager/goCoupon','_blank','width=900px,height=850px')" href="#">쿠폰 다운로드</a>
                                 </ul>
                             </div>
                         </div>
@@ -42,12 +41,13 @@
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
                         <div class="single-footer-caption mb-50">
                             <div class="footer-tittle">
-                                <h4>New Products</h4>
+                                <h4>Products</h4>
                                 <ul>
-                                    <li><a href="#">Woman Cloth</a></li>
-                                    <li><a href="#">Fashion Accessories</a></li>
-                                    <li><a href="#"> Man Accessories</a></li>
-                                    <li><a href="#"> Rubber made Toys</a></li>
+                                    <li><a href="${pageContext.request.contextPath }/hotel/hotelHome">숙박</a>
+                                    <li><a href="${pageContext.request.contextPath}/airport/searchTicket">항공</a>
+                                    <li><a href="${pageContext.request.contextPath}/pkage/search/1">해외 패키지</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/pkage/search/0">국내 패키지</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/ticket/exhibitionMain">입장권</a>
                                 </ul>
                             </div>
                         </div>
@@ -57,11 +57,11 @@
                             <div class="footer-tittle">
                                 <h4>Support</h4>
                                 <ul>
-                                 <li><a href="#">Frequently Asked Questions</a></li>
-                                 <li><a href="#">Terms & Conditions</a></li>
-                                 <li><a href="#">Privacy Policy</a></li>
-                                 <li><a href="#">Privacy Policy</a></li>
-                                 <li><a href="#">Report a Payment Issue</a></li>
+                                 <li>(주) Oh!Travel</li>
+                                 <li>문의 전화 : 1577-1234</li>
+                                 <li>주소 : 서울 마포구 신촌로 176 </li>
+                                 <li>영업시간  : 09:00 ~ 20:00</li>
+                                 <li>이메일 : needhelp@ohtravel.com </li>
                              </ul>
                             </div>
                         </div>

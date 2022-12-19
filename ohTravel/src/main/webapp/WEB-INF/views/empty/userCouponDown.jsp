@@ -12,7 +12,7 @@
 <body>
 	<div class="container" style="min-height: 700px;">
 		<div class="wrapper big">
-			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">쿠폰관리</h1>
+			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">쿠폰다운로드 페이지</h1>
 			<div class="row">
 				<table border="1" class="table table-hover">
 					<thead>
@@ -36,7 +36,15 @@
 							<button type="button" class="btn btn-primary mb-2" disabled="disabled">다운로드</button>
 						</c:if>
 						<c:if test="${coupon.mem_coupon_null == 0 }">
-							<button type="button" class="btn btn-primary mb-2 couponDown" value="${coupon.coupon_id }">다운로드</button>
+						<c:choose>
+							<c:when test="${coupon.coupon_quantity != 0 }">
+								<button type="button" class="btn btn-primary mb-2 couponDown" value="${coupon.coupon_id }">다운로드</button>
+							</c:when>
+							<c:when test="${coupon.coupon_quantity == 0 }">
+								<button type="button" class="btn btn-primary mb-2" disabled="disabled">다운로드</button>	
+							</c:when>
+						</c:choose>
+							
 						</c:if>
 						</td>
 					</tr>

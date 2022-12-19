@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
@@ -14,7 +15,7 @@
 }
 
 .paybtn {
-	margin-top: 20px;	
+	text-align: right;
 }
 
 #container .inr {
@@ -26,6 +27,30 @@
 
 	padding-bottom:20px;
 }
+
+.mem_coupon{
+
+	font-size: 13px;
+	text-align: right;
+	margin-bottom: 0px;
+}
+
+.hotelPaymentBox {
+	margin-top: 25px;
+    border-top: none;
+}
+
+.hotelPaymentBtn {
+	margin-left: 70px;
+}
+
+.pay_info .info_area .info {
+	margin-bottom: 7px;
+}
+
+.txt {
+	margin-bottom: 4px;
+}
 </style>
 <body>
 	<div id="container">
@@ -33,15 +58,7 @@
 			<div class="contents fontCtrl" id="contents">
 				<div class="text_wrap big">
 					<strong class="tit">예약하기</strong>
-					<div class="right_cont">
-						<div class="step_wrap">
-						    <ol class="step">
-						        <li class="on"><span class="num num1 step_txt">예약정보확인</span></li>
-						        <li class=""><span class="num num2 step_txt">옵션정보/약관결제</span></li>
-						        <li class=""><span class="num num3 step_txt">결제완료</span></li>
-						    </ol>
-						</div>	<!-- step_wrap -->
-					</div>	<!-- right_cont -->
+					
 				</div>	<!-- text_wrap -->
 				<div class="ly_wrap pay_info">
 					<div class="inr">
@@ -185,36 +202,56 @@
 					    <div class="text_wrap mid">
 					    	<strong class="tit">결제 정보</strong>
 					    </div>	<!-- text_wrap -->
-					    <div class="js_acc multi filter_wrap">
+					    <div class="hotelPaymentBox">
 					        <div class="pay_area">
 					            <div class="info_area total">
 					                <div class="info"><strong class="tit">최종 결제 금액</strong> <span>성인 ${numberOfAdult }</span> <span class="divider_dot">아동 ${numberOfChild }</span></div>
 					                <div class="mileage_save">
 					                </div>	<!-- mileage_save -->
+					                <fmt:parseNumber type="number" var="mile" value="${roomDetail.room_price * membership.membership_discount * 0.01}" integerOnly="true"/>
 					                <fmt:formatNumber type="number" maxFractionDigits="3" value="${roomDetail.room_price}" var="commaPrice"/>
-					                <strong class="price">${commaPrice }<span>원</span></strong>
+					                <fmt:formatNumber type="number" maxFractionDigits="3" value="${mile}" var="milePoint"/>
+					                <fmt:formatNumber type="number" maxFractionDigits="3" value="${roomDetail.room_price - mile}" var="realDiscountPrice"/>
+					                <fmt:formatNumber type="number" maxFractionDigits="3" value="${membership.mem_mile }" var="memberMile"/>
+					                <div class="info"><strong class="price" id="realDiscountPrice" >${realDiscountPrice }<span>원</span></strong></div>
 					                <div class="mileage_save">
 					                    <p class="txt">
 					                        	현재 ${sessionName } 님의 회원등급 : ${membership.membership_name }
 					                    </p>
 					                     <p class="txt">
-					                        	현재 ${sessionName } 님의 누적 마일리지: ${membership.mem_mile }
+					                        	현재 ${sessionName } 님의 누적 마일리지: ${memberMile }
 					                    </p>
 					                    <p>
 					                        	Oh! Travel 마일리지
-					                         <fmt:parseNumber type="number" var="mile" value="${roomDetail.room_price * membership.membership_discount * 0.01}" integerOnly="true"/>
-					                        <em> ${mile } <span class="icn mileage em"></span></em>적립
+					                       
+					                        <em> ${milePoint } <span class="icn mileage em"></span></em>적립
 					                    </p>
 					                </div>	<!-- mileage_save -->
 					            </div>	<!-- info_area total -->
 					            <div class="info_area">
-					            	<fmt:formatNumber type="number" maxFractionDigits="3" value="${roomDetail.room_price - mile}" var="realDiscountPrice"/>
-					                <div class="info"><strong class="tit">총 상품 금액</strong> <span>${realDiscountPrice }원</span></div>
+					                <div class="info"><strong class="price">기존 상품 금액</strong> <span id="orgPrice">${commaPrice }원</span></div>
+					                <p class="mem_coupon">회원 등급에 따른 할인가격 : <span class="milePrice">${milePoint }</span><span>원</span></p>
+					                <p class="mem_coupon">쿠폰 적용에 따른 할인가격 : <span class="cp_discount">0</span><span>원</span></p>
 					            </div>	<!-- info_area -->
 					        </div>	<!-- pay_area -->
-					          <div class="paybtn">
-					            	<button type="button" class="genric-btn primary e-large" onclick="requestPay()">결제하기</button>
-					            </div>
+					        
+					        <div class="coupon_list">
+					        	<div class="cp_name"></div> <br><br>
+	                        	<select id="cp_list" name="cp_list">
+	                        		<option value="0">${couponList[0] == null ? '쿠폰 없음' : '쿠폰 적용' }</option>
+	                        		<c:forEach var="coupon" items="${couponList }">
+	                        			<option value="${coupon.coupon_discount }" data-cpId="${coupon.coupon_id }">${coupon.coupon_name }</option>
+	                        		</c:forEach>
+	                        	</select>
+					        		
+					        	<div class="paybtn">
+					        		<button type="button" class="hotelPaymentBtn genric-btn primary e-large" onclick="requestPay()">결제하기</button>
+					        	</div>
+					        	
+	                        	
+	                        </div>
+					        <br><br>
+					          
 					    </div>	<!-- js_acc -->
 					</div>	<!-- inr right -->
 				</div>	<!-- ly_wrap -->
@@ -225,6 +262,10 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
 <script src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript">
+
+let originRealDiscountPrice = '${roomDetail.room_price - mile }';
+let realPrice = originRealDiscountPrice;
+let cpId;
 
 $(function() {
 	console.log('ready')
@@ -247,6 +288,24 @@ function initPage() {
 			$('.chkN').prop('checked',true)
 		}
 	})
+	
+	/* 쿠폰 select 박스 선택 시 */
+    $('#cp_list').on('change', function() {
+    	
+    	/* 쿠폰 할인 가격 표시 쪽에 쿠폰에 따른 할인 가격 넣어주기 */
+    	let selectCpPrice = Number($(this).val())
+    	$('.cp_discount').text(selectCpPrice.toLocaleString('ko-KR'));
+    	
+    	// 진짜 들고갈 가격 넣어주기
+    	realPrice = originRealDiscountPrice - selectCpPrice;
+    	
+    	// , 콤마 붙인 가격
+    	let realPriceToLocale = realPrice.toLocaleString('ko-KR');
+    	$('#realDiscountPrice').html(realPriceToLocale+'원');
+
+    	// hidden 태그에 쿠폰 적용 시의 값 및 넣은 쿠폰의 id 넣어주기
+    	cpId = $(this).find('option:selected').attr("data-cpid");
+    })
 	
 }
 
@@ -309,73 +368,29 @@ function requestPay() {
 		, endDate : '${endDate }'
 		, room_id : ${room_id}
 		, mem_id : '${sessionId }'
-		, rev_tot_price : ${roomDetail.room_price - mile}
+		, rev_tot_price : realPrice
 		, numberOfPeople : ${numberOfAdult } + ${numberOfChild}
 		, mile : ${mile }
-		, forPaymentPrice : ${roomDetail.room_price / calDate}
+		, coupon_id : cpId
 	}
 	
 	console.log(sendData)
-    
-	//var IMP = window.IMP; // 생략가능
-	IMP.init('imp71553354');
-	// 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-	// i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
-	IMP.request_pay({
-	    //pg: 'inicis', // version 1.1.0부터 지원.
-	    pg: 'html5_inicis',
-	   
-	    pay_method: 'card',
-	  
-	    merchant_uid: 'merchant_' + new Date().getTime(),
 	
-	    name: '${roomDetail.room_name}',
-	    //결제창에서 보여질 이름
-	    amount: 100,
-	    //가격
-	    buyer_email: '${sessionMail}',
-	    buyer_name: '${sessionName}', //구매자 이름
-	    buyer_tel: '${sessionTel}',
-	    buyer_addr: '',
-	    buyer_postcode: '',
-	   
-	}, function (rsp) {
-	    console.log(rsp);
-	     if (rsp.success) {
-	       $.ajax({
-	          url: "${pageContext.request.contextPath}/hotel/reserve", //가맹점 서버
-	            method: "POST",
-	            /*headers: { "Content-Type": "application/text" },*/
-	            data: sendData,
-	            dataType: 'text',
-	            success: function(data){
-	               //var msg1 = '결제가 완료되었습니다.';
-	                //msg1 += '고유ID : ' + rsp.imp_uid;
-	                //msg1 += '상점 거래ID : ' + rsp.merchant_uid;
-	                //msg1 += '결제 금액 : ' + rsp.paid_amount;
-	                //msg1 += '구매자 이름 :' + rsp.buyer_name;
-	                //msg += '카드 승인번호 : ' + rsp.apply_num;
-	                //msg1 += '구매자'+ rsp.buyer_name + '님의';
-	                if(!alert('구매자 '+ rsp.buyer_name + '님의 예약이 완료되었습니다.')) {
-		                location.href="${pageContext.request.contextPath}/hotel/reserveComplete";
-	                }
-	              },
-	              error: function(err){
-	            	 console.error(err)
-	                 var msg2 = '결제에 실패하였습니다.';
-	                 alert(msg2);
-	              }
-	              
-	          });
-	     } else if(rsp.fail) {
-	        alert('결제에 실패하였습니다.');
-	        
-	     }
-	})
-	
-	
-	
-	
+	$.ajax({
+        url: "${pageContext.request.contextPath}/hotel/reserve", //가맹점 서버
+        method: "POST",
+        data: sendData,
+        dataType: 'text',
+        success: function(data){
+             //location.href="${pageContext.request.contextPath}/hotel/reserveComplete";
+             console.log('성공')
+          },
+          error: function(err){
+        	 console.error(err)
+             alert('결제에 실패하였습니다.');
+          }
+          
+    });
 };
 
 

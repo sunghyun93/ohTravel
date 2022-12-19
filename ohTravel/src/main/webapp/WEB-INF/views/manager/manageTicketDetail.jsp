@@ -85,7 +85,6 @@
 	$(document).ready(function(){
 		let room_date = $('#ticket_due_date');
 		room_date.attr("min",new Date().toISOString().substring(0, 10));
-		room_date.val(new Date().toISOString().substring(0, 10));
 	})
 
 </script>

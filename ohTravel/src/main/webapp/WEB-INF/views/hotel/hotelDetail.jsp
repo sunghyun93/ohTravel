@@ -30,14 +30,15 @@
 					
 				</div>
 				${hotelDetail.hotel_eng }<br>
-				${hotelDetail.hotel_loc }<br>
 				<div class="star_img">
-					<img alt="별점" src="${pageContext.request.contextPath }/img/hotel/star.png">
+					<img alt="위치" src="${pageContext.request.contextPath }/img/hotel/location.png">
 				</div>
+				${hotelDetail.hotel_loc }<br>
+				
 
 				<!-- 찜 버튼 -->
 				
-					<div class="btn-group" style="position: absolute; transform: translate(438px, -6px);">
+					<div class="btn-group" style="position: absolute; transform: translate(355px, -19px);">
 						<c:if test="${hotelDetail.basket_id == 0}">
 							<i class="bskt bi-heart" id="heart" style="font-size:2.2rem; color: red; cursor: pointer;"></i>
 						</c:if>
@@ -47,8 +48,19 @@
 					</div>
 
 				<!-- 평균 별점 ajax 계산되어 들어가는 부분 -->
-				<div class="star_scr" id="star_scr">
-					
+				<div class="withReview">
+					<div class="star_img">
+						<img alt="별점" src="${pageContext.request.contextPath }/img/hotel/star.png">
+					</div>
+					<div class="star_scr" id="star_scr">
+						
+					</div>
+					<div class="star_img">
+						<img alt="위치" src="${pageContext.request.contextPath }/img/hotel/comment.png">
+					</div>
+					<div class="totalReviewCnt">
+						 ${totalReviewCnt }개
+					</div>
 				</div>
 				
 				<hr>
@@ -66,7 +78,7 @@
 			<div class="ht_simple_option">
 				<div class="info_title">숙소정보</div>
 				<div class="ht_loc">주소 : ${hotelDetail.hotel_loc }</div>
-				<div class="chkTime">체크인 : ${hotelDetail.checkin } 체크아웃 시간 : ${hotelDetail.checkout }</div>
+				<div class="chkTime">체크인 : ${hotelDetail.checkin }  /  체크아웃 시간 : ${hotelDetail.checkout }</div>
 				<div class="room_cnt">객실 수 : ${hotelDetail.room_cnt }</div>
 				<div class="ht_tel">전화번호 : ${hotelDetail.hotel_tel }</div>
 			</div> <!-- ht_simple_option 끝 -->
@@ -149,10 +161,24 @@
 	
 		<div class="ht_option">
 			<div class="add_opt">
-				<div class="add_title">숙소 부대시설</div>
+				<div class="add_title info_title">숙소 부대시설</div>
+				<div class="add_contents">
+				<c:forEach items="${hotelDetailOptions }" var="option">
+					<c:if test="${option.option_gubun eq '부대'}">
+						<span class="roundedOption">${option.hotel_option }</span>
+					</c:if>
+				</c:forEach>
+				</div>
 			</div>
 			<div class="conv_opt">
-				<div class="conv_title">숙소 편의시설</div>
+				<div class="conv_title info_title">숙소 편의시설</div>
+				<div class="conv_contents">
+					<c:forEach items="${hotelDetailOptions }" var="option">
+						<c:if test="${option.option_gubun eq '편의'}">
+							<span class="roundedOption">${option.hotel_option }</span>
+						</c:if>
+					</c:forEach>
+				</div>
 			</div>
 		</div> <!-- ht_option -->
 				
@@ -186,8 +212,18 @@
 		</div> <!-- all_review (리뷰 끝)-->
 		
 		<div class="ht_rec">
-			같은 지역의 다른 호텔 추천해주기
-		
+			<div class="htRec info_title">이 호텔은 어떠세요?</div>
+			<c:forEach items="${hotelRecList }" var="recommend">
+				<div class="recHotelInfo">
+					<img alt="추천호텔사진" src="${recommend.h_img_path }">
+					<div class="namdAndScore">
+						<div class="recScore"> 
+							<i class="fas fa-star" style='color : #ffa800'><span style='color : black'>${recommend.hotel_score }</span></i>
+						</div>
+						<div class="recName"><a href="${pageContext.request.contextPath }/hotel/hotelDetail?hotel_id=${recommend.hotel_id}">${recommend.hotel_kor }</a></div>
+					</div>
+				</div>
+			</c:forEach>
 		</div>
 		</div> <!-- room_info 끝 -->
 	</div> <!-- 부트스트랩 container끝 -->
@@ -646,7 +682,6 @@ function makeRoomList(data) {
 //리뷰 조회 -- 랜더링 함수2 (진짜 구조 그려줌)
 function makeRow(datum) {
 	
-	
 	let innerHtml = ''
 
 	innerHtml += '<tr>'
@@ -663,13 +698,13 @@ function makeRow(datum) {
 		innerHtml += '</td>'
 		innerHtml += '<td>'
 			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
-			if(datum.mem_id == '${member.mem_id }') {	
+			if(datum.mem_id == '${sessionId}') {	
 				innerHtml += '<button type="button" class="rv_modify genric-btn info radius" onclick="openUpdateModal(this)">수정</button>'
 			}
 		innerHtml += '</td>'
 		innerHtml += '<td>'
 			// 작성자 = 로그인 정보여야 수정 버튼 활성화 
-			if(datum.mem_id == '${member.mem_id }') {	
+			if(datum.mem_id == '${sessionId }') {	
 				innerHtml += '<button type="button" class="rv_delete genric-btn info radius" onclick="deleteReview(this)">삭제</button>'
 			}
 		innerHtml += '</td>'
