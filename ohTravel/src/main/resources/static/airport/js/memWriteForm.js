@@ -96,6 +96,7 @@ $(function(){
 
 		if($('#foldCheckAll').prop("checked") == false){
 		  alert('전체약관에 동의해주세요');
+		  return false;
 		}
 	});
 });
