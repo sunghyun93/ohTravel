@@ -43,6 +43,10 @@
 		if(room_price==null||room_price==""){
 			room_price = 0;
 		}
+		if(room_price <0){
+			alert("가격은 0원보다 작을수없습니다");
+			return false;
+		}
 		console.log(hotel_id);
 		console.log(currentPage);
 		if(room_type == null||room_type==''){

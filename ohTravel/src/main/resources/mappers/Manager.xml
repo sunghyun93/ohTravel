@@ -371,7 +371,7 @@
 		<selectKey resultType="String" keyProperty="ticket_id" order="BEFORE">
 			select concat('ti',ifnull(max(right(ticket_id,6))+1,#{city_id}001)) from ticket_detail WHERE ticket_id like concat('%',#{city_id},'%');
 		</selectKey>
-		INSERT INTO ticket_detail(ticket_id,city_id,ticket_name,ticket_sales_cnt,ticket_location,ticket_due_date,ticket_adult_price,ticket_child_price) values(#{ticket_id},#{city_id},#{ticket_name},0,#{ticket_location},CURRENT_TIMESTAMP(),#{ticket_adult_price},#{ticket_child_price});
+		INSERT INTO ticket_detail(ticket_id,city_id,ticket_name,ticket_sales_cnt,ticket_location,ticket_due_date,ticket_adult_price,ticket_child_price) values(#{ticket_id},#{city_id},#{ticket_name},0,#{ticket_location},#{ticket_due_date},#{ticket_adult_price},#{ticket_child_price});
 		INSERT INTO ticket_img(ticket_id,ticket_rep_img_path,ticket_detail_img_path) values(#{ticket_id},#{ticket_rep_img_path},#{ticket_detail_img_path});
 	</insert>
 	<delete id="deleteTicket" parameterType="Ticket">

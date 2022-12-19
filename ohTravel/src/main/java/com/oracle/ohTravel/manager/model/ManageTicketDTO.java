@@ -16,7 +16,8 @@ public class ManageTicketDTO {
 	private int city_id;
 	private int ticket_sales_cnt;
 	private String ticket_location;
-	private Date ticket_due_date;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private String ticket_due_date;
 	private int ticket_adult_price;
 	private int ticket_child_price;
 	
