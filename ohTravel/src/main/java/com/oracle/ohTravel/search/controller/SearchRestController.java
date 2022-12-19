@@ -16,7 +16,10 @@ import com.oracle.ohTravel.basket.model.BasketDTO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.search.model.CategoryDTOVO;
-import com.oracle.ohTravel.search.model.OrderComparator;
+import com.oracle.ohTravel.search.service.RowPriceComparator;
+import com.oracle.ohTravel.search.service.OrderComparator;
+import com.oracle.ohTravel.search.service.HighPriceComparator;
+import com.oracle.ohTravel.search.service.ScoreComparator;
 import com.oracle.ohTravel.search.service.SearchService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,22 +31,36 @@ public class SearchRestController {
 	private final SearchService ss;
 	
 	@GetMapping("/pkageFilter")
-	public List<PkageDTO> pkageFilter(@RequestParam(value = "check") List<String> check, @RequestParam(value = "radioCheck1") String radioCheck,  PkageDTO pkageDTO, String currentPage) {
+	public List<PkageDTO> pkageFilter(String existChkBox, @RequestParam(value = "check") List<String> check, @RequestParam(value = "radioCheck1") String radioCheck,  PkageDTO pkageDTO, String currentPage) {
 		System.out.println("check -> " + check);
 		System.out.println("radioCheck -> " + radioCheck);
 		HashMap<String, Object> pkageHM = new HashMap<>();
 		pkageHM.put("pkageDTO", pkageDTO) ;
 		pkageHM.put("check", check) ;
 		pkageHM.put("radioCheck", radioCheck) ;
+		pkageHM.put("existChkBox", existChkBox);
 		System.out.println(check);
-		System.out.println("pkageDTO"  + pkageDTO.getCheck());
+		System.out.println("pkageDTO -> " + pkageDTO.getCheck());
 		System.out.println("search_word -> " + pkageDTO.getSearch_word());
 		System.out.println("currentPage -> " + currentPage);
 		List<PkageDTO> pkList = ss.filteredPkageList(pkageHM);
-		
-		Collections.sort(pkList, new OrderComparator());
+		if("buy_order".equals(radioCheck)) {
+			System.out.println("buy_order");
+			Collections.sort(pkList, new OrderComparator());
+		}
+		if("high_score".equals(radioCheck)) {
+			System.out.println("high_score");
+			Collections.sort(pkList, new ScoreComparator());
+		}
+		if("high_price".equals(radioCheck)) {
+			System.out.println("high_price");
+			Collections.sort(pkList, new HighPriceComparator());
+		}
+		else if("row_price".equals(radioCheck)) {
+			System.out.println("row_price");
+			Collections.sort(pkList, new RowPriceComparator());
+		}
 		System.out.println("pkList="+pkList);
-		
 		System.out.println("필터된 리스트 수 -> " + pkList.size());
 		return pkList;
 	}

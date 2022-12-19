@@ -1,6 +1,7 @@
 a {
 	text-decoration: none;
 }
+
 #container>.inr {
 	width: 1200px;
 	margin: 50px auto 0;
@@ -207,6 +208,10 @@ input, select, textarea, button {
     top: 0;
     left: 0;
     opacity: 0 !important;
+}
+
+input[type='radio'] {
+	display: contents;
 }
 
 .label_checkbox, .label_radio {
@@ -754,4 +759,11 @@ p {
     top: 6px;
     border: none;
  }
+ 
+p+.choice .choice-btn {
+	margin-top: 260px;
+}
 
+label {
+	font-weight: 600;
+}

@@ -36,6 +36,8 @@ public class HotelDTO {
 	private int start;
 	private int end;
 	private String city_name;
+	private String country_name;
+	private String country_id;
 	private String mem_id;
 	private int review_cnt;
 	private int chk;

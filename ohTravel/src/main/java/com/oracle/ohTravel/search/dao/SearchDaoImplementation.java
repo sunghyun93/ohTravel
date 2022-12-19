@@ -38,6 +38,19 @@ public class SearchDaoImplementation implements SearchDao {
 		System.out.println("end -> " + pkageDTO.getEnd());
 		return pkageList;
 	}
+	
+	// 호텔 목록 가져와
+	@Override
+	public List<HotelDTO> getHotelList(HotelDTO hotelDTO) {
+		System.out.println("Dao getHotelList Start...");
+		List<HotelDTO> hotelList = null;
+		try {
+			hotelList = sqs.selectList("yqHotelList", hotelDTO);
+		} catch (Exception e) {
+			System.out.println("Dao getHotelList Exception -> " + e.getMessage());
+		}
+		return hotelList;
+	}
 		
 	// 티켓 목록 가져와
 	@Override
@@ -50,19 +63,6 @@ public class SearchDaoImplementation implements SearchDao {
 			System.out.println("Dao getTicketList Exception -> " + e.getMessage());
 		}
 		return ticketList;
-	}
-
-	// 호텔 목록 가져와
-	@Override
-	public List<HotelDTO> getHotelList(HotelDTO hotelDTO) {
-		System.out.println("Dao getHotelList Start...");
-		List<HotelDTO> hotelList = null;
-		try {
-			hotelList = sqs.selectList("yqHotelList", hotelDTO);
-		} catch (Exception e) {
-			System.out.println("Dao getHotelList Exception -> " + e.getMessage());
-		}
-		return hotelList;
 	}
 
 	@Override
