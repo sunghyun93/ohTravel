@@ -1,12 +1,11 @@
-package com.oracle.ohTravel.search.model;
+package com.oracle.ohTravel.search.service;
 
 import java.util.Comparator;
 
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 
-// 구매순 Comparator
-public class OrderComparator implements Comparator<Object> {
+public class RowPriceComparator implements Comparator<Object> {
 
 	@Override
 	public int compare(Object o1, Object o2) {
@@ -20,9 +19,9 @@ public class OrderComparator implements Comparator<Object> {
 			pkageDTO2 = (PkageDTO)o2;
 			
 			// 양수 (오름차순) 음수 (내림차순)
-			return (pkageDTO1.getPkage_soldCnt() - pkageDTO2.getPkage_soldCnt())*-1;
+			return (int) ((pkageDTO1.getMin_price() - pkageDTO2.getMin_price()));
 		}
 		return 0;
 	}
-
+	
 }

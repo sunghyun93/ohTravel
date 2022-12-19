@@ -34,4 +34,8 @@ public class PkageDTO {
 	private String radioCheck;
 	private int chk;
 	private int review_cnt;
+	private String city_name;
+	private int period;
+	private String country_name;
+	private String air_name;
 }
