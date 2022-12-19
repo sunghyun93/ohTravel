@@ -56,7 +56,11 @@
 											</div>
 											<div class="type_1">
 												<span>${pkageList.period}일</span> 
-												<span> <!-- 12.30.금 12:05 ~ 01.02.월 19:10 --> </span>
+												<span> <fmt:formatDate value="${pkageList.pkage_dt_startday}" pattern="MM.dd.E hh:mm"/> ~ <fmt:formatDate value="${pkageList.pkage_dt_endday}" pattern="MM.dd.E hh:mm"/> </span>
+											</div>
+											<div class='type_2'>
+												<span class='air_icon'>${pkageList.air_name} </span>
+												<span>${pkageList.start_airport_name}출발</span>
 											</div>
 											<div class="type_2">
 												<span class='ic_note'>${pkageList.pkage_dt_thema}</span>
@@ -265,6 +269,13 @@ $(function() {
 	})	
 })
 
+// 날짜 formatDate
+function getFullYmdStr(){
+    //년월일시분초 문자열 생성
+    var d = new Date();
+    return (d.getMonth()+1) + "." + d.getDate() + "." + '일월화수목금토'.charAt(d.getUTCDay()) + ' ' + d.getHours() + ":" + d.getMinutes();
+}
+
 // 카테고리 선택
 $(function() {
 	$(document).on("click", ".item02", function() {
@@ -353,35 +364,7 @@ function pageList(gubun, currentPage) {
 						str += 						"<label for='adtMinAmt-2' class='label_checkbox adtMinAmt-2'> 51~70만원 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str +=						"<input type='checkbox' id='adtMinAmt-3' class='inpt_checkbox'>"; 
-						str +=						"<label for='adtMinAmt-3' class='label_checkbox adtMinAmt-3'> 71만원~2000만원 </label></span>";
-						str += 				"</div>";
-						str += 			"</div>";
-						str += 		"</div>";
-						str += 		"<div class='inr'>";
-						str += 			"<a href='#filter-12' class='header active'>출발 도시</a>";
-						str += 			"<div id='filter-12' class='iew active' style='display: block;'>";
-						str += 				"<div class='form_wrap'>";
-						str += 					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-0' class='inpt_checkbox'>";
-						str += 						"<label for='depCityCds-0' class='label_checkbox'> 인천 </label></span>";
-						str += 					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-1' class='inpt_checkbox'>";
-						str += 						"<label for='depCityCds-1' class='label_checkbox'> 부산 </label></span>";
-						str += 					"<span class='form_holder text'>";
-						str +=						"<input type='checkbox' id='depCityCds-2' class='inpt_checkbox'>";
-						str += 						"<label for='depCityCds-2' class='label_checkbox'> 대구 </label></span>";
-						str += 					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-3' class='inpt_checkbox'>";
-						str +=						"<label for='depCityCds-3' class='label_checkbox'> 김포시 </label></span>";
-						str += 					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-4' class='inpt_checkbox'>";
-						str += 						"<label for='depCityCds-4' class='label_checkbox'> 제주시 </label></span>";
-						str +=					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-5' class='inpt_checkbox'>";
-						str += 						"<label for='depCityCds-5' class='label_checkbox'> 양양군 </label></span>";
-						str += 					"<span class='form_holder text'>";
-						str += 						"<input type='checkbox' id='depCityCds-6' class='inpt_checkbox'>"; 
-						str += 						"<label for='depCityCds-6' class='label_checkbox'> 무안군 </label></span>";
+						str +=						"<label for='adtMinAmt-3' class='label_checkbox adtMinAmt-3'> 71만원~200만원 </label></span>";
 						str += 				"</div>";
 						str += 			"</div>";
 						str += 		"</div>";
@@ -391,13 +374,13 @@ function pageList(gubun, currentPage) {
 						str += 				"<div class='form_wrap'>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depTms-0' class='inpt_checkbox'>";
-						str += 						"<label for='depTms-0' class='label_checkbox'> 05~12시 </label></span>";
+						str += 						"<label for='depTms-0' class='label_checkbox depTms-0'> 05~12시 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depTms-1' class='inpt_checkbox'>";
-						str += 						"<label for='depTms-1' class='label_checkbox'> 12~18시 </label></span>";
+						str += 						"<label for='depTms-1' class='label_checkbox depTms-1'> 12~18시 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depTms-2' class='inpt_checkbox'>"; 
-						str += 						"<label for='depTms-2' class='label_checkbox'> 18~24시 </label></span>";
+						str += 						"<label for='depTms-2' class='label_checkbox depTms-2'> 18~24시 </label></span>";
 						str += 				"</div>";
 						str += 			"</div>";
 						str += 		"</div>";
@@ -410,7 +393,7 @@ function pageList(gubun, currentPage) {
 						str += 						"<label for='depAirCds-0' class='label_checkbox depAirCds-0'> 대한항공 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-1' class='inpt_checkbox'>";
-						str += 						"<label for='depAirCds-1' class='label_checkbox depAirCds-1'> 베트남 항공 </label></span>";
+						str += 						"<label for='depAirCds-1' class='label_checkbox depAirCds-1'> 동방항공 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-2' class='inpt_checkbox'>";
 						str += 						"<label for='depAirCds-2' class='label_checkbox depAirCds-2'> 아시아나항공 </label></span>";
@@ -419,19 +402,25 @@ function pageList(gubun, currentPage) {
 						str += 						"<label for='depAirCds-3' class='label_checkbox depAirCds-3'> 에어부산 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-4' class='inpt_checkbox'>";
-						str += 						"<label for='depAirCds-4' class='label_checkbox depAirCds-4'> 에어프레미아 </label></span>";
+						str += 						"<label for='depAirCds-4' class='label_checkbox depAirCds-4'> 에어차이나 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-5' class='inpt_checkbox'>";
 						str += 						"<label for='depAirCds-5' class='label_checkbox depAirCds-5'> 에어서울 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-6' class='inpt_checkbox'>";
-						str += 						"<label for='depAirCds-6' class='label_checkbox depAirCds-6'> 전일본공수 </label></span>";
+						str += 						"<label for='depAirCds-6' class='label_checkbox depAirCds-6'> 일본항공 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-7' class='inpt_checkbox'>";
-						str += 						"<label for='depAirCds-7' class='label_checkbox depAirCds-7'> 제주항공 </label></span>";
+						str += 						"<label for='depAirCds-7' class='label_checkbox depAirCds-7'> 전일본공수항공 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='depAirCds-8' class='inpt_checkbox'>";
-						str += 						"<label for='depAirCds-8' class='label_checkbox depAirCds-8'> 진에어 </label></span>";
+						str += 						"<label for='depAirCds-8' class='label_checkbox depAirCds-8'> 제주항공 </label></span>";
+						str += 					"<span class='form_holder text'>";
+						str += 						"<input type='checkbox' id='depAirCds-9' class='inpt_checkbox'>";
+						str += 						"<label for='depAirCds-9' class='label_checkbox depAirCds-9'> 진에어 </label></span>";
+						str += 					"<span class='form_holder text'>";
+						str += 						"<input type='checkbox' id='depAirCds-10' class='inpt_checkbox'>";
+						str += 						"<label for='depAirCds-10' class='label_checkbox depAirCds-10'> 타이항공 </label></span>";
 						str += "				</div>";
 						str += "			</div>";
 						str += "		</div>";
@@ -474,11 +463,11 @@ function pageList(gubun, currentPage) {
 						str += "								<strong>"+this.pkage_name+"</strong>";
 						str += "							</div>";
 						str += "							<div class='type_1'>";
-						str += "								<span>"+this.period+"일</span> <span> 12.14.수 08:05 ~ 12.16.금 13:30</span>";
+						str += "								<span>"+this.period+"일</span> <span> "+new Date(this.pkage_dt_startday).toLocaleString()+" ~ "+new Date(this.pkage_dt_endday).toLocaleString()+"</span>";
 						str += "							</div>";
 						str += "							<div class='type_2'>";
-						str += "								<span class='air_icon'>에어부산 </span> <span> 잔여석<strong>10</strong></span>";
-						str += "								<span>부산출발</span>";
+						str += "								<span class='air_icon'>"+this.air_name+" </span>";
+						str += "								<span>"+this.start_airport_name+"출발</span>";
 						str += "							</div>";
 						str += "							<div class='type_2'>";
 						str += "								<span class='ic_note'>"+this.pkage_dt_thema+"</span>";
@@ -892,7 +881,7 @@ function pageList(gubun, currentPage) {
 						str += 							"</div>";
 						str += 							"<div class='type_1'>";
 						str += 								"<span>"+this.period+"일</span>"; 
-						str += 								"<span> 12.30.금 12:05 ~ 01.02.월 19:10 </span>";
+						str += 								"<span> "+new Date(this.pkage_dt_startday).toLocaleString()+" ~ "+new Date(this.pkage_dt_endday).toLocaleString()+" </span>";
 						str += 							"</div>";
 						str += 							"<div class='type_2'>";
 						str += 								"<span class='ic_note'>패키지</span>";
@@ -1063,11 +1052,11 @@ $(function() {
 				str += "								<strong>"+pkageList.pkage_name+"</strong>";
 				str += "							</div>";
 				str += "							<div class='type_1'>";
-				str += "								<span>"+pkageList.period+"일</span> <span> 12.14.수 08:05 ~ 12.16.금 13:30</span>";
+				str += "								<span>"+pkageList.period+"일</span> <span> "+new Date(this.pkage_dt_startday).toLocaleString()+" ~ "+new Date(this.pkage_dt_endday).toLocaleString()+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
-				str += "								<span class='air_icon'>에어부산 </span> <span> 잔여석<strong>10</strong></span>";
-				str += "								<span>부산출발</span>";
+				str += "								<span class='air_icon'>"+pkageList.air_name+" </span>";
+				str += "								<span>"+pkageList.start_airport_name+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
 				str += "								<span class='ic_note'>"+pkageList.pkage_dt_thema+"</span>";
@@ -1204,11 +1193,11 @@ $(function() {
 				str += "								<strong>"+this.pkage_name+"</strong>";
 				str += "							</div>";
 				str += "							<div class='type_1'>";
-				str += "								<span>"+this.period+"</span> <span> 12.14.수 08:05 ~ 12.16.금 13:30</span>";
+				str += "								<span>"+this.period+"</span> <span> "+new Date(this.pkage_dt_startday).toLocaleString()+" ~ "+new Date(this.pkage_dt_endday).toLocaleString()+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
-				str += "								<span class='air_icon'>에어부산 </span> <span> 잔여석<strong>10</strong></span>";
-				str += "								<span>부산출발</span>";
+				str += "								<span class='air_icon'>"+this.air_name+" </span>";
+				str += "								<span>"+this.start_airport_name+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
 				str += "								<span class='ic_note'>"+this.pkage_dt_thema+"</span>";

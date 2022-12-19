@@ -38,4 +38,7 @@ public class PkageDTO {
 	private int period;
 	private String country_name;
 	private String air_name;
+	private String start_airport_name;
+	private Date pkage_dt_startday;
+	private Date pkage_dt_endday;
 }

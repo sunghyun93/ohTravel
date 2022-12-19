@@ -37,14 +37,20 @@
 
 	<!-- 패키지 + 패키지 이미지 + 패키지 디테일 가져오기 -->
 	<select id="yqPkageList" parameterType="PkageDTO" resultType="PkageDTO">
-		SELECT p.pkage_id, c.city_id, pkage_name, pkage_info, pkage_soldCnt, pi.pkage_Img_path, min_price, pkage_gubun, pkage_dt_thema, city_name, period, ct.country_name,
+		SELECT p.pkage_id, c.city_id, pkage_name, pkage_info, pkage_soldCnt, pi.pkage_Img_path, min_price, pkage_gubun, pd.pkage_dt_thema, city_name, period, ct.country_name,
 		(SELECT FORMAT( IFNULL ( AVG(r.rv_rating), 0 ), 1) FROM review r WHERE r.rv_real_id = p.pkage_id) pkage_score,
-		(select count(*) FROM review r WHERE r.rv_real_id = p.pkage_id) review_cnt,
-		(SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = p.pkage_id) chk
-		FROM package p left join package_image pi on p.pkage_id = pi.pkage_id 
-		left join (select distinct pkage_id, pkage_dt_thema, min(pkage_dt_Aprice) min_price, datediff(pkage_dt_endDay, pkage_dt_startDay) + 1 period from package_detail group by pkage_id) pd on p.pkage_id = pd.pkage_id 
+	    (select count(*) FROM review r WHERE r.rv_real_id = p.pkage_id) review_cnt,
+		(SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = p.pkage_id) chk,
+	    al.Air_name, asche.Start_Airport_name, pd.pkage_dt_startday, pd.pkage_dt_endDay
+		FROM package p 
+		left join package_image pi on p.pkage_id = pi.pkage_id 
+		left join (select distinct pkage_id, pkage_dt_id, pkage_dt_thema, pkage_dt_startDay, pkage_dt_endDay, min(pkage_dt_Aprice) min_price, datediff(pkage_dt_endDay, pkage_dt_startDay) + 1 period from package_detail group by pkage_id) pd on p.pkage_id = pd.pkage_id 
 		left join city c on c.city_id = p.city_id
 		left join country ct on c.country_id = ct.country_id
+		left join start_airport sa on sa.city_id = c.city_id
+		left join (select pkage_dt_id, Schedule_id FROM package_flightsche WHERE pkage_flight_gubun = 0) pfs on pfs.pkage_dt_id = pd.pkage_dt_id
+		left join air_schedule asche on asche.Schedule_id = pfs.Schedule_id
+		left join airline al on al.Air_num = asche.Air_num
 		Where pkage_name LIKe concat('%', #{search_word}, '%')
 		<if test="start != 0">
 			LIMIT ${start-1}, #{end}
@@ -53,19 +59,21 @@
 	
 	<select id="yqFilteredPkageList" parameterType="Map" resultType="PkageDTO">
 		SELECT p.pkage_id, c.city_id, pkage_name, pkage_info, pkage_soldCnt, pi.pkage_Img_path, min_price, pkage_gubun, pd.pkage_dt_thema, city_name, period, ct.country_name,
-		(SELECT FORMAT( IFNULL ( AVG(r.rv_rating), 0 ), 1) FROM review r WHERE r.rv_real_id = p.pkage_id) pkage_score,
-		(select count(*) FROM review r WHERE r.rv_real_id = p.pkage_id) review_cnt,
-		(SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = p.pkage_id) chk
-		FROM package p 
-        left join package_image pi on p.pkage_id = pi.pkage_id 
-		left join (select distinct pkage_id, pkage_dt_thema, min(pkage_dt_Aprice) min_price, datediff(pkage_dt_endDay, pkage_dt_startDay) + 1 period from package_detail group by pkage_id) pd on p.pkage_id = pd.pkage_id 
-		left join city c on c.city_id = p.city_id
-		left join country ct on c.country_id = ct.country_id
+	(SELECT FORMAT( IFNULL ( AVG(r.rv_rating), 0 ), 1) FROM review r WHERE r.rv_real_id = p.pkage_id) pkage_score,
+    (select count(*) FROM review r WHERE r.rv_real_id = p.pkage_id) rv_count,
+	(SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = p.pkage_id) chk,
+    al.Air_name, asche.Start_Airport_name, pd.pkage_dt_startday, pd.pkage_dt_endDay
+	FROM package p 
+left join package_image pi on p.pkage_id = pi.pkage_id 
+left join (select distinct pkage_id, pkage_dt_id, pkage_dt_thema, pkage_dt_startDay, pkage_dt_endDay, min(pkage_dt_Aprice) min_price, datediff(pkage_dt_endDay, pkage_dt_startDay) + 1 period from package_detail group by pkage_id) pd on p.pkage_id = pd.pkage_id 
+left join city c on c.city_id = p.city_id
+left join country ct on c.country_id = ct.country_id
+left join start_airport sa on sa.city_id = c.city_id
+left join (select pkage_dt_id, Schedule_id FROM package_flightsche WHERE pkage_flight_gubun = 0) pfs on pfs.pkage_dt_id = pd.pkage_dt_id
+left join air_schedule asche on asche.Schedule_id = pfs.Schedule_id
+left join airline al on al.Air_num = asche.Air_num
 		Where pkage_name LIKe concat('%', #{pkageDTO.search_word}, '%') 
-		<if test="!existChkBox.equals('')">
-			AND
-		</if>
-		<foreach collection="check" item="filter"  open="" close="" separator="or">
+		<foreach collection="check" item="filter"  open="and" close="" separator="or">
 			<if test="filter == 'trvlDayCnt-0'">
 				 period = 2
 			</if>
@@ -95,43 +103,50 @@
 			</if>
 			<if test="filter == 'adtMinAmt-3'">
 				<![CDATA[
-				 min_price > 710000 AND min_price <= 2000000
+				 min_price > 710000 AND min_price <= 200000
 				]]>
 			</if>
-			<if test="filter == 'kind_0'">
-				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
-				]]>
+			<if test="filter == 'depTms-0'">
+				(hour(pd.pkage_dt_startDay) between '5' and '12')
 			</if>
-			<if test="filter == 'kind_1'">
-				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
-				]]>
+			<if test="filter == 'depTms-1'">
+				(hour(pd.pkage_dt_startDay) between '12' and '18')
 			</if>
-			<if test="filter == 'kind_2'">
-				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
-				]]>
+			<if test="filter == 'depTms-2'">
+				(hour(pd.pkage_dt_startDay) between '18' and '24')
 			</if>
-			<if test="filter == 'kind_3'">
-				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
-				]]>
+			<if test="filter == 'depAirCds-0'">
+				al.air_name = '대한항공'
 			</if>
-			<if test="filter == 'kind_4'">
-				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
-				]]>
+			<if test="filter == 'depAirCds-1'">
+				al.air_name = '동방항공'
 			</if>
-			<if test="filter == 'kind_5'">
-				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
-				]]>
+			<if test="filter == 'depAirCds-2'">
+				al.air_name = '아시아나항공'
 			</if>
-			<if test="filter == 'kind_6'">
-				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
-				]]>
+			<if test="filter == 'depAirCds-3'">
+				al.air_name = '에어부산'
+			</if>
+			<if test="filter == 'depAirCds-4'">
+				al.air_name = '에어차이나'
+			</if>
+			<if test="filter == 'depAirCds-5'">
+				al.air_name = '에어서울'
+			</if>
+			<if test="filter == 'depAirCds-6'">
+				al.air_name = '일본항공'
+			</if>
+			<if test="filter == 'depAirCds-7'">
+				al.air_name = '전일본공수항공'
+			</if>
+			<if test="filter == 'depAirCds-8'">
+				al.air_name = '제주항공'
+			</if>
+			<if test="filter == 'depAirCds-9'">
+				al.air_name = '진에어'
+			</if>
+			<if test="filter == 'depAirCds-10'">
+				al.air_name = '타이항공'
 			</if>
 		</foreach>
 		<!-- <if test="start != 0">
