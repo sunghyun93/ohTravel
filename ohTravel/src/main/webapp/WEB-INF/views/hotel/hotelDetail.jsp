@@ -566,7 +566,10 @@ function getRoomList(){
 	
 	let cal = edDate.getTime() - stDate.getTime();
 	let calDate = cal / (1000*60*60*24);
-	
+	console.log(startDate);
+	console.log(endDate);
+	console.log(calDate);
+	console.log(numberOfPeople);
 	//인원수 가져오는 코드 써야함
 	
 	

@@ -1762,12 +1762,44 @@ public class ManagerController {
 	//예약관리 -> 티켓 예약 리스트 가져오기 Ajax
 	@ResponseBody
 	@PostMapping(value = "getTicketResList")
-	public List<ManageTicketDTO> getTicketResList(){
-		List<ManageTicketDTO> getTicketResList = service.getTicketResList();
-		return getTicketResList;
+	public Map<String, Object> getTicketResList(ManageTicketDTO ticket, String currentPage){
+		Map<String, Object> mapTicketRes = new HashMap<String, Object>();
+		
+		
+		
+		int total = service.totalTicketRes(ticket);
+		PagingManager page = new PagingManager(total, currentPage);
+		ticket.setStart(page.getStart());
+		ticket.setEnd(page.getEnd());
+
+		
+		List<ManageTicketDTO> ticketRes = service.getTicketResPage(ticket);
+		
+		mapTicketRes.put("ticketRes", ticketRes);
+		mapTicketRes.put("currentPage", currentPage);
+		mapTicketRes.put("page", page);
+		mapTicketRes.put("total", total);
+		
+		
+		return mapTicketRes;
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping(value = "pagingTicketRes")
+	public Map<String, Object> pagingTicketRes(ManageTicketDTO ticket, String currentPage){
+		Map<String, Object> mapRoomDetail = new HashMap<String, Object>();
+		int total = service.totalTicketRes(ticket);
+		PagingManager page = new PagingManager(total, currentPage);
+		ticket.setStart(page.getStart());
+		ticket.setEnd(page.getEnd());
+		List<ManageTicketDTO> ticketRes = service.getTicketResPage(ticket);
+		mapRoomDetail.put("ticketRes", ticketRes);
+		mapRoomDetail.put("currentPage", currentPage);
+		mapRoomDetail.put("page", page);
+		mapRoomDetail.put("total", total);
+		return mapRoomDetail;
+	}
 	
 	
 	
