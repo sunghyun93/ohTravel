@@ -307,20 +307,16 @@ $(function() {
 
                 // 클릭 했을 때의 인원 수
                 let cnt = Number($(this).siblings('span').text());
-                console.log(cnt);
 
                 // 클릭 했을 때의 전체 인원 수 (패키지 상세 인원 제한을 위한 변수)
                 let totalCnt = Number(adultCnt.text()) + Number(childCnt.text());
 
                 // 클릭 했을 때 성인 / 아동 구분
                 let isAdult = $(this).siblings('span').hasClass('adultCnt');
-                console.log(isAdult);
 
                 // 성인 / 아동 , up / down 구분
                 if(isAdult && !isUp) {
-                    console.log('성인 down');
                 } else if(isAdult && isUp) {
-                    console.log('성인 up');
                     // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
                     if(totalCnt >= 9) {
                         return;
@@ -329,9 +325,7 @@ $(function() {
                         adultCnt.text(cnt);
                     }
                 } else if(!isAdult && !isUp) {
-                    console.log("아동 down");
                 } else if(!isAdult && isUp){
-                    console.log('아동 up');
                     // 개수 제한 거는 부분.. (패키지 상세의 인원제한)
                     if(totalCnt >= 9) {
                         return;
@@ -348,15 +342,12 @@ $(function() {
 
                 // 클릭 했을 때의 인원 수
                 let cnt = $(this).siblings('span').text();
-                console.log(cnt);
 
                 // 클릭 했을 때 성인 / 아동 구분
                 let isAdult = $(this).siblings('span').hasClass('adultCnt');
-                console.log(isAdult);
 
                 // 성인 / 아동 , up / down 구분
                 if(isAdult && !isUp) {
-                    console.log('성인 down');
                     if(cnt <= 1) {
                         return;
                     }
@@ -365,9 +356,7 @@ $(function() {
                         adultCnt.text(cnt);
                     }
                 } else if(isAdult && isUp) {
-                    console.log('성인 up');
                 } else if(!isAdult && !isUp) {
-                    console.log("아동 down");
                     if(cnt <= 0) {
                         return;
                     }
@@ -376,7 +365,6 @@ $(function() {
                         childCnt.text(cnt);
                     }
                 } else if(!isAdult && isUp){
-                    console.log('아동 up');
                 }
             });
 
@@ -494,7 +482,6 @@ function getRoomOption(){
 	let cal = edDate.getTime() - stDate.getTime();
 	let calDate = cal / (1000*60*60*24);
 	
-	console.log(calDate);	
 	
 }
 
@@ -566,10 +553,7 @@ function getRoomList(){
 	
 	let cal = edDate.getTime() - stDate.getTime();
 	let calDate = cal / (1000*60*60*24);
-	console.log(startDate);
-	console.log(endDate);
-	console.log(calDate);
-	console.log(numberOfPeople);
+	
 	//인원수 가져오는 코드 써야함
 	
 	
@@ -605,9 +589,6 @@ function getRoomList(){
 
 
 function makeRoomList(data) {
-	
-	console.log(data);
-	console.log(data.length);
 	
 	let typeSet = new Set();
 	

@@ -118,10 +118,9 @@ public class HotelController {
 		return "hotel/hotelPayment";
 	}
 	
-	@GetMapping(value = "/reserveComplete")
+	@PostMapping(value = "/reserveComplete")
 	public String goHotelReserveComplete (HotelReservationDTO hotelRDTO, Model model) {
-		
-	
+		model.addAttribute("hotelRDTO", hotelRDTO);
 		return "hotel/hotelReserveComplete";
 	
 	}

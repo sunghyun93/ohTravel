@@ -8,6 +8,7 @@ import lombok.Data;
 public class HotelReservationDTO {
 	private int h_rev_id;
 	private String mem_id;
+	private String mem_name;
 	
 	private String rev_stat;
 	private int rev_per;
@@ -22,9 +23,11 @@ public class HotelReservationDTO {
 	//
 	private int intervalDay;
 	private int room_id;
+	private String room_name;
 	private int numberOfPeople;
 	private int mile;
-	
+	private int numberOfAdult;
+	private int numberOfChild;
 	//
 	private Integer coupon_id;
 	

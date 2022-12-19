@@ -87,7 +87,7 @@ public class HotelServiceImpl implements HotelService {
 			return "FAILED";
 		}
 		 
-		return "SUCCESS";
+		return Integer.toString(hotelRDTO.getH_rev_id());
 	}
 
 	@Override
