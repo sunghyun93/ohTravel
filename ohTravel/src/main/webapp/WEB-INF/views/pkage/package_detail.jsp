@@ -450,7 +450,7 @@
 	                                <div class="rv_btn">
 	                                <c:if test="${sessionScope.member eq null }">
 	                                	<span style="font-size : 9pt;">로그인 후 리뷰를 등록할 수 있습니다.</span><br>
-	                                	<a href="/member/loginForm" style="color:black; text-decoration:underline;">
+	                                	<a href="/member/loginForm?toURL=${redirectURL }" style="color:black; text-decoration:underline;">
 	                                		<button type="button" class="genric-btn info radius small">로그인 하러 가기</button>
                                 		</a>
 	                                </c:if>
@@ -788,7 +788,7 @@
         				/* 로그인 여부 X */
             			else if(data == 'LOGIN_NO') {
             				alert("로그인 후 예약해주세요.");
-            				location.href="/member/loginForm";
+            				location.href="/member/loginForm?toURL=${redirectURL }";
             			} // 로그인 X
             		}, /* success */
             		error : function(err) {

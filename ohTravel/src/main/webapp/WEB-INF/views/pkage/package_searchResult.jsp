@@ -472,6 +472,7 @@ $(function() {
         		success: function(data) {
         			if(data == 'LOGIN_NO') {
         				alert("로그인 후 찜을 할 수 있습니다.");
+        				location.href="/member/loginForm?toURL=${redirectURL}"
         			} else if(data == 'INSERT_OK') {
         				alert("선택하신 패키지가 찜되었습니다.");
         				
