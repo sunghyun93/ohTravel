@@ -850,7 +850,7 @@ button {
 
 .h_price {
 	
-	font-size: 23px;
+	font-size: 22px;
 	font-weight: bold;
 	
 }
@@ -905,3 +905,78 @@ button {
 	margin-bottom: 20px;
 }
  
+ 
+ .roundedOption {
+	  background: #EAEAEA;
+	  height: 50px; 
+	  width: 100px; 
+	  border-radius: 15px;
+	  text-align: center;
+	  margin-right: 7px;
+	  border: 1px solid #BDBDBD;
+	  padding : 5px;
+ }
+ 
+ 
+.add_contents, .conv_contents{
+	margin-top: 25px;
+	margin-bottom: 20px;	
+	
+}
+ 
+.recHotelInfo {
+	
+	display: inline-block;
+	text-align: center;
+}
+ 
+ 
+.recHotelInfo img{
+	
+	width: 250px;
+	height: 250px;
+}
+
+.recName a {
+	
+	color: black;
+}
+
+.namdAndScore {
+	
+	margin-bottom: 20px;
+	
+}
+
+.recName {
+	
+	margin-top: 10px;
+	font-size: 17px;
+	font-weight: bold;
+	display: inline-block;
+}
+
+
+.recScore {
+	margin-top: 8px;
+}
+
+.htRec {
+	
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.recScore .star_img img{
+	
+	width: 20px;
+	height: 20px;
+	translate: 115px 3px;
+	
+}
+
+/* .starHotelScore {
+	
+	translate: 115px 3px;
+}
+ */

@@ -40,5 +40,7 @@ public interface HotelDAO {
 
 	List<HotelDTO> getHotelDetailOptions(HotelDTO hotelDTO);
 
+	List<HotelDTO> getHotelRecList(HotelDTO hotelDTO);
+
 
 }
