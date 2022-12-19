@@ -138,7 +138,7 @@
 	
 	<div class="input_a">
 		<input type="button" class="white" value="항공 검색" onclick="location.href='${pageContext.request.contextPath}/airport/searchTicket'">
-		<input type="button" class="black" value="항공 구매내역 확인" onclick="location.href='${pageContext.request.contextPath}'/member/myPageReservAir">
+		<input type="button" class="black" value="항공 구매내역 확인" onclick="location.href='${pageContext.request.contextPath}/member/myPageReservAir">
 	</div>
 	
 </body>

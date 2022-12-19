@@ -24,4 +24,6 @@ public class Air_ScheduleDTORM {
 	
 	// 비행기
 	private AirplaneDTO airplaneDTO;
+	
+
 }

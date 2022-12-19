@@ -13,6 +13,7 @@ import com.oracle.ohTravel.manager.model.ManageTicketDTO;
 import com.oracle.ohTravel.manager.model.ManageMemberDTO;
 import com.oracle.ohTravel.manager.model.MembershipDTO;
 import com.oracle.ohTravel.manager.model.NoticeDTO;
+import com.oracle.ohTravel.member.model.AirReservationDetail;
 import com.oracle.ohTravel.member.model.TicketReservationDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -525,8 +526,8 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public List<ManageAirportDTO> getAirResList() {
-		List<ManageAirportDTO> getAirResList = dao.getAirResList();
+	public List<AirReservationDetail> getAirResList() {
+		List<AirReservationDetail> getAirResList = dao.getAirResList();
 		return getAirResList;
 	}
 

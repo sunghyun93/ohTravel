@@ -1170,7 +1170,7 @@ ul.btn_wrap li .btn.icn span:before {
 $('.repair').click(function(){
 	let rv_id = $(this).siblings().eq(0).val();
 	//let air_pi_id = $(this).siblings().eq(1).val();
-	alert(rv_id);
+	//alert(rv_id);
 	location.href="/airport/airInfoModify?reservation_id="+rv_id;
 });
 

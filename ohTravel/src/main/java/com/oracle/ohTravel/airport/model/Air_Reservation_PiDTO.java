@@ -17,5 +17,4 @@ public class Air_Reservation_PiDTO {
 	private String  air_pi_email; //이메일
 	private String  air_passport; //여권번호
 	
-	
 }
