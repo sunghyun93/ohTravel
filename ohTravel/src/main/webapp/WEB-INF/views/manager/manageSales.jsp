@@ -55,9 +55,10 @@ width: 20%;
 			method : 'POST',
 			success : function(data){
 				console.log(data);
+				data = data.toLocaleString('ko-KR');
 				let str = "";
 				str = "<thead><tr><th>비고</th><th>총 매출액</th></tr></thead>";
-				str += "<tr><td>패키지 전체 매출</td><td>"+data+"</td></tr>";
+				str += "<tr><td>패키지 전체 매출</td><td>"+data+" 원</td></tr>";
 				
 				let button = "";
 				button += "<a onclick='salesPackage()' href='#' class='genric-btn primary ela'>총 매출보기</a>";
@@ -112,7 +113,7 @@ width: 20%;
 
 	function dayPackageSale(){
 		let str = "";
-		str += "<select onchange='changePackageMonth(this.value)' name='month'><option value='01'>1</option><option value='02'>2</option><option value='03'>3</option>";
+		str += "<select class='form-control' onchange='changePackageMonth(this.value)' name='month'><option value='01'>1</option><option value='02'>2</option><option value='03'>3</option>";
 		str += "<option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option>";
 		str += "<option value='08'>8</option><option value='09'>9</option><option value='10'>10</option>";
 		str += "<option value='11'>11</option><option value='12'>12</option></select>"
@@ -171,9 +172,10 @@ width: 20%;
 				method : 'POST',
 				success : function(data){
 					console.log(data);
+					data = data.toLocaleString('ko-KR');
 					let str = "";
 					str = "<thead><tr><th>비고</th><th>총 매출액</th></tr></thead>";
-					str += "<tr><td>항공권 전체 매출</td><td>"+data+"</td></tr>";
+					str += "<tr><td>항공권 전체 매출</td><td>"+data+" 원</td></tr>";
 					
 					let button = "";
 					button += "<a onclick='salesAir()' href='#' class='genric-btn primary ela'>항공권 총 매출보기</a>";
@@ -228,7 +230,7 @@ width: 20%;
 	
 	function dayAirSale(){
 		let str = "";
-		str += "<select onchange='changeAirMonth(this.value)' name='month'><option value='01'>1</option><option value='02'>2</option><option value='03'>3</option>";
+		str += "<select class='form-control' onchange='changeAirMonth(this.value)' name='month'><option value='01'>1</option><option value='02'>2</option><option value='03'>3</option>";
 		str += "<option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option>";
 		str += "<option value='08'>8</option><option value='09'>9</option><option value='10'>10</option>";
 		str += "<option value='11'>11</option><option value='12'>12</option></select>"
@@ -289,9 +291,10 @@ width: 20%;
 			method : 'POST',
 			success : function(data){
 				console.log(data);
+				data = data.toLocaleString('ko-KR');
 				let str = "";
 				str = "<thead><tr><th>비고</th><th>총 매출액</th></tr></thead>";
-				str += "<tr><td>숙박 전체 매출</td><td>"+data+"</td></tr>";
+				str += "<tr><td>숙박 전체 매출</td><td>"+data+" 원</td></tr>";
 				
 				let button = "";
 				button += "<a onclick='salesHotel()' href='#' class='genric-btn primary ela'>숙박 총 매출보기</a>";
@@ -346,7 +349,7 @@ width: 20%;
 	
 	function dayHotelSale(){
 		let str = "";
-		str += "<select onchange='changeHotelMonth(this.value)' name='month'><option value='01'>1</option><option value='02'>2</option><option value='03'>3</option>";
+		str += "<select class='form-control' onchange='changeHotelMonth(this.value)' name='month'><option value='01'>1</option><option value='02'>2</option><option value='03'>3</option>";
 		str += "<option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option>";
 		str += "<option value='08'>8</option><option value='09'>9</option><option value='10'>10</option>";
 		str += "<option value='11'>11</option><option value='12'>12</option></select>"
@@ -406,9 +409,10 @@ width: 20%;
 			method : 'POST',
 			success : function(data){
 				console.log(data);
+				data = data.toLocaleString('ko-KR');
 				let str = "";
 				str = "<thead><tr><th>비고</th><th>총 매출액</th></tr></thead>";
-				str += "<tr><td>입장권 전체 매출</td><td>"+data+"</td></tr>";
+				str += "<tr><td>입장권 전체 매출</td><td>"+data+" 원</td></tr>";
 				
 				let button = "";
 				button += "<a onclick='salesTicket()' href='#' class='genric-btn primary ela'>입장권 총 매출보기</a>";
@@ -463,7 +467,7 @@ width: 20%;
 	
 	function dayTicketSale(){
 		let str = "";
-		str += "<select onchange='changeTicketMonth(this.value)' name='month'><option value='01'>1</option><option value='02'>2</option><option value='03'>3</option>";
+		str += "<select class='form-control' onchange='changeTicketMonth(this.value)' name='month'><option value='01'>1</option><option value='02'>2</option><option value='03'>3</option>";
 		str += "<option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option>";
 		str += "<option value='08'>8</option><option value='09'>9</option><option value='10'>10</option>";
 		str += "<option value='11'>11</option><option value='12'>12</option></select>"

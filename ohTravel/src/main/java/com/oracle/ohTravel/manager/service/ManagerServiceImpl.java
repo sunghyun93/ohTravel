@@ -611,4 +611,16 @@ public class ManagerServiceImpl implements ManagerService {
 		List<ManageHotelDTO> getHotelDay = dao.getHotelDay(month);
 		return getHotelDay;
 	}
+
+	@Override
+	public int totalTicketRes(ManageTicketDTO ticket) {
+		int total = dao.totalTicketRes(ticket);
+		return total;
+	}
+
+	@Override
+	public List<ManageTicketDTO> getTicketResPage(ManageTicketDTO ticket) {
+		List<ManageTicketDTO> ticketRes = dao.getTicketResPage(ticket);
+		return ticketRes;
+	}
 }

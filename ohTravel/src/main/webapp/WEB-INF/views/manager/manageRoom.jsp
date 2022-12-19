@@ -84,6 +84,7 @@
 			success : function(data){
 				alert(data);
 				console.log(data);
+				
 				$('.room_detail_img').empty();
 				$('.room_detail_img').append("<table border='1' class='table table-striped'>")
 									.append("<thead><tr><th>객실 이미지경로</th></tr><thead><tbody><tr><td><span>현재 경로 : "+data.roomDetail[0].r_img_path+"</span><br>")

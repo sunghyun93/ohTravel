@@ -525,6 +525,8 @@ public class ManagerDAOImpl implements ManagerDAO {
 	@Override
 	public int insertMemberCoupon(CouponDTO coupon) {
 		int result = session.insert("insertMemberCoupon", coupon);
+		int result1 = session.update("updateMemberCoupon", coupon);
+		System.out.println("DAO result update->"+result1);
 		return result;
 	}
 
@@ -639,5 +641,17 @@ public class ManagerDAOImpl implements ManagerDAO {
 	public List<ManageHotelDTO> getHotelDay(String month) {
 		List<ManageHotelDTO> getHotelDay = session.selectList("getHotelDay", month);
 		return getHotelDay;
+	}
+
+	@Override
+	public int totalTicketRes(ManageTicketDTO ticket) {
+		int total = session.selectOne("getTotalTicketRes");
+		return total;
+	}
+
+	@Override
+	public List<ManageTicketDTO> getTicketResPage(ManageTicketDTO ticket) {
+		List<ManageTicketDTO> getTicketResPage = session.selectList("getTicketResPage", ticket);
+		return getTicketResPage;
 	}
 }

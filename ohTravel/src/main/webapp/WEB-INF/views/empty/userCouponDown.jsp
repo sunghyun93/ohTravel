@@ -30,7 +30,7 @@
 						<td>${coupon.coupon_id }</td>
 						<td>${coupon.coupon_name }</td>
 						<td>${coupon.coupon_discount }</td>
-						<td>${coupon.coupon_quantity }</td>
+						<td id="quantity">${coupon.coupon_quantity }</td>
 						<td>
 						<c:if test="${coupon.mem_coupon_null == 1 }">
 							<button type="button" class="btn btn-primary mb-2" disabled="disabled">다운로드</button>
@@ -60,6 +60,7 @@
 		let coupon_id = $(this).val();
 		let a = $(this);
 		let mem_id = '${sessionId}';
+		let result = 1;
 		$.ajax({
 			url : 'insertMemCoupon',
 			data : {'coupon_id' : coupon_id,
@@ -69,6 +70,7 @@
 				console.log(coupon_id);
 				alert("다운완료");
 				a.attr("disabled",true);
+				location.reload();
 			}
 		}) 
 	})
