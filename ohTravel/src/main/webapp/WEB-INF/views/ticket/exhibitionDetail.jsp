@@ -885,16 +885,16 @@
 									<span type="text" class="dc" style="font-size: 32px; color: #f06c5e; font-weight: 700; margin-right: 15px; width: 160px; border:none; translate:-20px;" >원~</span>
 								</div>
 							</div>
+							
 							<!-- 찜 버튼 -->
  							<div class="btn-group" style="position: absolute; transform: translate(300px, -55px);">
-							    	 <%-- 로그인한 회원이 찜을 한 상품인지 여부 --%>
-	                                 <c:if test="${ticketDetail.basket_id == 0 }">
-	                                 	<i class="likeBtn bi-heart" id="heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
-	                                 </c:if>
-	                                 
-	                                  <c:if test="${ticketDetail.basket_id != 0 }">
-	                                  	<i class="likeBtn bi-heart-fill" id="heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
-	                                  </c:if>
+						    	 <%-- 로그인한 회원이 찜을 한 상품인지 여부 --%>
+                                 <c:if test="${ticketDetail.basket_id == 0}">
+                                 	<i class="likeBtn bi-heart" id="heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
+                                 </c:if>
+                                 <c:if test="${ticketDetail.basket_id != 0}">
+                                  	<i class="likeBtn bi-heart-fill" id="heart" style="font-size:2.5rem; color: red; cursor: pointer;"></i>
+                                 </c:if>
 							</div>
 							
 							<!-- 별점 -->
@@ -1016,7 +1016,7 @@
                         <!-- 취소 및 환불규정 -->
                         <div class="cont_unit pic">
                             <div class="text_wrap big">
-                                <strong class="tit">유의사항</strong>
+                                <strong class="tit">취소 및 환불규정</strong>
                             </div>
                             <div class="how-to-use" style="color: #666;">
                             	<div class="dot-list" style="margin: 9px 0; line-height: 1.6;">
@@ -1038,9 +1038,6 @@
                         <div class="cont_unit">
 							<div class="all_review">
 								리뷰
-<!--								<div class="rv_stats">
- 									별점 통계가 들어가요
-								</div> -->
 								
 								<c:if test="${not empty sessionId }">
 						            <div class="rv_btn">
@@ -1199,6 +1196,7 @@
 
 	
 	<script>
+
 	$(function() {
 	    /* 인원 수 버튼 증감 및 총 금액 부분의 합계 script 부분 */
 
@@ -1322,14 +1320,15 @@
 		    
 	});
 	
+	// DTO로 받아오니 잘 뜸....ㅠ
+	//let basket_id = ${ticketDetail.basket_id};
+	//alert(basket_id);
 	
-	/* 찜 하트 변경 script 부분 (구글 font-icons 활용) */
+	/* 찜 부분 */
 	$('#heart').click(function(){
 		
-		event.preventDefault();
-		
     	// 로그인 안 되어 있으면
-    	if("${sessionId}" == "") {
+    	if("${member.mem_id}" == "") {
     		if(confirm("로그인하세요.")) {
     			location.href="${pageContext.request.contextPath}/member/loginForm";
     		} else {
@@ -1337,8 +1336,8 @@
     		}
     	}
     	
-    	let ticket_id = '${ticketDetail.ticket_id}';
-    	let mem_id    = '${sessionId}';
+    	let ticket_id = "${ticketDetail.ticket_id}";
+    	let mem_id    = '${member.mem_id}';
         	
        	// 찜 해제 ajax
        	$.ajax({
@@ -1362,11 +1361,31 @@
     	});
     })
 
+	// 로그인 확인
+	function isLogined() {
+		// 로그인 체크 -> 그대로 진행
+		// 로그인이 안 되어 있으면 -> return false;
+		
+		let mem_id = '${member.mem_id}';
+		
+		if(!mem_id) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
 	
 	
 	/* 값(입장권명, 성인 인원, 아동 인원, 총 금액, 사용일) 들고 예약 페이지로 이동 */
 	function goReserve(ticket_id) {
+	    	// 로그인 안 되어 있으면
+	    	if(!isLogined()) {
+	    		alert("로그인 후 예약해주세요.")
+	    		location.href = "${pageContext.request.contextPath }/member/loginForm";
+	    		return false;
+	    	}
+		
 		
 			let adultCnt = $(".adultCnt").html();
 			let childCnt = $(".childCnt").html();
