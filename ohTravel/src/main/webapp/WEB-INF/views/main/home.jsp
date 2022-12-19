@@ -306,7 +306,7 @@ a {
 	                                    <span><i class="fas fa-star"></i><span>${domesticPkage.pkage_score }</span></span>
 	                                    <h6 style="height:38.38px;"><a href="/pkage/searchResult?pkage_id=${domesticPkage.pkage_id }&pkage_gubun=${domesticGubun }&toDesti=${domesticPkage.city_id}&dates_start_check=2022-12-20">${domesticPkage.pkage_name }</a></h6>
 	                                    <h6 style="height:57.54px;">${domesticPkage.pkage_info }</h6>
-	                                    <p class="dolor"><fmt:formatNumber value="${domesticPkage.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
+	                                    <p class="dolor" style="translate: 0 55px;"><fmt:formatNumber value="${domesticPkage.pkage_dt_Aprice }" pattern="#,###"/>원~</p>
 	                                </div>     
 	                            </div>
 	                        </div>
@@ -374,7 +374,7 @@ a {
 	                    <div class="col-xl-4 col-lg-4 col-md-6">
 	                        <div class="single-place mb-30">
 	                            <div class="place-img">
-	                                <img src="${ticketList.ticket_rep_img_path }">
+	                                <img src="${ticketList.ticket_rep_img_path }" style="height:272.6px;">
 	                            </div>
 	                            <div class="place-cap">
 	                                <div class="place-cap-top">
