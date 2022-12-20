@@ -798,7 +798,7 @@ document.querySelector('.modal_close').addEventListener('click', offClick);
                                //msg1 += '구매자 이름 :' + rsp.buyer_name;
                                //msg += '카드 승인번호 : ' + rsp.apply_num;
                                //msg1 += '구매자'+ rsp.buyer_name + '님의';
-                               alert(data);
+                               //alert(data);
                                alert('구매자 님의 결제가 완료되었습니다.');
                                
                             
