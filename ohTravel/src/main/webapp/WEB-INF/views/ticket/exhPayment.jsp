@@ -462,9 +462,9 @@ col {
 						</div>
 
 						<!-- text_wrap -->
-						<div class="text_wrap mid" style="height:250vh;">
+						<div class="text_wrap mid" >
 							<!-- 약관동의 -->
-							<div class="terms-agree checkbox_group" style="margin-top: 80px; height:250vh;">
+							<div class="terms-agree checkbox_group" style="margin-top: 80px; ">
 								<div class="payment-agree" style="padding-bottom: 30px;">
 									<label role="checkbox" class="el-checkbox" for="agree_all">
 									<span aria-checked="mixed" class="el-checkbox__input">
@@ -475,7 +475,7 @@ col {
 								</div>
 
 								<!-- 개인정보 수집 및 이용 동의 -->
-								<div class="inner" style="height:250vh;">
+								<div class="inner">
 									<div class="box full">
 										<div class="item">
 											<label role="checkbox" class="el-checkbox" for="agree">
