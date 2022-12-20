@@ -124,16 +124,6 @@ a {
                                     <div class="input-form mb-30">
                                         <input type="text" name="search_word" placeholder="어디로 갈래?" id="input_search">
                                     </div>
-                                    <!-- <div class="select-form mb-30">
-                                        <div class="select-itms">
-                                            <select name="select" id="select1">
-                                                <option value="">When</option>
-                                                <option value="">Services-1</option>
-                                                <option value="">Services-2</option>
-                                                <option value="">Services-3</option>
-                                            </select>
-                                        </div>
-                                    </div> -->
                                     <div class="search-form mb-30">
                                         <button type="submit" class="inputSearch">Search</button>
                                     </div>
@@ -149,17 +139,6 @@ a {
 									<div class="modal-body">
 					
 										<div class="search_modal">
-											<!-- <div class="wrap left_contents">
-												<div class="recent_search_top search_head">
-													<span>최근검색어</span> <span>전체삭제</span>
-												</div>
-												<div class="recent_search_word">
-													<ul>
-														<li><a class="tit">일</a></li>
-														<li><a class="tit">오kㅅ</a></li>
-													</ul>
-												</div>
-											</div> -->
 											<div class="wrap right_contents">
 												<div class="popular_search_top search_head">
 													<strong>최근검색어</strong>
@@ -182,15 +161,14 @@ a {
 											</div>
 										</div>
 										<div class="modal-footer">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						
                     </div>
                 </div>
             </div>

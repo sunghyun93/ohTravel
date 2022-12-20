@@ -46,6 +46,8 @@ public class SearchDaoImplementation implements SearchDao {
 		List<HotelDTO> hotelList = null;
 		try {
 			hotelList = sqs.selectList("yqHotelList", hotelDTO);
+			System.out.println("hotelDTO -> " + hotelDTO);
+			System.out.println("hotelList -> " + hotelList);
 		} catch (Exception e) {
 			System.out.println("Dao getHotelList Exception -> " + e.getMessage());
 		}
@@ -83,6 +85,8 @@ public class SearchDaoImplementation implements SearchDao {
 		List<HotelDTO> filteredHotelList = null;
 		try {
 			filteredHotelList = sqs.selectList("yqFilteredHotelList", hotelHM);
+			System.out.println("hotelCHEK -> " + hotelHM.get("check"));
+			System.out.println("filteredHotelList -> " + filteredHotelList);
 		} catch (Exception e) {
 			System.out.println("Dao filteredHotelList Exception -> " + e.getMessage());
 		}
