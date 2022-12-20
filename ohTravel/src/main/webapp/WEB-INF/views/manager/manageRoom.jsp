@@ -82,7 +82,6 @@
 			data : {'room_id' : room_id},
 			method : 'POST',
 			success : function(data){
-				alert(data);
 				console.log(data);
 				
 				$('.room_detail_img').empty();
@@ -138,7 +137,6 @@
 					'currentPage' : currentPage},
 			method : 'GET',
 			success : function(data){
-				alert(data);
 				console.log(data);
 
 				$('.room_detail').empty();

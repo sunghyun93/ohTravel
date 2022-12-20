@@ -89,7 +89,6 @@
 			method : 'POST',
 			success : function(data){
 				if(data >0){
-					alert('조회수 올림');
 					location.href="goNoticeDetail?notice_id="+notice_id+"&currentPage="+currentPage+"";
 				}
 			}

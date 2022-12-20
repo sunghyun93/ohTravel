@@ -93,6 +93,10 @@ width: 20%;
 					labels: data.date,
 					datasets: [{
 						label: '매출',
+						backgroundColor: 'rgba(255, 99, 132,.5)',
+						pointBorderColor: 'rgba(153, 102, 255, 1)',
+						pointRadius: 10,
+						pointStyle: 'star',
 						fill:true,
 						data: data.tprice,
 						borderWidth: 2
@@ -146,6 +150,10 @@ width: 20%;
 					labels: data.date,
 					datasets: [{
 						label: '매출',
+						backgroundColor: 'rgba(255, 99, 132,.5)',
+						pointBorderColor: 'rgba(153, 102, 255, 1)',
+						pointRadius: 10,
+						pointStyle: 'star',
 						fill:true,
 						data: data.tprice,
 						borderWidth: 2
@@ -202,7 +210,7 @@ width: 20%;
 				$('#optionMonth').empty();
 				$('#myChart').remove();
 				$('iframe.chartjs-hidden-iframe').remove();
-				$('.canv').append("<canvas id='myChart' width='700' height='500'></canvas>")
+				$('.canv').append("<canvas id='myChart' width='700' height='500'></canvas>");
 				const ctx = document.getElementById('myChart');
 				new Chart(ctx, {
 					type: 'line',
@@ -210,6 +218,10 @@ width: 20%;
 					labels: data.date,
 					datasets: [{
 						label: '매출',
+						backgroundColor: 'rgba(255, 99, 132,.5)',
+						pointBorderColor: 'rgba(153, 102, 255, 1)',
+						pointRadius: 10,
+						pointStyle: 'star',
 						fill:true,
 						data: data.tprice,
 						borderWidth: 2
@@ -263,6 +275,10 @@ width: 20%;
 					labels: data.date,
 					datasets: [{
 						label: '매출',
+						backgroundColor: 'rgba(255, 99, 132,.5)',
+						pointBorderColor: 'rgba(153, 102, 255, 1)',
+						pointRadius: 10,
+						pointStyle: 'star',
 						fill:true,
 						data: data.tprice,
 						borderWidth: 2
@@ -329,6 +345,10 @@ width: 20%;
 					labels: data.date,
 					datasets: [{
 						label: '매출',
+						backgroundColor: 'rgba(255, 99, 132,.5)',
+						pointBorderColor: 'rgba(153, 102, 255, 1)',
+						pointRadius: 10,
+						pointStyle: 'star',
 						fill:true,
 						data: data.tprice,
 						borderWidth: 3
@@ -382,6 +402,10 @@ width: 20%;
 					labels: data.date,
 					datasets: [{
 						label: '매출',
+						backgroundColor: 'rgba(255, 99, 132,.5)',
+						pointBorderColor: 'rgba(153, 102, 255, 1)',
+						pointRadius: 10,
+						pointStyle: 'star',
 						fill:true,
 						data: data.tprice,
 						borderWidth: 3
@@ -447,6 +471,10 @@ width: 20%;
 					labels: data.date,
 					datasets: [{
 						label: '매출',
+						backgroundColor: 'rgba(255, 99, 132,.5)',
+						pointBorderColor: 'rgba(153, 102, 255, 1)',
+						pointRadius: 10,
+						pointStyle: 'star',
 						fill:true,
 						data: data.tprice,
 						borderWidth: 3
@@ -500,6 +528,10 @@ width: 20%;
 					labels: data.date,
 					datasets: [{
 						label: '매출',
+						backgroundColor: 'rgba(255, 99, 132,.5)',
+						pointBorderColor: 'rgba(153, 102, 255, 1)',
+						pointRadius: 10,
+						pointStyle: 'star',
 						fill:true,
 						data: data.tprice,
 						borderWidth: 3

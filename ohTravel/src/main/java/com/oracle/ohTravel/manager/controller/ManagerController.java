@@ -1265,7 +1265,7 @@ public class ManagerController {
 			System.out.println(saveFile);
 			System.out.println("오냐??");
 			try {
-				file1.transferTo(saveFile);
+				file2.transferTo(saveFile);
 				System.out.println("와?");
 				System.out.println("path2->"+path);
 				System.out.println("uuid2->"+uuid);
