@@ -55,6 +55,12 @@
 		</div>	<!-- inr -->
 	</div>	<!-- container -->
 <script type="text/javascript">
+var result = '${result}'; 
+
+if (result == 'updatePassword') {
+	console.log(result);
+	alert("비밀번호 변경 완료");
+}
 /* 아이디나 비밀번호 입력하지 않았을 때 에러 메시지 */
 function frmCheck() {
 	if($("#mem_id").val() == "" || $("#mem_password").val() == "") {
@@ -63,6 +69,7 @@ function frmCheck() {
 		$("#login").submit();
 	}
 }
+
 </script>
 </body>
 </html>
