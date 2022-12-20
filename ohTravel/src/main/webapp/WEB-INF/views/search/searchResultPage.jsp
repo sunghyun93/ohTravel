@@ -34,7 +34,7 @@
 					<!-- 패키지 리스트 -->
 					<div class="ly_wrap list_result_wrap">
 						<div class="result_title">
-							<strong>패키지<em>(${pkageListCount})</em></strong> <a href="#none"> 패키지 더보기 </a>
+							<strong>패키지<em>(${pkageListCount})</em></strong> <a href="/pkage/search/1"> 패키지 더보기 </a>
 						</div>
 						<div class="js_tabs list_result_tab">
 							<ul class="tabs"></ul>
@@ -52,7 +52,7 @@
 										</div>
 										<div class="txt_info" style="width: 720px;">
 											<div class="tit eps2">
-												<strong>${pkageList.pkage_name}</strong>
+												<strong><a href="/pkage/searchResult?toDesti=${pkageList.city_id }&dates_start_check=2022-12-20&pkage_gubun=${pkageList.pkage_gubun}&order=1" class="product_btn">${pkageList.pkage_name}</a></strong>
 											</div>
 											<div class="type_1">
 												<span>${pkageList.period}일</span> 
@@ -104,7 +104,7 @@
 					<!-- 호텔 리스트 -->
 					<div class="ly_wrap list_result_wrap" id="hotel_hide">
 						<div class="result_title">
-							<strong >호텔<em>(${hotelListCount})</em></strong> <a href="/"> 호텔 더보기 </a>
+							<strong >호텔<em>(${hotelListCount})</em></strong> <a href="/hotel/hotelHome"> 호텔 더보기 </a>
 						</div>
 						<div class="js_tabs list_result_tab">
 							<ul class="tabs"></ul>
@@ -163,7 +163,7 @@
 					<!-- 티켓 리스트 -->
 					<div class="ly_wrap list_result_wrap" id="ticket_hide">
 						<div class="result_title">
-							<strong >투어/입장권<em>(${ticketListCount})</em></strong> <a href="#none"> 투어/입장권 더보기 </a>
+							<strong >투어/입장권<em>(${ticketListCount})</em></strong> <a href="/ticket/exhibitionMain"> 투어/입장권 더보기 </a>
 						</div>
 						<div class="js_tabs list_result_tab">
 							<ul class="tabs"></ul>
@@ -180,7 +180,7 @@
 										</div>
 										<div class="txt_info">
 											<div class="tit eps2">
-												<strong>${ticketList.ticket_name }</strong>
+												<strong><a href="/ticket/exhibitionDetail?ticket_id=${ticketList.ticket_id}">${ticketList.ticket_name}</a></strong>
 											</div>
 											<div class="type_1">
 												<span>입장권/패스</span>
@@ -750,20 +750,20 @@ function pageList(gubun, currentPage) {
 								str += "<div class='inr'>";
 								str += "<a href='#filter-8' class='header active'></a>";
 									str += "<div id='filter-8' class='view active' style='display: block;'>";
-									/* str += "<div class='form_wrap'>";
+									 str += "<div class='form_wrap'>";
 										str += "<span class='form_holder text'>";
-										str += 		"<input type='checkbox' id='adtMinAmt-0' class='inpt_checkbox'>"; 
-										str += 		"<label for='adtMinAmt-0' class='label_checkbox adtMinAmt-0'> 1만원 이하 </label></span>";
+										str += 		"<input type='checkbox' id='adtMinAmt-0' class='inpt_checkbox_t'>"; 
+										str += 		"<label for='adtMinAmt-0' class='label_checkbox_t adtMinAmt-0'> 1만원 이하 </label></span>";
 										str += 	"<span class='form_holder text'>";
-										str += 		"<input type='checkbox' id='adtMinAmt-1' class='inpt_checkbox'>"; 
-										str += 		"<label for='adtMinAmt-1' class='label_checkbox adtMinAmt-1'> 1~5만원 </label></span>";
+										str += 		"<input type='checkbox' id='adtMinAmt-1' class='inpt_checkbox_t'>"; 
+										str += 		"<label for='adtMinAmt-1' class='label_checkbox_t adtMinAmt-1'> 1~5만원 </label></span>";
 										str += 	"<span class='form_holder text'>";
-										str += 		"<input type='checkbox' id='adtMinAmt-2' class='inpt_checkbox'>"; 
-										str += 		"<label for='adtMinAmt-2' class='label_checkbox adtMinAmt-2'> 5~20만원 </label></span>";
+										str += 		"<input type='checkbox' id='adtMinAmt-2' class='inpt_checkbox_t'>"; 
+										str += 		"<label for='adtMinAmt-2' class='label_checkbox_t adtMinAmt-2'> 5~20만원 </label></span>";
 										str += 	"<span class='form_holder text'>";
-										str +=		"<input type='checkbox' id='adtMinAmt-3' class='inpt_checkbox'>"; 
-										str +=		"<label for='adtMinAmt-3' class='label_checkbox adtMinAmt-3'> 20~50만원 </label></span>";
-										str += "</div>"; */
+										str +=		"<input type='checkbox' id='adtMinAmt-3' class='inpt_checkbox_t'>"; 
+										str +=		"<label for='adtMinAmt-3' class='label_checkbox_t adtMinAmt-3'> 20~50만원 </label></span>";
+										str += "</div>";
 										str += "</div>";
 									str += "</div>";
 								str += "</div>";
@@ -774,17 +774,17 @@ function pageList(gubun, currentPage) {
 								str += "<div class='right_cont'>";
 									str += "<ul class='list_sort'>";
 										str += "<li class='item01'>";
-											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='buy_order'>";
-											str += "<label for='buy_order' class='inpt_checkbox buy_order'> 구매순 </label></span></li>";
+											str += "<input type='radio' class='item_order inpt_checkbox_t' name='order' id='buy_order'>";
+											str += "<label for='buy_order' class='inpt_checkbox_t buy_order'> 구매순 </label></span></li>";
 										str += "<li class='item01'>";
-											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='high_score'>";
-											str += "<label for='high_score' class='inpt_checkbox high_score'> 평점순 </label></span></li>";
+											str += "<input type='radio' class='item_order inpt_checkbox_t' name='order' id='high_score'>";
+											str += "<label for='high_score' class='inpt_checkbox_t high_score'> 평점순 </label></span></li>";
 										str += "<li class='item01'>";
-											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='high_price'>";
-											str += "<label for='high_price' class='inpt_checkbox high_price'>높은  가격순</label></span></li>";
+											str += "<input type='radio' class='item_order inpt_checkbox_t' name='order' id='high_price'>";
+											str += "<label for='high_price' class='inpt_checkbox_t high_price'>높은  가격순</label></span></li>";
 										str += "<li class='item01'>";
-											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='row_price'>";
-											str += "<label for='row_price' class='inpt_checkbox row_price'>낮은 가격순</label></span></li>";
+											str += "<input type='radio' class='item_order inpt_checkbox_t' name='order' id='row_price'>";
+											str += "<label for='row_price' class='inpt_checkbox_t row_price'>낮은 가격순</label></span></li>";
 									str += "</ul>";
 								str += "</div>";
 							str += "</div>";
@@ -918,7 +918,7 @@ function pageList(gubun, currentPage) {
 						str += 	"</div>";
 						str += 	"<div class='ly_wrap list_result_wrap'>";
 						str += 		"<div class='result_title'>";
-						str += 			"<strong>호텔</strong> <a href='#none'> 호텔 더보기 </a>";
+						str += 			"<strong>호텔</strong> <a href='/hotel/hotelHome'> 호텔 더보기 </a>";
 						str += 		"</div>";
 						str += 		"<div class='js_tabs list_result_tab'>";
 						str += 			"<ul class='tabs'></ul>";
@@ -944,7 +944,7 @@ function pageList(gubun, currentPage) {
 						str += 								"<span>"+this.country_name+"</span> <span>"+this.city_name+"</span>";
 						str += 							"</div>";
 						str += 							"<div class='rating'>";
-						str += 								"<strong>"+this.hotel_score+"</strong> <span>(리뷰수)</span>";
+						str += 								"<strong>"+this.hotel_score+"</strong> <span>("+this.hotel_review+")</span>";
 						str += 							"</div>";
 						str += 							"<div class='price'>";
 						str += 								"<div>";
@@ -1230,6 +1230,11 @@ $(function() {
 				$('.prod_list').html(sendHtml(data));
 			    $(".label_checkbox").css("color", "#666");
 			    $(".label_checkbox").css("border-color", "#c2c2c2");
+			    $('.inpt_checkbox').each(function(index, item) {
+			    	if($(item).is(":checked")) {
+			    		$(item).prop('checked', false);	
+			    	}
+			    })
 			}
 		});
 	})
@@ -1291,7 +1296,6 @@ $(function() {
 	    $("input:radio[name=order]").each(function() {
 	    	if($(this).is(":checked")) {
 	    		radioCheck = $(this).attr('id');
-	    		chk_Val.push($(this).attr('id'));
 	    		$("." + $(this).attr('id')).css("color", "#5e2bb8");
 			} else {
 	    		$("." + $(this).attr('id')).css("color", "#111");
@@ -1300,7 +1304,6 @@ $(function() {
 		
 			if($(this).siblings().hasClass('item_order')) {
 				console.log('this -> ' + $(this));
-				chk_Val.push($(this).siblings('input[type="radio"]').attr('id'));
 				$("." + $(this).attr('id')).css("color", "purple");
 				console.log("chk_Val -> " + chk_Val);
 			}
@@ -1384,7 +1387,7 @@ $(function() {
 				str += 										"<strong>"+filteredHotelList.room_min_price+"</strong>";
 				str += 										"<p>원~</p>";
 				str += 										"<div class='choice'>";
-				if(this.chk == 0) {
+				if(filteredHotelList.chk == 0) {
 					str += "<button type='button' class='choice-btn' id="+filteredHotelList.hotel_id+">즐겨찾기</button>";
 				}
 				else {
@@ -1412,6 +1415,192 @@ $(function() {
 			    $(".label_checkbox").css("border-color", "#c2c2c2");
 			    $(".label_checkbox_h").css("color", "#666");
 			    $(".label_checkbox_h").css("border-color", "#c2c2c2");
+			    $('.inpt_checkbox_h').each(function(index, item) {
+			    	if($(item).is(":checked")) {
+			    		$(item).prop('checked', false);	
+			    	}
+			    })
+			    
+			}
+		});
+	})
+})
+
+// Ticket 필터 선택
+$(function() {
+	$(document).on("click", ".inpt_checkbox_t", function() {
+		console.log($(this).siblings());
+		let chk_Val = [];
+	    let radioCheck = '';
+	    let toHTML = function(li_html) {
+	    	str = "			<ul class='list htl eps4'>";
+			console.log('li_html -> ' + li_html);
+			li_html.forEach(function(ticketList) {
+				str += "<li>";
+				str += "<div>";
+					str += "<div class='img'>";
+						str += "<div class='group_area'>";
+							str += "</div>";
+							str += "<img src="+ticketList.ticket_rep_img_path+" alt='' class=''>";
+							str += "</div>";
+						str += "<div class='txt_info'>";
+						str += "<div class='tit eps2'>";
+							str += "<strong>"+ticketList.ticket_name+"</strong>";
+								str += "</div>";
+							str += "<div class='type_1'>";
+							str += "<span>입장권/패스</span>";
+								str += "</div>";
+							str += "<div class='type_2'>";
+							str += "<span>"+ticketList.country_name+"</span> <span>"+ticketList.city_name+"</span>";
+								str += "</div>";
+							str += "<div class='price'>";
+								str += "<div>";
+									str += "<div>";
+										str += "<strong>"+ticketList.ticket_adult_price+"</strong>";
+										str += "<p>원</p>";
+										str += "<div class='choice'>";
+										if(ticketList.chk == 1) {
+											str += "<button type='button' class='choice-btn' id="+ticketList.ticket_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+										}
+										else {
+											str += "<button type='button' class='choice-btn' id="+ticketList.ticket_id+">즐겨찾기</button>";
+										}
+										str += "</div>";
+									str += "</div>";
+								str += "</div>";
+							str += "</div>";
+						str += "</div>";
+					str += "</div>";
+				str += "</li>";
+			});
+			return str += "</ul>";
+	    }
+	    
+	    $("input:radio[name=order]").each(function() {
+	    	if($(this).is(":checked")) {
+	    		radioCheck = $(this).attr('id');
+	    		$("." + $(this).attr('id')).css("color", "#5e2bb8");
+			} else {
+	    		$("." + $(this).attr('id')).css("color", "#111");
+			}
+		})
+		
+			if($(this).siblings().hasClass('item_order')) {
+				console.log('this -> ' + $(this));
+				$("." + $(this).attr('id')).css("color", "purple");
+				console.log("chk_Val -> " + chk_Val);
+			}
+		
+		if($("input:checkbox[class=inpt_checkbox_t]").is(":checked") || $("input:radio[name=order]").is(":checked")) {
+			$("input:checkbox[class=inpt_checkbox_t]:checked").each(function(i) {
+				chk_Val.push($(this).attr('id'));
+					$("." + $(this).attr('id')).css("border-color", "purple");
+					$("." + $(this).attr('id')).css("color", "purple");
+			});
+			
+			$("input:checkbox[class=inpt_checkbox_t]").not(":checked").each(function(i) {
+				$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+				$("."+ $(this).attr('id')).css("color", "#333");
+			});
+			console.log("hotel Chk_val = " + chk_Val);
+			
+			$.ajax({
+				url: "/ticketFilter",
+				data: {'radioCheck1': radioCheck, 'check':  chk_Val, 'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+				dataType: 'json',
+				traditional: true,
+				success: function(data) {
+					console.log(data);
+					$('.prod_list').empty();
+					$('.prod_list').html(toHTML(data));
+				}
+			});
+		}
+		else {
+			$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+			$("."+ $(this).attr('id')).css("color", "#333");
+			$.ajax({
+				url: "/ticketFilterReset",
+				data: {'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+				dataType: 'json',
+				traditional: true,
+				success: function(data) {
+					console.log("success data -> " + data);
+					$('.prod_list').empty();
+					$('.prod_list').html(toHTML(data));
+				}
+			});
+		}
+		
+	})
+	
+})
+
+//hotel 필터초기화 --(구분에 담겨있는거 비워야 됨)
+$(function() {
+	$(document).on("click", "#reset-btn_t", function() {
+		let filterReset = [];
+	    let sendHtml = function(li_html) {
+	    	str = "			<ul class='list htl eps4'>";
+			console.log('li_html -> ' + li_html)
+			li_html.forEach(function(filteredTicketList) {
+				str += "<li>";
+				str += "<div>";
+					str += "<div class='img'>";
+						str += "<div class='group_area'>";
+							str += "</div>";
+							str += "<img src="+filteredTicketList.ticket_rep_img_path+" alt='' class=''>";
+							str += "</div>";
+						str += "<div class='txt_info'>";
+						str += "<div class='tit eps2'>";
+							str += "<strong>"+filteredTicketList.ticket_name+"</strong>";
+								str += "</div>";
+							str += "<div class='type_1'>";
+							str += "<span>입장권/패스</span>";
+								str += "</div>";
+							str += "<div class='type_2'>";
+							str += "<span>"+filteredTicketList.country_name+"</span> <span>"+filteredTicketList.city_name+"</span>";
+								str += "</div>";
+							str += "<div class='price'>";
+								str += "<div>";
+									str += "<div>";
+										str += "<strong>"+filteredTicketList.ticket_adult_price+"</strong>";
+										str += "<p>원</p>";
+										str += "<div class='choice'>";
+										if(filteredTicketList.chk == 1) {
+											str += "<button type='button' class='choice-btn' id="+filteredTicketList.ticket_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+										}
+										else {
+											str += "<button type='button' class='choice-btn' id="+filteredTicketList.ticket_id+">즐겨찾기</button>";
+										}
+										str += "</div>";
+									str += "</div>";
+								str += "</div>";
+							str += "</div>";
+						str += "</div>";
+					str += "</div>";
+				str += "</li>";
+			});
+			return str += "</ul>";
+	    }
+		$.ajax({
+			url: "/ticketFilterReset",
+			data: {'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+			dataType: 'json',
+			success: function(data) {
+				console.log(data);
+				$('.prod_list').empty();
+				$('.prod_list').html(sendHtml(data));
+			    $(".label_checkbox").css("color", "#666");
+			    $(".label_checkbox").css("border-color", "#c2c2c2");
+			    $(".label_checkbox_h").css("color", "#666");
+			    $(".label_checkbox_h").css("border-color", "#c2c2c2");
+			    $('.inpt_checkbox_t').each(function(index, item) {
+			    	if($(item).is(":checked")) {
+			    		$(item).prop('checked', false);	
+			    	}
+			    })
+			    
 			}
 		});
 	})

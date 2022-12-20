@@ -26,6 +26,8 @@ public interface SearchService {
 
 	List<HotelDTO> filteredHotelList(HashMap<String, Object> hotelHM);
 
+	List<TicketDTO> filteredTicketList(HashMap<String, Object> ticketHM);
+
 	int insertLike(CategoryDTOVO categoryDTOVO);
 
 	int selectLike(CategoryDTOVO categoryDTOVO);
@@ -51,5 +53,6 @@ public interface SearchService {
 	List<RecentSearchDTO> normalRecentSearch();
 
 	List<BasketDTO> checkLike(BasketDTO basketDTO);
+
 
 }

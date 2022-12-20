@@ -16,7 +16,7 @@ public class HotelRowPriceComparator implements Comparator<Object> {
 			hotelDTO2 = (HotelDTO)o2;
 			
 			// 양수 (오름차순) 음수 (내림차순)
-			return (int) ((hotelDTO1.getRoom_min_price() - hotelDTO2.getRoom_min_price())*-1);
+			return (int) ((hotelDTO1.getRoom_min_price() - hotelDTO2.getRoom_min_price()));
 		}
 		return 0;
 	}
