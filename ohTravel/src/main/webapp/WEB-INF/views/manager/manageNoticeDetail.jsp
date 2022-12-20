@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,10 +53,6 @@
 <body>
 	<div class="container" style="min-height: 700px;">
 		<div class="wrapper big">
-			<div class="mt-4 button-wrap">
-				<a href="manageBoard" class="genric-btn primary ela">게시판관리</a>
-				<a href="manageNotice" class="genric-btn primary ela">공지사항관리</a>
-			</div>
 			<h1
 				style="text-align: center; margin-bottom: 50px; margin-top: 50px;">공지사항상세</h1>
 			<form method="post" id="form">
@@ -71,7 +68,7 @@
 							</tr>
 							<tr>
 								<td class="name">글제목</td>
-								<td><input type="text" name="notice_title" maxlength="50" value="${noticeDetail.notice_title }" required="required"></td>
+								<td><input type="text" class="form-control" name="notice_title" maxlength="50" value="${noticeDetail.notice_title }" required="required"></td>
 							</tr>
 							<tr>
 								<td class="name">글내용</td>
@@ -83,7 +80,7 @@
 							</tr>
 							<tr>
 								<td class="name">작성일</td>
-								<td>${noticeDetail.notice_write_date }</td>
+								<td><fmt:formatDate pattern="YYYY-MM-dd HH:mm:ss" value="${noticeDetail.notice_write_date }"/></td>
 							</tr>
 							<tr>
 								<td class="name">조회수</td>

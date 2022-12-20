@@ -38,7 +38,7 @@
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
 				<button class="btn btn-primary mb-3 mr-2" onclick="location.href='insertHotelForm'">호텔 추가</button>
-				<input type="button" class="btn btn-primary mb-3" onclick="location.href='manageHotel?currentPage=${currentPage}'" value="돌아가기">
+				<input type="button" class="btn btn-primary mb-3" onclick="location.href='managerMain'" value="돌아가기">
 			</div>
 				<table border="1" class="table table-hover">
 					<thead>

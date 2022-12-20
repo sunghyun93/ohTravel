@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,13 +48,10 @@
 	
 	<div class="container" style="min-height: 700px;">
 		<div class="wrapper big">
-			<div class="mt-4 button-wrap">
-				<a href="manageBoard" class="genric-btn primary ela">게시판관리</a>
-				<a href="manageNotice" class="genric-btn primary ela">공지사항관리</a>
-			</div>
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">공지사항관리</h1>
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
+				<input type="button" class="btn btn-primary mb-3 ml-2" style="float: right;" onclick="location.href='managerMain'" value="메인으로">
 				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertNoticeForm'">공지사항추가</button>
 			</div>
 				<table border="1" class="table table-hover">
@@ -74,7 +72,7 @@
 						<td>${notice.notice_title}</td>
 						<td class="content">${notice.notice_content}</td>
 						<td>${notice.notice_writer}</td>
-						<td>${notice.notice_write_date}</td>
+						<td><fmt:formatDate pattern="YYYY-MM-dd HH:mm:ss" value="${notice.notice_write_date}"/></td>
 						<td>${notice.notice_count}</td>
 					</tr>
 					</tbody>

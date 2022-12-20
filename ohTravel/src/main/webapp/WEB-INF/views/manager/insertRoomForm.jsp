@@ -118,7 +118,7 @@
 			<label for="room_price" class="form-label">객실 가격</label>
 			<input type="number" min="0" class="form-control" name="room_price" id="room_price" required="required">
 		</div>
-		<input type="hidden" id="room_rev" name="room_rev" value="N">
+		<input type="hidden" id="room_rev" name="room_rev" value="Y">
 
 		<div class="mb-3">
 			<label for="r_img_path" class="form-label">이미지</label>

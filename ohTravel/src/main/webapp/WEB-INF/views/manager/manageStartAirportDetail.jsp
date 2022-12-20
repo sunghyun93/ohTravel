@@ -56,7 +56,6 @@
 			let start_airport_name = $('#start_airport_name').val();
 			let country_id = $('.country_id').val();
 			let city_id = $('#city_ids').val();
-			alert(country_id);
 			$.ajax({
 				url : 'updateStartAirport',
 				method : 'POST',
@@ -83,7 +82,6 @@
 		message = confirm("정말로 삭제하시겠습니까?");
 		if(message){
 			let start_airport_name = $('#start_airport_name').val();
-			alert(start_airport_name);
 			$.ajax({
 				url : 'deleteStartAirport',
 				method : 'POST',

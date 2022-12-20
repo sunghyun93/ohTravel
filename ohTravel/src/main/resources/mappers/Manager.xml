@@ -186,7 +186,7 @@
 	<!-- 항공권 관련 -->
 	<select id="getAirScheduleList" parameterType="Air" resultType="Air">
 		<![CDATA[
-		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT * FROM air_schedule) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
+		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (SELECT * FROM air_schedule order by schedule_id desc) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
 		]]>
 	</select>
 	<select id="totalAirSchedule" resultType="int">
@@ -328,6 +328,9 @@
 			<when test="air_num ==1000">
 				SELECT * FROM airplane WHERE airplane_name like 'AAS%'
 			</when>
+			<when test="air_num ==1100">
+				SELECT * FROM airplane WHERE airplane_name like 'TRV%'
+			</when>
 		</choose>
 	</select>
 	<select id="getAirScheduleDetail" parameterType="Air" resultType="Air">
@@ -431,7 +434,11 @@
 		SELECT ticket_order_id,ticket_id,mem_id,ticket_name,ticket_admission_date,ticket_adult_per,ticket_child_per,ticket_total_price,date_add(ticket_puchase_date, INTERVAL 9 HOUR) as ticket_puchase_date FROM ticket_reservation order by ticket_order_id desc
 	</select>
 	<select id="getHotelResList" resultType="HotelDTO">
-		SELECT hr.h_rev_id,hr.mem_id,hr.rev_per,hr.rev_date,hr.rev_tot_price,r.room_name,h.hotel_kor,h.hotel_id FROM hotel_reservation hr left join hotel_reservation_detail hrd on hr.h_rev_id=hrd.h_rev_id join room_detail rd on hrd.room_detail_id=rd.room_detail_id left join room r on rd.room_id = r.room_id left join hotel h on r.hotel_id=h.hotel_id order by h_rev_id desc;
+		SELECT hr.h_rev_id,hr.mem_id,hr.rev_per,hr.rev_date,hr.rev_tot_price,r.room_name,h.hotel_kor,h.hotel_id FROM hotel_reservation hr 
+		left join hotel_reservation_detail hrd on hr.h_rev_id=hrd.h_rev_id 
+		left join room_detail rd on hrd.room_detail_id=rd.room_detail_id 
+		left join room r on rd.room_id = r.room_id 
+		left join hotel h on r.hotel_id=h.hotel_id group by hr.h_rev_id order by h_rev_id desc;
 	</select>
 	<select id="getPackageResList" resultType="Package">
 		SELECT pr.pkage_rv_id,pr.mem_id,pr.pkage_rv_acnt,pr.pkage_rv_ccnt,pr.pkage_rv_tprice,pr.pkage_rv_date,pd.pkage_dt_name FROM package_reservation pr left join package_detail pd on pr.pkage_dt_id=pd.pkage_dt_id;

@@ -163,15 +163,16 @@
 				$('.pagingnav').empty();
 				console.log(data);
 					let str ="";
-					str = "<thead><tr><th>예약번호</th><th>아이디</th><th>좌석등급</th><th>출발도착구분</th><th>예약일자</th><th>결제금액</th></tr></thead>";
+					str = "<thead><tr><th>예약번호</th><th>아이디</th><th>좌석등급</th><th>비행편보기</th><th>예약일자</th><th>결제금액</th></tr></thead>";
 				$.each(data, function(index,item){
 					str += "<tr><td><a href='#myModal2'data-toggle='modal' onclick='mem_rev2("+item.reservation_id+")' style='color:pink'>"+item.reservation_id+"</a></td><td>"+item.mem_id+"</td>";
 					str += "<td>"+item.seatDTO.seat_name+"</td>";
-					if(item.air_gubun == 0){
+					str += "<td><a href='#myModal3'data-toggle='modal' onclick='mem_rev3("+item.reservation_id+")' style='color:pink'>비행편확인</a></td>";	
+					/* if(item.air_gubun == 0){
 						str += "<td><a href='#myModal3'data-toggle='modal' onclick='mem_rev3("+item.reservation_id+")' style='color:pink'>도착</a></td>";	
 					}else{
 						str += "<td><a href='#myModal3'data-toggle='modal' onclick='mem_rev3("+item.reservation_id+")' style='color:pink'>출발</a></td>";
-					}
+					} */
 					str += "<td>"+item.reservation_date+"</td><td>"+item.reservation_price+"</td>";
 					
 				});

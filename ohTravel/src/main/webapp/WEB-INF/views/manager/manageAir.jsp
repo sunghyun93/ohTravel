@@ -80,5 +80,8 @@
 			</nav>
 		</div>
 	</div>
+	<div class="col-lg-12 col-sm-12 text-lg-end text-center mt-3">
+		<input type="button" class="btn btn-primary mb-3" onclick="location.href='managerMain'" value="돌아가기">
+	</div>
 </body>
 </html>

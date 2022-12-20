@@ -54,6 +54,7 @@
 			<h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">입장권 상품 관리</h1>
 			<div class="row">
 			<div class="col-lg-12 col-sm-12 text-lg-end text-center">
+				<input type="button" class="btn btn-primary mb-3 ml-2" style="float: right;" onclick="location.href='managerMain'" value="메인으로">
 				<button class="btn btn-primary mb-2" style="float: right;" onclick="location.href='insertTicketForm'">입장권 상품 추가</button>
 			</div>
 				<table border="1" class="table table-hover">

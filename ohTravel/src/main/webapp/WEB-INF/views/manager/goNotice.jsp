@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,7 +55,7 @@
 						<td>${notice.notice_title}</td>
 						<td class="content">${notice.notice_content}</td>
 						<td>${notice.notice_writer}</td>
-						<td>${notice.notice_write_date}</td>
+						<td><fmt:formatDate pattern="YYYY-MM-dd HH:mm:ss" value="${notice.notice_write_date}"/></td>
 						<td>${notice.notice_count}</td>
 					</tr>
 					</tbody>
@@ -88,7 +89,6 @@
 			method : 'POST',
 			success : function(data){
 				if(data >0){
-					alert('조회수 올림');
 					location.href="goNoticeDetail?notice_id="+notice_id+"&currentPage="+currentPage+"";
 				}
 			}

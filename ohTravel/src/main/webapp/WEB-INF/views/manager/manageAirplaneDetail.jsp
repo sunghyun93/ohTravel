@@ -44,7 +44,6 @@
 				alert("일등석 갯수에 숫자가 아닌 문자가 있습니다");
 				return false;
 			}
-			alert(airplane_name);
 			$.ajax({
 				url : 'updateAirplane',
 				method : 'POST',
@@ -72,7 +71,6 @@
 		message = confirm("정말로 삭제하시겠습니까?");
 		if(message){
 			let airplane_name = $('#airplane_name').val();
-			alert(airplane_name);
 			$.ajax({
 				url : 'deleteAirplane',
 				method : 'POST',
