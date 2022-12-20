@@ -383,7 +383,7 @@
 
        $(document).on('click','.modifyBtn' ,function() { 
     	 let formId =  $(this).closest('form').attr('id');
-    	 alert(formId);
+    	 //alert(formId);
     	 let realForm = $('#'+formId);
     	 let formIdSeri = realForm.serialize();
     	

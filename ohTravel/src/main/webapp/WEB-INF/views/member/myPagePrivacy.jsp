@@ -104,4 +104,15 @@ span {
 		</div>
 	</div>
 </body>
+<script type="text/javascript"> 
+
+var result = '${result}'; 
+
+if(result == 'update success') {
+	alert("수정 완료");
+}
+
+
+
+</script>
 </html>

@@ -258,6 +258,17 @@
 			</div>	<!-- contents -->
 		</div>	<!-- inr -->
 	</div>	<!-- container -->
+	
+	<form action="/hotel/reserveComplete" method="POST" id="frm">
+		<input type="hidden" name="startDate" value="${startDate }">
+		<input type="hidden" name="endDate" value="${endDate }">
+		<input type="hidden" name="room_name" value="${roomDetail.room_name }">
+		<input type="hidden" name="mem_name" value="${sessionName }">
+		<input type="hidden" name="numberOfAdult" value="${numberOfAdult }">
+		<input type="hidden" name="numberOfChild" value="${numberOfChild }">
+		<input type="hidden" name="rev_tot_price" id="rev_tot_price" value="">
+		<input type="hidden" name="h_rev_id" id="h_rev_id" value="">
+	</form>
 </body>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
 <script src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
@@ -268,18 +279,12 @@ let realPrice = originRealDiscountPrice;
 let cpId;
 
 $(function() {
-	console.log('ready')
 	initPage();
 })
 
 function initPage() {
-	//페이지 이동시 처음 한번만 실행되면 좋은 함수들
-	//data 가져오는 함수
-	// ~~~.addEventListener('click',function () {})
-	// ~~~.on('click',function(){})
-	//eventListener
+
 	$('#allChk').click(function (event) {
-		console.log(this.checked)
 		if(this.checked) {
 			$('.chkN').prop('checked',false)
 			$('.chkY').prop('checked',true)
@@ -301,7 +306,7 @@ function initPage() {
     	
     	// , 콤마 붙인 가격
     	let realPriceToLocale = realPrice.toLocaleString('ko-KR');
-    	$('#realDiscountPrice').html(realPriceToLocale+'원');
+    	$('#realDiscountPrice').html(realPriceToLocale+'<span>원</span>');
 
     	// hidden 태그에 쿠폰 적용 시의 값 및 넣은 쿠폰의 id 넣어주기
     	cpId = $(this).find('option:selected').attr("data-cpid");
@@ -361,7 +366,6 @@ function requestPay() {
    		return false;
    	}  
 	
-	
 	let sendData = {
 		calDate : ${calDate }
 		, startDate : '${startDate }'
@@ -373,26 +377,50 @@ function requestPay() {
 		, mile : ${mile }
 		, coupon_id : cpId
 	}
+    
+	IMP.init('imp71553354');
 	
-	console.log(sendData)
-	
-	$.ajax({
-        url: "${pageContext.request.contextPath}/hotel/reserve", //가맹점 서버
-        method: "POST",
-        data: sendData,
-        dataType: 'text',
-        success: function(data){
-             //location.href="${pageContext.request.contextPath}/hotel/reserveComplete";
-             console.log('성공')
-          },
-          error: function(err){
-        	 console.error(err)
-             alert('결제에 실패하였습니다.');
-          }
-          
-    });
-};
+	IMP.request_pay({
 
+		pg: 'html5_inicis',
+	    pay_method: 'card',
+	    merchant_uid: 'merchant_' + new Date().getTime(),
+	    name: '${roomDetail.room_name}',
+	    amount: 100, // 100원 하드코딩
+	    buyer_email: '${sessionMail}',
+	    buyer_name: '${sessionName}', 
+	    buyer_tel: '${sessionTel}',
+	    buyer_addr: '',
+	    buyer_postcode: '',
+	   
+	}, function (rsp) {
+	     if (rsp.success) {
+	       $.ajax({
+	          url: "${pageContext.request.contextPath}/hotel/reserve", 
+	            method: "POST",
+	            data: sendData,
+	            dataType: 'text',
+	            success: function(data){
+	               
+	                if(data != 'FAILED' && !alert('구매자 '+ rsp.buyer_name + '님의 예약이 완료되었습니다.')) {
+	                	$('#rev_tot_price').val(realPrice)
+	                	$('#h_rev_id').val(data)
+		                frm.submit();
+	                }
+	              },
+	              error: function(err){
+	            	 console.error(err)
+	                 alert('결제에 실패하였습니다.');
+	              }
+	              
+	          });
+	     } else if(rsp.fail) {
+	        alert('결제에 실패하였습니다.');
+	        
+	     }
+	})
+	
+};
 
 
 </script>
