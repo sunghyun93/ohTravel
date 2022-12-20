@@ -16,11 +16,16 @@ import com.oracle.ohTravel.basket.model.BasketDTO;
 import com.oracle.ohTravel.hotel.model.HotelDTO;
 import com.oracle.ohTravel.pkage.model.PkageDTO;
 import com.oracle.ohTravel.search.model.CategoryDTOVO;
-import com.oracle.ohTravel.search.service.RowPriceComparator;
+import com.oracle.ohTravel.search.service.PackageRowPriceComparator;
+import com.oracle.ohTravel.search.service.RowGradeOrder;
+import com.oracle.ohTravel.search.service.HighGradeOrder;
+import com.oracle.ohTravel.search.service.HotelHighPriceComparator;
+import com.oracle.ohTravel.search.service.HotelRowPriceComparator;
 import com.oracle.ohTravel.search.service.OrderComparator;
-import com.oracle.ohTravel.search.service.HighPriceComparator;
+import com.oracle.ohTravel.search.service.PackageHighPriceComparator;
 import com.oracle.ohTravel.search.service.ScoreComparator;
 import com.oracle.ohTravel.search.service.SearchService;
+import com.oracle.ohTravel.ticket.model.TicketDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,35 +36,32 @@ public class SearchRestController {
 	private final SearchService ss;
 	
 	@GetMapping("/pkageFilter")
-	public List<PkageDTO> pkageFilter(String existChkBox, @RequestParam(value = "check") List<String> check, @RequestParam(value = "radioCheck1") String radioCheck,  PkageDTO pkageDTO, String currentPage) {
+	public List<PkageDTO> pkageFilter(@RequestParam(value = "check") List<String> check, @RequestParam(value = "radioCheck1") String radioCheck,  PkageDTO pkageDTO, String currentPage) {
 		System.out.println("check -> " + check);
 		System.out.println("radioCheck -> " + radioCheck);
 		HashMap<String, Object> pkageHM = new HashMap<>();
 		pkageHM.put("pkageDTO", pkageDTO) ;
 		pkageHM.put("check", check) ;
-		pkageHM.put("radioCheck", radioCheck) ;
-		pkageHM.put("existChkBox", existChkBox);
-		System.out.println(check);
+		pkageHM.put("radioCheck", radioCheck);
 		System.out.println("pkageDTO -> " + pkageDTO.getCheck());
 		System.out.println("search_word -> " + pkageDTO.getSearch_word());
 		System.out.println("currentPage -> " + currentPage);
 		List<PkageDTO> pkList = ss.filteredPkageList(pkageHM);
-		if("buy_order".equals(radioCheck)) {
+		if ("buy_order".equals(radioCheck)) {
 			System.out.println("buy_order");
 			Collections.sort(pkList, new OrderComparator());
 		}
-		if("high_score".equals(radioCheck)) {
+		if ("high_score".equals(radioCheck)) {
 			System.out.println("high_score");
 			Collections.sort(pkList, new ScoreComparator());
-			System.out.println(pkList);
 		}
-		if("high_price".equals(radioCheck)) {
+		if ("high_price".equals(radioCheck)) {
 			System.out.println("high_price");
-			Collections.sort(pkList, new HighPriceComparator());
+			Collections.sort(pkList, new PackageHighPriceComparator());
 		}
-		else if("row_price".equals(radioCheck)) {
+		else if ("row_price".equals(radioCheck)) {
 			System.out.println("row_price");
-			Collections.sort(pkList, new RowPriceComparator());
+			Collections.sort(pkList, new PackageRowPriceComparator());
 		}
 		System.out.println("pkList="+pkList);
 		System.out.println("필터된 리스트 수 -> " + pkList.size());
@@ -67,14 +69,33 @@ public class SearchRestController {
 	}
 	
 	@GetMapping("/hotelFilter")
-	public List<HotelDTO> pkageFilter(@RequestParam(value = "check") List<String> check, HotelDTO hotelDTO, String currentPage) {
+	public List<HotelDTO> hotelFilter(@RequestParam(value = "check") List<String> check, @RequestParam(value = "radioCheck1") String radioCheck, HotelDTO hotelDTO, String currentPage) {
 		System.out.println("check -> " + check);
 		HashMap<String, Object> hotelHM = new HashMap<String, Object>();
 		hotelHM.put("hotelDTO", hotelDTO);
 		hotelHM.put("check", check);
+		hotelHM.put("radioCheck", radioCheck);
+		System.out.println("hotelDTO.getCheck() -> " + hotelDTO.getCheck());
 		System.out.println("search_word -> " + hotelDTO.getSearch_word());
 		System.out.println("currentPage -> " + currentPage);
 		List<HotelDTO> htList = ss.filteredHotelList(hotelHM);
+		if ("high_grade".equals(radioCheck)) {
+			System.out.println("high_grade");
+			Collections.sort(htList, new HighGradeOrder());
+		}
+		if ("row_grade".equals(radioCheck)) {
+			System.out.println("row_grade");
+			Collections.sort(htList, new RowGradeOrder());
+		}
+		if ("high_price".equals(radioCheck)) {
+			System.out.println("high_price");
+			Collections.sort(htList, new HotelHighPriceComparator());
+		}
+		else if ("row_price".equals(radioCheck)) {
+			System.out.println("row_price");
+			Collections.sort(htList, new HotelRowPriceComparator());
+		}
+		System.out.println(htList);
 		System.out.println("필터된 리스트 수 -> " + htList.size());
 		return htList;
 	}
@@ -93,6 +114,14 @@ public class SearchRestController {
 		List<HotelDTO> hotelResetList = ss.getHotelList(hotelDTO);
 		System.out.println("필터된 리스트 수 -> " + hotelResetList.size());
 		return  hotelResetList;
+	}
+	
+	@GetMapping("/ticketFilterReset")
+	public List<TicketDTO> ticketFilterReset(TicketDTO ticketDTO, String currentPage) {
+		System.out.println("ticketFilterReset Controller");
+		List<TicketDTO> ticketResetList = ss.getTicketList(ticketDTO);
+		System.out.println("필터된 리스트 수 -> " + ticketResetList.size());
+		return  ticketResetList;
 	}
 	
 	// 찜 돼있는 항목들 불러오기

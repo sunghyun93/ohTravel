@@ -38,11 +38,11 @@
 	<!-- 패키지 + 패키지 이미지 + 패키지 디테일 가져오기 -->
 	<select id="yqPkageList" parameterType="PkageDTO" resultType="PkageDTO">
 		SELECT p.pkage_id, c.city_id, pkage_name, pkage_info, pkage_soldCnt, pi.pkage_Img_path, min_price, pkage_gubun, pd.pkage_dt_thema, city_name, period, ct.country_name,
-		(SELECT FORMAT( IFNULL ( AVG(r.rv_rating), 0 ), 1) FROM review r WHERE r.rv_real_id = p.pkage_id) pkage_score,
-	    (select count(*) FROM review r WHERE r.rv_real_id = p.pkage_id) review_cnt,
-		(SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = p.pkage_id) chk,
-	    al.Air_name, asche.Start_Airport_name, pd.pkage_dt_startday, pd.pkage_dt_endDay
-		FROM package p 
+			(SELECT FORMAT( IFNULL ( AVG(r.rv_rating), 0 ), 1) FROM review r WHERE r.rv_real_id = p.pkage_id) pkage_score,
+		    (select count(*) FROM review r WHERE r.rv_real_id = p.pkage_id) review_cnt,
+			(SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = p.pkage_id) chk,
+		    al.Air_name, asche.Start_Airport_name, pd.pkage_dt_startday, pd.pkage_dt_endDay
+			FROM package p 
 		left join package_image pi on p.pkage_id = pi.pkage_id 
 		left join (select distinct pkage_id, pkage_dt_id, pkage_dt_thema, pkage_dt_startDay, pkage_dt_endDay, min(pkage_dt_Aprice) min_price, datediff(pkage_dt_endDay, pkage_dt_startDay) + 1 period from package_detail group by pkage_id) pd on p.pkage_id = pd.pkage_id 
 		left join city c on c.city_id = p.city_id
@@ -59,32 +59,32 @@
 	
 	<select id="yqFilteredPkageList" parameterType="Map" resultType="PkageDTO">
 		SELECT p.pkage_id, c.city_id, pkage_name, pkage_info, pkage_soldCnt, pi.pkage_Img_path, min_price, pkage_gubun, pd.pkage_dt_thema, city_name, period, ct.country_name,
-	(SELECT FORMAT( IFNULL ( AVG(r.rv_rating), 0 ), 1) FROM review r WHERE r.rv_real_id = p.pkage_id) pkage_score,
-    (select count(*) FROM review r WHERE r.rv_real_id = p.pkage_id) rv_count,
-	(SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = p.pkage_id) chk,
-    al.Air_name, asche.Start_Airport_name, pd.pkage_dt_startday, pd.pkage_dt_endDay
-	FROM package p 
-left join package_image pi on p.pkage_id = pi.pkage_id 
-left join (select distinct pkage_id, pkage_dt_id, pkage_dt_thema, pkage_dt_startDay, pkage_dt_endDay, min(pkage_dt_Aprice) min_price, datediff(pkage_dt_endDay, pkage_dt_startDay) + 1 period from package_detail group by pkage_id) pd on p.pkage_id = pd.pkage_id 
-left join city c on c.city_id = p.city_id
-left join country ct on c.country_id = ct.country_id
-left join start_airport sa on sa.city_id = c.city_id
-left join (select pkage_dt_id, Schedule_id FROM package_flightsche WHERE pkage_flight_gubun = 0) pfs on pfs.pkage_dt_id = pd.pkage_dt_id
-left join air_schedule asche on asche.Schedule_id = pfs.Schedule_id
-left join airline al on al.Air_num = asche.Air_num
-		Where pkage_name LIKe concat('%', #{pkageDTO.search_word}, '%') 
+			(SELECT FORMAT( IFNULL ( AVG(r.rv_rating), 0 ), 1) FROM review r WHERE r.rv_real_id = p.pkage_id) pkage_score,
+		    (select count(*) FROM review r WHERE r.rv_real_id = p.pkage_id) review_cnt,
+			(SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = p.pkage_id) chk,
+		    al.Air_name, asche.Start_Airport_name, pd.pkage_dt_startday, pd.pkage_dt_endDay
+			FROM package p 
+		left join package_image pi on p.pkage_id = pi.pkage_id 
+		left join (select distinct pkage_id, pkage_dt_id, pkage_dt_thema, pkage_dt_startDay, pkage_dt_endDay, min(pkage_dt_Aprice) min_price, datediff(pkage_dt_endDay, pkage_dt_startDay) + 1 period from package_detail group by pkage_id) pd on p.pkage_id = pd.pkage_id 
+		left join city c on c.city_id = p.city_id
+		left join country ct on c.country_id = ct.country_id
+		left join start_airport sa on sa.city_id = c.city_id
+		left join (select pkage_dt_id, Schedule_id FROM package_flightsche WHERE pkage_flight_gubun = 0) pfs on pfs.pkage_dt_id = pd.pkage_dt_id
+		left join air_schedule asche on asche.Schedule_id = pfs.Schedule_id
+		left join airline al on al.Air_num = asche.Air_num
+		Where pkage_name LIKe concat('%', #{pkageDTO.search_word}, '%')
 		<foreach collection="check" item="filter"  open="and" close="" separator="or">
 			<if test="filter == 'trvlDayCnt-0'">
-				 period = 2
+				 period = 5
 			</if>
 			<if test="filter == 'trvlDayCnt-1'">
-				 period = 3
-			</if>
-			<if test="filter == 'trvlDayCnt-2'">
 				 period = 4
 			</if>
+			<if test="filter == 'trvlDayCnt-2'">
+				 period = 3
+			</if>
 			<if test="filter == 'trvlDayCnt-3'">
-				 period = 5
+				 period = 2
 			</if>
 			<if test="filter == 'adtMinAmt-0'">
 				<![CDATA[
@@ -93,17 +93,17 @@ left join airline al on al.Air_num = asche.Air_num
 			</if>
 			<if test="filter == 'adtMinAmt-1'">
 				<![CDATA[
-				 min_price > 210000 AND min_price <= 500000
+				 min_price > 200000 AND min_price <= 500000
 				]]>
 			</if>
 			<if test="filter == 'adtMinAmt-2'">
 				<![CDATA[
-				 min_price > 510000 AND min_price <= 700000
+				 min_price > 500000 AND min_price <= 700000
 				]]>
 			</if>
 			<if test="filter == 'adtMinAmt-3'">
 				<![CDATA[
-				 min_price > 710000 AND min_price <= 200000
+				 min_price > 700000 AND min_price <= 200000
 				]]>
 			</if>
 			<if test="filter == 'depTms-0'">
@@ -149,95 +149,147 @@ left join airline al on al.Air_num = asche.Air_num
 				al.air_name = '타이항공'
 			</if>
 		</foreach>
+		<if test="radioCheck == 'buy_order'">
+			order by pkage_soldCnt desc
+		</if>
 		<!-- <if test="start != 0">
 			LIMIT ${start-1}, #{end}
 		</if> -->
 	</select>
 
 	<select id="yqFilteredHotelList" parameterType="Map" resultType="Hotel">
-		
-		
-		<foreach collection="check" item="filter"  open="" close="" separator="or">
-			<if test="filter == 'fprice_0'">
+		select h.hotel_id, c.city_name, c.city_id, ct.country_name, hotel_option, hotel_type, ct.country_id, h.hotel_kor, r.room_id, rd.room_detail_id, r.hotel_id, r.room_type, r.room_name, min(rd.room_price) room_min_price, h_img_path, 
+			(SELECT FORMAT(IFNULL(AVG(r.rv_rating), 0 ), 1)
+		 FROM review r
+		 WHERE r.rv_real_id = h.hotel_id) hotel_score, hotel_grade,
+		 (select count(*) FROM review r WHERE r.rv_real_id = h.hotel_id) review_cnt,
+		 (SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = h.hotel_id) chk
+		FROM room r 
+		left join room_detail rd on r.room_id = rd.room_id 
+		left join hotel_image hi on r.hotel_id = hi.hotel_id 
+		left join hotel h on r.hotel_id = h.hotel_id 
+		left join city c on c.city_id = h.city_id
+		left join country ct on ct.country_id = c.country_id
+		left join hotel_option ho on ho.hotel_id = h.hotel_id
+		group by h.hotel_id  
+		<foreach collection="check" item="filter"  open="having" close="" separator="or">
+			<if test="filter == 'kind-0'">
+				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'hotel'
+			</if>
+			<if test="filter == 'kind-1'">
+				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'resident'
+			</if>
+			<if test="filter == 'kind-2'">
+				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'pension'
+			</if>
+			<if test="filter == 'kind-3'">
+				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'resort'
+			</if>
+			<if test="filter == 'adtMinAmt-0'">
 				<![CDATA[
-				 min_price >= 0 AND min_price <= 200000
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and room_min_price > 40000 AND room_min_price <= 80000 
 				]]>
 			</if>
-			<if test="filter == 'fprice_1'">
+			<if test="filter == 'adtMinAmt-1'">
 				<![CDATA[
-				 min_price > 210000 AND min_price <= 500000
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and room_min_price > 80000 AND room_min_price <= 120000
 				]]>
 			</if>
-			<if test="filter == 'fprice_2'">
+			<if test="filter == 'adtMinAmt-2'">
 				<![CDATA[
-				 min_price > 510000 AND min_price <= 700000
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and room_min_price > 120000 AND room_min_price <= 160000
 				]]>
 			</if>
-			<if test="filter == 'fprice_3'">
+			<if test="filter == 'score-0'">
 				<![CDATA[
-				 min_price > 710000 AND min_price <= 2000000
+				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_score >= 3
 				]]>
 			</if>
-			<if test="filter == 'trvlDayCnt-0'">
-				 period = 2
-			</if>
-			<if test="filter == 'trvlDayCnt-1'">
-				 period = 3
-			</if>
-			<if test="filter == 'trvlDayCnt-2'">
-				 period = 4
-			</if>
-			<if test="filter == 'trvlDayCnt-3'">
-				 period = 5
-			</if>
-			<if test="filter == 'kind_0'">
+			<if test="filter == 'score-1'">
 				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_score >= 3.5
 				]]>
 			</if>
-			<if test="filter == 'kind_1'">
+			<if test="filter == 'score-2'">
 				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_score >= 4
 				]]>
 			</if>
-			<if test="filter == 'kind_2'">
+			<if test="filter == 'class-0'">
+				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_grade = 3
+			</if>
+			<if test="filter == 'class-1'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_grade = 4
+			</if>
+			<if test="filter == 'class-2'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_grade = 5
+			</if>
+			<if test="filter == 'othFacili-0'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = 'wifi'
+			</if>
+			<if test="filter == 'othFacili-1'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '흡연가능'
+			</if>
+			<if test="filter == 'othFacili-2'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '레스토랑'
+			</if>
+			<if test="filter == 'othFacili-3'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '주차가능'
+			</if>
+			<if test="filter == 'othFacili-4'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '장애인 편의시설'
+			</if>
+			<if test="filter == 'othFacili-5'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '룸서비스'
+			</if>
+			<if test="filter == 'othFacili-6'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '안전금고'
+			</if>
+			<if test="filter == 'othFacili-7'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '커피 메이커'
+			</if>
+			<if test="filter == 'othFacili-8'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '전기차 충전소'
+			</if>
+			<if test="filter == 'othFacili-9'">
+				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '욕실용품'
+			</if>
+		</foreach>
+		<if test="start != null">
+			LIMIT ${start-1}, #{end}
+		</if>
+	</select>
+	
+	<select id="yqFilteredTicketList">
+		Select td.ticket_id, ct.country_name, ct.country_id, c.city_name, c.city_id, ticket_name, ticket_adult_price, ti.ticket_rep_img_path, ti.ticket_detail_img_path, 
+		 (SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = td.ticket_id) chk
+		FROM ticket_detail td 
+		left join ticket_img ti on td.ticket_id = ti.ticket_id
+		left join city c on c.city_id = td.city_id
+		left join country ct on ct.country_id = c.country_id
+		Where ticket_name LIKe concat('%', #{search_word}, '%') 
+		<foreach collection="check" item="filter"  open="and" close="" separator="or">
+			<if test="filter == 'adtMinAmt-0'">
 				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
+				 min_price < 10000
 				]]>
 			</if>
-			<if test="filter == 'kind_3'">
+			<if test="filter == 'adtMinAmt-1'">
 				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
+				 min_price > 10000 AND min_price <= 50000
 				]]>
 			</if>
-			<if test="filter == 'kind_4'">
+			<if test="filter == 'adtMinAmt-2'">
 				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
+				 min_price > 50000 AND min_price <= 200000
 				]]>
 			</if>
-			<if test="filter == 'kind_5'">
+			<if test="filter == 'adtMinAmt-3'">
 				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
-				]]>
-			</if>
-			<if test="filter == 'kind_6'">
-				<![CDATA[
-				 min_price > 1410000 AND min_price <= 11750000
+				 min_price > 200000 AND min_price <= 500000
 				]]>
 			</if>
 		</foreach>
-			<if test="radioCheck == 'buy_order'">
-				 ORDER BY min_price desc kkkk
-			</if>
-			<if test="radioCheck == 'high_score'">
-				ORDER BY pkage_score desc
-			</if>
-			<if test="radioCheck == 'row_price'">
-				ORDER BY min_price desc
-			</if>
-			<if test="radioCheck == 'fastest_go'">
-				ORDER BY min_price
-			</if>
 		<if test="start != null">
 			LIMIT ${start-1}, #{end}
 		</if>
