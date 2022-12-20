@@ -81,7 +81,7 @@
 								        <tr>
 								            <th>휴대폰번호</th>
 								            <td>
-								            	<input type="text" id="mem_tel" name="mem_tel" placeholder="휴대폰번호" style="width:500px;">
+								            	<input type="text" id="mem_tel" name="mem_tel" placeholder="휴대폰번호" style="width:500px;" value="${sessionTel }">
 								           		<p class="error_message" id="tel_error" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
 										        	휴대폰번호를 입력해주세요.
 										        </p>
@@ -93,7 +93,7 @@
 								        <tr>
 								            <th>이메일</th>
 								            <td>
-								            	<input type="text" id="mem_email" name="mem_email" placeholder="이메일" style="width:500px;">
+								            	<input type="text" id="mem_email" name="mem_email" placeholder="이메일" style="width:500px;" value="${sessionEmail }">
 								            	<p class="error_message" id="email_error" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
 										        	이메일을 입력해주세요.
 										        </p>
@@ -105,7 +105,7 @@
 								        <tr>
 								            <th>생년월일</th>
 								            <td>
-								            	<input type="text" id="mem_birthday" name="mem_birthday" placeholder="생년월일" style="width:500px;">
+								            	<input type="text" id="mem_birthday" name="mem_birthday" placeholder="생년월일" style="width:500px;" value="${sessionBirthday }">
 								            	<p class="error_message" id="birth_error" style="display: none; color: red; font-size: 13px; margin: 15px 0 0 15px;">
 										        	생년월일을 입력해주세요.
 										        </p>

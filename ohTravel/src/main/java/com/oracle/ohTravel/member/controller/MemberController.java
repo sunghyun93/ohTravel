@@ -719,7 +719,7 @@ public class MemberController {
 	
 	// 개인 정보 수정
 	@PostMapping(value = "/updateMember")
-	public String updateMember(MemberDTO memberDTO, HttpServletRequest request, HttpSession session) {
+	public String updateMember(MemberDTO memberDTO, HttpServletRequest request, HttpSession session, RedirectAttributes rttr) {
 		log.info("MemberController updateMember start..");
 		// 로그인 안 했을 때 로그인 페이지로 이동
 		if (session.getAttribute("member")==null) {
@@ -730,6 +730,8 @@ public class MemberController {
 		memberService.updateMember(memberDTO);
 		System.out.println("MemberController updateMember memberDTO.getMem_email -> " + memberDTO.getMem_email());
 		session.setAttribute("sessionEmail", memberDTO.getMem_email());
+		
+		rttr.addFlashAttribute("result", "update success");
 		
 		return "redirect:/member/myPagePrivacy";
 	}
@@ -800,7 +802,7 @@ public class MemberController {
 	
 	// 비밀번호 변경
 	@PostMapping(value = "/updatePassword")
-	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request, HttpSession session, Model model) {
+	public String updatePassword(MemberDTO memberDTO, HttpServletRequest request, HttpSession session, Model model, RedirectAttributes rttr) {
 		log.info("MemberController updatePassword start..");
 		
 		// 로그인 안 했을 때 로그인 페이지로 이동
@@ -814,7 +816,7 @@ public class MemberController {
 		
 		System.out.println("MemberController updatePassword memberDTO -> " + memberDTO.getMem_password());
 		
-		return "member/loginForm";
+		return "redirect:/member/loginForm";
 	}
 	
 	
