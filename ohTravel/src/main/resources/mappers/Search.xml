@@ -73,6 +73,7 @@
 		left join air_schedule asche on asche.Schedule_id = pfs.Schedule_id
 		left join airline al on al.Air_num = asche.Air_num
 		Where pkage_name LIKe concat('%', #{pkageDTO.search_word}, '%')
+		<if test="check != null">
 		<foreach collection="check" item="filter"  open="and" close="" separator="or">
 			<if test="filter == 'trvlDayCnt-0'">
 				 period = 5
@@ -149,8 +150,6 @@
 				al.air_name = '타이항공'
 			</if>
 		</foreach>
-		<if test="radioCheck == 'buy_order'">
-			order by pkage_soldCnt desc
 		</if>
 		<!-- <if test="start != 0">
 			LIMIT ${start-1}, #{end}
@@ -172,129 +171,136 @@
 		left join country ct on ct.country_id = c.country_id
 		left join hotel_option ho on ho.hotel_id = h.hotel_id
 		group by h.hotel_id  
-		<foreach collection="check" item="filter"  open="having" close="" separator="or">
-			<if test="filter == 'kind-0'">
-				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'hotel'
-			</if>
-			<if test="filter == 'kind-1'">
-				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'resident'
-			</if>
-			<if test="filter == 'kind-2'">
-				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'pension'
-			</if>
-			<if test="filter == 'kind-3'">
-				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'resort'
-			</if>
-			<if test="filter == 'adtMinAmt-0'">
-				<![CDATA[
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and room_min_price > 40000 AND room_min_price <= 80000 
-				]]>
-			</if>
-			<if test="filter == 'adtMinAmt-1'">
-				<![CDATA[
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and room_min_price > 80000 AND room_min_price <= 120000
-				]]>
-			</if>
-			<if test="filter == 'adtMinAmt-2'">
-				<![CDATA[
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and room_min_price > 120000 AND room_min_price <= 160000
-				]]>
-			</if>
-			<if test="filter == 'score-0'">
-				<![CDATA[
-				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_score >= 3
-				]]>
-			</if>
-			<if test="filter == 'score-1'">
-				<![CDATA[
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_score >= 3.5
-				]]>
-			</if>
-			<if test="filter == 'score-2'">
-				<![CDATA[
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_score >= 4
-				]]>
-			</if>
-			<if test="filter == 'class-0'">
-				hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_grade = 3
-			</if>
-			<if test="filter == 'class-1'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_grade = 4
-			</if>
-			<if test="filter == 'class-2'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_grade = 5
-			</if>
-			<if test="filter == 'othFacili-0'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = 'wifi'
-			</if>
-			<if test="filter == 'othFacili-1'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '흡연가능'
-			</if>
-			<if test="filter == 'othFacili-2'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '레스토랑'
-			</if>
-			<if test="filter == 'othFacili-3'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '주차가능'
-			</if>
-			<if test="filter == 'othFacili-4'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '장애인 편의시설'
-			</if>
-			<if test="filter == 'othFacili-5'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '룸서비스'
-			</if>
-			<if test="filter == 'othFacili-6'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '안전금고'
-			</if>
-			<if test="filter == 'othFacili-7'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '커피 메이커'
-			</if>
-			<if test="filter == 'othFacili-8'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '전기차 충전소'
-			</if>
-			<if test="filter == 'othFacili-9'">
-				 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '욕실용품'
-			</if>
-		</foreach>
+		<if test="check == null">
+			having hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%')
+		</if>
+		<if test="check != null">
+			<foreach collection="check" item="filter"  open="having" close="" separator="or">
+				<if test="filter == 'kind-0'">
+					hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'hotel'
+				</if>
+				<if test="filter == 'kind-1'">
+					hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'resident'
+				</if>
+				<if test="filter == 'kind-2'">
+					hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'pension'
+				</if>
+				<if test="filter == 'kind-3'">
+					hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_type = 'resort'
+				</if>
+				<if test="filter == 'adtMinAmt-0'">
+					<![CDATA[
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and room_min_price > 40000 AND room_min_price <= 80000 
+					]]>
+				</if>
+				<if test="filter == 'adtMinAmt-1'">
+					<![CDATA[
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and room_min_price > 80000 AND room_min_price <= 120000
+					]]>
+				</if>
+				<if test="filter == 'adtMinAmt-2'">
+					<![CDATA[
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and room_min_price > 120000 AND room_min_price <= 160000
+					]]>
+				</if>
+				<if test="filter == 'score-0'">
+					<![CDATA[
+					hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_score >= 3
+					]]>
+				</if>
+				<if test="filter == 'score-1'">
+					<![CDATA[
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_score >= 3.5
+					]]>
+				</if>
+				<if test="filter == 'score-2'">
+					<![CDATA[
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_score >= 4
+					]]>
+				</if>
+				<if test="filter == 'class-0'">
+					hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_grade = 3
+				</if>
+				<if test="filter == 'class-1'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_grade = 4
+				</if>
+				<if test="filter == 'class-2'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_grade = 5
+				</if>
+				<if test="filter == 'othFacili-0'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = 'wifi'
+				</if>
+				<if test="filter == 'othFacili-1'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '흡연가능'
+				</if>
+				<if test="filter == 'othFacili-2'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '레스토랑'
+				</if>
+				<if test="filter == 'othFacili-3'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '주차가능'
+				</if>
+				<if test="filter == 'othFacili-4'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '장애인 편의시설'
+				</if>
+				<if test="filter == 'othFacili-5'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '룸서비스'
+				</if>
+				<if test="filter == 'othFacili-6'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '안전금고'
+				</if>
+				<if test="filter == 'othFacili-7'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '커피 메이커'
+				</if>
+				<if test="filter == 'othFacili-8'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '전기차 충전소'
+				</if>
+				<if test="filter == 'othFacili-9'">
+					 hotel_kor LIKe concat('%', #{hotelDTO.search_word}, '%') and hotel_option = '욕실용품'
+				</if>
+			</foreach>
+		</if>
 		<if test="start != null">
 			LIMIT ${start-1}, #{end}
 		</if>
 	</select>
-	
-	<select id="yqFilteredTicketList">
+
+	<select id="filteredTicketList" parameterType="Map" resultType="TicketDTO">
 		Select td.ticket_id, ct.country_name, ct.country_id, c.city_name, c.city_id, ticket_name, ticket_adult_price, ti.ticket_rep_img_path, ti.ticket_detail_img_path, 
 		 (SELECT basket_id FROM basket WHERE mem_id = #{mem_id} and basket_ref_id = td.ticket_id) chk
 		FROM ticket_detail td 
 		left join ticket_img ti on td.ticket_id = ti.ticket_id
 		left join city c on c.city_id = td.city_id
 		left join country ct on ct.country_id = c.country_id
-		Where ticket_name LIKe concat('%', #{search_word}, '%') 
+		Where ticket_name LIKe concat('%', #{search_word}, '%')
+		<if test="check == null">
 		<foreach collection="check" item="filter"  open="and" close="" separator="or">
 			<if test="filter == 'adtMinAmt-0'">
 				<![CDATA[
-				 min_price < 10000
+				ticket_adult_price <= 10000 
 				]]>
 			</if>
 			<if test="filter == 'adtMinAmt-1'">
 				<![CDATA[
-				 min_price > 10000 AND min_price <= 50000
+				 ticket_adult_price > 10000 AND ticket_adult_price <= 50000
 				]]>
 			</if>
 			<if test="filter == 'adtMinAmt-2'">
 				<![CDATA[
-				 min_price > 50000 AND min_price <= 200000
+				 ticket_adult_price > 50000 AND ticket_adult_price <= 200000
 				]]>
 			</if>
 			<if test="filter == 'adtMinAmt-3'">
 				<![CDATA[
-				 min_price > 200000 AND min_price <= 500000
+				 ticket_adult_price > 200000 AND ticket_adult_price <= 500000
 				]]>
 			</if>
 		</foreach>
+		</if>
 		<if test="start != null">
 			LIMIT ${start-1}, #{end}
 		</if>
 	</select>
-
+	
 	<select id="yqSelectLike" parameterType="CategoryDTOVO" resultType="Integer">
 		select count(*) from basket where mem_id = #{mem_id} AND basket_ref_id = #{basket_ref_id}
 	</select>

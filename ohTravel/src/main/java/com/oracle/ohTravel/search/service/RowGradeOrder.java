@@ -16,7 +16,7 @@ public class RowGradeOrder implements Comparator<Object> {
 			hotelDTO2 = (HotelDTO)o2;
 			
 			// 양수 (오름차순) 음수 (내림차순)
-			return (int) ((hotelDTO1.getHotel_grade() + hotelDTO2.getHotel_grade())*-1);
+			return (int) ((hotelDTO1.getHotel_grade() - hotelDTO2.getHotel_grade()));
 		}
 		return 0;
 	}

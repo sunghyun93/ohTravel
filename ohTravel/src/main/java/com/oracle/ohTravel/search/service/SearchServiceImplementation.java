@@ -135,5 +135,11 @@ public class SearchServiceImplementation implements SearchService {
 		return checkLike;
 	}
 
+	@Override
+	public List<TicketDTO> filteredTicketList(HashMap<String, Object> ticketHM) {
+		List<TicketDTO> filteredTicketList = sd.filteredTicketList(ticketHM);
+		return filteredTicketList;
+	}
+
 	
 }

@@ -25,6 +25,10 @@ import com.oracle.ohTravel.search.service.OrderComparator;
 import com.oracle.ohTravel.search.service.PackageHighPriceComparator;
 import com.oracle.ohTravel.search.service.ScoreComparator;
 import com.oracle.ohTravel.search.service.SearchService;
+import com.oracle.ohTravel.search.service.TicketHighPriceComparator;
+import com.oracle.ohTravel.search.service.TicketRowPriceComparator;
+import com.oracle.ohTravel.search.service.TicketScoreOrder;
+import com.oracle.ohTravel.search.service.TicketSoldOrder;
 import com.oracle.ohTravel.ticket.model.TicketDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -36,7 +40,7 @@ public class SearchRestController {
 	private final SearchService ss;
 	
 	@GetMapping("/pkageFilter")
-	public List<PkageDTO> pkageFilter(@RequestParam(value = "check") List<String> check, @RequestParam(value = "radioCheck1") String radioCheck,  PkageDTO pkageDTO, String currentPage) {
+	public List<PkageDTO> pkageFilter(@RequestParam(value = "check", required=false) List<String> check, @RequestParam(value = "radioCheck1") String radioCheck,  PkageDTO pkageDTO, String currentPage) {
 		System.out.println("check -> " + check);
 		System.out.println("radioCheck -> " + radioCheck);
 		HashMap<String, Object> pkageHM = new HashMap<>();
@@ -69,7 +73,7 @@ public class SearchRestController {
 	}
 	
 	@GetMapping("/hotelFilter")
-	public List<HotelDTO> hotelFilter(@RequestParam(value = "check") List<String> check, @RequestParam(value = "radioCheck1") String radioCheck, HotelDTO hotelDTO, String currentPage) {
+	public List<HotelDTO> hotelFilter(@RequestParam(value = "check", required=false) List<String> check, @RequestParam(value = "radioCheck1") String radioCheck, HotelDTO hotelDTO, String currentPage) {
 		System.out.println("check -> " + check);
 		HashMap<String, Object> hotelHM = new HashMap<String, Object>();
 		hotelHM.put("hotelDTO", hotelDTO);
@@ -79,6 +83,7 @@ public class SearchRestController {
 		System.out.println("search_word -> " + hotelDTO.getSearch_word());
 		System.out.println("currentPage -> " + currentPage);
 		List<HotelDTO> htList = ss.filteredHotelList(hotelHM);
+		
 		if ("high_grade".equals(radioCheck)) {
 			System.out.println("high_grade");
 			Collections.sort(htList, new HighGradeOrder());
@@ -95,9 +100,42 @@ public class SearchRestController {
 			System.out.println("row_price");
 			Collections.sort(htList, new HotelRowPriceComparator());
 		}
-		System.out.println(htList);
+		System.out.println("정렬 후 = " + htList);
 		System.out.println("필터된 리스트 수 -> " + htList.size());
 		return htList;
+	}
+	
+	@GetMapping("/ticketFilter")
+	public List<TicketDTO> hotelFilter(@RequestParam(value = "check", required=false) List<String> check, @RequestParam(value = "radioCheck1") String radioCheck, TicketDTO ticketDTO, String currentPage) {
+		System.out.println("check -> " + check);
+		HashMap<String, Object> ticketHM = new HashMap<String, Object>();
+		ticketHM.put("ticketDTO", ticketDTO);
+		ticketHM.put("check", check);
+		ticketHM.put("radioCheck", radioCheck);
+		System.out.println("ticketDTO.getCheck() -> " + ticketDTO.getCheck());
+		System.out.println("search_word -> " + ticketDTO.getSearch_word());
+		System.out.println("currentPage -> " + currentPage);
+		List<TicketDTO> tkList = ss.filteredTicketList(ticketHM);
+		
+		if ("ticket_sold".equals(radioCheck)) {
+			System.out.println("ticket_sold");
+			Collections.sort(tkList, new TicketSoldOrder());
+		}
+		if ("ticket_score".equals(radioCheck)) {
+			System.out.println("ticket_score");
+			Collections.sort(tkList, new TicketScoreOrder());
+		}
+		if ("ticket_high_price".equals(radioCheck)) {
+			System.out.println("ticket_high_price");
+			Collections.sort(tkList, new TicketHighPriceComparator());
+		}
+		else if ("ticket_row_price".equals(radioCheck)) {
+			System.out.println("ticket_row_price");
+			Collections.sort(tkList, new TicketRowPriceComparator());
+		}
+		System.out.println("정렬 후 = " + tkList);
+		System.out.println("필터된 리스트 수 -> " + tkList.size());
+		return tkList;
 	}
 	
 	@GetMapping("/packageFilterReset")

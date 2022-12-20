@@ -265,5 +265,19 @@ public class SearchDaoImplementation implements SearchDao {
 		}
 		return checkLike;
 	}
+
+	@Override
+	public List<TicketDTO> filteredTicketList(HashMap<String, Object> ticketHM) {
+		System.out.println("Dao filteredTicketList Start...");
+		List<TicketDTO> filteredTicketList = null;
+		try {
+			filteredTicketList = sqs.selectList("yqFilteredTicketList", ticketHM);
+			System.out.println("ticketCHEK -> " + ticketHM.get("check"));
+			System.out.println("filteredTicketList -> " + filteredTicketList);
+		} catch (Exception e) {
+			System.out.println("Dao filteredTicketList Exception -> " + e.getMessage());
+		}
+		return filteredTicketList;
+	}
 	
 }

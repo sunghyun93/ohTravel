@@ -50,5 +50,7 @@ public interface SearchDao {
 
 	List<BasketDTO> checkLike(BasketDTO basketDTO);
 
+	List<TicketDTO> filteredTicketList(HashMap<String, Object> ticketHM);
+
 	
 }
