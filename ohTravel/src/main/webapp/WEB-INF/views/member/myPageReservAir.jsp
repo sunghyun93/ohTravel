@@ -1064,11 +1064,11 @@ ul.btn_wrap li .btn.icn span:before {
 					        <div class="tbl">
 					            <table class="board_type">
 					                <colgroup>
-					                    <col style="width: 14%;" />
+					                    <col style="width: 10%;" />
 					                    <col />
-					                    <col style="width: 14%;" />
-					                    <col style="width: 8%;" />
-					                    <col style="width: 12%;" />
+					                    <col style="width: 10%;" />
+					                    <col style="width: 10%;" />
+					                    <col style="width: 10%;" />
 					                </colgroup>
 					                <thead>
 					                    <tr>
@@ -1094,7 +1094,7 @@ ul.btn_wrap li .btn.icn span:before {
 					                		</td>
 					                		
 					                		<td>${reserve.seat_position }</td>
-					                		<td>${reserve.reservation_price }</td>
+					                		<td><fmt:formatNumber value="${reserve.reservation_price }" pattern="#,###"/></td>
 					            
 					                			<td><table class="little_table">
 					                		<c:forEach items="${reserve.air_flightSchDTO }" var="flight">
