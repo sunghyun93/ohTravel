@@ -60,6 +60,14 @@ public class SearchController {
 			System.out.println("memSearchWord -> " + memSearchWord);
 			int updateResult = ss.updateSysdate(recentSearchDTO);
 			System.out.println("updateResult -> " + updateResult);
+
+			// 신규 검색어 등록
+			int newSearchWord = ss.insertNewSearchWord(searchDTO);
+			System.out.println("newSearchWord -> " + newSearchWord);
+			
+			// 검색한 검색어 search_count up
+			int searchCountUp = ss.updateSearchCount(searchDTO);
+			System.out.println("searchCountUp -> " + searchCountUp);
 		} else {
 			System.out.println("not 회원이에용");
 			// 검색어 리스트 조회

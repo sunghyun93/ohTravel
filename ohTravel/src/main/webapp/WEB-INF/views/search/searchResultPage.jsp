@@ -123,7 +123,7 @@
 										</div>
 										<div class="txt_info">
 											<div class="tit eps2">
-												<strong>${hotelList.hotel_kor}</strong>
+												<strong><a href="/hotel/hotelDetail?hotel_id=${hotelList.hotel_id}">${hotelList.hotel_kor}</a></strong>
 											</div>
 											<div class="type_1">
 												<span>호텔</span> <span>${hotelList.hotel_grade}성급</span>
@@ -242,7 +242,7 @@ $(function() {
 						$('.choice-btn[id="'+basket_ref_id+'"]').css('background-position', "-458px -26px");
 					} 
 					if (data == -1) {
-						alert('로그인 후 사용바람');
+						alert('로그인이 필요합니다.');
 					}
 				}
 			});
@@ -255,12 +255,12 @@ $(function() {
 				success: function(data) {
 					console.log('찜 삭제 data -> ' + data);
 					if (data == -1) {
-						alert('로그인 후 사용바람');
+						alert('로그인이 필요합니다.');
 					}	
 					if (data == 0) {
 						alert('삭제 되지 않음...?');
 					} else {
-						alert('찜 삭제 완료');
+						alert('찜 삭제');
 						$('.choice-btn[id="'+basket_ref_id+'"]').css("background-position", "-485px -26px");
 					}
 				}
@@ -328,7 +328,11 @@ function pageList(gubun, currentPage) {
 						let totalPage = data.paging.totalPage;
 						str += "<div class='ly_wrap list_result_wrap'>";
 						str += 	"<div class='inr filter'>";
-						str += 	"<strong class='tit'>필터</strong>";
+						str += "<div class='reset_wrap'>";
+							str += "<strong class='tit'>필터</strong>";
+							str += "<input type='button' id='reset-btn' value='필터 초기화'>";
+							str += "<label for='reset-btn' class='reset-label'>";
+						str += "</div>";
 						str += 	"<div class='js_acc multi filter_wrap'>";
 						str += 		"<div class='inr'>";
 						str += 			"<a href='#filter-6' class='header active'>여행 기간</a>";
@@ -358,13 +362,13 @@ function pageList(gubun, currentPage) {
 						str += 						"<label for='adtMinAmt-0' class='label_checkbox adtMinAmt-0'> 0~20만원 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='adtMinAmt-1' class='inpt_checkbox'>"; 
-						str += 						"<label for='adtMinAmt-1' class='label_checkbox adtMinAmt-1'> 21~50만원 </label></span>";
+						str += 						"<label for='adtMinAmt-1' class='label_checkbox adtMinAmt-1'> 20~50만원 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str += 						"<input type='checkbox' id='adtMinAmt-2' class='inpt_checkbox'>"; 
-						str += 						"<label for='adtMinAmt-2' class='label_checkbox adtMinAmt-2'> 51~70만원 </label></span>";
+						str += 						"<label for='adtMinAmt-2' class='label_checkbox adtMinAmt-2'> 50~70만원 </label></span>";
 						str += 					"<span class='form_holder text'>";
 						str +=						"<input type='checkbox' id='adtMinAmt-3' class='inpt_checkbox'>"; 
-						str +=						"<label for='adtMinAmt-3' class='label_checkbox adtMinAmt-3'> 71만원~200만원 </label></span>";
+						str +=						"<label for='adtMinAmt-3' class='label_checkbox adtMinAmt-3'> 70만원~200만원 </label></span>";
 						str += 				"</div>";
 						str += 			"</div>";
 						str += 		"</div>";
@@ -473,7 +477,7 @@ function pageList(gubun, currentPage) {
 						str += "								<span class='ic_note'>"+this.pkage_dt_thema+"</span>";
 						str += "							</div>";
 						str += "							<div class='type_3'>";
-						str += "								<span class='ic_location'>"+this.city_name+"</span>";
+						str += "								<span class='ic_location'>"+this.country_name+", "+this.city_name+"</span>";
 						str += "							</div>";
 						str += "							<div class='rating'>";
 						str += "								<strong>"+this.pkage_score+"</strong> <span>("+this.review_cnt+")</span>";
@@ -533,55 +537,61 @@ function pageList(gubun, currentPage) {
 						let totalPage = data.paging.totalPage;
 						str += "<div class='ly_wrap list_result_wrap'>";
 						str += "<div class='inr filter'>";
-						str += "<strong class='tit'>필터</strong>";
+							str += "<div class='reset_wrap'>";
+								str += "<strong class='tit'>필터</strong>";
+								str += "<input type='button' id='reset-btn_h' value='필터 초기화'>";
+								str += "<label for='reset-btn_h' class='reset-label'>";
+							str += "</div>";
 							str += "<div class='js_acc multi filter_wrap'>";
 							str += "<div class='inr'>";
 								str += "<a href='#filter-1' class='header active'>숙소 종류</a>";
 									str += "<div id='filter-1' class='view active' style='display: block;'>";
 									str += "<div class='form_wrap'>";
 										str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-0' class='inpt_checkbox'>"; 
-												str += "<label for='kind-0' class='label_checkbox'> 호텔 </label></span>";
+											str += "<input type='checkbox' id='kind-0' class='inpt_checkbox_h'>"; 
+												str += "<label for='kind-0' class='label_checkbox_h kind-0'> 호텔 </label></span>";
 												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-1' class='inpt_checkbox'>"; 
-												str += "<label for='kind-1' class='label_checkbox'> 레지던스 </label></span>";
+											str += "<input type='checkbox' id='kind-1' class='inpt_checkbox_h'>"; 
+												str += "<label for='kind-1' class='label_checkbox_h kind-1'> 레지던스 </label></span>";
 												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-2' class='inpt_checkbox'>"; 
-												str += "<label for='kind-2' class='label_checkbox'> 료칸 </label></span>";
+											str += "<input type='checkbox' id='kind-2' class='inpt_checkbox_h'>"; 
+												str += "<label for='kind-2' class='label_checkbox_h kind-2'> 펜션 </label></span>";
 												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-3' class='inpt_checkbox'>"; 
-												str += "<label for='kind-3' class='label_checkbox'> 호스텔/백팩커스 </label></span>";
+											str += "<input type='checkbox' id='kind-3' class='inpt_checkbox_h'>";
+												str += "<label for='kind-3' class='label_checkbox_h kind-3'> 리조트 </label></span>";
 												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-4' class='inpt_checkbox'>"; 
-												str += "<label for='kind-4' class='label_checkbox'> 기타 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-5' class='inpt_checkbox'>"; 
-												str += "<label for='kind-5' class='label_checkbox'> 온천호텔 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-6' class='inpt_checkbox'>"; 
-												str += "<label for='kind-6' class='label_checkbox'> 펜션 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-7' class='inpt_checkbox'>";
-												str += "<label for='kind-7' class='label_checkbox'> 리조트 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='kind-8' class='inpt_checkbox'>";
-												str += "<label for='kind-8' class='label_checkbox'> 산장/롯지 </label></span>";
-												str += "</div>";
+											str += "</div>";
 										str += "</div>";
 									str += "</div>";
+									str += "<div class='inr'>";
+									str += "<a href='#filter-8' class='header active'>가격</a>";
+										str += "<div id='filter-8' class='view active' style='display: block;'>";
+										str += "<div class='form_wrap'>";
+											str += "<span class='form_holder text'>";
+											str += 		"<input type='checkbox' id='adtMinAmt-0' class='inpt_checkbox_h'>"; 
+											str += 		"<label for='adtMinAmt-0' class='label_checkbox_h adtMinAmt-0'> 4~8만원 </label></span>";
+											str += 	"<span class='form_holder text'>";
+											str += 		"<input type='checkbox' id='adtMinAmt-1' class='inpt_checkbox_h'>"; 
+											str += 		"<label for='adtMinAmt-1' class='label_checkbox_h adtMinAmt-1'> 8~12만원 </label></span>";
+											str += 	"<span class='form_holder text'>";
+											str += 		"<input type='checkbox' id='adtMinAmt-2' class='inpt_checkbox_h'>"; 
+											str += 		"<label for='adtMinAmt-2' class='label_checkbox_h adtMinAmt-2'> 12~16만원 </label></span>";
+												str += "</div>";
+											str += "</div>";
+										str += "</div>";
 								str += "<div class='inr'>";
 								str += "<a href='#filter-2' class='header active'>숙소 평점</a>";
 									str += "<div id='filter-2' class='view active' style='display: block;'>";
 									str += "<div class='form_wrap'>";
 										str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='score-0' class='inpt_checkbox'>"; 
-												str += "<label for='score-0' class='label_checkbox'> 양호(3+) </label></span>";
+											str += "<input type='checkbox' id='score-0' class='inpt_checkbox_h'>"; 
+												str += "<label for='score-0' class='label_checkbox_h score-0'> 양호(3+) </label></span>";
 												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='score-1' class='inpt_checkbox'>"; 
-												str += "<label for='score-1' class='label_checkbox'> 양호(3+) </label></span>";
+											str += "<input type='checkbox' id='score-1' class='inpt_checkbox_h'>"; 
+												str += "<label for='score-1' class='label_checkbox_h score-1'> 양호(3.5+) </label></span>";
 												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='score-2' class='inpt_checkbox'>"; 
-												str += "<label for='score-2' class='label_checkbox'> 양호(3+) </label></span>";
+											str += "<input type='checkbox' id='score-2' class='inpt_checkbox_h'>"; 
+												str += "<label for='score-2' class='label_checkbox_h score-2'> 양호(4+) </label></span>";
 												str += "</div>";
 										str += "</div>";
 									str += "</div>";
@@ -590,52 +600,55 @@ function pageList(gubun, currentPage) {
 									str += "<div id='filter-3' class='view active' style='display: block;'>";
 									str += "<div class='form_wrap'>";
 										str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='class-0' class='inpt_checkbox'>"; 
-												str += "<label for='class-0' class='label_checkbox'> 1성급 </label></span>";
+											str += "<input type='checkbox' id='class-0' class='inpt_checkbox_h'>"; 
+												str += "<label for='class-0' class='label_checkbox_h class-0'> 3성급 </label></span>";
 												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='class-1' class='inpt_checkbox'>"; 
-												str += "<label for='class-1' class='label_checkbox'> 1성급  </label></span>";
+											str += "<input type='checkbox' id='class-1' class='inpt_checkbox_h'>"; 
+												str += "<label for='class-1' class='label_checkbox_h class-1'> 4성급  </label></span>";
 												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='class-2' class='inpt_checkbox'>"; 
-												str += "<label for='class-2' class='label_checkbox'> 1성급  </label></span>";
+											str += "<input type='checkbox' id='class-2' class='inpt_checkbox_h'>"; 
+												str += "<label for='class-2' class='label_checkbox_h class-2'> 5성급  </label></span>";
 												str += "</div>";
 										str += "</div>";
 									str += "</div>";
-								str += "<div class='inr'>";
-								str += "<a href='#filter-6' class='header active'>숙소 부대시설</a>";
+								/* str += "<div class='inr'>";
+								str += "<a href='#filter-6' class='header active'>숙소 옵션</a>";
 									str += "<div id='filter-6' class='view active' style='display: block;'>";
 									str += "<div class='form_wrap'>";
 										str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='othFacili-0' class='inpt_checkbox'>";
-												str += "<label for='othFacili-0' class='label_checkbox'> 흡연구역(지정) </label></span>";
+											str += "<input type='checkbox' id='othFacili-0' class='inpt_checkbox_h'>";
+												str += "<label for='othFacili-0' class='label_checkbox_h othFacili-0'> wifi </label></span>";
 												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='othFacili-1' class='inpt_checkbox'>";
-												str += "<label for='othFacili-1' class='label_checkbox'> 아침식사가능(유료)  </label></span>";
+											str += "<input type='checkbox' id='othFacili-1' class='inpt_checkbox_h'>";
+												str += "<label for='othFacili-1' class='label_checkbox_h othFacili-1'> 흡연가능  </label></span>";
 												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='othFacili-2' class='inpt_checkbox'>";
-												str += "<label for='othFacili-2' class='label_checkbox'> 주차장(무료)  </label></span>";
-												str += "</div>";
+											str += "<input type='checkbox' id='othFacili-2' class='inpt_checkbox_h'>";
+												str += "<label for='othFacili-2' class='label_checkbox_h othFacili-2'> 레스토랑  </label></span>";
+												str += "<span class='form_holder text'>";
+											str += "<input type='checkbox' id='othFacili-3' class='inpt_checkbox_h'>";
+												str += "<label for='othFacili-3' class='label_checkbox_h othFacili-3'> 주차가능  </label></span>";
+												str += "<span class='form_holder text'>";
+											str += "<input type='checkbox' id='othFacili-4' class='inpt_checkbox_h'>";
+												str += "<label for='othFacili-4' class='label_checkbox_h othFacili-4'> 장애인 편의시설  </label></span>";
+												str += "<span class='form_holder text'>";
+											str += "<input type='checkbox' id='othFacili-5' class='inpt_checkbox_h'>";
+												str += "<label for='othFacili-5' class='label_checkbox_h othFacili-5'> 룸서비스  </label></span>";
+												str += "<span class='form_holder text'>";
+											str += "<input type='checkbox' id='othFacili-6' class='inpt_checkbox_h'>";
+												str += "<label for='othFacili-6' class='label_checkbox_h othFacili-6'> 안전금고  </label></span>";
+												str += "<span class='form_holder text'>";
+											str += "<input type='checkbox' id='othFacili-7' class='inpt_checkbox_h'>";
+												str += "<label for='othFacili-7' class='label_checkbox_h othFacili-7'> 커피 메이커  </label></span>";
+												str += "<span class='form_holder text'>";
+											str += "<input type='checkbox' id='othFacili-8' class='inpt_checkbox_h'>";
+												str += "<label for='othFacili-8' class='label_checkbox_h othFacili-8'> 전기차 충전소  </label></span>";
+												str += "<span class='form_holder text'>";
+											str += "<input type='checkbox' id='othFacili-9' class='inpt_checkbox_h'>";
+												str += "<label for='othFacili-9' class='label_checkbox_h othFacili-9'> 욕실용품 </label></span>";
+												str += "<span class='form_holder text'>";
+											str += "</div>";
 										str += "</div>";
-									str += "</div>";
-								str += "<div class='inr'>";
-								str += "<a href='#filter-8' class='header active'>가격</a>";
-									str += "<div id='filter-8' class='view active' style='display: block;'>";
-									str += "<div class='form_wrap'>";
-										str += "<span class='form_holder text'>";
-										str += 		"<input type='checkbox' id='adtMinAmt-0' class='inpt_checkbox'>"; 
-										str += 		"<label for='adtMinAmt-0' class='label_checkbox'> 6~120만원 </label></span>";
-										str += 	"<span class='form_holder text'>";
-										str += 		"<input type='checkbox' id='adtMinAmt-1' class='inpt_checkbox'>"; 
-										str += 		"<label for='adtMinAmt-1' class='label_checkbox'> 120~206만원 </label></span>";
-										str += 	"<span class='form_holder text'>";
-										str += 		"<input type='checkbox' id='adtMinAmt-2' class='inpt_checkbox'>"; 
-										str += 		"<label for='adtMinAmt-2' class='label_checkbox'> 206~294만원 </label></span>";
-										str += 	"<span class='form_holder text'>";
-										str +=		"<input type='checkbox' id='adtMinAmt-3' class='inpt_checkbox'>"; 
-										str +=		"<label for='adtMinAmt-3' class='label_checkbox'> 294~1170만원 </label></span>";
-												str += "</div>";
-										str += "</div>";
-									str += "</div>";
+									str += "</div>"; */
 								str += "</div>";
 							str += "</div>";
 						str += "<div class='inr right'>";
@@ -644,17 +657,17 @@ function pageList(gubun, currentPage) {
 								str += "<div class='right_cont'>";
 									str += "<ul class='list_sort'>";
 										str += "<li class='item01'>";
-											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='buy_order'>";
-											str += "<label for='buy_order' class='inpt_checkbox buy_order'> 구매순 </label></span></li>";
+											str += "<input type='radio' class='item_order inpt_checkbox_h' name='order' id='high_grade'>";
+											str += "<label for='high_grade' class='inpt_checkbox_h high_grade'> 성급 높은순 </label></span></li>";
 										str += "<li class='item01'>";
-											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='high_score'>";
-											str += "<label for='high_score' class='inpt_checkbox high_score'> 평점순 </label></span></li>";
+											str += "<input type='radio' class='item_order inpt_checkbox_h' name='order' id='row_grade'>";
+											str += "<label for='row_grade' class='inpt_checkbox_h row_grade'> 성급 낮은순 </label></span></li>";
 										str += "<li class='item01'>";
-											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='high_price'>";
-											str += "<label for='high_price' class='inpt_checkbox high_price'>높은  가격순</label></span></li>";
+											str += "<input type='radio' class='item_order inpt_checkbox_h' name='order' id='high_price'>";
+											str += "<label for='high_price' class='inpt_checkbox_h high_price'> 가격 높은순 </label></span></li>";
 										str += "<li class='item01'>";
-											str += "<input type='radio' class='item_order inpt_checkbox' name='order' id='row_price'>";
-											str += "<label for='row_price' class='inpt_checkbox row_price'>낮은 가격순</label></span></li>";
+											str += "<input type='radio' class='item_order inpt_checkbox_h' name='order' id='row_price'>";
+											str += "<label for='row_price' class='inpt_checkbox_h row_price'> 가격 낮은순 </label></span></li>";
 									str += "</ul>";
 								str += "</div>";
 							str += "</div>";
@@ -671,7 +684,7 @@ function pageList(gubun, currentPage) {
 													str += "</div>";
 												str += "<div class='txt_info'>";
 												str += "<div class='tit eps2'>";
-													str += "<strong>"+this.hotel_kor+"</strong>";
+													str += "<strong><a href='/hotel/hotelDetail?hotel_id="+this.hotel_id+"'>"+this.hotel_kor+"</a></strong>";
 														str += "</div>";
 													str += "<div class='type_1'>";
 													str += "<span>호텔</span> <span>"+this.hotel_grade+"성급</span>";
@@ -708,13 +721,13 @@ function pageList(gubun, currentPage) {
 								str += "<div class='paginate type2'>";
 									str += "<div>";
 										console.log('endPage -> '+data.paging.endPage);
-										if(data.paging.startPage > data.paging.pageBlock) {
+										if (data.paging.startPage > data.paging.pageBlock) {
 											str += "<input class='prevPage' type='button' value='[이전]'>";
 										}
-										for(let i = data.paging.startPage; i <= data.paging.endPage; i++) {
+										for (let i = data.paging.startPage; i <= data.paging.endPage; i++) {
 											str += "<input class='pageNum curPage page-item' type='button' value="+i+">";
 										}
-										if(data.paging.endPage < data.paging.totalPage) {
+										if (data.paging.endPage < data.paging.totalPage) {
 											str += "<input class='nextPage' type='button' value='[다음]'>";
 										}
 									str += "</div>";
@@ -735,45 +748,29 @@ function pageList(gubun, currentPage) {
 						str += "<strong class='tit'>필터</strong>";
 							str += "<div class='js_acc multi filter_wrap'>";
 								str += "<div class='inr'>";
-								str += "<a href='#filter-4' class='header active'>지역</a>";
-									str += "<div id='filter-4' class='view active' style='display: block;'>";
-									str += "<div class='form_wrap'>";
-										str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='city-0' class='inpt_checkbox'>";
-											str += "<label for='city-0' class='label_checkbox'> 일본 도쿄 </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='city-1' class='inpt_checkbox'>";
-												str += "<label for='city-1' class='label_checkbox'> 일본 도쿄  </label></span>";
-												str += "<span class='form_holder text'>";
-											str += "<input type='checkbox' id='city-2' class='inpt_checkbox'>";
-												str += "<label for='city-2' class='label_checkbox'> 일본 도쿄  </label></span>";
-												str += "</div>";
-										str += "</div>";
-									str += "</div>";
-								str += "<div class='inr'>";
-								str += "<a href='#filter-8' class='header active'>가격</a>";
+								str += "<a href='#filter-8' class='header active'></a>";
 									str += "<div id='filter-8' class='view active' style='display: block;'>";
-									str += "<div class='form_wrap'>";
+									/* str += "<div class='form_wrap'>";
 										str += "<span class='form_holder text'>";
 										str += 		"<input type='checkbox' id='adtMinAmt-0' class='inpt_checkbox'>"; 
-										str += 		"<label for='adtMinAmt-0' class='label_checkbox'> 6~120만원 </label></span>";
+										str += 		"<label for='adtMinAmt-0' class='label_checkbox adtMinAmt-0'> 1만원 이하 </label></span>";
 										str += 	"<span class='form_holder text'>";
 										str += 		"<input type='checkbox' id='adtMinAmt-1' class='inpt_checkbox'>"; 
-										str += 		"<label for='adtMinAmt-1' class='label_checkbox'> 120~206만원 </label></span>";
+										str += 		"<label for='adtMinAmt-1' class='label_checkbox adtMinAmt-1'> 1~5만원 </label></span>";
 										str += 	"<span class='form_holder text'>";
 										str += 		"<input type='checkbox' id='adtMinAmt-2' class='inpt_checkbox'>"; 
-										str += 		"<label for='adtMinAmt-2' class='label_checkbox'> 206~294만원 </label></span>";
+										str += 		"<label for='adtMinAmt-2' class='label_checkbox adtMinAmt-2'> 5~20만원 </label></span>";
 										str += 	"<span class='form_holder text'>";
 										str +=		"<input type='checkbox' id='adtMinAmt-3' class='inpt_checkbox'>"; 
-										str +=		"<label for='adtMinAmt-3' class='label_checkbox'> 294~1170만원 </label></span>";
-												str += "</div>";
+										str +=		"<label for='adtMinAmt-3' class='label_checkbox adtMinAmt-3'> 20~50만원 </label></span>";
+										str += "</div>"; */
 										str += "</div>";
 									str += "</div>";
 								str += "</div>";
 							str += "</div>";
 						str += "<div class='inr right'>";
 						str += "<div class='option_wrap result'>";
-							str += "<span class='count'><em>"+data.totalHotel+"</em>개</span>";
+							str += "<span class='count'><em>"+data.totalTicket+"</em>개</span>";
 								str += "<div class='right_cont'>";
 									str += "<ul class='list_sort'>";
 										str += "<li class='item01'>";
@@ -956,10 +953,10 @@ function pageList(gubun, currentPage) {
 						str += 										"<p>원~</p>";
 						str += 										"<div class='choice'>";
 						if(this.chk == 0) {
-							str += "<button type='button' class='choice-btn' id="+this.ticket_id+">즐겨찾기</button>";
+							str += "<button type='button' class='choice-btn' id="+this.hotel_id+">즐겨찾기</button>";
 						}
 						else {
-							str += "<button type='button' class='choice-btn' id="+this.ticket_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+							str += "<button type='button' class='choice-btn' id="+this.hotel_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
 						}
 						str += 										"</div>";
 						str += 									"</div>";
@@ -1052,11 +1049,11 @@ $(function() {
 				str += "								<strong>"+pkageList.pkage_name+"</strong>";
 				str += "							</div>";
 				str += "							<div class='type_1'>";
-				str += "								<span>"+pkageList.period+"일</span> <span> "+new Date(this.pkage_dt_startday).toLocaleString()+" ~ "+new Date(this.pkage_dt_endday).toLocaleString()+"</span>";
+				str += "								<span>"+pkageList.period+"일</span> <span> "+new Date(pkageList.pkage_dt_startday).toLocaleString()+" ~ "+new Date(pkageList.pkage_dt_endday).toLocaleString()+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
 				str += "								<span class='air_icon'>"+pkageList.air_name+" </span>";
-				str += "								<span>"+pkageList.start_airport_name+"</span>";
+				str += "								<span>"+pkageList.start_airport_name+"출발</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
 				str += "								<span class='ic_note'>"+pkageList.pkage_dt_thema+"</span>";
@@ -1078,9 +1075,9 @@ $(function() {
 				str += "								</div>";
 				str += "							</div>";
 				str += "							<div class='choice'>";
-				str += "								<button type='button' class='choice-btn' id="+this.pkage_id+">즐겨찾기</button>";
+				str += "								<button type='button' class='choice-btn' id="+pkageList.pkage_id+">즐겨찾기</button>";
 				str += "							</div>";
-				str += "							<a href='#none' class='product_btn'><span>다른상품 더보기</span></a>";
+				str += "							<a href='/pkage/searchResult?toDesti="+pkageList.city_id+"&dates_start_check=2022-12-20&pkage_gubun="+pkageList.pkage_gubun+"&order=1' class='product_btn'><span>다른상품 더보기</span></a>";
 				str += "						</div>";
 				str += "					</div>";
 				str += "				</li>";
@@ -1091,8 +1088,6 @@ $(function() {
 	    $("input:radio[name=order]").each(function() {
 	    	if($(this).is(":checked")) {
 	    		radioCheck = $(this).attr('id');
-	    		// chk_Val.push("empty");
-	    		chk_Val.push($(this).attr('id'));
 	    		$("." + $(this).attr('id')).css("color", "#5e2bb8");
 			} else {
 	    		$("." + $(this).attr('id')).css("color", "#111");
@@ -1102,14 +1097,11 @@ $(function() {
 	    //$(document).on("click", ".inpt_checkbox", function() {
 			//if($("input:radio[name=order]").is(":checked")) {
 			if($(this).siblings().hasClass('item_order')) {
-				alert('radio 가가');
 				console.log('this -> ' + $(this));
 				//radioCheck = $(this).attr('id');
 				//chk_Val.push($("input:radio[class=item_order]:checked").attr('id'));
-				chk_Val.push($(this).siblings('input[type="radio"]').attr('id'));
 				$("." + $(this).attr('id')).css("color", "purple");
 				console.log("chk_Val -> " + chk_Val);
-				//alert('radioCheck -> ' + radioCheck);
 			}
 		//})
 		
@@ -1122,10 +1114,6 @@ $(function() {
 			});
 		} */
 		if($("input:checkbox[class=inpt_checkbox]").is(":checked") || $("input:radio[name=order]").is(":checked")) {
-			let existChkBox = ''
-			if($("input:checkbox[class=inpt_checkbox]").is(":checked")) {
-				existChkBox = 'exist';
-			}
 			
 			$("input:checkbox[class=inpt_checkbox]:checked").each(function(i) {
 				chk_Val.push($(this).attr('id'));
@@ -1137,17 +1125,16 @@ $(function() {
 				$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
 				$("."+ $(this).attr('id')).css("color", "#333");
 			});
-			console.log(chk_Val);
-			
+			console.log("chk_Val -> " + chk_Val);
 			$.ajax({
 				url: "/pkageFilter",
-				data: {'existChkBox' : existChkBox,'radioCheck1': radioCheck, 'check':  chk_Val, 'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+				data: {'radioCheck1': radioCheck, 'check':  chk_Val, 'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
 				dataType: 'json',
 				traditional: true,
 				success: function(data) {
-					console.log(data);
-					$('.list_result_wrap .pkg').empty();
-					$('.list_result_wrap .pkg').html(toHTML(data));
+					console.log("data -> " + data);
+					$('.prod_list').empty();
+					$('.prod_list').html(toHTML(data));
 				}
 			});
 		}
@@ -1156,14 +1143,14 @@ $(function() {
 			$("."+ $(this).attr('id')).css("color", "#333");
 			$.ajax({
 				url: "/packageFilterReset",
-				data: {'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+				data: {'radioCheck1': radioCheck, 'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
 				dataType: 'json',
 				traditional: true,
 				success: function(data) {
-					console.log(data);
-					$('.list_result_wrap .pkg').empty();
-					$('.list_result_wrap .pkg').html(toHTML(data));
-					console.log(chk_Val);
+					console.log("data -> " + data);
+					$('.prod_list').empty();
+					$('.prod_list').html(toHTML(data));
+					console.log("chk_Val -> " + chk_Val);
 				}
 			});
 		}
@@ -1172,13 +1159,13 @@ $(function() {
 	
 })
 
-// 필터초기화 --(구분에 담겨있는거 비워야 됨)
+// Package 필터초기화 --(구분에 담겨있는거 비워야 됨)
 $(function() {
 	$(document).on("click", "#reset-btn", function() {
 		let filterReset = [];
 	    let sendHtml = function(li_html) {
 	    	str = "<ul class='list pkg'>";
-			console.log(li_html)
+			console.log('li_html -> ' + li_html);
 			li_html.forEach(function(pkageList) {
 				str += "				<li>";
 				str += "					<div>";
@@ -1186,39 +1173,47 @@ $(function() {
 				str += "							<div class='group_area'>";
 				str += "								<div class='label02'>예약가능</div>";
 				str += "							</div>";
-				str += "							<img src="+this.pkage_Img_path+" title='' data-src='' alt=''>";
+				str += "							<img src="+pkageList.pkage_Img_path+" title='' data-src='' alt=''>";
 				str += "						</div>";
 				str += "					<div class='txt_info'>";
 				str += "							<div class='tit eps2'>";
-				str += "								<strong>"+this.pkage_name+"</strong>";
+				str += "								<strong>"+pkageList.pkage_name+"</strong>";
 				str += "							</div>";
 				str += "							<div class='type_1'>";
-				str += "								<span>"+this.period+"</span> <span> "+new Date(this.pkage_dt_startday).toLocaleString()+" ~ "+new Date(this.pkage_dt_endday).toLocaleString()+"</span>";
+				str += "								<span>"+pkageList.period+"일</span> <span> "+new Date(pkageList.pkage_dt_startday).toLocaleString()+" ~ "+new Date(pkageList.pkage_dt_endday).toLocaleString()+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
-				str += "								<span class='air_icon'>"+this.air_name+" </span>";
-				str += "								<span>"+this.start_airport_name+"</span>";
+				str += "								<span class='air_icon'>"+pkageList.air_name+" </span>";
+				str += "								<span>"+pkageList.start_airport_name+"출발</span>";
 				str += "							</div>";
 				str += "							<div class='type_2'>";
-				str += "								<span class='ic_note'>"+this.pkage_dt_thema+"</span>";
+				str += "								<span class='ic_note'>"+pkageList.pkage_dt_thema+"</span>";
 				str += "							</div>";
 				str += "							<div class='type_3'>";
-				str += "								<span class='ic_location'>"+this.country_name+", "+this.city_name+"</span>";
+				str += "								<span class='ic_location'>"+pkageList.country_name+", "+pkageList.city_name+"</span>";
 				str += "							</div>";
 				str += "							<div class='rating'>";
-				str += "								<strong>"+this.pkage_score+"</strong> <span>("+this.review_cnt+")</span>";
+				str += "								<strong>"+pkageList.pkage_score+"</strong> <span>("+pkageList.review_cnt+")</span>";
 				str += "							</div>";
 				str += "						</div>";
 				str += "						<div class='price_info'>";
 				str += "							<div class='price'>";
 				str += "								<div>";
 				str += "									<div>";
-				str += "										<strong>"+this.min_price+"</strong>";
+				str += "										<strong>"+pkageList.min_price+"</strong>";
 				str += "										<p>원~</p>";
+				str += 										"<div class='choice'>";
+				if(pkageList.chk == 0) {
+					str += "<button type='button' class='choice-btn' id="+pkageList.pkage_id+">즐겨찾기</button>";
+				}
+				else {
+					str += "<button type='button' class='choice-btn' id="+pkageList.pkage_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+				}
+				str += 										"</div>";
 				str += "									</div>";
 				str += "								</div>";
 				str += "							</div>";
-				str += "							<a href='#none' class='product_btn'><span>다른상품 더보기</span></a>";
+				str += "							<a href='/pkage/searchResult?toDesti="+pkageList.city_id+"&dates_start_check=2022-12-20&pkage_gubun="+pkageList.pkage_gubun+"&order=1' class='product_btn'><span>다른상품 더보기</span></a>";
 				str += "						</div>";
 				str += "					</div>";
 				str += "				</li>";
@@ -1230,14 +1225,197 @@ $(function() {
 			data: {'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
 			dataType: 'json',
 			success: function(data) {
-				console.log(data);
-				$('.list_result_wrap .pkg').empty();
-				$('.list_result_wrap .pkg').html(sendHtml(data));
+				console.log("data -> " + data);
+				$('.prod_list').empty();
+				$('.prod_list').html(sendHtml(data));
 			    $(".label_checkbox").css("color", "#666");
 			    $(".label_checkbox").css("border-color", "#c2c2c2");
 			}
 		});
 	})
 })
+
+// Hotel 필터 선택
+$(function() {
+	$(document).on("click", ".inpt_checkbox_h", function() {
+		console.log($(this).siblings());
+		let chk_Val = [];
+	    let radioCheck = '';
+	    let toHTML = function(li_html) {
+	    	str = "			<ul class='list htl eps4'>";
+			console.log('li_html -> ' + li_html);
+			li_html.forEach(function(hotelList) {
+				str += 				"<li>";
+				str += 					"<div>";
+				str += 						"<div class='img'>";
+				str += 							"<div class='group_area'>";
+				str += 							"</div>";
+				str += 							"<img src="+hotelList.h_img_path+" title='' data-src='' alt=''>";
+				str += 						"</div>";
+				str += 						"<div class='txt_info'>";
+				str += 							"<div class='tit eps2'>";
+				str += 								"<strong>"+hotelList.hotel_kor+"</strong>";
+				str += 							"</div>";
+				str += 							"<div class='type_1'>";
+				str += 								"<span>호텔</span> <span>"+hotelList.hotel_grade+"성급</span>";
+				str += 							"</div>";
+				str += 							"<div class='type_2'>";
+				str += 								"<span>"+hotelList.country_name+"</span> <span>"+hotelList.city_name+"</span>";
+				str += 							"</div>";
+				str += 							"<div class='rating'>";
+				str += 								"<strong>"+hotelList.hotel_score+"</strong> <span>("+hotelList.review_cnt+")</span>";
+				str += 							"</div>";
+				str += 							"<div class='price'>";
+				str += 								"<div>";
+				str += 									"<div>";
+				str += 										"<strong>"+hotelList.room_min_price+"</strong>";
+				str += 										"<p>원~</p>";
+				str += 										"<div class='choice'>";
+				if(hotelList.chk == 0) {
+					str += "<button type='button' class='choice-btn' id="+hotelList.hotel_id+">즐겨찾기</button>";
+				}
+				else {
+					str += "<button type='button' class='choice-btn' id="+hotelList.hotel_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+				}
+				str += 										"</div>";
+				str += 									"</div>";
+				str += 								"</div>";
+				str += 							"</div>";
+				str += 						"</div>";
+				str += 					"</div>";
+				str += 				"</li>";
+			});
+			return str += "</ul>";
+	    }
+	    
+	    $("input:radio[name=order]").each(function() {
+	    	if($(this).is(":checked")) {
+	    		radioCheck = $(this).attr('id');
+	    		chk_Val.push($(this).attr('id'));
+	    		$("." + $(this).attr('id')).css("color", "#5e2bb8");
+			} else {
+	    		$("." + $(this).attr('id')).css("color", "#111");
+			}
+		})
+		
+			if($(this).siblings().hasClass('item_order')) {
+				console.log('this -> ' + $(this));
+				chk_Val.push($(this).siblings('input[type="radio"]').attr('id'));
+				$("." + $(this).attr('id')).css("color", "purple");
+				console.log("chk_Val -> " + chk_Val);
+			}
+		
+		if($("input:checkbox[class=inpt_checkbox_h]").is(":checked") || $("input:radio[name=order]").is(":checked")) {
+			$("input:checkbox[class=inpt_checkbox_h]:checked").each(function(i) {
+				chk_Val.push($(this).attr('id'));
+					$("." + $(this).attr('id')).css("border-color", "purple");
+					$("." + $(this).attr('id')).css("color", "purple");
+			});
+			
+			$("input:checkbox[class=inpt_checkbox_h]").not(":checked").each(function(i) {
+				$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+				$("."+ $(this).attr('id')).css("color", "#333");
+			});
+			console.log("hotel Chk_val = " + chk_Val);
+			
+			$.ajax({
+				url: "/hotelFilter",
+				data: {'radioCheck1': radioCheck, 'check':  chk_Val, 'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+				dataType: 'json',
+				traditional: true,
+				success: function(data) {
+					console.log(data);
+					$('.prod_list').empty();
+					$('.prod_list').html(toHTML(data));
+				}
+			});
+		}
+		else {
+			$("."+ $(this).attr('id')).css("border-color", "#c2c2c2");
+			$("."+ $(this).attr('id')).css("color", "#333");
+			$.ajax({
+				url: "/hotelFilterReset",
+				data: {'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+				dataType: 'json',
+				traditional: true,
+				success: function(data) {
+					console.log("success data -> " + data);
+					$('.prod_list').empty();
+					$('.prod_list').html(toHTML(data));
+				}
+			});
+		}
+		
+	})
+	
+})
+
+//hotel 필터초기화 --(구분에 담겨있는거 비워야 됨)
+$(function() {
+	$(document).on("click", "#reset-btn_h", function() {
+		let filterReset = [];
+	    let sendHtml = function(li_html) {
+	    	str = "			<ul class='list htl eps4'>";
+			console.log('li_html -> ' + li_html)
+			li_html.forEach(function(filteredHotelList) {
+				str += 				"<li>";
+				str += 					"<div>";
+				str += 						"<div class='img'>";
+				str += 							"<div class='group_area'>";
+				str += 							"</div>";
+				str += 							"<img src="+filteredHotelList.h_img_path+" title='' data-src='' alt=''>";
+				str += 						"</div>";
+				str += 						"<div class='txt_info'>";
+				str += 							"<div class='tit eps2'>";
+				str += 								"<strong>"+filteredHotelList.hotel_kor+"</strong>";
+				str += 							"</div>";
+				str += 							"<div class='type_1'>";
+				str += 								"<span>호텔</span> <span>"+filteredHotelList.hotel_grade+"성급</span>";
+				str += 							"</div>";
+				str += 							"<div class='type_2'>";
+				str += 								"<span>"+filteredHotelList.country_name+"</span> <span>"+filteredHotelList.city_name+"</span>";
+				str += 							"</div>";
+				str += 							"<div class='rating'>";
+				str += 								"<strong>"+filteredHotelList.hotel_score+"</strong> <span>("+filteredHotelList.review_cnt+")</span>";
+				str += 							"</div>";
+				str += 							"<div class='price'>";
+				str += 								"<div>";
+				str += 									"<div>";
+				str += 										"<strong>"+filteredHotelList.room_min_price+"</strong>";
+				str += 										"<p>원~</p>";
+				str += 										"<div class='choice'>";
+				if(this.chk == 0) {
+					str += "<button type='button' class='choice-btn' id="+filteredHotelList.hotel_id+">즐겨찾기</button>";
+				}
+				else {
+					str += "<button type='button' class='choice-btn' id="+filteredHotelList.hotel_id+" style='background-position: -458px -26px;'>즐겨찾기</button>";
+				}
+				str += 										"</div>";
+				str += 									"</div>";
+				str += 								"</div>";
+				str += 							"</div>";
+				str += 						"</div>";
+				str += 					"</div>";
+				str += 				"</li>";
+			});
+			return str += "</ul>";
+	    }
+		$.ajax({
+			url: "/hotelFilterReset",
+			data: {'search_word': $('#search_word').val(), 'currentPage': $('.current_page').val()},
+			dataType: 'json',
+			success: function(data) {
+				console.log(data);
+				$('.prod_list').empty();
+				$('.prod_list').html(sendHtml(data));
+			    $(".label_checkbox").css("color", "#666");
+			    $(".label_checkbox").css("border-color", "#c2c2c2");
+			    $(".label_checkbox_h").css("color", "#666");
+			    $(".label_checkbox_h").css("border-color", "#c2c2c2");
+			}
+		});
+	})
+})
+
 </script>
 </html>

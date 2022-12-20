@@ -487,7 +487,7 @@ eps1, .eps2, .eps3 {
 
 .list_result_wrap .pkg li .price_info .price > div > div p {
     float: left;
-    margin: 0px 0 0 2px;
+    margin: 6px 0 0 2px;
     color: #111;
     font-size: 16px;
 }
@@ -756,14 +756,25 @@ p {
     width: 25px;
     height: 25px;
     font-size: 0;
-    top: 6px;
+    top: 8px;
+    right: 17px;
     border: none;
  }
  
-p+.choice .choice-btn {
+.eps4 p+.choice .choice-btn {
 	margin-top: 260px;
 }
 
 label {
 	font-weight: 600;
+}
+
+a {
+	color: black;
+}
+
+.reset_wrap {
+	display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
