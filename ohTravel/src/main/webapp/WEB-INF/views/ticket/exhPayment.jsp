@@ -398,7 +398,7 @@ col {
 
 <body>
 	<div id="container">
-		<div class="inr" style="min-height: 70vh; height: 170vh;">
+		<div class="inr" style="min-height: 70vh; height: 200vh;">
 			<div class="contents fontCtrl" id="contents">
 				<!-- text_wrap -->
 				<div class="ly_wrap pay_info">
@@ -680,13 +680,37 @@ col {
 			}
 		}	
 	
+		// 체크박스 유효성 검사
+		function agreeValid() {
+			
+			if(!$('#checkHTL01').is(':checked')){
+				alert('예약취소 및 환불정책 안내에 대한 동의가 필요합니다.');
+			 	$('#checkHTL01').focus();
+				return false;
+			}
+			
+			if(!$('#checkHTL02').is(':checked')){
+				alert('예약취소 및 환불정책 안내에 대한 동의가 필요합니다.');
+			 	$('#checkHTL01').focus();
+				return false;
+			}
+			
+			if(!$('#checkHTL03').is(':checked')){
+				alert('호텔 예약 주의사항에 대한 동의가 필요합니다.');
+			 	$('#checkHTL01').focus();
+				return false;
+			}
+			
+			return true;
+		}
+		
 		$('#payBtn').click(function() {
 			if(!isLogined()) {
 				return false;
 			}
 			
 			if(!agreeValid()) {
-				return false;s
+				return false;
 			}
 			requestPay();
 		})
@@ -771,30 +795,7 @@ col {
         }
     });
 	
-	// 체크박스 유효성 검사
-	function agreeValid() {
-		
-		if(!$('#checkHTL01').is(':checked')){
-			alert('예약취소 및 환불정책 안내에 대한 동의가 필요합니다.');
-		 	$('#checkHTL01').focus();
-			return false;
-		}
-		
-		if(!$('#checkHTL02').is(':checked')){
-			alert('예약취소 및 환불정책 안내에 대한 동의가 필요합니다.');
-		 	$('#checkHTL01').focus();
-			return false;
-		}
-		
-		if(!$('#checkHTL03').is(':checked')){
-			alert('호텔 예약 주의사항에 대한 동의가 필요합니다.');
-		 	$('#checkHTL01').focus();
-			return false;
-		}
-		
-		return true;
-		
-	}
+
 	</script>
 
 </body>
