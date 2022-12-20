@@ -81,7 +81,7 @@
 					                    <c:forEach var="packageReservList" items="${packageReservList}">
 					                    <tr>
 					   						<td>${packageReservList.pkage_rv_id}</td>
-					                    	<td>${packageReservList.mem_id}</td>
+					                    	<td>${packageReservList.pkage_dt_name}</td>
 					                    	<td>${packageReservList.pkage_rv_tprice}</td>
 					                    	<td>${packageReservList.pkage_rv_date}</td>
 					                    </tr>

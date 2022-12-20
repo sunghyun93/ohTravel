@@ -14,6 +14,8 @@ public class PackageReservationDTO {
 	private Timestamp pkage_rv_date;
 	private int pkage_rv_status;
 	
+	private String pkage_dt_name;
+	
 	private String pageNum;  
 	private int start;
 	private int end;

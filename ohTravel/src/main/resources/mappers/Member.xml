@@ -222,7 +222,8 @@
 	<select id="packageReservList" resultType="PackageReservationDTO" parameterType="PackageReservationDTO">
 		<![CDATA[
 		SELECT b.* FROM (SELECT @rownum:=@rownum+1 rn , a.* FROM (
-		SELECT * FROM package_reservation WHERE mem_id = #{mem_id}
+		SELECT pr.*, pd.pkage_dt_name FROM package_reservation pr 
+		join package_detail pd on pr.pkage_dt_id = pd.pkage_dt_id WHERE mem_id = #{mem_id}
 		) a, (select @rownum := 0) rownum) b WHERE  rn >= #{start} and rn <= #{end}
 		]]>
 	</select>
