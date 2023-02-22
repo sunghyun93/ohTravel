@@ -7,19 +7,19 @@ GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+autho
 ## 목차
 * 프로젝트 개요
     * 팀원 소개
-    * 팀원 소개 및 역할
+    * [팀원 소개 및 역할](#팀원소개-및-역할)
     * 개발 환경
         * FrontEnd
-        * BackEnd
-    * 프로젝트 분석        
+        * BackEnd     
 * 프로젝트 분석(cloc)
-    * 시스템 프로세스
-    * 프로젝트 제공기능
-    * ERD
-* RestAPI 
-* 구현기능    
-* 부족했던점
-* 프로젝트 후기
+    * [시스템 프로세스](#시스템-프로세스)
+    * [프로젝트 제공기능](#프로젝트-제공기능)
+    * [ERD](#erd)
+* [Rest API 명세서](#rest-api-명세서)
+* [구현한 페이지](#구현한-페이지)
+* [어려웠던코드](#어려웠던코드)    
+* [프로젝트후기](#프로젝트-후기)
+* [아쉬웠던점](#아쉬웠던점)
 ---
 
 ## 프로젝트 개요
@@ -201,7 +201,7 @@ GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+autho
 <summary> 예약(약관동의) </summary>
 <div markdown="1"><br>
         <img src="https://user-images.githubusercontent.com/107449729/220641987-68ca3ef0-eefb-4efb-b902-7e45803376fb.png"><br>
-      
+
         1. 해당 약관의 모든 동의를 해야지 다음단계로 넘어간다.
 
         2. 모든 동의를 하지 않을시 전체약관에 동의를 해달라는 경고창을 띄워 유효성 검사를 진행한다.
@@ -266,7 +266,8 @@ GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+autho
 <div markdown="2"><br>
       * 검색시 편도비행기중에서 가는비행기인지 오는비행기인지 아니면 왕복비행기인지 구분을 해줘야하기때문에 AirSearch안에 getGubun_check라는 컬럼을 만들어서 해결 
 
-      * [코드링크](                                       https://github.com/startfrombt/ohTravel/blob/b03ba8cc2789ab29c69733b8317b78338bf9896f/ohTravel/src/main/java/com/oracle/ohTravel/airport/controller/AirportController.java#L85)
+      * 코드링크
+      https://github.com/sunghyun93/ohTravel/blob/dbfd34f3e9f4934e6920195a5b4ff099ac701396/ohTravel/src/main/java/com/oracle/ohTravel/airport/controller/AirportController.java#L85
         
 
 </div>
@@ -277,8 +278,8 @@ GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+autho
 <div markdown="1"><br>
         * insert 시에 연관된 4개의 테이블을 모두 다 한번에 insert 시켜주고 만약에 예외가 발생했을시에 transaction을 걸어 4개 테이블에 insert가 안되게 구현 
 
-        * [코드링크]( https://github.com/startfrombt/ohTravel/blob/b03ba8cc2789ab29c69733b8317b78338bf9896f/ohTravel/src/main/java/com/oracle/ohTravel/airport/service/ScheduleServiceImpl.java#L112)
-       
+        * 코드링크
+        https://github.com/sunghyun93/ohTravel/blob/8bed2aa5ed7c04cd2d748c92a4074ae5c2bd86e0/ohTravel/src/main/java/com/oracle/ohTravel/airport/service/ScheduleServiceImpl.java#L95
 
 </div>
 </details>
