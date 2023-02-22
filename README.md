@@ -3,7 +3,7 @@
 
 GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+author%3A%40me+is%3Aclosed)
 
-
+https://github.com/startfrombt/ohTravel/blob/b03ba8cc2789ab29c69733b8317b78338bf9896f/ohTravel/src/main/java/com/oracle/ohTravel/airport/service/ScheduleServiceImpl.java#L112
 ## 목차
 * 프로젝트 개요
     * 팀원 소개
@@ -201,7 +201,7 @@ GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+autho
 <summary> 예약(약관동의) </summary>
 <div markdown="1"><br>
         <img src="https://user-images.githubusercontent.com/107449729/220641987-68ca3ef0-eefb-4efb-b902-7e45803376fb.png"><br>
-
+      
         1. 해당 약관의 모든 동의를 해야지 다음단계로 넘어간다.
 
         2. 모든 동의를 하지 않을시 전체약관에 동의를 해달라는 경고창을 띄워 유효성 검사를 진행한다.
