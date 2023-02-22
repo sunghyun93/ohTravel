@@ -260,11 +260,12 @@ GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+autho
 ---
 
 ## 어려웠던 코드
+[ㅋㅋ](https://github.com/sunghyun93/ohTravel/blob/dbfd34f3e9f4934e6920195a5b4ff099ac701396/ohTravel/src/main/java/com/oracle/ohTravel/airport/controller/AirportController.java#L85)
 
 <details>
 <summary><span style="color:pink">검색할때 편도(가는비행기or오는비행기) / 왕복 </span> </summary>
-<div markdown="1"><br>
-       [1. Headers 헤더](#1-headers-헤더)
+<div markdown="2"><br>
+      https://github.com/sunghyun93/ohTravel/blob/dbfd34f3e9f4934e6920195a5b4ff099ac701396/ohTravel/src/main/java/com/oracle/ohTravel/airport/controller/AirportController.java#L85
         
 
 </div>
@@ -313,9 +314,3 @@ GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+autho
 이 프로젝트가 내 컴퓨터에서만 동작할수 있다는 점이 아쉬웠다. 다음에 프로젝트를 한다면 Ec2(Elastic Compute Cloud)를 사용해서 배포를 해보고 싶다.
 
 
-[바로가기]()   
-[링크](#링-크)
-
-
-
-## 링 크
