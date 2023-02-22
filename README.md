@@ -260,11 +260,13 @@ GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+autho
 ---
 
 ## 어려웠던 코드
-[ㅋㅋ](https://github.com/sunghyun93/ohTravel/blob/dbfd34f3e9f4934e6920195a5b4ff099ac701396/ohTravel/src/main/java/com/oracle/ohTravel/airport/controller/AirportController.java#L85)
 
 <details>
 <summary><span style="color:pink">검색할때 편도(가는비행기or오는비행기) / 왕복 </span> </summary>
 <div markdown="2"><br>
+      * 검색시 편도비행기중에서 가는비행기인지 오는비행기인지 아니면 왕복비행기인지 구분을 해줘야하기때문에 AirSearch안에 getGubun_check라는 컬럼을 만들어서 해결 
+
+      * 코드링크
       https://github.com/sunghyun93/ohTravel/blob/dbfd34f3e9f4934e6920195a5b4ff099ac701396/ohTravel/src/main/java/com/oracle/ohTravel/airport/controller/AirportController.java#L85
         
 
@@ -274,7 +276,10 @@ GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+autho
 <details>
 <summary><span style="color:pink">결제 Transaction 처리 </span> </summary>
 <div markdown="1"><br>
-        
+        * insert 시에 연관된 4개의 테이블을 모두 다 한번에 insert 시켜주고 만약에 예외가 발생했을시에 transaction을 걸어 4개 테이블에 insert가 안되게 구현 
+
+        * 코드링크
+        https://github.com/sunghyun93/ohTravel/blob/8bed2aa5ed7c04cd2d748c92a4074ae5c2bd86e0/ohTravel/src/main/java/com/oracle/ohTravel/airport/service/ScheduleServiceImpl.java#L95
 
 </div>
 </details>
