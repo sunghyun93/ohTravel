@@ -3,7 +3,7 @@
 
 GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+author%3A%40me+is%3Aclosed)
 
-https://github.com/startfrombt/ohTravel/blob/b03ba8cc2789ab29c69733b8317b78338bf9896f/ohTravel/src/main/java/com/oracle/ohTravel/airport/service/ScheduleServiceImpl.java#L112
+
 ## 목차
 * 프로젝트 개요
     * 팀원 소개
@@ -266,8 +266,7 @@ https://github.com/startfrombt/ohTravel/blob/b03ba8cc2789ab29c69733b8317b78338bf
 <div markdown="2"><br>
       * 검색시 편도비행기중에서 가는비행기인지 오는비행기인지 아니면 왕복비행기인지 구분을 해줘야하기때문에 AirSearch안에 getGubun_check라는 컬럼을 만들어서 해결 
 
-      * 코드링크
-      https://github.com/startfrombt/ohTravel/blob/b03ba8cc2789ab29c69733b8317b78338bf9896f/ohTravel/src/main/java/com/oracle/ohTravel/airport/controller/AirportController.java#L85
+      * [코드링크](                                       https://github.com/startfrombt/ohTravel/blob/b03ba8cc2789ab29c69733b8317b78338bf9896f/ohTravel/src/main/java/com/oracle/ohTravel/airport/controller/AirportController.java#L85)
         
 
 </div>
@@ -278,8 +277,8 @@ https://github.com/startfrombt/ohTravel/blob/b03ba8cc2789ab29c69733b8317b78338bf
 <div markdown="1"><br>
         * insert 시에 연관된 4개의 테이블을 모두 다 한번에 insert 시켜주고 만약에 예외가 발생했을시에 transaction을 걸어 4개 테이블에 insert가 안되게 구현 
 
-        * 코드링크
-        https://github.com/startfrombt/ohTravel/blob/b03ba8cc2789ab29c69733b8317b78338bf9896f/ohTravel/src/main/java/com/oracle/ohTravel/airport/service/ScheduleServiceImpl.java#L112
+        * [코드링크]( https://github.com/startfrombt/ohTravel/blob/b03ba8cc2789ab29c69733b8317b78338bf9896f/ohTravel/src/main/java/com/oracle/ohTravel/airport/service/ScheduleServiceImpl.java#L112)
+       
 
 </div>
 </details>
