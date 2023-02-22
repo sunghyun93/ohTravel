@@ -1,7 +1,6 @@
 # 여행 상품 통합 프로젝트(항공,호텔,입장권,패키지)
 흩어져 있는 여행 관련 상품들(숙박, 항공, 패키지, 입장권)을 한데 모아 사용자로 하여금 한 사이트에서 상품들을 찾고 예약할 수 있도록 편리함을 제공하는 프로젝트
 
-<span style="color:red">김성현</span>
 GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+author%3A%40me+is%3Aclosed)
 
 
