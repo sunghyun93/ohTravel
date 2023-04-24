@@ -104,7 +104,8 @@ GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+autho
 <details>
 <summary> 회원 관련 테이블 / 국가 도시 테이블 </summary>
 <div markdown="1"><br>
-        <img src="//user-images.githubusercontent.com/107449729/220275872-cdd520b1-1b61-4590-8655-c075372e5550.png">
+        <img src="https://user-images.githubusercontent.com/107449729/233978284-aabc1e19-9499-4fbf-aeff-f0d15226555c.png">
+">
 </div>
 </details>
 <details>
