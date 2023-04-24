@@ -98,8 +98,7 @@ GitHub 링크: [GitHub](https://github.com/LWHyun/ohTravel/pulls?q=is%3Apr+autho
 <summary> <span style="color:red"> 항공 ERD(맡은 부분)<span>  
 </summary>
 <div markdown="1"><br>
-        <img src="//user-images.githubusercontent.com/107449729/220275328-4e1436f6-7a9b-4c65-ba6c-758491d0a3a1.png">
-        
+        ![image](https://user-images.githubusercontent.com/107449729/233977814-ea61b82d-5013-40d4-bca1-2a53c6faccf6.png)    
 </div>
 </details>
 <details>
